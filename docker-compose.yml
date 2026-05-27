@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  maplestory:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "8484:8484"
+      - "7575-7577:7575-7577"
+    volumes:
+      - ./config.yaml:/opt/server/config.yaml
+      - ./scripts:/opt/server/scripts
+      - ./wz:/opt/server/wz
+    environment:
+      DB_HOST: "db"
+
+  db:
+    image: mysql:8.4.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: "cosmic"
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - cosmic-db-data:/var/lib/mysql
+
+volumes:
+  cosmic-db-data:
