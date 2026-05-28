@@ -26,5 +26,22 @@ services:
     volumes:
       - cosmic-db-data:/var/lib/mysql
 
+        maple-api:
+    build: https://github.com/geermanperez/maple-api.git
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: "3001"
+      DB_HOST: "db"
+      DB_PORT: "3306"
+      DB_USER: "root"
+      DB_PASSWORD: ""
+      DB_NAME: "cosmic"
+
 volumes:
   cosmic-db-data:
+
+  
