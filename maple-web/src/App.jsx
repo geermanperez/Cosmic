@@ -1,86 +1,60 @@
 import { useEffect, useState } from "react";
 import {
-  Bell,
-  ChevronDown,
-  Download,
-  ExternalLink,
-  FileText,
-  Gamepad2,
-  Headset,
+  ArrowRight,
   LockKeyhole,
-  MessageSquare,
   ShieldCheck,
-  Sparkles,
-  Trophy,
   UserPlus,
   Users,
 } from "lucide-react";
-import heroImage from "./assets/hero.png";
 import "./App.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "https://apims.redly.com.ar";
 
-const topMenu = [
+const newsItems = [
   {
-    title: "NOTICE",
-    links: ["Noticias", "Mantenimiento"],
+    title: "Una aventura clasica con identidad propia",
+    copy:
+      "LatinMS mezcla nostalgia, progreso y comunidad en un mundo pensado para sentirse familiar y a la vez distinto.",
+    icon: "/1.png",
   },
   {
-    title: "UPDATE",
-    links: ["Parche", "Roadmap"],
+    title: "Jugadores latinos, conexion global",
+    copy:
+      "Creamos un espacio para jugadores de Latinoamerica y para cualquier persona del mundo que quiera vivir Maple con una comunidad cercana.",
+    icon: "/4.png",
   },
   {
-    title: "EVENT",
-    links: ["Eventos", "Season Pass"],
-  },
-  {
-    title: "COMMUNITY",
-    links: ["Discord", "Guilds"],
-  },
-  {
-    title: "RANKING",
-    links: ["Top nivel", "Top boss"],
-  },
-  {
-    title: "SUPPORT",
-    links: ["FAQ", "Contacto"],
-    accent: true,
+    title: "Inicio rapido, mundo vivo",
+    copy:
+      "Entra, crea tu cuenta y empieza a explorar un servidor donde siempre hay metas, progreso y gente con quien compartir la experiencia.",
+    icon: "/2.png",
   },
 ];
 
-const promoCards = [
-  {
-    title: "Server Rules",
-    subtitle: "Todo lo que tenes que saber para jugar limpio.",
-    action: "Ver reglas",
-    tone: "blue",
-    icon: ShieldCheck,
-  },
-  {
-    title: "Donations",
-    subtitle: "Apoya el servidor y obtene beneficios cosmeticos.",
-    action: "Ir a tienda",
-    tone: "gold",
-    icon: Sparkles,
-  },
-  {
-    title: "Promotions",
-    subtitle: "Bonos de inicio, cajas y regalos de temporada.",
-    action: "Ver promos",
-    tone: "mint",
-    icon: Bell,
-  },
-  {
-    title: "Redeem Coupon",
-    subtitle: "Canjea tus codigos y desbloquea recompensas.",
-    action: "Canjear",
-    tone: "violet",
-    icon: FileText,
-  },
+const serverRates = [
+  { value: "4x", label: "EXP" },
+  { value: "2x", label: "Mesos" },
+  { value: "Custom", label: "Drops" },
+  { value: "5x", label: "Quests" },
+  { value: "v83", label: "Version" },
 ];
+
+const topPlayersFallback = [
+  { name: "Sin datos", level: "-", job: "Ranking pendiente" },
+];
+
+const getViewFromHash = () => {
+  const value = window.location.hash.replace("#", "");
+
+  if (value === "login" || value === "register") {
+    return value;
+  }
+
+  return "home";
+};
 
 function App() {
-  const [openMenu, setOpenMenu] = useState(null);
+  const [view, setView] = useState(getViewFromHash);
   const [status, setStatus] = useState(null);
   const [ranking, setRanking] = useState([]);
   const [form, setForm] = useState({
@@ -89,65 +63,89 @@ function App() {
     confirmPassword: "",
   });
   const [loadingRegister, setLoadingRegister] = useState(false);
-  const [message, setMessage] = useState("");
-
-  const loadStatus = async () => {
-    try {
-      const res = await fetch(`${API_URL}/status`);
-      const data = await res.json();
-      setStatus(data);
-    } catch {
-      setStatus({
-        ok: false,
-        message: "No se pudo conectar con el servidor.",
-      });
-    }
-  };
-
-  const loadRanking = async () => {
-    try {
-      const res = await fetch(`${API_URL}/ranking`);
-      const data = await res.json();
-
-      if (Array.isArray(data)) {
-        setRanking(data);
-      } else if (Array.isArray(data.ranking)) {
-        setRanking(data.ranking);
-      } else {
-        setRanking([]);
-      }
-    } catch {
-      setRanking([]);
-    }
-  };
+  const [registerMessage, setRegisterMessage] = useState("");
+  const [loginForm, setLoginForm] = useState({
+    username: "",
+    password: "",
+  });
+  const [loginMessage, setLoginMessage] = useState("");
 
   useEffect(() => {
-    const timer = window.setTimeout(() => {
-      void loadStatus();
-      void loadRanking();
-    }, 0);
+    const syncView = () => setView(getViewFromHash());
 
-    return () => window.clearTimeout(timer);
+    window.addEventListener("hashchange", syncView);
+
+    return () => window.removeEventListener("hashchange", syncView);
   }, []);
 
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+  useEffect(() => {
+    const loadStatus = async () => {
+      try {
+        const res = await fetch(`${API_URL}/status`);
+        const data = await res.json();
+        setStatus(data);
+      } catch {
+        setStatus({
+          ok: false,
+          message: "No se pudo conectar con el servidor.",
+        });
+      }
+    };
+
+    const loadRanking = async () => {
+      try {
+        const res = await fetch(`${API_URL}/ranking`);
+        const data = await res.json();
+
+        if (Array.isArray(data)) {
+          setRanking(data);
+          return;
+        }
+
+        if (Array.isArray(data.ranking)) {
+          setRanking(data.ranking);
+          return;
+        }
+
+        setRanking([]);
+      } catch {
+        setRanking([]);
+      }
+    };
+
+    void loadStatus();
+    void loadRanking();
+  }, []);
+
+  const goToView = (nextView) => {
+    window.location.hash = nextView === "home" ? "" : nextView;
   };
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    setMessage("");
+  const handleRegisterChange = (event) => {
+    setForm((current) => ({
+      ...current,
+      [event.target.name]: event.target.value,
+    }));
+  };
+
+  const handleLoginChange = (event) => {
+    setLoginForm((current) => ({
+      ...current,
+      [event.target.name]: event.target.value,
+    }));
+  };
+
+  const handleRegister = async (event) => {
+    event.preventDefault();
+    setRegisterMessage("");
 
     if (!form.username || !form.password || !form.confirmPassword) {
-      setMessage("Completa todos los campos.");
+      setRegisterMessage("Completa todos los campos.");
       return;
     }
 
     if (form.password !== form.confirmPassword) {
-      setMessage("Las contrasenas no coinciden.");
+      setRegisterMessage("Las contrasenas no coinciden.");
       return;
     }
 
@@ -165,345 +163,384 @@ function App() {
       const data = await res.json();
 
       if (!res.ok) {
-        setMessage(data.message || "No se pudo crear la cuenta.");
+        setRegisterMessage(data.message || "No se pudo crear la cuenta.");
         return;
       }
 
-      setMessage("Cuenta creada correctamente. Ya puedes entrar al juego.");
+      setRegisterMessage("Cuenta creada correctamente. Ya puedes entrar al juego.");
       setForm({
         username: "",
         password: "",
         confirmPassword: "",
       });
 
-      loadStatus();
+      setStatus((current) =>
+        current?.ok
+          ? {
+              ...current,
+              accounts: Number(current.accounts || 0) + 1,
+            }
+          : current,
+      );
     } catch {
-      setMessage("Error de conexion con la API.");
+      setRegisterMessage("Error de conexion con la API.");
     } finally {
       setLoadingRegister(false);
     }
   };
 
-  const rankingPreview = ranking.slice(0, 5);
+  const handleLogin = (event) => {
+    event.preventDefault();
+
+    if (!loginForm.username || !loginForm.password) {
+      setLoginMessage("Completa usuario y contrasena.");
+      return;
+    }
+
+    setLoginMessage(
+      "El acceso al juego se hace dentro del cliente. Usa estos mismos datos cuando abras LatinMS.",
+    );
+  };
+
+  const rankingPreview =
+    ranking.length > 0 ? ranking.slice(0, 5) : topPlayersFallback;
+
+  const serverOnline = Boolean(status?.ok);
 
   return (
-    <div className="site-shell">
-      <header className="masthead">
-        <nav
-          className="top-nav"
-          onMouseLeave={() => setOpenMenu(null)}
-          aria-label="Main navigation"
-        >
-          {topMenu.map((section) => {
-            const isOpen = openMenu === section.title;
-            const targetHref =
-              section.title === "SUPPORT"
-                ? "#support"
-                : section.title === "RANKING"
-                  ? "#ranking"
-                  : "#news";
+    <div className="app-shell">
+      <div className="app-backdrop">
+        <img src="/portada.png" alt="Portada de LatinMS" className="app-backdrop__image" />
+      </div>
 
-            return (
-              <div
-                key={section.title}
-                className={`top-nav__item${section.accent ? " is-accent" : ""}${isOpen ? " is-open" : ""}`}
-                onMouseEnter={() => setOpenMenu(section.title)}
-              >
-                <button
-                  type="button"
-                  className="top-nav__trigger"
-                  onClick={() =>
-                    setOpenMenu((current) =>
-                      current === section.title ? null : section.title,
-                    )
-                  }
-                  aria-expanded={isOpen}
-                >
-                  <span>{section.title}</span>
-                  <ChevronDown size={16} />
-                </button>
+      <header className="topbar">
+        <button type="button" className="brand" onClick={() => goToView("home")}>
+          <img src="/latinms.png" alt="LatinMS" className="brand__logo" />
+        </button>
 
-                <div className="top-nav__dropdown">
-                  {section.links.map((link) => (
-                    <a
-                      key={link}
-                      href={targetHref}
-                      onClick={() => setOpenMenu(null)}
-                    >
-                      {link}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
+        <nav className="topbar__nav" aria-label="Navegacion principal">
+          <button
+            type="button"
+            className={view === "home" ? "is-active" : ""}
+            onClick={() => goToView("home")}
+          >
+            Inicio
+          </button>
+          <button
+            type="button"
+            className={view === "login" ? "is-active" : ""}
+            onClick={() => goToView("login")}
+          >
+            Login
+          </button>
+          <button
+            type="button"
+            className={view === "register" ? "is-active" : ""}
+            onClick={() => goToView("register")}
+          >
+            Crear cuenta
+          </button>
         </nav>
-
-        <div className="brand-row">
-          <div className="brand-mark">
-            <div className="brand-mark__badge">
-              <Gamepad2 size={30} />
-            </div>
-            <div>
-              <p>Star Maple inspired portal</p>
-              <h1>LatinMS</h1>
-            </div>
-          </div>
-
-          <div className="language-pill">
-            <span>Language</span>
-            <strong>ES / EN</strong>
-          </div>
-        </div>
       </header>
 
-      <main className="portal">
-        <section className="hero-banner" id="inicio">
-          <img src={heroImage} alt="Hero Maple" className="hero-banner__art" />
-          <div className="hero-banner__overlay"></div>
-
-          <div className="hero-banner__copy">
-            <span className="eyebrow">Classic MapleStory Experience</span>
-            <h2>Star style landing, adapted for your own server</h2>
+      <main className="page">
+        <section className="hero-card">
+          <div className="hero-card__copy">
+            <span className="hero-card__eyebrow">Una experiencia unica para la comunidad latina</span>
+            <h1>Vive Maple de una forma clasica, cercana y realmente inolvidable.</h1>
             <p>
-              Una portada mas llamativa, con accesos rapidos, visual fuerte y una
-              estructura de portal MMO para descarga, comunidad y progreso.
+              LatinMS fue pensado para jugadores latinos y para aventureros de
+              cualquier parte del mundo que buscan una comunidad activa, una
+              atmosfera especial y una experiencia que se sienta unica desde el
+              primer login.
             </p>
-          </div>
 
-          <div className="hero-banner__status">
-            <div className="signal"></div>
-            <div>
-              <strong>{status?.ok ? "Servidor online" : "Estado del servidor"}</strong>
-              <span>
-                {status?.ok
-                  ? `Cuentas: ${status?.accounts ?? "-"} · Personajes: ${status?.characters ?? "-"}`
-                  : status?.message || "Consultando API..."}
-              </span>
-            </div>
-          </div>
-
-          <div className="hero-banner__dots" aria-hidden="true">
-            <span className="is-active"></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </section>
-
-        <section className="quick-actions">
-          <a className="action-card action-card--dark" href="#download">
-            <Download size={34} />
-            <div>
-              <h3>Client Download</h3>
-              <p>Descarga el launcher y entra en minutos.</p>
-            </div>
-          </a>
-
-          <a className="action-card action-card--orange" href="#register">
-            <UserPlus size={34} />
-            <div>
-              <h3>Create Account</h3>
-              <p>Registro inmediato conectado a la API del servidor.</p>
-            </div>
-          </a>
-
-          <a className="action-card action-card--green" href="#ranking">
-            <Trophy size={34} />
-            <div>
-              <h3>Ranking Board</h3>
-              <p>Mira quienes lideran el mundo de LatinMS.</p>
-            </div>
-          </a>
-        </section>
-
-        <section className="promo-strip">
-          {promoCards.map((card) => {
-            const Icon = card.icon;
-
-            return (
-              <article key={card.title} className={`promo-card promo-card--${card.tone}`}>
-                <Icon size={30} />
-                <div>
-                  <h3>{card.title}</h3>
-                  <p>{card.subtitle}</p>
-                </div>
-                <span>{card.action}</span>
-              </article>
-            );
-          })}
-        </section>
-
-        <section className="content-grid" id="news">
-          <div className="board-grid">
-            <article className="board-card">
-              <div className="board-card__header board-card__header--orange">
-                <Sparkles size={18} />
-                <h3>Notice</h3>
-              </div>
-              <ul>
-                <li>Guia de inicio rapido para nuevos aventureros</li>
-                <li>Horario de eventos y bonus del fin de semana</li>
-                <li>Requisitos del cliente y launcher actualizado</li>
-                <li>Consulta el Discord para anuncios en tiempo real</li>
-              </ul>
-              <a href="#support">View more</a>
-            </article>
-
-            <article className="board-card">
-              <div className="board-card__header board-card__header--green">
-                <Bell size={18} />
-                <h3>Update</h3>
-              </div>
-              <ul>
-                <li>Balance visual renovado para home y accesos</li>
-                <li>Panel de estado conectado a la API del backend</li>
-                <li>Formulario de cuenta integrado en la portada</li>
-                <li>Seccion de ranking con top real del servidor</li>
-              </ul>
-              <a href="#register">View more</a>
-            </article>
-
-            <article className="board-card">
-              <div className="board-card__header board-card__header--blue">
-                <Users size={18} />
-                <h3>Community</h3>
-              </div>
-              <ul>
-                <li>Canal para guilds, party quest y boss runs</li>
-                <li>Zona de trading, soporte y feedback del launcher</li>
-                <li>Noticias del staff y eventos con premios</li>
-                <li>Invita a tus amigos y arma tu party inicial</li>
-              </ul>
-              <a href="#support">View more</a>
-            </article>
-          </div>
-
-          <aside className="side-stack" id="support">
-            <article className="support-card support-card--discord">
-              <MessageSquare size={38} />
-              <h3>Discord</h3>
-              <p>Comparte guias, dudas y builds con la comunidad.</p>
-            </article>
-
-            <article className="support-card support-card--support">
-              <Headset size={38} />
-              <h3>Customer Support</h3>
-              <p>FAQ, asistencia del staff y ayuda de cuenta.</p>
-            </article>
-          </aside>
-        </section>
-
-        <section className="utility-grid">
-          <article className="panel panel--register" id="register">
-            <div className="panel__title">
-              <LockKeyhole size={22} />
-              <div>
-                <h3>Registro rapido</h3>
-                <p>Crea tu cuenta y entra al juego sin salir de la portada.</p>
-              </div>
-            </div>
-
-            <form className="register-form" onSubmit={handleRegister}>
-              <input
-                type="text"
-                name="username"
-                value={form.username}
-                onChange={handleChange}
-                placeholder="Usuario"
-              />
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                placeholder="Contrasena"
-              />
-              <input
-                type="password"
-                name="confirmPassword"
-                value={form.confirmPassword}
-                onChange={handleChange}
-                placeholder="Confirmar contrasena"
-              />
-
-              <button type="submit" disabled={loadingRegister}>
-                {loadingRegister ? "Creando cuenta..." : "Crear cuenta"}
+            <div className="hero-card__actions">
+              <button type="button" className="button-primary" onClick={() => goToView("register")}>
+                Comienza tu aventura
+                <ArrowRight size={18} />
               </button>
-            </form>
-
-            {message ? <p className="form-feedback">{message}</p> : null}
-
-            <div className="mini-info">
-              <span>PIN inicial: 0000</span>
-              <span>PIC inicial: 000000</span>
+              <button type="button" className="button-secondary" onClick={() => goToView("login")}>
+                Entra con tu cuenta
+              </button>
             </div>
-          </article>
+          </div>
 
-          <article className="panel panel--ranking" id="ranking">
-            <div className="panel__title">
-              <Trophy size={22} />
-              <div>
-                <h3>Top jugadores</h3>
-                <p>Vista previa del ranking traido desde el backend.</p>
-              </div>
+          <div className="hero-card__status">
+            <div className={`status-pill${serverOnline ? " is-online" : ""}`}>
+              <span className="status-pill__dot"></span>
+              {serverOnline ? "Servidor ON" : "Servidor OFF"}
             </div>
 
-            {rankingPreview.length === 0 ? (
-              <p className="empty-state">Todavia no hay datos de ranking disponibles.</p>
-            ) : (
-              <div className="ranking-list">
-                {rankingPreview.map((player, index) => (
-                  <div
-                    key={player.id || player.name || index}
-                    className="ranking-row"
-                  >
-                    <strong>#{index + 1}</strong>
+            <div className="metric-grid">
+              <article className="metric-card">
+                <ShieldCheck size={20} />
+                <strong>{serverOnline ? "Online" : "Offline"}</strong>
+                <span>{serverOnline ? "Conexion OK" : status?.message || "Sin respuesta"}</span>
+              </article>
+
+              <article className="metric-card">
+                <Users size={20} />
+                <strong>{serverOnline ? status?.characters ?? "-" : "-"}</strong>
+                <span>Jugadores creados</span>
+              </article>
+
+              <article className="metric-card">
+                <UserPlus size={20} />
+                <strong>{serverOnline ? status?.accounts ?? "-" : "-"}</strong>
+                <span>Cuentas creadas</span>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section className="content-grid">
+          <div className="content-main">
+            {view === "home" ? (
+              <>
+                <section className="panel">
+                  <div className="panel__head">
                     <div>
-                      <span>{player.name}</span>
-                      <small>
-                        Nivel {player.level} · {player.job}
-                      </small>
+                      <span className="panel__kicker">Datos del servidor</span>
+                      <h2>Lo que hace especial a LatinMS desde el primer minuto</h2>
+                    </div>
+                    <img src="/7.png" alt="" className="panel-head-icon" />
+                  </div>
+
+                  <div className="rates-grid">
+                    {serverRates.map((rate) => (
+                      <article key={rate.label} className="rate-card">
+                        <strong>{rate.value}</strong>
+                        <span>{rate.label}</span>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="panel">
+                  <div className="panel__head">
+                    <div>
+                      <span className="panel__kicker">Estado del mundo</span>
+                      <h2>Todo listo para sumarte a la aventura</h2>
+                    </div>
+                    <div className={`server-badge${serverOnline ? " is-online" : ""}`}>
+                      {serverOnline ? "ON" : "OFF"}
                     </div>
                   </div>
-                ))}
+
+                    <div className="highlight-grid">
+                      <article className="highlight-card">
+                        <img src="/2.png" alt="" className="feature-icon" />
+                        <h3>Progreso que se siente</h3>
+                        <p>Sube de nivel, compite y deja tu marca en un ranking vivo y visible para toda la comunidad.</p>
+                      </article>
+                      <article className="highlight-card">
+                        <img src="/3.png" alt="" className="feature-icon" />
+                        <h3>Comunidad con identidad</h3>
+                        <p>Un servidor pensado para jugadores latinos, abierto a cualquier persona del mundo que quiera sentirse parte.</p>
+                      </article>
+                      <article className="highlight-card">
+                        <img src="/4.png" alt="" className="feature-icon" />
+                        <h3>Acceso rapido al juego</h3>
+                        <p>Crea tu cuenta en minutos y empieza tu recorrido sin vueltas ni pasos innecesarios.</p>
+                      </article>
+                    </div>
+                </section>
+
+                <section className="split-grid">
+                  <article className="panel">
+                    <div className="panel__head">
+                      <div>
+                        <span className="panel__kicker">Noticias</span>
+                        <h2>Por que LatinMS se siente diferente</h2>
+                      </div>
+                      <img src="/1.png" alt="" className="panel-head-icon" />
+                    </div>
+
+                    <div className="news-list">
+                      {newsItems.map((item) => (
+                        <article key={item.title} className="news-card">
+                          <div className="news-card__head">
+                            <img src={item.icon} alt="" className="news-card__icon" />
+                            <h3>{item.title}</h3>
+                          </div>
+                          <p>{item.copy}</p>
+                        </article>
+                      ))}
+                    </div>
+                  </article>
+
+                  <article className="panel">
+                    <div className="panel__head">
+                      <div>
+                        <span className="panel__kicker">Top jugadores</span>
+                        <h2>Los aventureros que marcan el ritmo</h2>
+                      </div>
+                      <img src="/5.png" alt="" className="panel-head-icon" />
+                    </div>
+
+                    <div className="ranking-list">
+                      {rankingPreview.map((player, index) => (
+                        <div
+                          key={player.id || player.name || index}
+                          className="ranking-row"
+                        >
+                          <strong>#{index + 1}</strong>
+                          <div>
+                            <span>{player.name}</span>
+                            <small>
+                              Nivel {player.level} · {player.job}
+                            </small>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </article>
+                </section>
+              </>
+            ) : null}
+
+            {view === "login" ? (
+              <section className="panel panel--form">
+                <div className="panel__head">
+                  <div>
+                    <span className="panel__kicker">Login</span>
+                    <h2>Entra con tu cuenta</h2>
+                  </div>
+                  <LockKeyhole size={22} />
+                </div>
+
+                <p className="panel__intro">
+                  Esta pantalla deja el acceso separado del home. El ingreso real
+                  al personaje se hace dentro del cliente del juego.
+                </p>
+
+                <form className="form-card" onSubmit={handleLogin}>
+                  <label>
+                    Usuario
+                    <input
+                      type="text"
+                      name="username"
+                      value={loginForm.username}
+                      onChange={handleLoginChange}
+                      placeholder="Tu cuenta"
+                    />
+                  </label>
+                  <label>
+                    Contrasena
+                    <input
+                      type="password"
+                      name="password"
+                      value={loginForm.password}
+                      onChange={handleLoginChange}
+                      placeholder="Tu contrasena"
+                    />
+                  </label>
+
+                  <button type="submit" className="button-primary button-primary--full">
+                    Recordar datos de acceso
+                  </button>
+                </form>
+
+                {loginMessage ? <p className="feedback">{loginMessage}</p> : null}
+              </section>
+            ) : null}
+
+            {view === "register" ? (
+              <section className="panel panel--form">
+                <div className="panel__head">
+                  <div>
+                    <span className="panel__kicker">Crear cuenta</span>
+                    <h2>Registro rapido para LatinMS</h2>
+                  </div>
+                  <UserPlus size={22} />
+                </div>
+
+                <p className="panel__intro">
+                  Formulario conectado a la API para que el alta no quede mezclada
+                  con la portada principal.
+                </p>
+
+                <form className="form-card" onSubmit={handleRegister}>
+                  <label>
+                    Usuario
+                    <input
+                      type="text"
+                      name="username"
+                      value={form.username}
+                      onChange={handleRegisterChange}
+                      placeholder="Entre 4 y 13 caracteres"
+                    />
+                  </label>
+                  <label>
+                    Contrasena
+                    <input
+                      type="password"
+                      name="password"
+                      value={form.password}
+                      onChange={handleRegisterChange}
+                      placeholder="Minimo 4 caracteres"
+                    />
+                  </label>
+                  <label>
+                    Repetir contrasena
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      value={form.confirmPassword}
+                      onChange={handleRegisterChange}
+                      placeholder="Repite la contrasena"
+                    />
+                  </label>
+
+                  <button
+                    type="submit"
+                    className="button-primary button-primary--full"
+                    disabled={loadingRegister}
+                  >
+                    {loadingRegister ? "Creando cuenta..." : "Crear cuenta"}
+                  </button>
+                </form>
+
+                {registerMessage ? <p className="feedback">{registerMessage}</p> : null}
+
+                <div className="helper-note">
+                  <span>PIN inicial: 0000</span>
+                  <span>PIC inicial: 000000</span>
+                </div>
+              </section>
+            ) : null}
+          </div>
+
+          <aside className="sidebar">
+            <section className="panel panel--compact">
+              <span className="panel__kicker">Accesos</span>
+              <h2>Todo en orden</h2>
+              <div className="sidebar-actions">
+                <button type="button" className="button-secondary" onClick={() => goToView("home")}>
+                  Ver inicio
+                </button>
+                <button type="button" className="button-secondary" onClick={() => goToView("login")}>
+                  Abrir login
+                </button>
+                <button type="button" className="button-secondary" onClick={() => goToView("register")}>
+                  Crear cuenta
+                </button>
               </div>
-            )}
-          </article>
+            </section>
 
-          <article className="panel panel--download" id="download">
-            <div className="panel__title">
-              <Download size={22} />
-              <div>
-                <h3>Launcher y cliente</h3>
-                <p>Deja listo aqui el enlace final cuando subas los archivos.</p>
-              </div>
-            </div>
-
-            <a href="#" className="download-button">
-              Descargar cliente
-            </a>
-
-            <div className="download-meta">
-              <span>Version recomendada: MapleStory v83</span>
-              <span>Estado: enlace pendiente</span>
-            </div>
-          </article>
+            <section className="panel panel--compact panel--download">
+              <span className="panel__kicker">Cliente</span>
+              <h2>Descarga proxima</h2>
+              <img src="/6.png" alt="" className="sidebar-illustration" />
+              <p>
+                Este bloque queda listo para conectar el launcher o el link final
+                del cliente cuando lo subas.
+              </p>
+            </section>
+          </aside>
         </section>
       </main>
-
-      <footer className="footer">
-        <div>
-          <strong>LatinMS</strong>
-          <p>Home redisenada con look de portal MMO clasico.</p>
-        </div>
-
-        <a href="#inicio">
-          Volver arriba
-          <ExternalLink size={16} />
-        </a>
-      </footer>
     </div>
   );
 }
