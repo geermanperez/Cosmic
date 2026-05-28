@@ -25,7 +25,7 @@ services:
       - cosmic-db-data:/var/lib/mysql
 
   maple-api:
-    build: https://github.com/geermanperez/maple-api.git
+    build: ./maple-api
     restart: unless-stopped
     depends_on:
       - db
