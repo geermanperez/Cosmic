@@ -41,5 +41,13 @@ services:
       DB_PASSWORD: ""
       DB_NAME: "cosmic"
 
+maple-web:
+    build: ./maple-web
+    restart: unless-stopped
+    depends_on:
+      - maple-api
+    ports:
+      - "8080:80"
+
 volumes:
   cosmic-db-data:
