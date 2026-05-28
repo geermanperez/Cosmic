@@ -21,8 +21,6 @@ services:
       MYSQL_DATABASE: "cosmic"
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-    ports:
-      - "3307:3306"
     volumes:
       - cosmic-db-data:/var/lib/mysql
 
@@ -41,7 +39,7 @@ services:
       DB_PASSWORD: ""
       DB_NAME: "cosmic"
 
-maple-web:
+  maple-web:
     build: ./maple-web
     restart: unless-stopped
     depends_on:
