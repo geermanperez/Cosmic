@@ -531,12 +531,20 @@ function App() {
 
             <section className="panel panel--compact panel--download">
               <span className="panel__kicker">Cliente</span>
-              <h2>Descarga proxima</h2>
+              <h2>Descarga el juego</h2>
               <img src="/6.png" alt="" className="sidebar-illustration" />
               <p>
-                Este bloque queda listo para conectar el launcher o el link final
-                del cliente cuando lo subas.
+                Cliente disponible para que empieces tu aventura en LatinMS ahora mismo.
               </p>
+              <a
+                className="button-primary button-primary--full"
+                href="https://drive.google.com/file/d/1ahnd-z23sN1PSEM4mf3WGvMLxwywpzrS/view?usp=sharing"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Descargar cliente
+                <ArrowRight size={18} />
+              </a>
             </section>
           </aside>
         </section>
