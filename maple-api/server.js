@@ -31,7 +31,12 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+app.use((req, res, next) => {
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+  next();
+});
 app.use(express.json());
 
 const pool = mysql.createPool({
@@ -289,7 +294,7 @@ const PORT = process.env.PORT || 3001;
 
 // Ensure web_profiles and start server
 ensureWebProfilesTable().then(() => {
-  app.listen(PORT, () => {
+  app.listen(PORT, "0.0.0.0", () => {
     console.log(`Maple API corriendo en puerto ${PORT}`);
   });
 });
