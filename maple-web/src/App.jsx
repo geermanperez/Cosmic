@@ -471,6 +471,13 @@ function App() {
     return () => window.removeEventListener("hashchange", syncView);
   }, []);
 
+  // Validar sesión al iniciar la app
+  useEffect(() => {
+    if (token) {
+      void loadAccount();
+    }
+  }, []);
+
   useEffect(() => {
     if (view === "account") {
       if (!token) return goToView("login");
@@ -680,6 +687,11 @@ function App() {
         setLoadingAdmin(false);
       }
     } catch (err) {
+      // Si la sesión es inválida o expiró, cerrar sesión
+      if (err.status === 401 || err.status === 403) {
+        handleLogout();
+        return;
+      }
       setAccountMessage(err.body?.message || err.message || "Error al cargar datos");
     }
   }
@@ -776,9 +788,9 @@ function App() {
           <button
             type="button"
             className={view === "login" || view === "register" || view === "recover" || view === "account" ? "is-active" : ""}
-            onClick={() => goToView("login")}
+            onClick={() => goToView(token ? "account" : "login")}
           >
-            Iniciar sesión
+            {token ? "Mi Cuenta" : "Iniciar sesión"}
           </button>
         </nav>
       </header>
@@ -801,8 +813,12 @@ function App() {
                 Comienza tu aventura
                 <ArrowRight size={18} />
               </button>
-              <button type="button" className="button-secondary" onClick={() => goToView("login")}>
-                Entra con tu cuenta
+              <button 
+                type="button" 
+                className="button-secondary" 
+                onClick={() => goToView(token ? "account" : "login")}
+              >
+                {token ? "Mi Cuenta" : "Entra con tu cuenta"}
               </button>
             </div>
           </div>
@@ -1484,8 +1500,8 @@ function App() {
                 <button type="button" className="button-secondary" onClick={() => goToView("download")}>
                   Descargar
                 </button>
-                <button type="button" className="button-secondary" onClick={() => goToView("login")}>
-                  Iniciar sesión
+                <button type="button" className="button-secondary" onClick={() => goToView(token ? "account" : "login")}>
+                  {token ? "Mi Cuenta" : "Iniciar sesión"}
                 </button>
               </div>
             </section>
