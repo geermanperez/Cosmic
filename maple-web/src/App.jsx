@@ -8,7 +8,9 @@ import {
 } from "lucide-react";
 import "./App.css";
 
-const API_URL = import.meta.env.VITE_API_URL || "https://apims.redly.com.ar";
+import { API_URL, getToken, saveToken, request } from "./apiClient";
+
+const API_URL_FALLBACK = import.meta.env.VITE_API_URL || "https://apims.redly.com";
 
 const newsItems = [
   {
@@ -45,8 +47,7 @@ const topPlayersFallback = [
 
 const getViewFromHash = () => {
   const value = window.location.hash.replace("#", "");
-
-  if (value === "login" || value === "register") {
+  if (value === "login" || value === "register" || value === "account") {
     return value;
   }
 
@@ -69,6 +70,12 @@ function App() {
     password: "",
   });
   const [loginMessage, setLoginMessage] = useState("");
+  const [token, setToken] = useState(() => getToken());
+  const [accountData, setAccountData] = useState(null);
+  const [characters, setCharacters] = useState([]);
+  const [profileForm, setProfileForm] = useState({ display_name: "", avatar_url: "", bio: "" });
+  const [passwordForm, setPasswordForm] = useState({ currentPassword: "", newPassword: "", confirmPassword: "" });
+  const [accountMessage, setAccountMessage] = useState("");
 
   useEffect(() => {
     const syncView = () => setView(getViewFromHash());
@@ -77,6 +84,14 @@ function App() {
 
     return () => window.removeEventListener("hashchange", syncView);
   }, []);
+
+  useEffect(() => {
+    if (view === "account") {
+      if (!token) return goToView("login");
+      void loadAccount();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view, token]);
 
   useEffect(() => {
     const loadStatus = async () => {
@@ -135,6 +150,31 @@ function App() {
     }));
   };
 
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    setLoginMessage("");
+
+    if (!loginForm.username || !loginForm.password) {
+      setLoginMessage("Completa usuario y contrasena.");
+      return;
+    }
+
+    try {
+      const data = await request("/login", { method: "POST", body: JSON.stringify({ username: loginForm.username, password: loginForm.password }) });
+      if (data?.token) {
+        saveToken(data.token);
+        setToken(data.token);
+        setLoginForm({ username: "", password: "" });
+        setLoginMessage("");
+        goToView("account");
+      } else {
+        setLoginMessage(data.message || "Error en login");
+      }
+    } catch (err) {
+      setLoginMessage(err.body?.message || err.message || "Error al conectar");
+    }
+  };
+
   const handleRegister = async (event) => {
     event.preventDefault();
     setRegisterMessage("");
@@ -189,17 +229,58 @@ function App() {
     }
   };
 
-  const handleLogin = (event) => {
-    event.preventDefault();
+  const loadAccount = async () => {
+    setAccountMessage("");
+    try {
+      const acc = await request("/account/me");
+      setAccountData(acc.account || null);
+      setProfileForm({
+        display_name: acc.profile?.display_name || "",
+        avatar_url: acc.profile?.avatar_url || "",
+        bio: acc.profile?.bio || "",
+      });
 
-    if (!loginForm.username || !loginForm.password) {
-      setLoginMessage("Completa usuario y contrasena.");
-      return;
+      const chars = await request("/account/me/characters");
+      setCharacters(chars.characters || []);
+    } catch (err) {
+      setAccountMessage(err.body?.message || err.message || "Error al cargar datos");
     }
+  };
 
-    setLoginMessage(
-      "El acceso al juego se hace dentro del cliente. Usa estos mismos datos cuando abras LatinMS.",
-    );
+  const handleLogout = () => {
+    saveToken(null);
+    setToken(null);
+    setAccountData(null);
+    setCharacters([]);
+    goToView("home");
+  };
+
+  const handleProfileChange = (e) => setProfileForm((c) => ({ ...c, [e.target.name]: e.target.value }));
+
+  const submitProfile = async (e) => {
+    e.preventDefault();
+    setAccountMessage("");
+    try {
+      const res = await request("/account/me/profile", { method: "PUT", body: JSON.stringify(profileForm) });
+      setAccountMessage(res.message || "Perfil actualizado");
+      setProfileForm({ display_name: res.profile?.display_name || "", avatar_url: res.profile?.avatar_url || "", bio: res.profile?.bio || "" });
+    } catch (err) {
+      setAccountMessage(err.body?.message || err.message || "Error al actualizar perfil");
+    }
+  };
+
+  const handlePasswordChange = (e) => setPasswordForm((c) => ({ ...c, [e.target.name]: e.target.value }));
+
+  const submitPassword = async (e) => {
+    e.preventDefault();
+    setAccountMessage("");
+    try {
+      const res = await request("/account/me/change-password", { method: "POST", body: JSON.stringify(passwordForm) });
+      setAccountMessage(res.message || "Contraseña actualizada");
+      setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
+    } catch (err) {
+      setAccountMessage(err.body?.message || err.message || "Error al cambiar contraseña");
+    }
   };
 
   const rankingPreview =
@@ -232,6 +313,13 @@ function App() {
             onClick={() => goToView("login")}
           >
             Login
+          </button>
+          <button
+            type="button"
+            className={view === "account" ? "is-active" : ""}
+            onClick={() => goToView("account")}
+          >
+            Mi Cuenta
           </button>
           <button
             type="button"
@@ -438,11 +526,96 @@ function App() {
                   </label>
 
                   <button type="submit" className="button-primary button-primary--full">
-                    Recordar datos de acceso
+                    Iniciar sesión
                   </button>
                 </form>
 
                 {loginMessage ? <p className="feedback">{loginMessage}</p> : null}
+              </section>
+            ) : null}
+
+            {view === "account" ? (
+              <section className="panel">
+                <div className="panel__head">
+                  <div>
+                    <span className="panel__kicker">Mi Cuenta</span>
+                    <h2>Datos de tu cuenta y perfil</h2>
+                  </div>
+                </div>
+
+                {!token ? (
+                  <p>Necesitas iniciar sesión. Serás redirigido al login.</p>
+                ) : (
+                  <>
+                    <div className="panel__section">
+                      <h3>Cuenta</h3>
+                      <p>Usuario: {accountData?.name}</p>
+                      <p>Loggedin: {accountData?.loggedin}</p>
+                      <p>Banned: {accountData?.banned}</p>
+                      <button className="button-secondary" onClick={handleLogout}>Cerrar sesión</button>
+                    </div>
+
+                    <div className="panel__section">
+                      <h3>Perfil web</h3>
+                      <form className="form-card" onSubmit={submitProfile}>
+                        <label>
+                          Nombre visible
+                          <input name="display_name" value={profileForm.display_name} onChange={handleProfileChange} />
+                        </label>
+                        <label>
+                          Avatar URL
+                          <input name="avatar_url" value={profileForm.avatar_url} onChange={handleProfileChange} />
+                        </label>
+                        <label>
+                          Bio
+                          <input name="bio" value={profileForm.bio} onChange={handleProfileChange} />
+                        </label>
+                        <button type="submit" className="button-primary">Guardar perfil</button>
+                      </form>
+                    </div>
+
+                    <div className="panel__section">
+                      <h3>Cambiar contraseña</h3>
+                      <form className="form-card" onSubmit={submitPassword}>
+                        <label>
+                          Contraseña actual
+                          <input type="password" name="currentPassword" value={passwordForm.currentPassword} onChange={handlePasswordChange} />
+                        </label>
+                        <label>
+                          Nueva contraseña
+                          <input type="password" name="newPassword" value={passwordForm.newPassword} onChange={handlePasswordChange} />
+                        </label>
+                        <label>
+                          Repetir nueva
+                          <input type="password" name="confirmPassword" value={passwordForm.confirmPassword} onChange={handlePasswordChange} />
+                        </label>
+                        <button type="submit" className="button-primary">Cambiar contraseña</button>
+                      </form>
+                    </div>
+
+                    <div className="panel__section">
+                      <h3>Personajes</h3>
+                      {characters.length === 0 ? <p>No hay personajes.</p> : (
+                        <div className="characters-list">
+                          {characters.map((c) => (
+                            <div key={c.id} className="character-row">
+                              <img src={profileForm.avatar_url || "/latinms.png"} alt="avatar" className="character-avatar" />
+                              <div>
+                                <strong>{c.name}</strong>
+                                <div>Lvl {c.level} · {c.job}</div>
+                                <div>Fame {c.fame} · Mesos {c.mesos}</div>
+                                <div>Map: {c.map}</div>
+                                <div>Gender: {c.gender} · Skin: {c.skin} · Face: {c.face} · Hair: {c.hair}</div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {accountMessage ? <p className="feedback">{accountMessage}</p> : null}
+                  </>
+                )}
               </section>
             ) : null}
 
