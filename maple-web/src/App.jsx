@@ -129,16 +129,26 @@ function getJobName(job) {
   return "Sin clase";
 }
 
+const DEFAULT_CHARACTER_IMAGE = "/latinms.png";
+
 function getCharacterImage(character) {
+  if (!character || typeof character !== "object") {
+    return DEFAULT_CHARACTER_IMAGE;
+  }
+
   const skin = Number(character.skin ?? character.skincolor ?? 0);
   const hair = Number(character.hair);
   const face = Number(character.face);
 
   if (!Number.isFinite(hair) || !Number.isFinite(face) || hair <= 0 || face <= 0) {
-    return "/latinms.png";
+    return DEFAULT_CHARACTER_IMAGE;
   }
 
-  const renderSkin = Number.isFinite(skin) ? skin : 0;
+  const renderSkin = Number.isFinite(skin) && skin > 0 ? skin : 0;
+
+  if (renderSkin === 0) {
+    return DEFAULT_CHARACTER_IMAGE;
+  }
 
   return `https://maplestory.io/api/GMS/83/Character/${renderSkin}/${hair},${face}/stand1/0?resize=3`;
 }
