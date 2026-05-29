@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+const API_URL = import.meta.env.VITE_API_URL || "https://apims.redly.com.ar";
 
 function getToken() {
   return localStorage.getItem("maple_token");
@@ -16,9 +16,11 @@ async function request(path, options = {}) {
   const token = getToken();
   if (token) headers["Authorization"] = `Bearer ${token}`;
 
-  const res = await fetch(`${API_URL}${path}`, { ...options, headers });
+  const url = `${API_URL}${path}`;
+  const res = await fetch(url, { ...options, headers });
   const body = await res.json().catch(() => null);
   if (!res.ok) {
+    console.error(`API request failed: ${url}`, { status: res.status, body });
     const err = new Error(body?.message || `HTTP ${res.status}`);
     err.status = res.status;
     err.body = body;

@@ -10,8 +10,6 @@ import "./App.css";
 
 import { API_URL, getToken, saveToken, request } from "./apiClient";
 
-const API_URL_FALLBACK = import.meta.env.VITE_API_URL || "https://apims.redly.com";
-
 const newsItems = [
   {
     title: "Una aventura clasica con identidad propia",
@@ -95,11 +93,13 @@ function App() {
 
   useEffect(() => {
     const loadStatus = async () => {
+      const url = `${API_URL}/status`;
       try {
-        const res = await fetch(`${API_URL}/status`);
+        const res = await fetch(url);
         const data = await res.json();
         setStatus(data);
-      } catch {
+      } catch (error) {
+        console.error(`Error loading server status from ${url}`, error);
         setStatus({
           ok: false,
           message: "No se pudo conectar con el servidor.",
@@ -108,8 +108,9 @@ function App() {
     };
 
     const loadRanking = async () => {
+      const url = `${API_URL}/ranking`;
       try {
-        const res = await fetch(`${API_URL}/ranking`);
+        const res = await fetch(url);
         const data = await res.json();
 
         if (Array.isArray(data)) {
@@ -123,7 +124,8 @@ function App() {
         }
 
         setRanking([]);
-      } catch {
+      } catch (error) {
+        console.error(`Error loading ranking from ${url}`, error);
         setRanking([]);
       }
     };
