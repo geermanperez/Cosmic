@@ -95,11 +95,13 @@ function App() {
     const loadStatus = async () => {
       const url = `${API_URL}/status`;
       try {
+        console.log("[status] URL consultada:", url);
         const res = await fetch(url);
         const data = await res.json();
+        console.log("[status] Respuesta recibida:", data);
         setStatus(data);
       } catch (error) {
-        console.error(`Error loading server status from ${url}`, error);
+        console.error("[status] Error capturado:", { url, error });
         setStatus({
           ok: false,
           message: "No se pudo conectar con el servidor.",
@@ -288,7 +290,9 @@ function App() {
   const rankingPreview =
     ranking.length > 0 ? ranking.slice(0, 5) : topPlayersFallback;
 
-  const serverOnline = Boolean(status?.ok);
+  const serverOnline = status?.ok === true || status?.server === "online";
+  const accountsCreated = status?.accounts ?? "-";
+  const charactersCreated = status?.characters ?? "-";
 
   return (
     <div className="app-shell">
@@ -371,13 +375,13 @@ function App() {
 
               <article className="metric-card">
                 <Users size={20} />
-                <strong>{serverOnline ? status?.characters ?? "-" : "-"}</strong>
+                <strong>{serverOnline ? charactersCreated : "-"}</strong>
                 <span>Jugadores creados</span>
               </article>
 
               <article className="metric-card">
                 <UserPlus size={20} />
-                <strong>{serverOnline ? status?.accounts ?? "-" : "-"}</strong>
+                <strong>{serverOnline ? accountsCreated : "-"}</strong>
                 <span>Cuentas creadas</span>
               </article>
             </div>
