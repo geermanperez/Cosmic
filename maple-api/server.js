@@ -6,25 +6,32 @@ require("dotenv").config();
 
 const app = express();
 
-// CORS: allow FRONTEND_URL and localhost during development
+// CORS: allow production frontend and localhost during development
 const FRONTEND_URL = process.env.FRONTEND_URL;
+const allowedOrigins = [
+  "https://latinms.redly.com.ar",
+  "https://www.latinms.redly.com.ar",
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "http://127.0.0.1:5173",
+  "http://127.0.0.1:3000",
+];
+if (FRONTEND_URL && !allowedOrigins.includes(FRONTEND_URL)) {
+  allowedOrigins.push(FRONTEND_URL);
+}
+
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin) return callback(null, true); // allow non-browser requests like curl/postman
-    const allowed = [];
-    if (FRONTEND_URL) allowed.push(FRONTEND_URL);
-    allowed.push(
-      "http://localhost:5173",
-      "http://localhost:3000",
-      "http://127.0.0.1:5173",
-      "http://127.0.0.1:3000"
-    );
-    if (allowed.indexOf(origin) !== -1) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
     return callback(new Error("CORS not allowed"));
   },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(express.json());
 
 const pool = mysql.createPool({
