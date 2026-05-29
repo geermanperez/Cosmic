@@ -459,6 +459,9 @@ function App() {
   const [profileForm, setProfileForm] = useState({ display_name: "", avatar_url: "", bio: "" });
   const [passwordForm, setPasswordForm] = useState({ currentPassword: "", newPassword: "", confirmPassword: "" });
   const [accountMessage, setAccountMessage] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [adminStats, setAdminStats] = useState(null);
+  const [loadingAdmin, setLoadingAdmin] = useState(false);
 
   useEffect(() => {
     const syncView = () => setView(getViewFromHash());
@@ -662,6 +665,20 @@ function App() {
 
       const chars = await request("/account/me/characters");
       setCharacters(chars.characters || []);
+
+      // Intentar cargar stats de admin
+      setLoadingAdmin(true);
+      try {
+        const adm = await request("/admin/stats");
+        if (adm.ok) {
+          setIsAdmin(true);
+          setAdminStats(adm.stats);
+        }
+      } catch {
+        setIsAdmin(false);
+      } finally {
+        setLoadingAdmin(false);
+      }
     } catch (err) {
       setAccountMessage(err.body?.message || err.message || "Error al cargar datos");
     }
@@ -817,6 +834,23 @@ function App() {
             </div>
           </div>
         </section>
+        ) : null}
+
+        {view === "home" ? (
+          <section className="voting-banner">
+            <div className="voting-banner__content">
+              <h3>¡Ayuda a LatinMS a crecer!</h3>
+              <p>Vota por nosotros para llegar a más jugadores latinos</p>
+              <a 
+                href="https://gtop100.com/MapleStory/server-106094" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="button-primary"
+              >
+                Vótanos
+              </a>
+            </div>
+          </section>
         ) : null}
 
         <section className="content-grid">
@@ -1162,6 +1196,16 @@ function App() {
                         <Gamepad2 size={18} />
                         Personajes
                       </button>
+                      {isAdmin && (
+                        <button
+                          type="button"
+                          className={accountTab === "admin" ? "is-active" : ""}
+                          onClick={() => setAccountTab("admin")}
+                        >
+                          <ShieldCheck size={18} />
+                          Admin
+                        </button>
+                      )}
                     </div>
 
                     {accountTab === "account" ? (
@@ -1258,6 +1302,65 @@ function App() {
                             </div>
                           ))}
                         </div>
+                      )}
+                    </div>
+                    ) : null}
+
+                    {accountTab === "admin" ? (
+                    <div className="panel__section">
+                      <h3>Panel de Administración</h3>
+                      {loadingAdmin && !adminStats ? <p>Cargando estadísticas...</p> : adminStats && (
+                        <>
+                          <div className="summary-grid">
+                            <article className="metric-card">
+                              <strong>{adminStats.onlineUsers}</strong>
+                              <span>En línea</span>
+                            </article>
+                            <article className="metric-card">
+                              <strong>{adminStats.totalAccounts}</strong>
+                              <span>Cuentas</span>
+                            </article>
+                            <article className="metric-card">
+                              <strong>{adminStats.totalCharacters}</strong>
+                              <span>Personajes</span>
+                            </article>
+                            <article className="metric-card">
+                              <strong>{adminStats.bannedAccounts}</strong>
+                              <span>Baneados</span>
+                            </article>
+                            <article className="metric-card">
+                              <strong>{adminStats.gmCharacters}</strong>
+                              <span>GMs</span>
+                            </article>
+                            <article className="metric-card">
+                              <strong>{adminStats.normalCharacters}</strong>
+                              <span>Jugadores</span>
+                            </article>
+                          </div>
+
+                          <div className="split-grid" style={{ marginTop: '24px', gap: '20px' }}>
+                            <div className="admin-list-container">
+                              <h4>Últimas cuentas</h4>
+                              <div className="ranking-list">
+                                {adminStats.latestAccounts.map(a => (
+                                  <div key={a.id} className="ranking-row" style={{ padding: '8px' }}>
+                                    <span>ID: {a.id} - <strong>{a.name}</strong></span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                            <div className="admin-list-container">
+                              <h4>Últimos personajes</h4>
+                              <div className="ranking-list">
+                                {adminStats.latestCharacters.map(c => (
+                                  <div key={c.id} className="ranking-row" style={{ padding: '8px' }}>
+                                    <span><strong>{c.name}</strong> (Lvl {c.level}) - {getJobName(c.job)}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </>
                       )}
                     </div>
                     ) : null}
@@ -1401,6 +1504,17 @@ function App() {
                 </button>
               </div>
             </section>
+            ) : null}
+
+            {view === "home" ? (
+              <a 
+                href="https://gtop100.com/MapleStory/server-106094" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="panel panel--compact panel--voting"
+              >
+                <img src="/votanos.png" alt="Vótanos en GTop100" />
+              </a>
             ) : null}
 
             <section className="panel panel--compact panel--download">

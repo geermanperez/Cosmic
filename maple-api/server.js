@@ -119,6 +119,110 @@ function authMiddleware(req, res, next) {
   }
 }
 
+// Admin middleware dinámico
+async function adminMiddleware(req, res, next) {
+  try {
+    const uid = req.user.id;
+    const dbName = process.env.DB_NAME || "cosmic";
+
+    // Verificar columnas en accounts
+    const [accCols] = await pool.query(
+      "SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema = ? AND table_name = 'accounts'",
+      [dbName]
+    );
+    const accColNames = accCols.map(c => c.COLUMN_NAME.toLowerCase());
+
+    let isAdmin = false;
+    const accChecks = [];
+    if (accColNames.includes('gm')) accChecks.push("gm > 0");
+    if (accColNames.includes('admin')) accChecks.push("admin > 0");
+
+    if (accChecks.length > 0) {
+      const [accRows] = await pool.query(
+        `SELECT id FROM accounts WHERE id = ? AND (${accChecks.join(" OR ")}) LIMIT 1`,
+        [uid]
+      );
+      if (accRows.length > 0) isAdmin = true;
+    }
+
+    // Si no es admin por cuenta, verificar si tiene algún personaje GM
+    if (!isAdmin) {
+      const [charCols] = await pool.query(
+        "SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema = ? AND table_name = 'characters'",
+        [dbName]
+      );
+      const charColNames = charCols.map(c => c.COLUMN_NAME.toLowerCase());
+
+      if (charColNames.includes('gm')) {
+        const [charRows] = await pool.query(
+          "SELECT id FROM characters WHERE accountid = ? AND gm > 0 LIMIT 1",
+          [uid]
+        );
+        if (charRows.length > 0) isAdmin = true;
+      }
+    }
+
+    if (!isAdmin) {
+      return res.status(403).json({ ok: false, message: "No tenés permisos de administrador." });
+    }
+
+    next();
+  } catch (err) {
+    console.error("Error en adminMiddleware:", err);
+    res.status(500).json({ ok: false, message: "Error al verificar permisos." });
+  }
+}
+
+app.get("/admin/stats", authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const dbName = process.env.DB_NAME || "cosmic";
+
+    const [accCols] = await pool.query("SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema = ? AND table_name = 'accounts'", [dbName]);
+    const accColNames = accCols.map(c => c.COLUMN_NAME.toLowerCase());
+
+    const [charCols] = await pool.query("SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema = ? AND table_name = 'characters'", [dbName]);
+    const charColNames = charCols.map(c => c.COLUMN_NAME.toLowerCase());
+
+    const stats = {};
+
+    // Conteos básicos
+    const [totalAcc] = await pool.query("SELECT COUNT(*) AS total FROM accounts");
+    stats.totalAccounts = totalAcc[0].total;
+
+    const [totalChar] = await pool.query("SELECT COUNT(*) AS total FROM characters");
+    stats.totalCharacters = totalChar[0].total;
+
+    // Baneados
+    if (accColNames.includes('banned')) {
+      const [banned] = await pool.query("SELECT COUNT(*) AS total FROM accounts WHERE banned = 1");
+      stats.bannedAccounts = banned[0].total;
+    } else stats.bannedAccounts = 0;
+
+    // Online (loggedin)
+    if (accColNames.includes('loggedin')) {
+      const [online] = await pool.query("SELECT COUNT(*) AS total FROM accounts WHERE loggedin > 0");
+      stats.onlineUsers = online[0].total;
+    } else stats.onlineUsers = 0;
+
+    // GMs en personajes
+    if (charColNames.includes('gm')) {
+      const [gms] = await pool.query("SELECT COUNT(*) AS total FROM characters WHERE gm > 0");
+      stats.gmCharacters = gms[0].total;
+    } else stats.gmCharacters = 0;
+
+    stats.normalCharacters = stats.totalCharacters - stats.gmCharacters;
+
+    // Listas (sin datos sensibles)
+    stats.latestAccounts = (await pool.query("SELECT id, name FROM accounts ORDER BY id DESC LIMIT 5"))[0];
+    stats.latestCharacters = (await pool.query("SELECT id, name, level, job FROM characters ORDER BY id DESC LIMIT 5"))[0];
+
+    res.json({ ok: true, stats });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ ok: false, message: "No se pudieron cargar las estadísticas.", error: err.message });
+  }
+});
+
 app.get("/", (req, res) => {
   res.json({ ok: true, message: "Maple API funcionando" });
 });
