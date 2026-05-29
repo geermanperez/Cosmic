@@ -544,7 +544,7 @@ function App() {
     setRecoverMessage("");
 
     if (!recoverForm.email) {
-      setRecoverMessage("Ingresa tu correo electronico.");
+      setRecoverMessage("Ingresa tu correo electrónico.");
       return;
     }
 
@@ -557,7 +557,7 @@ function App() {
     setLoginMessage("");
 
     if (!loginForm.username || !loginForm.password) {
-      setLoginMessage("Completa usuario y contrasena.");
+      setLoginMessage("Completa usuario y contraseña.");
       return;
     }
 
@@ -595,7 +595,7 @@ function App() {
     }
 
     if (form.password !== form.confirmPassword) {
-      setRegisterMessage("Las contrasenas no coinciden.");
+      setRegisterMessage("Las contraseñas no coinciden.");
       return;
     }
 
@@ -1030,23 +1030,23 @@ function App() {
                     />
                   </label>
                   <label>
-                    Contrasena
+                    Contraseña
                     <input
                       type="password"
                       name="password"
                       value={loginForm.password}
                       onChange={handleLoginChange}
-                      placeholder="Tu contrasena"
+                      placeholder="Tu contraseña"
                     />
                   </label>
 
                   <button type="button" className="text-button" onClick={() => goToView("recover")}>
-                    Olvidaste la contrasena?
+                    ¿Olvidaste la contraseña?
                   </button>
 
                   <div className="auth-actions">
                     <button type="submit" className="button-primary">
-                      Iniciar sesion
+                      Iniciar sesión
                     </button>
                     <button type="button" className="button-secondary" onClick={() => goToView("register")}>
                       Crear cuenta
@@ -1062,19 +1062,19 @@ function App() {
               <section className="panel panel--form">
                 <div className="panel__head">
                   <div>
-                    <span className="panel__kicker">Recuperar contrasena</span>
+                    <span className="panel__kicker">Recuperar contraseña</span>
                     <h2>Recupera el acceso a tu cuenta</h2>
                   </div>
                   <Mail size={22} />
                 </div>
 
                 <p className="panel__intro">
-                  Escribe el correo asociado a tu cuenta para iniciar la recuperacion.
+                  Escribe el correo asociado a tu cuenta para iniciar la recuperación.
                 </p>
 
                 <form className="form-card" onSubmit={handleRecover}>
                   <label>
-                    Correo electronico
+                    Correo electrónico
                     <input
                       type="email"
                       name="email"
@@ -1086,7 +1086,7 @@ function App() {
 
                   <div className="auth-actions">
                     <button type="submit" className="button-primary">
-                      Recuperar contrasena
+                      Recuperar contraseña
                     </button>
                     <button type="button" className="button-secondary" onClick={() => goToView("login")}>
                       Volver al login
@@ -1163,7 +1163,7 @@ function App() {
                           <strong>{accountData?.banned ?? "-"}</strong>
                         </div>
                       </div>
-                      <button className="button-secondary" onClick={handleLogout}>Cerrar sesion</button>
+                      <button className="button-secondary" onClick={handleLogout}>Cerrar sesión</button>
                     </div>
                     ) : null}
 
@@ -1190,21 +1190,21 @@ function App() {
 
                     {accountTab === "security" ? (
                     <div className="panel__section">
-                      <h3>Cambiar contrasena</h3>
+                      <h3>Cambiar contraseña</h3>
                       <form className="form-card" onSubmit={submitPassword}>
                         <label>
-                          Contrasena actual
+                          Contraseña actual
                           <input type="password" name="currentPassword" value={passwordForm.currentPassword} onChange={handlePasswordChange} />
                         </label>
                         <label>
-                          Nueva contrasena
+                          Nueva contraseña
                           <input type="password" name="newPassword" value={passwordForm.newPassword} onChange={handlePasswordChange} />
                         </label>
                         <label>
                           Repetir nueva
                           <input type="password" name="confirmPassword" value={passwordForm.confirmPassword} onChange={handlePasswordChange} />
                         </label>
-                        <button type="submit" className="button-primary">Cambiar contrasena</button>
+                        <button type="submit" className="button-primary">Cambiar contraseña</button>
                       </form>
                     </div>
                     ) : null}
@@ -1287,7 +1287,7 @@ function App() {
                     />
                   </label>
                   <label>
-                    Correo electronico
+                    Correo electrónico
                     <input
                       type="email"
                       name="email"
@@ -1297,27 +1297,27 @@ function App() {
                     />
                   </label>
                   <label>
-                    Contrasena
+                    Contraseña
                     <input
                       type="password"
                       name="password"
                       value={form.password}
                       onChange={handleRegisterChange}
-                      placeholder="Minimo 4 caracteres"
+                      placeholder="Mínimo 4 caracteres"
                     />
                   </label>
                   <label>
-                    Repetir contrasena
+                    Repetir contraseña
                     <input
                       type="password"
                       name="confirmPassword"
                       value={form.confirmPassword}
                       onChange={handleRegisterChange}
-                      placeholder="Repite la contrasena"
+                      placeholder="Repite la contraseña"
                     />
                   </label>
                   <label>
-                    Pais
+                    País
                     <select
                       name="country"
                       value={form.country}
@@ -1332,7 +1332,7 @@ function App() {
                     </select>
                   </label>
                   <label>
-                    Fecha de cumpleanos
+                    Fecha de cumpleaños
                     <input
                       type="date"
                       name="birthDate"
