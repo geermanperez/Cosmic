@@ -125,12 +125,15 @@ async function adminMiddleware(req, res, next) {
     const uid = req.user.id;
     const dbName = process.env.DB_NAME || "cosmic";
 
-    // Verificar columnas en accounts
+    console.log(`[AdminCheck] Verificando permisos para UID: ${uid} en DB: ${dbName}`);
+
+    // Verificar columnas existentes en la tabla accounts
     const [accCols] = await pool.query(
       "SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema = ? AND table_name = 'accounts'",
       [dbName]
     );
     const accColNames = accCols.map(c => c.COLUMN_NAME.toLowerCase());
+    console.log(`[AdminCheck] Columnas encontradas en accounts:`, accColNames);
 
     let isAdmin = false;
     const accChecks = [];
@@ -142,6 +145,7 @@ async function adminMiddleware(req, res, next) {
         `SELECT id FROM accounts WHERE id = ? AND (${accChecks.join(" OR ")}) LIMIT 1`,
         [uid]
       );
+      console.log(`[AdminCheck] Resultado chequeo cuentas:`, accRows.length > 0 ? "Admin encontrado" : "No es admin en accounts");
       if (accRows.length > 0) isAdmin = true;
     }
 
@@ -158,11 +162,13 @@ async function adminMiddleware(req, res, next) {
           "SELECT id FROM characters WHERE accountid = ? AND gm > 0 LIMIT 1",
           [uid]
         );
+        console.log(`[AdminCheck] Resultado chequeo personajes:`, charRows.length > 0 ? "GM encontrado" : "No tiene personajes GM");
         if (charRows.length > 0) isAdmin = true;
       }
     }
 
     if (!isAdmin) {
+      console.warn(`[AdminCheck] Acceso denegado para UID: ${uid}`);
       return res.status(403).json({ ok: false, message: "No tenés permisos de administrador." });
     }
 

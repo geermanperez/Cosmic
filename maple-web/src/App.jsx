@@ -836,22 +836,7 @@ function App() {
         </section>
         ) : null}
 
-        {view === "home" ? (
-          <section className="voting-banner">
-            <div className="voting-banner__content">
-              <h3>¡Ayuda a LatinMS a crecer!</h3>
-              <p>Vota por nosotros para llegar a más jugadores latinos</p>
-              <a 
-                href="https://gtop100.com/MapleStory/server-106094" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="button-primary"
-              >
-                Vótanos
-              </a>
-            </div>
-          </section>
-        ) : null}
+        
 
         <section className="content-grid">
           <div className="content-main">
