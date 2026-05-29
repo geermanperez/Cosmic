@@ -123,16 +123,50 @@ app.get("/", (req, res) => {
   res.json({ ok: true, message: "Maple API funcionando" });
 });
 
+async function buildStatusPayload() {
+  const [accounts] = await pool.query("SELECT COUNT(*) AS total FROM accounts");
+  const [characters] = await pool.query("SELECT COUNT(*) AS total FROM characters");
+  const [onlinePlayers] = await pool.query("SELECT COUNT(*) AS total FROM accounts WHERE loggedin > 0");
+  const [loginStates] = await pool.query(`
+    SELECT loggedin, COUNT(*) AS total
+    FROM accounts
+    GROUP BY loggedin
+    ORDER BY loggedin
+  `);
+
+  return {
+    ok: true,
+    server: "online",
+    statusVersion: "online-counter-v2",
+    accounts: Number(accounts[0].total || 0),
+    characters: Number(characters[0].total || 0),
+    onlinePlayers: Number(onlinePlayers[0].total || 0),
+    playersOnline: Number(onlinePlayers[0].total || 0),
+    online_players: Number(onlinePlayers[0].total || 0),
+    loginStates,
+  };
+}
+
 app.get("/status", async (req, res) => {
   try {
-    const [accounts] = await pool.query("SELECT COUNT(*) AS total FROM accounts");
-    const [characters] = await pool.query("SELECT COUNT(*) AS total FROM characters");
+    res.json(await buildStatusPayload());
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ ok: false, server: "offline", message: "No se pudo conectar a la base de datos", error: error.message });
+  }
+});
 
+app.get("/status/debug", async (req, res) => {
+  try {
+    const status = await buildStatusPayload();
     res.json({
-      ok: true,
-      server: "online",
-      accounts: accounts[0].total,
-      characters: characters[0].total,
+      ...status,
+      database: {
+        host: process.env.DB_HOST || "127.0.0.1",
+        port: Number(process.env.DB_PORT || 3307),
+        name: process.env.DB_NAME || "cosmic",
+      },
+      checkedAt: new Date().toISOString(),
     });
   } catch (error) {
     console.error(error);
@@ -143,7 +177,7 @@ app.get("/status", async (req, res) => {
 app.get("/ranking", async (req, res) => {
   try {
     const [rows] = await pool.query(`
-      SELECT name, level, job, fame
+      SELECT id, name, level, job, fame, gender, skincolor AS skin, face, hair
       FROM characters
       WHERE gm = 0
       ORDER BY level DESC, exp DESC

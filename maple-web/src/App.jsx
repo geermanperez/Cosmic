@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import {
   ArrowRight,
+  Download,
+  Gamepad2,
+  IdCard,
+  KeyRound,
   LockKeyhole,
+  Mail,
+  Newspaper,
   ShieldCheck,
+  Trophy,
   UserPlus,
   Users,
 } from "lucide-react";
@@ -31,21 +38,376 @@ const newsItems = [
   },
 ];
 
-const serverRates = [
-  { value: "4x", label: "EXP" },
-  { value: "2x", label: "Mesos" },
-  { value: "Custom", label: "Drops" },
-  { value: "5x", label: "Quests" },
-  { value: "v83", label: "Version" },
-];
+const downloadUrl =
+  "https://drive.google.com/file/d/1HuY39ItV9g0O1qM03L6aK7gQex23D98A/view?usp=sharing";
 
 const topPlayersFallback = [
   { name: "Sin datos", level: "-", job: "Ranking pendiente" },
 ];
 
+const jobNames = {
+  0: "Principiante",
+  100: "Guerrero",
+  110: "Luchador",
+  111: "Cruzado",
+  112: "Heroe",
+  120: "Paje",
+  121: "Caballero blanco",
+  122: "Paladin",
+  130: "Lancero",
+  131: "Dragon Knight",
+  132: "Dark Knight",
+  200: "Mago",
+  210: "Mago fuego/veneno",
+  211: "Hechicero fuego/veneno",
+  212: "Archimago fuego/veneno",
+  220: "Mago hielo/rayo",
+  221: "Hechicero hielo/rayo",
+  222: "Archimago hielo/rayo",
+  230: "Clerigo",
+  231: "Sacerdote",
+  232: "Obispo",
+  300: "Arquero",
+  310: "Cazador",
+  311: "Ranger",
+  312: "Bowmaster",
+  320: "Ballestero",
+  321: "Sniper",
+  322: "Marksman",
+  400: "Ladron",
+  410: "Asesino",
+  411: "Hermit",
+  412: "Night Lord",
+  420: "Bandido",
+  421: "Chief Bandit",
+  422: "Shadower",
+  500: "Pirata",
+  510: "Brawler",
+  511: "Marauder",
+  512: "Buccaneer",
+  520: "Gunslinger",
+  521: "Outlaw",
+  522: "Corsair",
+  1000: "Noblesse",
+  1100: "Dawn Warrior",
+  1110: "Dawn Warrior",
+  1111: "Dawn Warrior",
+  1112: "Dawn Warrior",
+  1200: "Blaze Wizard",
+  1210: "Blaze Wizard",
+  1211: "Blaze Wizard",
+  1212: "Blaze Wizard",
+  1300: "Wind Archer",
+  1310: "Wind Archer",
+  1311: "Wind Archer",
+  1312: "Wind Archer",
+  1400: "Night Walker",
+  1410: "Night Walker",
+  1411: "Night Walker",
+  1412: "Night Walker",
+  1500: "Thunder Breaker",
+  1510: "Thunder Breaker",
+  1511: "Thunder Breaker",
+  1512: "Thunder Breaker",
+  2000: "Leyenda",
+  2100: "Aran",
+  2110: "Aran",
+  2111: "Aran",
+  2112: "Aran",
+};
+
+function getJobName(job) {
+  const jobId = Number(job);
+  if (Number.isNaN(jobId)) return job || "Sin clase";
+  if (jobNames[jobId]) return jobNames[jobId];
+  if (jobId >= 100 && jobId < 200) return "Guerrero";
+  if (jobId >= 200 && jobId < 300) return "Mago";
+  if (jobId >= 300 && jobId < 400) return "Arquero";
+  if (jobId >= 400 && jobId < 500) return "Ladron";
+  if (jobId >= 500 && jobId < 600) return "Pirata";
+  if (jobId >= 2100 && jobId < 2200) return "Aran";
+  return "Sin clase";
+}
+
+function getCharacterImage(character) {
+  const skin = Number(character.skin ?? character.skincolor ?? 0);
+  const hair = Number(character.hair);
+  const face = Number(character.face);
+
+  if (!Number.isFinite(hair) || !Number.isFinite(face) || hair <= 0 || face <= 0) {
+    return "/latinms.png";
+  }
+
+  const renderSkin = Number.isFinite(skin) ? skin : 0;
+
+  return `https://maplestory.io/api/GMS/83/Character/${renderSkin}/${hair},${face}/stand1/0?resize=3`;
+}
+
+const countryCodes = [
+  "AF",
+  "AL",
+  "DZ",
+  "AS",
+  "AD",
+  "AO",
+  "AI",
+  "AQ",
+  "AG",
+  "AR",
+  "AM",
+  "AW",
+  "AU",
+  "AT",
+  "AZ",
+  "BS",
+  "BH",
+  "BD",
+  "BB",
+  "BY",
+  "BE",
+  "BZ",
+  "BJ",
+  "BM",
+  "BT",
+  "BO",
+  "BQ",
+  "BA",
+  "BW",
+  "BR",
+  "IO",
+  "BN",
+  "BG",
+  "BF",
+  "BI",
+  "CV",
+  "KH",
+  "CM",
+  "CA",
+  "KY",
+  "CF",
+  "TD",
+  "CL",
+  "CN",
+  "CX",
+  "CC",
+  "CO",
+  "KM",
+  "CG",
+  "CD",
+  "CK",
+  "CR",
+  "CI",
+  "HR",
+  "CU",
+  "CW",
+  "CY",
+  "CZ",
+  "DK",
+  "DJ",
+  "DM",
+  "DO",
+  "EC",
+  "EG",
+  "SV",
+  "GQ",
+  "ER",
+  "EE",
+  "SZ",
+  "ET",
+  "FK",
+  "FO",
+  "FJ",
+  "FI",
+  "FR",
+  "GF",
+  "PF",
+  "TF",
+  "GA",
+  "GM",
+  "GE",
+  "DE",
+  "GH",
+  "GI",
+  "GR",
+  "GL",
+  "GD",
+  "GP",
+  "GU",
+  "GT",
+  "GG",
+  "GN",
+  "GW",
+  "GY",
+  "HT",
+  "HN",
+  "HK",
+  "HU",
+  "IS",
+  "IN",
+  "ID",
+  "IR",
+  "IQ",
+  "IE",
+  "IM",
+  "IL",
+  "IT",
+  "JM",
+  "JP",
+  "JE",
+  "JO",
+  "KZ",
+  "KE",
+  "KI",
+  "KP",
+  "KR",
+  "KW",
+  "KG",
+  "LA",
+  "LV",
+  "LB",
+  "LS",
+  "LR",
+  "LY",
+  "LI",
+  "LT",
+  "LU",
+  "MO",
+  "MG",
+  "MW",
+  "MY",
+  "MV",
+  "ML",
+  "MT",
+  "MH",
+  "MQ",
+  "MR",
+  "MU",
+  "YT",
+  "MX",
+  "FM",
+  "MD",
+  "MC",
+  "MN",
+  "ME",
+  "MS",
+  "MA",
+  "MZ",
+  "MM",
+  "NA",
+  "NR",
+  "NP",
+  "NL",
+  "NC",
+  "NZ",
+  "NI",
+  "NE",
+  "NG",
+  "NU",
+  "NF",
+  "MK",
+  "MP",
+  "NO",
+  "OM",
+  "PK",
+  "PW",
+  "PS",
+  "PA",
+  "PG",
+  "PY",
+  "PE",
+  "PH",
+  "PN",
+  "PL",
+  "PT",
+  "PR",
+  "QA",
+  "RE",
+  "RO",
+  "RU",
+  "RW",
+  "BL",
+  "SH",
+  "KN",
+  "LC",
+  "MF",
+  "PM",
+  "VC",
+  "WS",
+  "SM",
+  "ST",
+  "SA",
+  "SN",
+  "RS",
+  "SC",
+  "SL",
+  "SG",
+  "SX",
+  "SK",
+  "SI",
+  "SB",
+  "SO",
+  "ZA",
+  "GS",
+  "SS",
+  "ES",
+  "LK",
+  "SD",
+  "SR",
+  "SJ",
+  "SE",
+  "CH",
+  "SY",
+  "TW",
+  "TJ",
+  "TZ",
+  "TH",
+  "TL",
+  "TG",
+  "TK",
+  "TO",
+  "TT",
+  "TN",
+  "TR",
+  "TM",
+  "TC",
+  "TV",
+  "UG",
+  "UA",
+  "AE",
+  "GB",
+  "US",
+  "UM",
+  "UY",
+  "UZ",
+  "VU",
+  "VA",
+  "VE",
+  "VN",
+  "VG",
+  "VI",
+  "WF",
+  "EH",
+  "YE",
+  "ZM",
+  "ZW",
+];
+
+const regionNames = new Intl.DisplayNames(["es"], { type: "region" });
+const countryOptions = countryCodes
+  .map((code) => ({ code, name: regionNames.of(code) || code }))
+  .sort((a, b) => a.name.localeCompare(b.name, "es"));
+
 const getViewFromHash = () => {
   const value = window.location.hash.replace("#", "");
-  if (value === "login" || value === "register" || value === "account") {
+  if (
+    value === "news" ||
+    value === "ranking" ||
+    value === "download" ||
+    value === "login" ||
+    value === "register" ||
+    value === "recover" ||
+    value === "account"
+  ) {
     return value;
   }
 
@@ -72,9 +434,12 @@ function App() {
     password: "",
   });
   const [loginMessage, setLoginMessage] = useState("");
+  const [recoverForm, setRecoverForm] = useState({ email: "" });
+  const [recoverMessage, setRecoverMessage] = useState("");
   const [token, setToken] = useState(() => getToken());
   const [accountData, setAccountData] = useState(null);
   const [characters, setCharacters] = useState([]);
+  const [accountTab, setAccountTab] = useState("account");
   const [profileForm, setProfileForm] = useState({ display_name: "", avatar_url: "", bio: "" });
   const [passwordForm, setPasswordForm] = useState({ currentPassword: "", newPassword: "", confirmPassword: "" });
   const [accountMessage, setAccountMessage] = useState("");
@@ -92,7 +457,6 @@ function App() {
       if (!token) return goToView("login");
       void loadAccount();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view, token]);
 
   useEffect(() => {
@@ -140,9 +504,9 @@ function App() {
     void loadRanking();
   }, []);
 
-  const goToView = (nextView) => {
+  function goToView(nextView) {
     window.location.hash = nextView === "home" ? "" : nextView;
-  };
+  }
 
   const handleRegisterChange = (event) => {
     setForm((current) => ({
@@ -156,6 +520,26 @@ function App() {
       ...current,
       [event.target.name]: event.target.value,
     }));
+  };
+
+  const handleRecoverChange = (event) => {
+    setRecoverForm((current) => ({
+      ...current,
+      [event.target.name]: event.target.value,
+    }));
+  };
+
+  const handleRecover = (event) => {
+    event.preventDefault();
+    setRecoverMessage("");
+
+    if (!recoverForm.email) {
+      setRecoverMessage("Ingresa tu correo electronico.");
+      return;
+    }
+
+    setRecoverMessage("Si el correo existe, te contactaremos con los pasos para recuperar tu cuenta.");
+    setRecoverForm({ email: "" });
   };
 
   const handleLogin = async (event) => {
@@ -249,7 +633,7 @@ function App() {
     }
   };
 
-  const loadAccount = async () => {
+  async function loadAccount() {
     setAccountMessage("");
     try {
       const acc = await request("/account/me");
@@ -265,7 +649,7 @@ function App() {
     } catch (err) {
       setAccountMessage(err.body?.message || err.message || "Error al cargar datos");
     }
-  };
+  }
 
   const handleLogout = () => {
     saveToken(null);
@@ -305,10 +689,16 @@ function App() {
 
   const rankingPreview =
     ranking.length > 0 ? ranking.slice(0, 5) : topPlayersFallback;
+  const rankingRows = ranking.length > 0 ? ranking : topPlayersFallback;
 
   const serverOnline = status?.ok === true || status?.server === "online";
-  const accountsCreated = status?.accounts ?? "-";
-  const charactersCreated = status?.characters ?? "-";
+  const onlinePlayers =
+    status?.onlinePlayers ??
+    status?.playersOnline ??
+    status?.online_players ??
+    status?.onlineCount ??
+    status?.players_online ??
+    0;
 
   return (
     <div className="app-shell">
@@ -331,24 +721,31 @@ function App() {
           </button>
           <button
             type="button"
-            className={view === "login" ? "is-active" : ""}
+            className={view === "news" ? "is-active" : ""}
+            onClick={() => goToView("news")}
+          >
+            Noticias
+          </button>
+          <button
+            type="button"
+            className={view === "ranking" ? "is-active" : ""}
+            onClick={() => goToView("ranking")}
+          >
+            Ranking
+          </button>
+          <button
+            type="button"
+            className={view === "download" ? "is-active" : ""}
+            onClick={() => goToView("download")}
+          >
+            Descarga
+          </button>
+          <button
+            type="button"
+            className={view === "login" || view === "register" || view === "recover" || view === "account" ? "is-active" : ""}
             onClick={() => goToView("login")}
           >
             Login
-          </button>
-          <button
-            type="button"
-            className={view === "account" ? "is-active" : ""}
-            onClick={() => goToView("account")}
-          >
-            Mi Cuenta
-          </button>
-          <button
-            type="button"
-            className={view === "register" ? "is-active" : ""}
-            onClick={() => goToView("register")}
-          >
-            Crear cuenta
           </button>
         </nav>
       </header>
@@ -385,21 +782,21 @@ function App() {
 
             <div className="metric-grid">
               <article className="metric-card">
-                <ShieldCheck size={20} />
-                <strong>{serverOnline ? "Online" : "Offline"}</strong>
-                <span>{serverOnline ? "Conexion OK" : status?.message || "Sin respuesta"}</span>
-              </article>
-
-              <article className="metric-card">
                 <Users size={20} />
-                <strong>{serverOnline ? charactersCreated : "-"}</strong>
-                <span>Jugadores creados</span>
+                <strong>{serverOnline ? onlinePlayers : "-"}</strong>
+                <span>Jugadores online</span>
               </article>
 
               <article className="metric-card">
-                <UserPlus size={20} />
-                <strong>{serverOnline ? accountsCreated : "-"}</strong>
-                <span>Cuentas creadas</span>
+                <ShieldCheck size={20} />
+                <strong>4x EXP</strong>
+                <span>2x Mesos - Drops Custom</span>
+              </article>
+
+              <article className="metric-card">
+                <Gamepad2 size={20} />
+                <strong>v83</strong>
+                <span>Version del servidor</span>
               </article>
             </div>
           </div>
@@ -410,25 +807,6 @@ function App() {
           <div className="content-main">
             {view === "home" ? (
               <>
-                <section className="panel">
-                  <div className="panel__head">
-                    <div>
-                      <span className="panel__kicker">Datos del servidor</span>
-                      <h2>Lo que hace especial a LatinMS desde el primer minuto</h2>
-                    </div>
-                    <img src="/7.png" alt="" className="panel-head-icon" />
-                  </div>
-
-                  <div className="rates-grid">
-                    {serverRates.map((rate) => (
-                      <article key={rate.label} className="rate-card">
-                        <strong>{rate.value}</strong>
-                        <span>{rate.label}</span>
-                      </article>
-                    ))}
-                  </div>
-                </section>
-
                 <section className="panel">
                   <div className="panel__head">
                     <div>
@@ -498,10 +876,20 @@ function App() {
                           className="ranking-row"
                         >
                           <strong>#{index + 1}</strong>
+                          <div className="ranking-avatar">
+                            <img
+                              src={getCharacterImage(player)}
+                              alt={`Personaje ${player.name}`}
+                              onError={(event) => {
+                                event.currentTarget.onerror = null;
+                                event.currentTarget.src = "/latinms.png";
+                              }}
+                            />
+                          </div>
                           <div>
                             <span>{player.name}</span>
                             <small>
-                              Nivel {player.level} · {player.job}
+                              Nivel {player.level} - {getJobName(player.job)}
                             </small>
                           </div>
                         </div>
@@ -510,6 +898,99 @@ function App() {
                   </article>
                 </section>
               </>
+            ) : null}
+
+            {view === "news" ? (
+              <section className="panel">
+                <div className="panel__head">
+                  <div>
+                    <span className="panel__kicker">Noticias</span>
+                    <h2>Ultimas novedades de LatinMS</h2>
+                  </div>
+                  <Newspaper size={24} />
+                </div>
+
+                <div className="news-list">
+                  {newsItems.map((item) => (
+                    <article key={item.title} className="news-card">
+                      <div className="news-card__head">
+                        <img src={item.icon} alt="" className="news-card__icon" />
+                        <h3>{item.title}</h3>
+                      </div>
+                      <p>{item.copy}</p>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+
+            {view === "ranking" ? (
+              <section className="panel">
+                <div className="panel__head">
+                  <div>
+                    <span className="panel__kicker">Ranking</span>
+                    <h2>Top jugadores del servidor</h2>
+                  </div>
+                  <Trophy size={24} />
+                </div>
+
+                <div className="ranking-list ranking-list--full">
+                  {rankingRows.map((player, index) => (
+                    <div
+                      key={player.id || player.name || index}
+                      className="ranking-row"
+                    >
+                      <strong>#{index + 1}</strong>
+                      <div className="ranking-avatar">
+                        <img
+                          src={getCharacterImage(player)}
+                          alt={`Personaje ${player.name}`}
+                          onError={(event) => {
+                            event.currentTarget.onerror = null;
+                            event.currentTarget.src = "/latinms.png";
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <span>{player.name}</span>
+                        <small>
+                          Nivel {player.level} - {getJobName(player.job)}
+                        </small>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+
+            {view === "download" ? (
+              <section className="panel download-page">
+                <div className="panel__head">
+                  <div>
+                    <span className="panel__kicker">Descarga</span>
+                    <h2>Descarga el cliente de LatinMS</h2>
+                  </div>
+                  <Download size={24} />
+                </div>
+
+                <div className="download-layout">
+                  <img src="/6.png" alt="" className="download-illustration" />
+                  <div>
+                    <p className="panel__intro">
+                      Cliente listo para entrar al mundo de LatinMS. Descargalo, instalalo y usa tu cuenta para comenzar la aventura.
+                    </p>
+                    <a
+                      className="button-primary"
+                      href={downloadUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Descargar cliente
+                      <ArrowRight size={18} />
+                    </a>
+                  </div>
+                </div>
+              </section>
             ) : null}
 
             {view === "login" ? (
@@ -549,6 +1030,10 @@ function App() {
                     />
                   </label>
 
+                  <button type="button" className="text-button" onClick={() => goToView("recover")}>
+                    Olvidaste la contrasena?
+                  </button>
+
                   <div className="auth-actions">
                     <button type="submit" className="button-primary">
                       Iniciar sesion
@@ -560,6 +1045,46 @@ function App() {
                 </form>
 
                 {loginMessage ? <p className="feedback">{loginMessage}</p> : null}
+              </section>
+            ) : null}
+
+            {view === "recover" ? (
+              <section className="panel panel--form">
+                <div className="panel__head">
+                  <div>
+                    <span className="panel__kicker">Recuperar contrasena</span>
+                    <h2>Recupera el acceso a tu cuenta</h2>
+                  </div>
+                  <Mail size={22} />
+                </div>
+
+                <p className="panel__intro">
+                  Escribe el correo asociado a tu cuenta para iniciar la recuperacion.
+                </p>
+
+                <form className="form-card" onSubmit={handleRecover}>
+                  <label>
+                    Correo electronico
+                    <input
+                      type="email"
+                      name="email"
+                      value={recoverForm.email}
+                      onChange={handleRecoverChange}
+                      placeholder="correo@ejemplo.com"
+                    />
+                  </label>
+
+                  <div className="auth-actions">
+                    <button type="submit" className="button-primary">
+                      Recuperar contrasena
+                    </button>
+                    <button type="button" className="button-secondary" onClick={() => goToView("login")}>
+                      Volver al login
+                    </button>
+                  </div>
+                </form>
+
+                {recoverMessage ? <p className="feedback">{recoverMessage}</p> : null}
               </section>
             ) : null}
 
@@ -576,14 +1101,63 @@ function App() {
                   <p>Necesitas iniciar sesión. Serás redirigido al login.</p>
                 ) : (
                   <>
-                    <div className="panel__section">
-                      <h3>Cuenta</h3>
-                      <p>Usuario: {accountData?.name}</p>
-                      <p>Loggedin: {accountData?.loggedin}</p>
-                      <p>Banned: {accountData?.banned}</p>
-                      <button className="button-secondary" onClick={handleLogout}>Cerrar sesión</button>
+                    <div className="account-menu" role="tablist" aria-label="Secciones de mi cuenta">
+                      <button
+                        type="button"
+                        className={accountTab === "account" ? "is-active" : ""}
+                        onClick={() => setAccountTab("account")}
+                      >
+                        <IdCard size={18} />
+                        Cuenta
+                      </button>
+                      <button
+                        type="button"
+                        className={accountTab === "profile" ? "is-active" : ""}
+                        onClick={() => setAccountTab("profile")}
+                      >
+                        <Users size={18} />
+                        Perfil
+                      </button>
+                      <button
+                        type="button"
+                        className={accountTab === "security" ? "is-active" : ""}
+                        onClick={() => setAccountTab("security")}
+                      >
+                        <KeyRound size={18} />
+                        Seguridad
+                      </button>
+                      <button
+                        type="button"
+                        className={accountTab === "characters" ? "is-active" : ""}
+                        onClick={() => setAccountTab("characters")}
+                      >
+                        <Gamepad2 size={18} />
+                        Personajes
+                      </button>
                     </div>
 
+                    {accountTab === "account" ? (
+                    <div className="panel__section account-summary">
+                      <h3>Cuenta</h3>
+                      <div className="summary-grid">
+                        <div>
+                          <span>Usuario</span>
+                          <strong>{accountData?.name || "-"}</strong>
+                        </div>
+                        <div>
+                          <span>Loggedin</span>
+                          <strong>{accountData?.loggedin ?? "-"}</strong>
+                        </div>
+                        <div>
+                          <span>Banned</span>
+                          <strong>{accountData?.banned ?? "-"}</strong>
+                        </div>
+                      </div>
+                      <button className="button-secondary" onClick={handleLogout}>Cerrar sesion</button>
+                    </div>
+                    ) : null}
+
+                    {accountTab === "profile" ? (
                     <div className="panel__section">
                       <h3>Perfil web</h3>
                       <form className="form-card" onSubmit={submitProfile}>
@@ -602,45 +1176,63 @@ function App() {
                         <button type="submit" className="button-primary">Guardar perfil</button>
                       </form>
                     </div>
+                    ) : null}
 
+                    {accountTab === "security" ? (
                     <div className="panel__section">
-                      <h3>Cambiar contraseña</h3>
+                      <h3>Cambiar contrasena</h3>
                       <form className="form-card" onSubmit={submitPassword}>
                         <label>
-                          Contraseña actual
+                          Contrasena actual
                           <input type="password" name="currentPassword" value={passwordForm.currentPassword} onChange={handlePasswordChange} />
                         </label>
                         <label>
-                          Nueva contraseña
+                          Nueva contrasena
                           <input type="password" name="newPassword" value={passwordForm.newPassword} onChange={handlePasswordChange} />
                         </label>
                         <label>
                           Repetir nueva
                           <input type="password" name="confirmPassword" value={passwordForm.confirmPassword} onChange={handlePasswordChange} />
                         </label>
-                        <button type="submit" className="button-primary">Cambiar contraseña</button>
+                        <button type="submit" className="button-primary">Cambiar contrasena</button>
                       </form>
                     </div>
+                    ) : null}
 
+                    {accountTab === "characters" ? (
                     <div className="panel__section">
                       <h3>Personajes</h3>
                       {characters.length === 0 ? <p>No hay personajes.</p> : (
                         <div className="characters-list">
                           {characters.map((c) => (
                             <div key={c.id} className="character-row">
-                              <img src={profileForm.avatar_url || "/latinms.png"} alt="avatar" className="character-avatar" />
-                              <div>
+                              <div className="character-portrait">
+                                <img
+                                  src={getCharacterImage(c)}
+                                  alt={`Personaje ${c.name}`}
+                                  className="character-avatar"
+                                  onError={(event) => {
+                                    event.currentTarget.onerror = null;
+                                    event.currentTarget.src = "/latinms.png";
+                                  }}
+                                />
+                              </div>
+                              <div className="character-info">
                                 <strong>{c.name}</strong>
-                                <div>Lvl {c.level} · {c.job}</div>
-                                <div>Fame {c.fame} · Mesos {c.mesos}</div>
-                                <div>Map: {c.map}</div>
-                                <div>Gender: {c.gender} · Skin: {c.skin} · Face: {c.face} · Hair: {c.hair}</div>
+                                <span>{getJobName(c.job)}</span>
+                                <div className="character-stats">
+                                  <small>Lvl {c.level}</small>
+                                  <small>Fame {c.fame}</small>
+                                  <small>Mesos {c.mesos}</small>
+                                  <small>Map {c.map}</small>
+                                </div>
                               </div>
                             </div>
                           ))}
                         </div>
                       )}
                     </div>
+                    ) : null}
 
                     {accountMessage ? <p className="feedback">{accountMessage}</p> : null}
                   </>
@@ -716,13 +1308,18 @@ function App() {
                   </label>
                   <label>
                     Pais
-                    <input
-                      type="text"
+                    <select
                       name="country"
                       value={form.country}
                       onChange={handleRegisterChange}
-                      placeholder="Tu pais"
-                    />
+                    >
+                      <option value="">Selecciona tu pais</option>
+                      {countryOptions.map((country) => (
+                        <option key={country.code} value={country.name}>
+                          {country.name}
+                        </option>
+                      ))}
+                    </select>
                   </label>
                   <label>
                     Fecha de cumpleanos
@@ -754,6 +1351,7 @@ function App() {
           </div>
 
           <aside className="sidebar">
+            {view !== "home" ? (
             <section className="panel panel--compact">
               <span className="panel__kicker">Accesos</span>
               <h2>Todo en orden</h2>
@@ -761,14 +1359,21 @@ function App() {
                 <button type="button" className="button-secondary" onClick={() => goToView("home")}>
                   Ver inicio
                 </button>
+                <button type="button" className="button-secondary" onClick={() => goToView("news")}>
+                  Ver noticias
+                </button>
+                <button type="button" className="button-secondary" onClick={() => goToView("ranking")}>
+                  Ver ranking
+                </button>
+                <button type="button" className="button-secondary" onClick={() => goToView("download")}>
+                  Descargar
+                </button>
                 <button type="button" className="button-secondary" onClick={() => goToView("login")}>
                   Abrir login
                 </button>
-                <button type="button" className="button-secondary" onClick={() => goToView("register")}>
-                  Crear cuenta
-                </button>
               </div>
             </section>
+            ) : null}
 
             <section className="panel panel--compact panel--download">
               <span className="panel__kicker">Cliente</span>
@@ -779,7 +1384,7 @@ function App() {
               </p>
               <a
                 className="button-primary button-primary--full"
-                href="https://drive.google.com/file/d/1HuY39ItV9g0O1qM03L6aK7gQex23D98A/view?usp=sharing"
+                href={downloadUrl}
                 target="_blank"
                 rel="noreferrer"
               >
