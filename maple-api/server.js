@@ -2,6 +2,8 @@ const express = require("express");
 const mysql = require("mysql2/promise");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 require("dotenv").config();
 
 const app = express();
@@ -52,6 +54,29 @@ const pool = mysql.createPool({
 const JWT_SECRET = process.env.JWT_SECRET || "dev_jwt_secret_change_me";
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "7d";
 
+function hashPassword(password, algorithm) {
+  return crypto.createHash(algorithm).update(password, "utf8").digest("hex");
+}
+
+function verifyPassword(inputPassword, storedPassword) {
+  if (!inputPassword || !storedPassword) return false;
+  if (storedPassword === inputPassword) return true;
+
+  if (storedPassword.startsWith("$2")) {
+    try {
+      return bcrypt.compareSync(inputPassword, storedPassword);
+    } catch {
+      return false;
+    }
+  }
+
+  const normalizedStoredPassword = storedPassword.toLowerCase();
+  return (
+    hashPassword(inputPassword, "sha1") === normalizedStoredPassword ||
+    hashPassword(inputPassword, "sha512") === normalizedStoredPassword
+  );
+}
+
 // Create web_profiles table if not exists (non-intrusive)
 async function ensureWebProfilesTable() {
   try {
@@ -62,10 +87,16 @@ async function ensureWebProfilesTable() {
         display_name VARCHAR(50),
         avatar_url VARCHAR(255),
         bio VARCHAR(255),
+        country VARCHAR(80),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       )
     `);
+    try {
+      await pool.query("ALTER TABLE web_profiles ADD COLUMN country VARCHAR(80)");
+    } catch (err) {
+      if (err.code !== "ER_DUP_FIELDNAME") throw err;
+    }
     console.log("web_profiles table ensured");
   } catch (err) {
     console.error("Error ensuring web_profiles table:", err.message);
@@ -109,12 +140,33 @@ app.get("/status", async (req, res) => {
   }
 });
 
+app.get("/ranking", async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT name, level, job, fame
+      FROM characters
+      WHERE gm = 0
+      ORDER BY level DESC, exp DESC
+      LIMIT 50
+    `);
+
+    return res.json({ ok: true, ranking: rows });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      ok: false,
+      message: "No se pudo cargar el ranking.",
+      error: error.message,
+    });
+  }
+});
+
 // Register - keep compatibility, don't return sensitive fields
 app.post("/register", async (req, res) => {
   try {
-    const { username, password, confirmPassword } = req.body;
+    const { username, displayName, email, password, confirmPassword, country, birthDate } = req.body;
 
-    if (!username || !password || !confirmPassword) {
+    if (!username || !displayName || !email || !password || !confirmPassword || !country || !birthDate) {
       return res.status(400).json({ ok: false, message: "Completá todos los campos." });
     }
 
@@ -130,12 +182,36 @@ app.post("/register", async (req, res) => {
       return res.status(400).json({ ok: false, message: "La contraseña debe tener entre 4 y 30 caracteres." });
     }
 
+    if (displayName.length > 20) {
+      return res.status(400).json({ ok: false, message: "El nombre debe tener hasta 20 caracteres." });
+    }
+
+    if (email.length > 45 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ ok: false, message: "Ingresa un correo electronico valido." });
+    }
+
+    if (country.length > 80) {
+      return res.status(400).json({ ok: false, message: "El pais es demasiado largo." });
+    }
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(birthDate)) {
+      return res.status(400).json({ ok: false, message: "Ingresa una fecha de cumpleanos valida." });
+    }
+
     const [existing] = await pool.query("SELECT id FROM accounts WHERE name = ? LIMIT 1", [username]);
     if (existing.length > 0) return res.status(409).json({ ok: false, message: "Ese usuario ya existe." });
 
+    const [created] = await pool.query(
+      `INSERT INTO accounts (name, password, pin, pic, loggedin, banned, birthday, email, nick)
+       VALUES (?, ?, '0000', '000000', 0, 0, ?, ?, ?)`,
+      [username, password, birthDate, email, displayName]
+    );
+
     await pool.query(
-      `INSERT INTO accounts (name, password, pin, pic, loggedin, banned) VALUES (?, ?, '0000', '000000', 0, 0)`,
-      [username, password]
+      `INSERT INTO web_profiles (account_id, display_name, country)
+       VALUES (?, ?, ?)
+       ON DUPLICATE KEY UPDATE display_name = VALUES(display_name), country = VALUES(country)`,
+      [created.insertId, displayName, country]
     );
 
     return res.json({ ok: true, message: "Cuenta creada correctamente." });
@@ -152,13 +228,51 @@ app.post("/login", async (req, res) => {
     if (!username || !password) return res.status(400).json({ ok: false, message: "username y password requeridos" });
 
     const [rows] = await pool.query("SELECT id, name, password, banned FROM accounts WHERE name = ? LIMIT 1", [username]);
+    const account = rows[0];
+
+    console.log("[login] usuario:", username);
+    console.log("[login] cuenta encontrada:", Boolean(account));
+
+    if (!account) return res.status(401).json({ ok: false, message: "Credenciales inválidas" });
+
+    console.log("[login] banned:", account?.banned);
+    console.log("[login] password length DB:", account?.password?.length);
+    console.log("[login] password prefix DB:", account?.password?.slice(0, 8));
+
+    if (Number(account.banned) === 1) return res.status(403).json({ ok: false, message: "Cuenta bloqueada" });
+
+    const passwordMatches = verifyPassword(password, account.password);
+    console.log("[login] password match:", passwordMatches);
+    if (!passwordMatches) return res.status(401).json({ ok: false, message: "Credenciales inválidas" });
+
+    const token = jwt.sign({ id: account.id, name: account.name }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+
+    return res.json({ ok: true, message: "Inicio de sesión correcto.", token, account: { id: account.id, name: account.name } });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ ok: false, message: "Error en login", error: err.message });
+  }
+});
+
+app.post("/login-legacy-disabled", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) return res.status(400).json({ ok: false, message: "username y password requeridos" });
+
+    const [rows] = await pool.query("SELECT id, name, password, banned FROM accounts WHERE name = ? LIMIT 1", [username]);
     if (rows.length === 0) return res.status(401).json({ ok: false, message: "Credenciales inválidas" });
 
     const account = rows[0];
+    console.log("[login] usuario:", username);
+    console.log("[login] cuenta encontrada:", Boolean(account));
+    console.log("[login] banned:", account?.banned);
+    console.log("[login] password length DB:", account?.password?.length);
+    console.log("[login] password prefix DB:", account?.password?.slice(0, 8));
+
     if (Number(account.banned) === 1) return res.status(403).json({ ok: false, message: "Cuenta bloqueada" });
 
     // direct comparison to remain compatible with existing /register
-    if (account.password !== password) return res.status(401).json({ ok: false, message: "Credenciales inválidas" });
+    if (!verifyPassword(password, account.password)) return res.status(401).json({ ok: false, message: "Credenciales inválidas" });
 
     const token = jwt.sign({ id: account.id, name: account.name }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 

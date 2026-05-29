@@ -58,8 +58,12 @@ function App() {
   const [ranking, setRanking] = useState([]);
   const [form, setForm] = useState({
     username: "",
+    displayName: "",
+    email: "",
     password: "",
     confirmPassword: "",
+    country: "",
+    birthDate: "",
   });
   const [loadingRegister, setLoadingRegister] = useState(false);
   const [registerMessage, setRegisterMessage] = useState("");
@@ -183,7 +187,15 @@ function App() {
     event.preventDefault();
     setRegisterMessage("");
 
-    if (!form.username || !form.password || !form.confirmPassword) {
+    if (
+      !form.username ||
+      !form.displayName ||
+      !form.email ||
+      !form.password ||
+      !form.confirmPassword ||
+      !form.country ||
+      !form.birthDate
+    ) {
       setRegisterMessage("Completa todos los campos.");
       return;
     }
@@ -214,8 +226,12 @@ function App() {
       setRegisterMessage("Cuenta creada correctamente. Ya puedes entrar al juego.");
       setForm({
         username: "",
+        displayName: "",
+        email: "",
         password: "",
         confirmPassword: "",
+        country: "",
+        birthDate: "",
       });
 
       setStatus((current) =>
@@ -338,6 +354,7 @@ function App() {
       </header>
 
       <main className="page">
+        {view === "home" ? (
         <section className="hero-card">
           <div className="hero-card__copy">
             <span className="hero-card__eyebrow">Una experiencia unica para la comunidad latina</span>
@@ -387,6 +404,7 @@ function App() {
             </div>
           </div>
         </section>
+        ) : null}
 
         <section className="content-grid">
           <div className="content-main">
@@ -531,9 +549,14 @@ function App() {
                     />
                   </label>
 
-                  <button type="submit" className="button-primary button-primary--full">
-                    Iniciar sesión
-                  </button>
+                  <div className="auth-actions">
+                    <button type="submit" className="button-primary">
+                      Iniciar sesion
+                    </button>
+                    <button type="button" className="button-secondary" onClick={() => goToView("register")}>
+                      Crear cuenta
+                    </button>
+                  </div>
                 </form>
 
                 {loginMessage ? <p className="feedback">{loginMessage}</p> : null}
@@ -652,6 +675,26 @@ function App() {
                     />
                   </label>
                   <label>
+                    Nombre
+                    <input
+                      type="text"
+                      name="displayName"
+                      value={form.displayName}
+                      onChange={handleRegisterChange}
+                      placeholder="Tu nombre"
+                    />
+                  </label>
+                  <label>
+                    Correo electronico
+                    <input
+                      type="email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleRegisterChange}
+                      placeholder="correo@ejemplo.com"
+                    />
+                  </label>
+                  <label>
                     Contrasena
                     <input
                       type="password"
@@ -669,6 +712,25 @@ function App() {
                       value={form.confirmPassword}
                       onChange={handleRegisterChange}
                       placeholder="Repite la contrasena"
+                    />
+                  </label>
+                  <label>
+                    Pais
+                    <input
+                      type="text"
+                      name="country"
+                      value={form.country}
+                      onChange={handleRegisterChange}
+                      placeholder="Tu pais"
+                    />
+                  </label>
+                  <label>
+                    Fecha de cumpleanos
+                    <input
+                      type="date"
+                      name="birthDate"
+                      value={form.birthDate}
+                      onChange={handleRegisterChange}
                     />
                   </label>
 
