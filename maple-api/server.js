@@ -177,10 +177,24 @@ app.get("/status/debug", async (req, res) => {
 app.get("/ranking", async (req, res) => {
   try {
     const [rows] = await pool.query(`
-      SELECT id, name, level, job, fame, gender, skincolor AS skin, face, hair
-      FROM characters
-      WHERE gm = 0
-      ORDER BY level DESC, exp DESC
+      SELECT
+        c.id,
+        c.name,
+        c.level,
+        c.job,
+        c.fame,
+        c.gender,
+        c.skincolor AS skin,
+        c.face,
+        c.hair,
+        c.guildid,
+        g.name AS guild_name,
+        p.country
+      FROM characters c
+      LEFT JOIN guilds g ON c.guildid = g.guildid
+      LEFT JOIN web_profiles p ON c.accountid = p.account_id
+      WHERE c.gm = 0
+      ORDER BY c.level DESC, c.exp DESC
       LIMIT 50
     `);
 

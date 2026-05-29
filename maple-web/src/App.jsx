@@ -19,19 +19,19 @@ import { API_URL, getToken, saveToken, request } from "./apiClient";
 
 const newsItems = [
   {
-    title: "Una aventura clasica con identidad propia",
+    title: "Una aventura clásica con identidad propia",
     copy:
       "LatinMS mezcla nostalgia, progreso y comunidad en un mundo pensado para sentirse familiar y a la vez distinto.",
     icon: "/1.png",
   },
   {
-    title: "Jugadores latinos, conexion global",
+    title: "Jugadores latinos, conexión global",
     copy:
-      "Creamos un espacio para jugadores de Latinoamerica y para cualquier persona del mundo que quiera vivir Maple con una comunidad cercana.",
+      "Creamos un espacio para jugadores de Latinoamérica y para cualquier persona del mundo que quiera vivir Maple con una comunidad cercana.",
     icon: "/4.png",
   },
   {
-    title: "Inicio rapido, mundo vivo",
+    title: "Inicio rápido, mundo vivo",
     copy:
       "Entra, crea tu cuenta y empieza a explorar un servidor donde siempre hay metas, progreso y gente con quien compartir la experiencia.",
     icon: "/2.png",
@@ -42,7 +42,13 @@ const downloadUrl =
   "https://drive.google.com/file/d/1HuY39ItV9g0O1qM03L6aK7gQex23D98A/view?usp=sharing";
 
 const topPlayersFallback = [
-  { name: "Sin datos", level: "-", job: "Ranking pendiente" },
+  {
+    name: "Sin datos",
+    level: "-",
+    job: "Ranking pendiente",
+    guild_name: null,
+    country: null,
+  },
 ];
 
 const jobNames = {
@@ -570,10 +576,10 @@ function App() {
         setLoginMessage("");
         goToView("account");
       } else {
-        setLoginMessage(data.message || "Error en login");
+        setLoginMessage(data.message || "Error en el inicio de sesión");
       }
     } catch (err) {
-      setLoginMessage(err.body?.message || err.message || "Error al conectar");
+      setLoginMessage(err.body?.message || err.message || "Error de conexión");
     }
   };
 
@@ -637,7 +643,7 @@ function App() {
           : current,
       );
     } catch {
-      setRegisterMessage("Error de conexion con la API.");
+      setRegisterMessage("Error de conexión con la API.");
     } finally {
       setLoadingRegister(false);
     }
@@ -755,7 +761,7 @@ function App() {
             className={view === "login" || view === "register" || view === "recover" || view === "account" ? "is-active" : ""}
             onClick={() => goToView("login")}
           >
-            Login
+            Iniciar sesión
           </button>
         </nav>
       </header>
@@ -764,13 +770,13 @@ function App() {
         {view === "home" ? (
         <section className="hero-card">
           <div className="hero-card__copy">
-            <span className="hero-card__eyebrow">Una experiencia unica para la comunidad latina</span>
-            <h1>Vive Maple de una forma clasica, cercana y realmente inolvidable.</h1>
+            <span className="hero-card__eyebrow">Una experiencia única para la comunidad latina</span>
+            <h1>Vive Maple de una forma clásica, cercana y realmente inolvidable.</h1>
             <p>
-              LatinMS fue pensado para jugadores latinos y para aventureros de
+              LatinMS está pensado para jugadores latinos y para aventureros de
               cualquier parte del mundo que buscan una comunidad activa, una
-              atmosfera especial y una experiencia que se sienta unica desde el
-              primer login.
+              atmósfera especial y una experiencia que se sienta única desde el
+              primer inicio de sesión.
             </p>
 
             <div className="hero-card__actions">
@@ -787,14 +793,14 @@ function App() {
           <div className="hero-card__status">
             <div className={`status-pill${serverOnline ? " is-online" : ""}`}>
               <span className="status-pill__dot"></span>
-              {serverOnline ? "Servidor ON" : "Servidor OFF"}
+              {serverOnline ? "Servidor EN LÍNEA" : "Servidor FUERA DE LÍNEA"}
             </div>
 
             <div className="metric-grid">
               <article className="metric-card">
                 <Users size={20} />
                 <strong>{serverOnline ? onlinePlayers : "-"}</strong>
-                <span>Jugadores online</span>
+                <span>Jugadores en línea</span>
               </article>
 
               <article className="metric-card">
@@ -806,7 +812,7 @@ function App() {
               <article className="metric-card">
                 <Gamepad2 size={20} />
                 <strong>v83</strong>
-                <span>Version del servidor</span>
+                <span>Versión del servidor</span>
               </article>
             </div>
           </div>
@@ -841,7 +847,7 @@ function App() {
                       </article>
                       <article className="highlight-card">
                         <img src="/4.png" alt="" className="feature-icon" />
-                        <h3>Acceso rapido al juego</h3>
+                        <h3>Acceso rápido al juego</h3>
                         <p>Crea tu cuenta en minutos y empieza tu recorrido sin vueltas ni pasos innecesarios.</p>
                       </article>
                     </div>
@@ -852,7 +858,7 @@ function App() {
                     <div className="panel__head">
                       <div>
                         <span className="panel__kicker">Noticias</span>
-                        <h2>Por que LatinMS se siente diferente</h2>
+                        <h2>Por qué LatinMS se siente diferente</h2>
                       </div>
                       <img src="/1.png" alt="" className="panel-head-icon" />
                     </div>
@@ -873,7 +879,7 @@ function App() {
                   <article className="panel">
                     <div className="panel__head">
                       <div>
-                        <span className="panel__kicker">Top jugadores</span>
+                        <span className="panel__kicker">Top de jugadores</span>
                         <h2>Los aventureros que marcan el ritmo</h2>
                       </div>
                       <img src="/5.png" alt="" className="panel-head-icon" />
@@ -901,6 +907,12 @@ function App() {
                             <small>
                               Nivel {player.level} - {getJobName(player.job)}
                             </small>
+                            {player.guild_name ? (
+                              <small>Guild: {player.guild_name}</small>
+                            ) : null}
+                            {player.country ? (
+                              <small>Origen: {player.country}</small>
+                            ) : null}
                           </div>
                         </div>
                       ))}
@@ -966,6 +978,12 @@ function App() {
                         <small>
                           Nivel {player.level} - {getJobName(player.job)}
                         </small>
+                        {player.guild_name ? (
+                          <small>Guild: {player.guild_name}</small>
+                        ) : null}
+                        {player.country ? (
+                          <small>Origen: {player.country}</small>
+                        ) : null}
                       </div>
                     </div>
                   ))}
@@ -987,7 +1005,7 @@ function App() {
                   <img src="/6.png" alt="" className="download-illustration" />
                   <div>
                     <p className="panel__intro">
-                      Cliente listo para entrar al mundo de LatinMS. Descargalo, instalalo y usa tu cuenta para comenzar la aventura.
+                      Cliente listo para entrar al mundo de LatinMS. Descárgalo, instálalo y usa tu cuenta para comenzar la aventura.
                     </p>
                     <a
                       className="button-primary"
@@ -1007,15 +1025,15 @@ function App() {
               <section className="panel panel--form">
                 <div className="panel__head">
                   <div>
-                    <span className="panel__kicker">Login</span>
+                    <span className="panel__kicker">Inicio de sesión</span>
                     <h2>Entra con tu cuenta</h2>
                   </div>
                   <LockKeyhole size={22} />
                 </div>
 
                 <p className="panel__intro">
-                  Esta pantalla deja el acceso separado del home. El ingreso real
-                  al personaje se hace dentro del cliente del juego.
+                  Esta pantalla mantiene el acceso separado de la página principal.
+                  El ingreso real al personaje se realiza dentro del cliente del juego.
                 </p>
 
                 <form className="form-card" onSubmit={handleLogin}>
@@ -1089,7 +1107,7 @@ function App() {
                       Recuperar contraseña
                     </button>
                     <button type="button" className="button-secondary" onClick={() => goToView("login")}>
-                      Volver al login
+                      Volver al inicio de sesión
                     </button>
                   </div>
                 </form>
@@ -1108,7 +1126,7 @@ function App() {
                 </div>
 
                 {!token ? (
-                  <p>Necesitas iniciar sesión. Serás redirigido al login.</p>
+                  <p>Necesitas iniciar sesión. Serás redirigido al inicio de sesión.</p>
                 ) : (
                   <>
                     <div className="account-menu" role="tablist" aria-label="Secciones de mi cuenta">
@@ -1255,13 +1273,13 @@ function App() {
                 <div className="panel__head">
                   <div>
                     <span className="panel__kicker">Crear cuenta</span>
-                    <h2>Registro rapido para LatinMS</h2>
+                    <h2>Registro rápido para LatinMS</h2>
                   </div>
                   <UserPlus size={22} />
                 </div>
 
                 <p className="panel__intro">
-                  Formulario conectado a la API para que el alta no quede mezclada
+                  Formulario conectado a la API para que el registro no quede mezclado
                   con la portada principal.
                 </p>
 
@@ -1323,7 +1341,7 @@ function App() {
                       value={form.country}
                       onChange={handleRegisterChange}
                     >
-                      <option value="">Selecciona tu pais</option>
+                      <option value="">Selecciona tu país</option>
                       {countryOptions.map((country) => (
                         <option key={country.code} value={country.name}>
                           {country.name}
@@ -1379,7 +1397,7 @@ function App() {
                   Descargar
                 </button>
                 <button type="button" className="button-secondary" onClick={() => goToView("login")}>
-                  Abrir login
+                  Iniciar sesión
                 </button>
               </div>
             </section>
