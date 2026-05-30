@@ -31,7 +31,7 @@ import tools.PacketCreator;
 
 public class MapScriptMethods extends AbstractPlayerInteraction {
 
-    private final String rewardstring = " title has been rewarded. Please see NPC Dalair to receive your Medal.";
+    private final String rewardstring = " ha sido otorgado. Habla con el NPC Dalair para recibir tu medalla.";
 
     public MapScriptMethods(Client c) {
         super(c);
@@ -126,13 +126,13 @@ public class MapScriptMethods extends AbstractPlayerInteraction {
         StringBuilder smp = new StringBuilder();
         StringBuilder etm = new StringBuilder();
         if (status.equals(infoex)) {
-            etm.append("Earned the ").append(questName).append(" title!");
-            smp.append("You have earned the <").append(questName).append(">").append(rewardstring);
+            etm.append("¡Has conseguido el título ").append(questName).append("!");
+            smp.append("Has conseguido el título <").append(questName).append(">").append(rewardstring);
             getPlayer().sendPacket(PacketCreator.getShowQuestCompletion(quest.getId()));
         } else {
-            getPlayer().sendPacket(PacketCreator.earnTitleMessage(status + "/" + infoex + " regions explored."));
-            etm.append("Trying for the ").append(questName).append(" title.");
-            smp.append("You made progress on the ").append(questName).append(" title. ").append(status).append("/").append(infoex);
+            getPlayer().sendPacket(PacketCreator.earnTitleMessage(status + "/" + infoex + " regiones exploradas."));
+            etm.append("Avanzando hacia el título ").append(questName).append(".");
+            smp.append("Progreso en el título ").append(questName).append(": ").append(status).append("/").append(infoex);
         }
         getPlayer().sendPacket(PacketCreator.earnTitleMessage(etm.toString()));
         showInfoText(smp.toString());
@@ -151,13 +151,13 @@ public class MapScriptMethods extends AbstractPlayerInteraction {
         }
         String status = Integer.toString(qs.getMedalProgress());
         getPlayer().announceUpdateQuest(DelayedQuestUpdate.UPDATE, qs, true);
-        getPlayer().sendPacket(PacketCreator.earnTitleMessage(status + "/5 Completed"));
-        getPlayer().sendPacket(PacketCreator.earnTitleMessage("The One Who's Touched the Sky title in progress."));
+        getPlayer().sendPacket(PacketCreator.earnTitleMessage(status + "/5 completado"));
+        getPlayer().sendPacket(PacketCreator.earnTitleMessage("Título Quien Tocó el Cielo en progreso."));
         if (Integer.toString(qs.getMedalProgress()).equals(qs.getInfoEx(0))) {
-            showInfoText("The One Who's Touched the Sky" + rewardstring);
+            showInfoText("Título Quien Tocó el Cielo" + rewardstring);
             getPlayer().sendPacket(PacketCreator.getShowQuestCompletion(quest.getId()));
         } else {
-            showInfoText("The One Who's Touched the Sky title in progress. " + status + "/5 Completed");
+            showInfoText("Título Quien Tocó el Cielo en progreso. " + status + "/5 completado");
         }
     }
 }

@@ -49,6 +49,42 @@
   padding: 24px 0 18px;
 }
 
+.topbar__right {
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+}
+
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border: 1px solid rgba(92, 42, 8, 0.14);
+  border-radius: 999px;
+  color: #7b4a17;
+  background: rgba(255, 249, 238, 0.82);
+  box-shadow: 0 12px 26px rgba(79, 42, 5, 0.1);
+  backdrop-filter: blur(16px);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.language-switcher button {
+  padding: 4px 6px;
+  border: 0;
+  border-radius: 999px;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.language-switcher button.is-active {
+  color: #fffdf8;
+  background: linear-gradient(135deg, #ffb642, #ff821c);
+}
+
 .brand {
   padding: 0;
   border: 0;
@@ -480,6 +516,10 @@
   border-radius: 18px;
 }
 
+.ranking-row--compact {
+  padding: 8px;
+}
+
 .ranking-row strong {
   min-width: 44px;
   color: #eb7f19;
@@ -756,6 +796,11 @@
   filter: drop-shadow(0 12px 24px rgba(120, 57, 7, 0.18));
 }
 
+.admin-split {
+  margin-top: 24px;
+  gap: 20px;
+}
+
 @media (max-width: 1040px) {
   .hero-card,
   .content-grid,
@@ -780,6 +825,15 @@
   .topbar {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .topbar__right {
+    width: 100%;
+    justify-items: stretch;
+  }
+
+  .language-switcher {
+    justify-self: end;
   }
 
   .brand__logo {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   Download,
@@ -17,125 +17,491 @@ import "./App.css";
 
 import { API_URL, getToken, saveToken, request } from "./apiClient";
 
-const newsItems = [
-  {
-    title: "Una aventura clásica con identidad propia",
-    copy:
-      "LatinMS mezcla nostalgia, progreso y comunidad en un mundo pensado para sentirse familiar y a la vez distinto.",
-    icon: "/1.png",
-  },
-  {
-    title: "Jugadores latinos, conexión global",
-    copy:
-      "Creamos un espacio para jugadores de Latinoamérica y para cualquier persona del mundo que quiera vivir Maple con una comunidad cercana.",
-    icon: "/4.png",
-  },
-  {
-    title: "Inicio rápido, mundo vivo",
-    copy:
-      "Entra, crea tu cuenta y empieza a explorar un servidor donde siempre hay metas, progreso y gente con quien compartir la experiencia.",
-    icon: "/2.png",
-  },
-];
-
 const downloadUrl =
   "https://drive.google.com/file/d/1HuY39ItV9g0O1qM03L6aK7gQex23D98A/view?usp=sharing";
 
-const topPlayersFallback = [
-  {
-    name: "Sin datos",
-    level: "-",
-    job: "Ranking pendiente",
-    guild_name: null,
-    country: null,
+const translations = {
+  en: {
+    nav: {
+      aria: "Main navigation",
+      home: "Home",
+      news: "News",
+      ranking: "Ranking",
+      download: "Download",
+      account: "My Account",
+      login: "Sign in",
+    },
+    hero: {
+      eyebrow: "A unique experience for the Latin community",
+      title: "Play Maple in a classic, welcoming, truly unforgettable way.",
+      copy:
+        "LatinMS is built for Latin players and adventurers from anywhere in the world who want an active community, a special atmosphere, and an experience that feels unique from the first login.",
+      start: "Start your adventure",
+      enter: "Enter your account",
+      online: "Server ONLINE",
+      offline: "Server OFFLINE",
+      playersOnline: "Players online",
+      rates: "2x Mesos - Custom Drops",
+      version: "Server version",
+    },
+    home: {
+      statusKicker: "World status",
+      statusTitle: "Everything is ready for you to join the adventure",
+      highlights: [
+        [
+          "/2.png",
+          "Progress you can feel",
+          "Level up, compete, and leave your mark on a live ranking visible to the whole community.",
+        ],
+        [
+          "/3.png",
+          "A community with identity",
+          "A server made for Latin players, open to anyone in the world who wants to feel part of it.",
+        ],
+        [
+          "/4.png",
+          "Quick access to the game",
+          "Create your account in minutes and begin your journey without extra steps.",
+        ],
+      ],
+      newsTitle: "Why LatinMS feels different",
+      topKicker: "Top players",
+      topTitle: "The adventurers setting the pace",
+    },
+    newsItems: [
+      [
+        "/1.png",
+        "A classic adventure with its own identity",
+        "LatinMS blends nostalgia, progress, and community in a world designed to feel familiar and different at the same time.",
+      ],
+      [
+        "/4.png",
+        "Latin players, global connection",
+        "We created a space for players from Latin America and anyone around the world who wants to enjoy Maple with a close community.",
+      ],
+      [
+        "/2.png",
+        "Fast start, living world",
+        "Jump in, create your account, and explore a server where there are always goals, progress, and people to share the experience with.",
+      ],
+    ],
+    pages: {
+      newsTitle: "Latest LatinMS news",
+      rankingTitle: "Top server players",
+      downloadKicker: "Download",
+      downloadTitle: "Download the LatinMS client",
+      downloadCopy:
+        "Client ready to enter the world of LatinMS. Download it, install it, and use your account to begin the adventure.",
+      downloadClient: "Download client",
+    },
+    ranking: {
+      level: "Level",
+      guild: "Guild",
+      origin: "Origin",
+      characterAlt: "Character",
+      noData: "No data",
+      pending: "Ranking pending",
+    },
+    auth: {
+      loginKicker: "Sign in",
+      loginTitle: "Enter with your account",
+      loginIntro:
+        "This screen keeps account access separate from the main page. The actual character login happens inside the game client.",
+      username: "Username",
+      usernamePlaceholder: "Your account",
+      password: "Password",
+      passwordPlaceholder: "Your password",
+      forgotPassword: "Forgot your password?",
+      loginButton: "Sign in",
+      createAccount: "Create account",
+      recoverKicker: "Recover password",
+      recoverTitle: "Recover access to your account",
+      recoverIntro: "Enter the email associated with your account to start recovery.",
+      email: "Email",
+      emailPlaceholder: "email@example.com",
+      recoverButton: "Recover password",
+      backToLogin: "Back to sign in",
+      registerKicker: "Create account",
+      registerTitle: "Quick registration for LatinMS",
+      registerIntro:
+        "Form connected to the API so registration stays separate from the main cover page.",
+      displayName: "Name",
+      displayNamePlaceholder: "Your name",
+      passwordMinPlaceholder: "Minimum 4 characters",
+      repeatPassword: "Repeat password",
+      repeatPasswordPlaceholder: "Repeat the password",
+      country: "Country",
+      countryPlaceholder: "Select your country",
+      birthDate: "Birthday",
+      creatingAccount: "Creating account...",
+      initialPin: "Initial PIN: 0000",
+      initialPic: "Initial PIC: 000000",
+    },
+    account: {
+      kicker: "My Account",
+      title: "Your account and profile data",
+      needsLogin: "You need to sign in. You will be redirected to sign in.",
+      tabsLabel: "My account sections",
+      account: "Account",
+      profile: "Profile",
+      security: "Security",
+      characters: "Characters",
+      user: "User",
+      logout: "Sign out",
+      webProfile: "Web profile",
+      displayName: "Display name",
+      avatarUrl: "Avatar URL",
+      bio: "Bio",
+      saveProfile: "Save profile",
+      changePassword: "Change password",
+      currentPassword: "Current password",
+      newPassword: "New password",
+      repeatNew: "Repeat new password",
+      noCharacters: "No characters.",
+      administration: "Administration Panel",
+      loadingStats: "Loading stats...",
+      online: "Online",
+      accounts: "Accounts",
+      banned: "Banned",
+      players: "Players",
+      latestAccounts: "Latest accounts",
+      latestCharacters: "Latest characters",
+    },
+    sidebar: {
+      shortcuts: "Shortcuts",
+      allSet: "All set",
+      seeHome: "View home",
+      seeNews: "View news",
+      seeRanking: "View ranking",
+      client: "Client",
+      title: "Download the game",
+      copy: "Client available so you can start your LatinMS adventure right now.",
+      voteAlt: "Vote for us on GTop100",
+    },
+    messages: {
+      serverError: "Could not connect to the server.",
+      enterEmail: "Enter your email.",
+      recoverySent:
+        "If the email exists, we will contact you with the steps to recover your account.",
+      loginRequired: "Complete username and password.",
+      loginError: "Sign-in error",
+      connectionError: "Connection error",
+      requiredFields: "Complete all fields.",
+      passwordMismatch: "Passwords do not match.",
+      registerError: "Could not create the account.",
+      registerSuccess: "Account created successfully. You can now enter the game.",
+      apiConnectionError: "API connection error.",
+      loadAccountError: "Error loading data",
+      profileUpdated: "Profile updated",
+      profileUpdateError: "Error updating profile",
+      passwordUpdated: "Password updated",
+      passwordUpdateError: "Error changing password",
+    },
   },
-];
-
-const jobNames = {
-  0: "Principiante",
-  100: "Guerrero",
-  110: "Luchador",
-  111: "Cruzado",
-  112: "Heroe",
-  120: "Paje",
-  121: "Caballero blanco",
-  122: "Paladin",
-  130: "Lancero",
-  131: "Dragon Knight",
-  132: "Dark Knight",
-  200: "Mago",
-  210: "Mago fuego/veneno",
-  211: "Hechicero fuego/veneno",
-  212: "Archimago fuego/veneno",
-  220: "Mago hielo/rayo",
-  221: "Hechicero hielo/rayo",
-  222: "Archimago hielo/rayo",
-  230: "Clerigo",
-  231: "Sacerdote",
-  232: "Obispo",
-  300: "Arquero",
-  310: "Cazador",
-  311: "Ranger",
-  312: "Bowmaster",
-  320: "Ballestero",
-  321: "Sniper",
-  322: "Marksman",
-  400: "Ladron",
-  410: "Asesino",
-  411: "Hermit",
-  412: "Night Lord",
-  420: "Bandido",
-  421: "Chief Bandit",
-  422: "Shadower",
-  500: "Pirata",
-  510: "Brawler",
-  511: "Marauder",
-  512: "Buccaneer",
-  520: "Gunslinger",
-  521: "Outlaw",
-  522: "Corsair",
-  1000: "Noblesse",
-  1100: "Dawn Warrior",
-  1110: "Dawn Warrior",
-  1111: "Dawn Warrior",
-  1112: "Dawn Warrior",
-  1200: "Blaze Wizard",
-  1210: "Blaze Wizard",
-  1211: "Blaze Wizard",
-  1212: "Blaze Wizard",
-  1300: "Wind Archer",
-  1310: "Wind Archer",
-  1311: "Wind Archer",
-  1312: "Wind Archer",
-  1400: "Night Walker",
-  1410: "Night Walker",
-  1411: "Night Walker",
-  1412: "Night Walker",
-  1500: "Thunder Breaker",
-  1510: "Thunder Breaker",
-  1511: "Thunder Breaker",
-  1512: "Thunder Breaker",
-  2000: "Leyenda",
-  2100: "Aran",
-  2110: "Aran",
-  2111: "Aran",
-  2112: "Aran",
+  es: {
+    nav: {
+      aria: "Navegacion principal",
+      home: "Inicio",
+      news: "Noticias",
+      ranking: "Ranking",
+      download: "Descarga",
+      account: "Mi Cuenta",
+      login: "Iniciar sesion",
+    },
+    hero: {
+      eyebrow: "Una experiencia unica para la comunidad latina",
+      title: "Vive Maple de una forma clasica, cercana y realmente inolvidable.",
+      copy:
+        "LatinMS esta pensado para jugadores latinos y para aventureros de cualquier parte del mundo que buscan una comunidad activa, una atmosfera especial y una experiencia que se sienta unica desde el primer inicio de sesion.",
+      start: "Comienza tu aventura",
+      enter: "Entra con tu cuenta",
+      online: "Servidor EN LINEA",
+      offline: "Servidor FUERA DE LINEA",
+      playersOnline: "Jugadores en linea",
+      rates: "2x Mesos - Drops Custom",
+      version: "Version del servidor",
+    },
+    home: {
+      statusKicker: "Estado del mundo",
+      statusTitle: "Todo listo para sumarte a la aventura",
+      highlights: [
+        [
+          "/2.png",
+          "Progreso que se siente",
+          "Sube de nivel, compite y deja tu marca en un ranking vivo y visible para toda la comunidad.",
+        ],
+        [
+          "/3.png",
+          "Comunidad con identidad",
+          "Un servidor pensado para jugadores latinos, abierto a cualquier persona del mundo que quiera sentirse parte.",
+        ],
+        [
+          "/4.png",
+          "Acceso rapido al juego",
+          "Crea tu cuenta en minutos y empieza tu recorrido sin vueltas ni pasos innecesarios.",
+        ],
+      ],
+      newsTitle: "Por que LatinMS se siente diferente",
+      topKicker: "Top de jugadores",
+      topTitle: "Los aventureros que marcan el ritmo",
+    },
+    newsItems: [
+      [
+        "/1.png",
+        "Una aventura clasica con identidad propia",
+        "LatinMS mezcla nostalgia, progreso y comunidad en un mundo pensado para sentirse familiar y a la vez distinto.",
+      ],
+      [
+        "/4.png",
+        "Jugadores latinos, conexion global",
+        "Creamos un espacio para jugadores de Latinoamerica y para cualquier persona del mundo que quiera vivir Maple con una comunidad cercana.",
+      ],
+      [
+        "/2.png",
+        "Inicio rapido, mundo vivo",
+        "Entra, crea tu cuenta y empieza a explorar un servidor donde siempre hay metas, progreso y gente con quien compartir la experiencia.",
+      ],
+    ],
+    pages: {
+      newsTitle: "Ultimas novedades de LatinMS",
+      rankingTitle: "Top jugadores del servidor",
+      downloadKicker: "Descarga",
+      downloadTitle: "Descarga el cliente de LatinMS",
+      downloadCopy:
+        "Cliente listo para entrar al mundo de LatinMS. Descargalo, instalalo y usa tu cuenta para comenzar la aventura.",
+      downloadClient: "Descargar cliente",
+    },
+    ranking: {
+      level: "Nivel",
+      guild: "Guild",
+      origin: "Origen",
+      characterAlt: "Personaje",
+      noData: "Sin datos",
+      pending: "Ranking pendiente",
+    },
+    auth: {
+      loginKicker: "Inicio de sesion",
+      loginTitle: "Entra con tu cuenta",
+      loginIntro:
+        "Esta pantalla mantiene el acceso separado de la pagina principal. El ingreso real al personaje se realiza dentro del cliente del juego.",
+      username: "Usuario",
+      usernamePlaceholder: "Tu cuenta",
+      password: "Contrasena",
+      passwordPlaceholder: "Tu contrasena",
+      forgotPassword: "Olvidaste la contrasena?",
+      loginButton: "Iniciar sesion",
+      createAccount: "Crear cuenta",
+      recoverKicker: "Recuperar contrasena",
+      recoverTitle: "Recupera el acceso a tu cuenta",
+      recoverIntro: "Escribe el correo asociado a tu cuenta para iniciar la recuperacion.",
+      email: "Correo electronico",
+      emailPlaceholder: "correo@ejemplo.com",
+      recoverButton: "Recuperar contrasena",
+      backToLogin: "Volver al inicio de sesion",
+      registerKicker: "Crear cuenta",
+      registerTitle: "Registro rapido para LatinMS",
+      registerIntro:
+        "Formulario conectado a la API para que el registro no quede mezclado con la portada principal.",
+      displayName: "Nombre",
+      displayNamePlaceholder: "Tu nombre",
+      passwordMinPlaceholder: "Minimo 4 caracteres",
+      repeatPassword: "Repetir contrasena",
+      repeatPasswordPlaceholder: "Repite la contrasena",
+      country: "Pais",
+      countryPlaceholder: "Selecciona tu pais",
+      birthDate: "Fecha de cumpleanos",
+      creatingAccount: "Creando cuenta...",
+      initialPin: "PIN inicial: 0000",
+      initialPic: "PIC inicial: 000000",
+    },
+    account: {
+      kicker: "Mi Cuenta",
+      title: "Datos de tu cuenta y perfil",
+      needsLogin: "Necesitas iniciar sesion. Seras redirigido al inicio de sesion.",
+      tabsLabel: "Secciones de mi cuenta",
+      account: "Cuenta",
+      profile: "Perfil",
+      security: "Seguridad",
+      characters: "Personajes",
+      user: "Usuario",
+      logout: "Cerrar sesion",
+      webProfile: "Perfil web",
+      displayName: "Nombre visible",
+      avatarUrl: "Avatar URL",
+      bio: "Bio",
+      saveProfile: "Guardar perfil",
+      changePassword: "Cambiar contrasena",
+      currentPassword: "Contrasena actual",
+      newPassword: "Nueva contrasena",
+      repeatNew: "Repetir nueva",
+      noCharacters: "No hay personajes.",
+      administration: "Panel de Administracion",
+      loadingStats: "Cargando estadisticas...",
+      online: "En linea",
+      accounts: "Cuentas",
+      banned: "Baneados",
+      players: "Jugadores",
+      latestAccounts: "Ultimas cuentas",
+      latestCharacters: "Ultimos personajes",
+    },
+    sidebar: {
+      shortcuts: "Accesos",
+      allSet: "Todo en orden",
+      seeHome: "Ver inicio",
+      seeNews: "Ver noticias",
+      seeRanking: "Ver ranking",
+      client: "Cliente",
+      title: "Descarga el juego",
+      copy: "Cliente disponible para que empieces tu aventura en LatinMS ahora mismo.",
+      voteAlt: "Votanos en GTop100",
+    },
+    messages: {
+      serverError: "No se pudo conectar con el servidor.",
+      enterEmail: "Ingresa tu correo electronico.",
+      recoverySent:
+        "Si el correo existe, te contactaremos con los pasos para recuperar tu cuenta.",
+      loginRequired: "Completa usuario y contrasena.",
+      loginError: "Error en el inicio de sesion",
+      connectionError: "Error de conexion",
+      requiredFields: "Completa todos los campos.",
+      passwordMismatch: "Las contrasenas no coinciden.",
+      registerError: "No se pudo crear la cuenta.",
+      registerSuccess: "Cuenta creada correctamente. Ya puedes entrar al juego.",
+      apiConnectionError: "Error de conexion con la API.",
+      loadAccountError: "Error al cargar datos",
+      profileUpdated: "Perfil actualizado",
+      profileUpdateError: "Error al actualizar perfil",
+      passwordUpdated: "Contrasena actualizada",
+      passwordUpdateError: "Error al cambiar contrasena",
+    },
+  },
 };
 
-function getJobName(job) {
-  const jobId = Number(job);
-  if (Number.isNaN(jobId)) return job || "Sin clase";
-  if (jobNames[jobId]) return jobNames[jobId];
-  if (jobId >= 100 && jobId < 200) return "Guerrero";
-  if (jobId >= 200 && jobId < 300) return "Mago";
-  if (jobId >= 300 && jobId < 400) return "Arquero";
-  if (jobId >= 400 && jobId < 500) return "Ladron";
-  if (jobId >= 500 && jobId < 600) return "Pirata";
-  if (jobId >= 2100 && jobId < 2200) return "Aran";
-  return "Sin clase";
-}
+const jobNameKeys = {
+  0: ["Beginner", "Principiante"],
+  100: ["Warrior", "Guerrero"],
+  110: ["Fighter", "Luchador"],
+  111: ["Crusader", "Cruzado"],
+  112: ["Hero", "Heroe"],
+  120: ["Page", "Paje"],
+  121: ["White Knight", "Caballero blanco"],
+  122: ["Paladin", "Paladin"],
+  130: ["Spearman", "Lancero"],
+  131: ["Dragon Knight", "Dragon Knight"],
+  132: ["Dark Knight", "Dark Knight"],
+  200: ["Magician", "Mago"],
+  210: ["Fire/Poison Wizard", "Mago fuego/veneno"],
+  211: ["Fire/Poison Mage", "Hechicero fuego/veneno"],
+  212: ["Fire/Poison Archmage", "Archimago fuego/veneno"],
+  220: ["Ice/Lightning Wizard", "Mago hielo/rayo"],
+  221: ["Ice/Lightning Mage", "Hechicero hielo/rayo"],
+  222: ["Ice/Lightning Archmage", "Archimago hielo/rayo"],
+  230: ["Cleric", "Clerigo"],
+  231: ["Priest", "Sacerdote"],
+  232: ["Bishop", "Obispo"],
+  300: ["Archer", "Arquero"],
+  310: ["Hunter", "Cazador"],
+  311: ["Ranger", "Ranger"],
+  312: ["Bowmaster", "Bowmaster"],
+  320: ["Crossbowman", "Ballestero"],
+  321: ["Sniper", "Sniper"],
+  322: ["Marksman", "Marksman"],
+  400: ["Thief", "Ladron"],
+  410: ["Assassin", "Asesino"],
+  411: ["Hermit", "Hermit"],
+  412: ["Night Lord", "Night Lord"],
+  420: ["Bandit", "Bandido"],
+  421: ["Chief Bandit", "Chief Bandit"],
+  422: ["Shadower", "Shadower"],
+  500: ["Pirate", "Pirata"],
+  510: ["Brawler", "Brawler"],
+  511: ["Marauder", "Marauder"],
+  512: ["Buccaneer", "Buccaneer"],
+  520: ["Gunslinger", "Gunslinger"],
+  521: ["Outlaw", "Outlaw"],
+  522: ["Corsair", "Corsair"],
+  1000: ["Noblesse", "Noblesse"],
+  1100: ["Dawn Warrior", "Dawn Warrior"],
+  1110: ["Dawn Warrior", "Dawn Warrior"],
+  1111: ["Dawn Warrior", "Dawn Warrior"],
+  1112: ["Dawn Warrior", "Dawn Warrior"],
+  1200: ["Blaze Wizard", "Blaze Wizard"],
+  1210: ["Blaze Wizard", "Blaze Wizard"],
+  1211: ["Blaze Wizard", "Blaze Wizard"],
+  1212: ["Blaze Wizard", "Blaze Wizard"],
+  1300: ["Wind Archer", "Wind Archer"],
+  1310: ["Wind Archer", "Wind Archer"],
+  1311: ["Wind Archer", "Wind Archer"],
+  1312: ["Wind Archer", "Wind Archer"],
+  1400: ["Night Walker", "Night Walker"],
+  1410: ["Night Walker", "Night Walker"],
+  1411: ["Night Walker", "Night Walker"],
+  1412: ["Night Walker", "Night Walker"],
+  1500: ["Thunder Breaker", "Thunder Breaker"],
+  1510: ["Thunder Breaker", "Thunder Breaker"],
+  1511: ["Thunder Breaker", "Thunder Breaker"],
+  1512: ["Thunder Breaker", "Thunder Breaker"],
+  2000: ["Legend", "Leyenda"],
+  2100: ["Aran", "Aran"],
+  2110: ["Aran", "Aran"],
+  2111: ["Aran", "Aran"],
+  2112: ["Aran", "Aran"],
+};
+
+const fallbackCountryCodes = [
+  "AR",
+  "BO",
+  "BR",
+  "CA",
+  "CL",
+  "CO",
+  "CR",
+  "DO",
+  "EC",
+  "ES",
+  "GT",
+  "HN",
+  "MX",
+  "NI",
+  "PA",
+  "PE",
+  "PY",
+  "SV",
+  "US",
+  "UY",
+  "VE",
+];
 
 const DEFAULT_CHARACTER_IMAGE = "/latinms.png";
+
+const getViewFromHash = () => {
+  const value = window.location.hash.replace("#", "");
+  if (["news", "ranking", "download", "login", "register", "recover", "account"].includes(value)) {
+    return value;
+  }
+  return "home";
+};
+
+function getInitialLanguage() {
+  const saved = localStorage.getItem("latinms-language");
+  return saved === "es" ? "es" : "en";
+}
+
+function getJobName(job, language) {
+  const jobId = Number(job);
+  const languageIndex = language === "es" ? 1 : 0;
+  const noClass = language === "es" ? "Sin clase" : "No class";
+
+  if (Number.isNaN(jobId)) return job || noClass;
+  if (jobNameKeys[jobId]) return jobNameKeys[jobId][languageIndex];
+  if (jobId >= 100 && jobId < 200) return language === "es" ? "Guerrero" : "Warrior";
+  if (jobId >= 200 && jobId < 300) return language === "es" ? "Mago" : "Magician";
+  if (jobId >= 300 && jobId < 400) return language === "es" ? "Arquero" : "Archer";
+  if (jobId >= 400 && jobId < 500) return language === "es" ? "Ladron" : "Thief";
+  if (jobId >= 500 && jobId < 600) return language === "es" ? "Pirata" : "Pirate";
+  if (jobId >= 2100 && jobId < 2200) return "Aran";
+  return noClass;
+}
 
 function getCharacterImage(character) {
   if (!character || typeof character !== "object") {
@@ -151,286 +517,40 @@ function getCharacterImage(character) {
   }
 
   const renderSkin = Number.isFinite(skin) && skin > 0 ? skin : 0;
-
-  if (renderSkin === 0) {
-    return DEFAULT_CHARACTER_IMAGE;
-  }
+  if (renderSkin === 0) return DEFAULT_CHARACTER_IMAGE;
 
   return `https://maplestory.io/api/GMS/83/Character/${renderSkin}/${hair},${face}/stand1/0?resize=3`;
 }
 
-const countryCodes = [
-  "AF",
-  "AL",
-  "DZ",
-  "AS",
-  "AD",
-  "AO",
-  "AI",
-  "AQ",
-  "AG",
-  "AR",
-  "AM",
-  "AW",
-  "AU",
-  "AT",
-  "AZ",
-  "BS",
-  "BH",
-  "BD",
-  "BB",
-  "BY",
-  "BE",
-  "BZ",
-  "BJ",
-  "BM",
-  "BT",
-  "BO",
-  "BQ",
-  "BA",
-  "BW",
-  "BR",
-  "IO",
-  "BN",
-  "BG",
-  "BF",
-  "BI",
-  "CV",
-  "KH",
-  "CM",
-  "CA",
-  "KY",
-  "CF",
-  "TD",
-  "CL",
-  "CN",
-  "CX",
-  "CC",
-  "CO",
-  "KM",
-  "CG",
-  "CD",
-  "CK",
-  "CR",
-  "CI",
-  "HR",
-  "CU",
-  "CW",
-  "CY",
-  "CZ",
-  "DK",
-  "DJ",
-  "DM",
-  "DO",
-  "EC",
-  "EG",
-  "SV",
-  "GQ",
-  "ER",
-  "EE",
-  "SZ",
-  "ET",
-  "FK",
-  "FO",
-  "FJ",
-  "FI",
-  "FR",
-  "GF",
-  "PF",
-  "TF",
-  "GA",
-  "GM",
-  "GE",
-  "DE",
-  "GH",
-  "GI",
-  "GR",
-  "GL",
-  "GD",
-  "GP",
-  "GU",
-  "GT",
-  "GG",
-  "GN",
-  "GW",
-  "GY",
-  "HT",
-  "HN",
-  "HK",
-  "HU",
-  "IS",
-  "IN",
-  "ID",
-  "IR",
-  "IQ",
-  "IE",
-  "IM",
-  "IL",
-  "IT",
-  "JM",
-  "JP",
-  "JE",
-  "JO",
-  "KZ",
-  "KE",
-  "KI",
-  "KP",
-  "KR",
-  "KW",
-  "KG",
-  "LA",
-  "LV",
-  "LB",
-  "LS",
-  "LR",
-  "LY",
-  "LI",
-  "LT",
-  "LU",
-  "MO",
-  "MG",
-  "MW",
-  "MY",
-  "MV",
-  "ML",
-  "MT",
-  "MH",
-  "MQ",
-  "MR",
-  "MU",
-  "YT",
-  "MX",
-  "FM",
-  "MD",
-  "MC",
-  "MN",
-  "ME",
-  "MS",
-  "MA",
-  "MZ",
-  "MM",
-  "NA",
-  "NR",
-  "NP",
-  "NL",
-  "NC",
-  "NZ",
-  "NI",
-  "NE",
-  "NG",
-  "NU",
-  "NF",
-  "MK",
-  "MP",
-  "NO",
-  "OM",
-  "PK",
-  "PW",
-  "PS",
-  "PA",
-  "PG",
-  "PY",
-  "PE",
-  "PH",
-  "PN",
-  "PL",
-  "PT",
-  "PR",
-  "QA",
-  "RE",
-  "RO",
-  "RU",
-  "RW",
-  "BL",
-  "SH",
-  "KN",
-  "LC",
-  "MF",
-  "PM",
-  "VC",
-  "WS",
-  "SM",
-  "ST",
-  "SA",
-  "SN",
-  "RS",
-  "SC",
-  "SL",
-  "SG",
-  "SX",
-  "SK",
-  "SI",
-  "SB",
-  "SO",
-  "ZA",
-  "GS",
-  "SS",
-  "ES",
-  "LK",
-  "SD",
-  "SR",
-  "SJ",
-  "SE",
-  "CH",
-  "SY",
-  "TW",
-  "TJ",
-  "TZ",
-  "TH",
-  "TL",
-  "TG",
-  "TK",
-  "TO",
-  "TT",
-  "TN",
-  "TR",
-  "TM",
-  "TC",
-  "TV",
-  "UG",
-  "UA",
-  "AE",
-  "GB",
-  "US",
-  "UM",
-  "UY",
-  "UZ",
-  "VU",
-  "VA",
-  "VE",
-  "VN",
-  "VG",
-  "VI",
-  "WF",
-  "EH",
-  "YE",
-  "ZM",
-  "ZW",
-];
-
-const regionNames = new Intl.DisplayNames(["es"], { type: "region" });
-const countryOptions = countryCodes
-  .map((code) => ({ code, name: regionNames.of(code) || code }))
-  .sort((a, b) => a.name.localeCompare(b.name, "es"));
-
-const getViewFromHash = () => {
-  const value = window.location.hash.replace("#", "");
-  if (
-    value === "news" ||
-    value === "ranking" ||
-    value === "download" ||
-    value === "login" ||
-    value === "register" ||
-    value === "recover" ||
-    value === "account"
-  ) {
-    return value;
-  }
-
-  return "home";
-};
+function RankingRows({ players, language, text }) {
+  return players.map((player, index) => (
+    <div key={player.id || player.name || index} className="ranking-row">
+      <strong>#{index + 1}</strong>
+      <div className="ranking-avatar">
+        <img
+          src={getCharacterImage(player)}
+          alt={`${text.characterAlt} ${player.name}`}
+          onError={(event) => {
+            event.currentTarget.onerror = null;
+            event.currentTarget.src = "/latinms.png";
+          }}
+        />
+      </div>
+      <div>
+        <span>{player.name}</span>
+        <small>
+          {text.level} {player.level} - {getJobName(player.job, language)}
+        </small>
+        {player.guild_name ? <small>{text.guild}: {player.guild_name}</small> : null}
+        {player.country ? <small>{text.origin}: {player.country}</small> : null}
+      </div>
+    </div>
+  ));
+}
 
 function App() {
+  const [language, setLanguage] = useState(getInitialLanguage);
+  const t = translations[language];
   const [view, setView] = useState(getViewFromHash);
   const [status, setStatus] = useState(null);
   const [ranking, setRanking] = useState([]);
@@ -445,10 +565,7 @@ function App() {
   });
   const [loadingRegister, setLoadingRegister] = useState(false);
   const [registerMessage, setRegisterMessage] = useState("");
-  const [loginForm, setLoginForm] = useState({
-    username: "",
-    password: "",
-  });
+  const [loginForm, setLoginForm] = useState({ username: "", password: "" });
   const [loginMessage, setLoginMessage] = useState("");
   const [recoverForm, setRecoverForm] = useState({ email: "" });
   const [recoverMessage, setRecoverMessage] = useState("");
@@ -457,25 +574,54 @@ function App() {
   const [characters, setCharacters] = useState([]);
   const [accountTab, setAccountTab] = useState("account");
   const [profileForm, setProfileForm] = useState({ display_name: "", avatar_url: "", bio: "" });
-  const [passwordForm, setPasswordForm] = useState({ currentPassword: "", newPassword: "", confirmPassword: "" });
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
   const [accountMessage, setAccountMessage] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminStats, setAdminStats] = useState(null);
   const [loadingAdmin, setLoadingAdmin] = useState(false);
 
+  const countryOptions = useMemo(() => {
+    const regionNames = new Intl.DisplayNames([language], { type: "region" });
+
+    return fallbackCountryCodes
+      .map((code) => ({ code, name: regionNames.of(code) || code }))
+      .sort((a, b) => a.name.localeCompare(b.name, language));
+  }, [language]);
+
+  const topPlayersFallback = useMemo(
+    () => [
+      {
+        name: t.ranking.noData,
+        level: "-",
+        job: t.ranking.pending,
+        guild_name: null,
+        country: null,
+      },
+    ],
+    [t.ranking.noData, t.ranking.pending],
+  );
+
+  useEffect(() => {
+    localStorage.setItem("latinms-language", language);
+    document.documentElement.lang = language;
+  }, [language]);
+
   useEffect(() => {
     const syncView = () => setView(getViewFromHash());
-
     window.addEventListener("hashchange", syncView);
-
     return () => window.removeEventListener("hashchange", syncView);
   }, []);
 
-  // Validar sesión al iniciar la app
   useEffect(() => {
     if (token) {
       void loadAccount();
     }
+    // Initial token validation should only run once when the app boots.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -483,23 +629,20 @@ function App() {
       if (!token) return goToView("login");
       void loadAccount();
     }
+    // loadAccount reads the latest auth/profile state and should only rerun on route/token changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view, token]);
 
   useEffect(() => {
     const loadStatus = async () => {
       const url = `${API_URL}/status`;
       try {
-        console.log("[status] URL consultada:", url);
         const res = await fetch(url);
         const data = await res.json();
-        console.log("[status] Respuesta recibida:", data);
         setStatus(data);
       } catch (error) {
-        console.error("[status] Error capturado:", { url, error });
-        setStatus({
-          ok: false,
-          message: "No se pudo conectar con el servidor.",
-        });
+        console.error("[status] Error:", { url, error });
+        setStatus({ ok: false, message: t.messages.serverError });
       }
     };
 
@@ -514,12 +657,7 @@ function App() {
           return;
         }
 
-        if (Array.isArray(data.ranking)) {
-          setRanking(data.ranking);
-          return;
-        }
-
-        setRanking([]);
+        setRanking(Array.isArray(data.ranking) ? data.ranking : []);
       } catch (error) {
         console.error(`Error loading ranking from ${url}`, error);
         setRanking([]);
@@ -528,31 +666,22 @@ function App() {
 
     void loadStatus();
     void loadRanking();
-  }, []);
+  }, [t.messages.serverError]);
 
   function goToView(nextView) {
     window.location.hash = nextView === "home" ? "" : nextView;
   }
 
   const handleRegisterChange = (event) => {
-    setForm((current) => ({
-      ...current,
-      [event.target.name]: event.target.value,
-    }));
+    setForm((current) => ({ ...current, [event.target.name]: event.target.value }));
   };
 
   const handleLoginChange = (event) => {
-    setLoginForm((current) => ({
-      ...current,
-      [event.target.name]: event.target.value,
-    }));
+    setLoginForm((current) => ({ ...current, [event.target.name]: event.target.value }));
   };
 
   const handleRecoverChange = (event) => {
-    setRecoverForm((current) => ({
-      ...current,
-      [event.target.name]: event.target.value,
-    }));
+    setRecoverForm((current) => ({ ...current, [event.target.name]: event.target.value }));
   };
 
   const handleRecover = (event) => {
@@ -560,11 +689,11 @@ function App() {
     setRecoverMessage("");
 
     if (!recoverForm.email) {
-      setRecoverMessage("Ingresa tu correo electrónico.");
+      setRecoverMessage(t.messages.enterEmail);
       return;
     }
 
-    setRecoverMessage("Si el correo existe, te contactaremos con los pasos para recuperar tu cuenta.");
+    setRecoverMessage(t.messages.recoverySent);
     setRecoverForm({ email: "" });
   };
 
@@ -573,12 +702,16 @@ function App() {
     setLoginMessage("");
 
     if (!loginForm.username || !loginForm.password) {
-      setLoginMessage("Completa usuario y contraseña.");
+      setLoginMessage(t.messages.loginRequired);
       return;
     }
 
     try {
-      const data = await request("/login", { method: "POST", body: JSON.stringify({ username: loginForm.username, password: loginForm.password }) });
+      const data = await request("/login", {
+        method: "POST",
+        body: JSON.stringify({ username: loginForm.username, password: loginForm.password }),
+      });
+
       if (data?.token) {
         saveToken(data.token);
         setToken(data.token);
@@ -586,10 +719,10 @@ function App() {
         setLoginMessage("");
         goToView("account");
       } else {
-        setLoginMessage(data.message || "Error en el inicio de sesión");
+        setLoginMessage(data.message || t.messages.loginError);
       }
     } catch (err) {
-      setLoginMessage(err.body?.message || err.message || "Error de conexión");
+      setLoginMessage(err.body?.message || err.message || t.messages.connectionError);
     }
   };
 
@@ -606,12 +739,12 @@ function App() {
       !form.country ||
       !form.birthDate
     ) {
-      setRegisterMessage("Completa todos los campos.");
+      setRegisterMessage(t.messages.requiredFields);
       return;
     }
 
     if (form.password !== form.confirmPassword) {
-      setRegisterMessage("Las contraseñas no coinciden.");
+      setRegisterMessage(t.messages.passwordMismatch);
       return;
     }
 
@@ -620,20 +753,17 @@ function App() {
 
       const res = await fetch(`${API_URL}/register`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-
       const data = await res.json();
 
       if (!res.ok) {
-        setRegisterMessage(data.message || "No se pudo crear la cuenta.");
+        setRegisterMessage(data.message || t.messages.registerError);
         return;
       }
 
-      setRegisterMessage("Cuenta creada correctamente. Ya puedes entrar al juego.");
+      setRegisterMessage(t.messages.registerSuccess);
       setForm({
         username: "",
         displayName: "",
@@ -643,17 +773,11 @@ function App() {
         country: "",
         birthDate: "",
       });
-
       setStatus((current) =>
-        current?.ok
-          ? {
-              ...current,
-              accounts: Number(current.accounts || 0) + 1,
-            }
-          : current,
+        current?.ok ? { ...current, accounts: Number(current.accounts || 0) + 1 } : current,
       );
     } catch {
-      setRegisterMessage("Error de conexión con la API.");
+      setRegisterMessage(t.messages.apiConnectionError);
     } finally {
       setLoadingRegister(false);
     }
@@ -673,7 +797,6 @@ function App() {
       const chars = await request("/account/me/characters");
       setCharacters(chars.characters || []);
 
-      // Intentar cargar stats de admin
       setLoadingAdmin(true);
       try {
         const adm = await request("/admin/stats");
@@ -687,12 +810,11 @@ function App() {
         setLoadingAdmin(false);
       }
     } catch (err) {
-      // Si la sesión es inválida o expiró, cerrar sesión
       if (err.status === 401 || err.status === 403) {
         handleLogout();
         return;
       }
-      setAccountMessage(err.body?.message || err.message || "Error al cargar datos");
+      setAccountMessage(err.body?.message || err.message || t.messages.loadAccountError);
     }
   }
 
@@ -704,38 +826,50 @@ function App() {
     goToView("home");
   };
 
-  const handleProfileChange = (e) => setProfileForm((c) => ({ ...c, [e.target.name]: e.target.value }));
+  const handleProfileChange = (event) => {
+    setProfileForm((current) => ({ ...current, [event.target.name]: event.target.value }));
+  };
 
-  const submitProfile = async (e) => {
-    e.preventDefault();
+  const submitProfile = async (event) => {
+    event.preventDefault();
     setAccountMessage("");
     try {
-      const res = await request("/account/me/profile", { method: "PUT", body: JSON.stringify(profileForm) });
-      setAccountMessage(res.message || "Perfil actualizado");
-      setProfileForm({ display_name: res.profile?.display_name || "", avatar_url: res.profile?.avatar_url || "", bio: res.profile?.bio || "" });
+      const res = await request("/account/me/profile", {
+        method: "PUT",
+        body: JSON.stringify(profileForm),
+      });
+      setAccountMessage(res.message || t.messages.profileUpdated);
+      setProfileForm({
+        display_name: res.profile?.display_name || "",
+        avatar_url: res.profile?.avatar_url || "",
+        bio: res.profile?.bio || "",
+      });
     } catch (err) {
-      setAccountMessage(err.body?.message || err.message || "Error al actualizar perfil");
+      setAccountMessage(err.body?.message || err.message || t.messages.profileUpdateError);
     }
   };
 
-  const handlePasswordChange = (e) => setPasswordForm((c) => ({ ...c, [e.target.name]: e.target.value }));
+  const handlePasswordChange = (event) => {
+    setPasswordForm((current) => ({ ...current, [event.target.name]: event.target.value }));
+  };
 
-  const submitPassword = async (e) => {
-    e.preventDefault();
+  const submitPassword = async (event) => {
+    event.preventDefault();
     setAccountMessage("");
     try {
-      const res = await request("/account/me/change-password", { method: "POST", body: JSON.stringify(passwordForm) });
-      setAccountMessage(res.message || "Contraseña actualizada");
+      const res = await request("/account/me/change-password", {
+        method: "POST",
+        body: JSON.stringify(passwordForm),
+      });
+      setAccountMessage(res.message || t.messages.passwordUpdated);
       setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
     } catch (err) {
-      setAccountMessage(err.body?.message || err.message || "Error al cambiar contraseña");
+      setAccountMessage(err.body?.message || err.message || t.messages.passwordUpdateError);
     }
   };
 
-  const rankingPreview =
-    ranking.length > 0 ? ranking.slice(0, 5) : topPlayersFallback;
+  const rankingPreview = ranking.length > 0 ? ranking.slice(0, 5) : topPlayersFallback;
   const rankingRows = ranking.length > 0 ? ranking : topPlayersFallback;
-
   const serverOnline = status?.ok === true || status?.server === "online";
   const onlinePlayers =
     status?.onlinePlayers ??
@@ -748,7 +882,7 @@ function App() {
   return (
     <div className="app-shell">
       <div className="app-backdrop">
-        <img src="/portada.png" alt="Portada de LatinMS" className="app-backdrop__image" />
+        <img src="/portada.png" alt="LatinMS cover" className="app-backdrop__image" />
       </div>
 
       <header className="topbar">
@@ -756,103 +890,94 @@ function App() {
           <img src="/latinms.png" alt="LatinMS" className="brand__logo" />
         </button>
 
-        <nav className="topbar__nav" aria-label="Navegacion principal">
-          <button
-            type="button"
-            className={view === "home" ? "is-active" : ""}
-            onClick={() => goToView("home")}
-          >
-            Inicio
-          </button>
-          <button
-            type="button"
-            className={view === "news" ? "is-active" : ""}
-            onClick={() => goToView("news")}
-          >
-            Noticias
-          </button>
-          <button
-            type="button"
-            className={view === "ranking" ? "is-active" : ""}
-            onClick={() => goToView("ranking")}
-          >
-            Ranking
-          </button>
-          <button
-            type="button"
-            className={view === "download" ? "is-active" : ""}
-            onClick={() => goToView("download")}
-          >
-            Descarga
-          </button>
-          <button
-            type="button"
-            className={view === "login" || view === "register" || view === "recover" || view === "account" ? "is-active" : ""}
-            onClick={() => goToView(token ? "account" : "login")}
-          >
-            {token ? "Mi Cuenta" : "Iniciar sesión"}
-          </button>
-        </nav>
+        <div className="topbar__right">
+          <div className="language-switcher" aria-label="Language selector">
+            <button
+              type="button"
+              className={language === "en" ? "is-active" : ""}
+              onClick={() => setLanguage("en")}
+            >
+              EN
+            </button>
+            <span>|</span>
+            <button
+              type="button"
+              className={language === "es" ? "is-active" : ""}
+              onClick={() => setLanguage("es")}
+            >
+              ES
+            </button>
+          </div>
+
+          <nav className="topbar__nav" aria-label={t.nav.aria}>
+            <button type="button" className={view === "home" ? "is-active" : ""} onClick={() => goToView("home")}>
+              {t.nav.home}
+            </button>
+            <button type="button" className={view === "news" ? "is-active" : ""} onClick={() => goToView("news")}>
+              {t.nav.news}
+            </button>
+            <button type="button" className={view === "ranking" ? "is-active" : ""} onClick={() => goToView("ranking")}>
+              {t.nav.ranking}
+            </button>
+            <button type="button" className={view === "download" ? "is-active" : ""} onClick={() => goToView("download")}>
+              {t.nav.download}
+            </button>
+            <button
+              type="button"
+              className={["login", "register", "recover", "account"].includes(view) ? "is-active" : ""}
+              onClick={() => goToView(token ? "account" : "login")}
+            >
+              {token ? t.nav.account : t.nav.login}
+            </button>
+          </nav>
+        </div>
       </header>
 
       <main className="page">
         {view === "home" ? (
-        <section className="hero-card">
-          <div className="hero-card__copy">
-            <span className="hero-card__eyebrow">Una experiencia única para la comunidad latina</span>
-            <h1>Vive Maple de una forma clásica, cercana y realmente inolvidable.</h1>
-            <p>
-              LatinMS está pensado para jugadores latinos y para aventureros de
-              cualquier parte del mundo que buscan una comunidad activa, una
-              atmósfera especial y una experiencia que se sienta única desde el
-              primer inicio de sesión.
-            </p>
+          <section className="hero-card">
+            <div className="hero-card__copy">
+              <span className="hero-card__eyebrow">{t.hero.eyebrow}</span>
+              <h1>{t.hero.title}</h1>
+              <p>{t.hero.copy}</p>
 
-            <div className="hero-card__actions">
-              <button type="button" className="button-primary" onClick={() => goToView("register")}>
-                Comienza tu aventura
-                <ArrowRight size={18} />
-              </button>
-              <button 
-                type="button" 
-                className="button-secondary" 
-                onClick={() => goToView(token ? "account" : "login")}
-              >
-                {token ? "Mi Cuenta" : "Entra con tu cuenta"}
-              </button>
-            </div>
-          </div>
-
-          <div className="hero-card__status">
-            <div className={`status-pill${serverOnline ? " is-online" : ""}`}>
-              <span className="status-pill__dot"></span>
-              {serverOnline ? "Servidor EN LÍNEA" : "Servidor FUERA DE LÍNEA"}
+              <div className="hero-card__actions">
+                <button type="button" className="button-primary" onClick={() => goToView("register")}>
+                  {t.hero.start}
+                  <ArrowRight size={18} />
+                </button>
+                <button type="button" className="button-secondary" onClick={() => goToView(token ? "account" : "login")}>
+                  {token ? t.nav.account : t.hero.enter}
+                </button>
+              </div>
             </div>
 
-            <div className="metric-grid">
-              <article className="metric-card">
-                <Users size={20} />
-                <strong>{serverOnline ? onlinePlayers : "-"}</strong>
-                <span>Jugadores en línea</span>
-              </article>
+            <div className="hero-card__status">
+              <div className={`status-pill${serverOnline ? " is-online" : ""}`}>
+                <span className="status-pill__dot"></span>
+                {serverOnline ? t.hero.online : t.hero.offline}
+              </div>
 
-              <article className="metric-card">
-                <ShieldCheck size={20} />
-                <strong>4x EXP</strong>
-                <span>2x Mesos - Drops Custom</span>
-              </article>
-
-              <article className="metric-card">
-                <Gamepad2 size={20} />
-                <strong>v83</strong>
-                <span>Versión del servidor</span>
-              </article>
+              <div className="metric-grid">
+                <article className="metric-card">
+                  <Users size={20} />
+                  <strong>{serverOnline ? onlinePlayers : "-"}</strong>
+                  <span>{t.hero.playersOnline}</span>
+                </article>
+                <article className="metric-card">
+                  <ShieldCheck size={20} />
+                  <strong>4x EXP</strong>
+                  <span>{t.hero.rates}</span>
+                </article>
+                <article className="metric-card">
+                  <Gamepad2 size={20} />
+                  <strong>v83</strong>
+                  <span>{t.hero.version}</span>
+                </article>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
         ) : null}
-
-        
 
         <section className="content-grid">
           <div className="content-main">
@@ -861,96 +986,47 @@ function App() {
                 <section className="panel">
                   <div className="panel__head">
                     <div>
-                      <span className="panel__kicker">Estado del mundo</span>
-                      <h2>Todo listo para sumarte a la aventura</h2>
+                      <span className="panel__kicker">{t.home.statusKicker}</span>
+                      <h2>{t.home.statusTitle}</h2>
                     </div>
                     <div className={`server-badge${serverOnline ? " is-online" : ""}`}>
                       {serverOnline ? "ON" : "OFF"}
                     </div>
                   </div>
 
-                    <div className="highlight-grid">
-                      <article className="highlight-card">
-                        <img src="/2.png" alt="" className="feature-icon" />
-                        <h3>Progreso que se siente</h3>
-                        <p>Sube de nivel, compite y deja tu marca en un ranking vivo y visible para toda la comunidad.</p>
+                  <div className="highlight-grid">
+                    {t.home.highlights.map(([icon, title, copy]) => (
+                      <article key={title} className="highlight-card">
+                        <img src={icon} alt="" className="feature-icon" />
+                        <h3>{title}</h3>
+                        <p>{copy}</p>
                       </article>
-                      <article className="highlight-card">
-                        <img src="/3.png" alt="" className="feature-icon" />
-                        <h3>Comunidad con identidad</h3>
-                        <p>Un servidor pensado para jugadores latinos, abierto a cualquier persona del mundo que quiera sentirse parte.</p>
-                      </article>
-                      <article className="highlight-card">
-                        <img src="/4.png" alt="" className="feature-icon" />
-                        <h3>Acceso rápido al juego</h3>
-                        <p>Crea tu cuenta en minutos y empieza tu recorrido sin vueltas ni pasos innecesarios.</p>
-                      </article>
-                    </div>
+                    ))}
+                  </div>
                 </section>
 
                 <section className="split-grid">
                   <article className="panel">
                     <div className="panel__head">
                       <div>
-                        <span className="panel__kicker">Noticias</span>
-                        <h2>Por qué LatinMS se siente diferente</h2>
+                        <span className="panel__kicker">{t.nav.news}</span>
+                        <h2>{t.home.newsTitle}</h2>
                       </div>
                       <img src="/1.png" alt="" className="panel-head-icon" />
                     </div>
-
-                    <div className="news-list">
-                      {newsItems.map((item) => (
-                        <article key={item.title} className="news-card">
-                          <div className="news-card__head">
-                            <img src={item.icon} alt="" className="news-card__icon" />
-                            <h3>{item.title}</h3>
-                          </div>
-                          <p>{item.copy}</p>
-                        </article>
-                      ))}
-                    </div>
+                    <NewsList items={t.newsItems} />
                   </article>
 
                   <article className="panel">
                     <div className="panel__head">
                       <div>
-                        <span className="panel__kicker">Top de jugadores</span>
-                        <h2>Los aventureros que marcan el ritmo</h2>
+                        <span className="panel__kicker">{t.home.topKicker}</span>
+                        <h2>{t.home.topTitle}</h2>
                       </div>
                       <img src="/5.png" alt="" className="panel-head-icon" />
                     </div>
-
                     <div className="ranking-list">
-                      {rankingPreview.map((player, index) => (
-                        <div
-                          key={player.id || player.name || index}
-                          className="ranking-row"
-                        >
-                          <strong>#{index + 1}</strong>
-                          <div className="ranking-avatar">
-                            <img
-                              src={getCharacterImage(player)}
-                              alt={`Personaje ${player.name}`}
-                              onError={(event) => {
-                                event.currentTarget.onerror = null;
-                                event.currentTarget.src = "/latinms.png";
-                              }}
-                            />
-                          </div>
-                          <div>
-                            <span>{player.name}</span>
-                            <small>
-                              Nivel {player.level} - {getJobName(player.job)}
-                            </small>
-                            {player.guild_name ? (
-                              <small>Guild: {player.guild_name}</small>
-                            ) : null}
-                            {player.country ? (
-                              <small>Origen: {player.country}</small>
-                            ) : null}
-                          </div>
-                        </div>
-                      ))}
+                      <RankingRows players={rankingPreview} language={language} text={t.ranking} />
                     </div>
                   </article>
                 </section>
@@ -961,23 +1037,12 @@ function App() {
               <section className="panel">
                 <div className="panel__head">
                   <div>
-                    <span className="panel__kicker">Noticias</span>
-                    <h2>Ultimas novedades de LatinMS</h2>
+                    <span className="panel__kicker">{t.nav.news}</span>
+                    <h2>{t.pages.newsTitle}</h2>
                   </div>
                   <Newspaper size={24} />
                 </div>
-
-                <div className="news-list">
-                  {newsItems.map((item) => (
-                    <article key={item.title} className="news-card">
-                      <div className="news-card__head">
-                        <img src={item.icon} alt="" className="news-card__icon" />
-                        <h3>{item.title}</h3>
-                      </div>
-                      <p>{item.copy}</p>
-                    </article>
-                  ))}
-                </div>
+                <NewsList items={t.newsItems} />
               </section>
             ) : null}
 
@@ -985,43 +1050,13 @@ function App() {
               <section className="panel">
                 <div className="panel__head">
                   <div>
-                    <span className="panel__kicker">Ranking</span>
-                    <h2>Top jugadores del servidor</h2>
+                    <span className="panel__kicker">{t.nav.ranking}</span>
+                    <h2>{t.pages.rankingTitle}</h2>
                   </div>
                   <Trophy size={24} />
                 </div>
-
                 <div className="ranking-list ranking-list--full">
-                  {rankingRows.map((player, index) => (
-                    <div
-                      key={player.id || player.name || index}
-                      className="ranking-row"
-                    >
-                      <strong>#{index + 1}</strong>
-                      <div className="ranking-avatar">
-                        <img
-                          src={getCharacterImage(player)}
-                          alt={`Personaje ${player.name}`}
-                          onError={(event) => {
-                            event.currentTarget.onerror = null;
-                            event.currentTarget.src = "/latinms.png";
-                          }}
-                        />
-                      </div>
-                      <div>
-                        <span>{player.name}</span>
-                        <small>
-                          Nivel {player.level} - {getJobName(player.job)}
-                        </small>
-                        {player.guild_name ? (
-                          <small>Guild: {player.guild_name}</small>
-                        ) : null}
-                        {player.country ? (
-                          <small>Origen: {player.country}</small>
-                        ) : null}
-                      </div>
-                    </div>
-                  ))}
+                  <RankingRows players={rankingRows} language={language} text={t.ranking} />
                 </div>
               </section>
             ) : null}
@@ -1030,25 +1065,17 @@ function App() {
               <section className="panel download-page">
                 <div className="panel__head">
                   <div>
-                    <span className="panel__kicker">Descarga</span>
-                    <h2>Descarga el cliente de LatinMS</h2>
+                    <span className="panel__kicker">{t.pages.downloadKicker}</span>
+                    <h2>{t.pages.downloadTitle}</h2>
                   </div>
                   <Download size={24} />
                 </div>
-
                 <div className="download-layout">
                   <img src="/6.png" alt="" className="download-illustration" />
                   <div>
-                    <p className="panel__intro">
-                      Cliente listo para entrar al mundo de LatinMS. Descárgalo, instálalo y usa tu cuenta para comenzar la aventura.
-                    </p>
-                    <a
-                      className="button-primary"
-                      href={downloadUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Descargar cliente
+                    <p className="panel__intro">{t.pages.downloadCopy}</p>
+                    <a className="button-primary" href={downloadUrl} target="_blank" rel="noreferrer">
+                      {t.pages.downloadClient}
                       <ArrowRight size={18} />
                     </a>
                   </div>
@@ -1060,53 +1087,29 @@ function App() {
               <section className="panel panel--form">
                 <div className="panel__head">
                   <div>
-                    <span className="panel__kicker">Inicio de sesión</span>
-                    <h2>Entra con tu cuenta</h2>
+                    <span className="panel__kicker">{t.auth.loginKicker}</span>
+                    <h2>{t.auth.loginTitle}</h2>
                   </div>
                   <LockKeyhole size={22} />
                 </div>
-
-                <p className="panel__intro">
-                  Esta pantalla mantiene el acceso separado de la página principal.
-                  El ingreso real al personaje se realiza dentro del cliente del juego.
-                </p>
-
+                <p className="panel__intro">{t.auth.loginIntro}</p>
                 <form className="form-card" onSubmit={handleLogin}>
                   <label>
-                    Usuario
-                    <input
-                      type="text"
-                      name="username"
-                      value={loginForm.username}
-                      onChange={handleLoginChange}
-                      placeholder="Tu cuenta"
-                    />
+                    {t.auth.username}
+                    <input type="text" name="username" value={loginForm.username} onChange={handleLoginChange} placeholder={t.auth.usernamePlaceholder} />
                   </label>
                   <label>
-                    Contraseña
-                    <input
-                      type="password"
-                      name="password"
-                      value={loginForm.password}
-                      onChange={handleLoginChange}
-                      placeholder="Tu contraseña"
-                    />
+                    {t.auth.password}
+                    <input type="password" name="password" value={loginForm.password} onChange={handleLoginChange} placeholder={t.auth.passwordPlaceholder} />
                   </label>
-
                   <button type="button" className="text-button" onClick={() => goToView("recover")}>
-                    ¿Olvidaste la contraseña?
+                    {t.auth.forgotPassword}
                   </button>
-
                   <div className="auth-actions">
-                    <button type="submit" className="button-primary">
-                      Iniciar sesión
-                    </button>
-                    <button type="button" className="button-secondary" onClick={() => goToView("register")}>
-                      Crear cuenta
-                    </button>
+                    <button type="submit" className="button-primary">{t.auth.loginButton}</button>
+                    <button type="button" className="button-secondary" onClick={() => goToView("register")}>{t.auth.createAccount}</button>
                   </div>
                 </form>
-
                 {loginMessage ? <p className="feedback">{loginMessage}</p> : null}
               </section>
             ) : null}
@@ -1115,368 +1118,101 @@ function App() {
               <section className="panel panel--form">
                 <div className="panel__head">
                   <div>
-                    <span className="panel__kicker">Recuperar contraseña</span>
-                    <h2>Recupera el acceso a tu cuenta</h2>
+                    <span className="panel__kicker">{t.auth.recoverKicker}</span>
+                    <h2>{t.auth.recoverTitle}</h2>
                   </div>
                   <Mail size={22} />
                 </div>
-
-                <p className="panel__intro">
-                  Escribe el correo asociado a tu cuenta para iniciar la recuperación.
-                </p>
-
+                <p className="panel__intro">{t.auth.recoverIntro}</p>
                 <form className="form-card" onSubmit={handleRecover}>
                   <label>
-                    Correo electrónico
-                    <input
-                      type="email"
-                      name="email"
-                      value={recoverForm.email}
-                      onChange={handleRecoverChange}
-                      placeholder="correo@ejemplo.com"
-                    />
+                    {t.auth.email}
+                    <input type="email" name="email" value={recoverForm.email} onChange={handleRecoverChange} placeholder={t.auth.emailPlaceholder} />
                   </label>
-
                   <div className="auth-actions">
-                    <button type="submit" className="button-primary">
-                      Recuperar contraseña
-                    </button>
-                    <button type="button" className="button-secondary" onClick={() => goToView("login")}>
-                      Volver al inicio de sesión
-                    </button>
+                    <button type="submit" className="button-primary">{t.auth.recoverButton}</button>
+                    <button type="button" className="button-secondary" onClick={() => goToView("login")}>{t.auth.backToLogin}</button>
                   </div>
                 </form>
-
                 {recoverMessage ? <p className="feedback">{recoverMessage}</p> : null}
               </section>
             ) : null}
 
             {view === "account" ? (
-              <section className="panel">
-                <div className="panel__head">
-                  <div>
-                    <span className="panel__kicker">Mi Cuenta</span>
-                    <h2>Datos de tu cuenta y perfil</h2>
-                  </div>
-                </div>
-
-                {!token ? (
-                  <p>Necesitas iniciar sesión. Serás redirigido al inicio de sesión.</p>
-                ) : (
-                  <>
-                    <div className="account-menu" role="tablist" aria-label="Secciones de mi cuenta">
-                      <button
-                        type="button"
-                        className={accountTab === "account" ? "is-active" : ""}
-                        onClick={() => setAccountTab("account")}
-                      >
-                        <IdCard size={18} />
-                        Cuenta
-                      </button>
-                      <button
-                        type="button"
-                        className={accountTab === "profile" ? "is-active" : ""}
-                        onClick={() => setAccountTab("profile")}
-                      >
-                        <Users size={18} />
-                        Perfil
-                      </button>
-                      <button
-                        type="button"
-                        className={accountTab === "security" ? "is-active" : ""}
-                        onClick={() => setAccountTab("security")}
-                      >
-                        <KeyRound size={18} />
-                        Seguridad
-                      </button>
-                      <button
-                        type="button"
-                        className={accountTab === "characters" ? "is-active" : ""}
-                        onClick={() => setAccountTab("characters")}
-                      >
-                        <Gamepad2 size={18} />
-                        Personajes
-                      </button>
-                      {isAdmin && (
-                        <button
-                          type="button"
-                          className={accountTab === "admin" ? "is-active" : ""}
-                          onClick={() => setAccountTab("admin")}
-                        >
-                          <ShieldCheck size={18} />
-                          Admin
-                        </button>
-                      )}
-                    </div>
-
-                    {accountTab === "account" ? (
-                    <div className="panel__section account-summary">
-                      <h3>Cuenta</h3>
-                      <div className="summary-grid">
-                        <div>
-                          <span>Usuario</span>
-                          <strong>{accountData?.name || "-"}</strong>
-                        </div>
-                        <div>
-                          <span>Loggedin</span>
-                          <strong>{accountData?.loggedin ?? "-"}</strong>
-                        </div>
-                        <div>
-                          <span>Banned</span>
-                          <strong>{accountData?.banned ?? "-"}</strong>
-                        </div>
-                      </div>
-                      <button className="button-secondary" onClick={handleLogout}>Cerrar sesión</button>
-                    </div>
-                    ) : null}
-
-                    {accountTab === "profile" ? (
-                    <div className="panel__section">
-                      <h3>Perfil web</h3>
-                      <form className="form-card" onSubmit={submitProfile}>
-                        <label>
-                          Nombre visible
-                          <input name="display_name" value={profileForm.display_name} onChange={handleProfileChange} />
-                        </label>
-                        <label>
-                          Avatar URL
-                          <input name="avatar_url" value={profileForm.avatar_url} onChange={handleProfileChange} />
-                        </label>
-                        <label>
-                          Bio
-                          <input name="bio" value={profileForm.bio} onChange={handleProfileChange} />
-                        </label>
-                        <button type="submit" className="button-primary">Guardar perfil</button>
-                      </form>
-                    </div>
-                    ) : null}
-
-                    {accountTab === "security" ? (
-                    <div className="panel__section">
-                      <h3>Cambiar contraseña</h3>
-                      <form className="form-card" onSubmit={submitPassword}>
-                        <label>
-                          Contraseña actual
-                          <input type="password" name="currentPassword" value={passwordForm.currentPassword} onChange={handlePasswordChange} />
-                        </label>
-                        <label>
-                          Nueva contraseña
-                          <input type="password" name="newPassword" value={passwordForm.newPassword} onChange={handlePasswordChange} />
-                        </label>
-                        <label>
-                          Repetir nueva
-                          <input type="password" name="confirmPassword" value={passwordForm.confirmPassword} onChange={handlePasswordChange} />
-                        </label>
-                        <button type="submit" className="button-primary">Cambiar contraseña</button>
-                      </form>
-                    </div>
-                    ) : null}
-
-                    {accountTab === "characters" ? (
-                    <div className="panel__section">
-                      <h3>Personajes</h3>
-                      {characters.length === 0 ? <p>No hay personajes.</p> : (
-                        <div className="characters-list">
-                          {characters.map((c) => (
-                            <div key={c.id} className="character-row">
-                              <div className="character-portrait">
-                                <img
-                                  src={getCharacterImage(c)}
-                                  alt={`Personaje ${c.name}`}
-                                  className="character-avatar"
-                                  onError={(event) => {
-                                    event.currentTarget.onerror = null;
-                                    event.currentTarget.src = "/latinms.png";
-                                  }}
-                                />
-                              </div>
-                              <div className="character-info">
-                                <strong>{c.name}</strong>
-                                <span>{getJobName(c.job)}</span>
-                                <div className="character-stats">
-                                  <small>Lvl {c.level}</small>
-                                  <small>Fame {c.fame}</small>
-                                  <small>Mesos {c.mesos}</small>
-                                  <small>Map {c.map}</small>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                    ) : null}
-
-                    {accountTab === "admin" ? (
-                    <div className="panel__section">
-                      <h3>Panel de Administración</h3>
-                      {loadingAdmin && !adminStats ? <p>Cargando estadísticas...</p> : adminStats && (
-                        <>
-                          <div className="summary-grid">
-                            <article className="metric-card">
-                              <strong>{adminStats.onlineUsers}</strong>
-                              <span>En línea</span>
-                            </article>
-                            <article className="metric-card">
-                              <strong>{adminStats.totalAccounts}</strong>
-                              <span>Cuentas</span>
-                            </article>
-                            <article className="metric-card">
-                              <strong>{adminStats.totalCharacters}</strong>
-                              <span>Personajes</span>
-                            </article>
-                            <article className="metric-card">
-                              <strong>{adminStats.bannedAccounts}</strong>
-                              <span>Baneados</span>
-                            </article>
-                            <article className="metric-card">
-                              <strong>{adminStats.gmCharacters}</strong>
-                              <span>GMs</span>
-                            </article>
-                            <article className="metric-card">
-                              <strong>{adminStats.normalCharacters}</strong>
-                              <span>Jugadores</span>
-                            </article>
-                          </div>
-
-                          <div className="split-grid" style={{ marginTop: '24px', gap: '20px' }}>
-                            <div className="admin-list-container">
-                              <h4>Últimas cuentas</h4>
-                              <div className="ranking-list">
-                                {adminStats.latestAccounts.map(a => (
-                                  <div key={a.id} className="ranking-row" style={{ padding: '8px' }}>
-                                    <span>ID: {a.id} - <strong>{a.name}</strong></span>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                            <div className="admin-list-container">
-                              <h4>Últimos personajes</h4>
-                              <div className="ranking-list">
-                                {adminStats.latestCharacters.map(c => (
-                                  <div key={c.id} className="ranking-row" style={{ padding: '8px' }}>
-                                    <span><strong>{c.name}</strong> (Lvl {c.level}) - {getJobName(c.job)}</span>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                    ) : null}
-
-                    {accountMessage ? <p className="feedback">{accountMessage}</p> : null}
-                  </>
-                )}
-              </section>
+              <AccountPanel
+                accountData={accountData}
+                accountMessage={accountMessage}
+                accountTab={accountTab}
+                adminStats={adminStats}
+                characters={characters}
+                handleLogout={handleLogout}
+                handlePasswordChange={handlePasswordChange}
+                handleProfileChange={handleProfileChange}
+                isAdmin={isAdmin}
+                language={language}
+                loadingAdmin={loadingAdmin}
+                passwordForm={passwordForm}
+                profileForm={profileForm}
+                setAccountTab={setAccountTab}
+                submitPassword={submitPassword}
+                submitProfile={submitProfile}
+                text={t.account}
+                token={token}
+              />
             ) : null}
 
             {view === "register" ? (
               <section className="panel panel--form">
                 <div className="panel__head">
                   <div>
-                    <span className="panel__kicker">Crear cuenta</span>
-                    <h2>Registro rápido para LatinMS</h2>
+                    <span className="panel__kicker">{t.auth.registerKicker}</span>
+                    <h2>{t.auth.registerTitle}</h2>
                   </div>
                   <UserPlus size={22} />
                 </div>
-
-                <p className="panel__intro">
-                  Formulario conectado a la API para que el registro no quede mezclado
-                  con la portada principal.
-                </p>
-
+                <p className="panel__intro">{t.auth.registerIntro}</p>
                 <form className="form-card" onSubmit={handleRegister}>
                   <label>
-                    Usuario
-                    <input
-                      type="text"
-                      name="username"
-                      value={form.username}
-                      onChange={handleRegisterChange}
-                      placeholder="Entre 4 y 13 caracteres"
-                    />
+                    {t.auth.username}
+                    <input type="text" name="username" value={form.username} onChange={handleRegisterChange} placeholder="4 - 13 characters" />
                   </label>
                   <label>
-                    Nombre
-                    <input
-                      type="text"
-                      name="displayName"
-                      value={form.displayName}
-                      onChange={handleRegisterChange}
-                      placeholder="Tu nombre"
-                    />
+                    {t.auth.displayName}
+                    <input type="text" name="displayName" value={form.displayName} onChange={handleRegisterChange} placeholder={t.auth.displayNamePlaceholder} />
                   </label>
                   <label>
-                    Correo electrónico
-                    <input
-                      type="email"
-                      name="email"
-                      value={form.email}
-                      onChange={handleRegisterChange}
-                      placeholder="correo@ejemplo.com"
-                    />
+                    {t.auth.email}
+                    <input type="email" name="email" value={form.email} onChange={handleRegisterChange} placeholder={t.auth.emailPlaceholder} />
                   </label>
                   <label>
-                    Contraseña
-                    <input
-                      type="password"
-                      name="password"
-                      value={form.password}
-                      onChange={handleRegisterChange}
-                      placeholder="Mínimo 4 caracteres"
-                    />
+                    {t.auth.password}
+                    <input type="password" name="password" value={form.password} onChange={handleRegisterChange} placeholder={t.auth.passwordMinPlaceholder} />
                   </label>
                   <label>
-                    Repetir contraseña
-                    <input
-                      type="password"
-                      name="confirmPassword"
-                      value={form.confirmPassword}
-                      onChange={handleRegisterChange}
-                      placeholder="Repite la contraseña"
-                    />
+                    {t.auth.repeatPassword}
+                    <input type="password" name="confirmPassword" value={form.confirmPassword} onChange={handleRegisterChange} placeholder={t.auth.repeatPasswordPlaceholder} />
                   </label>
                   <label>
-                    País
-                    <select
-                      name="country"
-                      value={form.country}
-                      onChange={handleRegisterChange}
-                    >
-                      <option value="">Selecciona tu país</option>
+                    {t.auth.country}
+                    <select name="country" value={form.country} onChange={handleRegisterChange}>
+                      <option value="">{t.auth.countryPlaceholder}</option>
                       {countryOptions.map((country) => (
-                        <option key={country.code} value={country.name}>
-                          {country.name}
-                        </option>
+                        <option key={country.code} value={country.name}>{country.name}</option>
                       ))}
                     </select>
                   </label>
                   <label>
-                    Fecha de cumpleaños
-                    <input
-                      type="date"
-                      name="birthDate"
-                      value={form.birthDate}
-                      onChange={handleRegisterChange}
-                    />
+                    {t.auth.birthDate}
+                    <input type="date" name="birthDate" value={form.birthDate} onChange={handleRegisterChange} />
                   </label>
-
-                  <button
-                    type="submit"
-                    className="button-primary button-primary--full"
-                    disabled={loadingRegister}
-                  >
-                    {loadingRegister ? "Creando cuenta..." : "Crear cuenta"}
+                  <button type="submit" className="button-primary button-primary--full" disabled={loadingRegister}>
+                    {loadingRegister ? t.auth.creatingAccount : t.auth.createAccount}
                   </button>
                 </form>
-
                 {registerMessage ? <p className="feedback">{registerMessage}</p> : null}
-
                 <div className="helper-note">
-                  <span>PIN inicial: 0000</span>
-                  <span>PIC inicial: 000000</span>
+                  <span>{t.auth.initialPin}</span>
+                  <span>{t.auth.initialPic}</span>
                 </div>
               </section>
             ) : null}
@@ -1484,54 +1220,34 @@ function App() {
 
           <aside className="sidebar">
             {view !== "home" ? (
-            <section className="panel panel--compact">
-              <span className="panel__kicker">Accesos</span>
-              <h2>Todo en orden</h2>
-              <div className="sidebar-actions">
-                <button type="button" className="button-secondary" onClick={() => goToView("home")}>
-                  Ver inicio
-                </button>
-                <button type="button" className="button-secondary" onClick={() => goToView("news")}>
-                  Ver noticias
-                </button>
-                <button type="button" className="button-secondary" onClick={() => goToView("ranking")}>
-                  Ver ranking
-                </button>
-                <button type="button" className="button-secondary" onClick={() => goToView("download")}>
-                  Descargar
-                </button>
-                <button type="button" className="button-secondary" onClick={() => goToView(token ? "account" : "login")}>
-                  {token ? "Mi Cuenta" : "Iniciar sesión"}
-                </button>
-              </div>
-            </section>
+              <section className="panel panel--compact">
+                <span className="panel__kicker">{t.sidebar.shortcuts}</span>
+                <h2>{t.sidebar.allSet}</h2>
+                <div className="sidebar-actions">
+                  <button type="button" className="button-secondary" onClick={() => goToView("home")}>{t.sidebar.seeHome}</button>
+                  <button type="button" className="button-secondary" onClick={() => goToView("news")}>{t.sidebar.seeNews}</button>
+                  <button type="button" className="button-secondary" onClick={() => goToView("ranking")}>{t.sidebar.seeRanking}</button>
+                  <button type="button" className="button-secondary" onClick={() => goToView("download")}>{t.nav.download}</button>
+                  <button type="button" className="button-secondary" onClick={() => goToView(token ? "account" : "login")}>
+                    {token ? t.nav.account : t.nav.login}
+                  </button>
+                </div>
+              </section>
             ) : null}
 
             {view === "home" ? (
-              <a 
-                href="https://gtop100.com/MapleStory/server-106094" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="panel panel--compact panel--voting"
-              >
-                <img src="/votanos.png" alt="Vótanos en GTop100" />
+              <a href="https://gtop100.com/MapleStory/server-106094" target="_blank" rel="noopener noreferrer" className="panel panel--compact panel--voting">
+                <img src="/votanos.png" alt={t.sidebar.voteAlt} />
               </a>
             ) : null}
 
             <section className="panel panel--compact panel--download">
-              <span className="panel__kicker">Cliente</span>
-              <h2>Descarga el juego</h2>
+              <span className="panel__kicker">{t.sidebar.client}</span>
+              <h2>{t.sidebar.title}</h2>
               <img src="/6.png" alt="" className="sidebar-illustration" />
-              <p>
-                Cliente disponible para que empieces tu aventura en LatinMS ahora mismo.
-              </p>
-              <a
-                className="button-primary button-primary--full"
-                href={downloadUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Descargar cliente
+              <p>{t.sidebar.copy}</p>
+              <a className="button-primary button-primary--full" href={downloadUrl} target="_blank" rel="noreferrer">
+                {t.pages.downloadClient}
                 <ArrowRight size={18} />
               </a>
             </section>
@@ -1539,6 +1255,243 @@ function App() {
         </section>
       </main>
     </div>
+  );
+}
+
+function NewsList({ items }) {
+  return (
+    <div className="news-list">
+      {items.map(([icon, title, copy]) => (
+        <article key={title} className="news-card">
+          <div className="news-card__head">
+            <img src={icon} alt="" className="news-card__icon" />
+            <h3>{title}</h3>
+          </div>
+          <p>{copy}</p>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+function AccountPanel({
+  accountData,
+  accountMessage,
+  accountTab,
+  adminStats,
+  characters,
+  handleLogout,
+  handlePasswordChange,
+  handleProfileChange,
+  isAdmin,
+  language,
+  loadingAdmin,
+  passwordForm,
+  profileForm,
+  setAccountTab,
+  submitPassword,
+  submitProfile,
+  text,
+  token,
+}) {
+  return (
+    <section className="panel">
+      <div className="panel__head">
+        <div>
+          <span className="panel__kicker">{text.kicker}</span>
+          <h2>{text.title}</h2>
+        </div>
+      </div>
+
+      {!token ? (
+        <p>{text.needsLogin}</p>
+      ) : (
+        <>
+          <div className="account-menu" role="tablist" aria-label={text.tabsLabel}>
+            <button type="button" className={accountTab === "account" ? "is-active" : ""} onClick={() => setAccountTab("account")}>
+              <IdCard size={18} />
+              {text.account}
+            </button>
+            <button type="button" className={accountTab === "profile" ? "is-active" : ""} onClick={() => setAccountTab("profile")}>
+              <Users size={18} />
+              {text.profile}
+            </button>
+            <button type="button" className={accountTab === "security" ? "is-active" : ""} onClick={() => setAccountTab("security")}>
+              <KeyRound size={18} />
+              {text.security}
+            </button>
+            <button type="button" className={accountTab === "characters" ? "is-active" : ""} onClick={() => setAccountTab("characters")}>
+              <Gamepad2 size={18} />
+              {text.characters}
+            </button>
+            {isAdmin ? (
+              <button type="button" className={accountTab === "admin" ? "is-active" : ""} onClick={() => setAccountTab("admin")}>
+                <ShieldCheck size={18} />
+                Admin
+              </button>
+            ) : null}
+          </div>
+
+          {accountTab === "account" ? (
+            <div className="panel__section account-summary">
+              <h3>{text.account}</h3>
+              <div className="summary-grid">
+                <div>
+                  <span>{text.user}</span>
+                  <strong>{accountData?.name || "-"}</strong>
+                </div>
+                <div>
+                  <span>Loggedin</span>
+                  <strong>{accountData?.loggedin ?? "-"}</strong>
+                </div>
+                <div>
+                  <span>Banned</span>
+                  <strong>{accountData?.banned ?? "-"}</strong>
+                </div>
+              </div>
+              <button className="button-secondary" onClick={handleLogout}>{text.logout}</button>
+            </div>
+          ) : null}
+
+          {accountTab === "profile" ? (
+            <div className="panel__section">
+              <h3>{text.webProfile}</h3>
+              <form className="form-card" onSubmit={submitProfile}>
+                <label>
+                  {text.displayName}
+                  <input name="display_name" value={profileForm.display_name} onChange={handleProfileChange} />
+                </label>
+                <label>
+                  {text.avatarUrl}
+                  <input name="avatar_url" value={profileForm.avatar_url} onChange={handleProfileChange} />
+                </label>
+                <label>
+                  {text.bio}
+                  <input name="bio" value={profileForm.bio} onChange={handleProfileChange} />
+                </label>
+                <button type="submit" className="button-primary">{text.saveProfile}</button>
+              </form>
+            </div>
+          ) : null}
+
+          {accountTab === "security" ? (
+            <div className="panel__section">
+              <h3>{text.changePassword}</h3>
+              <form className="form-card" onSubmit={submitPassword}>
+                <label>
+                  {text.currentPassword}
+                  <input type="password" name="currentPassword" value={passwordForm.currentPassword} onChange={handlePasswordChange} />
+                </label>
+                <label>
+                  {text.newPassword}
+                  <input type="password" name="newPassword" value={passwordForm.newPassword} onChange={handlePasswordChange} />
+                </label>
+                <label>
+                  {text.repeatNew}
+                  <input type="password" name="confirmPassword" value={passwordForm.confirmPassword} onChange={handlePasswordChange} />
+                </label>
+                <button type="submit" className="button-primary">{text.changePassword}</button>
+              </form>
+            </div>
+          ) : null}
+
+          {accountTab === "characters" ? (
+            <div className="panel__section">
+              <h3>{text.characters}</h3>
+              {characters.length === 0 ? <p>{text.noCharacters}</p> : (
+                <div className="characters-list">
+                  {characters.map((character) => (
+                    <div key={character.id} className="character-row">
+                      <div className="character-portrait">
+                        <img
+                          src={getCharacterImage(character)}
+                          alt={`${text.characters} ${character.name}`}
+                          className="character-avatar"
+                          onError={(event) => {
+                            event.currentTarget.onerror = null;
+                            event.currentTarget.src = "/latinms.png";
+                          }}
+                        />
+                      </div>
+                      <div className="character-info">
+                        <strong>{character.name}</strong>
+                        <span>{getJobName(character.job, language)}</span>
+                        <div className="character-stats">
+                          <small>Lvl {character.level}</small>
+                          <small>Fame {character.fame}</small>
+                          <small>Mesos {character.mesos}</small>
+                          <small>Map {character.map}</small>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : null}
+
+          {accountTab === "admin" ? (
+            <div className="panel__section">
+              <h3>{text.administration}</h3>
+              {loadingAdmin && !adminStats ? <p>{text.loadingStats}</p> : adminStats && (
+                <>
+                  <div className="summary-grid">
+                    <article className="metric-card">
+                      <strong>{adminStats.onlineUsers}</strong>
+                      <span>{text.online}</span>
+                    </article>
+                    <article className="metric-card">
+                      <strong>{adminStats.totalAccounts}</strong>
+                      <span>{text.accounts}</span>
+                    </article>
+                    <article className="metric-card">
+                      <strong>{adminStats.totalCharacters}</strong>
+                      <span>{text.characters}</span>
+                    </article>
+                    <article className="metric-card">
+                      <strong>{adminStats.bannedAccounts}</strong>
+                      <span>{text.banned}</span>
+                    </article>
+                    <article className="metric-card">
+                      <strong>{adminStats.gmCharacters}</strong>
+                      <span>GMs</span>
+                    </article>
+                    <article className="metric-card">
+                      <strong>{adminStats.normalCharacters}</strong>
+                      <span>{text.players}</span>
+                    </article>
+                  </div>
+                  <div className="split-grid admin-split">
+                    <div className="admin-list-container">
+                      <h4>{text.latestAccounts}</h4>
+                      <div className="ranking-list">
+                        {adminStats.latestAccounts.map((account) => (
+                          <div key={account.id} className="ranking-row ranking-row--compact">
+                            <span>ID: {account.id} - <strong>{account.name}</strong></span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="admin-list-container">
+                      <h4>{text.latestCharacters}</h4>
+                      <div className="ranking-list">
+                        {adminStats.latestCharacters.map((character) => (
+                          <div key={character.id} className="ranking-row ranking-row--compact">
+                            <span><strong>{character.name}</strong> (Lvl {character.level}) - {getJobName(character.job, language)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          ) : null}
+
+          {accountMessage ? <p className="feedback">{accountMessage}</p> : null}
+        </>
+      )}
+    </section>
   );
 }
 
