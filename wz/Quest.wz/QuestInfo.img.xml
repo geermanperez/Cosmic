@@ -1,100 +1,100 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <imgdir name="QuestInfo.img">
   <imgdir name="1000">
-    <string name="name" value="Borrowing Sera&apos;s Mirror"/>
-    <string name="parent" value="Sera&apos;s Mirror"/>
-    <string name="0" value="Let&apos;s go to Heena."/>
-    <string name="1" value="I ran into Heena who was worrying about her face getting irritated by the strong sunlight. I have to get a mirror for Heena from her sister, Sarah."/>
-    <string name="2" value="Heena asked me to go to her sister and get a mirror for her. I walked my way to Sarah."/>
+    <string name="name" value="Pidiendo prestado el espejo de Sera"/>
+    <string name="parent" value="El espejo de Sera"/>
+    <string name="0" value="Vamos con Heena."/>
+    <string name="1" value="Me encontré con Heena, que estaba preocupada porque el sol fuerte le irritaba la cara. Tengo que conseguirle un espejo de su hermana Sarah."/>
+    <string name="2" value="Heena me pidió que fuera con su hermana a buscarle un espejo. Fui caminando hasta donde estaba Sarah."/>
     <int name="area" value="20"/>
     <int name="order" value="1"/>
   </imgdir>
   <imgdir name="10000">
-    <string name="name" value="Suspicious Offer?!"/>
-    <string name="0" value="An urgent message was sent from #b#p9000021##k."/>
-    <string name="1" value="An urgent message was sent from Agent #b#p9000021##k."/>
-    <string name="2" value="#bGaga#k came to see me and asked me to become an agent out of no where!  Not sure why, but I agreed without really thinking Now what do I do?  Come to think of it, the #bMaple Admin#k and #bCassandra#k both looked suspicious with their black sunglasses.  What&apos;s going on?  I think I need to talk to #bGaga#k for more details..."/>
+    <string name="name" value="¿Una oferta sospechosa?!"/>
+    <string name="0" value="Llegó un mensaje urgente de #b#p9000021##k."/>
+    <string name="1" value="Llegó un mensaje urgente del agente #b#p9000021##k."/>
+    <string name="2" value="#bGaga#k vino a verme y me pidió de la nada que me convirtiera en agente. No sé bien por qué, pero acepté sin pensarlo demasiado. ¿Y ahora qué hago? Pensándolo bien, #bMaple Admin#k y #bCassandra#k se veían sospechosos con esos lentes negros. ¿Qué está pasando? Creo que necesito hablar con #bGaga#k para saber más..."/>
     <int name="area" value="50"/>
     <int name="autoStart" value="1"/>
     <int name="autoPreComplete" value="1"/>
   </imgdir>
   <imgdir name="10001">
-    <string name="name" value="Co-op with Special Agent O"/>
-    <string name="0" value="Gaga, who&apos; now a secret agent, says he has someone he wants to introduce me to.  I wonder who it is?"/>
-    <string name="1" value="Gaga, who suddenly became a secret agent of an unknown organization, has deputized me and now I am an agent as well.  Gaga suggested I do a co-op with special agent O.  However, he didn&apos;t tell me the details of the mission and simply told me to meet special agent O myself.  He said I could find the special agent O at the mini dungeon entrance...n\n#b&lt;Mini Dungeon Area where agent O is&gt;\n- Victoria Island : #m100020000#\n- Victoria Island : #m105040304#\n- Victoria Island : #m105050100#\n- Ludus Lake : #m221023400#\n- Nihal Desert : #m260020300#\n- Nihal Desert : #m261020300#\n- Minar Forest : #m240020500#\n- Minar Forest : #m240040511#\n- Minar Forest : #m240040520#"/>
-    <string name="2" value="Through Gaga&apos;s introduction, I met Special Agent O.  He seemed like quite a charadcter--full of personality and life."/>
+    <string name="name" value="Cooperación con el agente especial O"/>
+    <string name="0" value="Gaga, que ahora es un agente secreto, dice que quiere presentarme a alguien. Me pregunto quién será."/>
+    <string name="1" value="Gaga, que de repente se convirtió en agente secreto de una organización desconocida, me nombró su ayudante y ahora yo también soy agente. Gaga sugirió que cooperara con el agente especial O. Sin embargo, no me dio detalles de la misión y solo me dijo que fuera a verlo personalmente. Dijo que podía encontrar al agente especial O en la entrada de una mini mazmorra...n\n#b&lt;Zona de mini mazmorra donde está el agente O&gt;\n- Victoria Island : #m100020000#\n- Victoria Island : #m105040304#\n- Victoria Island : #m105050100#\n- Ludus Lake : #m221023400#\n- Nihal Desert : #m260020300#\n- Nihal Desert : #m261020300#\n- Minar Forest : #m240020500#\n- Minar Forest : #m240040511#\n- Minar Forest : #m240040520#"/>
+    <string name="2" value="Gracias a la presentación de Gaga, conocí al agente especial O. Parecía todo un personaje: lleno de personalidad y energía."/>
     <int name="area" value="50"/>
   </imgdir>
   <imgdir name="10002">
-    <string name="name" value="Number of Special Agent Badges "/>
-    <string name="1" value="Special Agent O told me to go to the mini dungeon and bring back #b#t4031988##k from the Agent Box which appears after 30 minutes\r\n#i4031988# #t4031988# #b#c4031988# / 1\n\n#k  Each time I collect 10 badges, I&apos;ll receive #bAgent O&apos;s Nylon Gloves#k and when I collect 100, I can get #bAgent O&apos;s Leather Gloves#k..  "/>
-    <string name="2" value="I received a mission from Special Agent O to disarm the Agent Box in the mini dungeon and retrieve a Special Agent Badge, and I successfully completed it."/>
+    <string name="name" value="Cantidad de insignias de agente especial "/>
+    <string name="1" value="El agente especial O me dijo que fuera a la mini mazmorra y trajera #b#t4031988##k de la caja de agentes, que aparece después de 30 minutos.\r\n#i4031988# #t4031988# #b#c4031988# / 1\n\n#k  Cada vez que junte 10 insignias, recibiré #bGuantes de nailon del agente O#k, y cuando junte 100, podré conseguir #bGuantes de cuero del agente O#k.  "/>
+    <string name="2" value="Recibí una misión del agente especial O para desactivar la caja de agentes en la mini mazmorra y recuperar una insignia de agente especial, y la completé con éxito."/>
     <int name="area" value="50"/>
   </imgdir>
   <imgdir name="10005">
-    <string name="name" value="Agent W&apos;s Watermelon Investigation"/>
-    <string name="0" value="The Maple Admin says he has something to talk to me about.  I should go see the #rMaple Admin#k. "/>
-    <string name="1" value="The Maple Admin said that #e#rMaster M#k#n had planted a bomb in Chumji&apos;s watermelons and asked me to retrieve the watermelons.  After I get access to Chumji&apos;s watermelon field from the Maple Admin, I should get #b5 #t4031701##k and take it to #rAgent W#k at agent headquarters.\r\n#i4031701# #t4031701# #b#c4031701# / 5#k"/>
-    <string name="2" value="There has been intelligence that a bomb from #rMaster M#k had been planted in Chumji&apos;s watermelons in his field.  I carefully picked 5 watermelons from Chumji&apos;s watermelon field and delivered it to Agent W.  Agent W is a self proclaimed demolitions expert!  I don&apos;t feel all that safe around him..."/>
+    <string name="name" value="La investigación de sandías del agente W"/>
+    <string name="0" value="Maple Admin dice que tiene algo que hablar conmigo. Debería ir a ver a #rMaple Admin#k. "/>
+    <string name="1" value="Maple Admin dijo que #e#rMaster M#k#n había colocado una bomba en las sandías de Chumji y me pidió que las recuperara. Después de conseguir acceso al campo de sandías de Chumji con Maple Admin, debo obtener #b5 #t4031701##k y llevárselas al #rAgente W#k en el cuartel de agentes.\r\n#i4031701# #t4031701# #b#c4031701# / 5#k"/>
+    <string name="2" value="Hay información de inteligencia que indica que #rMaster M#k colocó una bomba en las sandías del campo de Chumji. Recogí cuidadosamente 5 sandías del campo de Chumji y se las entregué al agente W. ¡El agente W se autoproclama experto en demoliciones! No me siento muy seguro cerca de él..."/>
     <int name="area" value="50"/>
   </imgdir>
   <imgdir name="10007">
-    <string name="name" value="Agent C&apos;s Intelligence Activity"/>
-    <string name="0" value="I received a message from Gaga, the secret agent, regarding an order for me.  I wonder what kind of mission it is?  I feeling a bit anxious."/>
-    <string name="1" value="Secret Agent Gaga said once I get 5 Intelligence documents from party quests, go meet Agent C. \n\n#b&lt;Party Quest where Agent C is&gt;\n- Moon Bunny&apos;s Rice Cake : Level 10 or higher\n- First Accompaniment : Level 21 ~ Level 30\n- Crack of Dimension : Level 35 ~ Level 50\n- Tower of the Goddess : Level 51 ~ Level 70\n- Lord Pirate : Level 55 ~ Level 100\n- Romeo and Juliet : Level 71 ~ Level 85\n- Poisonous Fog Forest : Level 45 ~ Level 55\n\n #kEach time I retrieve 5 Intelligence documents I will receive #bAgent C&apos;s old Receiver#k, and when I retrieve 100 Intelligence documents, I will receive #bAgent C&apos;s Titanium Titanium Receiver#k."/>
-    <string name="2" value="Secret Agent Gaga suggested that I go see Agent C at the reward map once I get 5 Intelligence documents from the party quest. "/>
+    <string name="name" value="Actividad de inteligencia del agente C"/>
+    <string name="0" value="Recibí un mensaje de Gaga, el agente secreto, con una orden para mí. ¿Qué clase de misión será? Me siento un poco ansioso."/>
+    <string name="1" value="El agente secreto Gaga dijo que, cuando consiga 5 documentos de inteligencia de party quests, vaya a ver al agente C. \n\n#b&lt;Party Quest donde está el agente C&gt;\n- Moon Bunny&apos;s Rice Cake : Nivel 10 o superior\n- First Accompaniment : Nivel 21 ~ Nivel 30\n- Crack of Dimension : Nivel 35 ~ Nivel 50\n- Tower of the Goddess : Nivel 51 ~ Nivel 70\n- Lord Pirate : Nivel 55 ~ Nivel 100\n- Romeo and Juliet : Nivel 71 ~ Nivel 85\n- Poisonous Fog Forest : Nivel 45 ~ Nivel 55\n\n #kCada vez que recupere 5 documentos de inteligencia recibiré el #bReceptor viejo del agente C#k, y cuando recupere 100 documentos de inteligencia, recibiré el #bReceptor de titanio del agente C#k."/>
+    <string name="2" value="El agente secreto Gaga sugirió que fuera a ver al agente C en el mapa de recompensas cuando consiga 5 documentos de inteligencia de la party quest. "/>
     <int name="area" value="50"/>
   </imgdir>
   <imgdir name="10008">
-    <string name="name" value="Information on Master M"/>
-    <string name="0" value="I collected 5 Intelligence documents.  Where am I supposed to find Agent C?"/>
-    <string name="1" value="I delivered the 5 Intelligence documents I gathered from the party quests to Agent C.  For my good work, Agent C gave me a receiver.  "/>
-    <string name="2" value="I delivered the 5 Intelligence documents I gathered from the party quests to Agent C.  For my good work, Agent C gave me a receiver.  "/>
+    <string name="name" value="Información sobre Master M"/>
+    <string name="0" value="Reuní 5 documentos de inteligencia. ¿Dónde se supone que debo encontrar al agente C?"/>
+    <string name="1" value="Le entregué al agente C los 5 documentos de inteligencia que reuní en las party quests. Por mi buen trabajo, el agente C me dio un receptor.  "/>
+    <string name="2" value="Le entregué al agente C los 5 documentos de inteligencia que reuní en las party quests. Por mi buen trabajo, el agente C me dio un receptor.  "/>
     <int name="area" value="50"/>
   </imgdir>
   <imgdir name="1001">
-    <string name="name" value="Bringing a Mirror to Heena"/>
-    <string name="parent" value="Sera&apos;s Mirror"/>
+    <string name="name" value="Llevando un espejo a Heena"/>
+    <string name="parent" value="El espejo de Sera"/>
     <int name="order" value="2"/>
-    <string name="1" value="I borrowed a mirror from Sarah who was doing her laundry. I have to take this mirror to Heena."/>
-    <string name="2" value="I borrowed a mirror from Sarah, who was doing her laundry, and brought it back to Heena."/>
+    <string name="1" value="Le pedí prestado un espejo a Sarah, que estaba lavando la ropa. Tengo que llevarle este espejo a Heena."/>
+    <string name="2" value="Le pedí prestado un espejo a Sarah, que estaba lavando la ropa, y se lo llevé a Heena."/>
     <int name="area" value="20"/>
   </imgdir>
   <imgdir name="10010">
-    <string name="name" value="Special Order: Find Master M&apos;s Orders!"/>
-    <string name="0" value="There&apos;s a strange energy flowing through Maple World.  Who is this Master M that is making everyone act so strange?  If anyone, #b#p9000036##k should know.  I should go visit her. "/>
-    <string name="1" value="Agent E said that in order to protect Maple World, I must find #t4031999#. \n\n#i04031999# #t4031999# #b#c04031999# / 20#k"/>
-    <string name="2" value="I found #t4031999# and delivered it.  I hope #b#p9000036##k does a good job analyzing it..."/>
+    <string name="name" value="Orden especial: ¡Encuentra las órdenes de Master M!"/>
+    <string name="0" value="Hay una energía extraña recorriendo Maple World. ¿Quién es este Master M que hace que todos actúen tan raro? Si alguien lo sabe, debería ser #b#p9000036##k. Debería ir a visitarla. "/>
+    <string name="1" value="El agente E dijo que, para proteger Maple World, debo encontrar #t4031999#. \n\n#i04031999# #t4031999# #b#c04031999# / 20#k"/>
+    <string name="2" value="Encontré #t4031999# y lo entregué. Espero que #b#p9000036##k lo analice bien..."/>
     <int name="area" value="50"/>
   </imgdir>
   <imgdir name="10011">
-    <string name="name" value="Special Order: Find Master M&apos;s Orders!"/>
-    <string name="0" value="There is a strange energy flowing through Maple World.  Who is this Master M that is making everyone act so strange?  If anyone, #b#p9000036##k should know.  I should go visit her. "/>
-    <string name="1" value="Agent E said that in order to protect Maple World, I must find #t4032000#. \n\n#i04032000# #t4032000# #b#c04032000# / 20#k"/>
-    <string name="2" value="I found #t4032000# and delivered it.  I hope #b#p9000036##k does a good job analyzing it..."/>
+    <string name="name" value="Orden especial: ¡Encuentra las órdenes de Master M!"/>
+    <string name="0" value="Hay una energía extraña recorriendo Maple World. ¿Quién es este Master M que hace que todos actúen tan raro? Si alguien lo sabe, debería ser #b#p9000036##k. Debería ir a visitarla. "/>
+    <string name="1" value="El agente E dijo que, para proteger Maple World, debo encontrar #t4032000#. \n\n#i04032000# #t4032000# #b#c04032000# / 20#k"/>
+    <string name="2" value="Encontré #t4032000# y lo entregué. Espero que #b#p9000036##k lo analice bien..."/>
     <int name="area" value="50"/>
   </imgdir>
   <imgdir name="10012">
-    <string name="name" value="Special Order: Find Master M&apos;s Orders!"/>
-    <string name="0" value="There is a strange energy flowing through Maple World right now.  Who is this Master M that is making everyone act so strange?  If anyone, #b#p9000036##k should know.  I should go visit her. "/>
-    <string name="1" value="Agent E said that in order to protect Maple World, I must find #t4032001#. \n\n#i04032001# #t4032001# #b#c04032001# / 20#k"/>
-    <string name="2" value="I found #t4032001# and delivered it.  I hope #b#p9000036##k does a good job analyzing it..."/>
+    <string name="name" value="Orden especial: ¡Encuentra las órdenes de Master M!"/>
+    <string name="0" value="Ahora mismo hay una energía extraña recorriendo Maple World. ¿Quién es este Master M que hace que todos actúen tan raro? Si alguien lo sabe, debería ser #b#p9000036##k. Debería ir a visitarla. "/>
+    <string name="1" value="El agente E dijo que, para proteger Maple World, debo encontrar #t4032001#. \n\n#i04032001# #t4032001# #b#c04032001# / 20#k"/>
+    <string name="2" value="Encontré #t4032001# y lo entregué. Espero que #b#p9000036##k lo analice bien..."/>
     <int name="area" value="50"/>
   </imgdir>
   <imgdir name="10014">
-    <string name="name" value="Today&apos;s Mission!"/>
-    <string name="0" value="Please check today&apos;s mission"/>
-    <string name="1" value="I should clear the mission that is given to me each day!"/>
-    <string name="2" value="I should clear the mission that is given to me each day!  What is today&apos;s mission?"/>
+    <string name="name" value="¡La misión de hoy!"/>
+    <string name="0" value="Por favor, revisa la misión de hoy"/>
+    <string name="1" value="¡Debo completar la misión que me dan cada día!"/>
+    <string name="2" value="¡Debo completar la misión que me dan cada día! ¿Cuál es la misión de hoy?"/>
     <int name="area" value="50"/>
     <int name="autoStart" value="1"/>
   </imgdir>
   <imgdir name="10015">
-    <string name="name" value="Obtain the Special Agent Badge!"/>
-    <string name="parent" value="Today&apos;s Mission! "/>
+    <string name="name" value="¡Obtén la insignia de agente especial!"/>
+    <string name="parent" value="¡La misión de hoy! "/>
     <int name="order" value="1"/>
-    <string name="1" value="Today&apos;s Mission!! \r\n&lt;Hunt in the mini dungeon and obtain #b1 Special Agent Badge#k!&gt;\r\nToday&apos;s mission is obtaining a #bSpecial Agent Badge#k.  According to rumors, the Special Agent Badge can be found in the mini dungeon...\nI should go see Agent O whom Gaga introduced me to.  If I haven&apos;t been introduced to #bAgent O#k yet, I should first go see #bAgent Gaga#k."/>
-    <string name="2" value="Today&apos;s mission has been completed."/>
+    <string name="1" value="¡¡Misión de hoy!! \r\n&lt;¡Caza en la mini mazmorra y consigue #b1 insignia de agente especial#k!&gt;\r\nLa misión de hoy es conseguir una #binsignia de agente especial#k. Según los rumores, la insignia de agente especial puede encontrarse en la mini mazmorra...\nDebería ir a ver al agente O, a quien Gaga me presentó. Si todavía no me presentaron al #bagente O#k, primero debería ir a ver al #bagente Gaga#k."/>
+    <string name="2" value="La misión de hoy ha sido completada."/>
     <int name="area" value="50"/>
     <int name="autoComplete" value="1"/>
   </imgdir>
@@ -117,53 +117,53 @@
     <int name="autoComplete" value="1"/>
   </imgdir>
   <imgdir name="10018">
-    <string name="name" value="Earn 50 points on the Speed Quiz!"/>
-    <string name="parent" value="Today&apos;s Mission!    "/>
+    <string name="name" value="¡Gana 50 puntos en el Speed Quiz!"/>
+    <string name="parent" value="¡La misión de hoy!    "/>
     <int name="order" value="1"/>
-    <string name="1" value="Today&apos;s Mission!!\r\n&lt;Earn #b50 points#k on the Speed Quiz!&gt;\n\nToday&apos;s mission is to get #b50 points#k from the Speed Quiz.  If you go see #bAgent Cassandra#k, you can take a speed quiz on the items and monsters of Maple World.  You get 1 point per question and the quiz can be taken once every 30 minutes.  You must earn a #btotal 50 points#k for today."/>
-    <string name="2" value="Today&apos;s mission has been completed."/>
+    <string name="1" value="¡¡Misión de hoy!!\r\n&lt;¡Gana #b50 puntos#k en el Speed Quiz!&gt;\n\nLa misión de hoy es conseguir #b50 puntos#k en el Speed Quiz. Si vas a ver a la #bagente Cassandra#k, puedes hacer un speed quiz sobre los ítems y monstruos de Maple World. Obtienes 1 punto por pregunta y puedes hacer el quiz una vez cada 30 minutos. Debes ganar un #btotal de 50 puntos#k hoy."/>
+    <string name="2" value="La misión de hoy ha sido completada."/>
     <int name="area" value="50"/>
     <int name="autoComplete" value="1"/>
   </imgdir>
   <imgdir name="10019">
-    <string name="name" value="Invade the Watermelon Field!"/>
-    <string name="parent" value="Today&apos;s Mission!     "/>
+    <string name="name" value="¡Invade el campo de sandías!"/>
+    <string name="parent" value="¡La misión de hoy!     "/>
     <int name="order" value="1"/>
-    <string name="1" value="Today&apos;s Mission!!\r\n&lt;Obtain #bChumji&apos;s Watermelon#k from the watermelon field!&gt;\n\nToday&apos;s mission is to obtain Chumji&apos;s watermelons.  There has been intelligence that #rMaster#k has planted a bomb in Chumji&apos;s watermelons.  Therefore, the watermelon field is currently being managed by the #bMaple Admin#k.  Get into the watermelon field through the Maple Admin and bring back the watermelons!"/>
-    <string name="2" value="Today&apos;s mission has been completed."/>
+    <string name="1" value="¡¡Misión de hoy!!\r\n&lt;¡Obtén #blas sandías de Chumji#k en el campo de sandías!&gt;\n\nLa misión de hoy es conseguir las sandías de Chumji. Hay información de inteligencia que indica que #rMaster#k colocó una bomba en las sandías de Chumji. Por eso, el campo de sandías está siendo administrado actualmente por #bMaple Admin#k. ¡Entra al campo de sandías a través de Maple Admin y trae las sandías!"/>
+    <string name="2" value="La misión de hoy ha sido completada."/>
     <int name="area" value="50"/>
     <int name="autoComplete" value="1"/>
   </imgdir>
   <imgdir name="10020">
-    <string name="name" value="Help Agent E!"/>
-    <string name="parent" value="Today&apos;s Mission!      "/>
+    <string name="name" value="¡Ayuda al agente E!"/>
+    <string name="parent" value="¡La misión de hoy!      "/>
     <int name="order" value="1"/>
-    <string name="1" value="Today&apos;s Mission!!\r\n&lt;Complete Agent E&apos;s #bSpecial Operation Quest#k!&gt; \n\nAgent E frequently assigns special operations to the agents to collect information on #bMaster M#k.  In order to receive a special operation from Agent E, go to Agent E who is in each town."/>
-    <string name="2" value="Today&apos;s mission has been completed."/>
+    <string name="1" value="¡¡Misión de hoy!!\r\n&lt;¡Completa la #bquest de operación especial#k del agente E!&gt; \n\nEl agente E suele asignar operaciones especiales a los agentes para reunir información sobre #bMaster M#k. Para recibir una operación especial del agente E, ve a verlo en cualquiera de las ciudades."/>
+    <string name="2" value="La misión de hoy ha sido completada."/>
     <int name="area" value="50"/>
     <int name="autoComplete" value="1"/>
   </imgdir>
   <imgdir name="10021">
-    <string name="name" value="You are a True Special Agent!"/>
-    <string name="0" value="#b#p9000021##k is said to have prepared a special gift for me for saving Maple World in the summer of 2009..."/>
-    <string name="1" value="#b#p9000021##k is said to have prepared a special gift for me for saving Maple World in the summer of 2009..."/>
-    <string name="2" value="2009 summer,... I was reborn as a true agent. "/>
+    <string name="name" value="¡Eres un verdadero agente especial!"/>
+    <string name="0" value="Dicen que #b#p9000021##k preparó un regalo especial para mí por salvar Maple World en el verano de 2009..."/>
+    <string name="1" value="Dicen que #b#p9000021##k preparó un regalo especial para mí por salvar Maple World en el verano de 2009..."/>
+    <string name="2" value="Verano de 2009... renací como un verdadero agente. "/>
     <int name="area" value="50"/>
     <int name="autoStart" value="1"/>
   </imgdir>
   <imgdir name="10023">
-    <string name="name" value="Long and Dangerous Road of an Agent"/>
-    <string name="0" value="I lost the Parachute Agent Shoes that Gaga gave to me recently during his suspicious offer.  I feel bad asking for another pair now, but should I still ask #bGaga#k? "/>
-    <string name="1" value="Gaga seemed overly touched by the encouragement I gave in passing.  I think he is going to give me the Parachute Agent Shoes again.  I should talk to #bGaga#k again. "/>
-    <string name="2" value="Gaga gave me the Parachute Agent Shoes again without any conditions.  I feel bad for doubting him all this time..."/>
+    <string name="name" value="El largo y peligroso camino de un agente"/>
+    <string name="0" value="Perdí los zapatos de agente paracaidista que Gaga me dio hace poco durante su oferta sospechosa. Me da vergüenza pedir otro par, pero ¿debería preguntarle a #bGaga#k de todos modos? "/>
+    <string name="1" value="Gaga pareció muy conmovido por el ánimo que le di al pasar. Creo que va a darme otra vez los zapatos de agente paracaidista. Debería hablar con #bGaga#k otra vez. "/>
+    <string name="2" value="Gaga volvió a darme los zapatos de agente paracaidista sin ninguna condición. Me siento mal por haber dudado de él todo este tiempo..."/>
     <int name="area" value="50"/>
   </imgdir>
   <imgdir name="1003">
-    <string name="name" value="What Sen wants to eat"/>
-    <string name="parent" value="Nina and Sen&apos;s Dinner Menu"/>
-    <string name="0" value="Let&apos;s talk to Nina."/>
-    <string name="1" value="I ran into Nina who was thinking about what to make for Dinner for her brother, Sen. I have to go and talk to Sen who is next to Nina, and find out what he wants to have for dinner."/>
-    <string name="2" value="I asked Sen, Nina&apos;s brother, what he wants to have for dinner. He answers he wants to have a #bMushroom Soup#k."/>
+    <string name="name" value="Lo que Sen quiere comer"/>
+    <string name="parent" value="El menú de cena de Nina y Sen"/>
+    <string name="0" value="Hablemos con Nina."/>
+    <string name="1" value="Me encontré con Nina, que estaba pensando qué preparar para la cena de su hermano Sen. Tengo que hablar con Sen, que está junto a Nina, y averiguar qué quiere cenar."/>
+    <string name="2" value="Le pregunté a Sen, el hermano de Nina, qué quiere cenar. Me respondió que quiere una #bsopa de hongos#k."/>
     <int name="area" value="20"/>
     <int name="order" value="1"/>
   </imgdir>
@@ -204,10 +204,10 @@
     <int name="autoStart" value="1"/>
   </imgdir>
   <imgdir name="10035">
-    <string name="name" value="The Great Maple Book Drive"/>
-    <string name="0" value="#b#p9010014##k in #b#m100000200##k has lost her books she collected for the Great Maple Book Drive."/>
-    <string name="1" value="#p9010014#, has asked me to help her find #b#t4000515##k . She says she&apos;ll show me #bfireworks#k if I help her."/>
-    <string name="2" value="#p9010014#, has asked me to help her find #b#t4000515##k . She says she&apos;ll show me fireworks if I help her."/>
+    <string name="name" value="La gran colecta de libros de Maple"/>
+    <string name="0" value="#b#p9010014##k, en #b#m100000200##k, perdió los libros que había reunido para la gran colecta de libros de Maple."/>
+    <string name="1" value="#p9010014# me pidió ayuda para encontrar #b#t4000515##k. Dice que me mostrará #bfuegos artificiales#k si la ayudo."/>
+    <string name="2" value="#p9010014# me pidió ayuda para encontrar #b#t4000515##k. Dice que me mostrará fuegos artificiales si la ayudo."/>
     <int name="area" value="50"/>
     <int name="autoStart" value="1"/>
     <int name="autoPreComplete" value="1"/>
@@ -227,20 +227,20 @@
     <int name="area" value="50"/>
   </imgdir>
   <imgdir name="10039">
-    <string name="name" value="Surprise Event : Special Alphabets"/>
-    <string name="0" value="They say that Cassandra will be giving out a Special Alphabet Letter on Back To School day! The Cassandra is only giving it out on that one day, so I&apos;d better to get it now!"/>
-    <string name="1" value="Cassandra is apparently giving out 1 letter you ask for. They&apos;re only doing this for 1-day on Back To School day!"/>
-    <string name="2" value="I received a Special Alphabet letter on Back To School day as part of MapleStory&apos;s Surprise Back To School event."/>
+    <string name="name" value="Evento sorpresa: alfabetos especiales"/>
+    <string name="0" value="¡Dicen que Cassandra entregará una letra especial del alfabeto durante el día de regreso a clases! Cassandra solo la entregará ese día, así que será mejor conseguirla ahora."/>
+    <string name="1" value="Al parecer, Cassandra entrega 1 letra a elección. ¡Solo lo hacen durante 1 día, en el evento de regreso a clases!"/>
+    <string name="2" value="Recibí una letra especial del alfabeto durante el día de regreso a clases como parte del evento sorpresa de MapleStory."/>
     <int name="area" value="50"/>
     <int name="autoStart" value="1"/>
     <int name="autoPreComplete" value="1"/>
   </imgdir>
   <imgdir name="1004">
-    <string name="name" value="Returning to Nina"/>
-    <string name="parent" value="Nina and Sen&apos;s Dinner Menu"/>
+    <string name="name" value="Regresando con Nina"/>
+    <string name="parent" value="El menú de cena de Nina y Sen"/>
     <int name="order" value="2"/>
-    <string name="1" value="Sen wants to have Mushroom Soup for Dinner. Let&apos;s get back to Nina now."/>
-    <string name="2" value="I told Nina what Sen wants for dinner."/>
+    <string name="1" value="Sen quiere cenar sopa de hongos. Volvamos con Nina ahora."/>
+    <string name="2" value="Le dije a Nina qué quiere cenar Sen."/>
     <int name="area" value="20"/>
   </imgdir>
   <imgdir name="10043">
