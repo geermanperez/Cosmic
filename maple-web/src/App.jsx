@@ -18,7 +18,7 @@ import "./App.css";
 import { API_URL, getToken, saveToken, request } from "./apiClient";
 
 const downloadUrl =
-  "https://drive.google.com/file/d/1HuY39ItV9g0O1qM03L6aK7gQex23D98A/view?usp=sharing";
+  "https://drive.google.com/file/d/1Y36otkN6qS6OlGPVjHvmKwi5DKSfFb95/view?usp=sharing";
 
 const translations = {
   en: {
