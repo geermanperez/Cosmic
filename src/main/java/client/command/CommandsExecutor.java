@@ -351,7 +351,6 @@ public class CommandsExecutor {
         addCommand("equiplv", EquipLvCommand.class);
         addCommand("showrates", ShowRatesCommand.class);
         addCommand("rates", RatesCommand.class);
-        addCommand("online", OnlineCommand.class);
         addCommand("gm", GmCommand.class);
         addCommand("reportbug", ReportBugCommand.class);
         addCommand("points", ReadPointsCommand.class);
@@ -377,6 +376,7 @@ public class CommandsExecutor {
 
         addCommand("whatdropsfrom", 1, WhatDropsFromCommand.class);
         addCommand("whodrops", 1, WhoDropsCommand.class);
+        addCommand("online", 1, OnlineCommand.class);
         addCommand("buffme", 1, BuffMeCommand.class);
         addCommand("goto", 1, GotoCommand.class);
 
