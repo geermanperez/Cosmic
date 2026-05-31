@@ -41,7 +41,7 @@ const translations = {
       online: "Server ONLINE",
       offline: "Server OFFLINE",
       playersOnline: "Players online",
-      rates: "2x Mesos - Custom Drops",
+      rates: "2x Mesos - 2x Drops - 5x Quests",
       version: "Server version",
     },
     home: {
@@ -218,7 +218,7 @@ const translations = {
       online: "Servidor EN LINEA",
       offline: "Servidor FUERA DE LINEA",
       playersOnline: "Jugadores en linea",
-      rates: "2x Mesos - Drops Custom",
+      rates: "2x Mesos - 2x Drops - 5x Quests",
       version: "Version del servidor",
     },
     home: {
@@ -966,7 +966,7 @@ function App() {
                 </article>
                 <article className="metric-card">
                   <ShieldCheck size={20} />
-                  <strong>4x EXP</strong>
+                  <strong>2x EXP</strong>
                   <span>{t.hero.rates}</span>
                 </article>
                 <article className="metric-card">
