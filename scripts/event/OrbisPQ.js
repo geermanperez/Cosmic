@@ -29,6 +29,7 @@ var minLevel = 51, maxLevel = 70;
 var entryMap = 920010000;
 var exitMap = 920011200;
 var recruitMap = 200080101;
+var hubMap = 970030000;
 var clearMap = 920011300;
 
 var minMapId = 920010000;
@@ -96,7 +97,7 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
         for (var i = 0; i < party.size(); i++) {
             var ch = partyList[i];
 
-            if (ch.getMapId() == recruitMap && ch.getLevel() >= minLevel && ch.getLevel() <= maxLevel) {
+            if ((ch.getMapId() == recruitMap || ch.getMapId() == hubMap) && ch.getLevel() >= minLevel && ch.getLevel() <= maxLevel) {
                 if (ch.isLeader()) {
                     hasLeader = true;
                 }

@@ -47,7 +47,7 @@ function action(mode, type, selection) {
             status--;
         }
 
-        if (cm.getMapId() == 200080101) {
+        if (cm.getMapId() == 200080101 || cm.getMapId() == 970030000) {
             if (status == 0) {
                 em = cm.getEventManager("OrbisPQ");
                 if (em == null) {
