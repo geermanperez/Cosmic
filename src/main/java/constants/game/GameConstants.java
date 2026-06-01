@@ -462,24 +462,7 @@ public class GameConstants {
     }
 
     public static int getJobMaxLevel(Job job) {
-        int jobBranch = getJobBranch(job);
-
-        switch (jobBranch) {
-            case 0:
-                return 10;   // beginner
-
-            case 1:
-                return 30;   // 1st job
-
-            case 2:
-                return 70;   // 2nd job
-
-            case 3:
-                return 120;   // 3rd job
-
-            default:
-                return (job.getId() / 1000 == 1) ? 120 : 200;   // 4th job: cygnus is 120, rest is 200
-        }
+        return 255;
     }
 
     public static int getSkillBook(final int job) {
