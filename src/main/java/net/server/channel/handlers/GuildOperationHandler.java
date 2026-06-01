@@ -46,6 +46,24 @@ import java.util.Set;
 public final class GuildOperationHandler extends AbstractPacketHandler {
     private static final Logger log = LoggerFactory.getLogger(GuildOperationHandler.class);
 
+    private void createSoloGuild(Character leader, String guildName) {
+        int gid = Server.getInstance().createGuild(leader.getId(), guildName);
+        if (gid == 0) {
+            leader.sendPacket(GuildPackets.genericGuildMessage((byte) 0x23));
+            return;
+        }
+
+        leader.gainMeso(-YamlConfig.config.server.CREATE_GUILD_COST, true, false, true);
+        leader.getMGC().setGuildId(gid);
+        Guild guild = Server.getInstance().getGuild(leader.getGuildId(), leader.getWorld(), leader);
+        Server.getInstance().changeRank(gid, leader.getId(), 1);
+
+        leader.sendPacket(GuildPackets.showGuildInfo(leader));
+        leader.dropMessage(1, "You have successfully created a Guild.");
+        guild.broadcastNameChanged();
+        guild.broadcastEmblemChanged();
+    }
+
     private boolean isGuildNameAcceptable(String name) {
         if (name.length() < 3 || name.length() > 12) {
             return false;
@@ -92,6 +110,16 @@ public final class GuildOperationHandler extends AbstractPacketHandler {
                         mc.dropMessage(1, "Please make sure everyone you are trying to invite is neither on a guild nor on a party.");
                     }
 
+                    return;
+                }
+
+                if (YamlConfig.config.server.CREATE_GUILD_MIN_PARTNERS <= 1) {
+                    if (mc.getParty() != null) {
+                        mc.dropMessage(1, "You cannot create a new Guild while in a party.");
+                        return;
+                    }
+
+                    createSoloGuild(mc, guildName);
                     return;
                 }
 
