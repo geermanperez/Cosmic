@@ -6,7 +6,9 @@ services:
       - db
     ports:
       - "8484:8484"
-      - "7575-7577:7575-7577"
+      - "7575:7575"
+      - "7576:7576"
+      - "7577:7577"
     volumes:
       - ./config.yaml:/opt/server/config.yaml
       - ./scripts:/opt/server/scripts
