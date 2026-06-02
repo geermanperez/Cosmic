@@ -577,6 +577,41 @@
   gap: 10px;
 }
 
+.ranking-filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.ranking-filters label {
+  display: grid;
+  gap: 7px;
+  color: #7c6048;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.ranking-filters select {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1px solid rgba(145, 78, 18, 0.18);
+  border-radius: 14px;
+  color: #53331a;
+  background: rgba(255, 251, 245, 0.98);
+  font: inherit;
+  font-weight: 800;
+}
+
+.ranking-empty {
+  margin: 14px 0 0;
+  color: #7f644c;
+  font-weight: 800;
+}
+
 .ranking-row {
   display: flex;
   align-items: center;
@@ -931,7 +966,8 @@
   .account-menu,
   .summary-grid,
   .character-row,
-  .download-layout {
+  .download-layout,
+  .ranking-filters {
     grid-template-columns: 1fr;
   }
 

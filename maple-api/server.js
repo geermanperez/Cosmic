@@ -327,7 +327,7 @@ app.get("/ranking", async (req, res) => {
     `, params);
 
     if (rows.length === 0) {
-      return res.json({ ok: true, ranking: [] });
+      return res.json({ ok: true, rankingVersion: "equips-filters-v1", filters: { job: job || "all", country: country || "all" }, ranking: [] });
     }
 
     const characterIds = rows.map((row) => row.id);
@@ -357,7 +357,7 @@ app.get("/ranking", async (req, res) => {
       equips: equipsByCharacter.get(row.id) || [],
     }));
 
-    return res.json({ ok: true, ranking });
+    return res.json({ ok: true, rankingVersion: "equips-filters-v1", filters: { job: job || "all", country: country || "all" }, ranking });
   } catch (error) {
     console.error(error);
     return res.status(500).json({

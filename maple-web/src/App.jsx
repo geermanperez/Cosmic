@@ -1158,9 +1158,30 @@ function App() {
                   </div>
                   <Trophy size={24} />
                 </div>
+                <div className="ranking-filters" aria-label={t.pages.rankingTitle}>
+                  <label>
+                    {t.ranking.filterJob}
+                    <select value={rankingJobFilter} onChange={(event) => setRankingJobFilter(event.target.value)}>
+                      <option value="all">{t.ranking.allJobs}</option>
+                      {rankingJobOptions.map(([jobId, jobName]) => (
+                        <option key={jobId} value={jobId}>{jobName}</option>
+                      ))}
+                    </select>
+                  </label>
+                  <label>
+                    {t.ranking.filterCountry}
+                    <select value={rankingCountryFilter} onChange={(event) => setRankingCountryFilter(event.target.value)}>
+                      <option value="all">{t.ranking.allCountries}</option>
+                      {rankingCountryOptions.map((country) => (
+                        <option key={country} value={country}>{country}</option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
                 <div className="ranking-list ranking-list--full">
                   <RankingRows players={rankingRows} language={language} text={t.ranking} />
                 </div>
+                {ranking.length > 0 && rankingRows.length === 0 ? <p className="ranking-empty">{t.ranking.noResults}</p> : null}
               </section>
             ) : null}
 
