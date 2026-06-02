@@ -500,6 +500,37 @@ const fallbackCountryCodes = [
 ];
 
 const DEFAULT_CHARACTER_IMAGE = "/latinms.png";
+const DEFAULT_EQUIPS_BY_GENDER = {
+  0: [1040002, 1060002, 1072001],
+  1: [1041002, 1061002, 1072001],
+};
+const DEFAULT_WEAPON = 1302000;
+
+function getEquippedItemIds(character) {
+  const rawEquips = character?.equips ?? character?.equipment ?? character?.items ?? character?.equipped;
+  if (!rawEquips) return [];
+
+  if (Array.isArray(rawEquips)) {
+    return rawEquips
+      .map((item) => Number(typeof item === "object" ? item.itemid ?? item.itemId ?? item.id : item))
+      .filter((itemId) => Number.isFinite(itemId) && itemId > 0);
+  }
+
+  if (typeof rawEquips === "object") {
+    return Object.values(rawEquips)
+      .map((item) => Number(typeof item === "object" ? item.itemid ?? item.itemId ?? item.id : item))
+      .filter((itemId) => Number.isFinite(itemId) && itemId > 0);
+  }
+
+  if (typeof rawEquips === "string") {
+    return rawEquips
+      .split(/[,\s|]+/)
+      .map((item) => Number(item))
+      .filter((itemId) => Number.isFinite(itemId) && itemId > 0);
+  }
+
+  return [];
+}
 
 const getViewFromHash = () => {
   const value = window.location.hash.replace("#", "");
