@@ -44,6 +44,14 @@ const translations = {
       rates: "2x Mesos - 2x Drops - 5x Quests",
       version: "Server version",
     },
+    community: {
+      kicker: "Official community",
+      title: "Join the LatinMS WhatsApp group",
+      copy:
+        "Scan the QR code and come meet other players, ask questions, share progress, and stay close to the latest server news.",
+      action: "Scan the QR with WhatsApp",
+      imageAlt: "QR code to join the LatinMS WhatsApp community",
+    },
     home: {
       statusKicker: "World status",
       statusTitle: "Everything is ready for you to join the adventure",
@@ -225,6 +233,14 @@ const translations = {
       playersOnline: "Jugadores en linea",
       rates: "2x Mesos - 2x Drops - 5x Quests",
       version: "Version del servidor",
+    },
+    community: {
+      kicker: "Comunidad oficial",
+      title: "Unite al grupo de WhatsApp de LatinMS",
+      copy:
+        "Escanea el codigo QR y ven a conocer otros jugadores, resolver dudas, compartir tu progreso y enterarte de las novedades del servidor.",
+      action: "Escanea el QR con WhatsApp",
+      imageAlt: "Codigo QR para unirse a la comunidad de WhatsApp de LatinMS",
     },
     home: {
       statusKicker: "Estado del mundo",
@@ -945,48 +961,66 @@ function App() {
 
       <main className="page">
         {view === "home" ? (
-          <section className="hero-card">
-            <div className="hero-card__copy">
-              <span className="hero-card__eyebrow">{t.hero.eyebrow}</span>
-              <h1>{t.hero.title}</h1>
-              <p>{t.hero.copy}</p>
-
-              <div className="hero-card__actions">
-                <button type="button" className="button-primary" onClick={() => goToView("register")}>
-                  {t.hero.start}
-                  <ArrowRight size={18} />
-                </button>
-                <button type="button" className="button-secondary" onClick={() => goToView(token ? "account" : "login")}>
-                  {token ? t.nav.account : t.hero.enter}
-                </button>
-              </div>
-            </div>
-
-            <div className="hero-card__status">
-              <div className={`status-pill${serverOnline ? " is-online" : ""}`}>
-                <span className="status-pill__dot"></span>
-                {serverOnline ? t.hero.online : t.hero.offline}
-              </div>
-
-              <div className="metric-grid">
-                <article className="metric-card">
+          <>
+            <section className="community-hero" aria-labelledby="community-title">
+              <div className="community-hero__copy">
+                <span className="community-hero__kicker">{t.community.kicker}</span>
+                <h1 id="community-title">{t.community.title}</h1>
+                <p>{t.community.copy}</p>
+                <div className="community-hero__cta">
                   <Users size={20} />
-                  <strong>{serverOnline ? onlinePlayers : "-"}</strong>
-                  <span>{t.hero.playersOnline}</span>
-                </article>
-                <article className="metric-card">
-                  <ShieldCheck size={20} />
-                  <strong>2x EXP</strong>
-                  <span>{t.hero.rates}</span>
-                </article>
-                <article className="metric-card">
-                  <Gamepad2 size={20} />
-                  <strong>v83</strong>
-                  <span>{t.hero.version}</span>
-                </article>
+                  <span>{t.community.action}</span>
+                </div>
               </div>
-            </div>
-          </section>
+
+              <div className="community-hero__media">
+                <img src="/whatsapp-community.png" alt={t.community.imageAlt} />
+              </div>
+            </section>
+
+            <section className="hero-card">
+              <div className="hero-card__copy">
+                <span className="hero-card__eyebrow">{t.hero.eyebrow}</span>
+                <h1>{t.hero.title}</h1>
+                <p>{t.hero.copy}</p>
+
+                <div className="hero-card__actions">
+                  <button type="button" className="button-primary" onClick={() => goToView("register")}>
+                    {t.hero.start}
+                    <ArrowRight size={18} />
+                  </button>
+                  <button type="button" className="button-secondary" onClick={() => goToView(token ? "account" : "login")}>
+                    {token ? t.nav.account : t.hero.enter}
+                  </button>
+                </div>
+              </div>
+
+              <div className="hero-card__status">
+                <div className={`status-pill${serverOnline ? " is-online" : ""}`}>
+                  <span className="status-pill__dot"></span>
+                  {serverOnline ? t.hero.online : t.hero.offline}
+                </div>
+
+                <div className="metric-grid">
+                  <article className="metric-card">
+                    <Users size={20} />
+                    <strong>{serverOnline ? onlinePlayers : "-"}</strong>
+                    <span>{t.hero.playersOnline}</span>
+                  </article>
+                  <article className="metric-card">
+                    <ShieldCheck size={20} />
+                    <strong>2x EXP</strong>
+                    <span>{t.hero.rates}</span>
+                  </article>
+                  <article className="metric-card">
+                    <Gamepad2 size={20} />
+                    <strong>v83</strong>
+                    <span>{t.hero.version}</span>
+                  </article>
+                </div>
+              </div>
+            </section>
+          </>
         ) : null}
 
         <section className="content-grid">
