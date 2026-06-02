@@ -1063,7 +1063,7 @@ public class EventInstanceManager {
 
         if (rewardsSet == null || rewardsSet.isEmpty()) {
             if (rewardExp > 0) {
-                player.gainExp(rewardExp);
+                giveRewardExp(player, rewardExp);
             }
             return true;
         }
@@ -1077,9 +1077,13 @@ public class EventInstanceManager {
 
         api.gainItem(rewardsSet.get(rnd), rewardsQty.get(rnd).shortValue());
         if (rewardExp > 0) {
-            player.gainExp(rewardExp);
+            giveRewardExp(player, rewardExp);
         }
         return true;
+    }
+
+    private void giveRewardExp(Character player, int rewardExp) {
+        player.gainExp(getEventExpGain(rewardExp) * player.getExpRate(), true, true);
     }
 
     private void disposeExpedition() {

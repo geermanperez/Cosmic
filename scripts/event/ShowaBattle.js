@@ -25,7 +25,7 @@
 
 var isPq = true;
 var minPlayers = 3, maxPlayers = 30;
-var minLevel = 100, maxLevel = 255;
+var minLevel = 100;
 var entryMap = 801040100;
 var exitMap = 801040004;
 var recruitMap = 801040004;
@@ -56,12 +56,8 @@ function setEventRequirements() {
         reqStr += minPlayers;
     }
 
-    reqStr += "\r\n    Level range: ";
-    if (maxLevel - minLevel >= 1) {
-        reqStr += minLevel + " ~ " + maxLevel;
-    } else {
-        reqStr += minLevel;
-    }
+    reqStr += "\r\n    Minimum level: ";
+    reqStr += minLevel;
 
     reqStr += "\r\n    Time limit: ";
     reqStr += eventTime + " minutes";

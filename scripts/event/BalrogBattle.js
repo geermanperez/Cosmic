@@ -25,7 +25,7 @@
 
 var isPq = true;
 var minPlayers = 6, maxPlayers = 30;
-var minLevel = 50, maxLevel = 255;
+var minLevel = 50;
 var entryMap = 105100300;
 var exitMap = 105100100;
 var recruitMap = 105100100;
@@ -61,12 +61,8 @@ function setEventRequirements() {
         reqStr += minPlayers;
     }
 
-    reqStr += "\r\n    Level range: ";
-    if (maxLevel - minLevel >= 1) {
-        reqStr += minLevel + " ~ " + maxLevel;
-    } else {
-        reqStr += minLevel;
-    }
+    reqStr += "\r\n    Minimum level: ";
+    reqStr += minLevel;
 
     reqStr += "\r\n    Time limit: ";
     reqStr += eventTime + " minutes";
@@ -101,7 +97,7 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
         for (var i = 0; i < party.size(); i++) {
             var ch = partyList[i];
 
-            if (ch.getMapId() == recruitMap && ch.getLevel() >= minLevel && ch.getLevel() <= maxLevel) {
+            if (ch.getMapId() == recruitMap && ch.getLevel() >= minLevel) {
                 if (ch.isLeader()) {
                     hasLeader = true;
                 }

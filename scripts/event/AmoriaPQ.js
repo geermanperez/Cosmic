@@ -26,7 +26,7 @@
 var isPq = true;
 var onlyMarriedPlayers = true;
 var minPlayers = 6, maxPlayers = 6;
-var minLevel = 40, maxLevel = 255;
+var minLevel = 40;
 var entryMap = 670010200;
 var exitMap = 670011000;
 var recruitMap = 670010100;
@@ -57,12 +57,8 @@ function setEventRequirements() {
         reqStr += minPlayers;
     }
 
-    reqStr += "\r\n    Level range: ";
-    if (maxLevel - minLevel >= 1) {
-        reqStr += minLevel + " ~ " + maxLevel;
-    } else {
-        reqStr += minLevel;
-    }
+    reqStr += "\r\n    Minimum level: ";
+    reqStr += minLevel;
 
     reqStr += "\r\n    At least 1 of both genders";
     if (onlyMarriedPlayers) {
@@ -103,7 +99,7 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
         for (var i = 0; i < party.size(); i++) {
             var ch = partyList[i];
 
-            if (ch.getMapId() == recruitMap && ch.getLevel() >= minLevel && ch.getLevel() <= maxLevel) {
+            if (ch.getMapId() == recruitMap && ch.getLevel() >= minLevel) {
                 if (ch.isLeader()) {
                     hasLeader = true;
                 }

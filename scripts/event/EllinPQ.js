@@ -25,7 +25,7 @@
 
 var isPq = true;
 var minPlayers = 4, maxPlayers = 6;
-var minLevel = 44, maxLevel = 55;
+var minLevel = 44;
 var entryMap = 930000000;
 var exitMap = 930000800;
 var recruitMap = 300030100;
@@ -56,12 +56,8 @@ function setEventRequirements() {
         reqStr += minPlayers;
     }
 
-    reqStr += "\r\n    Level range: ";
-    if (maxLevel - minLevel >= 1) {
-        reqStr += minLevel + " ~ " + maxLevel;
-    } else {
-        reqStr += minLevel;
-    }
+    reqStr += "\r\n    Minimum level: ";
+    reqStr += minLevel;
 
     reqStr += "\r\n    For #radventurers only#k.";
 
@@ -88,7 +84,7 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
         for (var i = 0; i < party.size(); i++) {
             var ch = partyList[i];
 
-            if (ch.getMapId() == recruitMap && ch.getLevel() >= minLevel && ch.getLevel() <= maxLevel && Math.floor(ch.getJob().getId() / 1000) == 0) {  //only adventurers
+            if (ch.getMapId() == recruitMap && ch.getLevel() >= minLevel && Math.floor(ch.getJob().getId() / 1000) == 0) {  //only adventurers
                 if (ch.isLeader()) {
                     hasLeader = true;
                 }

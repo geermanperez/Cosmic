@@ -25,7 +25,7 @@
 
 var isPq = true;
 var minPlayers = 2, maxPlayers = 2;
-var minLevel = 100, maxLevel = 255;
+var minLevel = 100;
 var entryMap = 922020100;
 var exitMap = 220050300;
 var recruitMap = 220050300;
@@ -56,12 +56,8 @@ function setEventRequirements() {
         reqStr += minPlayers;
     }
 
-    reqStr += "\r\n    Level range: ";
-    if (maxLevel - minLevel >= 1) {
-        reqStr += minLevel + " ~ " + maxLevel;
-    } else {
-        reqStr += minLevel;
-    }
+    reqStr += "\r\n    Minimum level: ";
+    reqStr += minLevel;
 
     reqStr += "\r\n    For #rmagicians only#k.";
 
@@ -98,7 +94,7 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
         for (var i = 0; i < party.size(); i++) {
             var ch = partyList[i];
 
-            if (ch.getMapId() == recruitMap && ch.getLevel() >= minLevel && ch.getLevel() <= maxLevel && ch.getJob().getJobNiche() == 2) {
+            if (ch.getMapId() == recruitMap && ch.getLevel() >= minLevel && ch.getJob().getJobNiche() == 2) {
                 if (ch.isLeader()) {
                     hasLeader = true;
                 }     // magician niche only
