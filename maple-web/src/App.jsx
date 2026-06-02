@@ -567,6 +567,7 @@ function getCharacterImage(character) {
   }
 
   const skin = Number(character.skin ?? character.skincolor ?? 0);
+  const gender = Number(character.gender ?? 0);
   const hair = Number(character.hair);
   const face = Number(character.face);
 
@@ -574,10 +575,13 @@ function getCharacterImage(character) {
     return DEFAULT_CHARACTER_IMAGE;
   }
 
-  const renderSkin = Number.isFinite(skin) && skin > 0 ? skin : 0;
-  if (renderSkin === 0) return DEFAULT_CHARACTER_IMAGE;
+  const renderSkin = Number.isFinite(skin) && skin > 0 ? skin : 1;
+  const equippedItems = getEquippedItemIds(character);
+  const defaultEquips = DEFAULT_EQUIPS_BY_GENDER[gender] ?? DEFAULT_EQUIPS_BY_GENDER[0];
+  const renderItems = equippedItems.length > 0 ? equippedItems : [...defaultEquips, DEFAULT_WEAPON];
+  const itemPath = [hair, face, ...renderItems].join(",");
 
-  return `https://maplestory.io/api/GMS/83/Character/${renderSkin}/${hair},${face}/stand1/0?resize=3`;
+  return `https://maplestory.io/api/GMS/83/Character/${renderSkin}/${itemPath}/stand1/0?resize=3`;
 }
 
 function RankingRows({ players, language, text }) {
