@@ -410,6 +410,15 @@
   border-radius: 28px;
 }
 
+.home-update {
+  display: grid;
+  gap: 14px;
+}
+
+.home-update .news-card--featured {
+  padding: 22px;
+}
+
 .panel__head {
   display: flex;
   align-items: start;

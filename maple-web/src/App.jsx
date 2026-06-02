@@ -993,6 +993,11 @@ function App() {
           <div className="content-main">
             {view === "home" ? (
               <>
+                <section className="panel home-update">
+                  <span className="panel__kicker">{t.nav.news}</span>
+                  <NewsList items={t.newsItems.slice(0, 1)} />
+                </section>
+
                 <section className="panel">
                   <div className="panel__head">
                     <div>
@@ -1024,7 +1029,7 @@ function App() {
                       </div>
                       <img src="/1.png" alt="" className="panel-head-icon" />
                     </div>
-                    <NewsList items={t.newsItems} />
+                    <NewsList items={t.newsItems.slice(1)} />
                   </article>
 
                   <article className="panel">
