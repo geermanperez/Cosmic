@@ -626,6 +626,8 @@ function App() {
   const [view, setView] = useState(getViewFromHash);
   const [status, setStatus] = useState(null);
   const [ranking, setRanking] = useState([]);
+  const [rankingJobFilter, setRankingJobFilter] = useState("all");
+  const [rankingCountryFilter, setRankingCountryFilter] = useState("all");
   const [form, setForm] = useState({
     username: "",
     displayName: "",
@@ -940,8 +942,32 @@ function App() {
     }
   };
 
+  const rankingJobOptions = useMemo(() => {
+    const jobs = new Map();
+    for (const player of ranking) {
+      const jobId = Number(player.job);
+      if (Number.isFinite(jobId)) {
+        jobs.set(String(jobId), getJobName(jobId, language));
+      }
+    }
+    return Array.from(jobs.entries()).sort((a, b) => a[1].localeCompare(b[1], language));
+  }, [language, ranking]);
+
+  const rankingCountryOptions = useMemo(() => (
+    Array.from(new Set(ranking.map((player) => player.country).filter(Boolean)))
+      .sort((a, b) => a.localeCompare(b, language))
+  ), [language, ranking]);
+
+  const filteredRanking = useMemo(() => (
+    ranking.filter((player) => {
+      const matchesJob = rankingJobFilter === "all" || String(player.job) === rankingJobFilter;
+      const matchesCountry = rankingCountryFilter === "all" || player.country === rankingCountryFilter;
+      return matchesJob && matchesCountry;
+    })
+  ), [ranking, rankingCountryFilter, rankingJobFilter]);
+
   const rankingPreview = ranking.length > 0 ? ranking.slice(0, 5) : topPlayersFallback;
-  const rankingRows = ranking.length > 0 ? ranking : topPlayersFallback;
+  const rankingRows = ranking.length > 0 ? filteredRanking : topPlayersFallback;
   const serverOnline = status?.ok === true || status?.server === "online";
   const onlinePlayers =
     status?.onlinePlayers ??
