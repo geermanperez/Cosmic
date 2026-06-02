@@ -286,6 +286,24 @@ app.get("/status/debug", async (req, res) => {
 
 app.get("/ranking", async (req, res) => {
   try {
+    const { job, country } = req.query;
+    const where = ["c.gm = 0"];
+    const params = [];
+
+    if (job && job !== "all") {
+      const jobId = Number(job);
+      if (!Number.isInteger(jobId)) {
+        return res.status(400).json({ ok: false, message: "Filtro de job invalido." });
+      }
+      where.push("c.job = ?");
+      params.push(jobId);
+    }
+
+    if (country && country !== "all") {
+      where.push("p.country = ?");
+      params.push(country);
+    }
+
     const [rows] = await pool.query(`
       SELECT
         c.id,
@@ -303,12 +321,43 @@ app.get("/ranking", async (req, res) => {
       FROM characters c
       LEFT JOIN guilds g ON c.guildid = g.guildid
       LEFT JOIN web_profiles p ON c.accountid = p.account_id
-      WHERE c.gm = 0
+      WHERE ${where.join(" AND ")}
       ORDER BY c.level DESC, c.exp DESC
       LIMIT 50
-    `);
+    `, params);
 
-    return res.json({ ok: true, ranking: rows });
+    if (rows.length === 0) {
+      return res.json({ ok: true, ranking: [] });
+    }
+
+    const characterIds = rows.map((row) => row.id);
+    const placeholders = characterIds.map(() => "?").join(",");
+    const [equipRows] = await pool.query(`
+      SELECT characterid, itemid, position
+      FROM inventoryitems
+      WHERE characterid IN (${placeholders})
+        AND inventorytype = -1
+        AND position < 0
+      ORDER BY characterid, position
+    `, characterIds);
+
+    const equipsByCharacter = new Map();
+    for (const equip of equipRows) {
+      if (!equipsByCharacter.has(equip.characterid)) {
+        equipsByCharacter.set(equip.characterid, []);
+      }
+      equipsByCharacter.get(equip.characterid).push({
+        itemid: equip.itemid,
+        position: equip.position,
+      });
+    }
+
+    const ranking = rows.map((row) => ({
+      ...row,
+      equips: equipsByCharacter.get(row.id) || [],
+    }));
+
+    return res.json({ ok: true, ranking });
   } catch (error) {
     console.error(error);
     return res.status(500).json({

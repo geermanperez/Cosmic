@@ -115,6 +115,11 @@ const translations = {
       characterAlt: "Character",
       noData: "No data",
       pending: "Ranking pending",
+      filterJob: "Job",
+      filterCountry: "Country",
+      allJobs: "All jobs",
+      allCountries: "All countries",
+      noResults: "No players match these filters.",
     },
     auth: {
       loginKicker: "Sign in",
@@ -305,6 +310,11 @@ const translations = {
       characterAlt: "Personaje",
       noData: "Sin datos",
       pending: "Ranking pendiente",
+      filterJob: "Job",
+      filterCountry: "Pais",
+      allJobs: "Todos los jobs",
+      allCountries: "Todos los paises",
+      noResults: "No hay jugadores con esos filtros.",
     },
     auth: {
       loginKicker: "Inicio de sesion",
@@ -1309,10 +1319,7 @@ function App() {
             ) : null}
 
             <section className="panel panel--compact panel--community">
-              <span className="panel__kicker">{t.community.kicker}</span>
-              <h2>{t.community.title}</h2>
               <img src="/whatsapp-community.png" alt={t.community.imageAlt} />
-              <p>{t.community.copy}</p>
               <a className="button-primary button-primary--full" href={whatsappUrl} target="_blank" rel="noreferrer">
                 {t.community.action}
                 <ArrowRight size={18} />

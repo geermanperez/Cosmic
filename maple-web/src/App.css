@@ -302,22 +302,12 @@
   background: rgba(255, 251, 244, 0.88);
 }
 
-.panel--community h2 {
-  margin-bottom: 0;
-}
-
 .panel--community img {
   display: block;
   width: 100%;
   height: auto;
   border-radius: 18px;
   box-shadow: 0 12px 28px rgba(48, 19, 0, 0.18);
-}
-
-.panel--community p {
-  margin: 0;
-  color: #6c533f;
-  line-height: 1.55;
 }
 
 .panel--community .button-primary {
