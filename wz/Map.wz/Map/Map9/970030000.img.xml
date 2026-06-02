@@ -277,6 +277,71 @@
     </imgdir>
   </imgdir>
   <imgdir name="life">
+    <imgdir name="0">
+      <string name="type" value="n"/>
+      <string name="id" value="1012112"/>
+      <int name="x" value="441"/>
+      <int name="y" value="2144"/>
+      <int name="mobTime" value="0"/>
+      <int name="f" value="0"/>
+      <int name="hide" value="0"/>
+      <int name="fh" value="10"/>
+      <int name="cy" value="2145"/>
+      <int name="rx0" value="421"/>
+      <int name="rx1" value="461"/>
+    </imgdir>
+    <imgdir name="1">
+      <string name="type" value="n"/>
+      <string name="id" value="9020000"/>
+      <int name="x" value="398"/>
+      <int name="y" value="2145"/>
+      <int name="mobTime" value="0"/>
+      <int name="f" value="0"/>
+      <int name="hide" value="0"/>
+      <int name="fh" value="10"/>
+      <int name="cy" value="2145"/>
+      <int name="rx0" value="378"/>
+      <int name="rx1" value="418"/>
+    </imgdir>
+    <imgdir name="2">
+      <string name="type" value="n"/>
+      <string name="id" value="2133000"/>
+      <int name="x" value="104"/>
+      <int name="y" value="2139"/>
+      <int name="mobTime" value="0"/>
+      <int name="f" value="0"/>
+      <int name="hide" value="0"/>
+      <int name="fh" value="2"/>
+      <int name="cy" value="2145"/>
+      <int name="rx0" value="84"/>
+      <int name="rx1" value="124"/>
+    </imgdir>
+    <imgdir name="3">
+      <string name="type" value="n"/>
+      <string name="id" value="2094000"/>
+      <int name="x" value="441"/>
+      <int name="y" value="2144"/>
+      <int name="mobTime" value="0"/>
+      <int name="f" value="0"/>
+      <int name="hide" value="0"/>
+      <int name="fh" value="10"/>
+      <int name="cy" value="2145"/>
+      <int name="rx0" value="421"/>
+      <int name="rx1" value="461"/>
+    </imgdir>
+    <imgdir name="4">
+      <string name="type" value="n"/>
+      <string name="id" value="2112003"/>
+      <int name="x" value="186"/>
+      <int name="y" value="1982"/>
+      <int name="mobTime" value="0"/>
+      <int name="f" value="0"/>
+      <int name="hide" value="0"/>
+      <int name="fh" value="1"/>
+      <int name="cy" value="1982"/>
+      <int name="rx0" value="166"/>
+      <int name="rx1" value="206"/>
+    </imgdir>
   </imgdir>
   <imgdir name="0">
     <imgdir name="info">

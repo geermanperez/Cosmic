@@ -62,6 +62,8 @@ public class WhereaMiCommand extends Command {
         }
 
         player.yellowMessage("Map ID: " + player.getMap().getId());
+        player.dropMessage(5, ">> X: " + player.getPosition().x + " Y: " + player.getPosition().y);
+        player.dropMessage(5, ">> Foothold: " + player.getMap().getFootholds().findBelow(player.getPosition()).getId());
 
         player.yellowMessage("Players on this map:");
         for (Character chr : chars) {
