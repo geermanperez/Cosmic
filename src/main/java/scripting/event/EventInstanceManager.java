@@ -184,6 +184,8 @@ public class EventInstanceManager {
             return;
         }
 
+        gain = getEventExpGain(gain);
+
         List<Character> players = getPlayerList();
 
         if (mapId == -1) {
@@ -197,6 +199,19 @@ public class EventInstanceManager {
                 }
             }
         }
+    }
+
+    private int getEventExpGain(int gain) {
+        if (em != null && isPartyQuestEvent() && YamlConfig.config.server.PQ_BONUS_EXP_RATE > 0) {
+            return (int) (gain * YamlConfig.config.server.PQ_BONUS_EXP_RATE);
+        }
+
+        return gain;
+    }
+
+    private boolean isPartyQuestEvent() {
+        String eventName = em.getName();
+        return eventName.contains("PQ") || eventName.equals("GuildQuest");
     }
 
     public void giveEventPlayersMeso(int gain) {
