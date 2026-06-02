@@ -61,10 +61,11 @@ public class PnpcCommand extends Command {
 
         NPC npc = LifeFactory.getNPC(npcId);
 
-        Point checkpos = player.getMap().getGroundBelow(player.getPosition());
-        int xpos = checkpos.x;
-        int ypos = checkpos.y;
-        int fh = player.getMap().getFootholds().findBelow(checkpos).getId();
+        Point playerPos = player.getPosition();
+        Point groundPos = player.getMap().getGroundBelow(playerPos);
+        int xpos = playerPos.x;
+        int ypos = groundPos.y;
+        int fh = player.getMap().getFootholds().findBelow(new Point(xpos, ypos)).getId();
 
         if (npc != null && !npc.getName().equals("MISSINGNO")) {
             try (Connection con = DatabaseConnection.getConnection();
@@ -73,8 +74,8 @@ public class PnpcCommand extends Command {
                 ps.setInt(2, 0);
                 ps.setInt(3, fh);
                 ps.setInt(4, ypos);
-                ps.setInt(5, xpos + 50);
-                ps.setInt(6, xpos - 50);
+                ps.setInt(5, xpos - 50);
+                ps.setInt(6, xpos + 50);
                 ps.setString(7, "n");
                 ps.setInt(8, xpos);
                 ps.setInt(9, ypos);
@@ -86,10 +87,10 @@ public class PnpcCommand extends Command {
 
                 for (Channel ch : player.getWorldServer().getChannels()) {
                     npc = LifeFactory.getNPC(npcId);
-                    npc.setPosition(checkpos);
+                    npc.setPosition(new Point(xpos, ypos));
                     npc.setCy(ypos);
-                    npc.setRx0(xpos + 50);
-                    npc.setRx1(xpos - 50);
+                    npc.setRx0(xpos - 50);
+                    npc.setRx1(xpos + 50);
                     npc.setFh(fh);
 
                     MapleMap map = ch.getMapFactory().getMap(mapId);
