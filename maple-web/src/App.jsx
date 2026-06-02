@@ -18,7 +18,7 @@ import "./App.css";
 import { API_URL, getToken, saveToken, request } from "./apiClient";
 
 const downloadUrl =
-  "https://drive.google.com/file/d/1Y36otkN6qS6OlGPVjHvmKwi5DKSfFb95/view?usp=sharing";
+  "https://drive.google.com/file/d/1DapJOw_aofBZY7acNgrEQjQraGGZ0SX2/view?usp=sharing";
 
 const translations = {
   en: {
@@ -69,6 +69,11 @@ const translations = {
       topTitle: "The adventurers setting the pace",
     },
     newsItems: [
+      [
+        "/4.png",
+        "LatinMS v1.0 is now available",
+        "A new client version is ready. Download LatinMS v1.0 from the download section and update your game before entering the server.",
+      ],
       [
         "/1.png",
         "A classic adventure with its own identity",
@@ -246,6 +251,11 @@ const translations = {
       topTitle: "Los aventureros que marcan el ritmo",
     },
     newsItems: [
+      [
+        "/4.png",
+        "Nueva version LatinMS v1.0 disponible",
+        "Ya esta listo el nuevo cliente. Descarga LatinMS v1.0 desde la seccion de descarga y actualiza tu juego antes de entrar al servidor.",
+      ],
       [
         "/1.png",
         "Una aventura clasica con identidad propia",
