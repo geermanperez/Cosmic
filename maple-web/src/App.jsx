@@ -72,7 +72,7 @@ const translations = {
       [
         "/4.png",
         "LatinMS v1.0 is now available",
-        "A new client version is ready. Download LatinMS v1.0 from the download section and update your game before entering the server.",
+        "If you have an older client, please update before playing. Download LatinMS v1.0 from the download section to enter the server without issues.",
       ],
       [
         "/1.png",
@@ -94,9 +94,9 @@ const translations = {
       newsTitle: "Latest LatinMS news",
       rankingTitle: "Top server players",
       downloadKicker: "Download",
-      downloadTitle: "Download the LatinMS client",
+      downloadTitle: "Download the LatinMS v1.0 client",
       downloadCopy:
-        "Client ready to enter the world of LatinMS. Download it, install it, and use your account to begin the adventure.",
+        "LatinMS v1.0 client ready to enter the world of LatinMS. Download it, install it, and use your account to begin the adventure.",
       downloadClient: "Download client",
     },
     ranking: {
@@ -254,7 +254,7 @@ const translations = {
       [
         "/4.png",
         "Nueva version LatinMS v1.0 disponible",
-        "Ya esta listo el nuevo cliente. Descarga LatinMS v1.0 desde la seccion de descarga y actualiza tu juego antes de entrar al servidor.",
+        "Si tenes una version vieja del cliente, actualiza antes de jugar. Descarga LatinMS v1.0 desde la seccion de descarga para entrar al servidor sin problemas.",
       ],
       [
         "/1.png",
@@ -276,9 +276,9 @@ const translations = {
       newsTitle: "Ultimas novedades de LatinMS",
       rankingTitle: "Top jugadores del servidor",
       downloadKicker: "Descarga",
-      downloadTitle: "Descarga el cliente de LatinMS",
+      downloadTitle: "Descarga el cliente de LatinMS v1.0",
       downloadCopy:
-        "Cliente listo para entrar al mundo de LatinMS. Descargalo, instalalo y usa tu cuenta para comenzar la aventura.",
+        "Cliente LatinMS v1.0 listo para entrar al mundo de LatinMS. Descargalo, instalalo y usa tu cuenta para comenzar la aventura.",
       downloadClient: "Descargar cliente",
     },
     ranking: {
@@ -1271,8 +1271,8 @@ function App() {
 function NewsList({ items }) {
   return (
     <div className="news-list">
-      {items.map(([icon, title, copy]) => (
-        <article key={title} className="news-card">
+      {items.map(([icon, title, copy], index) => (
+        <article key={title} className={`news-card${index === 0 ? " news-card--featured" : ""}`}>
           <div className="news-card__head">
             <img src={icon} alt="" className="news-card__icon" />
             <h3>{title}</h3>
