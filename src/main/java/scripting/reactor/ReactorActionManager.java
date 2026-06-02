@@ -153,7 +153,12 @@ public class ReactorActionManager extends AbstractPlayerInteraction {
             return;
         }
 
-        List<ReactorDropEntry> items = assembleReactorDropEntries(chr, generateDropList(getDropChances(), chr.getDropRate(), meso, mesoChance, minItems));
+        int dropRate = chr.getDropRate();
+        if (chr.getEventInstance() != null) {
+            dropRate = chr.getEventInstance().getEventDropRate(dropRate);
+        }
+
+        List<ReactorDropEntry> items = assembleReactorDropEntries(chr, generateDropList(getDropChances(), dropRate, meso, mesoChance, minItems));
         if (items.size() % 2 == 0) {
             posX -= 12;
         }

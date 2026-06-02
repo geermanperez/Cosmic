@@ -739,6 +739,9 @@ public class MapleMap {
         final byte droptype = (byte) (mob.getStats().isExplosiveReward() ? 3 : mob.getStats().isFfaLoot() ? 2 : chr.getParty() != null ? 1 : 0);
         final int mobpos = mob.getPosition().x;
         int chRate = !mob.isBoss() ? chr.getDropRate() : chr.getBossDropRate();
+        if (getEventInstance() != null) {
+            chRate = getEventInstance().getEventDropRate(chRate);
+        }
         Point pos = new Point(0, mob.getPosition().y);
 
         MonsterStatusEffect stati = mob.getStati(MonsterStatus.SHOWDOWN);

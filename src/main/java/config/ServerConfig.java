@@ -137,6 +137,7 @@ public class ServerConfig {
 
     public double EQUIP_EXP_RATE;
     public double PQ_BONUS_EXP_RATE;
+    public double PQ_BONUS_DROP_RATE;
 
     public byte EXP_SPLIT_LEVEL_INTERVAL;
     public byte EXP_SPLIT_LEECH_INTERVAL;

@@ -66,6 +66,14 @@ import static java.util.concurrent.TimeUnit.MINUTES;
  */
 public class EventInstanceManager {
     private static final Logger log = LoggerFactory.getLogger(EventInstanceManager.class);
+    private static final Set<String> PQ_HUB_EVENTS = Set.of(
+            "BossRushPQ",
+            "EllinPQ",
+            "HenesysPQ",
+            "MagatiaPQ_A",
+            "OrbisPQ",
+            "PiratePQ"
+    );
     private final Map<Integer, Character> chars = new HashMap<>();
     private int leaderId = -1;
     private final List<Monster> mobs = new LinkedList<>();
@@ -202,16 +210,23 @@ public class EventInstanceManager {
     }
 
     private int getEventExpGain(int gain) {
-        if (em != null && isPartyQuestEvent() && YamlConfig.config.server.PQ_BONUS_EXP_RATE > 0) {
+        if (isPqHubEvent() && YamlConfig.config.server.PQ_BONUS_EXP_RATE > 0) {
             return (int) (gain * YamlConfig.config.server.PQ_BONUS_EXP_RATE);
         }
 
         return gain;
     }
 
-    private boolean isPartyQuestEvent() {
-        String eventName = em.getName();
-        return eventName.contains("PQ") || eventName.equals("GuildQuest");
+    public int getEventDropRate(int dropRate) {
+        if (isPqHubEvent() && YamlConfig.config.server.PQ_BONUS_DROP_RATE > 0) {
+            return (int) Math.min(dropRate * YamlConfig.config.server.PQ_BONUS_DROP_RATE, Integer.MAX_VALUE);
+        }
+
+        return dropRate;
+    }
+
+    private boolean isPqHubEvent() {
+        return em != null && PQ_HUB_EVENTS.contains(em.getName());
     }
 
     public void giveEventPlayersMeso(int gain) {
