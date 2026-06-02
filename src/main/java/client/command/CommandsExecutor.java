@@ -517,8 +517,8 @@ public class CommandsExecutor {
         addCommand("cake", 4, CakeCommand.class);
         addCommand("playernpc", 4, PlayerNpcCommand.class);
         addCommand("playernpcremove", 4, PlayerNpcRemoveCommand.class);
-        addCommand("pnpc", 4, PnpcCommand.class);
-        addCommand("pnpcremove", 4, PnpcRemoveCommand.class);
+        addCommand("pnpc", 2, PnpcCommand.class);
+        addCommand("pnpcremove", 2, PnpcRemoveCommand.class);
         addCommand("pmob", 4, PmobCommand.class);
         addCommand("pmobremove", 4, PmobRemoveCommand.class);
 
