@@ -615,8 +615,8 @@
 .ranking-row {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px 18px;
+  gap: 18px;
+  padding: 18px 20px;
   border-radius: 18px;
 }
 
@@ -633,18 +633,18 @@
 .ranking-avatar {
   display: grid;
   place-items: center;
-  flex: 0 0 62px;
-  width: 62px;
-  height: 62px;
-  border-radius: 16px;
+  flex: 0 0 86px;
+  width: 86px;
+  height: 86px;
+  border-radius: 18px;
   background: linear-gradient(180deg, rgba(255, 237, 198, 0.9), rgba(255, 255, 255, 0.72));
   overflow: hidden;
 }
 
 .ranking-avatar img {
   display: block;
-  max-width: 58px;
-  max-height: 58px;
+  max-width: 82px;
+  max-height: 82px;
   object-fit: contain;
   image-rendering: pixelated;
   filter: drop-shadow(0 8px 12px rgba(94, 47, 10, 0.18));

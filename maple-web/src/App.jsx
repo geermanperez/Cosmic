@@ -591,7 +591,7 @@ function getCharacterImage(character) {
   const renderItems = equippedItems.length > 0 ? equippedItems : [...defaultEquips, DEFAULT_WEAPON];
   const itemPath = [hair, face, ...renderItems].join(",");
 
-  return `https://maplestory.io/api/GMS/83/Character/${renderSkin}/${itemPath}/stand1/0?resize=3`;
+  return `https://maplestory.io/api/GMS/83/Character/${renderSkin}/${itemPath}/stand1/0?resize=4`;
 }
 
 function RankingRows({ players, language, text }) {
