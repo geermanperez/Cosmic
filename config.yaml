@@ -177,6 +177,7 @@ server:
     RANKING_INTERVAL: 3600000           #60 minutes, 3600000.
     COUPON_INTERVAL: 3600000            #60 minutes, 3600000.
     UPDATE_INTERVAL: 777                #Dictates the frequency on which the "centralized server time" is updated.
+    ADMIN_HTTP_PORT: 9001               # Port for admin HTTP endpoints (e.g., /admin/online-players)
 
     ENABLE_PIC: true               #Pick true/false to enable or disable Pic. Delete character requires PIC available.
     ENABLE_PIN: false               #Pick true/false to enable or disable Pin.

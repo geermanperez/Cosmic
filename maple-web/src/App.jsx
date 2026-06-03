@@ -919,13 +919,27 @@ function App() {
           setIsAdmin(true);
           setAdminStats(adm.stats);
           try {
-            const online = await request("/admin/online-players");
-            if (Array.isArray(online)) setAdminOnlinePlayers(online);
-            else if (Array.isArray(online.players)) setAdminOnlinePlayers(online.players);
-            else if (Array.isArray(online.players_list)) setAdminOnlinePlayers(online.players_list);
-            else setAdminOnlinePlayers([]);
+            // Only try the separate endpoint if adminStats doesn't already include an online list
+            if (!adm.stats?.onlineList && !adm.stats?.onlinePlayers) {
+              const url = `${API_URL}/admin/online-players`;
+              const headers = { "Content-Type": "application/json" };
+              const tokenLocal = getToken();
+              if (tokenLocal) headers["Authorization"] = `Bearer ${tokenLocal}`;
+
+              try {
+                const res2 = await fetch(url, { headers });
+                if (res2.ok) {
+                  const body = await res2.json().catch(() => null);
+                  if (Array.isArray(body)) setAdminOnlinePlayers(body);
+                  else if (Array.isArray(body.players)) setAdminOnlinePlayers(body.players);
+                  else if (Array.isArray(body.players_list)) setAdminOnlinePlayers(body.players_list);
+                }
+              } catch (e) {
+                // network error - ignore silently
+              }
+            }
           } catch (e) {
-            // ignore if endpoint not available
+            // ignore if something unexpected happens
           }
         }
       } catch {

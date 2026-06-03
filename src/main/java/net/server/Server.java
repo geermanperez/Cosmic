@@ -938,6 +938,14 @@ public class Server {
         log.info("Listening on port 8484");
 
         online = true;
+        try {
+            // Start admin HTTP server on configured port (fallback 9001)
+            int adminPort = YamlConfig.config.server.ADMIN_HTTP_PORT > 0 ? YamlConfig.config.server.ADMIN_HTTP_PORT : 9001;
+            net.server.http.AdminHttpServer adminHttpServer = new net.server.http.AdminHttpServer(adminPort);
+            adminHttpServer.start();
+        } catch (java.io.IOException ioe) {
+            log.warn("Failed to start Admin HTTP server: {}", ioe.getMessage());
+        }
         Duration initDuration = Duration.between(beforeInit, Instant.now());
         log.info("Cosmic is now online after {} ms.", initDuration.toMillis());
 
