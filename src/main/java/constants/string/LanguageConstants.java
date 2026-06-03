@@ -37,6 +37,7 @@ public class LanguageConstants {
     public static String[] CPQChallengeRoomAnswer = new String[3];
     public static String[] CPQChallengeRoomSent = new String[3];
     public static String[] CPQChallengeRoomDenied = new String[3];
+    public static String[] DESC_PQ = new String[3];
 
     static {
         int lang;
@@ -55,6 +56,7 @@ public class LanguageConstants {
         LanguageConstants.CPQFindError[lang] = "Nao foi possivel encontrar um grupo nesta sala.\r\nProvavelmente o grupo foi desfeito dentro da sala!";
         LanguageConstants.CPQEntryLobby[lang] = "Agora voce ira receber desafios de outros grupos. Se voce nao aceitar um desafio em 3 minutos, voce sera levado para fora.";
         LanguageConstants.CPQEntry[lang] = "Voce pode selecionar \"Invocar Monstros\", \"Habilidade\", ou \"Protetor\" como sua tatica durante o Carnaval dos Monstros. Use Tab a F1~F12 para acesso rapido!";
+        LanguageConstants.DESC_PQ[lang] = "Comando para participar de Party Quests.";
 
         lang = Language.LANG_ESP.getValue();
         LanguageConstants.CPQBlue[lang] = "Maple Azul";
@@ -70,6 +72,7 @@ public class LanguageConstants {
         LanguageConstants.CPQFindError[lang] = "No se pudo encontrar un grupo en esta sala.\r\nProbablemente el grupo fue deshecho dentro de la sala!";
         LanguageConstants.CPQEntryLobby[lang] = "Ahora usted recibira los retos de otros grupos. Si usted no acepta un desafio en 3 minutos, usted sera llevado hacia fuera.";
         LanguageConstants.CPQEntry[lang] = "Usted puede seleccionar \"Invocar Monstruos\", \"Habilidad\", o \"Protector\" como su tactica durante el Carnaval de los Monstruos. Utilice Tab y F1 ~ F12 para acceso rapido!";
+        LanguageConstants.DESC_PQ[lang] = "Te teletransporta al mapa de Party Quests (970030000).";
 
         lang = Language.LANG_ENG.getValue();
         LanguageConstants.CPQBlue[lang] = "Maple Blue";
@@ -85,6 +88,7 @@ public class LanguageConstants {
         LanguageConstants.CPQFindError[lang] = "We could not find a group in this room.\r\nProbably the group was scrapped inside the room!";
         LanguageConstants.CPQEntryLobby[lang] = "You will now receive challenges from other groups. If you do not accept a challenge within 3 minutes, you will be taken out.";
         LanguageConstants.CPQEntry[lang] = "You can select \"Summon Monsters\", \"Ability\", or \"Protector\" as your tactic during the Monster Carnival. Use Tab and F1 ~ F12 for quick access!";
+        LanguageConstants.DESC_PQ[lang] = "Displays a list of available Party Quests and allows you to join.";
 
 
     }

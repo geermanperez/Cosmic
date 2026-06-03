@@ -40,6 +40,10 @@ services:
       DB_USER: "root"
       DB_PASSWORD: ""
       DB_NAME: "cosmic"
+      GTOP100_PINGBACK_KEY: "latinms_test_123"
+      VOTE_BASE_NX: "500"
+      VOTE_WEEKLY_BONUS_NX: "1000"
+      VOTE_MONTHLY_BONUS_NX: "5000"
 
   maple-web:
     build: ./maple-web

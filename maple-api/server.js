@@ -40,6 +40,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST || "127.0.0.1",
@@ -50,6 +51,13 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
 });
+
+const VOTE_BASE_NX = Number(process.env.VOTE_BASE_NX || 500);
+const VOTE_WEEKLY_BONUS_NX = Number(process.env.VOTE_WEEKLY_BONUS_NX || 1000);
+const VOTE_MONTHLY_BONUS_NX = Number(process.env.VOTE_MONTHLY_BONUS_NX || 5000);
+const VOTE_DAILY_SECONDS = Number(process.env.VOTE_DAILY_SECONDS || 86400);
+const VOTE_STREAK_RESET_SECONDS = Number(process.env.VOTE_STREAK_RESET_SECONDS || 172800);
+const GTOP100_PINGBACK_KEY = process.env.GTOP100_PINGBACK_KEY || "";
 
 const JWT_SECRET = process.env.JWT_SECRET || "dev_jwt_secret_change_me";
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "7d";
@@ -100,6 +108,248 @@ async function ensureWebProfilesTable() {
     console.log("web_profiles table ensured");
   } catch (err) {
     console.error("Error ensuring web_profiles table:", err.message);
+  }
+}
+
+function getIpFromRequest(req) {
+  const forwarded = req.headers["x-forwarded-for"];
+  if (forwarded) {
+    return forwarded.split(",")[0].trim();
+  }
+  return req.ip || req.connection.remoteAddress || "unknown";
+}
+
+function normalizeVoteField(req, names) {
+  for (const name of names) {
+    const value = req.query?.[name] ?? req.body?.[name];
+    if (typeof value !== "undefined") {
+      return value;
+    }
+  }
+  return undefined;
+}
+
+app.all("/vote/gtop100/pingback", async (req, res) => {
+  try {
+    const pingbackKey = normalizeVoteField(req, ["pingbackkey", "key", "secret"]);
+    if (!GTOP100_PINGBACK_KEY) {
+      console.error("GTop100 pingback request rejected because pingback key is not configured.");
+      return res.status(500).json({ ok: false, message: "Pingback key no configurada" });
+    }
+    if (!pingbackKey || pingbackKey !== GTOP100_PINGBACK_KEY) {
+      console.warn("GTop100 pingback rejected: invalid pingback key", { pingbackKey: !!pingbackKey });
+      return res.status(401).json({ ok: false, message: "Pingback key inválida" });
+    }
+
+    const siteid = normalizeVoteField(req, ["siteid", "site_id", "site"]);
+    const pb_id = normalizeVoteField(req, ["pb_id", "pbid", "id", "voteid"]);
+    const successValue = normalizeVoteField(req, ["success", "status"]);
+    const username = normalizeVoteField(req, ["username", "name", "user", "account"]);
+    const ip = getIpFromRequest(req);
+    const success = Number(successValue);
+
+    if (!siteid || !pb_id || typeof successValue === "undefined" || !username) {
+      console.warn("GTop100 pingback rejected: missing required fields", { siteid, pb_id, username, successValue });
+      return res.status(400).json({ ok: false, message: "Faltan campos obligatorios en pingback" });
+    }
+
+    const [accountRows] = await pool.query(
+      "SELECT id, nxCredit, nxPrepaid FROM accounts WHERE UPPER(name) = UPPER(?) LIMIT 1",
+      [username]
+    );
+    if (accountRows.length === 0) {
+      console.warn("GTop100 pingback rejected: account not found", { username });
+      return res.status(404).json({ ok: false, message: "Cuenta no encontrada" });
+    }
+
+    const account = accountRows[0];
+    const [existingRows] = await pool.query(
+      "SELECT id FROM gtop100_votes WHERE siteid = ? AND pb_id = ? LIMIT 1",
+      [siteid, pb_id]
+    );
+    if (existingRows.length > 0) {
+      console.warn("GTop100 vote duplicate", { accountId: account.id, siteid, pb_id });
+      return res.status(200).json({ ok: false, status: "duplicate", message: "Voto duplicado" });
+    }
+
+    const now = new Date();
+    const [lastVoteRows] = await pool.query(
+      `SELECT * FROM gtop100_votes WHERE account_id = ? AND success = 0 ORDER BY vote_time DESC LIMIT 1`,
+      [account.id]
+    );
+    const lastVote = lastVoteRows[0] || null;
+    let streak = 1;
+    let totalVotes = 0;
+    let lastWeeklyReward = null;
+    let lastMonthlyReward = null;
+    let rewardNx = 0;
+    let status = "rejected";
+    let votedWithinDay = false;
+    let weeklyBonus = 0;
+    let monthlyBonus = 0;
+
+    if (lastVote) {
+      totalVotes = lastVote.total_votes || 0;
+      lastWeeklyReward = lastVote.last_weekly_reward;
+      lastMonthlyReward = lastVote.last_monthly_reward;
+      const ageSeconds = (now.getTime() - new Date(lastVote.vote_time).getTime()) / 1000;
+      if (ageSeconds < VOTE_DAILY_SECONDS) {
+        votedWithinDay = true;
+        streak = lastVote.streak || 0;
+      } else if (ageSeconds <= VOTE_STREAK_RESET_SECONDS) {
+        streak = (lastVote.streak || 0) + 1;
+      } else {
+        streak = 1;
+        console.info("GTop100 vote streak reset", { accountId: account.id, username, ageSeconds });
+      }
+    }
+
+    if (success === 0) {
+      const [totalRows] = await pool.query(
+        `SELECT COUNT(*) AS total_votes FROM gtop100_votes WHERE account_id = ? AND status = 'accepted'`,
+        [account.id]
+      );
+      totalVotes = totalRows[0]?.total_votes ?? 0;
+      if (!votedWithinDay) {
+        rewardNx = VOTE_BASE_NX;
+        status = "accepted";
+        totalVotes += 1;
+        if (streak >= 7 && streak % 7 === 0) {
+          weeklyBonus = VOTE_WEEKLY_BONUS_NX;
+          rewardNx += weeklyBonus;
+          console.info("GTop100 weekly bonus delivered", { accountId: account.id, username, streak, weeklyBonus });
+        }
+        if (streak === 30) {
+          monthlyBonus = VOTE_MONTHLY_BONUS_NX;
+          rewardNx += monthlyBonus;
+          console.info("GTop100 monthly bonus delivered", { accountId: account.id, username, streak, monthlyBonus });
+        }
+        await pool.query(
+          `UPDATE accounts SET nxCredit = nxCredit + ? WHERE id = ?`,
+          [rewardNx, account.id]
+        );
+        console.info("GTop100 vote reward delivered", { accountId: account.id, username, rewardNx, streak });
+      } else {
+        status = "too_soon";
+        streak = lastVote ? lastVote.streak || 0 : 0;
+        console.warn("GTop100 vote rejected: reward already granted in last 24h", { accountId: account.id, username, streak });
+      }
+    } else {
+      status = "failed";
+      streak = lastVote ? lastVote.streak || 0 : 0;
+      console.warn("GTop100 pingback with non-zero success rejected", { accountId: account.id, username, success });
+    }
+
+    await pool.query(
+      `INSERT INTO gtop100_votes
+         (account_id, siteid, pb_id, success, status, vote_time, ip, reward_nx, streak, total_votes, last_weekly_reward, last_monthly_reward)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        account.id,
+        String(siteid),
+        String(pb_id),
+        success,
+        status,
+        now,
+        ip,
+        rewardNx,
+        streak,
+        totalVotes,
+        weeklyBonus > 0 ? now : lastWeeklyReward,
+        monthlyBonus > 0 ? now : lastMonthlyReward,
+      ]
+    );
+
+    return res.json({ ok: true, status, reward_nx: rewardNx, streak, total_votes: totalVotes });
+  } catch (err) {
+    if (err.code === "ER_DUP_ENTRY") {
+      console.warn("GTop100 vote duplicate prevented by constraint", { error: err.message });
+      return res.status(200).json({ ok: false, status: "duplicate", message: "Voto duplicado" });
+    }
+    console.error("Error processing GTop100 pingback:", err);
+    return res.status(500).json({ ok: false, message: "Error interno al procesar voto", error: err.message });
+  }
+});
+
+app.get("/vote/status", authMiddleware, async (req, res) => {
+  try {
+    const uid = req.user.id;
+    const [latestRows] = await pool.query(
+      `SELECT vote_time, streak, total_votes
+       FROM gtop100_votes
+       WHERE account_id = ? AND status = 'accepted'
+       ORDER BY vote_time DESC
+       LIMIT 1`,
+      [uid]
+    );
+    const latest = latestRows[0] || null;
+    const now = new Date();
+    let alreadyVotedToday = false;
+    let nextVoteInSeconds = 0;
+    let streak = 0;
+    let totalVotes = 0;
+    let lastVoteTime = null;
+
+    if (latest) {
+      lastVoteTime = new Date(latest.vote_time);
+      streak = latest.streak || 0;
+      totalVotes = latest.total_votes || 0;
+      const elapsed = (now.getTime() - lastVoteTime.getTime()) / 1000;
+      if (elapsed < VOTE_DAILY_SECONDS) {
+        alreadyVotedToday = true;
+        nextVoteInSeconds = Math.max(0, VOTE_DAILY_SECONDS - Math.floor(elapsed));
+      }
+    }
+
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const [monthRows] = await pool.query(
+      `SELECT COALESCE(SUM(reward_nx), 0) AS nx_this_month
+       FROM gtop100_votes
+       WHERE account_id = ? AND success = 0 AND vote_time >= ?`,
+      [uid, monthStart]
+    );
+    const nxThisMonth = monthRows[0]?.nx_this_month || 0;
+
+    return res.json({
+      ok: true,
+      alreadyVotedToday,
+      nextVoteInSeconds,
+      currentStreak: streak,
+      nxGainedThisMonthApprox: nxThisMonth,
+      lastVoteTime,
+      totalVotes,
+    });
+  } catch (err) {
+    console.error("Error getting vote status:", err);
+    return res.status(500).json({ ok: false, message: "Error obteniendo estado de votación", error: err.message });
+  }
+});
+
+async function ensureGTop100VotesTable() {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS gtop100_votes (
+        id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        account_id INT UNSIGNED NOT NULL,
+        siteid VARCHAR(64) NOT NULL,
+        pb_id VARCHAR(128) NOT NULL,
+        success TINYINT UNSIGNED NOT NULL DEFAULT 0,
+        status VARCHAR(32) NOT NULL,
+        vote_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        ip VARCHAR(45) NOT NULL,
+        reward_nx INT NOT NULL DEFAULT 0,
+        streak INT NOT NULL DEFAULT 0,
+        total_votes INT NOT NULL DEFAULT 0,
+        last_weekly_reward TIMESTAMP NULL DEFAULT NULL,
+        last_monthly_reward TIMESTAMP NULL DEFAULT NULL,
+        PRIMARY KEY (id),
+        UNIQUE KEY unique_vote (siteid, pb_id),
+        KEY account_idx (account_id)
+      )
+    `);
+    console.log("gtop100_votes table ensured");
+  } catch (err) {
+    console.error("Error ensuring gtop100_votes table:", err.message);
   }
 }
 
@@ -614,7 +864,7 @@ app.get("/account/check", authMiddleware, (req, res) => {
 const PORT = process.env.PORT || 3001;
 
 // Ensure web_profiles and start server
-ensureWebProfilesTable().then(() => {
+Promise.all([ensureWebProfilesTable(), ensureGTop100VotesTable()]).then(() => {
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Maple API corriendo en puerto ${PORT}`);
   });
