@@ -144,7 +144,16 @@ app.all("/vote/gtop100/pingback", async (req, res) => {
     const siteid = normalizeVoteField(req, ["siteid", "site_id", "site"]);
     const pb_id = normalizeVoteField(req, ["pb_id", "pbid", "id", "voteid"]);
     const successValue = normalizeVoteField(req, ["success", "status"]);
-    const username = normalizeVoteField(req, ["username", "name", "user", "account"]);
+    const username = normalizeVoteField(req, [
+      "username",
+      "pingUsername",
+      "PingUsername",
+      "pingusername",
+      "PINGUSERNAME",
+      "name",
+      "user",
+      "account",
+    ]);
     const ip = getIpFromRequest(req);
     const success = Number(successValue);
 
