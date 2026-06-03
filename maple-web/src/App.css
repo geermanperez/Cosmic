@@ -277,9 +277,12 @@
 
 .panel--voting {
   display: block;
+  width: 100%;
   padding: 0;
   overflow: hidden;
   cursor: pointer;
+  font: inherit;
+  text-align: inherit;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   text-decoration: none;
 }

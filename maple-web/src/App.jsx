@@ -20,6 +20,7 @@ import { API_URL, getToken, saveToken, request } from "./apiClient";
 const downloadUrl =
   "https://drive.google.com/file/d/18Gy9XyizEj17hvDWW7CQa2GUw0dbOs6D/view?usp=sharing";
 const whatsappUrl = "https://chat.whatsapp.com/GKQyubuq4ml8HMrhUTzr7H?s=sw&p=i&ilr=2";
+const gtop100VoteUrl = "https://gtop100.com/MapleStory/server-106094?vote=1";
 
 const translations = {
   en: {
@@ -29,6 +30,7 @@ const translations = {
       news: "News",
       ranking: "Ranking",
       download: "Download",
+      voteNx: "Vote NX",
       account: "My Account",
       login: "Sign in",
     },
@@ -205,6 +207,7 @@ const translations = {
       loginRequired: "Complete username and password.",
       loginError: "Sign-in error",
       connectionError: "Connection error",
+      voteLoginRequired: "Sign in before voting so the NX can be credited to your account.",
       requiredFields: "Complete all fields.",
       passwordMismatch: "Passwords do not match.",
       registerError: "Could not create the account.",
@@ -224,6 +227,7 @@ const translations = {
       news: "Noticias",
       ranking: "Ranking",
       download: "Descarga",
+      voteNx: "Vote NX",
       account: "Mi Cuenta",
       login: "Iniciar sesion",
     },
@@ -400,6 +404,7 @@ const translations = {
       loginRequired: "Completa usuario y contrasena.",
       loginError: "Error en el inicio de sesion",
       connectionError: "Error de conexion",
+      voteLoginRequired: "Inicia sesion antes de votar para que los NX se acrediten a tu cuenta.",
       requiredFields: "Completa todos los campos.",
       passwordMismatch: "Las contrasenas no coinciden.",
       registerError: "No se pudo crear la cuenta.",
@@ -549,6 +554,21 @@ const getViewFromHash = () => {
   }
   return "home";
 };
+
+function getAccountNameFromToken(token) {
+  try {
+    const payload = token?.split(".")[1];
+    if (!payload) return "";
+    const normalizedPayload = payload.replace(/-/g, "+").replace(/_/g, "/");
+    const paddedPayload = normalizedPayload.padEnd(
+      normalizedPayload.length + ((4 - (normalizedPayload.length % 4)) % 4),
+      "=",
+    );
+    return JSON.parse(window.atob(paddedPayload))?.name || "";
+  } catch {
+    return "";
+  }
+}
 
 function getInitialLanguage() {
   const saved = localStorage.getItem("latinms-language");
@@ -746,6 +766,27 @@ function App() {
     window.location.hash = nextView === "home" ? "" : nextView;
   }
 
+  function handleVoteNx() {
+    setLoginMessage("");
+
+    if (!token) {
+      setLoginMessage(t.messages.voteLoginRequired);
+      goToView("login");
+      return;
+    }
+
+    const accountName = accountData?.name || getAccountNameFromToken(token);
+    if (!accountName) {
+      setLoginMessage(t.messages.voteLoginRequired);
+      goToView("login");
+      return;
+    }
+
+    const voteUrl = new URL(gtop100VoteUrl);
+    voteUrl.searchParams.set("username", accountName);
+    window.open(voteUrl.toString(), "_blank", "noopener,noreferrer");
+  }
+
   const handleRegisterChange = (event) => {
     setForm((current) => ({ ...current, [event.target.name]: event.target.value }));
   };
@@ -883,12 +924,14 @@ function App() {
       } finally {
         setLoadingAdmin(false);
       }
+      return acc.account || null;
     } catch (err) {
       if (err.status === 401 || err.status === 403) {
         handleLogout();
-        return;
+        return null;
       }
       setAccountMessage(err.body?.message || err.message || t.messages.loadAccountError);
+      return null;
     }
   }
 
@@ -1019,6 +1062,9 @@ function App() {
             </button>
             <button type="button" className={view === "download" ? "is-active" : ""} onClick={() => goToView("download")}>
               {t.nav.download}
+            </button>
+            <button type="button" onClick={handleVoteNx}>
+              {t.nav.voteNx}
             </button>
             <button
               type="button"
@@ -1360,9 +1406,9 @@ function App() {
             ) : null}
 
             {view === "home" ? (
-              <a href="https://gtop100.com/MapleStory/server-106094" target="_blank" rel="noopener noreferrer" className="panel panel--compact panel--voting">
+              <button type="button" onClick={handleVoteNx} className="panel panel--compact panel--voting">
                 <img src="/votanos.png" alt={t.sidebar.voteAlt} />
-              </a>
+              </button>
             ) : null}
 
             <section className="panel panel--compact panel--community">
