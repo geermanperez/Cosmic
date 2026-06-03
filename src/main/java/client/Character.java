@@ -555,7 +555,11 @@ public class Character extends AbstractCharacterObject {
     }
 
     public boolean toggleRecvPartySearchInvite() {
-        canRecvPartySearchInvite = !canRecvPartySearchInvite;
+        return setRecvPartySearchInviteEnabled(!canRecvPartySearchInvite);
+    }
+
+    public boolean setRecvPartySearchInviteEnabled(boolean enabled) {
+        canRecvPartySearchInvite = enabled;
 
         if (canRecvPartySearchInvite) {
             updatePartySearchAvailability(getParty() == null);

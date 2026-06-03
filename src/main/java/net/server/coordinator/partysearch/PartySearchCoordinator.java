@@ -306,6 +306,7 @@ public class PartySearchCoordinator {
 
         if (InviteCoordinator.createInvite(InviteType.PARTY, leader, partyid, chr.getId())) {
             chr.disablePartySearchInvite(leader.getId());
+            chr.dropMessage(5, leader.getName() + " esta reclutando gente para esta Party Quest.");
             chr.sendPacket(PacketCreator.partySearchInvite(leader));
             return true;
         } else {

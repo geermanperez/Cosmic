@@ -69,5 +69,6 @@ public class PartySearchStartHandler extends AbstractPacketHandler {
 
         World world = c.getWorldServer();
         world.getPartySearchCoordinator().registerPartyLeader(chr, min, max, jobs);
+        chr.dropMessage(5, "Reclutando gente para esta Party Quest.");
     }
 }

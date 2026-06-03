@@ -67,7 +67,7 @@ function action(mode, type, selection) {
                 return;
             }
 
-            cm.sendSimple("#e#b<Party Quest: Elemental Thanatos>\r\n#k#n" + em.getProperty("party") + "\r\n\r\nYou are looking for Elemental Thanatos, right? If you team up with another mage, with the opposite elemental affinity as yours, you guys will be able to overcome them. As a leader, talk to me when you feel ready to go.#b\r\n#L0#I want to participate in the party quest.\r\n#L1#I would like to " + (cm.getPlayer().isRecvPartySearchInviteEnabled() ? "disable" : "enable") + " Party Search.\r\n#L2#I would like to hear more details.");
+            cm.sendSimple("#e#b<Party Quest: Elemental Thanatos>\r\n#k#n" + em.getProperty("party") + "\r\n\r\nYou are looking for Elemental Thanatos, right? If you team up with another mage, with the opposite elemental affinity as yours, you guys will be able to overcome them. As a leader, talk to me when you feel ready to go.#b\r\n#L0#I want to participate in the party quest.\r\n#L1#I would like to enable Party Search.\r\n#L2#I would like to hear more details.");
         } else if (status == 1) {
             if (selection == 0) {
                 if (cm.getParty() == null) {
@@ -89,7 +89,7 @@ function action(mode, type, selection) {
                     cm.dispose();
                 }
             } else if (selection == 1) {
-                var psState = cm.getPlayer().toggleRecvPartySearchInvite();
+                var psState = cm.getPlayer().setRecvPartySearchInviteEnabled(true);
                 cm.sendOk("Your Party Search status is now: #b" + (psState ? "enabled" : "disabled") + "#k. Talk to me whenever you want to change it back.");
                 cm.dispose();
             } else {
