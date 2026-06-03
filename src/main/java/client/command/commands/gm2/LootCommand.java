@@ -40,6 +40,12 @@ public class LootCommand extends Command {
 
     @Override
     public void execute(Client c, String[] params) {
+        int gmLevel = c.getGMLevel();
+        // Allow only GM roles: JrGM..DEVELOPER..ADMIN (gmLevel 1..6)
+        if (gmLevel < 1) {
+            c.getPlayer().dropMessage(1, "No puedes usar @loot. Solo JrGM/GM/SUPERGM/DEVELOPER/ADMIN.");
+            return;
+        }
         List<MapObject> items = c.getPlayer().getMap().getMapObjectsInRange(c.getPlayer().getPosition(), Double.POSITIVE_INFINITY, Arrays.asList(MapObjectType.ITEM));
         for (MapObject item : items) {
             MapItem mapItem = (MapItem) item;

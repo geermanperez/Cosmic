@@ -294,7 +294,9 @@ public class CommandsExecutor {
 
     private void addCommandInfo(String name, Class<? extends Command> commandClass) {
         try {
-            levelCommandsCursor.getRight().add(commandClass.getDeclaredConstructor().newInstance().getDescription());
+            String desc = commandClass.getDeclaredConstructor().newInstance().getDescription();
+            desc = CommandTranslator.translate(desc);
+            levelCommandsCursor.getRight().add(desc);
             levelCommandsCursor.getLeft().add(name);
         } catch (Exception e) {
             e.printStackTrace();
