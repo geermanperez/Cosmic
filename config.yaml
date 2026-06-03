@@ -11,7 +11,7 @@ worlds:
     exp_rate: 2
     meso_rate: 2
     drop_rate: 2
-    boss_drop_rate: 1
+    boss_drop_rate: 3
     quest_rate: 5
     fishing_rate: 1
     travel_rate: 1
