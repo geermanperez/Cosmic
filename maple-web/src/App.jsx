@@ -782,9 +782,8 @@ function App() {
       return;
     }
 
-    const voteUrl = new URL(gtop100VoteUrl);
-    voteUrl.searchParams.set("username", accountName);
-    window.open(voteUrl.toString(), "_blank", "noopener,noreferrer");
+    const voteUrl = `${gtop100VoteUrl}&pingUsername=${encodeURIComponent(accountName)}`;
+    window.open(voteUrl, "_blank", "noopener,noreferrer");
   }
 
   const handleRegisterChange = (event) => {
