@@ -440,6 +440,64 @@ async function adminMiddleware(req, res, next) {
   }
 }
 
+async function loadOnlinePlayersFromAdminHttp() {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 3000);
+
+  try {
+    const headers = {};
+    if (ADMIN_HTTP_TOKEN) headers["X-Admin-Token"] = ADMIN_HTTP_TOKEN;
+
+    const response = await fetch(`${ADMIN_HTTP_URL}/admin/online-players`, {
+      headers,
+      signal: controller.signal,
+    });
+    const body = await response.json().catch(() => null);
+
+    if (!response.ok) {
+      throw new Error(`Admin HTTP ${response.status}`);
+    }
+
+    return Array.isArray(body?.players) ? body.players : [];
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function loadOnlinePlayersFromDatabase() {
+  try {
+    const [rows] = await pool.query(`
+      SELECT
+        c.id,
+        c.name,
+        c.map
+      FROM characters c
+      INNER JOIN accounts a ON a.id = c.accountid
+      WHERE a.loggedin > 0
+      ORDER BY c.name ASC
+      LIMIT 100
+    `);
+
+    return rows.map((row) => ({
+      id: row.id,
+      name: row.name,
+      map: row.map,
+    }));
+  } catch (err) {
+    console.warn("Online players DB fallback failed:", err.message);
+    return [];
+  }
+}
+
+async function loadOnlinePlayers() {
+  try {
+    return await loadOnlinePlayersFromAdminHttp();
+  } catch (err) {
+    console.warn("Admin HTTP online players unavailable, using DB fallback:", err.message);
+    return loadOnlinePlayersFromDatabase();
+  }
+}
+
 app.get("/admin/stats", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const dbName = process.env.DB_NAME || "cosmic";
@@ -482,6 +540,7 @@ app.get("/admin/stats", authMiddleware, adminMiddleware, async (req, res) => {
     // Listas (sin datos sensibles)
     stats.latestAccounts = (await pool.query("SELECT id, name FROM accounts ORDER BY id DESC LIMIT 5"))[0];
     stats.latestCharacters = (await pool.query("SELECT id, name, level, job FROM characters ORDER BY id DESC LIMIT 5"))[0];
+    stats.onlineList = await loadOnlinePlayers();
 
     res.json({ ok: true, stats });
   } catch (err) {
@@ -491,41 +550,18 @@ app.get("/admin/stats", authMiddleware, adminMiddleware, async (req, res) => {
 });
 
 app.get("/admin/online-players", authMiddleware, adminMiddleware, async (req, res) => {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 3000);
-
   try {
-    const headers = {};
-    if (ADMIN_HTTP_TOKEN) headers["X-Admin-Token"] = ADMIN_HTTP_TOKEN;
-
-    const response = await fetch(`${ADMIN_HTTP_URL}/admin/online-players`, {
-      headers,
-      signal: controller.signal,
-    });
-    const body = await response.json().catch(() => null);
-
-    if (!response.ok) {
-      return res.status(response.status).json({
-        ok: false,
-        message: "No se pudo consultar el servidor admin interno.",
-        upstreamStatus: response.status,
-        upstream: body,
-      });
-    }
-
     return res.json({
       ok: true,
-      players: Array.isArray(body?.players) ? body.players : [],
+      players: await loadOnlinePlayers(),
     });
   } catch (err) {
-    console.error("Error loading online players from AdminHttpServer:", err.message);
-    return res.status(502).json({
+    console.error("Error loading online players:", err.message);
+    return res.status(500).json({
       ok: false,
-      message: "No se pudo conectar con el servidor admin interno.",
+      message: "No se pudieron cargar los jugadores online.",
       error: err.message,
     });
-  } finally {
-    clearTimeout(timeout);
   }
 });
 
