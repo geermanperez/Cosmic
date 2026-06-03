@@ -31,7 +31,7 @@ var em = null;
 var hasPass;
 
 function isRecruitingMap(mapid) {
-    return mapid == 240050000;
+    return mapid == 240050000 || mapid == 970030000;
 }
 
 function start() {

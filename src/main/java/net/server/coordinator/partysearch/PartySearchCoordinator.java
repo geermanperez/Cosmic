@@ -103,10 +103,14 @@ public class PartySearchCoordinator {
     }
 
     public static boolean isInVicinity(int callerMapid, int calleeMapid) {
+        if (callerMapid == calleeMapid) {
+            return true;
+        }
+
         Set<Integer> vicinityMapids = mapNeighbors.get(calleeMapid);
 
         if (vicinityMapids != null) {
-            return vicinityMapids.contains(calleeMapid);
+            return vicinityMapids.contains(callerMapid);
         } else {
             int callerRange = callerMapid / 10000000;
             if (callerRange >= 90) {

@@ -27,6 +27,10 @@
 var status;
 var pqArea;
 
+function isRecruitingMap(mapid) {
+    return mapid == 193000000 || mapid == 970030000;
+}
+
 function start() {
     status = -1;
     action(1, 0, 0);
@@ -46,7 +50,7 @@ function action(mode, type, selection) {
             status--;
         }
 
-        if (cm.getMapId() != 193000000) {
+        if (!isRecruitingMap(cm.getMapId())) {
             var eim = cm.getEventInstance();
 
             if (status == 0) {

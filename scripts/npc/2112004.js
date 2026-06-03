@@ -28,6 +28,10 @@
 var status = 0;
 var em = null;
 
+function isRecruitingMap(mapid) {
+    return mapid == 261000011 || mapid == 970030000;
+}
+
 function start() {
     status = -1;
     action(1, 0, 0);
@@ -47,7 +51,7 @@ function action(mode, type, selection) {
             status--;
         }
 
-        if (cm.getMapId() != 261000011) {
+        if (!isRecruitingMap(cm.getMapId())) {
             if (status == 0) {
                 cm.sendYesNo("We must keep fighting to save Juliet, please keep your pace. If you are not feeling so well to continue, your companions and I will understand... So, are you going to retreat?");
             } else if (status == 1) {
