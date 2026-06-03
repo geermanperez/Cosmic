@@ -676,6 +676,7 @@ function App() {
   const [accountMessage, setAccountMessage] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminStats, setAdminStats] = useState(null);
+  const [adminOnlinePlayers, setAdminOnlinePlayers] = useState([]);
   const [loadingAdmin, setLoadingAdmin] = useState(false);
 
   const countryOptions = useMemo(() => {
@@ -917,6 +918,15 @@ function App() {
         if (adm.ok) {
           setIsAdmin(true);
           setAdminStats(adm.stats);
+          try {
+            const online = await request("/admin/online-players");
+            if (Array.isArray(online)) setAdminOnlinePlayers(online);
+            else if (Array.isArray(online.players)) setAdminOnlinePlayers(online.players);
+            else if (Array.isArray(online.players_list)) setAdminOnlinePlayers(online.players_list);
+            else setAdminOnlinePlayers([]);
+          } catch (e) {
+            // ignore if endpoint not available
+          }
         }
       } catch {
         setIsAdmin(false);
@@ -1062,9 +1072,11 @@ function App() {
             <button type="button" className={view === "download" ? "is-active" : ""} onClick={() => goToView("download")}>
               {t.nav.download}
             </button>
-            <button type="button" onClick={handleVoteNx}>
-              {t.nav.voteNx}
-            </button>
+            {token ? (
+              <button type="button" onClick={handleVoteNx}>
+                {t.nav.voteNx}
+              </button>
+            ) : null}
             <button
               type="button"
               className={["login", "register", "recover", "account"].includes(view) ? "is-active" : ""}
@@ -1325,6 +1337,7 @@ function App() {
                 setAccountTab={setAccountTab}
                 submitPassword={submitPassword}
                 submitProfile={submitProfile}
+                adminOnlinePlayers={adminOnlinePlayers}
                 text={t.account}
                 token={token}
               />
@@ -1404,7 +1417,7 @@ function App() {
               </section>
             ) : null}
 
-            {view === "home" ? (
+            {view === "home" && token ? (
               <button type="button" onClick={handleVoteNx} className="panel panel--compact panel--voting">
                 <img src="/votanos.png" alt={t.sidebar.voteAlt} />
               </button>
@@ -1461,6 +1474,7 @@ function AccountPanel({
   handlePasswordChange,
   handleProfileChange,
   isAdmin,
+  adminOnlinePlayers,
   language,
   loadingAdmin,
   passwordForm,
@@ -1647,6 +1661,26 @@ function AccountPanel({
                             <span>ID: {account.id} - <strong>{account.name}</strong></span>
                           </div>
                         ))}
+                      </div>
+                    </div>
+                    <div className="admin-list-container">
+                      <h4>Online Players</h4>
+                      <div className="ranking-list">
+                        {(() => {
+                          const playersToShow = (adminOnlinePlayers && adminOnlinePlayers.length > 0)
+                            ? adminOnlinePlayers
+                            : (adminStats?.onlineList || adminStats?.onlinePlayers || []);
+
+                          if (playersToShow && playersToShow.length > 0) {
+                            return playersToShow.map((p, idx) => (
+                              <div key={p.id || p.name || idx} className="ranking-row ranking-row--compact">
+                                <span><strong>{p.name || p}</strong>{p.map ? ` - ${p.map}` : ''}</span>
+                              </div>
+                            ));
+                          }
+
+                          return <div className="ranking-row ranking-row--compact"><span>No online players data</span></div>;
+                        })()}
                       </div>
                     </div>
                     <div className="admin-list-container">
