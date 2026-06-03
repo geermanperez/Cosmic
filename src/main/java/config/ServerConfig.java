@@ -25,8 +25,10 @@ public class ServerConfig {
     public long COUPON_INTERVAL;
     public long UPDATE_INTERVAL;
 
-    // Admin HTTP server port
+    // Admin HTTP server
+    public String ADMIN_HTTP_HOST;
     public int ADMIN_HTTP_PORT;
+    public String ADMIN_HTTP_TOKEN;
 
     public boolean ENABLE_PIC;
     public boolean ENABLE_PIN;

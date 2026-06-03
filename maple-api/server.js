@@ -61,6 +61,8 @@ const GTOP100_PINGBACK_KEY = process.env.GTOP100_PINGBACK_KEY || "";
 
 const JWT_SECRET = process.env.JWT_SECRET || "dev_jwt_secret_change_me";
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "7d";
+const ADMIN_HTTP_URL = (process.env.ADMIN_HTTP_URL || "http://127.0.0.1:9001").replace(/\/+$/, "");
+const ADMIN_HTTP_TOKEN = process.env.ADMIN_HTTP_TOKEN || "";
 
 function hashPassword(password, algorithm) {
   return crypto.createHash(algorithm).update(password, "utf8").digest("hex");
@@ -485,6 +487,45 @@ app.get("/admin/stats", authMiddleware, adminMiddleware, async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ ok: false, message: "No se pudieron cargar las estadísticas.", error: err.message });
+  }
+});
+
+app.get("/admin/online-players", authMiddleware, adminMiddleware, async (req, res) => {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 3000);
+
+  try {
+    const headers = {};
+    if (ADMIN_HTTP_TOKEN) headers["X-Admin-Token"] = ADMIN_HTTP_TOKEN;
+
+    const response = await fetch(`${ADMIN_HTTP_URL}/admin/online-players`, {
+      headers,
+      signal: controller.signal,
+    });
+    const body = await response.json().catch(() => null);
+
+    if (!response.ok) {
+      return res.status(response.status).json({
+        ok: false,
+        message: "No se pudo consultar el servidor admin interno.",
+        upstreamStatus: response.status,
+        upstream: body,
+      });
+    }
+
+    return res.json({
+      ok: true,
+      players: Array.isArray(body?.players) ? body.players : [],
+    });
+  } catch (err) {
+    console.error("Error loading online players from AdminHttpServer:", err.message);
+    return res.status(502).json({
+      ok: false,
+      message: "No se pudo conectar con el servidor admin interno.",
+      error: err.message,
+    });
+  } finally {
+    clearTimeout(timeout);
   }
 });
 

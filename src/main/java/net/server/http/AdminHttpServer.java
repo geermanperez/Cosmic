@@ -10,16 +10,16 @@ import net.server.world.World;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class AdminHttpServer {
     private final HttpServer server;
 
-    public AdminHttpServer(int port) throws IOException {
-        server = HttpServer.create(new InetSocketAddress(port), 0);
-        server.createContext("/admin/online-players", new OnlinePlayersHandler());
+    public AdminHttpServer(String host, int port, String adminToken) throws IOException {
+        server = HttpServer.create(new InetSocketAddress(host, port), 0);
+        server.createContext("/admin/online-players", new OnlinePlayersHandler(adminToken));
         server.setExecutor(java.util.concurrent.Executors.newCachedThreadPool());
     }
 
@@ -33,11 +33,25 @@ public class AdminHttpServer {
     }
 
     static class OnlinePlayersHandler implements HttpHandler {
+        private final String adminToken;
+
+        OnlinePlayersHandler(String adminToken) {
+            this.adminToken = adminToken == null ? "" : adminToken;
+        }
+
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             if (!"GET".equalsIgnoreCase(exchange.getRequestMethod())) {
                 exchange.sendResponseHeaders(405, -1);
                 return;
+            }
+
+            if (!adminToken.isBlank()) {
+                String requestToken = exchange.getRequestHeaders().getFirst("X-Admin-Token");
+                if (!adminToken.equals(requestToken)) {
+                    sendJson(exchange, 403, "{\"ok\":false,\"message\":\"Forbidden\"}");
+                    return;
+                }
             }
 
             List<String> rows = new ArrayList<>();
@@ -60,9 +74,13 @@ public class AdminHttpServer {
             }
 
             String body = "{\"players\": [" + String.join(",", rows) + "]}";
-            byte[] bytes = body.getBytes();
+            sendJson(exchange, 200, body);
+        }
+
+        private static void sendJson(HttpExchange exchange, int status, String body) throws IOException {
+            byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
             exchange.getResponseHeaders().add("Content-Type", "application/json; charset=utf-8");
-            exchange.sendResponseHeaders(200, bytes.length);
+            exchange.sendResponseHeaders(status, bytes.length);
             try (OutputStream os = exchange.getResponseBody()) {
                 os.write(bytes);
             }

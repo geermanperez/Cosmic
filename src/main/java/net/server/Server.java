@@ -939,9 +939,13 @@ public class Server {
 
         online = true;
         try {
-            // Start admin HTTP server on configured port (fallback 9001)
+            // Start internal admin HTTP server on configured host/port.
+            String adminHost = YamlConfig.config.server.ADMIN_HTTP_HOST != null && !YamlConfig.config.server.ADMIN_HTTP_HOST.isBlank()
+                    ? YamlConfig.config.server.ADMIN_HTTP_HOST
+                    : "127.0.0.1";
             int adminPort = YamlConfig.config.server.ADMIN_HTTP_PORT > 0 ? YamlConfig.config.server.ADMIN_HTTP_PORT : 9001;
-            net.server.http.AdminHttpServer adminHttpServer = new net.server.http.AdminHttpServer(adminPort);
+            String adminToken = YamlConfig.config.server.ADMIN_HTTP_TOKEN;
+            net.server.http.AdminHttpServer adminHttpServer = new net.server.http.AdminHttpServer(adminHost, adminPort, adminToken);
             adminHttpServer.start();
         } catch (java.io.IOException ioe) {
             log.warn("Failed to start Admin HTTP server: {}", ioe.getMessage());
