@@ -25,6 +25,7 @@ import client.Character;
 import client.Client;
 import net.AbstractPacketHandler;
 import net.packet.InPacket;
+import net.server.Server;
 import net.server.world.Party;
 import net.server.world.World;
 import tools.PacketCreator;
@@ -70,5 +71,6 @@ public class PartySearchStartHandler extends AbstractPacketHandler {
         World world = c.getWorldServer();
         world.getPartySearchCoordinator().registerPartyLeader(chr, min, max, jobs);
         chr.dropMessage(5, "Reclutando gente para esta Party Quest.");
+        Server.getInstance().broadcastMessage(c.getWorld(), PacketCreator.serverNotice(3, c.getChannel(), "[Party Search] " + chr.getName() + " recluta gente para Party Quest.", false));
     }
 }
