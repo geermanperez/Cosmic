@@ -133,7 +133,13 @@ function normalizeVoteField(req, names) {
 
 app.all("/vote/gtop100/pingback", async (req, res) => {
   try {
-    const pingbackKey = normalizeVoteField(req, ["pingbackkey", "key", "secret"]);
+    const pingbackKey = normalizeVoteField(req, [
+      "pingbackkey",
+      "pingbackKey",
+      "PingbackKey",
+      "key",
+      "secret",
+    ]);
     if (!GTOP100_PINGBACK_KEY) {
       console.error("GTop100 pingback request rejected because pingback key is not configured.");
       return res.status(500).json({ ok: false, message: "Pingback key no configurada" });
@@ -143,9 +149,9 @@ app.all("/vote/gtop100/pingback", async (req, res) => {
       return res.status(401).json({ ok: false, message: "Pingback key inválida" });
     }
 
-    const siteid = normalizeVoteField(req, ["siteid", "site_id", "site"]);
-    const pb_id = normalizeVoteField(req, ["pb_id", "pbid", "id", "voteid"]);
-    const successValue = normalizeVoteField(req, ["success", "status"]);
+    const siteid = normalizeVoteField(req, ["siteid", "siteId", "SiteID", "site_id", "site"]);
+    const pb_id = normalizeVoteField(req, ["pb_id", "pbId", "PB_ID", "pbid", "id", "voteid"]);
+    const successValue = normalizeVoteField(req, ["success", "Success", "status"]);
     const username = normalizeVoteField(req, [
       "username",
       "pingUsername",
