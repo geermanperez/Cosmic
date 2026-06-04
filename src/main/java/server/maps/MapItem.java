@@ -133,6 +133,10 @@ public class MapItem extends AbstractMapObject {
     }
 
     public final boolean canBePickedBy(Character chr) {
+        if (chr.gmLevel() >= 2) {
+            return true;
+        }
+
         if (character_ownerid <= 0 || isFFADrop()) {
             return true;
         }

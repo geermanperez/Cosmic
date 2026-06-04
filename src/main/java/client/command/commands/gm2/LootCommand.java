@@ -25,7 +25,6 @@ package client.command.commands.gm2;
 
 import client.Client;
 import client.command.Command;
-import server.maps.MapItem;
 import server.maps.MapObject;
 import server.maps.MapObjectType;
 
@@ -35,23 +34,19 @@ import java.util.List;
 public class LootCommand extends Command {
 
     {
-        setDescription("Loots all items that belong to you.");
+        setDescription("Loot all drops on the map.");
     }
 
     @Override
     public void execute(Client c, String[] params) {
         int gmLevel = c.getGMLevel();
-        // Allow only GM roles: JrGM..DEVELOPER..ADMIN (gmLevel 1..6)
-        if (gmLevel < 1) {
-            c.getPlayer().dropMessage(1, "No puedes usar @loot. Solo JrGM/GM/SUPERGM/DEVELOPER/ADMIN.");
+        if (gmLevel < 2 || gmLevel > 6) {
+            c.getPlayer().dropMessage(1, "No puedes usar !loot. Solo roles GM 2 a 6.");
             return;
         }
         List<MapObject> items = c.getPlayer().getMap().getMapObjectsInRange(c.getPlayer().getPosition(), Double.POSITIVE_INFINITY, Arrays.asList(MapObjectType.ITEM));
         for (MapObject item : items) {
-            MapItem mapItem = (MapItem) item;
-            if (mapItem.getOwnerId() == c.getPlayer().getId() || mapItem.getOwnerId() == c.getPlayer().getPartyId()) {
-                c.getPlayer().pickupItem(mapItem);
-            }
+            c.getPlayer().pickupItem(item);
         }
 
     }
