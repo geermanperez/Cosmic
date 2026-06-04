@@ -19,6 +19,11 @@ import { API_URL, getToken, saveToken, request } from "./apiClient";
 
 const downloadUrl =
   "https://drive.google.com/file/d/18Gy9XyizEj17hvDWW7CQa2GUw0dbOs6D/view?usp=sharing";
+const updateDownloadUrl =
+  "https://drive.google.com/file/d/1ZSMPS5opQJ0j8TRlBmh-gzNXLPp-C87O/view?usp=sharing";
+const updateNoticeStorageKey = "latinms-update-notice-accepted-date";
+const updateNoticeStartDate = "2026-06-04";
+const updateNoticeDurationDays = 4;
 const whatsappUrl = "https://chat.whatsapp.com/GKQyubuq4ml8HMrhUTzr7H?s=sw&p=i&ilr=2";
 const gtop100VoteUrl = "https://gtop100.com/MapleStory/server-106094?vote=1";
 
@@ -109,6 +114,26 @@ const translations = {
       downloadCopy:
         "LatinMS v1.0 client ready to enter the world of LatinMS. Download it, install it, and use your account to begin the adventure.",
       downloadClient: "Download client",
+      patchTitle: "Latest update patch",
+      patchCopy:
+        "Already have the client? Download this patch, unzip it, paste the file into your game folder, and replace it when Windows asks.",
+      patchDownload: "Download patch",
+    },
+    updateNotice: {
+      kicker: "Required update",
+      title: "Download the latest LatinMS update",
+      copy:
+        "A new update is available. Download it now so your game files stay compatible with the server.",
+      steps: [
+        "Download the update file.",
+        "Unzip it.",
+        "Take the file that remains outside the extracted folder.",
+        "Open your game folder and paste that file there.",
+        "When Windows asks if you want to replace it, choose Yes.",
+      ],
+      download: "Download update",
+      accept: "Got it, do not show today",
+      closeLabel: "Close update notice",
     },
     ranking: {
       level: "Level",
@@ -306,6 +331,26 @@ const translations = {
       downloadCopy:
         "Cliente LatinMS v1.0 listo para entrar al mundo de LatinMS. Descargalo, instalalo y usa tu cuenta para comenzar la aventura.",
       downloadClient: "Descargar cliente",
+      patchTitle: "Parche de actualizacion",
+      patchCopy:
+        "Ya tienes el cliente? Descarga este parche, descomprimilo, pega el archivo en la carpeta del juego y reemplazalo cuando Windows pregunte.",
+      patchDownload: "Descargar parche",
+    },
+    updateNotice: {
+      kicker: "Actualizacion necesaria",
+      title: "Descarga la ultima actualizacion de LatinMS",
+      copy:
+        "Hay una nueva actualizacion disponible. Descargala para que tus archivos del juego queden compatibles con el servidor.",
+      steps: [
+        "Descarga la actualizacion.",
+        "Descomprimila.",
+        "Toma el archivo que queda fuera de la carpeta extraida.",
+        "Abre la carpeta del juego y pega ese archivo ahi.",
+        "Cuando Windows pregunte si lo quieres reemplazar, elige Si.",
+      ],
+      download: "Descargar actualizacion",
+      accept: "Entendido, no mostrar hoy",
+      closeLabel: "Cerrar aviso de actualizacion",
     },
     ranking: {
       level: "Nivel",
@@ -575,6 +620,24 @@ function getInitialLanguage() {
   return saved === "es" ? "es" : "en";
 }
 
+function getLocalDateKey(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function shouldShowUpdateNotice() {
+  const today = new Date();
+  const start = new Date(`${updateNoticeStartDate}T00:00:00`);
+  const expires = new Date(start);
+  expires.setDate(start.getDate() + updateNoticeDurationDays);
+
+  if (today < start || today >= expires) return false;
+
+  return localStorage.getItem(updateNoticeStorageKey) !== getLocalDateKey(today);
+}
+
 function getJobName(job, language) {
   const jobId = Number(job);
   const languageIndex = language === "es" ? 1 : 0;
@@ -678,6 +741,7 @@ function App() {
   const [adminStats, setAdminStats] = useState(null);
   const [adminOnlinePlayers, setAdminOnlinePlayers] = useState([]);
   const [loadingAdmin, setLoadingAdmin] = useState(false);
+  const [showUpdateNotice, setShowUpdateNotice] = useState(shouldShowUpdateNotice);
 
   const countryOptions = useMemo(() => {
     const regionNames = new Intl.DisplayNames([language], { type: "region" });
@@ -785,6 +849,16 @@ function App() {
 
     const voteUrl = `${gtop100VoteUrl}&pingUsername=${encodeURIComponent(accountName)}`;
     window.open(voteUrl, "_blank", "noopener,noreferrer");
+  }
+
+  function acknowledgeUpdateNotice() {
+    localStorage.setItem(updateNoticeStorageKey, getLocalDateKey());
+    setShowUpdateNotice(false);
+  }
+
+  function handleUpdateDownload() {
+    acknowledgeUpdateNotice();
+    window.open(updateDownloadUrl, "_blank", "noopener,noreferrer");
   }
 
   const handleRegisterChange = (event) => {
@@ -1090,6 +1164,38 @@ function App() {
         </div>
       </header>
 
+      {showUpdateNotice ? (
+        <div className="update-modal" role="dialog" aria-modal="true" aria-labelledby="update-modal-title">
+          <div className="update-modal__panel">
+            <button
+              type="button"
+              className="update-modal__close"
+              aria-label={t.updateNotice.closeLabel}
+              onClick={acknowledgeUpdateNotice}
+            >
+              x
+            </button>
+            <span className="panel__kicker">{t.updateNotice.kicker}</span>
+            <h2 id="update-modal-title">{t.updateNotice.title}</h2>
+            <p>{t.updateNotice.copy}</p>
+            <ol>
+              {t.updateNotice.steps.map((step) => (
+                <li key={step}>{step}</li>
+              ))}
+            </ol>
+            <div className="update-modal__actions">
+              <button type="button" className="button-primary" onClick={handleUpdateDownload}>
+                <Download size={18} />
+                {t.updateNotice.download}
+              </button>
+              <button type="button" className="button-secondary" onClick={acknowledgeUpdateNotice}>
+                {t.updateNotice.accept}
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       <main className="page">
         {view === "home" ? (
           <section className="hero-card">
@@ -1261,6 +1367,14 @@ function App() {
                       {t.pages.downloadClient}
                       <ArrowRight size={18} />
                     </a>
+                    <div className="download-patch">
+                      <h3>{t.pages.patchTitle}</h3>
+                      <p>{t.pages.patchCopy}</p>
+                      <a className="button-secondary" href={updateDownloadUrl} target="_blank" rel="noreferrer">
+                        {t.pages.patchDownload}
+                        <Download size={18} />
+                      </a>
+                    </div>
                   </div>
                 </div>
               </section>

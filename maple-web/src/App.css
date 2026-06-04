@@ -138,6 +138,80 @@
   padding-bottom: 40px;
 }
 
+.update-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(32, 18, 8, 0.46);
+  backdrop-filter: blur(10px);
+}
+
+.update-modal__panel {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: min(760px, calc(100vh - 48px));
+  overflow-y: auto;
+  padding: 28px;
+  border: 1px solid rgba(132, 73, 20, 0.16);
+  border-radius: 24px;
+  background: rgba(255, 251, 244, 0.96);
+  box-shadow: 0 28px 80px rgba(42, 21, 4, 0.3);
+}
+
+.update-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  color: #7b4a17;
+  background: rgba(255, 239, 213, 0.9);
+  font-size: 1.05rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.update-modal__panel h2 {
+  margin: 14px 36px 10px 0;
+  color: #321601;
+  font-size: clamp(1.65rem, 4vw, 2.3rem);
+  line-height: 1.05;
+}
+
+.update-modal__panel p {
+  margin: 0;
+  color: #6c533f;
+  line-height: 1.65;
+}
+
+.update-modal__panel ol {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0 0;
+  padding-left: 22px;
+  color: #4f321c;
+  line-height: 1.55;
+}
+
+.update-modal__panel li::marker {
+  color: #e27616;
+  font-weight: 900;
+}
+
+.update-modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
 .hero-card,
 .panel {
   border: 1px solid rgba(132, 73, 20, 0.12);
@@ -903,6 +977,35 @@
   filter: drop-shadow(0 12px 24px rgba(120, 57, 7, 0.18));
 }
 
+.download-patch {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid rgba(147, 81, 20, 0.12);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.66);
+}
+
+.download-patch h3,
+.download-patch p {
+  margin: 0;
+}
+
+.download-patch h3 {
+  color: #321601;
+  font-size: 1.05rem;
+}
+
+.download-patch p {
+  color: #6c533f;
+  line-height: 1.55;
+}
+
+.download-patch .button-secondary {
+  justify-self: start;
+}
+
 .admin-split {
   margin-top: 24px;
   gap: 20px;
@@ -984,5 +1087,22 @@
   .button-primary,
   .button-secondary {
     width: 100%;
+  }
+
+  .download-patch .button-secondary {
+    justify-self: stretch;
+  }
+
+  .update-modal {
+    padding: 16px;
+  }
+
+  .update-modal__panel {
+    padding: 22px;
+    border-radius: 20px;
+  }
+
+  .update-modal__actions {
+    flex-direction: column;
   }
 }
