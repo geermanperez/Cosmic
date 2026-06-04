@@ -24,6 +24,7 @@ const updateDownloadUrl =
 const updateNoticeStorageKey = "latinms-update-notice-accepted-date";
 const updateNoticeStartDate = "2026-06-04";
 const updateNoticeDurationDays = 4;
+const showUpdateContent = false;
 const whatsappUrl = "https://chat.whatsapp.com/GKQyubuq4ml8HMrhUTzr7H?s=sw&p=i&ilr=2";
 const gtop100VoteUrl = "https://gtop100.com/MapleStory/server-106094?vote=1";
 
@@ -628,6 +629,8 @@ function getLocalDateKey(date = new Date()) {
 }
 
 function shouldShowUpdateNotice() {
+  if (!showUpdateContent) return false;
+
   const today = new Date();
   const start = new Date(`${updateNoticeStartDate}T00:00:00`);
   const expires = new Date(start);
@@ -1097,6 +1100,7 @@ function App() {
   const rankingPreview = ranking.length > 0 ? ranking.slice(0, 5) : topPlayersFallback;
   const rankingRows = ranking.length > 0 ? filteredRanking : topPlayersFallback;
   const serverOnline = status?.ok === true || status?.server === "online";
+  const visibleNewsItems = showUpdateContent ? t.newsItems : t.newsItems.slice(1);
   const onlinePlayers =
     status?.onlinePlayers ??
     status?.playersOnline ??
@@ -1246,10 +1250,12 @@ function App() {
           <div className="content-main">
             {view === "home" ? (
               <>
-                <section className="panel home-update">
-                  <span className="panel__kicker">{t.nav.news}</span>
-                  <NewsList items={t.newsItems.slice(0, 1)} />
-                </section>
+                {showUpdateContent ? (
+                  <section className="panel home-update">
+                    <span className="panel__kicker">{t.nav.news}</span>
+                    <NewsList items={t.newsItems.slice(0, 1)} />
+                  </section>
+                ) : null}
 
                 <section className="panel">
                   <div className="panel__head">
@@ -1282,7 +1288,7 @@ function App() {
                       </div>
                       <img src="/1.png" alt="" className="panel-head-icon" />
                     </div>
-                    <NewsList items={t.newsItems.slice(1)} />
+                    <NewsList items={visibleNewsItems} />
                   </article>
 
                   <article className="panel">
@@ -1310,7 +1316,7 @@ function App() {
                   </div>
                   <Newspaper size={24} />
                 </div>
-                <NewsList items={t.newsItems} />
+                <NewsList items={visibleNewsItems} />
               </section>
             ) : null}
 
@@ -1367,14 +1373,16 @@ function App() {
                       {t.pages.downloadClient}
                       <ArrowRight size={18} />
                     </a>
-                    <div className="download-patch">
-                      <h3>{t.pages.patchTitle}</h3>
-                      <p>{t.pages.patchCopy}</p>
-                      <a className="button-secondary" href={updateDownloadUrl} target="_blank" rel="noreferrer">
-                        {t.pages.patchDownload}
-                        <Download size={18} />
-                      </a>
-                    </div>
+                    {showUpdateContent ? (
+                      <div className="download-patch">
+                        <h3>{t.pages.patchTitle}</h3>
+                        <p>{t.pages.patchCopy}</p>
+                        <a className="button-secondary" href={updateDownloadUrl} target="_blank" rel="noreferrer">
+                          {t.pages.patchDownload}
+                          <Download size={18} />
+                        </a>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               </section>
