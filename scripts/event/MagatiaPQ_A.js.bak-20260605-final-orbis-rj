@@ -20,19 +20,20 @@
 
 /**
  * @author: Ronan
- * @event: Magatia PQ (Zenumist)
+ * @event: Magatia PQ (Alcadno)
  */
 
 var isPq = true;
 var minPlayers = 4, maxPlayers = 4;
-var minLevel = 70;
-var entryMap = 926100000;
-var exitMap = 926100700;
-var recruitMap = 261000011;
-var clearMap = 926100700;
+var minLevel = 71;
+var entryMap = 926110000;
+var exitMap = 926110700;
+var recruitMap = 261000021;
+var hubMap = 970030000;
+var clearMap = 926110700;
 
-var minMapId = 926100000;
-var maxMapId = 926100600;
+var minMapId = 926110000;
+var maxMapId = 926110600;
 
 var eventTime = 45;     // 45 minutes
 
@@ -92,7 +93,7 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
         for (var i = 0; i < party.size(); i++) {
             var ch = partyList[i];
 
-            if (ch.getMapId() == recruitMap && ch.getLevel() >= minLevel) {
+            if ((ch.getMapId() == recruitMap || ch.getMapId() == hubMap) && ch.getLevel() >= minLevel) {
                 if (ch.isLeader()) {
                     hasLeader = true;
                 }
@@ -108,10 +109,10 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
 }
 
 function setup(level, lobbyid) {
-    var eim = em.newInstance("MagatiaZ" + lobbyid);
+    var eim = em.newInstance("MagatiaA" + lobbyid);
     eim.setProperty("level", level);
 
-    eim.setIntProperty("isAlcadno", 0);
+    eim.setIntProperty("isAlcadno", 1);
 
     eim.setIntProperty("escortFail", 0);
     eim.setIntProperty("yuleteTimeout", 0);
@@ -128,32 +129,32 @@ function setup(level, lobbyid) {
     eim.setIntProperty("statusStg6", 0);
     eim.setIntProperty("statusStg7", 0);
 
-    eim.getInstanceMap(926100000).resetPQ(level);
-    eim.getInstanceMap(926100001).resetPQ(level);
-    eim.getInstanceMap(926100100).resetPQ(level);
-    eim.getInstanceMap(926100200).resetPQ(level);
-    eim.getInstanceMap(926100201).resetPQ(level);
-    eim.getInstanceMap(926100202).resetPQ(level);
-    eim.getInstanceMap(926100203).resetPQ(level);
-    eim.getInstanceMap(926100300).resetPQ(level);
-    eim.getInstanceMap(926100301).resetPQ(level);
-    eim.getInstanceMap(926100302).resetPQ(level);
-    eim.getInstanceMap(926100303).resetPQ(level);
-    eim.getInstanceMap(926100304).resetPQ(level);
-    eim.getInstanceMap(926100400).resetPQ(level);
-    eim.getInstanceMap(926100401).resetPQ(level);
-    eim.getInstanceMap(926100500).resetPQ(level);
-    eim.getInstanceMap(926100600).resetPQ(level);
-    eim.getInstanceMap(926100700).resetPQ(level);
+    eim.getInstanceMap(926110000).resetPQ(level);
+    eim.getInstanceMap(926110001).resetPQ(level);
+    eim.getInstanceMap(926110100).resetPQ(level);
+    eim.getInstanceMap(926110200).resetPQ(level);
+    eim.getInstanceMap(926110201).resetPQ(level);
+    eim.getInstanceMap(926110202).resetPQ(level);
+    eim.getInstanceMap(926110203).resetPQ(level);
+    eim.getInstanceMap(926110300).resetPQ(level);
+    eim.getInstanceMap(926110301).resetPQ(level);
+    eim.getInstanceMap(926110302).resetPQ(level);
+    eim.getInstanceMap(926110303).resetPQ(level);
+    eim.getInstanceMap(926110304).resetPQ(level);
+    eim.getInstanceMap(926110400).resetPQ(level);
+    eim.getInstanceMap(926110401).resetPQ(level);
+    eim.getInstanceMap(926110500).resetPQ(level);
+    eim.getInstanceMap(926110600).resetPQ(level);
+    eim.getInstanceMap(926110700).resetPQ(level);
 
-    eim.getInstanceMap(926100201).shuffleReactors(2518000, 2612004);
-    eim.getInstanceMap(926100202).shuffleReactors(2518000, 2612004);
+    eim.getInstanceMap(926110201).shuffleReactors(2518000, 2612004);
+    eim.getInstanceMap(926110202).shuffleReactors(2518000, 2612004);
 
     const Point = Java.type('java.awt.Point');
-    eim.spawnNpc(2112000, new Point(252, 243), eim.getInstanceMap(926100203));
-    eim.spawnNpc(2112000, new Point(200, 100), eim.getInstanceMap(926100401));
-    eim.spawnNpc(2112001, new Point(200, 100), eim.getInstanceMap(926100500));
-    eim.spawnNpc(2112018, new Point(200, 100), eim.getInstanceMap(926100600));
+    eim.spawnNpc(2112010, new Point(252, 243), eim.getInstanceMap(926110203));
+    eim.spawnNpc(2112010, new Point(200, 100), eim.getInstanceMap(926110401));
+    eim.spawnNpc(2112011, new Point(200, 100), eim.getInstanceMap(926110500));
+    eim.spawnNpc(2112018, new Point(200, 100), eim.getInstanceMap(926110600));
 
     respawnStages(eim);
     eim.startEventTimer(eventTime * 60000);
@@ -181,7 +182,7 @@ function shuffle(array) {
     return array;
 }
 
-function generateStg6Combo(eim) {
+function generateStg6Combo(eim) {  // thanks Chloek3, seth1 for stating generated sequences are supposed to be linked
     var matrix = [];
 
     for (var i = 0; i < 4; i++) {
@@ -243,11 +244,11 @@ function afterSetup(eim) {
 }
 
 function respawnStages(eim) {
-    eim.getMapInstance(926100100).instanceMapRespawn();
-    eim.getMapInstance(926100200).instanceMapRespawn();
+    eim.getMapInstance(926110100).instanceMapRespawn();
+    eim.getMapInstance(926110200).instanceMapRespawn();
 
     if (!eim.isEventCleared()) {
-        var mapobj = eim.getMapInstance(926100401);
+        var mapobj = eim.getMapInstance(926110401);
         var mobcount = mapobj.countMonster(9300150);
         var mobobj;
         const LifeFactory = Java.type('server.life.LifeFactory');
@@ -298,7 +299,7 @@ function changedMap(eim, player, mapid) {
             eim.unregisterPlayer(player);
         }
 
-    } else if (mapid == 926100203 && eim.getIntProperty("yuleteTimeout") == 0) {
+    } else if (mapid == 926110203 && eim.getIntProperty("yuleteTimeout") == 0) {
         eim.setIntProperty("yuleteTimeout", 1);
         eim.schedule("yuleteAction", 10 * 1000);
     }
@@ -314,10 +315,10 @@ function yuleteAction(eim) {
     }
     eim.setIntProperty("yuleteTalked", -1);
 
-    var mapobj = eim.getMapInstance(926100203);
+    var mapobj = eim.getMapInstance(926110203);
     var mob1 = 9300143, mob2 = 9300144;
 
-    mapobj.destroyNPC(2112000);
+    mapobj.destroyNPC(2112010);
 
     const LifeFactory = Java.type('server.life.LifeFactory');
     const Point = Java.type('java.awt.Point');
@@ -414,27 +415,27 @@ function clearPQ(eim) {
 function monsterKilled(mob, eim) {
     var map = mob.getMap();
 
-    if (map.getId() == 926100001 && eim.getIntProperty("statusStg1") == 1) {
+    if (map.getId() == 926110001 && eim.getIntProperty("statusStg1") == 1) {
         if (map.countMonsters() == 0) {
             eim.showClearEffect();
             eim.giveEventPlayersStageReward(2);
             eim.setIntProperty("statusStg2", 1);
         }
-    } else if (map.getId() == 926100203 && eim.getIntProperty("statusStg1") == 1) {
+    } else if (map.getId() == 926110203 && eim.getIntProperty("statusStg1") == 1) {
         if (map.countMonsters() == 0) {
             eim.showClearEffect();
             eim.giveEventPlayersStageReward(5);
 
             generateStg6Combo(eim);
-            map.getReactorByName("rnj6_out").forceHitReactor(1);
+            map.getReactorByName("jnr6_out").forceHitReactor(1);
         }
-    } else if (mob.getId() == 9300139 || mob.getId() == 9300140) {
+    } else if (mob.getId() == 9300151 || mob.getId() == 9300152) {
         eim.showClearEffect();
         eim.giveEventPlayersStageReward(7);
 
-        eim.spawnNpc(2112006, new java.awt.Point(-370, -150), map);
+        eim.spawnNpc(2112005, new java.awt.Point(-370, -150), map);
 
-        var gain = 24000;
+        var gain = 750000;
         eim.giveEventPlayersExp(gain);
 
         map.killAllMonstersNotFriendly();

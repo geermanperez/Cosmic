@@ -25,7 +25,7 @@
 
 var isPq = true;
 var minPlayers = 2, maxPlayers = 6;
-var minLevel = 70;
+var minLevel = 44;
 var entryMap = 930000000;
 var exitMap = 930000800;
 var recruitMap = 300030100;
@@ -223,7 +223,7 @@ function end(eim) {
 function clearPQ(eim) {
     eim.stopEventTimer();
     eim.setEventCleared();
-    eim.giveEventPlayersExp(15000);
+    eim.giveEventPlayersExp(230000);
 }
 
 function isPoisonGolem(mob) {

@@ -25,7 +25,7 @@
 
 var isPq = true;
 var minPlayers = 4, maxPlayers = 4;
-var minLevel = 71;
+var minLevel = 70;
 var entryMap = 926110000;
 var exitMap = 926110700;
 var recruitMap = 261000021;
@@ -435,7 +435,7 @@ function monsterKilled(mob, eim) {
 
         eim.spawnNpc(2112005, new java.awt.Point(-370, -150), map);
 
-        var gain = 750000;
+        var gain = 24000;
         eim.giveEventPlayersExp(gain);
 
         map.killAllMonstersNotFriendly();
