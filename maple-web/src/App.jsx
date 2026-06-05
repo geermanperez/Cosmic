@@ -18,9 +18,9 @@ import "./App.css";
 import { API_URL, getToken, saveToken, request } from "./apiClient";
 
 const downloadUrl =
-  "https://drive.google.com/file/d/18Gy9XyizEj17hvDWW7CQa2GUw0dbOs6D/view?usp=sharing";
+  "https://drive.google.com/file/d/1U0JBO0iuUcs12Yr9eOCxvlp149X3dWrN/view?usp=sharing";
 const updateDownloadUrl =
-  "https://drive.google.com/file/d/1rZtvaTIRJAM0rLqNjM1nY5DpUHtMOyF_/view?usp=sharing";
+  "https://drive.google.com/file/d/1U0JBO0iuUcs12Yr9eOCxvlp149X3dWrN/view?usp=sharing";
 const updateNoticeStorageKey = "latinms-launcher-update-notice-2026-06-05";
 const updateNoticeStartDate = "2026-06-05";
 const updateNoticeDurationDays = 7;
