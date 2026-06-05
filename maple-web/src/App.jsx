@@ -87,6 +87,11 @@ const translations = {
     },
     newsItems: [
       [
+        "/2.png",
+        "Party Quests renewed for LatinMS",
+        "Party Quests are now a main leveling path from Lv. 10 to 90+. They keep minimum level requirements, no maximum level cap, stronger clear EXP, and better common rewards for party play.",
+      ],
+      [
         "/4.png",
         "LatinMS v1.0 is now available",
         "If you have an older client, please update before playing. Download LatinMS v1.0 from the download section to enter the server without issues.",
@@ -303,6 +308,11 @@ const translations = {
       topTitle: "Los aventureros que marcan el ritmo",
     },
     newsItems: [
+      [
+        "/2.png",
+        "Party Quests renovadas en LatinMS",
+        "Las Party Quests ahora son una ruta principal de leveleo desde Lv. 10 hasta 90+. Mantienen nivel minimo, ya no tienen nivel maximo, entregan mas EXP por clear y mejores recompensas comunes para jugar en party.",
+      ],
       [
         "/4.png",
         "Nueva version LatinMS v1.0 disponible",
