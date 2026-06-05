@@ -15,7 +15,7 @@ CREATE TABLE accounts
     nxCredit       INT                   DEFAULT NULL,
     maplePoint     INT                   DEFAULT NULL,
     nxPrepaid      INT                   DEFAULT NULL,
-    characterslots TINYINT      NOT NULL DEFAULT '3',
+    characterslots TINYINT      NOT NULL DEFAULT '6',
     gender         TINYINT      NOT NULL DEFAULT '10',
     tempban        TIMESTAMP    NOT NULL DEFAULT '2005-05-11 00:00:00',
     greason        TINYINT      NOT NULL DEFAULT '0',

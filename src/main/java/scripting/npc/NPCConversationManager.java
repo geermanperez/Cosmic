@@ -309,6 +309,10 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         getPlayer().equipChanged();
     }
 
+    public boolean isSkinColorAvailable(int color) {
+        return SkinColor.getById(color) != null;
+    }
+
     public int itemQuantity(int itemid) {
         return getPlayer().getInventory(ItemConstants.getInventoryType(itemid)).countById(itemid);
     }

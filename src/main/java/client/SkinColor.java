@@ -28,9 +28,18 @@ public enum SkinColor {
     PALE(3),
     BLUE(4),
     GREEN(5),
+    GHOSTLY(6),
+    PALEST(7),
+    INVISIBLE(8),
     WHITE(9),
     PINK(10),
-    BROWN(11);
+    BROWN(11),
+    EXTRA_PALE(12),
+    EXTRA_TANNED(13),
+    ELF_MILK_CHOCOLATE(14),
+    ELF_LIGHT(15),
+    ELF_TANNED(16),
+    ELF_DARK(17);
 
     final int id;
 

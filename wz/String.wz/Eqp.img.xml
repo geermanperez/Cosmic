@@ -1552,6 +1552,66 @@
         <string name="name" value="MISSING NAME"/>
         <string name="desc" value="MISSING INFO"/>
       </imgdir>
+      <imgdir name="1012483">
+        <string name="name" value="Titan Mouth Face Cover"/>
+      </imgdir>
+      <imgdir name="1012484">
+        <string name="name" value="Domo Mouth Piece"/>
+      </imgdir>
+      <imgdir name="1012493">
+        <string name="name" value="Half Mask"/>
+      </imgdir>
+      <imgdir name="1012494">
+        <string name="name" value="Surgical Mask"/>
+      </imgdir>
+      <imgdir name="1012495">
+        <string name="name" value="Gas Mask"/>
+      </imgdir>
+      <imgdir name="1012496">
+        <string name="name" value="No-Face Mask"/>
+      </imgdir>
+      <imgdir name="1012497">
+        <string name="name" value="Smiley Mask"/>
+      </imgdir>
+      <imgdir name="1012498">
+        <string name="name" value="Kaneki Mask"/>
+      </imgdir>
+      <imgdir name="1012499">
+        <string name="name" value="Scary Still Face"/>
+      </imgdir>
+      <imgdir name="1012505">
+        <string name="name" value="Beauty Still Face"/>
+      </imgdir>
+      <imgdir name="1012519">
+        <string name="name" value="Ipos Still Face"/>
+      </imgdir>
+      <imgdir name="1022100">
+        <string name="name" value="Round Glasses"/>
+      </imgdir>
+      <imgdir name="1032256">
+        <string name="name" value="Text Ears"/>
+      </imgdir>
+      <imgdir name="1032260">
+        <string name="name" value="Flower Ears"/>
+      </imgdir>
+      <imgdir name="1142490">
+        <string name="name" value="Princess Crown Medal"/>
+      </imgdir>
+      <imgdir name="1142491">
+        <string name="name" value="Custom Medal 358"/>
+      </imgdir>
+      <imgdir name="1142492">
+        <string name="name" value="Custom Medal 359"/>
+      </imgdir>
+      <imgdir name="1142493">
+        <string name="name" value="Custom Medal 360"/>
+      </imgdir>
+      <imgdir name="1142494">
+        <string name="name" value="Custom Medal 361"/>
+      </imgdir>
+      <imgdir name="1142495">
+        <string name="name" value="Custom Lace Medal"/>
+      </imgdir>
     </imgdir>
     <imgdir name="Cap">
       <imgdir name="1002859">
@@ -4313,6 +4373,60 @@
         <string name="name" value="Archaeologist Hat"/>
         <string name="desc" value="An archaeologist hat received for participating in the Artifact Hunt."/>
       </imgdir>
+      <imgdir name="1008572">
+        <string name="name" value="Bear Hoodie"/>
+      </imgdir>
+      <imgdir name="1008573">
+        <string name="name" value="Bucket Hat"/>
+      </imgdir>
+      <imgdir name="1008574">
+        <string name="name" value="Otaku Cap"/>
+      </imgdir>
+      <imgdir name="1008575">
+        <string name="name" value="White Adidas Cap"/>
+      </imgdir>
+      <imgdir name="1008576">
+        <string name="name" value="White Adidas Cap 2"/>
+      </imgdir>
+      <imgdir name="1008577">
+        <string name="name" value="Black Adidas Cap"/>
+      </imgdir>
+      <imgdir name="1008578">
+        <string name="name" value="Black Adidas Cap 2"/>
+      </imgdir>
+      <imgdir name="1008579">
+        <string name="name" value="Black Smile Cap"/>
+      </imgdir>
+      <imgdir name="1008580">
+        <string name="name" value="Unicorn Hoodie"/>
+      </imgdir>
+      <imgdir name="1008581">
+        <string name="name" value="Traveller's Hat"/>
+      </imgdir>
+      <imgdir name="1008582">
+        <string name="name" value="Obey Snapback"/>
+      </imgdir>
+      <imgdir name="1008583">
+        <string name="name" value="Obey Mickey Mask"/>
+      </imgdir>
+      <imgdir name="1008584">
+        <string name="name" value="Tet's Hat"/>
+      </imgdir>
+      <imgdir name="1008585">
+        <string name="name" value="Bat Beanie"/>
+      </imgdir>
+      <imgdir name="1008586">
+        <string name="name" value="Bunny Ski Hat"/>
+      </imgdir>
+      <imgdir name="1008587">
+        <string name="name" value="Sleepy Bear Star Hood"/>
+      </imgdir>
+      <imgdir name="1008588">
+        <string name="name" value="Edelstein Green"/>
+      </imgdir>
+      <imgdir name="1008589">
+        <string name="name" value="Edelstein Brown"/>
+      </imgdir>
     </imgdir>
     <imgdir name="Cape">
       <imgdir name="1102206">
@@ -4855,6 +4969,9 @@
       </imgdir>
       <imgdir name="1102229">
         <string name="name" value="Bear Cape"/>
+      </imgdir>
+      <imgdir name="1103502">
+        <string name="name" value="Fur Cape"/>
       </imgdir>
       <imgdir name="1102226">
         <string name="name" value="해군 장교의 망토"/>
@@ -7875,6 +7992,21 @@
       </imgdir>
       <imgdir name="21730">
         <string name="name" value="Poker Face (Amethyst)"/>
+      </imgdir>
+      <imgdir name="20086">
+        <string name="name" value="Inspired Lotus Face"/>
+      </imgdir>
+      <imgdir name="26601">
+        <string name="name" value="Blank Face"/>
+      </imgdir>
+      <imgdir name="26602">
+        <string name="name" value="Inspired Lotus Face"/>
+      </imgdir>
+      <imgdir name="26603">
+        <string name="name" value="Inspired Beast Tamer Face"/>
+      </imgdir>
+      <imgdir name="26604">
+        <string name="name" value="Inspired Sleepy Face"/>
       </imgdir>
     </imgdir>
     <imgdir name="Glove">
@@ -13156,6 +13288,9 @@
       <imgdir name="33101">
         <string name="name" value="Red The Coco"/>
       </imgdir>
+      <imgdir name="35290">
+        <string name="name" value="Custom Style Hair"/>
+      </imgdir>
     </imgdir>
     <imgdir name="Longcoat">
       <imgdir name="1050000">
@@ -16327,6 +16462,12 @@
       <imgdir name="1112212">
         <string name="name" value="Silver-Blue Quote Ring"/>
         <string name="desc" value="While the character chats, the quote bubble comes out decorated in glimmering silver star background and in black font."/>
+      </imgdir>
+      <imgdir name="1112138">
+        <string name="name" value="Transparent Label Ring"/>
+      </imgdir>
+      <imgdir name="1112248">
+        <string name="name" value="Transparent Chat Balloon Ring"/>
       </imgdir>
       <imgdir name="1112213">
         <string name="name" value="Gold-Yellow Quote Ring 2"/>

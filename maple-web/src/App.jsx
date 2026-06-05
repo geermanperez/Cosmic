@@ -24,7 +24,7 @@ const updateDownloadUrl =
 const updateNoticeStorageKey = "latinms-update-notice-accepted-date";
 const updateNoticeStartDate = "2026-06-04";
 const updateNoticeDurationDays = 4;
-const showUpdateContent = false;
+const showUpdateContent = true;
 const whatsappUrl = "https://chat.whatsapp.com/GKQyubuq4ml8HMrhUTzr7H?s=sw&p=i&ilr=2";
 const gtop100VoteUrl = "https://gtop100.com/MapleStory/server-106094?vote=1";
 
