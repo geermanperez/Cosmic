@@ -173,6 +173,12 @@ const translations = {
       emailPlaceholder: "email@example.com",
       recoverButton: "Recover password",
       backToLogin: "Back to sign in",
+      resetKicker: "New password",
+      resetTitle: "Create a new password",
+      resetIntro: "Enter your new password to recover access to your account.",
+      newPassword: "New password",
+      repeatNewPassword: "Repeat new password",
+      resetButton: "Update password",
       registerKicker: "Create account",
       registerTitle: "Quick registration for LatinMS",
       registerIntro:
@@ -235,6 +241,10 @@ const translations = {
       enterEmail: "Enter your email.",
       recoverySent:
         "If the email exists, we will contact you with the steps to recover your account.",
+      recoveryError: "Could not start password recovery.",
+      resetTokenMissing: "The recovery link is invalid or incomplete.",
+      resetPasswordSuccess: "Password updated. You can now sign in.",
+      resetPasswordError: "Could not update the password.",
       loginRequired: "Complete username and password.",
       loginError: "Sign-in error",
       connectionError: "Connection error",
@@ -395,6 +405,12 @@ const translations = {
       emailPlaceholder: "correo@ejemplo.com",
       recoverButton: "Recuperar contrasena",
       backToLogin: "Volver al inicio de sesion",
+      resetKicker: "Nueva contrasena",
+      resetTitle: "Crea una nueva contrasena",
+      resetIntro: "Ingresa tu nueva contrasena para recuperar el acceso a tu cuenta.",
+      newPassword: "Nueva contrasena",
+      repeatNewPassword: "Repetir nueva contrasena",
+      resetButton: "Actualizar contrasena",
       registerKicker: "Crear cuenta",
       registerTitle: "Registro rapido para LatinMS",
       registerIntro:
@@ -457,6 +473,10 @@ const translations = {
       enterEmail: "Ingresa tu correo electronico.",
       recoverySent:
         "Si el correo existe, te contactaremos con los pasos para recuperar tu cuenta.",
+      recoveryError: "No se pudo iniciar la recuperacion de contrasena.",
+      resetTokenMissing: "El enlace de recuperacion es invalido o esta incompleto.",
+      resetPasswordSuccess: "Contrasena actualizada. Ya puedes iniciar sesion.",
+      resetPasswordError: "No se pudo actualizar la contrasena.",
       loginRequired: "Completa usuario y contrasena.",
       loginError: "Error en el inicio de sesion",
       connectionError: "Error de conexion",
@@ -604,12 +624,17 @@ function getEquippedItemIds(character) {
 }
 
 const getViewFromHash = () => {
-  const value = window.location.hash.replace("#", "");
-  if (["news", "ranking", "download", "login", "register", "recover", "account"].includes(value)) {
+  const value = window.location.hash.replace("#", "").split("?")[0];
+  if (["news", "ranking", "download", "login", "register", "recover", "reset-password", "account"].includes(value)) {
     return value;
   }
   return "home";
 };
+
+function getResetTokenFromHash() {
+  const [, queryString = ""] = window.location.hash.split("?");
+  return new URLSearchParams(queryString).get("token") || "";
+}
 
 function getAccountNameFromToken(token) {
   try {
@@ -739,6 +764,8 @@ function App() {
   const [loginMessage, setLoginMessage] = useState("");
   const [recoverForm, setRecoverForm] = useState({ email: "" });
   const [recoverMessage, setRecoverMessage] = useState("");
+  const [resetPasswordForm, setResetPasswordForm] = useState({ newPassword: "", confirmPassword: "" });
+  const [resetPasswordMessage, setResetPasswordMessage] = useState("");
   const [token, setToken] = useState(() => getToken());
   const [accountData, setAccountData] = useState(null);
   const [characters, setCharacters] = useState([]);
@@ -886,7 +913,7 @@ function App() {
     setRecoverForm((current) => ({ ...current, [event.target.name]: event.target.value }));
   };
 
-  const handleRecover = (event) => {
+  const handleRecover = async (event) => {
     event.preventDefault();
     setRecoverMessage("");
 
@@ -895,8 +922,46 @@ function App() {
       return;
     }
 
-    setRecoverMessage(t.messages.recoverySent);
-    setRecoverForm({ email: "" });
+    try {
+      const data = await request("/password-recovery", {
+        method: "POST",
+        body: JSON.stringify({ email: recoverForm.email }),
+      });
+      setRecoverMessage(data.message || t.messages.recoverySent);
+      setRecoverForm({ email: "" });
+    } catch (err) {
+      setRecoverMessage(err.body?.message || err.message || t.messages.recoveryError);
+    }
+  };
+
+  const handleResetPasswordChange = (event) => {
+    setResetPasswordForm((current) => ({ ...current, [event.target.name]: event.target.value }));
+  };
+
+  const handleResetPassword = async (event) => {
+    event.preventDefault();
+    setResetPasswordMessage("");
+
+    const resetToken = getResetTokenFromHash();
+    if (!resetToken) {
+      setResetPasswordMessage(t.messages.resetTokenMissing);
+      return;
+    }
+
+    try {
+      const data = await request("/password-recovery/reset", {
+        method: "POST",
+        body: JSON.stringify({
+          token: resetToken,
+          newPassword: resetPasswordForm.newPassword,
+          confirmPassword: resetPasswordForm.confirmPassword,
+        }),
+      });
+      setResetPasswordMessage(data.message || t.messages.resetPasswordSuccess);
+      setResetPasswordForm({ newPassword: "", confirmPassword: "" });
+    } catch (err) {
+      setResetPasswordMessage(err.body?.message || err.message || t.messages.resetPasswordError);
+    }
   };
 
   const handleLogin = async (event) => {
@@ -1169,7 +1234,7 @@ function App() {
             ) : null}
             <button
               type="button"
-              className={["login", "register", "recover", "account"].includes(view) ? "is-active" : ""}
+              className={["login", "register", "recover", "reset-password", "account"].includes(view) ? "is-active" : ""}
               onClick={() => goToView(token ? "account" : "login")}
             >
               {token ? t.nav.account : t.nav.login}
@@ -1450,6 +1515,34 @@ function App() {
                   </div>
                 </form>
                 {recoverMessage ? <p className="feedback">{recoverMessage}</p> : null}
+              </section>
+            ) : null}
+
+            {view === "reset-password" ? (
+              <section className="panel panel--form">
+                <div className="panel__head">
+                  <div>
+                    <span className="panel__kicker">{t.auth.resetKicker}</span>
+                    <h2>{t.auth.resetTitle}</h2>
+                  </div>
+                  <KeyRound size={22} />
+                </div>
+                <p className="panel__intro">{t.auth.resetIntro}</p>
+                <form className="form-card" onSubmit={handleResetPassword}>
+                  <label>
+                    {t.auth.newPassword}
+                    <input type="password" name="newPassword" value={resetPasswordForm.newPassword} onChange={handleResetPasswordChange} placeholder={t.auth.passwordMinPlaceholder} />
+                  </label>
+                  <label>
+                    {t.auth.repeatNewPassword}
+                    <input type="password" name="confirmPassword" value={resetPasswordForm.confirmPassword} onChange={handleResetPasswordChange} placeholder={t.auth.repeatNewPassword} />
+                  </label>
+                  <div className="auth-actions">
+                    <button type="submit" className="button-primary">{t.auth.resetButton}</button>
+                    <button type="button" className="button-secondary" onClick={() => goToView("login")}>{t.auth.backToLogin}</button>
+                  </div>
+                </form>
+                {resetPasswordMessage ? <p className="feedback">{resetPasswordMessage}</p> : null}
               </section>
             ) : null}
 

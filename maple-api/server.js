@@ -4,6 +4,7 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
+const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 const app = express();
@@ -63,6 +64,14 @@ const JWT_SECRET = process.env.JWT_SECRET || "dev_jwt_secret_change_me";
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "7d";
 const ADMIN_HTTP_URL = (process.env.ADMIN_HTTP_URL || "http://127.0.0.1:9001").replace(/\/+$/, "");
 const ADMIN_HTTP_TOKEN = process.env.ADMIN_HTTP_TOKEN || "";
+const PUBLIC_SITE_URL = (process.env.PUBLIC_SITE_URL || process.env.FRONTEND_URL || "https://latinms.redly.com.ar").replace(/\/+$/, "");
+const PASSWORD_RESET_EXPIRES_MINUTES = Number(process.env.PASSWORD_RESET_EXPIRES_MINUTES || 30);
+const SMTP_HOST = process.env.SMTP_HOST || "";
+const SMTP_PORT = Number(process.env.SMTP_PORT || 587);
+const SMTP_SECURE = String(process.env.SMTP_SECURE || "false").toLowerCase() === "true";
+const SMTP_USER = process.env.SMTP_USER || "";
+const SMTP_PASS = process.env.SMTP_PASS || "";
+const SMTP_FROM = process.env.SMTP_FROM || SMTP_USER || "";
 
 function hashPassword(password, algorithm) {
   return crypto.createHash(algorithm).update(password, "utf8").digest("hex");
@@ -85,6 +94,80 @@ function verifyPassword(inputPassword, storedPassword) {
     hashPassword(inputPassword, "sha1") === normalizedStoredPassword ||
     hashPassword(inputPassword, "sha512") === normalizedStoredPassword
   );
+}
+
+function createPasswordResetToken() {
+  return crypto.randomBytes(32).toString("hex");
+}
+
+function hashPasswordResetToken(token) {
+  return crypto.createHash("sha256").update(token, "utf8").digest("hex");
+}
+
+function getPasswordResetUrl(token) {
+  return `${PUBLIC_SITE_URL}/#reset-password?token=${encodeURIComponent(token)}`;
+}
+
+function createMailTransport() {
+  if (!SMTP_HOST || !SMTP_FROM) {
+    throw new Error("SMTP no configurado. Define SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS y SMTP_FROM.");
+  }
+
+  const transport = {
+    host: SMTP_HOST,
+    port: SMTP_PORT,
+    secure: SMTP_SECURE,
+  };
+
+  if (SMTP_USER || SMTP_PASS) {
+    transport.auth = {
+      user: SMTP_USER,
+      pass: SMTP_PASS,
+    };
+  }
+
+  return nodemailer.createTransport(transport);
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+async function sendPasswordRecoveryEmail({ to, username, resetUrl, expiresMinutes }) {
+  const transporter = createMailTransport();
+  const subject = "Recuperacion de contrasena - LatinMS";
+  const text = [
+    `Hola ${username},`,
+    "",
+    "Recibimos una solicitud para recuperar la contrasena de tu cuenta de LatinMS.",
+    `Usa este enlace para crear una nueva contrasena. Expira en ${expiresMinutes} minutos:`,
+    resetUrl,
+    "",
+    "Si no solicitaste este cambio, ignora este correo.",
+    "LatinMS",
+  ].join("\n");
+  const safeUsername = escapeHtml(username);
+  const safeResetUrl = escapeHtml(resetUrl);
+  const html = `
+    <p>Hola ${safeUsername},</p>
+    <p>Recibimos una solicitud para recuperar la contrasena de tu cuenta de LatinMS.</p>
+    <p><a href="${safeResetUrl}">Crear nueva contrasena</a></p>
+    <p>Este enlace expira en ${expiresMinutes} minutos.</p>
+    <p>Si no solicitaste este cambio, ignora este correo.</p>
+  `;
+
+  await transporter.sendMail({
+    from: SMTP_FROM,
+    to,
+    subject,
+    text,
+    html,
+  });
 }
 
 // Create web_profiles table if not exists (non-intrusive)
@@ -140,6 +223,28 @@ function normalizeVoteFieldFromSources(sources, names) {
     }
   }
   return undefined;
+}
+
+async function ensurePasswordResetTable() {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS password_reset_tokens (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        account_id INT NOT NULL,
+        token_hash CHAR(64) NOT NULL UNIQUE,
+        expires_at DATETIME NOT NULL,
+        used_at DATETIME DEFAULT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        request_ip VARCHAR(64) DEFAULT NULL,
+        INDEX idx_password_reset_account (account_id),
+        INDEX idx_password_reset_expires (expires_at),
+        CONSTRAINT fk_password_reset_account FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE
+      )
+    `);
+    console.log("password_reset_tokens table ensured");
+  } catch (err) {
+    console.error("Error ensuring password_reset_tokens table:", err.message);
+  }
 }
 
 function normalizeVoteField(req, names, extraSources = []) {
@@ -904,6 +1009,98 @@ app.post("/login-legacy-disabled", async (req, res) => {
   }
 });
 
+app.post("/password-recovery", async (req, res) => {
+  try {
+    const email = String(req.body?.email || "").trim();
+    if (!email || email.length > 45 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ ok: false, message: "Ingresa un correo electronico valido." });
+    }
+
+    const genericMessage = "Si el correo existe, enviaremos los pasos para recuperar tu cuenta.";
+    const [rows] = await pool.query(
+      "SELECT id, name, email FROM accounts WHERE LOWER(email) = LOWER(?) AND banned = 0 LIMIT 1",
+      [email]
+    );
+
+    if (rows.length === 0) {
+      return res.json({ ok: true, message: genericMessage });
+    }
+
+    const account = rows[0];
+    const token = createPasswordResetToken();
+    const tokenHash = hashPasswordResetToken(token);
+    const expiresAt = new Date(Date.now() + PASSWORD_RESET_EXPIRES_MINUTES * 60 * 1000);
+    const resetUrl = getPasswordResetUrl(token);
+
+    await pool.query(
+      `INSERT INTO password_reset_tokens (account_id, token_hash, expires_at, request_ip)
+       VALUES (?, ?, ?, ?)`,
+      [account.id, tokenHash, expiresAt, getIpFromRequest(req)]
+    );
+
+    try {
+      await sendPasswordRecoveryEmail({
+        to: account.email,
+        username: account.name,
+        resetUrl,
+        expiresMinutes: PASSWORD_RESET_EXPIRES_MINUTES,
+      });
+    } catch (mailError) {
+      console.error("Password recovery email failed:", mailError.message);
+      return res.status(503).json({
+        ok: false,
+        message: "No se pudo enviar el correo de recuperacion. Revisa la configuracion SMTP del API.",
+      });
+    }
+
+    return res.json({ ok: true, message: genericMessage });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ ok: false, message: "Error al iniciar la recuperacion.", error: err.message });
+  }
+});
+
+app.post("/password-recovery/reset", async (req, res) => {
+  try {
+    const token = String(req.body?.token || "").trim();
+    const { newPassword, confirmPassword } = req.body;
+
+    if (!token || !newPassword || !confirmPassword) {
+      return res.status(400).json({ ok: false, message: "Todos los campos son requeridos." });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({ ok: false, message: "Las nuevas contrasenas no coinciden." });
+    }
+
+    if (newPassword.length < 4 || newPassword.length > 30) {
+      return res.status(400).json({ ok: false, message: "La contrasena debe tener entre 4 y 30 caracteres." });
+    }
+
+    const tokenHash = hashPasswordResetToken(token);
+    const [tokenRows] = await pool.query(
+      `SELECT id, account_id
+       FROM password_reset_tokens
+       WHERE token_hash = ? AND used_at IS NULL AND expires_at > NOW()
+       LIMIT 1`,
+      [tokenHash]
+    );
+
+    if (tokenRows.length === 0) {
+      return res.status(400).json({ ok: false, message: "El enlace de recuperacion es invalido o expiro." });
+    }
+
+    const resetToken = tokenRows[0];
+    await pool.query("UPDATE accounts SET password = ? WHERE id = ?", [newPassword, resetToken.account_id]);
+    await pool.query("UPDATE password_reset_tokens SET used_at = NOW() WHERE id = ?", [resetToken.id]);
+
+    return res.json({ ok: true, message: "Contrasena actualizada correctamente. Ya puedes iniciar sesion." });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ ok: false, message: "Error al restablecer la contrasena.", error: err.message });
+  }
+});
+
 // Get logged account and profile
 app.get("/account/me", authMiddleware, async (req, res) => {
   try {
@@ -1010,7 +1207,7 @@ app.post("/account/me/change-password", authMiddleware, async (req, res) => {
     if (rows.length === 0) return res.status(404).json({ ok: false, message: "Cuenta no encontrada" });
     const account = rows[0];
 
-    if (account.password !== currentPassword) return res.status(401).json({ ok: false, message: "Contraseña actual incorrecta" });
+    if (!verifyPassword(currentPassword, account.password)) return res.status(401).json({ ok: false, message: "Contraseña actual incorrecta" });
 
     await pool.query("UPDATE accounts SET password = ? WHERE id = ?", [newPassword, uid]);
     return res.json({ ok: true, message: "Contraseña actualizada correctamente." });
@@ -1028,7 +1225,7 @@ app.get("/account/check", authMiddleware, (req, res) => {
 const PORT = process.env.PORT || 3001;
 
 // Ensure web_profiles and start server
-Promise.all([ensureWebProfilesTable(), ensureGTop100VotesTable()]).then(() => {
+Promise.all([ensureWebProfilesTable(), ensureGTop100VotesTable(), ensurePasswordResetTable()]).then(() => {
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Maple API corriendo en puerto ${PORT}`);
   });

@@ -20,22 +20,22 @@
 
 /**
  * @author: Ronan
- * @event: Amoria PQ
+ * @event: Treasure PQ
  */
 
 var isPq = true;
-var onlyMarriedPlayers = true;
-var minPlayers = 6, maxPlayers = 6;
-var minLevel = 40;
-var entryMap = 670010200;
-var exitMap = 670011000;
-var recruitMap = 670010100;
-var clearMap = 670010800;
+var minPlayers = 4, maxPlayers = 6;
+var minLevel = 140;
+var entryMap = 674030000;
+var exitMap = 674030100;
+var recruitMap = 674030100;
+var clearMap = 674030300;
 
-var minMapId = 670010200;
-var maxMapId = 670010800;
+var minMapId = 674030000;
+var maxMapId = 674030300;
 
-var eventTime = 75;     // 75 minutes
+var eventTime = 45;     // 45 minutes
+var bonusTime = 10;     // 10 minutes
 
 const maxLobbies = 1;
 
@@ -60,11 +60,6 @@ function setEventRequirements() {
     reqStr += "\r\n    Minimum level: ";
     reqStr += minLevel;
 
-    reqStr += "\r\n    At least 1 of both genders";
-    if (onlyMarriedPlayers) {
-        reqStr += "\r\n    All married";
-    }
-
     reqStr += "\r\n    Time limit: ";
     reqStr += eventTime + " minutes";
 
@@ -72,7 +67,7 @@ function setEventRequirements() {
 }
 
 function setEventExclusives(eim) {
-    var itemSet = [4031594, 4031595, 4031596, 4031597];
+    var itemSet = [4032118];
     eim.setExclusiveItems(itemSet);
 }
 
@@ -84,14 +79,13 @@ function setEventRewards(eim) {
     itemQty = [];
     eim.setEventRewards(evLevel, itemSet, itemQty);
 
-    expStages = [2000, 3000, 3000, 3000, 3000, 3000];    //bonus exp given on CLEAR stage signal
+    expStages = [60000, 100000];    //bonus exp given on CLEAR stage signal
     eim.setEventClearStageExp(expStages);
 }
 
 function getEligibleParty(party) {      //selects, from the given party, the team that is allowed to attempt this event
     var eligible = [];
-    var hasLeader = false, hasNotMarried = false;
-    var mask = 0;
+    var hasLeader = false;
 
     if (party.size() > 0) {
         var partyList = party.toArray();
@@ -103,99 +97,38 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
                 if (ch.isLeader()) {
                     hasLeader = true;
                 }
-                if (!ch.getPlayer().isMarried()) {
-                    hasNotMarried = true;
-                }
                 eligible.push(ch);
-
-                mask |= (1 << ch.getPlayer().getGender());
             }
         }
     }
 
-    if (!(hasLeader && eligible.length >= minPlayers && eligible.length <= maxPlayers && mask == 3)) {
-        eligible = [];
-    }
-    if (onlyMarriedPlayers && hasNotMarried) {
+    if (!(hasLeader && eligible.length >= minPlayers && eligible.length <= maxPlayers)) {
         eligible = [];
     }
     return Java.to(eligible, Java.type('net.server.world.PartyCharacter[]'));
 }
 
 function setup(level, lobbyid) {
-    var eim = em.newInstance("Amoria" + lobbyid);
+    var eim = em.newInstance("Treasure" + lobbyid);
     eim.setProperty("level", level);
 
-    eim.setProperty("marriedGroup", 0);
-    eim.setProperty("missCount", 0);
-    eim.setProperty("statusStg1", -1);
-    eim.setProperty("statusStg2", -1);
-    eim.setProperty("statusStg3", -1);
-    eim.setProperty("statusStg4", -1);
-    eim.setProperty("statusStg5", -1);
-    eim.setProperty("statusStg6", -1);
-    eim.setProperty("statusStgBonus", 0);
+    eim.setProperty("statusStg1", "0");
 
-    eim.getInstanceMap(670010200).resetPQ(level);
-    eim.getInstanceMap(670010300).resetPQ(level);
-    eim.getInstanceMap(670010301).resetPQ(level);
-    eim.getInstanceMap(670010302).resetPQ(level);
-    eim.getInstanceMap(670010400).resetPQ(level);
-    eim.getInstanceMap(670010500).resetPQ(level);
-    eim.getInstanceMap(670010600).resetPQ(level);
-    eim.getInstanceMap(670010700).resetPQ(level);
-    eim.getInstanceMap(670010750).resetPQ(level);
-    eim.getInstanceMap(670010800).resetPQ(level);
-
-    eim.getInstanceMap(670010200).toggleDrops();
-    eim.getInstanceMap(670010300).toggleDrops();
-    eim.getInstanceMap(670010301).toggleDrops();
-    eim.getInstanceMap(670010302).toggleDrops();
-
-    eim.getInstanceMap(670010200).instanceMapForceRespawn();
-    eim.getInstanceMap(670010500).instanceMapForceRespawn();
-
-    eim.getInstanceMap(670010750).shuffleReactors();
-    eim.getInstanceMap(670010800).shuffleReactors();
-
-    var mapObj = eim.getInstanceMap(670010700);
-
-    const LifeFactory = Java.type('server.life.LifeFactory');
-    const Point = Java.type('java.awt.Point');
-    var mobObj = LifeFactory.getMonster(9400536);
-    mapObj.spawnMonsterOnGroundBelow(mobObj, new Point(942, 478));
+    eim.getInstanceMap(674030000).shuffleReactors();
 
     respawnStages(eim);
-
     eim.startEventTimer(eventTime * 60000);
     setEventRewards(eim);
     setEventExclusives(eim);
-
     return eim;
 }
 
-function isTeamAllCouple(eim) {     // everyone partner of someone on the team
-    var eventPlayers = eim.getPlayers();
+function afterSetup(eim) {}
 
-    for (var iterator = eventPlayers.iterator(); iterator.hasNext();) {
-        var chr = iterator.next();
-
-        var pid = chr.getPartnerId();
-        if (pid <= 0 || eim.getPlayerById(pid) == null) {
-            return false;
-        }
-    }
-
-    return true;
+function respawnStages(eim) {
+    eim.getMapInstance(674030000).instanceMapRespawn();
+    eim.schedule("respawnStages", 15 * 1000);
 }
-
-function afterSetup(eim) {
-    if (isTeamAllCouple(eim)) {
-        eim.setIntProperty("marriedGroup", 1);
-    }
-}
-
-function respawnStages(eim) {}
 
 function playerEntry(eim, player) {
     var map = eim.getMapInstance(entryMap);
@@ -203,11 +136,7 @@ function playerEntry(eim, player) {
 }
 
 function scheduledTimeout(eim) {
-    if (eim.getIntProperty("statusStg6") == 1) {
-        eim.warpEventTeam(exitMap);
-    } else {
-        end(eim);
-    }
+    end(eim);
 }
 
 function playerUnregistered(eim, player) {}
@@ -224,7 +153,7 @@ function playerLeft(eim, player) {
 }
 
 function changedMap(eim, player, mapid) {
-    if (mapid < minMapId || mapid > maxMapId) {
+    if (mapid < minMapId || mapid > maxMapId || mapid == 674030100) {
         if (eim.isEventTeamLackingNow(true, minPlayers, player)) {
             eim.unregisterPlayer(player);
             end(eim);
@@ -236,7 +165,7 @@ function changedMap(eim, player, mapid) {
 
 function changedLeader(eim, leader) {
     var mapid = leader.getMapId();
-    if (!eim.isEventCleared() && (mapid < minMapId || mapid > maxMapId)) {
+    if (!eim.isEventCleared() && (mapid < minMapId || mapid > maxMapId || mapid == 674030100)) {
         end(eim);
     }
 }
@@ -291,12 +220,31 @@ function giveRandomEventReward(eim, player) {
     eim.giveEventReward(player);
 }
 
+function warpBonus(eim) {
+    eim.startEventTimer(bonusTime * 60000);
+    eim.warpEventTeam(674030300);
+}
+
 function clearPQ(eim) {
     eim.stopEventTimer();
     eim.setEventCleared();
+
+    eim.schedule("warpBonus", 10 * 1000);
 }
 
-function monsterKilled(mob, eim) {}
+function isMV(mob) {
+    var mobid = mob.getId();
+    return (mobid == 9400589);
+}
+
+function monsterKilled(mob, eim) {
+    if (isMV(mob)) {
+        eim.showClearEffect();
+        eim.giveEventPlayersStageReward(2);
+
+        eim.clearPQ();
+    }
+}
 
 function allMonstersDead(eim) {}
 
