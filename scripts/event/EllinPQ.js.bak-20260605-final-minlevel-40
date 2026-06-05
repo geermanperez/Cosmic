@@ -20,20 +20,20 @@
 
 /**
  * @author: Ronan
- * @event: Kerning PQ
+ * @event: Ellin PQ
  */
 
 var isPq = true;
-var minPlayers = 3, maxPlayers = 4;
-var minLevel = 21;
-var entryMap = 103000800;
-var exitMap = 103000890;
-var recruitMap = 103000000;
+var minPlayers = 2, maxPlayers = 6;
+var minLevel = 70;
+var entryMap = 930000000;
+var exitMap = 930000800;
+var recruitMap = 300030100;
 var hubMap = 970030000;
-var clearMap = 103000805;
+var clearMap = 930000800;
 
-var minMapId = 103000800;
-var maxMapId = 103000805;
+var minMapId = 930000000;
+var maxMapId = 930000800;
 
 var eventTime = 30;     // 30 minutes
 
@@ -60,6 +60,8 @@ function setEventRequirements() {
     reqStr += "\r\n    Minimum level: ";
     reqStr += minLevel;
 
+    reqStr += "\r\n    For #radventurers only#k.";
+
     reqStr += "\r\n    Time limit: ";
     reqStr += eventTime + " minutes";
 
@@ -67,21 +69,11 @@ function setEventRequirements() {
 }
 
 function setEventExclusives(eim) {
-    var itemSet = [4001007, 4001008];
+    var itemSet = [4001162, 4001163, 4001169, 2270004];
     eim.setExclusiveItems(itemSet);
 }
 
-function setEventRewards(eim) {
-    var itemSet, itemQty, evLevel, expStages;
-
-    evLevel = 1;    //Rewards at clear PQ
-    itemSet = [2040505, 2040514, 2040502, 2040002, 2040602, 2040402, 2040802, 1032009, 1032004, 1032005, 1032006, 1032007, 1032010, 1032002, 1002026, 1002089, 1002090, 2000003, 2000001, 2000002, 2000006, 2022003, 2022000, 2000004, 4003000, 4010000, 4010001, 4010002, 4010003, 4010004, 4010005, 4010006, 4010007, 4020000, 4020001, 4020002, 4020003, 4020004, 4020005, 4020006, 4020007, 4020008];
-    itemQty = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 240, 240, 240, 150, 15, 45, 45, 90, 45, 45, 45, 45, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 9, 9];
-    eim.setEventRewards(evLevel, itemSet, itemQty, 50000);
-
-    expStages = [0, 0, 0, 0, 0];    //final clear EXP is paid with the event reward above
-    eim.setEventClearStageExp(expStages);
-}
+function setEventRewards(eim) {}
 
 function getEligibleParty(party) {      //selects, from the given party, the team that is allowed to attempt this event
     var eligible = [];
@@ -93,7 +85,7 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
         for (var i = 0; i < party.size(); i++) {
             var ch = partyList[i];
 
-            if ((ch.getMapId() == recruitMap || ch.getMapId() == hubMap) && ch.getLevel() >= minLevel) {
+            if ((ch.getMapId() == recruitMap || ch.getMapId() == hubMap) && ch.getLevel() >= minLevel && Math.floor(ch.getJob().getId() / 1000) == 0) {  //only adventurers
                 if (ch.isLeader()) {
                     hasLeader = true;
                 }
@@ -109,10 +101,24 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
 }
 
 function setup(level, lobbyid) {
-    var eim = em.newInstance("Kerning" + lobbyid);
+    var eim = em.newInstance("Ellin" + lobbyid);
     eim.setProperty("level", level);
 
-    respawnStages(eim);
+    eim.setProperty("statusStg4", 0);
+
+    eim.getInstanceMap(930000000).resetPQ(level);
+    eim.getInstanceMap(930000100).resetPQ(level);
+    eim.getInstanceMap(930000200).resetPQ(level);
+    eim.getInstanceMap(930000300).resetPQ(level);
+    eim.getInstanceMap(930000400).resetPQ(level);
+    var map = eim.getInstanceMap(930000500);
+    map.resetPQ(level);
+    map.shuffleReactors();
+    eim.getInstanceMap(930000600).resetPQ(level);
+    eim.getInstanceMap(930000700).resetPQ(level);
+
+    respawnStg2(eim);
+
     eim.startEventTimer(eventTime * 60000);
     setEventRewards(eim);
     setEventExclusives(eim);
@@ -121,10 +127,29 @@ function setup(level, lobbyid) {
 
 function afterSetup(eim) {}
 
-function respawnStages(eim) {
-    eim.getMapInstance(103000800).instanceMapRespawn();
-    eim.getMapInstance(103000805).instanceMapRespawn();
-    eim.schedule("respawnStages", 15 * 1000);
+function respawnStg2(eim) {
+    if (!eim.getMapInstance(930000200).getPlayers().isEmpty()) {
+        eim.getMapInstance(930000200).instanceMapRespawn();
+    }
+    eim.schedule("respawnStg2", 4 * 1000);
+}
+
+function changedMap(eim, player, mapid) {
+    if (mapid < minMapId || mapid > maxMapId) {
+        if (eim.isEventTeamLackingNow(true, minPlayers, player)) {
+            eim.unregisterPlayer(player);
+            end(eim);
+        } else {
+            eim.unregisterPlayer(player);
+        }
+    }
+}
+
+function changedLeader(eim, leader) {
+    var mapid = leader.getMapId();
+    if (!eim.isEventCleared() && (mapid < minMapId || mapid > maxMapId)) {
+        end(eim);
+    }
 }
 
 function playerEntry(eim, player) {
@@ -149,24 +174,6 @@ function playerLeft(eim, player) {
     }
 }
 
-function changedMap(eim, player, mapid) {
-    if (mapid < minMapId || mapid > maxMapId) {
-        if (eim.isEventTeamLackingNow(true, minPlayers, player)) {
-            eim.unregisterPlayer(player);
-            end(eim);
-        } else {
-            eim.unregisterPlayer(player);
-        }
-    }
-}
-
-function changedLeader(eim, leader) {
-    var mapid = leader.getMapId();
-    if (!eim.isEventCleared() && (mapid < minMapId || mapid > maxMapId)) {
-        end(eim);
-    }
-}
-
 function playerDead(eim, player) {}
 
 function playerRevive(eim, player) { // player presses ok on the death pop up.
@@ -178,12 +185,12 @@ function playerRevive(eim, player) { // player presses ok on the death pop up.
     }
 }
 
+
 function playerDisconnected(eim, player) {
     if (eim.isEventTeamLackingNow(true, minPlayers, player)) {
-        eim.unregisterPlayer(player);
         end(eim);
     } else {
-        eim.unregisterPlayer(player);
+        playerExit(eim, player);
     }
 }
 
@@ -213,16 +220,31 @@ function end(eim) {
     eim.dispose();
 }
 
-function giveRandomEventReward(eim, player) {
-    eim.giveEventReward(player);
-}
-
 function clearPQ(eim) {
     eim.stopEventTimer();
     eim.setEventCleared();
+    eim.giveEventPlayersExp(15000);
 }
 
-function monsterKilled(mob, eim) {}
+function isPoisonGolem(mob) {
+    var mobid = mob.getId();
+    return (mobid == 9300182);
+}
+
+function monsterKilled(mob, eim, hasKiller) {
+    var map = mob.getMap();
+
+    if (isPoisonGolem(mob)) {
+        eim.showClearEffect(map.getId());
+        eim.clearPQ();
+    } else if (map.countMonsters() == 0) {
+        var stage = ((map.getId() % 1000) / 100);
+
+        if (stage == 1 || (stage == 4 && !hasKiller)) {
+            eim.showClearEffect(map.getId());
+        }
+    }
+}
 
 function allMonstersDead(eim) {}
 
