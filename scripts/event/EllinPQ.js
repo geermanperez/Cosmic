@@ -223,6 +223,7 @@ function end(eim) {
 function clearPQ(eim) {
     eim.stopEventTimer();
     eim.setEventCleared();
+    eim.giveEventPlayersExp(230000);
 }
 
 function isPoisonGolem(mob) {

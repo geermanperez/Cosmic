@@ -59,12 +59,12 @@ function action(mode, type, selection) {
                 cm.sendSimple("Thank you for saving me! How can I help you?\r\n#b#L0#Get me out of here.\r\n#L1#Give me Pirate Hat.");
             } else if (status == 1) {
                 if (selection == 0) {
-                    if (!cm.canHold(4001158, 3)) {
+                    if (!cm.canHold(4001158, 1)) {
                         cm.sendOk("Please make room in ETC.");
                         cm.dispose();
                         return;
                     }
-                    cm.gainItem(4001158, 3);
+                    cm.gainItem(4001158, 1);
                     cm.warp(251010404, 0);
                 } else {
                     if (cm.haveItem(1003267, 1)) {

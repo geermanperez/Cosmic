@@ -20,22 +20,22 @@
 
 /**
  * @author: Ronan
- * @event: Kerning PQ
+ * @event: Henesys PQ
  */
 
 var isPq = true;
-var minPlayers = 3, maxPlayers = 4;
-var minLevel = 21;
-var entryMap = 103000800;
-var exitMap = 103000890;
-var recruitMap = 103000000;
+var minPlayers = 3, maxPlayers = 6;
+var minLevel = 10;
+var entryMap = 910010000;
+var exitMap = 910010300;
+var recruitMap = 100000200;
 var hubMap = 970030000;
-var clearMap = 103000805;
+var clearMap = 910010100;
 
-var minMapId = 103000800;
-var maxMapId = 103000805;
+var minMapId = 910010000;
+var maxMapId = 910010400;
 
-var eventTime = 30;     // 30 minutes
+var eventTime = 10;     // 10 minutes
 
 const maxLobbies = 1;
 
@@ -67,7 +67,7 @@ function setEventRequirements() {
 }
 
 function setEventExclusives(eim) {
-    var itemSet = [4001007, 4001008];
+    var itemSet = [4001095, 4001096, 4001097, 4001098, 4001099, 4001100, 4001101];
     eim.setExclusiveItems(itemSet);
 }
 
@@ -75,11 +75,11 @@ function setEventRewards(eim) {
     var itemSet, itemQty, evLevel, expStages;
 
     evLevel = 1;    //Rewards at clear PQ
-    itemSet = [2040505, 2040514, 2040502, 2040002, 2040602, 2040402, 2040802, 1032009, 1032004, 1032005, 1032006, 1032007, 1032010, 1032002, 1002026, 1002089, 1002090, 2000003, 2000001, 2000002, 2000006, 2022003, 2022000, 2000004, 4003000, 4010000, 4010001, 4010002, 4010003, 4010004, 4010005, 4010006, 4010007, 4020000, 4020001, 4020002, 4020003, 4020004, 4020005, 4020006, 4020007, 4020008];
-    itemQty = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 240, 240, 240, 150, 15, 45, 45, 90, 45, 45, 45, 45, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 9, 9];
-    eim.setEventRewards(evLevel, itemSet, itemQty, 45000);
+    itemSet = [4001158];
+    itemQty = [1];
+    eim.setEventRewards(evLevel, itemSet, itemQty);
 
-    expStages = [0, 0, 0, 0, 0];    //final clear EXP is paid with the event reward above
+    expStages = [1600];    //bonus exp given on CLEAR stage signal
     eim.setEventClearStageExp(expStages);
 }
 
@@ -109,8 +109,16 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
 }
 
 function setup(level, lobbyid) {
-    var eim = em.newInstance("Kerning" + lobbyid);
+    var eim = em.newInstance("Henesys" + lobbyid);
     eim.setProperty("level", level);
+    eim.setProperty("stage", "0");
+    eim.setProperty("bunnyCake", "0");
+    eim.setProperty("bunnyDamaged", "0");
+
+    eim.getInstanceMap(910010000).resetPQ(level);
+    eim.getInstanceMap(910010000).allowSummonState(false);
+
+    eim.getInstanceMap(910010200).resetPQ(level);
 
     respawnStages(eim);
     eim.startEventTimer(eventTime * 60000);
@@ -122,8 +130,9 @@ function setup(level, lobbyid) {
 function afterSetup(eim) {}
 
 function respawnStages(eim) {
-    eim.getMapInstance(103000800).instanceMapRespawn();
-    eim.getMapInstance(103000805).instanceMapRespawn();
+    eim.getInstanceMap(910010000).instanceMapRespawn();
+    eim.getInstanceMap(910010200).instanceMapRespawn();
+
     eim.schedule("respawnStages", 15 * 1000);
 }
 
@@ -133,6 +142,16 @@ function playerEntry(eim, player) {
 }
 
 function scheduledTimeout(eim) {
+    if (eim.getProperty("1stageclear") != null) {
+        var curStage = 910010200, toStage = 910010400;
+        eim.warpEventTeam(curStage, toStage);
+    } else {
+        end(eim);
+    }
+}
+
+function bunnyDefeated(eim) {
+    eim.dropMessage(5, "Due to your failure to protect the Moon Bunny, you have been transported to the Exile Map.");
     end(eim);
 }
 
@@ -150,7 +169,7 @@ function playerLeft(eim, player) {
 }
 
 function changedMap(eim, player, mapid) {
-    if (mapid < minMapId || mapid > maxMapId) {
+    if (mapid < minMapId || mapid > maxMapId || mapid == 910010300) {
         if (eim.isEventTeamLackingNow(true, minPlayers, player)) {
             eim.unregisterPlayer(player);
             end(eim);
@@ -220,12 +239,42 @@ function giveRandomEventReward(eim, player) {
 function clearPQ(eim) {
     eim.stopEventTimer();
     eim.setEventCleared();
+
+    eim.warpEventTeam(910010100);
 }
 
 function monsterKilled(mob, eim) {}
+
+function friendlyKilled(mob, eim) {
+    if (mob.getId() == 9300061) {
+        eim.schedule("bunnyDefeated", 5 * 1000);
+    }
+}
+
+function friendlyItemDrop(eim, mob) {
+    if (mob.getId() == 9300061) {
+        var cakes = eim.getIntProperty("bunnyCake") + 1;
+        eim.setIntProperty("bunnyCake", cakes);
+
+        const PacketCreator = Java.type('tools.PacketCreator');
+        mob.getMap().broadcastMessage(PacketCreator.serverNotice(6, "The Moon Bunny made rice cake number " + cakes + "."));
+    }
+}
+
+function friendlyDamaged(eim, mob) {
+    if (mob.getId() == 9300061) {
+        var bunnyDamage = eim.getIntProperty("bunnyDamaged") + 1;
+        if (bunnyDamage > 5) {
+            const PacketCreator = Java.type('tools.PacketCreator');
+            broadcastMessage(PacketCreator.serverNotice(6, "The Moon Bunny is feeling sick. Please protect it so it can make delicious rice cakes."));
+            eim.setIntProperty("bunnyDamaged", 0);
+        }
+    }
+}
 
 function allMonstersDead(eim) {}
 
 function cancelSchedule() {}
 
 function dispose(eim) {}
+
