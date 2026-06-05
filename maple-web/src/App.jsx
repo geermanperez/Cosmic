@@ -20,10 +20,10 @@ import { API_URL, getToken, saveToken, request } from "./apiClient";
 const downloadUrl =
   "https://drive.google.com/file/d/18Gy9XyizEj17hvDWW7CQa2GUw0dbOs6D/view?usp=sharing";
 const updateDownloadUrl =
-  "https://drive.google.com/file/d/1ZSMPS5opQJ0j8TRlBmh-gzNXLPp-C87O/view?usp=sharing";
-const updateNoticeStorageKey = "latinms-update-notice-accepted-date";
-const updateNoticeStartDate = "2026-06-04";
-const updateNoticeDurationDays = 4;
+  "https://drive.google.com/file/d/1rZtvaTIRJAM0rLqNjM1nY5DpUHtMOyF_/view?usp=sharing";
+const updateNoticeStorageKey = "latinms-launcher-update-notice-2026-06-05";
+const updateNoticeStartDate = "2026-06-05";
+const updateNoticeDurationDays = 7;
 const showUpdateContent = true;
 const whatsappUrl = "https://chat.whatsapp.com/GKQyubuq4ml8HMrhUTzr7H?s=sw&p=i&ilr=2";
 const gtop100VoteUrl = "https://gtop100.com/MapleStory/server-106094?vote=1";
@@ -117,7 +117,7 @@ const translations = {
       downloadClient: "Download client",
       patchTitle: "Latest update patch",
       patchCopy:
-        "Already have the client? Download this patch, unzip it, paste the file into your game folder, and replace it when Windows asks.",
+        "Already have the client? Download this patch, unzip it, paste the launcher into your game folder, and replace the previous one when Windows asks.",
       patchDownload: "Download patch",
     },
     updateNotice: {
@@ -128,8 +128,8 @@ const translations = {
       steps: [
         "Download the update file.",
         "Unzip it.",
-        "Take the file that remains outside the extracted folder.",
-        "Open your game folder and paste that file there.",
+        "Take the launcher file from the extracted download.",
+        "Open your game folder and paste the launcher there.",
         "When Windows asks if you want to replace it, choose Yes.",
       ],
       download: "Download update",
@@ -334,7 +334,7 @@ const translations = {
       downloadClient: "Descargar cliente",
       patchTitle: "Parche de actualizacion",
       patchCopy:
-        "Ya tienes el cliente? Descarga este parche, descomprimilo, pega el archivo en la carpeta del juego y reemplazalo cuando Windows pregunte.",
+        "Ya tienes el cliente? Descarga este parche, descomprimilo, pega el launcher en la carpeta del juego y reemplaza el anterior cuando Windows pregunte.",
       patchDownload: "Descargar parche",
     },
     updateNotice: {
@@ -345,8 +345,8 @@ const translations = {
       steps: [
         "Descarga la actualizacion.",
         "Descomprimila.",
-        "Toma el archivo que queda fuera de la carpeta extraida.",
-        "Abre la carpeta del juego y pega ese archivo ahi.",
+        "Toma el archivo launcher de la descarga extraida.",
+        "Abre la carpeta del juego y pega el launcher ahi.",
         "Cuando Windows pregunte si lo quieres reemplazar, elige Si.",
       ],
       download: "Descargar actualizacion",
