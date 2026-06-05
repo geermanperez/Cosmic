@@ -306,6 +306,9 @@ public class Client extends ChannelInboundHandlerAdapter {
     }
 
     public EventManager getEventManager(String event) {
+        if (getChannelServer().getEventSM() == null) {
+            return null;
+        }
         return getChannelServer().getEventSM().getEventManager(event);
     }
 

@@ -175,7 +175,9 @@ public final class Channel {
             return;
         }
 
-        eventSM.cancel();
+        if (eventSM != null) {
+            eventSM.cancel();
+        }
         eventSM = null;
         eventSM = new EventScriptManager(this, getEvents());
     }
@@ -453,7 +455,15 @@ public final class Channel {
         List<String> events = new ArrayList<>();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Path.of("scripts/event"))) {
             for (Path path : stream) {
+                if (!Files.isRegularFile(path)) {
+                    continue;
+                }
+
                 String fileName = path.getFileName().toString();
+                if (!fileName.endsWith(".js")) {
+                    continue;
+                }
+
                 events.add(fileName.substring(0, fileName.length() - 3));
             }
         } catch (IOException e) {
