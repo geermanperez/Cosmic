@@ -20,23 +20,22 @@
 
 /**
  * @author: Ronan
- * @event: Cafe PQ 1
+ * @event: Treasure PQ
  */
 
 var isPq = true;
-var minPlayers = 3, maxPlayers = 6;
-var minLevel = 21;
-var entryMap = 190000000;
-var exitMap = 193000000;
-var recruitMap = 193000000;
+var minPlayers = 4, maxPlayers = 6;
+var minLevel = 140;
+var entryMap = 674030000;
+var exitMap = 674030100;
+var recruitMap = 674030100;
+var clearMap = 674030300;
 
-var minMapId = 190000000;
-var maxMapId = 190000002;
+var minMapId = 674030000;
+var maxMapId = 674030300;
 
-var eventMaps = [190000000, 190000001, 190000002];
-
-var eventTime = 45;         // 45 minutes
-var couponsNeeded = 400;    // total of coupons to complete the event
+var eventTime = 45;     // 45 minutes
+var bonusTime = 10;     // 10 minutes
 
 const maxLobbies = 1;
 
@@ -68,7 +67,7 @@ function setEventRequirements() {
 }
 
 function setEventExclusives(eim) {
-    var itemSet = [4001007];
+    var itemSet = [4032118];
     eim.setExclusiveItems(itemSet);
 }
 
@@ -76,11 +75,11 @@ function setEventRewards(eim) {
     var itemSet, itemQty, evLevel, expStages;
 
     evLevel = 1;    //Rewards at clear PQ
-    itemSet = [4001014];
-    itemQty = [1];
+    itemSet = [];
+    itemQty = [];
     eim.setEventRewards(evLevel, itemSet, itemQty);
 
-    expStages = [6000];    //bonus exp given on CLEAR stage signal
+    expStages = [3000, 3000];    //bonus exp given on CLEAR stage signal
     eim.setEventClearStageExp(expStages);
 }
 
@@ -110,19 +109,12 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
 }
 
 function setup(level, lobbyid) {
-    var eim = em.newInstance("Lan1_" + lobbyid);
+    var eim = em.newInstance("Treasure" + lobbyid);
     eim.setProperty("level", level);
-    eim.setProperty("stage", "0");
 
-    eim.setIntProperty("couponsNeeded", couponsNeeded);
+    eim.setProperty("statusStg1", "0");
 
-    var i;
-    for (i = 0; i < eventMaps.length; i++) {
-        var mapObj = eim.getInstanceMap(eventMaps[i]);
-        mapObj.resetPQ(level);
-        mapObj.toggleDrops();
-        mapObj.instanceMapForceRespawn();
-    }
+    eim.getInstanceMap(674030000).shuffleReactors();
 
     respawnStages(eim);
     eim.startEventTimer(eventTime * 60000);
@@ -134,11 +126,7 @@ function setup(level, lobbyid) {
 function afterSetup(eim) {}
 
 function respawnStages(eim) {
-    var i;
-    for (i = 0; i < eventMaps.length; i++) {
-        eim.getInstanceMap(eventMaps[i]).instanceMapRespawn();
-    }
-
+    eim.getMapInstance(674030000).instanceMapRespawn();
     eim.schedule("respawnStages", 15 * 1000);
 }
 
@@ -165,7 +153,7 @@ function playerLeft(eim, player) {
 }
 
 function changedMap(eim, player, mapid) {
-    if (mapid < minMapId || mapid > maxMapId) {
+    if (mapid < minMapId || mapid > maxMapId || mapid == 674030100) {
         if (eim.isEventTeamLackingNow(true, minPlayers, player)) {
             eim.unregisterPlayer(player);
             end(eim);
@@ -177,7 +165,7 @@ function changedMap(eim, player, mapid) {
 
 function changedLeader(eim, leader) {
     var mapid = leader.getMapId();
-    if (!eim.isEventCleared() && (mapid < minMapId || mapid > maxMapId)) {
+    if (!eim.isEventCleared() && (mapid < minMapId || mapid > maxMapId || mapid == 674030100)) {
         end(eim);
     }
 }
@@ -232,43 +220,30 @@ function giveRandomEventReward(eim, player) {
     eim.giveEventReward(player);
 }
 
+function warpBonus(eim) {
+    eim.startEventTimer(bonusTime * 60000);
+    eim.warpEventTeam(674030300);
+}
+
 function clearPQ(eim) {
     eim.stopEventTimer();
     eim.setEventCleared();
-    eim.giveEventPlayersStageReward(1);
 
-    var i;
-    for (i = 0; i < eventMaps.length; i++) {
-        eim.getInstanceMap(eventMaps[i]).killAllMonstersNotFriendly();
-        eim.showClearEffect(eventMaps[i]);
-    }
+    eim.schedule("warpBonus", 10 * 1000);
 }
 
-function getDroppedQuantity(mob) {
-    if (mob.getLevel() > 65) {
-        return 5;
-    } else if (mob.getLevel() > 40) {
-        return 2;
-    } else {
-        return 1;
-    }
+function isMV(mob) {
+    var mobid = mob.getId();
+    return (mobid == 9400589);
 }
 
 function monsterKilled(mob, eim) {
-    try {
-        if (eim.isEventCleared()) {
-            return;
-        }
+    if (isMV(mob)) {
+        eim.showClearEffect();
+        eim.giveEventPlayersStageReward(2);
 
-        var mapObj = mob.getMap();
-        const Item = Java.type('client.inventory.Item');
-        var itemObj = new Item(4001007, 0, getDroppedQuantity(mob));
-        var dropper = eim.getPlayers().get(0);
-
-        mapObj.spawnItemDrop(mob, dropper, itemObj, mob.getPosition(), true, false);
-
-    } catch (err) {
-    } // PQ not started yet
+        eim.clearPQ();
+    }
 }
 
 function allMonstersDead(eim) {}

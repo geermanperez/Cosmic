@@ -77,7 +77,7 @@ function setEventRewards(eim) {
     evLevel = 1;    //Rewards at clear PQ
     itemSet = [2040505, 2040514, 2040502, 2040002, 2040602, 2040402, 2040802, 1032009, 1032004, 1032005, 1032006, 1032007, 1032010, 1032002, 1002026, 1002089, 1002090, 2000003, 2000001, 2000002, 2000006, 2022003, 2022000, 2000004, 4003000, 4010000, 4010001, 4010002, 4010003, 4010004, 4010005, 4010006, 4010007, 4020000, 4020001, 4020002, 4020003, 4020004, 4020005, 4020006, 4020007, 4020008];
     itemQty = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 240, 240, 240, 150, 15, 45, 45, 90, 45, 45, 45, 45, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 9, 9];
-    eim.setEventRewards(evLevel, itemSet, itemQty, 3000);
+    eim.setEventRewards(evLevel, itemSet, itemQty, 30000);
 
     expStages = [0, 0, 0, 0, 0];    //final clear EXP is paid with the event reward above
     eim.setEventClearStageExp(expStages);

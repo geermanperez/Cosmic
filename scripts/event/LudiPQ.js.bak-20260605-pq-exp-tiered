@@ -20,20 +20,19 @@
 
 /**
  * @author: Ronan
- * @event: Orbis PQ
+ * @event: Ludibrium PQ
  */
 
 var isPq = true;
 var minPlayers = 5, maxPlayers = 6;
-var minLevel = 51;
-var entryMap = 920010000;
-var exitMap = 920011200;
-var recruitMap = 200080101;
-var hubMap = 970030000;
-var clearMap = 920011300;
+var minLevel = 35;
+var entryMap = 922010100;
+var exitMap = 922010000;
+var recruitMap = 221024500;
+var clearMap = 922011000;
 
-var minMapId = 920010000;
-var maxMapId = 920011300;
+var minMapId = 922010100;
+var maxMapId = 922011100;
 
 var eventTime = 45;     // 45 minutes
 
@@ -67,7 +66,7 @@ function setEventRequirements() {
 }
 
 function setEventExclusives(eim) {
-    var itemSet = [4001044, 4001045, 4001046, 4001047, 4001048, 4001049, 4001050, 4001051, 4001052, 4001053, 4001054, 4001055, 4001056, 4001057, 4001058, 4001059, 4001060, 4001061, 4001062, 4001063];
+    var itemSet = [4001022, 4001023];
     eim.setExclusiveItems(itemSet);
 }
 
@@ -75,11 +74,11 @@ function setEventRewards(eim) {
     var itemSet, itemQty, evLevel, expStages;
 
     evLevel = 1;    //Rewards at clear PQ
-    itemSet = [2040602, 2040802, 2040002, 2040402, 2040505, 2040502, 2040601, 2044501, 2044701, 2044601, 2041019, 2041016, 2041022, 2041013, 2041007, 2043301, 2040301, 2040801, 2040001, 2040004, 2040504, 2040501, 2040513, 2043101, 2044201, 2044401, 2040701, 2044301, 2043801, 2040401, 2043701, 2040803, 2000003, 2000002, 2000004, 2000006, 2000005, 2022000, 2001001, 2001002, 2022003, 2001000, 2020014, 2020015, 4003000, 1102015, 1102016, 1102017, 1102018, 1102021, 1102022, 1102023, 1102024, 1102084, 1102085, 1102086, 1032019, 1032020, 1032021, 1032014, 2070011, 4010003, 4010000, 4010006, 4010002, 4010005, 4010004, 4010001, 4020001, 4020002, 4020008, 4020007, 4020003, 4020000, 4020004, 4020005, 4020006, 2210000, 2210001, 2210002, 2070006, 2070005, 2070007, 2070004, 2061003, 2060003, 2060004, 2061004, 2100000, 2100001, 2100002, 2100003, 2100004, 2100005];
-    itemQty = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 300, 300, 45, 240, 15, 75, 60, 60, 75, 60, 45, 30, 135, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 45, 45, 30, 45, 45, 45, 45, 45, 45, 30, 30, 45, 45, 45, 45, 45, 5, 5, 5, 1, 1, 1, 1, 6000, 6000, 6000, 6000, 1, 1, 1, 1, 1, 1];
-    eim.setEventRewards(evLevel, itemSet, itemQty, 45000);
+    itemSet = [2040602, 2040802, 2040002, 2040402, 2040505, 2040502, 2040601, 2044501, 2044701, 2044601, 2041019, 2041016, 2041022, 2041013, 2041007, 2043301, 2040301, 2040801, 2040001, 2040004, 2040504, 2040501, 2040513, 2043101, 2044201, 2044401, 2040701, 2044301, 2043801, 2040401, 2043701, 2040803, 2000003, 2000002, 2000004, 2000006, 2000005, 2022000, 2001001, 2001002, 2022003, 2001000, 2020014, 2020015, 4003000, 1102003, 1102004, 1102000, 1102002, 1102001, 1102011, 1102012, 1102013, 1102014, 1032011, 1032012, 1032013, 1032002, 1032008, 1032011, 2070011, 4010003, 4010000, 4010006, 4010002, 4010005, 4010004, 4010001, 4020001, 4020002, 4020008, 4020007, 4020003, 4020000, 4020004, 4020005, 4020006];
+    itemQty = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 255, 255, 30, 180, 6, 60, 45, 45, 60, 45, 30, 15, 105, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 30, 30, 18, 30, 30, 30, 30, 30, 30, 12, 12, 30, 30, 30, 30, 30];
+    eim.setEventRewards(evLevel, itemSet, itemQty, 3000);
 
-    expStages = [];    //bonus exp given on CLEAR stage signal
+    expStages = [0, 0, 0, 0, 0, 0, 0, 0, 0];    //final clear EXP is paid with the event reward above
     eim.setEventClearStageExp(expStages);
 }
 
@@ -93,7 +92,7 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
         for (var i = 0; i < party.size(); i++) {
             var ch = partyList[i];
 
-            if ((ch.getMapId() == recruitMap || ch.getMapId() == hubMap) && ch.getLevel() >= minLevel) {
+            if (ch.getMapId() == recruitMap && ch.getLevel() >= minLevel) {
                 if (ch.isLeader()) {
                     hasLeader = true;
                 }
@@ -109,10 +108,9 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
 }
 
 function setup(level, lobbyid) {
-    var eim = em.newInstance("Orbis" + lobbyid);
+    var eim = em.newInstance("Ludi" + lobbyid);
     eim.setProperty("level", level);
 
-    eim.setProperty("statusStg0", -1);
     eim.setProperty("statusStg1", -1);
     eim.setProperty("statusStg2", -1);
     eim.setProperty("statusStg3", -1);
@@ -121,89 +119,59 @@ function setup(level, lobbyid) {
     eim.setProperty("statusStg6", -1);
     eim.setProperty("statusStg7", -1);
     eim.setProperty("statusStg8", -1);
-    eim.setProperty("statusStg2_c", 0);
-    eim.setProperty("statusStg7_c", 0);
-    eim.setProperty("statusStgBonus", 0);
+    eim.setProperty("statusStg9", -1);
 
-
-    eim.getInstanceMap(920010000).resetPQ(level);
-    eim.getInstanceMap(920010100).resetPQ(level);
-    eim.getInstanceMap(920010200).resetPQ(level);
-    eim.getInstanceMap(920010300).resetPQ(level);
-    eim.getInstanceMap(920010400).resetPQ(level);
-    eim.getInstanceMap(920010500).resetPQ(level);
-    eim.getInstanceMap(920010600).resetPQ(level);
-    eim.getInstanceMap(920010601).resetPQ(level);
-    eim.getInstanceMap(920010602).resetPQ(level);
-    eim.getInstanceMap(920010603).resetPQ(level);
-    eim.getInstanceMap(920010604).resetPQ(level);
-    eim.getInstanceMap(920010700).resetPQ(level);
-    eim.getInstanceMap(920010800).resetPQ(level);
-    eim.getInstanceMap(920010900).resetPQ(level);
-    eim.getInstanceMap(920010910).resetPQ(level);
-    eim.getInstanceMap(920010911).resetPQ(level);
-    eim.getInstanceMap(920010912).resetPQ(level);
-    eim.getInstanceMap(920010920).resetPQ(level);
-    eim.getInstanceMap(920010921).resetPQ(level);
-    eim.getInstanceMap(920010922).resetPQ(level);
-    eim.getInstanceMap(920010930).resetPQ(level);
-    eim.getInstanceMap(920010931).resetPQ(level);
-    eim.getInstanceMap(920010932).resetPQ(level);
-    eim.getInstanceMap(920011000).resetPQ(level);
-    eim.getInstanceMap(920011100).resetPQ(level);
-    eim.getInstanceMap(920011200).resetPQ(level);
-    eim.getInstanceMap(920011300).resetPQ(level);
+    eim.getInstanceMap(922010100).resetPQ(level);
+    eim.getInstanceMap(922010200).resetPQ(level);
+    eim.getInstanceMap(922010201).resetPQ(level);
+    eim.getInstanceMap(922010300).resetPQ(level);
+    eim.getInstanceMap(922010400).resetPQ(level);
+    eim.getInstanceMap(922010401).resetPQ(level);
+    eim.getInstanceMap(922010402).resetPQ(level);
+    eim.getInstanceMap(922010403).resetPQ(level);
+    eim.getInstanceMap(922010404).resetPQ(level);
+    eim.getInstanceMap(922010405).resetPQ(level);
+    eim.getInstanceMap(922010500).resetPQ(level);
+    eim.getInstanceMap(922010500).resetPQ(level);
+    eim.getInstanceMap(922010501).resetPQ(level);
+    eim.getInstanceMap(922010502).resetPQ(level);
+    eim.getInstanceMap(922010503).resetPQ(level);
+    eim.getInstanceMap(922010504).resetPQ(level);
+    eim.getInstanceMap(922010505).resetPQ(level);
+    eim.getInstanceMap(922010506).resetPQ(level);
+    eim.getInstanceMap(922010600).resetPQ(level);
+    eim.getInstanceMap(922010700).resetPQ(level);
+    eim.getInstanceMap(922010800).resetPQ(level);
+    eim.getInstanceMap(922010900).resetPQ(level);
+    eim.getInstanceMap(922011000).resetPQ(level);
+    eim.getInstanceMap(922011100).resetPQ(level);
 
     respawnStages(eim);
-
-    var d = new Date();
-    eim.getInstanceMap(920010400).getReactorByName("music").setEventState(d.getDay());
-
     eim.startEventTimer(eventTime * 60000);
     setEventRewards(eim);
     setEventExclusives(eim);
-
     return eim;
 }
 
-function isTeamAllJobs(eim) {
-    var eventJobs = eim.getEventPlayersJobs();
-    var rangeJobs = parseInt('111110', 2);
-
-    return ((eventJobs & rangeJobs) == rangeJobs);
-}
-
-function afterSetup(eim) {
-    if (isTeamAllJobs(eim)) {
-        var rnd = Math.floor(Math.random() * 4);
-        eim.applyEventPlayersItemBuff(2022090 + rnd);
-    }
-}
+function afterSetup(eim) {}
 
 function respawnStages(eim) {}
 
 function playerEntry(eim, player) {
     var map = eim.getMapInstance(entryMap);
     player.changeMap(map, map.getPortal(0));
-
-    var texttt = "Hi, my name is Eak, the Chamberlain of the Goddess. Don't be alarmed; you won't be able to see me right now. Back when the Goddess turned into a block of stone, I simultaneously lost my own power. If you gather up the power of the Magic Cloud of Orbis, however, then I'll be able to recover my body and re-transform back to my original self. Please collect #b20#k Magic Clouds and bring them back to me. Right now, you'll only see me as a tiny, flickering light.";
-    player.getAbstractPlayerInteraction().npcTalk(2013001, texttt);
 }
 
 function scheduledTimeout(eim) {
-    if (eim.getIntProperty("statusStg8") == 1) {
-        eim.warpEventTeam(920011300);
+    if (eim.getProperty("9stageclear") != null) {
+        var curStage = 922011000, toStage = 922011100;
+        eim.warpEventTeam(curStage, toStage);
     } else {
         end(eim);
     }
 }
 
-function playerUnregistered(eim, player) {
-    player.cancelEffect(2022090);
-    player.cancelEffect(2022091);
-    player.cancelEffect(2022092);
-    player.cancelEffect(2022093);
-}
+function playerUnregistered(eim, player) {}
 
 function playerExit(eim, player) {
     eim.unregisterPlayer(player);
@@ -287,6 +255,9 @@ function giveRandomEventReward(eim, player) {
 function clearPQ(eim) {
     eim.stopEventTimer();
     eim.setEventCleared();
+
+    eim.startEventTimer(1 * 60000);
+    eim.warpEventTeam(922011000);
 }
 
 function monsterKilled(mob, eim) {}

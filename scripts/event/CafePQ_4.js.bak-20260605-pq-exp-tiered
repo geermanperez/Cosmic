@@ -20,23 +20,23 @@
 
 /**
  * @author: Ronan
- * @event: Cafe PQ 1
+ * @event: Cafe PQ 4
  */
 
 var isPq = true;
 var minPlayers = 3, maxPlayers = 6;
 var minLevel = 21;
-var entryMap = 190000000;
+var entryMap = 195000000;
 var exitMap = 193000000;
 var recruitMap = 193000000;
 
-var minMapId = 190000000;
-var maxMapId = 190000002;
+var minMapId = 195000000;
+var maxMapId = 195030000;
 
-var eventMaps = [190000000, 190000001, 190000002];
+var eventMaps = [195000000, 195010000, 195020000, 195030000];
 
 var eventTime = 45;         // 45 minutes
-var couponsNeeded = 400;    // total of coupons to complete the event
+var couponsNeeded = 450;    // total of coupons to complete the event
 
 const maxLobbies = 1;
 
@@ -76,11 +76,11 @@ function setEventRewards(eim) {
     var itemSet, itemQty, evLevel, expStages;
 
     evLevel = 1;    //Rewards at clear PQ
-    itemSet = [4001014];
+    itemSet = [4001011];
     itemQty = [1];
     eim.setEventRewards(evLevel, itemSet, itemQty);
 
-    expStages = [6000];    //bonus exp given on CLEAR stage signal
+    expStages = [3000];    //bonus exp given on CLEAR stage signal
     eim.setEventClearStageExp(expStages);
 }
 
@@ -110,7 +110,7 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
 }
 
 function setup(level, lobbyid) {
-    var eim = em.newInstance("Lan1_" + lobbyid);
+    var eim = em.newInstance("Lan4_" + lobbyid);
     eim.setProperty("level", level);
     eim.setProperty("stage", "0");
 

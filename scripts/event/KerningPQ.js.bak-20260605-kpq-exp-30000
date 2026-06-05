@@ -20,23 +20,22 @@
 
 /**
  * @author: Ronan
- * @event: Cafe PQ 1
+ * @event: Kerning PQ
  */
 
 var isPq = true;
-var minPlayers = 3, maxPlayers = 6;
+var minPlayers = 3, maxPlayers = 4;
 var minLevel = 21;
-var entryMap = 190000000;
-var exitMap = 193000000;
-var recruitMap = 193000000;
+var entryMap = 103000800;
+var exitMap = 103000890;
+var recruitMap = 103000000;
+var hubMap = 970030000;
+var clearMap = 103000805;
 
-var minMapId = 190000000;
-var maxMapId = 190000002;
+var minMapId = 103000800;
+var maxMapId = 103000805;
 
-var eventMaps = [190000000, 190000001, 190000002];
-
-var eventTime = 45;         // 45 minutes
-var couponsNeeded = 400;    // total of coupons to complete the event
+var eventTime = 30;     // 30 minutes
 
 const maxLobbies = 1;
 
@@ -68,7 +67,7 @@ function setEventRequirements() {
 }
 
 function setEventExclusives(eim) {
-    var itemSet = [4001007];
+    var itemSet = [4001007, 4001008];
     eim.setExclusiveItems(itemSet);
 }
 
@@ -76,11 +75,11 @@ function setEventRewards(eim) {
     var itemSet, itemQty, evLevel, expStages;
 
     evLevel = 1;    //Rewards at clear PQ
-    itemSet = [4001014];
-    itemQty = [1];
-    eim.setEventRewards(evLevel, itemSet, itemQty);
+    itemSet = [2040505, 2040514, 2040502, 2040002, 2040602, 2040402, 2040802, 1032009, 1032004, 1032005, 1032006, 1032007, 1032010, 1032002, 1002026, 1002089, 1002090, 2000003, 2000001, 2000002, 2000006, 2022003, 2022000, 2000004, 4003000, 4010000, 4010001, 4010002, 4010003, 4010004, 4010005, 4010006, 4010007, 4020000, 4020001, 4020002, 4020003, 4020004, 4020005, 4020006, 4020007, 4020008];
+    itemQty = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 240, 240, 240, 150, 15, 45, 45, 90, 45, 45, 45, 45, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 9, 9];
+    eim.setEventRewards(evLevel, itemSet, itemQty, 15000);
 
-    expStages = [6000];    //bonus exp given on CLEAR stage signal
+    expStages = [0, 0, 0, 0, 0];    //final clear EXP is paid with the event reward above
     eim.setEventClearStageExp(expStages);
 }
 
@@ -94,7 +93,7 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
         for (var i = 0; i < party.size(); i++) {
             var ch = partyList[i];
 
-            if (ch.getMapId() == recruitMap && ch.getLevel() >= minLevel) {
+            if ((ch.getMapId() == recruitMap || ch.getMapId() == hubMap) && ch.getLevel() >= minLevel) {
                 if (ch.isLeader()) {
                     hasLeader = true;
                 }
@@ -110,19 +109,8 @@ function getEligibleParty(party) {      //selects, from the given party, the tea
 }
 
 function setup(level, lobbyid) {
-    var eim = em.newInstance("Lan1_" + lobbyid);
+    var eim = em.newInstance("Kerning" + lobbyid);
     eim.setProperty("level", level);
-    eim.setProperty("stage", "0");
-
-    eim.setIntProperty("couponsNeeded", couponsNeeded);
-
-    var i;
-    for (i = 0; i < eventMaps.length; i++) {
-        var mapObj = eim.getInstanceMap(eventMaps[i]);
-        mapObj.resetPQ(level);
-        mapObj.toggleDrops();
-        mapObj.instanceMapForceRespawn();
-    }
 
     respawnStages(eim);
     eim.startEventTimer(eventTime * 60000);
@@ -134,11 +122,8 @@ function setup(level, lobbyid) {
 function afterSetup(eim) {}
 
 function respawnStages(eim) {
-    var i;
-    for (i = 0; i < eventMaps.length; i++) {
-        eim.getInstanceMap(eventMaps[i]).instanceMapRespawn();
-    }
-
+    eim.getMapInstance(103000800).instanceMapRespawn();
+    eim.getMapInstance(103000805).instanceMapRespawn();
     eim.schedule("respawnStages", 15 * 1000);
 }
 
@@ -235,41 +220,9 @@ function giveRandomEventReward(eim, player) {
 function clearPQ(eim) {
     eim.stopEventTimer();
     eim.setEventCleared();
-    eim.giveEventPlayersStageReward(1);
-
-    var i;
-    for (i = 0; i < eventMaps.length; i++) {
-        eim.getInstanceMap(eventMaps[i]).killAllMonstersNotFriendly();
-        eim.showClearEffect(eventMaps[i]);
-    }
 }
 
-function getDroppedQuantity(mob) {
-    if (mob.getLevel() > 65) {
-        return 5;
-    } else if (mob.getLevel() > 40) {
-        return 2;
-    } else {
-        return 1;
-    }
-}
-
-function monsterKilled(mob, eim) {
-    try {
-        if (eim.isEventCleared()) {
-            return;
-        }
-
-        var mapObj = mob.getMap();
-        const Item = Java.type('client.inventory.Item');
-        var itemObj = new Item(4001007, 0, getDroppedQuantity(mob));
-        var dropper = eim.getPlayers().get(0);
-
-        mapObj.spawnItemDrop(mob, dropper, itemObj, mob.getPosition(), true, false);
-
-    } catch (err) {
-    } // PQ not started yet
-}
+function monsterKilled(mob, eim) {}
 
 function allMonstersDead(eim) {}
 
