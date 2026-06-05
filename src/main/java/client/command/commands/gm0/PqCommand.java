@@ -33,6 +33,7 @@ import server.maps.Portal;
 
 public class PqCommand extends Command {
     private static final int PQ_HUB_MAP = 970030000;
+    private static final String PQ_HUB_PORTAL = "out00";
 
     {
         setDescription("Warp to the PQ lobby.");
@@ -52,7 +53,11 @@ public class PqCommand extends Command {
         }
 
         MapleMap target = c.getChannelServer().getMapFactory().getMap(PQ_HUB_MAP);
-        Portal targetPortal = target.getRandomPlayerSpawnpoint();
+        Portal targetPortal = target.getPortal(PQ_HUB_PORTAL);
+        if (targetPortal == null) {
+            targetPortal = target.getRandomPlayerSpawnpoint();
+        }
+
         player.saveLocationOnWarp();
         player.changeMap(target, targetPortal);
     }

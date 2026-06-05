@@ -38,10 +38,22 @@ public class ReloadMapCommand extends Command {
     @Override
     public void execute(Client c, String[] params) {
         Character player = c.getPlayer();
-        MapleMap newMap = c.getChannelServer().getMapFactory().resetMap(player.getMapId());
-        int callerid = c.getPlayer().getId();
+        int targetMapId;
+        if (params.length > 0) {
+            try {
+                targetMapId = Integer.parseInt(params[0]);
+            } catch (NumberFormatException e) {
+                player.yellowMessage("Syntax: !reloadmap [mapid]");
+                return;
+            }
+        } else {
+            targetMapId = player.getMapId();
+        }
 
-        Collection<Character> characters = player.getMap().getAllPlayers();
+        MapleMap oldMap = c.getChannelServer().getMapFactory().getMap(targetMapId);
+        Collection<Character> characters = oldMap.getAllPlayers();
+        MapleMap newMap = c.getChannelServer().getMapFactory().resetMap(targetMapId);
+        int callerid = c.getPlayer().getId();
 
         for (Character chr : characters) {
             chr.saveLocationOnWarp();
@@ -51,5 +63,6 @@ public class ReloadMapCommand extends Command {
             }
         }
         newMap.respawn();
+        player.dropMessage(5, "Reloaded map " + targetMapId + " on channel " + c.getChannel() + ".");
     }
 }
