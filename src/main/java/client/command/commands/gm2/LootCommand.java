@@ -39,7 +39,7 @@ public class LootCommand extends Command {
 
     @Override
     public void execute(Client c, String[] params) {
-        int gmLevel = c.getGMLevel();
+        int gmLevel = c.getPlayer().gmLevel();
         if (gmLevel < 2 || gmLevel > 6) {
             c.getPlayer().dropMessage(1, "No puedes usar !loot. Solo roles GM 2 a 6.");
             return;

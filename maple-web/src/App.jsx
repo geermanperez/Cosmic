@@ -18,10 +18,10 @@ import "./App.css";
 import { API_URL, getToken, saveToken, request } from "./apiClient";
 
 const downloadUrl =
-  "https://drive.google.com/file/d/1U0JBO0iuUcs12Yr9eOCxvlp149X3dWrN/view?usp=sharing";
+  "https://drive.google.com/file/d/1EoiMS9gUzMtnpqUDRgq-RnY0kAY6klx5/view?usp=sharing";
 const updateDownloadUrl =
-  "https://drive.google.com/file/d/1U0JBO0iuUcs12Yr9eOCxvlp149X3dWrN/view?usp=sharing";
-const updateNoticeStorageKey = "latinms-launcher-update-notice-2026-06-05";
+  "https://drive.google.com/file/d/1MO9nkQUnwGjgMrNGaBcGgw2i1BtbM2fs/view?usp=sharing";
+const updateNoticeStorageKey = "latinms-visual-patch-notice-2026-06-05";
 const updateNoticeStartDate = "2026-06-05";
 const updateNoticeDurationDays = 7;
 const showUpdateContent = true;
@@ -120,24 +120,24 @@ const translations = {
       downloadCopy:
         "LatinMS v1.0 client ready to enter the world of LatinMS. Download it, install it, and use your account to begin the adventure.",
       downloadClient: "Download client",
-      patchTitle: "Latest update patch",
+      patchTitle: "Latest visual patch",
       patchCopy:
-        "Already have the client? Download this patch, unzip it, paste the launcher into your game folder, and replace the previous one when Windows asks.",
+        "Already have the client? Download this visual patch, unzip it, paste the launcher into your game folder, and replace the previous one when Windows asks.",
       patchDownload: "Download patch",
     },
     updateNotice: {
       kicker: "Required update",
-      title: "Download the latest LatinMS update",
+      title: "Download the latest LatinMS visual patch",
       copy:
-        "A new update is available. Download it now so your game files stay compatible with the server.",
+        "A new visual patch is available. Download it now and replace the launcher so your client shows the latest LatinMS visuals.",
       steps: [
-        "Download the update file.",
+        "Download the visual patch.",
         "Unzip it.",
         "Take the launcher file from the extracted download.",
         "Open your game folder and paste the launcher there.",
         "When Windows asks if you want to replace it, choose Yes.",
       ],
-      download: "Download update",
+      download: "Download visual patch",
       accept: "Got it, do not show today",
       closeLabel: "Close update notice",
     },
@@ -342,24 +342,24 @@ const translations = {
       downloadCopy:
         "Cliente LatinMS v1.0 listo para entrar al mundo de LatinMS. Descargalo, instalalo y usa tu cuenta para comenzar la aventura.",
       downloadClient: "Descargar cliente",
-      patchTitle: "Parche de actualizacion",
+      patchTitle: "Parche visual",
       patchCopy:
-        "Ya tienes el cliente? Descarga este parche, descomprimilo, pega el launcher en la carpeta del juego y reemplaza el anterior cuando Windows pregunte.",
+        "Ya tienes el cliente? Descarga este parche visual, descomprimilo, pega el launcher en la carpeta del juego y reemplaza el anterior cuando Windows pregunte.",
       patchDownload: "Descargar parche",
     },
     updateNotice: {
       kicker: "Actualizacion necesaria",
-      title: "Descarga la ultima actualizacion de LatinMS",
+      title: "Descarga el ultimo parche visual de LatinMS",
       copy:
-        "Hay una nueva actualizacion disponible. Descargala para que tus archivos del juego queden compatibles con el servidor.",
+        "Hay un nuevo parche visual disponible. Descargalo y reemplaza el launcher para que tu cliente muestre los ultimos visuales de LatinMS.",
       steps: [
-        "Descarga la actualizacion.",
+        "Descarga el parche visual.",
         "Descomprimila.",
         "Toma el archivo launcher de la descarga extraida.",
         "Abre la carpeta del juego y pega el launcher ahi.",
         "Cuando Windows pregunte si lo quieres reemplazar, elige Si.",
       ],
-      download: "Descargar actualizacion",
+      download: "Descargar parche visual",
       accept: "Entendido, no mostrar hoy",
       closeLabel: "Cerrar aviso de actualizacion",
     },
