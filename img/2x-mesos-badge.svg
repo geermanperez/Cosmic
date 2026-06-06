@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="56" viewBox="0 0 520 56">
+  <defs>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <rect rx="10" ry="10" x="0" y="0" width="520" height="56" fill="#0f1720" opacity="0.95" />
+  </g>
+
+  <!-- Argentina flag square -->
+  <g transform="translate(12,8)">
+    <rect width="40" height="40" rx="6" fill="#0b57a4" />
+    <rect y="13" width="40" height="14" rx="0" fill="#ffffff" />
+    <rect y="26" width="40" height="14" rx="0" fill="#0b57a4" />
+    <!-- Simple sun as circle -->
+    <circle cx="20" cy="20" r="6" fill="#ffd24a" />
+    <circle cx="20" cy="20" r="2.6" fill="#ffffff" />
+  </g>
+
+  <!-- Text -->
+  <g transform="translate(64, 34)">
+    <style>
+      .main { font: 600 16px 'Segoe UI', Roboto, system-ui, -apple-system, 'Helvetica Neue', Arial; fill: #ffffff; }
+      .highlight { font: 700 16px 'Segoe UI', Roboto, system-ui; fill: #ff9a3c; }
+      .muted { font: 500 14px 'Segoe UI', Roboto, system-ui; fill: #95a0ad; }
+    </style>
+
+    <text class="highlight">2x Mesos</text>
+    <text class="muted" x="104">·</text>
+    <text class="main" x="116">2x Drops</text>
+    <text class="muted" x="224">·</text>
+    <text class="main" x="236">5x Quests</text>
+  </g>
+
+  <!-- Decorative orange pill on the right (optional) -->
+  <g transform="translate(380,10)">
+    <rect x="0" y="0" width="118" height="36" rx="18" fill="#ff9a3c" opacity="0.09"/>
+    <text x="59" y="24" text-anchor="middle" font-family="Segoe UI, Roboto, system-ui" font-weight="700" font-size="13" fill="#ff9a3c">Eventos</text>
+  </g>
+</svg>

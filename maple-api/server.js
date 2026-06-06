@@ -40,8 +40,8 @@ app.use((req, res, next) => {
   }
   next();
 });
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "5mb" }));
+app.use(express.urlencoded({ extended: true, limit: "5mb" }));
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST || "127.0.0.1",
@@ -180,6 +180,10 @@ async function ensureWebProfilesTable() {
         display_name VARCHAR(50),
         avatar_url VARCHAR(255),
         bio VARCHAR(255),
+        instagram_url VARCHAR(255),
+        discord_url VARCHAR(255),
+        website_url VARCHAR(255),
+        location VARCHAR(80),
         country VARCHAR(80),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -190,9 +194,60 @@ async function ensureWebProfilesTable() {
     } catch (err) {
       if (err.code !== "ER_DUP_FIELDNAME") throw err;
     }
+    for (const columnSql of [
+      "ALTER TABLE web_profiles ADD COLUMN instagram_url VARCHAR(255)",
+      "ALTER TABLE web_profiles ADD COLUMN discord_url VARCHAR(255)",
+      "ALTER TABLE web_profiles ADD COLUMN website_url VARCHAR(255)",
+      "ALTER TABLE web_profiles ADD COLUMN location VARCHAR(80)",
+    ]) {
+      try {
+        await pool.query(columnSql);
+      } catch (err) {
+        if (err.code !== "ER_DUP_FIELDNAME") throw err;
+      }
+    }
     console.log("web_profiles table ensured");
   } catch (err) {
     console.error("Error ensuring web_profiles table:", err.message);
+  }
+}
+
+async function ensureSocialTables() {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS social_posts (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        account_id INT NOT NULL,
+        caption VARCHAR(500) NOT NULL,
+        image_url MEDIUMTEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_social_posts_created (created_at),
+        INDEX idx_social_posts_account (account_id)
+      )
+    `);
+    await pool.query("ALTER TABLE social_posts MODIFY COLUMN image_url MEDIUMTEXT");
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS social_post_likes (
+        post_id INT NOT NULL,
+        account_id INT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (post_id, account_id)
+      )
+    `);
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS social_post_comments (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        post_id INT NOT NULL,
+        account_id INT NOT NULL,
+        comment VARCHAR(300) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        INDEX idx_social_comments_post (post_id, created_at)
+      )
+    `);
+    console.log("social tables ensured");
+  } catch (err) {
+    console.error("Error ensuring social tables:", err.message);
   }
 }
 
@@ -579,6 +634,18 @@ function authMiddleware(req, res, next) {
   }
 }
 
+function getOptionalUser(req) {
+  const auth = req.headers.authorization;
+  if (!auth || !auth.startsWith("Bearer ")) return null;
+
+  try {
+    const payload = jwt.verify(auth.split(" ")[1], JWT_SECRET);
+    return { id: payload.id, name: payload.name };
+  } catch {
+    return null;
+  }
+}
+
 // Admin middleware dinámico
 async function adminMiddleware(req, res, next) {
   try {
@@ -819,6 +886,141 @@ app.get("/status/debug", async (req, res) => {
   }
 });
 
+app.get("/social/posts", async (req, res) => {
+  try {
+    const user = getOptionalUser(req);
+    const [posts] = await pool.query(`
+      SELECT
+        sp.id,
+        sp.account_id,
+        sp.caption,
+        sp.image_url,
+        sp.created_at,
+        a.name AS account_name,
+        wp.display_name,
+        wp.avatar_url,
+        (SELECT COUNT(*) FROM social_post_likes spl WHERE spl.post_id = sp.id) AS likes,
+        (SELECT COUNT(*) FROM social_post_comments spc WHERE spc.post_id = sp.id) AS comments_count,
+        ${user ? "(SELECT COUNT(*) FROM social_post_likes mine WHERE mine.post_id = sp.id AND mine.account_id = ?) AS liked_by_me" : "0 AS liked_by_me"}
+      FROM social_posts sp
+      LEFT JOIN accounts a ON sp.account_id = a.id
+      LEFT JOIN web_profiles wp ON sp.account_id = wp.account_id
+      ORDER BY sp.created_at DESC
+      LIMIT 20
+    `, user ? [user.id] : []);
+
+    const postIds = posts.map((post) => post.id);
+    let commentsByPost = new Map();
+
+    if (postIds.length > 0) {
+      const placeholders = postIds.map(() => "?").join(",");
+      const [comments] = await pool.query(`
+        SELECT
+          spc.id,
+          spc.post_id,
+          spc.comment,
+          spc.created_at,
+          a.name AS account_name,
+          wp.display_name
+        FROM social_post_comments spc
+        LEFT JOIN accounts a ON spc.account_id = a.id
+        LEFT JOIN web_profiles wp ON spc.account_id = wp.account_id
+        WHERE spc.post_id IN (${placeholders})
+        ORDER BY spc.created_at ASC
+      `, postIds);
+
+      commentsByPost = comments.reduce((map, comment) => {
+        const list = map.get(comment.post_id) || [];
+        list.push(comment);
+        map.set(comment.post_id, list.slice(-3));
+        return map;
+      }, new Map());
+    }
+
+    return res.json({
+      ok: true,
+      posts: posts.map((post) => ({
+        ...post,
+        likes: Number(post.likes || 0),
+        comments_count: Number(post.comments_count || 0),
+        liked_by_me: Number(post.liked_by_me || 0) > 0,
+        comments: commentsByPost.get(post.id) || [],
+      })),
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ ok: false, message: "No se pudieron cargar los posteos.", error: err.message });
+  }
+});
+
+app.post("/social/posts", authMiddleware, async (req, res) => {
+  try {
+    const uid = req.user.id;
+    const { caption, image_url } = req.body;
+    const cleanCaption = String(caption || "").trim();
+    const cleanImageUrl = String(image_url || "").trim();
+
+    if (!cleanCaption) return res.status(400).json({ ok: false, message: "El texto del post es requerido." });
+    if (cleanCaption.length > 500) return res.status(400).json({ ok: false, message: "El post no puede superar 500 caracteres." });
+    if (cleanImageUrl.length > 4_000_000) return res.status(400).json({ ok: false, message: "La imagen es demasiado pesada." });
+    if (
+      cleanImageUrl &&
+      !/^https?:\/\/.+/i.test(cleanImageUrl) &&
+      !/^data:image\/(png|jpe?g|gif|webp);base64,/i.test(cleanImageUrl)
+    ) {
+      return res.status(400).json({ ok: false, message: "La imagen debe ser una URL valida o una imagen cargada." });
+    }
+
+    await pool.query(
+      "INSERT INTO social_posts (account_id, caption, image_url) VALUES (?, ?, ?)",
+      [uid, cleanCaption, cleanImageUrl || null]
+    );
+
+    return res.json({ ok: true, message: "Post publicado correctamente." });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ ok: false, message: "No se pudo publicar el post.", error: err.message });
+  }
+});
+
+app.post("/social/posts/:id/like", authMiddleware, async (req, res) => {
+  try {
+    const uid = req.user.id;
+    const postId = Number(req.params.id);
+    if (!Number.isFinite(postId)) return res.status(400).json({ ok: false, message: "Post invalido." });
+
+    const [existing] = await pool.query("SELECT post_id FROM social_post_likes WHERE post_id = ? AND account_id = ? LIMIT 1", [postId, uid]);
+    if (existing.length > 0) {
+      await pool.query("DELETE FROM social_post_likes WHERE post_id = ? AND account_id = ?", [postId, uid]);
+      return res.json({ ok: true, liked: false });
+    }
+
+    await pool.query("INSERT IGNORE INTO social_post_likes (post_id, account_id) VALUES (?, ?)", [postId, uid]);
+    return res.json({ ok: true, liked: true });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ ok: false, message: "No se pudo actualizar el like.", error: err.message });
+  }
+});
+
+app.post("/social/posts/:id/comments", authMiddleware, async (req, res) => {
+  try {
+    const uid = req.user.id;
+    const postId = Number(req.params.id);
+    const comment = String(req.body.comment || "").trim();
+
+    if (!Number.isFinite(postId)) return res.status(400).json({ ok: false, message: "Post invalido." });
+    if (!comment) return res.status(400).json({ ok: false, message: "El comentario es requerido." });
+    if (comment.length > 300) return res.status(400).json({ ok: false, message: "El comentario no puede superar 300 caracteres." });
+
+    await pool.query("INSERT INTO social_post_comments (post_id, account_id, comment) VALUES (?, ?, ?)", [postId, uid, comment]);
+    return res.json({ ok: true, message: "Comentario publicado." });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ ok: false, message: "No se pudo publicar el comentario.", error: err.message });
+  }
+});
+
 app.get("/ranking", async (req, res) => {
   try {
     const { job, country } = req.query;
@@ -852,6 +1054,13 @@ app.get("/ranking", async (req, res) => {
         c.hair,
         c.guildid,
         g.name AS guild_name,
+        p.display_name,
+        p.avatar_url,
+        p.bio,
+        p.instagram_url,
+        p.discord_url,
+        p.website_url,
+        p.location,
         p.country
       FROM characters c
       LEFT JOIN guilds g ON c.guildid = g.guildid
@@ -1126,12 +1335,12 @@ app.get("/account/me", authMiddleware, async (req, res) => {
 
     const account = accRows[0];
 
-    const [profiles] = await pool.query("SELECT display_name, avatar_url, bio FROM web_profiles WHERE account_id = ? LIMIT 1", [uid]);
+    const [profiles] = await pool.query("SELECT display_name, avatar_url, bio, instagram_url, discord_url, website_url, location FROM web_profiles WHERE account_id = ? LIMIT 1", [uid]);
     let profile = profiles[0];
 
     if (!profile) {
       await pool.query("INSERT INTO web_profiles (account_id, display_name, avatar_url, bio) VALUES (?, ?, ?, ?)", [uid, null, null, null]);
-      const [newp] = await pool.query("SELECT display_name, avatar_url, bio FROM web_profiles WHERE account_id = ? LIMIT 1", [uid]);
+      const [newp] = await pool.query("SELECT display_name, avatar_url, bio, instagram_url, discord_url, website_url, location FROM web_profiles WHERE account_id = ? LIMIT 1", [uid]);
       profile = newp[0];
     }
 
@@ -1189,20 +1398,31 @@ app.get("/account/me/characters", authMiddleware, async (req, res) => {
 app.put("/account/me/profile", authMiddleware, async (req, res) => {
   try {
     const uid = req.user.id;
-    const { display_name, avatar_url, bio } = req.body;
+    const { display_name, avatar_url, bio, instagram_url, discord_url, website_url, location } = req.body;
 
     if (display_name && display_name.length > 50) return res.status(400).json({ ok: false, message: "display_name demasiado largo" });
     if (avatar_url && avatar_url.length > 255) return res.status(400).json({ ok: false, message: "avatar_url demasiado largo" });
     if (bio && bio.length > 255) return res.status(400).json({ ok: false, message: "bio demasiado larga" });
+    if (instagram_url && instagram_url.length > 255) return res.status(400).json({ ok: false, message: "instagram_url demasiado largo" });
+    if (discord_url && discord_url.length > 255) return res.status(400).json({ ok: false, message: "discord_url demasiado largo" });
+    if (website_url && website_url.length > 255) return res.status(400).json({ ok: false, message: "website_url demasiado largo" });
+    if (location && location.length > 80) return res.status(400).json({ ok: false, message: "location demasiado larga" });
 
     await pool.query(
-      `INSERT INTO web_profiles (account_id, display_name, avatar_url, bio)
-       VALUES (?, ?, ?, ?)
-       ON DUPLICATE KEY UPDATE display_name = VALUES(display_name), avatar_url = VALUES(avatar_url), bio = VALUES(bio)`,
-      [uid, display_name || null, avatar_url || null, bio || null]
+      `INSERT INTO web_profiles (account_id, display_name, avatar_url, bio, instagram_url, discord_url, website_url, location)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+       ON DUPLICATE KEY UPDATE
+         display_name = VALUES(display_name),
+         avatar_url = VALUES(avatar_url),
+         bio = VALUES(bio),
+         instagram_url = VALUES(instagram_url),
+         discord_url = VALUES(discord_url),
+         website_url = VALUES(website_url),
+         location = VALUES(location)`,
+      [uid, display_name || null, avatar_url || null, bio || null, instagram_url || null, discord_url || null, website_url || null, location || null]
     );
 
-    const [profiles] = await pool.query("SELECT display_name, avatar_url, bio FROM web_profiles WHERE account_id = ? LIMIT 1", [uid]);
+    const [profiles] = await pool.query("SELECT display_name, avatar_url, bio, instagram_url, discord_url, website_url, location FROM web_profiles WHERE account_id = ? LIMIT 1", [uid]);
     return res.json({ ok: true, message: "Perfil actualizado correctamente.", profile: profiles[0] });
   } catch (err) {
     console.error(err);
@@ -1241,7 +1461,7 @@ app.get("/account/check", authMiddleware, (req, res) => {
 const PORT = process.env.PORT || 3001;
 
 // Ensure web_profiles and start server
-Promise.all([ensureWebProfilesTable(), ensureGTop100VotesTable(), ensurePasswordResetTable()]).then(() => {
+Promise.all([ensureWebProfilesTable(), ensureGTop100VotesTable(), ensurePasswordResetTable(), ensureSocialTables()]).then(() => {
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Maple API corriendo en puerto ${PORT}`);
   });

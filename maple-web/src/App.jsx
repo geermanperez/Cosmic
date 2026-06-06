@@ -1,19 +1,36 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
+  AtSign,
+  BadgeCheck,
+  Bell,
+  ChevronLeft,
+  ChevronRight,
+  Crown,
   Download,
   Gamepad2,
+  Heart,
+  House,
   IdCard,
+  Image as ImageIcon,
   KeyRound,
+  Link as LinkIcon,
   LockKeyhole,
   Mail,
+  MapPin,
   MessageCircle,
   Newspaper,
+  Search,
   ShieldCheck,
+  Sparkles,
+  Swords,
   Trophy,
+  PlusSquare,
   UserPlus,
+  UserCircle,
   Users,
 } from "lucide-react";
+import { gsap } from "gsap";
 import "./App.css";
 
 import { API_URL, getToken, saveToken, request } from "./apiClient";
@@ -52,7 +69,7 @@ const translations = {
       online: "Server ONLINE",
       offline: "Server OFFLINE",
       playersOnline: "Players online",
-      rates: "2x Mesos - 2x Drops - 5x Quests",
+      rates: "2x Mesos · 2x Drops · 5x Quests",
       version: "Server version",
     },
     community: {
@@ -87,6 +104,13 @@ const translations = {
       newsTitle: "Why LatinMS feels different",
       topKicker: "Top players",
       topTitle: "The adventurers setting the pace",
+      feedKicker: "Community feed",
+      feedTitle: "What is moving in LatinMS",
+      socialPosts: [
+        ["Staff", "Party Quests are active as a main leveling route. Gather your party and share your progress."],
+        ["Ranking", "The top players update live. Your next level can move your profile up the feed."],
+        ["Community", "Join WhatsApp or Discord to find a party, trade, and show your character."],
+      ],
     },
     newsItems: [
       [
@@ -146,16 +170,35 @@ const translations = {
     },
     ranking: {
       level: "Level",
+      job: "Job",
       guild: "Guild",
+      fame: "Fame",
       origin: "Origin",
       characterAlt: "Character",
       noData: "No data",
       pending: "Ranking pending",
-      filterJob: "Job",
-      filterCountry: "Country",
-      allJobs: "All jobs",
-      allCountries: "All countries",
-      noResults: "No players match these filters.",
+      search: "Search character",
+      searchPlaceholder: "Character name",
+      viewProfile: "View profile",
+      champion: "Ranking champion",
+      topOne: "Top 1",
+      topThree: "Top 3",
+      topTen: "Top 10",
+      staff: "Staff",
+      beta: "Beta Tester",
+      donor: "Donor",
+      tabs: {
+        level: "Top Level",
+        fame: "Top Fame",
+        guilds: "Top Guilds",
+        bosses: "Top Bosses",
+      },
+      loading: "Loading ranking...",
+      noResults: "No players match this search.",
+      noModeData: "This ranking is ready visually, but its endpoint is not connected yet.",
+      previous: "Previous",
+      next: "Next",
+      page: "Page",
     },
     auth: {
       loginKicker: "Sign in",
@@ -213,6 +256,20 @@ const translations = {
       displayName: "Display name",
       avatarUrl: "Avatar URL",
       bio: "Bio",
+      bioPlaceholder: "Tell the LatinMS community who you are, what you play, and what you are looking for.",
+      instagram: "Instagram",
+      discord: "Discord",
+      website: "Website",
+      location: "Location",
+      yourProfile: "Your social profile",
+      editProfile: "Edit profile",
+      youBadge: "You",
+      topOneBadge: "Top 1 ranking",
+      topRankBadge: "Top ranking",
+      noBio: "No bio yet. Add one so other players can know you.",
+      socialLinks: "Social links",
+      mainCharacter: "Main character",
+      level: "Level",
       saveProfile: "Save profile",
       changePassword: "Change password",
       currentPassword: "Current password",
@@ -285,7 +342,7 @@ const translations = {
       online: "Servidor EN LINEA",
       offline: "Servidor FUERA DE LINEA",
       playersOnline: "Jugadores en linea",
-      rates: "2x Mesos - 2x Drops - 5x Quests",
+      rates: "2x Mesos · 2x Drops · 5x Quests",
       version: "Version del servidor",
     },
     community: {
@@ -320,6 +377,13 @@ const translations = {
       newsTitle: "Por que LatinMS se siente diferente",
       topKicker: "Top de jugadores",
       topTitle: "Los aventureros que marcan el ritmo",
+      feedKicker: "Muro de comunidad",
+      feedTitle: "Lo que se mueve en LatinMS",
+      socialPosts: [
+        ["Staff", "Las Party Quests estan activas como ruta principal de leveleo. Arma party y comparte tu progreso."],
+        ["Ranking", "El top se actualiza en vivo. Tu proximo nivel puede subir tu perfil en el feed."],
+        ["Comunidad", "Entra a WhatsApp o Discord para buscar party, tradear y mostrar tu personaje."],
+      ],
     },
     newsItems: [
       [
@@ -379,16 +443,35 @@ const translations = {
     },
     ranking: {
       level: "Nivel",
+      job: "Job",
       guild: "Guild",
+      fame: "Fama",
       origin: "Origen",
       characterAlt: "Personaje",
       noData: "Sin datos",
       pending: "Ranking pendiente",
-      filterJob: "Job",
-      filterCountry: "Pais",
-      allJobs: "Todos los jobs",
-      allCountries: "Todos los paises",
-      noResults: "No hay jugadores con esos filtros.",
+      search: "Buscar personaje",
+      searchPlaceholder: "Nombre del personaje",
+      viewProfile: "Ver perfil",
+      champion: "Campeon del ranking",
+      topOne: "Top 1",
+      topThree: "Top 3",
+      topTen: "Top 10",
+      staff: "Staff",
+      beta: "Beta Tester",
+      donor: "Donador",
+      tabs: {
+        level: "Top Level",
+        fame: "Top Fame",
+        guilds: "Top Guilds",
+        bosses: "Top Bosses",
+      },
+      loading: "Cargando ranking...",
+      noResults: "No hay jugadores con esa busqueda.",
+      noModeData: "Este ranking ya esta preparado visualmente, pero su endpoint aun no esta conectado.",
+      previous: "Anterior",
+      next: "Siguiente",
+      page: "Pagina",
     },
     auth: {
       loginKicker: "Inicio de sesion",
@@ -446,6 +529,20 @@ const translations = {
       displayName: "Nombre visible",
       avatarUrl: "Avatar URL",
       bio: "Bio",
+      bioPlaceholder: "Contale a la comunidad LatinMS quien sos, que jugas y que estas buscando.",
+      instagram: "Instagram",
+      discord: "Discord",
+      website: "Sitio web",
+      location: "Ubicacion",
+      yourProfile: "Tu perfil social",
+      editProfile: "Editar perfil",
+      youBadge: "Vos",
+      topOneBadge: "Top 1 ranking",
+      topRankBadge: "Top ranking",
+      noBio: "Todavia no tienes bio. Agrega una para que otros jugadores te conozcan.",
+      socialLinks: "Enlaces sociales",
+      mainCharacter: "Personaje principal",
+      level: "Nivel",
       saveProfile: "Guardar perfil",
       changePassword: "Cambiar contrasena",
       currentPassword: "Contrasena actual",
@@ -600,6 +697,22 @@ const DEFAULT_EQUIPS_BY_GENDER = {
   1: [1041002, 1061002, 1072001],
 };
 const DEFAULT_WEAPON = 1302000;
+const RANKING_TABS = ["level", "fame", "guilds", "bosses"];
+const RANKING_PAGE_SIZE = 12;
+
+// Placeholder-only datasets until the backend exposes /ranking/guilds and /ranking/bosses.
+const rankingEndpointPlaceholders = {
+  guilds: [
+    { id: "guild-latinos", name: "Latinos", level: 5, job: "Guild", guild_name: "120 miembros", fame: 1840 },
+    { id: "guild-ellinia", name: "ElliniaClub", level: 4, job: "Guild", guild_name: "86 miembros", fame: 1320 },
+    { id: "guild-henesys", name: "HenesysCrew", level: 4, job: "Guild", guild_name: "74 miembros", fame: 1185 },
+  ],
+  bosses: [
+    { id: "boss-zakum", name: "Zakum Hunters", level: 47, job: "Boss clears", guild_name: "Top semanal", fame: 970 },
+    { id: "boss-pap", name: "Papulatus Team", level: 31, job: "Boss clears", guild_name: "Top semanal", fame: 720 },
+    { id: "boss-pianus", name: "Pianus Squad", level: 18, job: "Boss clears", guild_name: "Top semanal", fame: 420 },
+  ],
+};
 
 function getEquippedItemIds(character) {
   const rawEquips = character?.equips ?? character?.equipment ?? character?.items ?? character?.equipped;
@@ -629,11 +742,20 @@ function getEquippedItemIds(character) {
 
 const getViewFromHash = () => {
   const value = window.location.hash.replace("#", "").split("?")[0];
-  if (["news", "ranking", "download", "login", "register", "recover", "reset-password", "account"].includes(value)) {
+  if (["news", "ranking", "download", "login", "register", "recover", "reset-password", "account", "profile"].includes(value)) {
     return value;
   }
   return "home";
 };
+
+function getProfileTargetFromHash() {
+  const [, queryString = ""] = window.location.hash.split("?");
+  const params = new URLSearchParams(queryString);
+  return {
+    id: params.get("id") || "",
+    name: params.get("name") || "",
+  };
+}
 
 function getResetTokenFromHash() {
   const [, queryString = ""] = window.location.hash.split("?");
@@ -701,6 +823,18 @@ function getCharacterImage(character) {
     return DEFAULT_CHARACTER_IMAGE;
   }
 
+  const directImage =
+    character.avatar_url ??
+    character.avatarUrl ??
+    character.avatar ??
+    character.image ??
+    character.character_image ??
+    character.characterImage;
+
+  if (typeof directImage === "string" && directImage.trim()) {
+    return directImage;
+  }
+
   const skin = Number(character.skin ?? character.skincolor ?? 0);
   const gender = Number(character.gender ?? 0);
   const hair = Number(character.hair);
@@ -719,30 +853,398 @@ function getCharacterImage(character) {
   return `https://maplestory.io/api/GMS/83/Character/${renderSkin}/${itemPath}/stand1/0?resize=4`;
 }
 
-function RankingRows({ players, language, text }) {
-  return players.map((player, index) => (
-    <div key={player.id || player.name || index} className="ranking-row">
-      <strong>#{index + 1}</strong>
-      <div className="ranking-avatar">
-        <img
-          src={getCharacterImage(player)}
-          alt={`${text.characterAlt} ${player.name}`}
-          onError={(event) => {
-            event.currentTarget.onerror = null;
-            event.currentTarget.src = "/latinms.png";
-          }}
+function getPlayerName(player) {
+  return player?.name ?? player?.character_name ?? player?.characterName ?? player?.guildName ?? player?.guild_name ?? "LatinMS";
+}
+
+function getPlayerGuild(player) {
+  return player?.guild_name ?? player?.guildName ?? player?.guild ?? "";
+}
+
+function getPlayerFame(player) {
+  const fame = Number(player?.fame ?? player?.fama ?? player?.reputation ?? player?.points ?? 0);
+  return Number.isFinite(fame) && fame > 0 ? fame : null;
+}
+
+function hasTruthyFlag(player, keys) {
+  return keys.some((key) => {
+    const value = player?.[key];
+    return value === true || value === 1 || value === "1" || String(value).toLowerCase() === "true";
+  });
+}
+
+function getSpecialBadges(player, text) {
+  const badges = [];
+  const gmLevel = Number(player?.gm ?? player?.gm_level ?? player?.gmLevel ?? 0);
+
+  if (gmLevel > 0 || hasTruthyFlag(player, ["staff", "is_staff", "isStaff", "admin"])) {
+    badges.push(text.staff);
+  }
+  if (hasTruthyFlag(player, ["beta", "beta_tester", "betaTester", "is_beta_tester"])) {
+    badges.push(text.beta);
+  }
+  if (hasTruthyFlag(player, ["donor", "donator", "donador", "is_donor", "isDonor"])) {
+    badges.push(text.donor);
+  }
+
+  return badges;
+}
+
+function getRankBadges(rank, text) {
+  if (rank === 1) return [text.topOne, text.topThree, text.topTen];
+  if (rank <= 3) return [text.topThree, text.topTen];
+  if (rank <= 10) return [text.topTen];
+  return [];
+}
+
+function getProfileHref(player) {
+  const id = player?.id ?? player?.character_id ?? player?.characterId;
+  const name = getPlayerName(player);
+  const params = new URLSearchParams();
+  if (id) params.set("id", id);
+  if (name) params.set("name", name);
+  return `#profile?${params.toString()}`;
+}
+
+function RankingTabs({ activeTab, onTabChange, text }) {
+  return (
+    <div className="ranking-tabs" role="tablist" aria-label="Ranking categories">
+      {RANKING_TABS.map((tab) => (
+        <button
+          key={tab}
+          type="button"
+          role="tab"
+          aria-selected={activeTab === tab}
+          className={activeTab === tab ? "is-active" : ""}
+          onClick={() => onTabChange(tab)}
+        >
+          {text.tabs[tab]}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function RankingSearch({ value, onChange, text }) {
+  return (
+    <label className="ranking-search">
+      <span>{text.search}</span>
+      <div className="ranking-search__control">
+        <Search size={18} />
+        <input
+          type="search"
+          value={value}
+          placeholder={text.searchPlaceholder}
+          onChange={(event) => onChange(event.target.value)}
         />
       </div>
-      <div>
-        <span>{player.name}</span>
-        <small>
-          {text.level} {player.level} - {getJobName(player.job, language)}
-        </small>
-        {player.guild_name ? <small>{text.guild}: {player.guild_name}</small> : null}
-        {player.country ? <small>{text.origin}: {player.country}</small> : null}
+    </label>
+  );
+}
+
+function RankingCard({ player, rank, language, text, featured = false, compact = false }) {
+  const name = getPlayerName(player);
+  const guild = getPlayerGuild(player);
+  const fame = getPlayerFame(player);
+  const displayRank = player?._rankingPosition ?? rank;
+  const rankBadges = getRankBadges(displayRank, text);
+  const specialBadges = getSpecialBadges(player, text);
+  const jobName = getJobName(player?.job, language);
+
+  return (
+    <article className={`ranking-card ranking-card--rank-${Math.min(displayRank, 10)}${featured ? " ranking-card--featured" : ""}${compact ? " ranking-card--compact" : ""}`}>
+      <div className="ranking-card__media">
+        <strong className="ranking-card__rank">#{displayRank}</strong>
+        <div className="ranking-card__avatar">
+          <img
+            src={getCharacterImage(player)}
+            alt={`${text.characterAlt} ${name}`}
+            onError={(event) => {
+              event.currentTarget.onerror = null;
+              event.currentTarget.src = "/latinms.png";
+            }}
+          />
+        </div>
       </div>
+
+      <div className="ranking-card__body">
+        <div className="ranking-card__post-head">
+          <span>{displayRank <= 3 ? "Featured post" : "LatinMS post"}</span>
+          <small>#{displayRank}</small>
+        </div>
+
+        <div className="ranking-card__title">
+          <h3>{name}</h3>
+          {displayRank === 1 ? <span><Crown size={16} />{text.champion}</span> : null}
+        </div>
+
+        <div className="ranking-card__stats">
+          <span><Sparkles size={15} />{text.level} {player?.level ?? "-"}</span>
+          <span><Swords size={15} />{jobName}</span>
+          {guild ? <span><Users size={15} />{guild}</span> : null}
+          {fame ? <span><Heart size={15} />{fame}</span> : null}
+        </div>
+
+        <div className="ranking-card__badges">
+          {rankBadges.map((badge) => <span key={badge} className="ranking-badge">{badge}</span>)}
+          {specialBadges.map((badge) => <span key={badge} className="ranking-badge ranking-badge--special">{badge}</span>)}
+        </div>
+
+        <div className="ranking-card__social-row">
+          <span><Heart size={15} />{fame ?? 0}</span>
+          <span><MessageCircle size={15} />{guild ? 1 : 0}</span>
+          <span><Trophy size={15} />#{displayRank}</span>
+        </div>
+
+        {!compact ? (
+          <a className="ranking-card__link" href={getProfileHref(player)}>
+            {text.viewProfile}
+            <ArrowRight size={16} />
+          </a>
+        ) : null}
+      </div>
+    </article>
+  );
+}
+
+function TopPlayerHighlight({ players, language, text }) {
+  if (players.length === 0) return null;
+
+  const [champion, second, third] = players;
+
+  return (
+    <div className="ranking-podium">
+      {second ? <RankingCard player={second} rank={2} language={language} text={text} /> : null}
+      {champion ? <RankingCard player={champion} rank={1} language={language} text={text} featured={(champion._rankingPosition ?? 1) === 1} /> : null}
+      {third ? <RankingCard player={third} rank={3} language={language} text={text} /> : null}
     </div>
-  ));
+  );
+}
+
+function RankingLoading({ text }) {
+  return (
+    <div className="ranking-loading" aria-live="polite">
+      {[1, 2, 3].map((item) => <span key={item}></span>)}
+      <p>{text.loading}</p>
+    </div>
+  );
+}
+
+function RankingPage({
+  players,
+  activeTab,
+  onTabChange,
+  search,
+  onSearchChange,
+  currentPage,
+  onPageChange,
+  loading,
+  language,
+  text,
+}) {
+  const feedRef = useRef(null);
+  const topPlayers = players.slice(0, 3);
+  const feedSource = players.slice(3);
+  const totalPages = Math.max(1, Math.ceil(feedSource.length / RANKING_PAGE_SIZE));
+  const safePage = Math.min(currentPage, totalPages);
+  const feedStart = (safePage - 1) * RANKING_PAGE_SIZE;
+  const feedPlayers = feedSource.slice(feedStart, feedStart + RANKING_PAGE_SIZE);
+
+  useEffect(() => {
+    if (!feedRef.current || loading) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".ranking-animate",
+        { autoAlpha: 0, y: 22, scale: 0.985 },
+        { autoAlpha: 1, y: 0, scale: 1, duration: 0.55, ease: "power3.out", stagger: 0.07 },
+      );
+    }, feedRef);
+
+    return () => ctx.revert();
+  }, [activeTab, currentPage, loading, players.length, search]);
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      onPageChange(totalPages);
+    }
+  }, [currentPage, onPageChange, totalPages]);
+
+  return (
+    <section className="panel ranking-page" ref={feedRef}>
+      <div className="panel__head ranking-page__head">
+        <div>
+          <span className="panel__kicker">{text.tabs[activeTab]}</span>
+          <h2>{translations[language].pages.rankingTitle}</h2>
+        </div>
+        <Trophy size={24} />
+      </div>
+
+      <div className="ranking-toolbar">
+        <RankingTabs activeTab={activeTab} onTabChange={onTabChange} text={text} />
+        <RankingSearch value={search} onChange={onSearchChange} text={text} />
+      </div>
+
+      {loading ? <RankingLoading text={text} /> : null}
+
+      {!loading && players.length > 0 ? (
+        <>
+          <div className="ranking-animate">
+            <TopPlayerHighlight players={topPlayers} language={language} text={text} />
+          </div>
+          <div className="ranking-feed">
+            {feedPlayers.map((player) => (
+              <div key={player.id || player.name || player._rankingPosition} className="ranking-animate">
+                <RankingCard player={player} rank={player._rankingPosition ?? 1} language={language} text={text} />
+              </div>
+            ))}
+          </div>
+          {feedSource.length > RANKING_PAGE_SIZE ? (
+            <div className="ranking-pagination" aria-label="Ranking pagination">
+              <button type="button" className="button-secondary" onClick={() => onPageChange(Math.max(1, safePage - 1))} disabled={safePage === 1}>
+                <ChevronLeft size={16} />
+                {text.previous}
+              </button>
+              <span>{text.page} {safePage} / {totalPages}</span>
+              <button type="button" className="button-secondary" onClick={() => onPageChange(Math.min(totalPages, safePage + 1))} disabled={safePage === totalPages}>
+                {text.next}
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          ) : null}
+        </>
+      ) : null}
+
+      {!loading && players.length === 0 ? (
+        <p className="ranking-empty">{activeTab === "level" || activeTab === "fame" ? text.noResults : text.noModeData}</p>
+      ) : null}
+    </section>
+  );
+}
+
+function RankingPreview({ players, language, text }) {
+  return (
+    <div className="ranking-preview">
+      {players.map((player, index) => (
+        <RankingCard key={player.id || player.name || index} player={player} rank={index + 1} language={language} text={text} compact />
+      ))}
+    </div>
+  );
+}
+
+function findPlayerProfile(ranking, target) {
+  const targetId = Number(target.id);
+  const targetName = decodeURIComponent(target.name || "").toLowerCase();
+
+  return ranking
+    .map((player, index) => ({ ...player, _rankingPosition: index + 1 }))
+    .find((player) => {
+      const playerId = Number(player.id ?? player.character_id ?? player.characterId);
+      const playerName = getPlayerName(player).toLowerCase();
+      return (Number.isFinite(targetId) && playerId === targetId) || (targetName && playerName === targetName);
+    }) || null;
+}
+
+function PublicPlayerProfile({ player, loading, language, rankingText, accountText, onBack }) {
+  if (loading) {
+    return <section className="panel player-profile-page"><RankingLoading text={rankingText} /></section>;
+  }
+
+  if (!player) {
+    return (
+      <section className="panel player-profile-page">
+        <div className="player-profile-empty">
+          <Trophy size={28} />
+          <h2>{rankingText.noResults}</h2>
+          <button type="button" className="button-secondary" onClick={onBack}>{rankingText.tabs.level}</button>
+        </div>
+      </section>
+    );
+  }
+
+  const name = getPlayerName(player);
+  const rank = player._rankingPosition;
+  const guild = getPlayerGuild(player);
+  const fame = getPlayerFame(player);
+  const bio = player.bio || accountText.noBio;
+  const displayName = player.display_name || name;
+  const socialLinks = [
+    { icon: AtSign, label: accountText.instagram, value: player.instagram_url, href: normalizeSocialUrl(player.instagram_url, "instagram") },
+    { icon: MessageCircle, label: accountText.discord, value: player.discord_url, href: normalizeSocialUrl(player.discord_url, "discord") },
+    { icon: LinkIcon, label: accountText.website, value: player.website_url, href: normalizeSocialUrl(player.website_url, "website") },
+  ].filter((link) => link.value);
+
+  return (
+    <section className="panel player-profile-page">
+      <div className="account-social-profile player-public-profile">
+        <div className="account-social-profile__cover"></div>
+        <div className="account-social-profile__body">
+          <div className="account-social-profile__avatar">
+            <img
+              src={getCharacterImage(player)}
+              alt={`${rankingText.characterAlt} ${name}`}
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = "/latinms.png";
+              }}
+            />
+          </div>
+
+          <div className="account-social-profile__main">
+            <div className="account-social-profile__headline">
+              <div>
+                <span>{accountText.yourProfile}</span>
+                <h2>{displayName}</h2>
+                <small>@{name}</small>
+              </div>
+              <button type="button" className="button-secondary" onClick={onBack}>
+                <ChevronLeft size={16} />
+                Ranking
+              </button>
+            </div>
+
+            <div className="account-profile-badges">
+              {rank === 1 ? <span><Crown size={15} />{accountText.topOneBadge}</span> : null}
+              {rank && rank > 1 && rank <= 10 ? <span><Trophy size={15} />#{rank} {accountText.topRankBadge}</span> : null}
+              {getSpecialBadges(player, rankingText).map((badge) => <span key={badge}><BadgeCheck size={15} />{badge}</span>)}
+            </div>
+
+            <div className="account-social-stats">
+              <strong>{rank ? `#${rank}` : "-"}<span>Ranking</span></strong>
+              <strong>{player.level ?? "-"}<span>{rankingText.level}</span></strong>
+              <strong>{fame ?? "-"}<span>{rankingText.fame}</span></strong>
+            </div>
+
+            <p className="account-social-profile__bio">{bio}</p>
+
+            <div className="account-social-links">
+              <span><Swords size={15} />{getJobName(player.job, language)}</span>
+              {guild ? <span><Users size={15} />{guild}</span> : null}
+              {player.country ? <span><MapPin size={15} />{player.country}</span> : null}
+              {socialLinks.map(({ icon: Icon, label, href, value }) => href.startsWith("http") ? (
+                <a key={label} href={href} target="_blank" rel="noreferrer"><Icon size={15} />{label}</a>
+              ) : (
+                <span key={label}><Icon size={15} />{value}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="player-profile-grid">
+        <RankingCard player={player} rank={rank || 1} language={language} text={rankingText} featured={rank === 1} />
+        <article className="player-profile-journal">
+          <span>{rankingText.tabs.level}</span>
+          <h3>{language === "es" ? `${name} en LatinMS` : `${name} on LatinMS`}</h3>
+          <p>
+            {language === "es"
+              ? `${name} forma parte del ranking de LatinMS con nivel ${player.level ?? "-"} como ${getJobName(player.job, language)}.${guild ? ` Representa a ${guild} y sigue subiendo dentro de la comunidad.` : " Este perfil se actualiza con los datos visibles del servidor."}`
+              : `${name} is part of the LatinMS ranking at level ${player.level ?? "-"} as ${getJobName(player.job, language)}.${guild ? ` They represent ${guild} and keep climbing inside the community.` : " This profile updates with visible server data."}`}
+          </p>
+        </article>
+      </div>
+    </section>
+  );
 }
 
 function App() {
@@ -751,8 +1253,15 @@ function App() {
   const [view, setView] = useState(getViewFromHash);
   const [status, setStatus] = useState(null);
   const [ranking, setRanking] = useState([]);
-  const [rankingJobFilter, setRankingJobFilter] = useState("all");
-  const [rankingCountryFilter, setRankingCountryFilter] = useState("all");
+  const [rankingLoading, setRankingLoading] = useState(true);
+  const [rankingTab, setRankingTab] = useState("level");
+  const [rankingSearch, setRankingSearch] = useState("");
+  const [rankingPage, setRankingPage] = useState(1);
+  const [socialPosts, setSocialPosts] = useState([]);
+  const [socialPostForm, setSocialPostForm] = useState({ caption: "", image_url: "", image_name: "" });
+  const [socialPostMessage, setSocialPostMessage] = useState("");
+  const [commentDrafts, setCommentDrafts] = useState({});
+  const socialComposerRef = useRef(null);
   const [form, setForm] = useState({
     username: "",
     displayName: "",
@@ -774,7 +1283,15 @@ function App() {
   const [accountData, setAccountData] = useState(null);
   const [characters, setCharacters] = useState([]);
   const [accountTab, setAccountTab] = useState("account");
-  const [profileForm, setProfileForm] = useState({ display_name: "", avatar_url: "", bio: "" });
+  const [profileForm, setProfileForm] = useState({
+    display_name: "",
+    avatar_url: "",
+    bio: "",
+    instagram_url: "",
+    discord_url: "",
+    website_url: "",
+    location: "",
+  });
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: "",
     newPassword: "",
@@ -851,6 +1368,7 @@ function App() {
 
     const loadRanking = async () => {
       const url = `${API_URL}/ranking`;
+      setRankingLoading(true);
       try {
         const res = await fetch(url);
         const data = await res.json();
@@ -864,6 +1382,8 @@ function App() {
       } catch (error) {
         console.error(`Error loading ranking from ${url}`, error);
         setRanking([]);
+      } finally {
+        setRankingLoading(false);
       }
     };
 
@@ -871,8 +1391,31 @@ function App() {
     void loadRanking();
   }, [t.messages.serverError]);
 
+  useEffect(() => {
+    void loadSocialPosts();
+    // Social feed should refresh when auth changes so liked_by_me is accurate.
+  }, [token]);
+
   function goToView(nextView) {
     window.location.hash = nextView === "home" ? "" : nextView;
+  }
+
+  function goToComposer() {
+    goToView("home");
+    window.setTimeout(() => {
+      socialComposerRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      socialComposerRef.current?.querySelector("textarea")?.focus();
+    }, 120);
+  }
+
+  async function loadSocialPosts() {
+    try {
+      const data = await request("/social/posts");
+      setSocialPosts(Array.isArray(data.posts) ? data.posts : []);
+    } catch (error) {
+      console.error("Error loading social posts", error);
+      setSocialPosts([]);
+    }
   }
 
   function handleVoteNx() {
@@ -894,6 +1437,96 @@ function App() {
     const voteUrl = `${gtop100VoteUrl}&pingUsername=${encodeURIComponent(accountName)}`;
     window.open(voteUrl, "_blank", "noopener,noreferrer");
   }
+
+  const handleSocialPostChange = (event) => {
+    setSocialPostForm((current) => ({
+      ...current,
+      [event.target.name]: event.target.value,
+      ...(event.target.name === "image_url" ? { image_name: "" } : {}),
+    }));
+  };
+
+  const handleSocialPostImageFile = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      setSocialPostMessage(language === "es" ? "Selecciona una imagen valida." : "Select a valid image.");
+      return;
+    }
+
+    if (file.size > 3 * 1024 * 1024) {
+      setSocialPostMessage(language === "es" ? "La imagen no puede superar 3 MB." : "Image must be under 3 MB.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setSocialPostForm((current) => ({
+        ...current,
+        image_url: String(reader.result || ""),
+        image_name: file.name,
+      }));
+      setSocialPostMessage("");
+    };
+    reader.onerror = () => {
+      setSocialPostMessage(language === "es" ? "No se pudo cargar la imagen." : "Could not load the image.");
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const submitSocialPost = async (event) => {
+    event.preventDefault();
+    setSocialPostMessage("");
+
+    if (!token) {
+      setSocialPostMessage(language === "es" ? "Inicia sesion para publicar en el muro." : "Sign in to post on the wall.");
+      goToView("login");
+      return;
+    }
+
+    try {
+      await request("/social/posts", {
+        method: "POST",
+        body: JSON.stringify({
+          caption: socialPostForm.caption,
+          image_url: socialPostForm.image_url,
+        }),
+      });
+      setSocialPostForm({ caption: "", image_url: "", image_name: "" });
+      setSocialPostMessage(language === "es" ? "Post publicado." : "Post published.");
+      await loadSocialPosts();
+    } catch (err) {
+      setSocialPostMessage(err.body?.message || err.message || (language === "es" ? "No se pudo publicar." : "Could not publish."));
+    }
+  };
+
+  const toggleSocialLike = async (postId) => {
+    if (!token) {
+      goToView("login");
+      return;
+    }
+
+    await request(`/social/posts/${postId}/like`, { method: "POST" });
+    await loadSocialPosts();
+  };
+
+  const submitSocialComment = async (postId) => {
+    if (!token) {
+      goToView("login");
+      return;
+    }
+
+    const comment = String(commentDrafts[postId] || "").trim();
+    if (!comment) return;
+
+    await request(`/social/posts/${postId}/comments`, {
+      method: "POST",
+      body: JSON.stringify({ comment }),
+    });
+    setCommentDrafts((current) => ({ ...current, [postId]: "" }));
+    await loadSocialPosts();
+  };
 
   function acknowledgeUpdateNotice() {
     localStorage.setItem(updateNoticeStorageKey, getLocalDateKey());
@@ -1063,6 +1696,10 @@ function App() {
         display_name: acc.profile?.display_name || "",
         avatar_url: acc.profile?.avatar_url || "",
         bio: acc.profile?.bio || "",
+        instagram_url: acc.profile?.instagram_url || acc.profile?.instagram || "",
+        discord_url: acc.profile?.discord_url || acc.profile?.discord || "",
+        website_url: acc.profile?.website_url || acc.profile?.website || "",
+        location: acc.profile?.location || "",
       });
 
       const chars = await request("/account/me/characters");
@@ -1082,7 +1719,7 @@ function App() {
               else if (Array.isArray(online.players_list)) setAdminOnlinePlayers(online.players_list);
               else setAdminOnlinePlayers([]);
             }
-          } catch (e) {
+          } catch {
             // ignore if endpoint not available
           }
         }
@@ -1127,6 +1764,10 @@ function App() {
         display_name: res.profile?.display_name || "",
         avatar_url: res.profile?.avatar_url || "",
         bio: res.profile?.bio || "",
+        instagram_url: res.profile?.instagram_url || res.profile?.instagram || profileForm.instagram_url || "",
+        discord_url: res.profile?.discord_url || res.profile?.discord || profileForm.discord_url || "",
+        website_url: res.profile?.website_url || res.profile?.website || profileForm.website_url || "",
+        location: res.profile?.location || profileForm.location || "",
       });
     } catch (err) {
       setAccountMessage(err.body?.message || err.message || t.messages.profileUpdateError);
@@ -1152,32 +1793,26 @@ function App() {
     }
   };
 
-  const rankingJobOptions = useMemo(() => {
-    const jobs = new Map();
-    for (const player of ranking) {
-      const jobId = Number(player.job);
-      if (Number.isFinite(jobId)) {
-        jobs.set(String(jobId), getJobName(jobId, language));
-      }
-    }
-    return Array.from(jobs.entries()).sort((a, b) => a[1].localeCompare(b[1], language));
-  }, [language, ranking]);
+  const rankingPreview = ranking.length > 0 ? ranking.slice(0, 3) : topPlayersFallback;
+  const rankingRows = useMemo(() => {
+    const source = rankingTab === "guilds" || rankingTab === "bosses"
+      ? rankingEndpointPlaceholders[rankingTab]
+      : [...ranking];
 
-  const rankingCountryOptions = useMemo(() => (
-    Array.from(new Set(ranking.map((player) => player.country).filter(Boolean)))
-      .sort((a, b) => a.localeCompare(b, language))
-  ), [language, ranking]);
+    const sortedSource = rankingTab === "fame"
+      ? [...source].sort((a, b) => (getPlayerFame(b) ?? 0) - (getPlayerFame(a) ?? 0))
+      : source;
+    const rankedSource = sortedSource.map((player, index) => ({ ...player, _rankingPosition: index + 1 }));
 
-  const filteredRanking = useMemo(() => (
-    ranking.filter((player) => {
-      const matchesJob = rankingJobFilter === "all" || String(player.job) === rankingJobFilter;
-      const matchesCountry = rankingCountryFilter === "all" || player.country === rankingCountryFilter;
-      return matchesJob && matchesCountry;
-    })
-  ), [ranking, rankingCountryFilter, rankingJobFilter]);
+    const searchValue = rankingSearch.trim().toLowerCase();
+    if (!searchValue) return rankedSource;
 
-  const rankingPreview = ranking.length > 0 ? ranking.slice(0, 5) : topPlayersFallback;
-  const rankingRows = ranking.length > 0 ? filteredRanking : topPlayersFallback;
+    return rankedSource.filter((player) => getPlayerName(player).toLowerCase().includes(searchValue));
+  }, [ranking, rankingSearch, rankingTab]);
+  const selectedPlayerProfile = useMemo(
+    () => (view === "profile" ? findPlayerProfile(ranking, getProfileTargetFromHash()) : null),
+    [ranking, view],
+  );
   const serverOnline = status?.ok === true || status?.server === "online";
   const visibleNewsItems = showUpdateContent ? t.newsItems : t.newsItems.slice(1);
   const onlinePlayers =
@@ -1200,22 +1835,47 @@ function App() {
         </button>
 
         <div className="topbar__right">
-          <div className="language-switcher" aria-label="Language selector">
-            <button
-              type="button"
-              className={language === "en" ? "is-active" : ""}
-              onClick={() => setLanguage("en")}
-            >
-              EN
+          <div className="topbar__meta">
+            <div className="language-switcher" aria-label="Language selector">
+              <button
+                type="button"
+                className={language === "en" ? "is-active" : ""}
+                onClick={() => setLanguage("en")}
+              >
+                EN
+              </button>
+              <span>|</span>
+              <button
+                type="button"
+                className={language === "es" ? "is-active" : ""}
+                onClick={() => setLanguage("es")}
+              >
+                ES
+              </button>
+            </div>
+            <div className="topbar-rates">
+              <img src="/argflag" alt="" className="topbar-rates__flag" />
+              {t.hero.rates}
+            </div>
+            <div className={`topbar-status${serverOnline ? " is-online" : ""}`}>
+              <span></span>
+              {serverOnline ? onlinePlayers : "-"} {language === "es" ? "Jugadores en linea" : "Players online"}
+            </div>
+            <button type="button" className="play-now" onClick={() => goToView(token ? "download" : "register")}>
+              <Download size={17} />
+              {language === "es" ? "JUGAR AHORA" : "PLAY NOW"}
             </button>
-            <span>|</span>
-            <button
-              type="button"
-              className={language === "es" ? "is-active" : ""}
-              onClick={() => setLanguage("es")}
-            >
-              ES
-            </button>
+            <div className="topbar-social-icons">
+              <button type="button" onClick={goToComposer} aria-label={language === "es" ? "Crear post" : "Create post"}>
+                <PlusSquare size={18} />
+              </button>
+              <button type="button" aria-label={language === "es" ? "Notificaciones" : "Notifications"}>
+                <Bell size={18} />
+              </button>
+              <button type="button" onClick={() => goToView(token ? "account" : "login")} aria-label={token ? t.nav.account : t.nav.login}>
+                <UserCircle size={19} />
+              </button>
+            </div>
           </div>
 
           <nav className="topbar__nav" aria-label={t.nav.aria}>
@@ -1281,108 +1941,127 @@ function App() {
 
       <main className="page">
         {view === "home" ? (
-          <section className="hero-card">
-            <div className="hero-card__copy">
-              <span className="hero-card__eyebrow">{t.hero.eyebrow}</span>
+          <section className="home-portal-hero">
+            <div className="home-portal-hero__content">
+              <img src="/latinms.png" alt="LatinMS" className="home-portal-hero__brand" />
+              <span className="home-portal-hero__badge">v83 LatinMS</span>
               <h1>{t.hero.title}</h1>
               <p>{t.hero.copy}</p>
-
-              <div className="hero-card__actions">
+              <div className="home-portal-hero__actions">
                 <button type="button" className="button-primary" onClick={() => goToView("register")}>
                   {t.hero.start}
                   <ArrowRight size={18} />
                 </button>
-                <button type="button" className="button-secondary" onClick={() => goToView(token ? "account" : "login")}>
-                  {token ? t.nav.account : t.hero.enter}
+                <button type="button" className="button-secondary" onClick={() => goToView("download")}>
+                  {t.pages.downloadClient}
+                  <Download size={18} />
                 </button>
               </div>
             </div>
-
-            <div className="hero-card__status">
+            <div className="home-portal-hero__side">
               <div className={`status-pill${serverOnline ? " is-online" : ""}`}>
                 <span className="status-pill__dot"></span>
-                {serverOnline ? t.hero.online : t.hero.offline}
+                {serverOnline ? `${onlinePlayers} ${t.hero.playersOnline}` : t.hero.offline}
               </div>
-
-              <div className="metric-grid">
-                <article className="metric-card">
-                  <Users size={20} />
-                  <strong>{serverOnline ? onlinePlayers : "-"}</strong>
-                  <span>{t.hero.playersOnline}</span>
-                </article>
-                <article className="metric-card">
-                  <ShieldCheck size={20} />
-                  <strong>2x EXP</strong>
-                  <span>{t.hero.rates}</span>
-                </article>
-                <article className="metric-card">
-                  <Gamepad2 size={20} />
-                  <strong>v83</strong>
-                  <span>{t.hero.version}</span>
-                </article>
-              </div>
+              <img src="/5.png" alt="" />
             </div>
+            <div className="home-portal-hero__rail"></div>
           </section>
         ) : null}
 
-        <section className="content-grid">
+        <section className={`content-grid${view === "home" ? " content-grid--home" : ""}`}>
           <div className="content-main">
             {view === "home" ? (
               <>
-                {showUpdateContent ? (
-                  <section className="panel home-update">
-                    <span className="panel__kicker">{t.nav.news}</span>
-                    <NewsList items={t.newsItems.slice(0, 1)} />
-                  </section>
-                ) : null}
+                <div className="home-social-layout">
+                  <aside className="home-left-rail" aria-label={language === "es" ? "Accesos LatinMS" : "LatinMS shortcuts"}>
+                    <section className="home-rail-card home-rail-card--brand">
+                      <img src="/latinms.png" alt="LatinMS" />
+                      <strong>LatinMS v83</strong>
+                    </section>
+                    <a href={downloadUrl} target="_blank" rel="noreferrer" className="home-rail-link">
+                      <Download size={20} />
+                      <span>{t.pages.downloadClient}</span>
+                    </a>
+                    <a href={discordUrl} target="_blank" rel="noreferrer" className="home-rail-link">
+                      <MessageCircle size={20} />
+                      <span>Discord</span>
+                    </a>
+                    <a href={whatsappUrl} target="_blank" rel="noreferrer" className="home-rail-link">
+                      <MessageCircle size={20} />
+                      <span>WhatsApp</span>
+                    </a>
+                    <button type="button" className="home-rail-link" onClick={goToComposer}>
+                      <PlusSquare size={20} />
+                      <span>{language === "es" ? "Crear post" : "Create post"}</span>
+                    </button>
+                  </aside>
 
-                <section className="panel">
-                  <div className="panel__head">
-                    <div>
-                      <span className="panel__kicker">{t.home.statusKicker}</span>
-                      <h2>{t.home.statusTitle}</h2>
-                    </div>
-                    <div className={`server-badge${serverOnline ? " is-online" : ""}`}>
-                      {serverOnline ? "ON" : "OFF"}
-                    </div>
+                  <div className="home-feed-center">
+                    <section className="home-mobile-actions">
+                      <button type="button" onClick={goToComposer}>
+                        <PlusSquare size={18} />
+                        {language === "es" ? "Crear post" : "Create post"}
+                      </button>
+                      <a href={discordUrl} target="_blank" rel="noreferrer">
+                        <MessageCircle size={18} />
+                        Discord
+                      </a>
+                      <a href={whatsappUrl} target="_blank" rel="noreferrer">
+                        <MessageCircle size={18} />
+                        WhatsApp
+                      </a>
+                    </section>
+
+                    <SocialFeed
+                      commentDrafts={commentDrafts}
+                      language={language}
+                      onCommentChange={(postId, value) => setCommentDrafts((current) => ({ ...current, [postId]: value }))}
+                      onImageSelect={handleSocialPostImageFile}
+                      onLike={toggleSocialLike}
+                      onSubmitComment={submitSocialComment}
+                      onSubmitPost={submitSocialPost}
+                      onPostChange={handleSocialPostChange}
+                      postForm={socialPostForm}
+                      posts={socialPosts}
+                      token={token}
+                      message={socialPostMessage}
+                      composerRef={socialComposerRef}
+                    />
                   </div>
 
-                  <div className="highlight-grid">
-                    {t.home.highlights.map(([icon, title, copy]) => (
-                      <article key={title} className="highlight-card">
-                        <img src={icon} alt="" className="feature-icon" />
-                        <h3>{title}</h3>
-                        <p>{copy}</p>
-                      </article>
-                    ))}
-                  </div>
-                </section>
-
-                <section className="split-grid">
-                  <article className="panel">
-                    <div className="panel__head">
-                      <div>
-                        <span className="panel__kicker">{t.nav.news}</span>
-                        <h2>{t.home.newsTitle}</h2>
+                  <aside className="home-right-rail" aria-label={language === "es" ? "Noticias y ranking" : "News and ranking"}>
+                    <section className="home-feed-news">
+                      <div className="home-feed-title">
+                        <span>{language === "es" ? "Noticias oficiales" : "Official news"}</span>
+                        <button type="button" onClick={() => goToView("news")}>{language === "es" ? "Ver todas" : "View all"}</button>
                       </div>
-                      <img src="/1.png" alt="" className="panel-head-icon" />
-                    </div>
-                    <NewsList items={visibleNewsItems} />
-                  </article>
+                      {visibleNewsItems.slice(0, 2).map(([icon, title, copy]) => (
+                        <article key={title} className="home-feed-news-card">
+                          <div className="home-feed-news-card__head">
+                            <img src="/latinms.png" alt="" />
+                            <div>
+                              <strong>LatinMS</strong>
+                              <span>{language === "es" ? "Noticia oficial" : "Official news"}</span>
+                            </div>
+                          </div>
+                          <h3>{title}</h3>
+                          <p>{copy}</p>
+                          <img src={icon} alt="" className="home-feed-news-card__image" />
+                          <button type="button" onClick={() => goToView("news")}>{language === "es" ? "Leer mas" : "Read more"}</button>
+                        </article>
+                      ))}
+                    </section>
 
-                  <article className="panel">
-                    <div className="panel__head">
-                      <div>
-                        <span className="panel__kicker">{t.home.topKicker}</span>
-                        <h2>{t.home.topTitle}</h2>
+                    <section className="home-feed-ranking">
+                      <div className="home-feed-title">
+                        <span>{t.home.topKicker}</span>
+                        <button type="button" onClick={() => goToView("ranking")}>{language === "es" ? "Ranking completo" : "Full ranking"}</button>
                       </div>
-                      <img src="/5.png" alt="" className="panel-head-icon" />
-                    </div>
-                    <div className="ranking-list">
-                      <RankingRows players={rankingPreview} language={language} text={t.ranking} />
-                    </div>
-                  </article>
-                </section>
+                      <RankingPreview players={rankingPreview} language={language} text={t.ranking} />
+                    </section>
+                  </aside>
+                </div>
               </>
             ) : null}
 
@@ -1395,44 +2074,41 @@ function App() {
                   </div>
                   <Newspaper size={24} />
                 </div>
-                <NewsList items={visibleNewsItems} />
+                <NewsList items={visibleNewsItems} language={language} />
               </section>
             ) : null}
 
             {view === "ranking" ? (
-              <section className="panel">
-                <div className="panel__head">
-                  <div>
-                    <span className="panel__kicker">{t.nav.ranking}</span>
-                    <h2>{t.pages.rankingTitle}</h2>
-                  </div>
-                  <Trophy size={24} />
-                </div>
-                <div className="ranking-filters" aria-label={t.pages.rankingTitle}>
-                  <label>
-                    {t.ranking.filterJob}
-                    <select value={rankingJobFilter} onChange={(event) => setRankingJobFilter(event.target.value)}>
-                      <option value="all">{t.ranking.allJobs}</option>
-                      {rankingJobOptions.map(([jobId, jobName]) => (
-                        <option key={jobId} value={jobId}>{jobName}</option>
-                      ))}
-                    </select>
-                  </label>
-                  <label>
-                    {t.ranking.filterCountry}
-                    <select value={rankingCountryFilter} onChange={(event) => setRankingCountryFilter(event.target.value)}>
-                      <option value="all">{t.ranking.allCountries}</option>
-                      {rankingCountryOptions.map((country) => (
-                        <option key={country} value={country}>{country}</option>
-                      ))}
-                    </select>
-                  </label>
-                </div>
-                <div className="ranking-list ranking-list--full">
-                  <RankingRows players={rankingRows} language={language} text={t.ranking} />
-                </div>
-                {ranking.length > 0 && rankingRows.length === 0 ? <p className="ranking-empty">{t.ranking.noResults}</p> : null}
-              </section>
+              <RankingPage
+                players={rankingRows}
+                activeTab={rankingTab}
+                onTabChange={(nextTab) => {
+                  setRankingTab(nextTab);
+                  setRankingSearch("");
+                  setRankingPage(1);
+                }}
+                search={rankingSearch}
+                onSearchChange={(value) => {
+                  setRankingSearch(value);
+                  setRankingPage(1);
+                }}
+                currentPage={rankingPage}
+                onPageChange={setRankingPage}
+                loading={rankingLoading}
+                language={language}
+                text={t.ranking}
+              />
+            ) : null}
+
+            {view === "profile" ? (
+              <PublicPlayerProfile
+                player={selectedPlayerProfile}
+                loading={rankingLoading}
+                language={language}
+                rankingText={t.ranking}
+                accountText={t.account}
+                onBack={() => goToView("ranking")}
+              />
             ) : null}
 
             {view === "download" ? (
@@ -1565,6 +2241,7 @@ function App() {
                 loadingAdmin={loadingAdmin}
                 passwordForm={passwordForm}
                 profileForm={profileForm}
+                ranking={ranking}
                 setAccountTab={setAccountTab}
                 submitPassword={submitPassword}
                 submitProfile={submitProfile}
@@ -1631,7 +2308,7 @@ function App() {
             ) : null}
           </div>
 
-          <aside className="sidebar">
+          <aside className={`sidebar${view === "home" ? " sidebar--home-minimal" : ""}`}>
             {view !== "home" ? (
               <section className="panel panel--compact">
                 <span className="panel__kicker">{t.sidebar.shortcuts}</span>
@@ -1679,23 +2356,296 @@ function App() {
           </aside>
         </section>
       </main>
+
+      <nav className="mobile-bottom-nav" aria-label={t.nav.aria}>
+        <button type="button" className={view === "home" ? "is-active" : ""} onClick={() => goToView("home")}>
+          <House size={21} />
+          <span>{t.nav.home}</span>
+        </button>
+        <button type="button" className={view === "news" ? "is-active" : ""} onClick={() => goToView("news")}>
+          <Newspaper size={21} />
+          <span>{t.nav.news}</span>
+        </button>
+        <button type="button" className={view === "ranking" || view === "profile" ? "is-active" : ""} onClick={() => goToView("ranking")}>
+          <Trophy size={21} />
+          <span>{t.nav.ranking}</span>
+        </button>
+        <button type="button" onClick={goToComposer}>
+          <PlusSquare size={21} />
+          <span>{language === "es" ? "Crear" : "Create"}</span>
+        </button>
+        <button type="button" className={view === "download" ? "is-active" : ""} onClick={() => goToView("download")}>
+          <Download size={21} />
+          <span>{t.nav.download}</span>
+        </button>
+        <button
+          type="button"
+          className={["login", "register", "recover", "reset-password", "account"].includes(view) ? "is-active" : ""}
+          onClick={() => goToView(token ? "account" : "login")}
+        >
+          <UserCircle size={21} />
+          <span>{token ? t.nav.account : t.nav.login}</span>
+        </button>
+      </nav>
     </div>
   );
 }
 
-function NewsList({ items }) {
+function NewsList({ items, language }) {
+  const [expandedIndex, setExpandedIndex] = useState(0);
+  const isSpanish = language === "es";
+
   return (
     <div className="news-list">
       {items.map(([icon, title, copy], index) => (
         <article key={title} className={`news-card${index === 0 ? " news-card--featured" : ""}`}>
           <div className="news-card__head">
             <img src={icon} alt="" className="news-card__icon" />
-            <h3>{title}</h3>
+            <div>
+              <span className="news-card__section">{isSpanish ? "Diario LatinMS" : "LatinMS Journal"}</span>
+              <h3>{title}</h3>
+            </div>
           </div>
           <p>{copy}</p>
+          {expandedIndex === index ? (
+            <div className="news-card__readmore">
+              <p>
+                {isSpanish
+                  ? "Esta nota forma parte del muro de novedades de LatinMS. La idea es que cada jugador pueda entender que cambio, por que importa y como aprovecharlo dentro del servidor."
+                  : "This article is part of the LatinMS news wall. It helps every player understand what changed, why it matters, and how to use it inside the server."}
+              </p>
+              <p>
+                {isSpanish
+                  ? "Segui revisando esta seccion para enterarte de eventos, mejoras, rutas de progreso y avisos importantes de la comunidad."
+                  : "Keep checking this section for events, improvements, progression routes, and important community notices."}
+              </p>
+            </div>
+          ) : null}
+          <button type="button" className="news-card__more" onClick={() => setExpandedIndex(expandedIndex === index ? -1 : index)}>
+            {expandedIndex === index ? (isSpanish ? "Leer menos" : "Read less") : (isSpanish ? "Leer mas" : "Read more")}
+            <ArrowRight size={15} />
+          </button>
         </article>
       ))}
     </div>
+  );
+}
+
+function SocialFeed({
+  composerRef,
+  commentDrafts,
+  language,
+  onCommentChange,
+  onImageSelect,
+  onLike,
+  onSubmitComment,
+  onSubmitPost,
+  onPostChange,
+  postForm,
+  posts,
+  token,
+  message,
+}) {
+  const isSpanish = language === "es";
+  const fallbackPosts = isSpanish
+    ? [
+        { id: "fallback-1", display_name: "Staff", account_name: "Staff", caption: "Comparte capturas, logros, drops raros y momentos con tu party.", likes: 128, comments_count: 12, comments: [] },
+        { id: "fallback-2", display_name: "Ranking", account_name: "Ranking", caption: "Sube una imagen de tu progreso y deja que la comunidad te siga.", likes: 96, comments_count: 8, comments: [] },
+      ]
+    : [
+        { id: "fallback-1", display_name: "Staff", account_name: "Staff", caption: "Share screenshots, achievements, rare drops, and party moments.", likes: 128, comments_count: 12, comments: [] },
+        { id: "fallback-2", display_name: "Ranking", account_name: "Ranking", caption: "Post your progress and let the community follow your climb.", likes: 96, comments_count: 8, comments: [] },
+      ];
+  const visiblePosts = posts.length > 0 ? posts.slice(0, 3) : fallbackPosts;
+
+  return (
+    <section className="panel home-social-feed">
+      <div className="panel__head">
+        <div>
+          <span className="panel__kicker">{isSpanish ? "Muro social" : "Social wall"}</span>
+          <h2>{isSpanish ? "Publicaciones de la comunidad" : "Community posts"}</h2>
+        </div>
+        <MessageCircle size={24} />
+      </div>
+
+      <form className="social-composer social-composer--app" onSubmit={onSubmitPost} ref={composerRef}>
+        <div className="social-composer__prompt">
+          <div className="social-composer__avatar">{token ? "L" : "?"}</div>
+          <textarea
+            name="caption"
+            value={postForm.caption}
+            onChange={onPostChange}
+            placeholder={token ? (isSpanish ? "Que estas pensando en LatinMS?" : "What are you thinking in LatinMS?") : (isSpanish ? "Inicia sesion para publicar." : "Sign in to post.")}
+            rows={2}
+            disabled={!token}
+          ></textarea>
+        </div>
+        {postForm.image_url ? (
+          <div className="social-composer__preview">
+            <img src={postForm.image_url} alt={isSpanish ? "Imagen del post" : "Post preview"} />
+            <span>{postForm.image_name || (isSpanish ? "Imagen cargada" : "Loaded image")}</span>
+          </div>
+        ) : null}
+        <div className="social-composer__footer">
+          <label className="social-composer__upload">
+            <ImageIcon size={18} />
+            {isSpanish ? "Foto/captura" : "Photo/screenshot"}
+            <input type="file" accept="image/*" onChange={onImageSelect} disabled={!token} />
+          </label>
+          <input
+            name="image_url"
+            value={postForm.image_url.startsWith("data:") ? "" : postForm.image_url}
+            onChange={onPostChange}
+            placeholder={isSpanish ? "O pega una URL de imagen" : "Or paste an image URL"}
+            disabled={!token}
+          />
+          <button type="submit" className="button-primary" disabled={!token}>
+            <PlusSquare size={17} />
+            {isSpanish ? "Publicar" : "Post"}
+          </button>
+        </div>
+        {message ? <p className="feedback">{message}</p> : null}
+      </form>
+
+      <div className="social-post-feed">
+        {visiblePosts.map((post) => (
+          <article key={post.id} className="social-post-card social-post-card--live">
+            <div className="social-post-card__avatar">
+              {(post.display_name || post.account_name || "L").slice(0, 1)}
+            </div>
+            <div className="social-post-card__content">
+              <strong>{post.display_name || post.account_name || "LatinMS"}</strong>
+              <p>{post.caption}</p>
+              {post.image_url ? (
+                <img
+                  src={post.image_url}
+                  alt={isSpanish ? "Captura del juego" : "Game screenshot"}
+                  className="social-post-card__image"
+                  onError={(event) => {
+                    event.currentTarget.style.display = "none";
+                  }}
+                />
+              ) : null}
+              <div className="social-post-card__actions">
+                <button type="button" className={post.liked_by_me ? "is-active" : ""} onClick={() => onLike(post.id)}>
+                  <Heart size={15} />{post.likes || 0}
+                </button>
+                <span><MessageCircle size={15} />{post.comments_count || 0}</span>
+              </div>
+              {post.comments?.length ? (
+                <div className="social-comments">
+                  {post.comments.map((comment) => (
+                    <p key={comment.id}><strong>{comment.display_name || comment.account_name}:</strong> {comment.comment}</p>
+                  ))}
+                </div>
+              ) : null}
+              <div className="social-comment-box">
+                <input
+                  value={commentDrafts[post.id] || ""}
+                  onChange={(event) => onCommentChange(post.id, event.target.value)}
+                  placeholder={isSpanish ? "Escribe un comentario..." : "Write a comment..."}
+                  disabled={!token}
+                />
+                <button type="button" onClick={() => onSubmitComment(post.id)} disabled={!token}>
+                  {isSpanish ? "Enviar" : "Send"}
+                </button>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function getPrimaryCharacter(characters) {
+  return [...characters].sort((a, b) => Number(b.level || 0) - Number(a.level || 0))[0] || null;
+}
+
+function getBestRankingMatch(characters, ranking) {
+  const characterNames = new Set(characters.map((character) => String(character.name || "").toLowerCase()).filter(Boolean));
+  if (characterNames.size === 0) return null;
+
+  return ranking
+    .map((player, index) => ({ ...player, _rankingPosition: index + 1 }))
+    .find((player) => characterNames.has(String(getPlayerName(player)).toLowerCase())) || null;
+}
+
+function normalizeSocialUrl(value, provider) {
+  const trimmed = String(value || "").trim();
+  if (!trimmed) return "";
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  if (provider === "instagram") return `https://instagram.com/${trimmed.replace(/^@/, "")}`;
+  if (provider === "discord") return trimmed;
+  return `https://${trimmed}`;
+}
+
+function SocialAccountProfile({ accountData, characters, isAdmin, profileForm, ranking, setAccountTab, text }) {
+  const primaryCharacter = getPrimaryCharacter(characters);
+  const rankingMatch = getBestRankingMatch(characters, ranking);
+  const displayName = profileForm.display_name || accountData?.name || "LatinMS";
+  const avatarSrc = profileForm.avatar_url || (primaryCharacter ? getCharacterImage(primaryCharacter) : "/latinms.png");
+  const bestLevel = primaryCharacter?.level ?? "-";
+  const bestRank = rankingMatch?._rankingPosition ?? null;
+  const socialLinks = [
+    { icon: AtSign, label: text.instagram, value: profileForm.instagram_url, href: normalizeSocialUrl(profileForm.instagram_url, "instagram") },
+    { icon: MessageCircle, label: text.discord, value: profileForm.discord_url, href: normalizeSocialUrl(profileForm.discord_url, "discord") },
+    { icon: LinkIcon, label: text.website, value: profileForm.website_url, href: normalizeSocialUrl(profileForm.website_url, "website") },
+  ].filter((link) => link.value);
+
+  return (
+    <section className="account-social-profile">
+      <div className="account-social-profile__cover"></div>
+      <div className="account-social-profile__body">
+        <div className="account-social-profile__avatar">
+          <img
+            src={avatarSrc}
+            alt={displayName}
+            onError={(event) => {
+              event.currentTarget.onerror = null;
+              event.currentTarget.src = "/latinms.png";
+            }}
+          />
+        </div>
+
+        <div className="account-social-profile__main">
+          <div className="account-social-profile__headline">
+            <div>
+              <span>{text.yourProfile}</span>
+              <h3>{displayName}</h3>
+            </div>
+            <button type="button" className="button-secondary" onClick={() => setAccountTab("profile")}>
+              {text.editProfile}
+            </button>
+          </div>
+
+          <div className="account-profile-badges">
+            <span><BadgeCheck size={15} />{text.youBadge}</span>
+            {bestRank === 1 ? <span><Crown size={15} />{text.topOneBadge}</span> : null}
+            {bestRank && bestRank > 1 && bestRank <= 10 ? <span><Trophy size={15} />#{bestRank} {text.topRankBadge}</span> : null}
+            {isAdmin ? <span><ShieldCheck size={15} />Staff</span> : null}
+          </div>
+
+          <div className="account-social-stats">
+            <strong>{characters.length}<span>{text.characters}</span></strong>
+            <strong>{bestLevel}<span>{text.level || "Level"}</span></strong>
+            <strong>{bestRank ? `#${bestRank}` : "-"}<span>Ranking</span></strong>
+          </div>
+
+          <p className="account-social-profile__bio">{profileForm.bio || text.noBio}</p>
+
+          <div className="account-social-links">
+            {profileForm.location ? <span><MapPin size={15} />{profileForm.location}</span> : null}
+            {primaryCharacter ? <span><Gamepad2 size={15} />{text.mainCharacter}: {primaryCharacter.name}</span> : null}
+            {socialLinks.map(({ icon: Icon, label, href, value }) => href.startsWith("http") ? (
+              <a key={label} href={href} target="_blank" rel="noreferrer"><Icon size={15} />{label}</a>
+            ) : (
+              <span key={label}><Icon size={15} />{value}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -1714,6 +2664,7 @@ function AccountPanel({
   loadingAdmin,
   passwordForm,
   profileForm,
+  ranking,
   setAccountTab,
   submitPassword,
   submitProfile,
@@ -1733,6 +2684,16 @@ function AccountPanel({
         <p>{text.needsLogin}</p>
       ) : (
         <>
+          <SocialAccountProfile
+            accountData={accountData}
+            characters={characters}
+            isAdmin={isAdmin}
+            profileForm={profileForm}
+            ranking={ranking}
+            setAccountTab={setAccountTab}
+            text={text}
+          />
+
           <div className="account-menu" role="tablist" aria-label={text.tabsLabel}>
             <button type="button" className={accountTab === "account" ? "is-active" : ""} onClick={() => setAccountTab("account")}>
               <IdCard size={18} />
@@ -1760,7 +2721,7 @@ function AccountPanel({
 
           {accountTab === "account" ? (
             <div className="panel__section account-summary">
-              <h3>{text.account}</h3>
+              <h3>{text.socialLinks}</h3>
               <div className="summary-grid">
                 <div>
                   <span>{text.user}</span>
@@ -1793,7 +2754,23 @@ function AccountPanel({
                 </label>
                 <label>
                   {text.bio}
-                  <input name="bio" value={profileForm.bio} onChange={handleProfileChange} />
+                  <textarea name="bio" value={profileForm.bio} onChange={handleProfileChange} placeholder={text.bioPlaceholder} rows={4}></textarea>
+                </label>
+                <label>
+                  {text.instagram}
+                  <input name="instagram_url" value={profileForm.instagram_url} onChange={handleProfileChange} placeholder="@latinms" />
+                </label>
+                <label>
+                  {text.discord}
+                  <input name="discord_url" value={profileForm.discord_url} onChange={handleProfileChange} placeholder="usuario#0000" />
+                </label>
+                <label>
+                  {text.website}
+                  <input name="website_url" value={profileForm.website_url} onChange={handleProfileChange} placeholder="https://..." />
+                </label>
+                <label>
+                  {text.location}
+                  <input name="location" value={profileForm.location} onChange={handleProfileChange} />
                 </label>
                 <button type="submit" className="button-primary">{text.saveProfile}</button>
               </form>
