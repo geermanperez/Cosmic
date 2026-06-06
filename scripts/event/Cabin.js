@@ -93,7 +93,7 @@ function takeoff() {
     Orbis_docked.setDocked(false);
     Leafre_docked.setDocked(false);
 
-    em.schedule("arrived", rideTime); //The time that require move to destination
+    arrived();
 }
 
 function arrived() {

@@ -31,10 +31,8 @@ function playerEntry(eim, player) {
     returnMap = eim.getMapFactory().getMap(returnTo[myRide]);
     onRide = eim.getMapFactory().getMap(birdRide[myRide]);
     player.changeMap(onRide, onRide.getPortal(0));
-
-    const PacketCreator = Java.type('tools.PacketCreator');
-    player.sendPacket(PacketCreator.getClock(rideTime / 1000));
-    eim.schedule("timeOut", rideTime);
+    playerExit(eim, player, true);
+    eim.dispose();
 }
 
 function timeOut(eim) {

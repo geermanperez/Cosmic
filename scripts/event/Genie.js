@@ -72,7 +72,7 @@ function takeoff() {
     Orbis_docked.setDocked(false);
     Ariant_docked.setDocked(false);
 
-    em.schedule("arrived", rideTime); //The time that require move to destination
+    arrived();
 }
 
 function arrived() {

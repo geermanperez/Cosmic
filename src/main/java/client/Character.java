@@ -310,6 +310,8 @@ public class Character extends AbstractCharacterObject {
     private ScheduledFuture<?> chairRecoveryTask = null;
     private ScheduledFuture<?> pendantOfSpirit = null; //1122017
     private ScheduledFuture<?> cpqSchedule = null;
+    private ScheduledFuture<?> familyRateExpireTask = null;
+    private int familyExpRate = 1, familyDropRate = 1, familyMesoRate = 1;
     private final Lock chrLock = new ReentrantLock(true);
     private final Lock evtLock = new ReentrantLock(true);
     private final Lock petLock = new ReentrantLock(true);
@@ -4995,6 +4997,46 @@ public class Character extends AbstractCharacterObject {
     public int getQuestMesoRate() {
         World w = getWorldServer();
         return w.getMesoRate() * w.getQuestRate();
+    }
+
+    public synchronized void applyFamilyEntitlementRate(boolean exp, boolean drop, int multiplier, long duration, String entitlementName) {
+        cancelFamilyEntitlementRate(false);
+
+        if (exp) {
+            expRate *= multiplier;
+            familyExpRate = multiplier;
+        }
+        if (drop) {
+            dropRate *= multiplier;
+            mesoRate *= multiplier;
+            familyDropRate = multiplier;
+            familyMesoRate = multiplier;
+        }
+
+        familyRateExpireTask = TimerManager.getInstance().schedule(() -> cancelFamilyEntitlementRate(true), duration);
+        message(entitlementName + " is active for " + (duration / 60000) + " minute(s).");
+    }
+
+    public synchronized void cancelFamilyEntitlementRate(boolean notify) {
+        if (familyRateExpireTask == null) {
+            return;
+        }
+
+        familyRateExpireTask.cancel(false);
+        familyRateExpireTask = null;
+
+        expRate /= familyExpRate;
+        dropRate /= familyDropRate;
+        mesoRate /= familyMesoRate;
+        familyExpRate = 1;
+        familyDropRate = 1;
+        familyMesoRate = 1;
+
+        updateCouponRates();
+
+        if (notify && isLoggedin()) {
+            message("Family entitlement bonus has expired.");
+        }
     }
 
     public float getCardRate(int itemid) {

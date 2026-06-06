@@ -54,17 +54,17 @@ function goDown() {
 function goingUpNow() {
     em.getChannelServer().getMapFactory().getMap(222020110).warpEveryone(222020111);
     em.setProperty("goingUp", "true");
-    em.schedule("isUpNow", rideTime);
 
     em.getChannelServer().getMapFactory().getMap(222020100).setReactorState();
+    isUpNow();
 }
 
 function goingDownNow() {
     em.getChannelServer().getMapFactory().getMap(222020210).warpEveryone(222020211);
     em.setProperty("goingDown", "true");
-    em.schedule("isDownNow", rideTime);
 
     em.getChannelServer().getMapFactory().getMap(222020200).setReactorState();
+    isDownNow();
 }
 
 function isUpNow() {

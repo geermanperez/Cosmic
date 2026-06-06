@@ -11,7 +11,7 @@ public enum FamilyEntitlement {
     SELF_DROP_2_30MIN(1, 2000, "My Drop Rate 2x (30 min)", "[Target] Me\\n[Time] 30 min.\\n[Effect] Monster drop rate will be increased #c2x#.\\n* If the Drop Rate event is in progress, this will be nullified."),
     SELF_EXP_2_30MIN(1, 2500, "My EXP 2x (30 min)", "[Target] Me\\n[Time] 30 min.\\n[Effect] EXP earned from hunting will be increased #c2x#. \\n* If the EXP event is in progress, this will be nullified."),
     PARTY_DROP_2_30MIN(1, 4000, "My Party Drop Rate 2x (30 min)", "[Target] My party\\n[Time] 30 min.\\n[Effect] Monster drop rate will be increased #c2x#.\\n* If the Drop Rate event is in progress, this will be nullified."),
-    PARTY_EXP_2_30MIN(1, 5000, "My Party EXP 2x (30 min)", "[Target] My party\\n[Time] 30 min.\\n[Effect] EXP earned from hunting will be increased #c2x#.\\n* If the EXP event is in progress, this will be nullified.");
+    PARTY_EXP_2_30MIN(1, 5000, "My Party EXP 2x (1 hour)", "[Target] My party\\n[Time] 1 hour.\\n[Effect] EXP earned from hunting will be increased #c2x#.\\n* If the EXP event is in progress, this will be nullified.");
 
     private final int usageLimit, repCost;
     private final String name, description;

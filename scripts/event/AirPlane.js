@@ -39,7 +39,7 @@ function takeoff() {
     em.setProperty("docked", "false");
     KC_bfd.warpEveryone(Plane_to_CBD.getId());
     CBD_bfd.warpEveryone(Plane_to_KC.getId());
-    em.schedule("arrived", rideTime); //The time that require move to destination
+    arrived();
 }
 
 function arrived() {

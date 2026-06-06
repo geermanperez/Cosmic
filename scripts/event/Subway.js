@@ -39,7 +39,7 @@ function takeoff() {
     em.setProperty("docked", "false");
     KC_Waiting.warpEveryone(Subway_to_NLC.getId());
     NLC_Waiting.warpEveryone(Subway_to_KC.getId());
-    em.schedule("arrived", rideTime);
+    arrived();
 }
 
 function arrived() {

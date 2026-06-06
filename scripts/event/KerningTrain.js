@@ -34,9 +34,9 @@ function playerEntry(eim, player) {
     player.changeMap(onRide, onRide.getPortal(0));
 
     const PacketCreator = Java.type('tools.PacketCreator');
-    player.sendPacket(PacketCreator.getClock(rideTime / 1000));
     player.sendPacket(PacketCreator.earnTitleMessage("The next stop is at Kerning " + (myRide == 0 ? "Square" : "Subway") + " Station. The exit is to your left."));
-    eim.schedule("timeOut", rideTime);
+    playerExit(eim, player, true);
+    eim.dispose();
 }
 
 function timeOut(eim) {
