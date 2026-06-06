@@ -40,7 +40,7 @@ public enum ExpeditionType {
     ARIANT(2, 7, 20, 30, 5),
     ARIANT1(2, 7, 20, 30, 5),
     ARIANT2(2, 7, 20, 30, 5),
-    PINKBEAN(6, 30, 120, 255, 5),
+    PINKBEAN(2, 30, 120, 255, 5),
     CWKPQ(6, 30, 90, 255, 5);   // CWKPQ min-level 90, found thanks to Cato
 
     private final int minSize;
