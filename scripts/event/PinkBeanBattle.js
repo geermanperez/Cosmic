@@ -35,6 +35,8 @@ var minMapId = 270050100;
 var maxMapId = 270050300;
 
 var eventTime = 140;     // 140 minutes
+var clearExpReward = 1000000000000;
+var maxExpChunk = 2147483647;
 
 const maxLobbies = 1;
 
@@ -206,8 +208,31 @@ function giveRandomEventReward(eim, player) {
     eim.giveEventReward(player);
 }
 
+function giveClearExpReward(eim) {
+    if (eim.getProperty("clearExpAwarded") == "1") {
+        return;
+    }
+
+    eim.setProperty("clearExpAwarded", 1);
+
+    var players = eim.getPlayers();
+    for (var i = 0; i < players.size(); i++) {
+        var player = players.get(i);
+        var remaining = clearExpReward;
+
+        while (remaining > 0) {
+            var gain = Math.min(remaining, maxExpChunk);
+            player.gainExp(gain, false, true);
+            remaining -= gain;
+        }
+    }
+
+    eim.dropMessage(5, "Pink Bean PQ clear reward: " + clearExpReward + " EXP.");
+}
+
 function clearPQ(eim) {
     eim.stopEventTimer();
+    giveClearExpReward(eim);
     eim.setEventCleared();
 }
 
