@@ -372,11 +372,6 @@ async function processGTop100VoteEntry(req, entry, sharedFields = {}) {
         rewardNx += monthlyBonus;
         console.info("GTop100 monthly bonus delivered", { accountId: account.id, username, streak, monthlyBonus });
       }
-      await pool.query(
-        `UPDATE accounts SET nxCredit = nxCredit + ? WHERE id = ?`,
-        [rewardNx, account.id]
-      );
-      console.info("GTop100 vote reward delivered", { accountId: account.id, username, rewardNx, streak });
     } else {
       status = "too_soon";
       streak = lastVote ? lastVote.streak || 0 : 0;
@@ -407,6 +402,27 @@ async function processGTop100VoteEntry(req, entry, sharedFields = {}) {
       monthlyBonus > 0 ? now : lastMonthlyReward,
     ]
   );
+
+  if (status === "accepted" && rewardNx > 0) {
+    const previousNxCredit = account.nxCredit;
+    const [updateResult] = await pool.query(
+      `UPDATE accounts SET nxCredit = COALESCE(nxCredit, 0) + ? WHERE id = ?`,
+      [rewardNx, account.id]
+    );
+    const updateLog = {
+      account: username,
+      accountId: account.id,
+      previousNxCredit,
+      rewardNx,
+      affectedRows: updateResult.affectedRows,
+      changedRows: updateResult.changedRows,
+    };
+    if (updateResult.affectedRows === 0) {
+      console.warn("GTop100 vote reward update affected 0 rows", updateLog);
+    } else {
+      console.info("GTop100 vote reward delivered", updateLog);
+    }
+  }
 
   return { httpStatus: 200, body: { ok: true, status, reward_nx: rewardNx, streak, total_votes: totalVotes } };
 }
