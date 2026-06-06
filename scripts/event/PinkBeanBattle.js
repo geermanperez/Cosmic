@@ -35,7 +35,7 @@ var minMapId = 270050100;
 var maxMapId = 270050300;
 
 var eventTime = 140;     // 140 minutes
-var clearExpReward = 1000000000000;
+var clearExpReward = 100000000;
 var maxExpChunk = 2147483647;
 
 const maxLobbies = 1;
