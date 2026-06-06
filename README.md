@@ -10,7 +10,7 @@ This is mainly a Java based project, but there are also a bunch of scripts writt
 Head developer and maintainer: __Ponk__.\
 Contributors: a lot of people over the years, and hopefully more to come. Big thanks to everyone who has contributed so far!
 
-Join the Discord server where most of the discussions take place: https://discord.gg/JU5aQapVZK
+Join the Discord server where most of the discussions take place: https://discord.gg/MQmemhMfX
 
 ### Goals
 What we are working towards.

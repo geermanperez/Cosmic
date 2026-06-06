@@ -37,9 +37,9 @@ var clearMap = 925100600;
 var minMapId = 925100000;
 var maxMapId = 925100500;
 
-var eventTime = 4;     // 4 minutes
+var eventTime = 20;     // 20 minutes
 
-const maxLobbies = 1;
+const maxLobbies = 7;
 
 function init() {
     setEventRequirements();
@@ -239,27 +239,27 @@ function changedMapInside(eim, mapid) {
 
     if (stage == 1) {
         if (mapid == 925100100) {
-            eim.restartEventTimer(6 * 60 * 1000);
+            eim.restartEventTimer(10 * 60 * 1000);
             eim.setIntProperty("curStage", 2);
         }
     } else if (stage == 2) {
         if (mapid == 925100200) {
-            eim.restartEventTimer(6 * 60 * 1000);
+            eim.restartEventTimer(10 * 60 * 1000);
             eim.setIntProperty("curStage", 3);
         }
     } else if (stage == 3) {
         if (mapid == 925100300) {
-            eim.restartEventTimer(6 * 60 * 1000);
+            eim.restartEventTimer(10 * 60 * 1000);
             eim.setIntProperty("curStage", 4);
         }
     } else if (stage == 4) {
         if (mapid == 925100400) {
-            eim.restartEventTimer(6 * 60 * 1000);
+            eim.restartEventTimer(10 * 60 * 1000);
             eim.setIntProperty("curStage", 5);
         }
     } else if (stage == 5) {
         if (mapid == 925100500) {
-            eim.restartEventTimer(8 * 60 * 1000);
+            eim.restartEventTimer(15 * 60 * 1000);
             eim.setIntProperty("curStage", 6);
         }
     }

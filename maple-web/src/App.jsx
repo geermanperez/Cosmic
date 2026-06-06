@@ -7,6 +7,7 @@ import {
   KeyRound,
   LockKeyhole,
   Mail,
+  MessageCircle,
   Newspaper,
   ShieldCheck,
   Trophy,
@@ -25,6 +26,7 @@ const updateNoticeStorageKey = "latinms-visual-patch-notice-2026-06-05";
 const updateNoticeStartDate = "2026-06-05";
 const updateNoticeDurationDays = 7;
 const showUpdateContent = true;
+const discordUrl = "https://discord.gg/MQmemhMfX";
 const whatsappUrl = "https://chat.whatsapp.com/GKQyubuq4ml8HMrhUTzr7H?s=sw&p=i&ilr=2";
 const gtop100VoteUrl = "https://gtop100.com/MapleStory/server-106094?vote=1";
 
@@ -59,6 +61,7 @@ const translations = {
       copy:
         "Scan the QR code and come meet other players, ask questions, share progress, and stay close to the latest server news.",
       action: "Join the group",
+      discordAction: "Join Discord",
       imageAlt: "QR code to join the LatinMS WhatsApp community",
     },
     home: {
@@ -291,6 +294,7 @@ const translations = {
       copy:
         "Escanea el codigo QR y ven a conocer otros jugadores, resolver dudas, compartir tu progreso y enterarte de las novedades del servidor.",
       action: "Unirse al grupo",
+      discordAction: "Unirse al Discord",
       imageAlt: "Codigo QR para unirse a la comunidad de WhatsApp de LatinMS",
     },
     home: {
@@ -1655,6 +1659,10 @@ function App() {
               <a className="button-primary button-primary--full" href={whatsappUrl} target="_blank" rel="noreferrer">
                 {t.community.action}
                 <ArrowRight size={18} />
+              </a>
+              <a className="button-secondary button-primary--full community-discord" href={discordUrl} target="_blank" rel="noreferrer">
+                {t.community.discordAction}
+                <MessageCircle size={18} />
               </a>
             </section>
 

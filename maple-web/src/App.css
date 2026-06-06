@@ -392,6 +392,13 @@
   box-shadow: 0 14px 30px rgba(18, 140, 74, 0.22);
 }
 
+.panel--community .community-discord {
+  border-color: rgba(88, 101, 242, 0.22);
+  color: #fffaf1;
+  background: linear-gradient(135deg, #5865f2, #3c45b8);
+  box-shadow: 0 14px 30px rgba(88, 101, 242, 0.22);
+}
+
 
 .status-pill {
   display: inline-flex;
