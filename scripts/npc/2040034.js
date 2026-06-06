@@ -49,6 +49,7 @@ function action(mode, type, selection) {
                     cm.sendOk("Your party leader must talk to me to start this party quest.");
                     cm.dispose();
                 } else {
+                    em.setProperty("recruitMap", cm.getPlayer().getMapId());
                     var eli = em.getEligibleParty(cm.getParty());
                     if (eli.size() > 0) {
                         if (!em.startInstance(cm.getParty(), cm.getPlayer().getMap(), 1)) {
