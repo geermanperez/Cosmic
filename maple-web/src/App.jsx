@@ -4,10 +4,13 @@ import {
   AtSign,
   BadgeCheck,
   Bell,
+  CalendarDays,
   ChevronLeft,
   ChevronRight,
   Crown,
   Download,
+  Edit3,
+  Eye,
   Gamepad2,
   Heart,
   House,
@@ -21,10 +24,14 @@ import {
   MessageCircle,
   Newspaper,
   Search,
+  Send,
+  Share2,
   ShieldCheck,
   Sparkles,
   Swords,
+  Trash2,
   Trophy,
+  Upload,
   PlusSquare,
   UserPlus,
   UserCircle,
@@ -46,6 +53,19 @@ const showUpdateContent = true;
 const discordUrl = "https://discord.gg/MQmemhMfX";
 const whatsappUrl = "https://chat.whatsapp.com/GKQyubuq4ml8HMrhUTzr7H?s=sw&p=i&ilr=2";
 const gtop100VoteUrl = "https://gtop100.com/MapleStory/server-106094?vote=1";
+const newsPageSize = 6;
+const emptyNewsForm = {
+  id: null,
+  titulo: "",
+  resumen: "",
+  contenido: "",
+  categoria: "Eventos",
+  imagen_principal: "",
+  galeria: [],
+  fecha_publicacion: "",
+  estado: "Borrador",
+  destacada: false,
+};
 
 const translations = {
   en: {
@@ -789,6 +809,98 @@ function getLocalDateKey(date = new Date()) {
   return `${year}-${month}-${day}`;
 }
 
+function formatNewsDate(value, language) {
+  const date = value ? new Date(value) : null;
+  if (!date || Number.isNaN(date.getTime())) return "-";
+  return new Intl.DateTimeFormat(language === "es" ? "es-AR" : "en-US", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+}
+
+function getDateTimeInputValue(value = new Date()) {
+  const date = value ? new Date(value) : new Date();
+  if (Number.isNaN(date.getTime())) return "";
+  const offsetDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  return offsetDate.toISOString().slice(0, 16);
+}
+
+function stripHtml(value) {
+  return String(value || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function getNewsShareUrl(news) {
+  const baseUrl = window.location.href.split("#")[0];
+  return `${baseUrl}#news?slug=${encodeURIComponent(news?.slug || "")}`;
+}
+
+function openShare(provider, news) {
+  const url = encodeURIComponent(getNewsShareUrl(news));
+  const text = encodeURIComponent(news?.titulo || "LatinMS");
+  const shareUrls = {
+    whatsapp: `https://wa.me/?text=${text}%20${url}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+    x: `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
+  };
+  window.open(shareUrls[provider], "_blank", "noopener,noreferrer");
+}
+
+function getNewsSlugFromHash() {
+  const [, queryString = ""] = window.location.hash.split("?");
+  return new URLSearchParams(queryString).get("slug") || "";
+}
+
+async function canvasToBlob(canvas, quality) {
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => resolve(blob), "image/webp", quality);
+  });
+}
+
+async function fileToSquareWebp(file) {
+  if (!file?.type?.startsWith("image/")) {
+    throw new Error("Selecciona una imagen valida.");
+  }
+
+  const imageUrl = URL.createObjectURL(file);
+  const image = new Image();
+  image.decoding = "async";
+
+  await new Promise((resolve, reject) => {
+    image.onload = resolve;
+    image.onerror = reject;
+    image.src = imageUrl;
+  });
+
+  const side = Math.min(image.naturalWidth, image.naturalHeight);
+  const sx = Math.max(0, Math.floor((image.naturalWidth - side) / 2));
+  const sy = Math.max(0, Math.floor((image.naturalHeight - side) / 2));
+  const canvas = document.createElement("canvas");
+  canvas.width = 1080;
+  canvas.height = 1080;
+  const context = canvas.getContext("2d");
+  context.drawImage(image, sx, sy, side, side, 0, 0, 1080, 1080);
+  URL.revokeObjectURL(imageUrl);
+
+  let quality = 0.86;
+  let blob = await canvasToBlob(canvas, quality);
+  while (blob && blob.size > 500 * 1024 && quality > 0.42) {
+    quality -= 0.08;
+    blob = await canvasToBlob(canvas, quality);
+  }
+
+  if (!blob || blob.size > 500 * 1024) {
+    throw new Error("No se pudo comprimir la imagen por debajo de 500 KB.");
+  }
+
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve({ dataUrl: String(reader.result || ""), size: blob.size });
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
 function shouldShowUpdateNotice() {
   if (!showUpdateContent) return false;
 
@@ -1251,6 +1363,7 @@ function App() {
   const [language, setLanguage] = useState(getInitialLanguage);
   const t = translations[language];
   const [view, setView] = useState(getViewFromHash);
+  const [hashLocation, setHashLocation] = useState(() => window.location.hash);
   const [status, setStatus] = useState(null);
   const [ranking, setRanking] = useState([]);
   const [rankingLoading, setRankingLoading] = useState(true);
@@ -1261,6 +1374,18 @@ function App() {
   const [socialPostForm, setSocialPostForm] = useState({ caption: "", image_url: "", image_name: "" });
   const [socialPostMessage, setSocialPostMessage] = useState("");
   const [commentDrafts, setCommentDrafts] = useState({});
+  const [publicNews, setPublicNews] = useState([]);
+  const [publicNewsHasMore, setPublicNewsHasMore] = useState(false);
+  const [publicNewsLoading, setPublicNewsLoading] = useState(false);
+  const [publicNewsSearch, setPublicNewsSearch] = useState("");
+  const [publicNewsCategory, setPublicNewsCategory] = useState("Todas");
+  const [newsCategories, setNewsCategories] = useState([]);
+  const [selectedNews, setSelectedNews] = useState(null);
+  const [relatedNews, setRelatedNews] = useState([]);
+  const [adminNews, setAdminNews] = useState([]);
+  const [adminNewsForm, setAdminNewsForm] = useState(() => ({ ...emptyNewsForm, fecha_publicacion: getDateTimeInputValue() }));
+  const [adminNewsMessage, setAdminNewsMessage] = useState("");
+  const [adminNewsLoading, setAdminNewsLoading] = useState(false);
   const socialComposerRef = useRef(null);
   const [form, setForm] = useState({
     username: "",
@@ -1331,7 +1456,10 @@ function App() {
   }, [language]);
 
   useEffect(() => {
-    const syncView = () => setView(getViewFromHash());
+    const syncView = () => {
+      setView(getViewFromHash());
+      setHashLocation(window.location.hash);
+    };
     window.addEventListener("hashchange", syncView);
     return () => window.removeEventListener("hashchange", syncView);
   }, []);
@@ -1396,6 +1524,29 @@ function App() {
     // Social feed should refresh when auth changes so liked_by_me is accurate.
   }, [token]);
 
+  useEffect(() => {
+    void loadPublicNews({ reset: true });
+    // Public news reloads when search/category changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [publicNewsSearch, publicNewsCategory]);
+
+  useEffect(() => {
+    void loadNewsCategories();
+  }, []);
+
+  useEffect(() => {
+    if (view !== "news") return;
+    const slug = getNewsSlugFromHash();
+    if (slug) {
+      void loadNewsDetail(slug);
+    } else {
+      queueMicrotask(() => {
+        setSelectedNews(null);
+        setRelatedNews([]);
+      });
+    }
+  }, [view, hashLocation]);
+
   function goToView(nextView) {
     window.location.hash = nextView === "home" ? "" : nextView;
   }
@@ -1415,6 +1566,68 @@ function App() {
     } catch (error) {
       console.error("Error loading social posts", error);
       setSocialPosts([]);
+    }
+  }
+
+  async function loadPublicNews({ reset = false } = {}) {
+    setPublicNewsLoading(true);
+    try {
+      const offset = reset ? 0 : publicNews.length;
+      const params = new URLSearchParams({
+        limit: String(newsPageSize),
+        offset: String(offset),
+      });
+      if (publicNewsSearch.trim()) params.set("search", publicNewsSearch.trim());
+      if (publicNewsCategory && !["Todas", "All"].includes(publicNewsCategory)) {
+        params.set("categoria", publicNewsCategory);
+      }
+
+      const data = await request(`/noticias?${params.toString()}`, { silent: true });
+      const nextNews = Array.isArray(data.noticias) ? data.noticias : [];
+      setPublicNews((current) => (reset ? nextNews : [...current, ...nextNews]));
+      setPublicNewsHasMore(Boolean(data.hasMore));
+    } catch (error) {
+      if (error.status !== 404) console.error("Error loading news", error);
+      if (reset) setPublicNews([]);
+      setPublicNewsHasMore(false);
+    } finally {
+      setPublicNewsLoading(false);
+    }
+  }
+
+  async function loadNewsCategories() {
+    try {
+      const data = await request("/noticias/categorias", { silent: true });
+      setNewsCategories(Array.isArray(data.categorias) ? data.categorias : []);
+    } catch (error) {
+      if (error.status !== 404) console.error("Error loading news categories", error);
+      setNewsCategories([]);
+    }
+  }
+
+  async function loadNewsDetail(slug) {
+    try {
+      const data = await request(`/noticias/${encodeURIComponent(slug)}`);
+      setSelectedNews(data.noticia || null);
+      setRelatedNews(Array.isArray(data.relacionadas) ? data.relacionadas : []);
+      setPublicNews((current) => current.map((item) => item.slug === slug ? { ...item, vistas: data.noticia?.vistas ?? item.vistas } : item));
+    } catch (error) {
+      console.error("Error loading news detail", error);
+      setSelectedNews(null);
+      setRelatedNews([]);
+    }
+  }
+
+  async function loadAdminNews() {
+    setAdminNewsLoading(true);
+    try {
+      const data = await request("/admin/noticias", { silent: true });
+      setAdminNews(Array.isArray(data.noticias) ? data.noticias : []);
+    } catch (error) {
+      if (error.status !== 404) console.error("Error loading admin news", error);
+      setAdminNews([]);
+    } finally {
+      setAdminNewsLoading(false);
     }
   }
 
@@ -1500,6 +1713,111 @@ function App() {
       setSocialPostMessage(err.body?.message || err.message || (language === "es" ? "No se pudo publicar." : "Could not publish."));
     }
   };
+
+  const handleAdminNewsChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    setAdminNewsForm((current) => ({
+      ...current,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  async function handleAdminNewsImage(event, field) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setAdminNewsMessage(language === "es" ? "Procesando imagen..." : "Processing image...");
+    try {
+      const processed = await fileToSquareWebp(file);
+      setAdminNewsForm((current) => ({
+        ...current,
+        [field]: processed.dataUrl,
+      }));
+      setAdminNewsMessage(language === "es" ? `Imagen lista (${Math.round(processed.size / 1024)} KB WebP).` : `Image ready (${Math.round(processed.size / 1024)} KB WebP).`);
+    } catch (error) {
+      setAdminNewsMessage(error.message || (language === "es" ? "No se pudo procesar la imagen." : "Could not process image."));
+    } finally {
+      event.target.value = "";
+    }
+  }
+
+  async function handleAdminGalleryImage(event) {
+    const files = Array.from(event.target.files || []).slice(0, 8);
+    if (files.length === 0) return;
+
+    setAdminNewsMessage(language === "es" ? "Procesando galeria..." : "Processing gallery...");
+    try {
+      const processed = [];
+      for (const file of files) {
+        const result = await fileToSquareWebp(file);
+        processed.push(result.dataUrl);
+      }
+      setAdminNewsForm((current) => ({
+        ...current,
+        galeria: [...current.galeria, ...processed].slice(0, 8),
+      }));
+      setAdminNewsMessage(language === "es" ? "Galeria lista en WebP." : "Gallery ready in WebP.");
+    } catch (error) {
+      setAdminNewsMessage(error.message || (language === "es" ? "No se pudo procesar la galeria." : "Could not process gallery."));
+    } finally {
+      event.target.value = "";
+    }
+  }
+
+  function editAdminNews(news) {
+    setAdminNewsForm({
+      id: news.id,
+      titulo: news.titulo || "",
+      resumen: news.resumen || "",
+      contenido: news.contenido || "",
+      categoria: news.categoria || "Eventos",
+      imagen_principal: news.imagen_principal || "",
+      galeria: Array.isArray(news.galeria) ? news.galeria : [],
+      fecha_publicacion: getDateTimeInputValue(news.fecha_publicacion),
+      estado: news.estado || "Borrador",
+      destacada: Boolean(news.destacada),
+    });
+    setAccountTab("news");
+  }
+
+  function resetAdminNewsForm() {
+    setAdminNewsForm({ ...emptyNewsForm, fecha_publicacion: getDateTimeInputValue() });
+    setAdminNewsMessage("");
+  }
+
+  async function submitAdminNews(event) {
+    event.preventDefault();
+    setAdminNewsMessage("");
+    const payload = {
+      ...adminNewsForm,
+      fecha_publicacion: adminNewsForm.fecha_publicacion ? new Date(adminNewsForm.fecha_publicacion).toISOString() : new Date().toISOString(),
+    };
+
+    try {
+      const path = adminNewsForm.id ? `/admin/noticias/${adminNewsForm.id}` : "/admin/noticias";
+      const method = adminNewsForm.id ? "PUT" : "POST";
+      const data = await request(path, { method, body: JSON.stringify(payload) });
+      setAdminNewsMessage(data.message || (language === "es" ? "Noticia guardada." : "News saved."));
+      resetAdminNewsForm();
+      await loadAdminNews();
+      await loadPublicNews({ reset: true });
+      await loadNewsCategories();
+    } catch (error) {
+      setAdminNewsMessage(error.body?.message || error.message || (language === "es" ? "No se pudo guardar la noticia." : "Could not save news."));
+    }
+  }
+
+  async function deleteAdminNews(id) {
+    if (!window.confirm(language === "es" ? "Eliminar esta noticia?" : "Delete this news item?")) return;
+    try {
+      const data = await request(`/admin/noticias/${id}`, { method: "DELETE" });
+      setAdminNewsMessage(data.message || (language === "es" ? "Noticia eliminada." : "News deleted."));
+      await loadAdminNews();
+      await loadPublicNews({ reset: true });
+    } catch (error) {
+      setAdminNewsMessage(error.body?.message || error.message || (language === "es" ? "No se pudo eliminar." : "Could not delete."));
+    }
+  }
 
   const toggleSocialLike = async (postId) => {
     if (!token) {
@@ -1711,6 +2029,7 @@ function App() {
         if (adm.ok) {
           setIsAdmin(true);
           setAdminStats(adm.stats);
+          void loadAdminNews();
           try {
             if (!adm.stats?.onlineList && !adm.stats?.onlinePlayers) {
               const online = await request("/admin/online-players");
@@ -1815,6 +2134,20 @@ function App() {
   );
   const serverOnline = status?.ok === true || status?.server === "online";
   const visibleNewsItems = showUpdateContent ? t.newsItems : t.newsItems.slice(1);
+  const fallbackNews = visibleNewsItems.map(([image, title, resumen], index) => ({
+    id: `fallback-${index}`,
+    titulo: title,
+    resumen,
+    contenido: `${resumen}\n\n${language === "es" ? "Esta nota de ejemplo se reemplaza automaticamente cuando publiques noticias desde el panel de administracion." : "This sample article is replaced automatically when you publish news from the admin panel."}`,
+    categoria: index === 0 ? "Eventos" : "Comunidad",
+    imagen_principal: image,
+    galeria: [],
+    slug: `fallback-${index}`,
+    vistas: 0,
+    destacada: index === 0,
+    fecha_publicacion: new Date().toISOString(),
+  }));
+  const newsForDisplay = publicNews.length > 0 ? publicNews : fallbackNews;
   const onlinePlayers =
     status?.onlinePlayers ??
     status?.playersOnline ??
@@ -2036,19 +2369,19 @@ function App() {
                         <span>{language === "es" ? "Noticias oficiales" : "Official news"}</span>
                         <button type="button" onClick={() => goToView("news")}>{language === "es" ? "Ver todas" : "View all"}</button>
                       </div>
-                      {visibleNewsItems.slice(0, 2).map(([icon, title, copy]) => (
-                        <article key={title} className="home-feed-news-card">
+                      {newsForDisplay.slice(0, 2).map((news) => (
+                        <article key={news.slug || news.id} className="home-feed-news-card">
                           <div className="home-feed-news-card__head">
                             <img src="/latinms.png" alt="" />
                             <div>
                               <strong>LatinMS</strong>
-                              <span>{language === "es" ? "Noticia oficial" : "Official news"}</span>
+                              <span>{news.categoria || (language === "es" ? "Noticia oficial" : "Official news")}</span>
                             </div>
                           </div>
-                          <h3>{title}</h3>
-                          <p>{copy}</p>
-                          <img src={icon} alt="" className="home-feed-news-card__image" />
-                          <button type="button" onClick={() => goToView("news")}>{language === "es" ? "Leer mas" : "Read more"}</button>
+                          <h3>{news.titulo}</h3>
+                          <p>{news.resumen}</p>
+                          <img src={news.imagen_principal} alt="" className="home-feed-news-card__image" />
+                          <button type="button" onClick={() => news.slug?.startsWith("fallback") ? goToView("news") : (window.location.hash = `news?slug=${encodeURIComponent(news.slug)}`)}>{language === "es" ? "Leer mas" : "Read more"}</button>
                         </article>
                       ))}
                     </section>
@@ -2074,7 +2407,37 @@ function App() {
                   </div>
                   <Newspaper size={24} />
                 </div>
-                <NewsList items={visibleNewsItems} language={language} />
+                {selectedNews ? (
+                  <NewsDetail
+                    language={language}
+                    news={selectedNews}
+                    relatedNews={relatedNews}
+                    onBack={() => {
+                      window.location.hash = "news";
+                    }}
+                    onOpenNews={(slug) => {
+                      window.location.hash = `news?slug=${encodeURIComponent(slug)}`;
+                    }}
+                  />
+                ) : (
+                  <NewsList
+                    categories={newsCategories}
+                    hasMore={publicNewsHasMore}
+                    items={newsForDisplay}
+                    language={language}
+                    loading={publicNewsLoading}
+                    onCategoryChange={setPublicNewsCategory}
+                    onLoadMore={() => loadPublicNews({ reset: false })}
+                    onOpenNews={(slug) => {
+                      if (String(slug).startsWith("fallback")) return;
+                      window.location.hash = `news?slug=${encodeURIComponent(slug)}`;
+                    }}
+                    onSearchChange={setPublicNewsSearch}
+                    search={publicNewsSearch}
+                    selectedCategory={publicNewsCategory}
+                    showLoadMore={publicNews.length > 0}
+                  />
+                )}
               </section>
             ) : null}
 
@@ -2231,9 +2594,18 @@ function App() {
                 accountData={accountData}
                 accountMessage={accountMessage}
                 accountTab={accountTab}
+                adminNews={adminNews}
+                adminNewsForm={adminNewsForm}
+                adminNewsLoading={adminNewsLoading}
+                adminNewsMessage={adminNewsMessage}
                 adminStats={adminStats}
                 characters={characters}
+                deleteAdminNews={deleteAdminNews}
+                editAdminNews={editAdminNews}
                 handleLogout={handleLogout}
+                handleAdminGalleryImage={handleAdminGalleryImage}
+                handleAdminNewsChange={handleAdminNewsChange}
+                handleAdminNewsImage={handleAdminNewsImage}
                 handlePasswordChange={handlePasswordChange}
                 handleProfileChange={handleProfileChange}
                 isAdmin={isAdmin}
@@ -2243,6 +2615,8 @@ function App() {
                 profileForm={profileForm}
                 ranking={ranking}
                 setAccountTab={setAccountTab}
+                resetAdminNewsForm={resetAdminNewsForm}
+                submitAdminNews={submitAdminNews}
                 submitPassword={submitPassword}
                 submitProfile={submitProfile}
                 adminOnlinePlayers={adminOnlinePlayers}
@@ -2391,42 +2765,291 @@ function App() {
   );
 }
 
-function NewsList({ items, language }) {
-  const [expandedIndex, setExpandedIndex] = useState(0);
+function NewsList({
+  categories,
+  hasMore,
+  items,
+  language,
+  loading,
+  onCategoryChange,
+  onLoadMore,
+  onOpenNews,
+  onSearchChange,
+  search,
+  selectedCategory,
+  showLoadMore,
+}) {
+  const isSpanish = language === "es";
+  const allLabel = isSpanish ? "Todas" : "All";
+  const categoryOptions = [allLabel, ...categories.filter(Boolean)];
+
+  return (
+    <div className="news-feed-page">
+      <div className="news-toolbar">
+        <label className="news-search">
+          <Search size={18} />
+          <input
+            value={search}
+            onChange={(event) => onSearchChange(event.target.value)}
+            placeholder={isSpanish ? "Buscar noticias" : "Search news"}
+          />
+        </label>
+        <div className="news-category-filter">
+          {categoryOptions.map((category) => (
+            <button
+              key={category}
+              type="button"
+              className={(selectedCategory || allLabel) === category ? "is-active" : ""}
+              onClick={() => onCategoryChange(category)}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="news-grid">
+        {items.map((news, index) => (
+          <NewsFeedCard
+            key={news.slug || news.id}
+            featured={index === 0 && news.destacada}
+            isSpanish={isSpanish}
+            news={news}
+            onOpenNews={onOpenNews}
+            language={language}
+          />
+        ))}
+      </div>
+
+      {items.length === 0 && !loading ? (
+        <p className="feedback">{isSpanish ? "No hay noticias publicadas con esos filtros." : "No published news match those filters."}</p>
+      ) : null}
+
+      {showLoadMore && hasMore ? (
+        <button type="button" className="button-secondary news-load-more" onClick={onLoadMore} disabled={loading}>
+          {loading ? (isSpanish ? "Cargando..." : "Loading...") : (isSpanish ? "Cargar mas" : "Load more")}
+        </button>
+      ) : null}
+    </div>
+  );
+}
+
+function NewsFeedCard({ featured, isSpanish, language, news, onOpenNews }) {
+  return (
+    <article className={`news-feed-card${featured ? " news-feed-card--featured" : ""}`}>
+      <div className="news-feed-card__media">
+        <img src={news.imagen_principal} alt={news.titulo} />
+      </div>
+      <div className="news-feed-card__body">
+        <div className="news-feed-card__meta">
+          <span>{news.categoria}</span>
+          <span><CalendarDays size={14} />{formatNewsDate(news.fecha_publicacion, language)}</span>
+        </div>
+        <h3>{news.titulo}</h3>
+        <p>{news.resumen}</p>
+        <div className="news-feed-card__actions">
+          <span><Eye size={15} />{news.vistas || 0}</span>
+          <button type="button" onClick={() => onOpenNews(news.slug)}>
+            {isSpanish ? "Leer mas" : "Read more"}
+            <ArrowRight size={15} />
+          </button>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function NewsShareActions({ news, language }) {
+  const isSpanish = language === "es";
+  return (
+    <div className="news-share-actions" aria-label={isSpanish ? "Compartir noticia" : "Share news"}>
+      <button type="button" onClick={() => openShare("whatsapp", news)}>
+        <MessageCircle size={16} />WhatsApp
+      </button>
+      <button type="button" onClick={() => openShare("facebook", news)}>
+        <Share2 size={16} />Facebook
+      </button>
+      <button type="button" onClick={() => openShare("x", news)}>
+        <Send size={16} />X
+      </button>
+    </div>
+  );
+}
+
+function NewsDetail({ language, news, onBack, onOpenNews, relatedNews }) {
   const isSpanish = language === "es";
 
   return (
-    <div className="news-list">
-      {items.map(([icon, title, copy], index) => (
-        <article key={title} className={`news-card${index === 0 ? " news-card--featured" : ""}`}>
-          <div className="news-card__head">
-            <img src={icon} alt="" className="news-card__icon" />
-            <div>
-              <span className="news-card__section">{isSpanish ? "Diario LatinMS" : "LatinMS Journal"}</span>
-              <h3>{title}</h3>
-            </div>
+    <article className="news-detail">
+      <button type="button" className="button-secondary news-detail__back" onClick={onBack}>
+        <ChevronLeft size={17} />
+        {isSpanish ? "Volver al feed" : "Back to feed"}
+      </button>
+      <img src={news.imagen_principal} alt={news.titulo} className="news-detail__hero" />
+      <div className="news-detail__meta">
+        <span>{news.categoria}</span>
+        <span><CalendarDays size={15} />{formatNewsDate(news.fecha_publicacion, language)}</span>
+        <span><Eye size={15} />{news.vistas || 0}</span>
+      </div>
+      <h1>{news.titulo}</h1>
+      <p className="news-detail__summary">{news.resumen}</p>
+      <NewsShareActions news={news} language={language} />
+      <div className="news-detail__content">
+        {String(news.contenido || "")
+          .split(/\n{2,}/)
+          .map((paragraph) => (
+            <p key={paragraph}>{stripHtml(paragraph)}</p>
+          ))}
+      </div>
+      {news.galeria?.length ? (
+        <div className="news-detail__gallery">
+          {news.galeria.map((image, index) => (
+            <img key={`${image.slice(0, 24)}-${index}`} src={image} alt={`${news.titulo} ${index + 1}`} />
+          ))}
+        </div>
+      ) : null}
+      {relatedNews.length ? (
+        <section className="related-news">
+          <h2>{isSpanish ? "Noticias relacionadas" : "Related news"}</h2>
+          <div className="related-news__grid">
+            {relatedNews.map((item) => (
+              <button key={item.slug} type="button" onClick={() => onOpenNews(item.slug)}>
+                <img src={item.imagen_principal} alt="" />
+                <span>{item.categoria}</span>
+                <strong>{item.titulo}</strong>
+              </button>
+            ))}
           </div>
-          <p>{copy}</p>
-          {expandedIndex === index ? (
-            <div className="news-card__readmore">
-              <p>
-                {isSpanish
-                  ? "Esta nota forma parte del muro de novedades de LatinMS. La idea es que cada jugador pueda entender que cambio, por que importa y como aprovecharlo dentro del servidor."
-                  : "This article is part of the LatinMS news wall. It helps every player understand what changed, why it matters, and how to use it inside the server."}
-              </p>
-              <p>
-                {isSpanish
-                  ? "Segui revisando esta seccion para enterarte de eventos, mejoras, rutas de progreso y avisos importantes de la comunidad."
-                  : "Keep checking this section for events, improvements, progression routes, and important community notices."}
-              </p>
-            </div>
-          ) : null}
-          <button type="button" className="news-card__more" onClick={() => setExpandedIndex(expandedIndex === index ? -1 : index)}>
-            {expandedIndex === index ? (isSpanish ? "Leer menos" : "Read less") : (isSpanish ? "Leer mas" : "Read more")}
-            <ArrowRight size={15} />
+        </section>
+      ) : null}
+    </article>
+  );
+}
+
+function AdminNewsManager({
+  form,
+  language,
+  loading,
+  message,
+  news,
+  onChange,
+  onDelete,
+  onEdit,
+  onGalleryImage,
+  onImage,
+  onReset,
+  onSubmit,
+}) {
+  const isSpanish = language === "es";
+
+  return (
+    <div className="admin-news-manager">
+      <div className="admin-news-manager__head">
+        <div>
+          <h3>{isSpanish ? "Gestion de Noticias" : "News Management"}</h3>
+          <p>{isSpanish ? "Crea, programa, publica, fija y administra el feed publico." : "Create, schedule, publish, pin, and manage the public feed."}</p>
+        </div>
+        <button type="button" className="button-secondary" onClick={onReset}>
+          <PlusSquare size={17} />
+          {isSpanish ? "Nueva" : "New"}
+        </button>
+      </div>
+
+      <form className="admin-news-form" onSubmit={onSubmit}>
+        <div className="admin-news-form__grid">
+          <label>
+            {isSpanish ? "Titulo" : "Title"}
+            <input name="titulo" value={form.titulo} onChange={onChange} maxLength={180} required />
+          </label>
+          <label>
+            {isSpanish ? "Categoria" : "Category"}
+            <input name="categoria" value={form.categoria} onChange={onChange} maxLength={80} required />
+          </label>
+          <label>
+            {isSpanish ? "Fecha de publicacion" : "Publish date"}
+            <input type="datetime-local" name="fecha_publicacion" value={form.fecha_publicacion} onChange={onChange} required />
+          </label>
+          <label>
+            {isSpanish ? "Estado" : "Status"}
+            <select name="estado" value={form.estado} onChange={onChange}>
+              <option value="Publicado">{isSpanish ? "Publicado" : "Published"}</option>
+              <option value="Borrador">{isSpanish ? "Borrador" : "Draft"}</option>
+            </select>
+          </label>
+        </div>
+        <label>
+          {isSpanish ? "Resumen corto" : "Short summary"}
+          <textarea name="resumen" value={form.resumen} onChange={onChange} maxLength={320} rows={3} required />
+        </label>
+        <label>
+          {isSpanish ? "Contenido completo" : "Full content"}
+          <textarea name="contenido" value={form.contenido} onChange={onChange} rows={8} required />
+        </label>
+
+        <div className="admin-news-image-tools">
+          <label className="admin-news-upload">
+            <Upload size={18} />
+            {isSpanish ? "Imagen principal 1:1 WebP" : "Main 1:1 WebP image"}
+            <input type="file" accept="image/*" onChange={(event) => onImage(event, "imagen_principal")} />
+          </label>
+          <label className="admin-news-upload">
+            <ImageIcon size={18} />
+            {isSpanish ? "Agregar galeria" : "Add gallery"}
+            <input type="file" accept="image/*" multiple onChange={onGalleryImage} />
+          </label>
+          <label className="admin-news-check">
+            <input type="checkbox" name="destacada" checked={form.destacada} onChange={onChange} />
+            {isSpanish ? "Fijar como destacada" : "Pin as featured"}
+          </label>
+        </div>
+
+        {form.imagen_principal ? (
+          <div className="admin-news-preview">
+            <img src={form.imagen_principal} alt={isSpanish ? "Vista previa" : "Preview"} />
+            <span>{isSpanish ? "Recortada a 1080x1080, WebP, maximo 500 KB" : "Cropped to 1080x1080, WebP, max 500 KB"}</span>
+          </div>
+        ) : null}
+
+        {form.galeria.length ? (
+          <div className="admin-news-gallery-preview">
+            {form.galeria.map((image, index) => (
+              <img key={`${image.slice(0, 24)}-${index}`} src={image} alt={`Galeria ${index + 1}`} />
+            ))}
+          </div>
+        ) : null}
+
+        <div className="admin-news-actions">
+          <button type="submit" className="button-primary">
+            <Edit3 size={17} />
+            {form.id ? (isSpanish ? "Actualizar noticia" : "Update news") : (isSpanish ? "Crear noticia" : "Create news")}
           </button>
-        </article>
-      ))}
+          <button type="button" className="button-secondary" onClick={onReset}>
+            {isSpanish ? "Limpiar" : "Clear"}
+          </button>
+        </div>
+      </form>
+
+      {message ? <p className="feedback">{message}</p> : null}
+
+      <div className="admin-news-list">
+        {loading ? <p>{isSpanish ? "Cargando noticias..." : "Loading news..."}</p> : null}
+        {news.map((item) => (
+          <article key={item.id} className="admin-news-row">
+            <img src={item.imagen_principal} alt="" />
+            <div>
+              <span>{item.estado} · {item.categoria} · {formatNewsDate(item.fecha_publicacion, language)}</span>
+              <strong>{item.titulo}</strong>
+              <small>{item.destacada ? (isSpanish ? "Destacada" : "Featured") : ""} {item.vistas || 0} vistas</small>
+            </div>
+            <button type="button" onClick={() => onEdit(item)} aria-label={isSpanish ? "Editar noticia" : "Edit news"}>
+              <Edit3 size={17} />
+            </button>
+            <button type="button" onClick={() => onDelete(item.id)} aria-label={isSpanish ? "Eliminar noticia" : "Delete news"}>
+              <Trash2 size={17} />
+            </button>
+          </article>
+        ))}
+      </div>
     </div>
   );
 }
@@ -2653,9 +3276,18 @@ function AccountPanel({
   accountData,
   accountMessage,
   accountTab,
+  adminNews,
+  adminNewsForm,
+  adminNewsLoading,
+  adminNewsMessage,
   adminStats,
   characters,
+  deleteAdminNews,
+  editAdminNews,
   handleLogout,
+  handleAdminGalleryImage,
+  handleAdminNewsChange,
+  handleAdminNewsImage,
   handlePasswordChange,
   handleProfileChange,
   isAdmin,
@@ -2665,7 +3297,9 @@ function AccountPanel({
   passwordForm,
   profileForm,
   ranking,
+  resetAdminNewsForm,
   setAccountTab,
+  submitAdminNews,
   submitPassword,
   submitProfile,
   text,
@@ -2712,10 +3346,16 @@ function AccountPanel({
               {text.characters}
             </button>
             {isAdmin ? (
-              <button type="button" className={accountTab === "admin" ? "is-active" : ""} onClick={() => setAccountTab("admin")}>
-                <ShieldCheck size={18} />
-                Admin
-              </button>
+              <>
+                <button type="button" className={accountTab === "admin" ? "is-active" : ""} onClick={() => setAccountTab("admin")}>
+                  <ShieldCheck size={18} />
+                  Admin
+                </button>
+                <button type="button" className={accountTab === "news" ? "is-active" : ""} onClick={() => setAccountTab("news")}>
+                  <Newspaper size={18} />
+                  Noticias
+                </button>
+              </>
             ) : null}
           </div>
 
@@ -2909,6 +3549,23 @@ function AccountPanel({
                 </>
               )}
             </div>
+          ) : null}
+
+          {accountTab === "news" ? (
+            <AdminNewsManager
+              form={adminNewsForm}
+              language={language}
+              loading={adminNewsLoading}
+              message={adminNewsMessage}
+              news={adminNews}
+              onChange={handleAdminNewsChange}
+              onDelete={deleteAdminNews}
+              onEdit={editAdminNews}
+              onGalleryImage={handleAdminGalleryImage}
+              onImage={handleAdminNewsImage}
+              onReset={resetAdminNewsForm}
+              onSubmit={submitAdminNews}
+            />
           ) : null}
 
           {accountMessage ? <p className="feedback">{accountMessage}</p> : null}

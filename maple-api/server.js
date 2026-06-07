@@ -59,6 +59,7 @@ const VOTE_MONTHLY_BONUS_NX = Number(process.env.VOTE_MONTHLY_BONUS_NX || 5000);
 const VOTE_DAILY_SECONDS = Number(process.env.VOTE_DAILY_SECONDS || 86400);
 const VOTE_STREAK_RESET_SECONDS = Number(process.env.VOTE_STREAK_RESET_SECONDS || 172800);
 const GTOP100_PINGBACK_KEY = process.env.GTOP100_PINGBACK_KEY || "";
+const NEWS_IMAGE_MAX_BYTES = 500 * 1024;
 
 const JWT_SECRET = process.env.JWT_SECRET || "dev_jwt_secret_change_me";
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "7d";
@@ -212,6 +213,90 @@ async function ensureWebProfilesTable() {
   }
 }
 
+function slugify(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 90) || "noticia";
+}
+
+function getDataUrlByteLength(dataUrl) {
+  const base64 = String(dataUrl || "").split(",")[1] || "";
+  return Buffer.byteLength(base64, "base64");
+}
+
+function validateNewsImage(dataUrl, required = true) {
+  if (!dataUrl) {
+    if (required) return "La imagen principal es requerida.";
+    return "";
+  }
+
+  if (!String(dataUrl).startsWith("data:image/webp;base64,")) {
+    return "Las imagenes deben estar recortadas y convertidas a WebP antes de guardarse.";
+  }
+
+  if (getDataUrlByteLength(dataUrl) > NEWS_IMAGE_MAX_BYTES) {
+    return "Cada imagen debe pesar como maximo 500 KB.";
+  }
+
+  return "";
+}
+
+function normalizeGallery(gallery) {
+  const source = Array.isArray(gallery) ? gallery : [];
+  return source.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 8);
+}
+
+function mapNewsRow(row) {
+  let gallery = [];
+  try {
+    gallery = JSON.parse(row.galeria_json || "[]");
+  } catch {
+    gallery = [];
+  }
+
+  return {
+    id: row.id,
+    titulo: row.titulo,
+    resumen: row.resumen,
+    contenido: row.contenido,
+    categoria: row.categoria,
+    imagen_principal: row.imagen_principal,
+    galeria: Array.isArray(gallery) ? gallery : [],
+    galeria_json: row.galeria_json,
+    slug: row.slug,
+    vistas: row.vistas,
+    destacada: Boolean(row.destacada),
+    estado: row.estado,
+    fecha_publicacion: row.fecha_publicacion,
+    created_at: row.created_at,
+    updated_at: row.updated_at,
+  };
+}
+
+async function createUniqueNewsSlug(title, currentId = null) {
+  const base = slugify(title);
+  let slug = base;
+  let suffix = 2;
+
+  while (true) {
+    const params = [slug];
+    let sql = "SELECT id FROM noticias WHERE slug = ? LIMIT 1";
+    if (currentId) {
+      sql = "SELECT id FROM noticias WHERE slug = ? AND id <> ? LIMIT 1";
+      params.push(currentId);
+    }
+
+    const [rows] = await pool.query(sql, params);
+    if (rows.length === 0) return slug;
+    slug = `${base}-${suffix}`;
+    suffix += 1;
+  }
+}
+
 async function ensureSocialTables() {
   try {
     await pool.query(`
@@ -248,6 +333,35 @@ async function ensureSocialTables() {
     console.log("social tables ensured");
   } catch (err) {
     console.error("Error ensuring social tables:", err.message);
+  }
+}
+
+async function ensureNoticiasTable() {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS noticias (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        titulo VARCHAR(180) NOT NULL,
+        resumen VARCHAR(320) NOT NULL,
+        contenido MEDIUMTEXT NOT NULL,
+        categoria VARCHAR(80) NOT NULL,
+        imagen_principal MEDIUMTEXT NOT NULL,
+        galeria_json MEDIUMTEXT,
+        slug VARCHAR(120) NOT NULL UNIQUE,
+        vistas INT NOT NULL DEFAULT 0,
+        destacada TINYINT(1) NOT NULL DEFAULT 0,
+        estado ENUM('Publicado', 'Borrador') NOT NULL DEFAULT 'Borrador',
+        fecha_publicacion DATETIME NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_noticias_publicas (estado, fecha_publicacion),
+        INDEX idx_noticias_categoria (categoria),
+        INDEX idx_noticias_destacada (destacada)
+      )
+    `);
+    console.log("noticias table ensured");
+  } catch (err) {
+    console.error("Error ensuring noticias table:", err.message);
   }
 }
 
@@ -828,6 +942,205 @@ app.get("/admin/online-players", authMiddleware, adminMiddleware, async (req, re
       message: "No se pudieron cargar los jugadores online.",
       error: err.message,
     });
+  }
+});
+
+app.get("/noticias", async (req, res) => {
+  try {
+    const limit = Math.min(Math.max(Number(req.query.limit || 6), 1), 24);
+    const offset = Math.max(Number(req.query.offset || 0), 0);
+    const search = String(req.query.search || "").trim();
+    const categoria = String(req.query.categoria || "").trim();
+    const where = ["estado = 'Publicado'", "fecha_publicacion <= NOW()"];
+    const params = [];
+
+    if (search) {
+      where.push("(titulo LIKE ? OR resumen LIKE ? OR contenido LIKE ?)");
+      params.push(`%${search}%`, `%${search}%`, `%${search}%`);
+    }
+
+    if (categoria && categoria !== "Todas" && categoria !== "All") {
+      where.push("categoria = ?");
+      params.push(categoria);
+    }
+
+    const [rows] = await pool.query(
+      `SELECT id, titulo, resumen, contenido, categoria, imagen_principal, galeria_json, slug, vistas, destacada, estado, fecha_publicacion, created_at, updated_at
+       FROM noticias
+       WHERE ${where.join(" AND ")}
+       ORDER BY destacada DESC, fecha_publicacion DESC, id DESC
+       LIMIT ? OFFSET ?`,
+      [...params, limit + 1, offset]
+    );
+
+    return res.json({
+      ok: true,
+      noticias: rows.slice(0, limit).map(mapNewsRow),
+      hasMore: rows.length > limit,
+      nextOffset: offset + Math.min(rows.length, limit),
+    });
+  } catch (err) {
+    console.error("Error loading noticias:", err);
+    return res.status(500).json({ ok: false, message: "No se pudieron cargar las noticias.", error: err.message });
+  }
+});
+
+app.get("/noticias/categorias", async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      `SELECT DISTINCT categoria
+       FROM noticias
+       WHERE estado = 'Publicado' AND fecha_publicacion <= NOW()
+       ORDER BY categoria ASC`
+    );
+    return res.json({ ok: true, categorias: rows.map((row) => row.categoria).filter(Boolean) });
+  } catch (err) {
+    console.error("Error loading news categories:", err);
+    return res.status(500).json({ ok: false, message: "No se pudieron cargar las categorias.", error: err.message });
+  }
+});
+
+app.get("/noticias/:slug", async (req, res) => {
+  try {
+    const slug = String(req.params.slug || "").trim();
+    const [rows] = await pool.query(
+      `SELECT id, titulo, resumen, contenido, categoria, imagen_principal, galeria_json, slug, vistas, destacada, estado, fecha_publicacion, created_at, updated_at
+       FROM noticias
+       WHERE slug = ? AND estado = 'Publicado' AND fecha_publicacion <= NOW()
+       LIMIT 1`,
+      [slug]
+    );
+
+    if (rows.length === 0) return res.status(404).json({ ok: false, message: "Noticia no encontrada." });
+
+    await pool.query("UPDATE noticias SET vistas = vistas + 1 WHERE id = ?", [rows[0].id]);
+    rows[0].vistas = Number(rows[0].vistas || 0) + 1;
+
+    const [relatedRows] = await pool.query(
+      `SELECT id, titulo, resumen, categoria, imagen_principal, slug, vistas, destacada, estado, fecha_publicacion, created_at, updated_at
+       FROM noticias
+       WHERE id <> ? AND categoria = ? AND estado = 'Publicado' AND fecha_publicacion <= NOW()
+       ORDER BY destacada DESC, fecha_publicacion DESC
+       LIMIT 3`,
+      [rows[0].id, rows[0].categoria]
+    );
+
+    return res.json({ ok: true, noticia: mapNewsRow(rows[0]), relacionadas: relatedRows.map(mapNewsRow) });
+  } catch (err) {
+    console.error("Error loading noticia detail:", err);
+    return res.status(500).json({ ok: false, message: "No se pudo cargar la noticia.", error: err.message });
+  }
+});
+
+app.get("/admin/noticias", authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      `SELECT id, titulo, resumen, contenido, categoria, imagen_principal, galeria_json, slug, vistas, destacada, estado, fecha_publicacion, created_at, updated_at
+       FROM noticias
+       ORDER BY created_at DESC, id DESC`
+    );
+    return res.json({ ok: true, noticias: rows.map(mapNewsRow) });
+  } catch (err) {
+    console.error("Error loading admin noticias:", err);
+    return res.status(500).json({ ok: false, message: "No se pudieron cargar las noticias.", error: err.message });
+  }
+});
+
+app.post("/admin/noticias", authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const titulo = String(req.body.titulo || "").trim();
+    const resumen = String(req.body.resumen || "").trim();
+    const contenido = String(req.body.contenido || "").trim();
+    const categoria = String(req.body.categoria || "").trim();
+    const imagenPrincipal = String(req.body.imagen_principal || "").trim();
+    const galeria = normalizeGallery(req.body.galeria);
+    const estado = req.body.estado === "Publicado" ? "Publicado" : "Borrador";
+    const destacada = req.body.destacada ? 1 : 0;
+    const fechaPublicacion = req.body.fecha_publicacion ? new Date(req.body.fecha_publicacion) : new Date();
+
+    if (!titulo || !resumen || !contenido || !categoria) {
+      return res.status(400).json({ ok: false, message: "Titulo, resumen, contenido y categoria son requeridos." });
+    }
+    if (titulo.length > 180 || resumen.length > 320 || categoria.length > 80 || Number.isNaN(fechaPublicacion.getTime())) {
+      return res.status(400).json({ ok: false, message: "Hay campos con formato invalido." });
+    }
+
+    const mainImageError = validateNewsImage(imagenPrincipal, true);
+    if (mainImageError) return res.status(400).json({ ok: false, message: mainImageError });
+    const galleryImageError = galeria.map((image) => validateNewsImage(image, false)).find(Boolean);
+    if (galleryImageError) return res.status(400).json({ ok: false, message: galleryImageError });
+
+    const slug = await createUniqueNewsSlug(titulo);
+    const [created] = await pool.query(
+      `INSERT INTO noticias
+       (titulo, resumen, contenido, categoria, imagen_principal, galeria_json, slug, vistas, destacada, estado, fecha_publicacion)
+       VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?)`,
+      [titulo, resumen, contenido, categoria, imagenPrincipal, JSON.stringify(galeria), slug, destacada, estado, fechaPublicacion]
+    );
+
+    const [rows] = await pool.query("SELECT * FROM noticias WHERE id = ? LIMIT 1", [created.insertId]);
+    return res.status(201).json({ ok: true, message: "Noticia creada.", noticia: mapNewsRow(rows[0]) });
+  } catch (err) {
+    console.error("Error creating noticia:", err);
+    return res.status(500).json({ ok: false, message: "No se pudo crear la noticia.", error: err.message });
+  }
+});
+
+app.put("/admin/noticias/:id", authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id)) return res.status(400).json({ ok: false, message: "ID invalido." });
+
+    const titulo = String(req.body.titulo || "").trim();
+    const resumen = String(req.body.resumen || "").trim();
+    const contenido = String(req.body.contenido || "").trim();
+    const categoria = String(req.body.categoria || "").trim();
+    const imagenPrincipal = String(req.body.imagen_principal || "").trim();
+    const galeria = normalizeGallery(req.body.galeria);
+    const estado = req.body.estado === "Publicado" ? "Publicado" : "Borrador";
+    const destacada = req.body.destacada ? 1 : 0;
+    const fechaPublicacion = req.body.fecha_publicacion ? new Date(req.body.fecha_publicacion) : new Date();
+
+    if (!titulo || !resumen || !contenido || !categoria) {
+      return res.status(400).json({ ok: false, message: "Titulo, resumen, contenido y categoria son requeridos." });
+    }
+    if (titulo.length > 180 || resumen.length > 320 || categoria.length > 80 || Number.isNaN(fechaPublicacion.getTime())) {
+      return res.status(400).json({ ok: false, message: "Hay campos con formato invalido." });
+    }
+
+    const mainImageError = validateNewsImage(imagenPrincipal, true);
+    if (mainImageError) return res.status(400).json({ ok: false, message: mainImageError });
+    const galleryImageError = galeria.map((image) => validateNewsImage(image, false)).find(Boolean);
+    if (galleryImageError) return res.status(400).json({ ok: false, message: galleryImageError });
+
+    const slug = await createUniqueNewsSlug(titulo, id);
+    const [updated] = await pool.query(
+      `UPDATE noticias
+       SET titulo = ?, resumen = ?, contenido = ?, categoria = ?, imagen_principal = ?, galeria_json = ?, slug = ?, destacada = ?, estado = ?, fecha_publicacion = ?
+       WHERE id = ?`,
+      [titulo, resumen, contenido, categoria, imagenPrincipal, JSON.stringify(galeria), slug, destacada, estado, fechaPublicacion, id]
+    );
+
+    if (updated.affectedRows === 0) return res.status(404).json({ ok: false, message: "Noticia no encontrada." });
+
+    const [rows] = await pool.query("SELECT * FROM noticias WHERE id = ? LIMIT 1", [id]);
+    return res.json({ ok: true, message: "Noticia actualizada.", noticia: mapNewsRow(rows[0]) });
+  } catch (err) {
+    console.error("Error updating noticia:", err);
+    return res.status(500).json({ ok: false, message: "No se pudo actualizar la noticia.", error: err.message });
+  }
+});
+
+app.delete("/admin/noticias/:id", authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id)) return res.status(400).json({ ok: false, message: "ID invalido." });
+    const [deleted] = await pool.query("DELETE FROM noticias WHERE id = ?", [id]);
+    if (deleted.affectedRows === 0) return res.status(404).json({ ok: false, message: "Noticia no encontrada." });
+    return res.json({ ok: true, message: "Noticia eliminada." });
+  } catch (err) {
+    console.error("Error deleting noticia:", err);
+    return res.status(500).json({ ok: false, message: "No se pudo eliminar la noticia.", error: err.message });
   }
 });
 
@@ -1461,7 +1774,7 @@ app.get("/account/check", authMiddleware, (req, res) => {
 const PORT = process.env.PORT || 3001;
 
 // Ensure web_profiles and start server
-Promise.all([ensureWebProfilesTable(), ensureGTop100VotesTable(), ensurePasswordResetTable(), ensureSocialTables()]).then(() => {
+Promise.all([ensureWebProfilesTable(), ensureGTop100VotesTable(), ensurePasswordResetTable(), ensureSocialTables(), ensureNoticiasTable()]).then(() => {
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Maple API corriendo en puerto ${PORT}`);
   });

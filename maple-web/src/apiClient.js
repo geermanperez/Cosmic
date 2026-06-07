@@ -10,6 +10,7 @@ function saveToken(token) {
 }
 
 async function request(path, options = {}) {
+  const { silent = false, ...fetchOptions } = options;
   const headers = options.headers || {};
   headers["Content-Type"] = headers["Content-Type"] || "application/json";
 
@@ -17,10 +18,12 @@ async function request(path, options = {}) {
   if (token) headers["Authorization"] = `Bearer ${token}`;
 
   const url = `${API_URL}${path}`;
-  const res = await fetch(url, { ...options, headers });
+  const res = await fetch(url, { ...fetchOptions, headers });
   const body = await res.json().catch(() => null);
   if (!res.ok) {
-    console.error(`API request failed: ${url}`, { status: res.status, body });
+    if (!silent) {
+      console.error(`API request failed: ${url}`, { status: res.status, body });
+    }
     const err = new Error(body?.message || `HTTP ${res.status}`);
     err.status = res.status;
     err.body = body;
