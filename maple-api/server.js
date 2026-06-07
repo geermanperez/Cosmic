@@ -1212,6 +1212,55 @@ app.get("/social/posts", async (req, res) => {
         a.name AS account_name,
         wp.display_name,
         wp.avatar_url,
+        (
+          SELECT c.name
+          FROM characters c
+          WHERE c.accountid = sp.account_id
+          ORDER BY c.level DESC, c.id DESC
+          LIMIT 1
+        ) AS main_character_name,
+        (
+          SELECT c.level
+          FROM characters c
+          WHERE c.accountid = sp.account_id
+          ORDER BY c.level DESC, c.id DESC
+          LIMIT 1
+        ) AS level,
+        (
+          SELECT c.job
+          FROM characters c
+          WHERE c.accountid = sp.account_id
+          ORDER BY c.level DESC, c.id DESC
+          LIMIT 1
+        ) AS job,
+        (
+          SELECT c.gender
+          FROM characters c
+          WHERE c.accountid = sp.account_id
+          ORDER BY c.level DESC, c.id DESC
+          LIMIT 1
+        ) AS gender,
+        (
+          SELECT c.skincolor
+          FROM characters c
+          WHERE c.accountid = sp.account_id
+          ORDER BY c.level DESC, c.id DESC
+          LIMIT 1
+        ) AS skin,
+        (
+          SELECT c.face
+          FROM characters c
+          WHERE c.accountid = sp.account_id
+          ORDER BY c.level DESC, c.id DESC
+          LIMIT 1
+        ) AS face,
+        (
+          SELECT c.hair
+          FROM characters c
+          WHERE c.accountid = sp.account_id
+          ORDER BY c.level DESC, c.id DESC
+          LIMIT 1
+        ) AS hair,
         (SELECT COUNT(*) FROM social_post_likes spl WHERE spl.post_id = sp.id) AS likes,
         (SELECT COUNT(*) FROM social_post_comments spc WHERE spc.post_id = sp.id) AS comments_count,
         ${user ? "(SELECT COUNT(*) FROM social_post_likes mine WHERE mine.post_id = sp.id AND mine.account_id = ?) AS liked_by_me" : "0 AS liked_by_me"}

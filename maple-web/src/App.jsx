@@ -3054,6 +3054,12 @@ function AdminNewsManager({
   );
 }
 
+function getPostAvatarSrc(post) {
+  if (post?.avatar_url) return post.avatar_url;
+  const characterImage = getCharacterImage(post);
+  return characterImage === DEFAULT_CHARACTER_IMAGE ? "" : characterImage;
+}
+
 function SocialFeed({
   composerRef,
   commentDrafts,
@@ -3131,13 +3137,27 @@ function SocialFeed({
       </form>
 
       <div className="social-post-feed">
-        {visiblePosts.map((post) => (
+        {visiblePosts.map((post) => {
+          const postAvatarSrc = getPostAvatarSrc(post);
+          return (
           <article key={post.id} className="social-post-card social-post-card--live">
-            <div className="social-post-card__avatar">
-              {(post.display_name || post.account_name || "L").slice(0, 1)}
+            <div className={`social-post-card__avatar${postAvatarSrc ? " social-post-card__avatar--image" : ""}`}>
+              {postAvatarSrc ? (
+                <img
+                  src={postAvatarSrc}
+                  alt={post.display_name || post.account_name || "LatinMS"}
+                  onError={(event) => {
+                    event.currentTarget.onerror = null;
+                    event.currentTarget.src = DEFAULT_CHARACTER_IMAGE;
+                  }}
+                />
+              ) : (
+                (post.display_name || post.account_name || "L").slice(0, 1)
+              )}
             </div>
             <div className="social-post-card__content">
               <strong>{post.display_name || post.account_name || "LatinMS"}</strong>
+              {post.main_character_name ? <span className="social-post-card__character">{post.main_character_name}</span> : null}
               <p>{post.caption}</p>
               {post.image_url ? (
                 <img
@@ -3175,7 +3195,8 @@ function SocialFeed({
               </div>
             </div>
           </article>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
