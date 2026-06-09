@@ -35,6 +35,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -90,6 +91,10 @@ public class Family {
 
     public FamilyEntry getLeader() {
         return leader;
+    }
+
+    public Collection<FamilyEntry> getMembers() {
+        return members.values();
     }
 
     private void setName(String name) {
@@ -271,13 +276,41 @@ public class Family {
             if (senior != null) {
                 junior.setSenior(senior, false);
             } else {
-                log.error("Missing senior for chr {} in world {}", junior.getName(), world);
+                log.error("Missing senior for chr {} in world {} (seniorid={} not found) — clearing broken senior reference", junior.getName(), world, seniorid);
+                // Clear the broken reference in the DB so it doesn't repeat on next startup
+                try (Connection con2 = DatabaseConnection.getConnection();
+                     PreparedStatement ps = con2.prepareStatement("UPDATE family_character SET seniorid = 0 WHERE cid = ?")) {
+                    ps.setInt(1, junior.getChrId());
+                    ps.executeUpdate();
+                } catch (SQLException e) {
+                    log.error("Could not clear broken seniorid for chr {}", junior.getName(), e);
+                }
             }
         }
 
         for (World world : Server.getInstance().getWorlds()) {
             for (Family family : world.getFamilies()) {
-                family.getLeader().doFullCount();
+                FamilyEntry leader = family.getLeader();
+                if (leader == null) {
+                    // Family has no leader — pick any member and promote them
+                    FamilyEntry fallback = family.getMembers().stream().findFirst().orElse(null);
+                    if (fallback != null) {
+                        log.warn("Family {} has no leader — promoting chr {} as fallback leader and fixing DB", family.getID(), fallback.getName());
+                        family.setLeader(fallback);
+                        try (Connection con2 = DatabaseConnection.getConnection();
+                             PreparedStatement ps = con2.prepareStatement("UPDATE family_character SET seniorid = 0 WHERE cid = ?")) {
+                            ps.setInt(1, fallback.getChrId());
+                            ps.executeUpdate();
+                        } catch (SQLException e) {
+                            log.error("Could not promote fallback leader for family {}", family.getID(), e);
+                        }
+                        leader = fallback;
+                    } else {
+                        log.error("Family {} has no members at all, skipping", family.getID());
+                        continue;
+                    }
+                }
+                leader.doFullCount();
             }
         }
     }
