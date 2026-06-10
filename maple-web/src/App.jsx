@@ -1631,7 +1631,7 @@ function App() {
     }
   }
 
-  function handleVoteNx() {
+  async function handleVoteNx() {
     setLoginMessage("");
 
     if (!token) {
@@ -1640,15 +1640,28 @@ function App() {
       return;
     }
 
-    const accountName = accountData?.name || getAccountNameFromToken(token);
-    if (!accountName) {
-      setLoginMessage(t.messages.voteLoginRequired);
-      goToView("login");
-      return;
+    // Obtener un token seguro del servidor vinculado al account_id real del usuario autenticado.
+    // Esto evita que se acrediten NX a una cuenta equivocada por usernames similares.
+    try {
+      const data = await request("/vote/token", { method: "POST" });
+      if (!data?.ok || !data?.token) {
+        setLoginMessage(language === "es" ? "No se pudo generar el token de voto. Intenta de nuevo." : "Could not generate vote token. Please try again.");
+        return;
+      }
+      const voteUrl = `${gtop100VoteUrl}&pingUsername=${encodeURIComponent(data.token)}`;
+      window.open(voteUrl, "_blank", "noopener,noreferrer");
+    } catch (err) {
+      // Si la API no esta disponible, fallback al nombre de cuenta (flujo legacy)
+      console.warn("[vote] Token endpoint failed, falling back to account name", err);
+      const accountName = accountData?.name || getAccountNameFromToken(token);
+      if (!accountName) {
+        setLoginMessage(t.messages.voteLoginRequired);
+        goToView("login");
+        return;
+      }
+      const voteUrl = `${gtop100VoteUrl}&pingUsername=${encodeURIComponent(accountName)}`;
+      window.open(voteUrl, "_blank", "noopener,noreferrer");
     }
-
-    const voteUrl = `${gtop100VoteUrl}&pingUsername=${encodeURIComponent(accountName)}`;
-    window.open(voteUrl, "_blank", "noopener,noreferrer");
   }
 
   const handleSocialPostChange = (event) => {
@@ -3382,22 +3395,49 @@ function AccountPanel({
 
           {accountTab === "account" ? (
             <div className="panel__section account-summary">
-              <h3>{text.socialLinks}</h3>
+              <h3>{text.account}</h3>
               <div className="summary-grid">
                 <div>
                   <span>{text.user}</span>
                   <strong>{accountData?.name || "-"}</strong>
                 </div>
                 <div>
-                  <span>Loggedin</span>
-                  <strong>{accountData?.loggedin ?? "-"}</strong>
+                  <span>Account ID</span>
+                  <strong>#{accountData?.id ?? "-"}</strong>
+                </div>
+                <div>
+                  <span>NX Credit</span>
+                  <strong style={{ color: "var(--accent, #f59e0b)" }}>{accountData?.nxCredit != null ? accountData.nxCredit.toLocaleString() : "-"}</strong>
+                </div>
+                <div>
+                  <span>NX Prepaid</span>
+                  <strong>{accountData?.nxPrepaid != null ? accountData.nxPrepaid.toLocaleString() : "-"}</strong>
+                </div>
+                <div>
+                  <span>{text.characters}</span>
+                  <strong>{characters.length}</strong>
                 </div>
                 <div>
                   <span>Banned</span>
                   <strong>{accountData?.banned ?? "-"}</strong>
                 </div>
               </div>
-              <button className="button-secondary" onClick={handleLogout}>{text.logout}</button>
+
+              {characters.length === 0 ? (
+                <div className="vote-account-warning" style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.25)", borderRadius: "8px", padding: "12px 16px", marginTop: "12px", fontSize: "0.875rem", color: "var(--text-secondary, #9ca3af)" }}>
+                  {language === "es"
+                    ? "⚠️ Esta cuenta no tiene personajes creados. Los NX votados se acreditarán a esta cuenta, pero solo los verás en el Cash Shop cuando ingreses con un personaje asociado a ella."
+                    : "⚠️ This account has no characters. Vote NX will be credited here, but you will only see it in the Cash Shop when you log in with a character linked to this account."}
+                </div>
+              ) : (
+                <div className="vote-account-info" style={{ background: "rgba(16,185,129,0.06)", border: "1px solid rgba(16,185,129,0.2)", borderRadius: "8px", padding: "10px 16px", marginTop: "12px", fontSize: "0.875rem", color: "var(--text-secondary, #9ca3af)" }}>
+                  {language === "es"
+                    ? `✅ Al votar, los NX se acreditarán a la cuenta "${accountData?.name}" (ID #${accountData?.id}), que tiene ${characters.length} personaje${characters.length !== 1 ? "s" : ""} asociado${characters.length !== 1 ? "s" : ""}.`
+                    : `✅ When voting, NX will be credited to account "${accountData?.name}" (ID #${accountData?.id}), which has ${characters.length} associated character${characters.length !== 1 ? "s" : ""}.`}
+                </div>
+              )}
+
+              <button className="button-secondary" style={{ marginTop: "16px" }} onClick={handleLogout}>{text.logout}</button>
             </div>
           ) : null}
 

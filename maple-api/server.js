@@ -59,6 +59,7 @@ const VOTE_MONTHLY_BONUS_NX = Number(process.env.VOTE_MONTHLY_BONUS_NX || 5000);
 const VOTE_DAILY_SECONDS = Number(process.env.VOTE_DAILY_SECONDS || 86400);
 const VOTE_STREAK_RESET_SECONDS = Number(process.env.VOTE_STREAK_RESET_SECONDS || 172800);
 const GTOP100_PINGBACK_KEY = process.env.GTOP100_PINGBACK_KEY || "";
+const VOTE_TOKEN_TTL_SECONDS = Number(process.env.VOTE_TOKEN_TTL_SECONDS || 3600); // 1 hora
 const NEWS_IMAGE_MAX_BYTES = 500 * 1024;
 
 const JWT_SECRET = process.env.JWT_SECRET || "dev_jwt_secret_change_me";
@@ -470,16 +471,52 @@ async function processGTop100VoteEntry(req, entry, sharedFields = {}) {
 
   const voteId = pb_id || buildLegacyVoteId(username, ip);
 
-  const [accountRows] = await pool.query(
-    "SELECT id, nxCredit, nxPrepaid FROM accounts WHERE UPPER(name) = UPPER(?) LIMIT 1",
-    [username]
-  );
-  if (accountRows.length === 0) {
-    console.warn("GTop100 pingback rejected: account not found", { username });
-    return { httpStatus: 404, body: { ok: false, message: "Cuenta no encontrada" } };
-  }
+  // --- Resolución de cuenta: token seguro (nuevo flujo) o username (fallback legacy) ---
+  // Un token válido es exactamente 64 caracteres hexadecimales.
+  const TOKEN_RE = /^[0-9a-f]{64}$/i;
+  let account = null;
+  let resolvedVia = "legacy_username";
 
-  const account = accountRows[0];
+  if (TOKEN_RE.test(username)) {
+    // Flujo nuevo: pingUsername contiene un vote_token
+    const [tokenRows] = await pool.query(
+      `SELECT vt.id AS token_id, vt.account_id, vt.account_name, vt.expires_at, vt.used_at,
+              a.nxCredit, a.nxPrepaid
+       FROM vote_tokens vt
+       JOIN accounts a ON a.id = vt.account_id
+       WHERE vt.token = ? LIMIT 1`,
+      [username]
+    );
+    if (tokenRows.length === 0) {
+      console.warn("GTop100 pingback rejected: vote token not found", { token: username.slice(0, 8) + "..." });
+      return { httpStatus: 404, body: { ok: false, message: "Token de voto no encontrado" } };
+    }
+    const tokenRow = tokenRows[0];
+    if (tokenRow.used_at) {
+      console.warn("GTop100 pingback rejected: vote token already used", { accountId: tokenRow.account_id, tokenId: tokenRow.token_id });
+      return { httpStatus: 200, body: { ok: false, status: "duplicate", message: "Token de voto ya utilizado" } };
+    }
+    if (new Date(tokenRow.expires_at) < new Date()) {
+      console.warn("GTop100 pingback rejected: vote token expired", { accountId: tokenRow.account_id, tokenId: tokenRow.token_id });
+      return { httpStatus: 400, body: { ok: false, message: "Token de voto expirado" } };
+    }
+    account = { id: tokenRow.account_id, name: tokenRow.account_name, nxCredit: tokenRow.nxCredit, nxPrepaid: tokenRow.nxPrepaid, _tokenId: tokenRow.token_id };
+    resolvedVia = "vote_token";
+    console.info("GTop100 pingback: account resolved via secure token", { accountId: account.id, account: account.name });
+  } else {
+    // Flujo legacy: pingUsername es el nombre de cuenta (texto libre)
+    // ADVERTENCIA: propenso a errores con cuentas de nombres similares.
+    const [accountRows] = await pool.query(
+      "SELECT id, name, nxCredit, nxPrepaid FROM accounts WHERE UPPER(name) = UPPER(?) LIMIT 1",
+      [username]
+    );
+    if (accountRows.length === 0) {
+      console.warn("GTop100 pingback rejected: account not found (legacy flow)", { username });
+      return { httpStatus: 404, body: { ok: false, message: "Cuenta no encontrada" } };
+    }
+    account = accountRows[0];
+    console.warn("GTop100 pingback: account resolved via legacy username (inseguro)", { username, accountId: account.id, account: account.name });
+  }
   const [existingRows] = await pool.query(
     "SELECT id FROM gtop100_votes WHERE siteid = ? AND pb_id = ? LIMIT 1",
     [siteid, voteId]
@@ -572,17 +609,41 @@ async function processGTop100VoteEntry(req, entry, sharedFields = {}) {
     ]
   );
 
+  // Obtener id del voto recién insertado y marcar el token como usado
+  const [insertedVoteRows] = await pool.query(
+    "SELECT id FROM gtop100_votes WHERE account_id = ? AND pb_id = ? AND siteid = ? LIMIT 1",
+    [account.id, String(voteId), String(siteid)]
+  );
+  const insertedVoteId = insertedVoteRows[0]?.id || null;
+
+  if (resolvedVia === "vote_token" && account._tokenId) {
+    await pool.query(
+      "UPDATE vote_tokens SET used_at = ?, vote_id = ? WHERE id = ?",
+      [now, insertedVoteId, account._tokenId]
+    );
+  }
+
   if (status === "accepted" && rewardNx > 0) {
     const previousNxCredit = account.nxCredit;
     const [updateResult] = await pool.query(
       `UPDATE accounts SET nxCredit = COALESCE(nxCredit, 0) + ? WHERE id = ?`,
       [rewardNx, account.id]
     );
+
+    // Verificación post-update: consultar saldo real
+    const [verifyRows] = await pool.query(
+      "SELECT id, name, nxCredit, nxPrepaid FROM accounts WHERE id = ? LIMIT 1",
+      [account.id]
+    );
+    const finalNxCredit = verifyRows[0]?.nxCredit ?? null;
+
     const updateLog = {
-      account: username,
+      resolvedVia,
+      account: account.name,
       accountId: account.id,
       previousNxCredit,
       rewardNx,
+      finalNxCredit,
       affectedRows: updateResult.affectedRows,
       changedRows: updateResult.changedRows,
     };
@@ -604,6 +665,46 @@ function getGTop100VoteEntries(req) {
 
   return [flattenVoteEntry(req.body)];
 }
+
+// Genera un token seguro vinculado al account_id del usuario autenticado.
+// El frontend usa este token como pingUsername en la URL de GTop100.
+// Cuando llega el pingback, la API resuelve account_id desde el token
+// en vez de hacer un lookup por nombre (que puede coincidir con cuentas similares).
+app.post("/vote/token", authMiddleware, async (req, res) => {
+  try {
+    const uid = req.user.id;
+    const [accountRows] = await pool.query(
+      "SELECT id, name FROM accounts WHERE id = ? LIMIT 1",
+      [uid]
+    );
+    if (accountRows.length === 0) {
+      return res.status(404).json({ ok: false, message: "Cuenta no encontrada" });
+    }
+    const account = accountRows[0];
+
+    // Invalidar tokens anteriores no usados de este usuario
+    await pool.query(
+      "DELETE FROM vote_tokens WHERE account_id = ? AND used_at IS NULL",
+      [uid]
+    );
+
+    const token = require("crypto").randomBytes(32).toString("hex"); // 64 chars hex
+    const expiresAt = new Date(Date.now() + VOTE_TOKEN_TTL_SECONDS * 1000);
+    const ip = getIpFromRequest(req);
+
+    await pool.query(
+      `INSERT INTO vote_tokens (token, account_id, account_name, ip, expires_at)
+       VALUES (?, ?, ?, ?, ?)`,
+      [token, account.id, account.name, ip, expiresAt]
+    );
+
+    console.info("Vote token created", { accountId: account.id, account: account.name, expiresAt });
+    return res.json({ ok: true, token, account_id: account.id, account_name: account.name, expires_at: expiresAt });
+  } catch (err) {
+    console.error("Error creating vote token:", err);
+    return res.status(500).json({ ok: false, message: "Error generando token de voto" });
+  }
+});
 
 app.all("/vote/gtop100/pingback", async (req, res) => {
   try {
@@ -729,6 +830,31 @@ async function ensureGTop100VotesTable() {
     console.log("gtop100_votes table ensured");
   } catch (err) {
     console.error("Error ensuring gtop100_votes table:", err.message);
+  }
+}
+
+async function ensureVoteTokensTable() {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS vote_tokens (
+        id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        token CHAR(64) NOT NULL,
+        account_id INT UNSIGNED NOT NULL,
+        account_name VARCHAR(64) NOT NULL,
+        ip VARCHAR(45) NOT NULL DEFAULT '',
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        expires_at DATETIME NOT NULL,
+        used_at DATETIME DEFAULT NULL,
+        vote_id INT UNSIGNED DEFAULT NULL,
+        PRIMARY KEY (id),
+        UNIQUE KEY uq_token (token),
+        KEY idx_account (account_id),
+        KEY idx_expires (expires_at)
+      )
+    `);
+    console.log("vote_tokens table ensured");
+  } catch (err) {
+    console.error("Error ensuring vote_tokens table:", err.message);
   }
 }
 
@@ -1692,7 +1818,7 @@ app.post("/password-recovery/reset", async (req, res) => {
 app.get("/account/me", authMiddleware, async (req, res) => {
   try {
     const uid = req.user.id;
-    const [accRows] = await pool.query("SELECT id, name, loggedin, banned FROM accounts WHERE id = ? LIMIT 1", [uid]);
+    const [accRows] = await pool.query("SELECT id, name, loggedin, banned, nxCredit, nxPrepaid FROM accounts WHERE id = ? LIMIT 1", [uid]);
     if (accRows.length === 0) return res.status(404).json({ ok: false, message: "Cuenta no encontrada" });
 
     const account = accRows[0];
@@ -1823,7 +1949,21 @@ app.get("/account/check", authMiddleware, (req, res) => {
 const PORT = process.env.PORT || 3001;
 
 // Ensure web_profiles and start server
-Promise.all([ensureWebProfilesTable(), ensureGTop100VotesTable(), ensurePasswordResetTable(), ensureSocialTables(), ensureNoticiasTable()]).then(() => {
+Promise.all([
+  ensureWebProfilesTable(),
+  ensureGTop100VotesTable(),
+  ensureVoteTokensTable(),
+  ensurePasswordResetTable(),
+  ensureSocialTables(),
+  ensureNoticiasTable(),
+]).then(async () => {
+  // Log de conexión a DB para diagnóstico (sin contraseña)
+  try {
+    const [dbRows] = await pool.query("SELECT DATABASE() AS db");
+    console.log(`[DB] host=${process.env.DB_HOST || "127.0.0.1"} port=${process.env.DB_PORT || 3307} db=${dbRows[0]?.db} user=${process.env.DB_USER || "root"}`);
+  } catch (e) {
+    console.error("[DB] No se pudo obtener database()", e.message);
+  }
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Maple API corriendo en puerto ${PORT}`);
   });
