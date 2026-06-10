@@ -114,7 +114,7 @@ public class Family {
     }
 
     public String getName() {
-        return this.name;
+        return this.name != null ? this.name : "";
     }
 
     public void setMessage(String message, boolean save) {
@@ -132,7 +132,7 @@ public class Family {
     }
 
     public String getMessage() {
-        return preceptsMessage;
+        return preceptsMessage != null ? preceptsMessage : "";
     }
 
     public void addEntry(FamilyEntry entry) {
