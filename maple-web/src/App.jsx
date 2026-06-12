@@ -830,6 +830,55 @@ function stripHtml(value) {
   return String(value || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
+function sanitizeNewsHtml(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  if (!/<[a-z][\s\S]*>/i.test(raw)) {
+    return raw
+      .split(/\n{2,}/)
+      .map((paragraph) => `<p>${paragraph.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>`)
+      .join("");
+  }
+
+  const template = document.createElement("template");
+  template.innerHTML = raw;
+  const allowedTags = new Set(["A", "BR", "EM", "H2", "H3", "H4", "IMG", "LI", "OL", "P", "SPAN", "STRONG", "UL"]);
+  const allowedAttrs = {
+    A: new Set(["href", "target", "rel"]),
+    IMG: new Set(["src", "alt", "title", "width", "height", "loading"]),
+  };
+  const safeUrl = (url) => /^(https?:|mailto:|\/)/i.test(url || "");
+
+  template.content.querySelectorAll("*").forEach((node) => {
+    if (!allowedTags.has(node.tagName)) {
+      node.replaceWith(document.createTextNode(node.textContent || ""));
+      return;
+    }
+
+    [...node.attributes].forEach((attr) => {
+      const name = attr.name.toLowerCase();
+      const tagAttrs = allowedAttrs[node.tagName];
+      if (!tagAttrs?.has(name)) {
+        node.removeAttribute(attr.name);
+        return;
+      }
+      if ((name === "href" || name === "src") && !safeUrl(attr.value)) {
+        node.removeAttribute(attr.name);
+      }
+    });
+
+    if (node.tagName === "A") {
+      node.setAttribute("rel", "noopener noreferrer");
+      if (!node.getAttribute("target")) node.setAttribute("target", "_blank");
+    }
+    if (node.tagName === "IMG" && !node.getAttribute("loading")) {
+      node.setAttribute("loading", "lazy");
+    }
+  });
+
+  return template.innerHTML;
+}
+
 function getNewsShareUrl(news) {
   const baseUrl = window.location.href.split("#")[0];
   return `${baseUrl}#news?slug=${encodeURIComponent(news?.slug || "")}`;
@@ -2891,6 +2940,7 @@ function NewsShareActions({ news, language }) {
 
 function NewsDetail({ language, news, onBack, onOpenNews, relatedNews }) {
   const isSpanish = language === "es";
+  const safeContentHtml = useMemo(() => sanitizeNewsHtml(news.contenido), [news.contenido]);
 
   return (
     <article className="news-detail">
@@ -2907,13 +2957,7 @@ function NewsDetail({ language, news, onBack, onOpenNews, relatedNews }) {
       <h1>{news.titulo}</h1>
       <p className="news-detail__summary">{news.resumen}</p>
       <NewsShareActions news={news} language={language} />
-      <div className="news-detail__content">
-        {String(news.contenido || "")
-          .split(/\n{2,}/)
-          .map((paragraph) => (
-            <p key={paragraph}>{stripHtml(paragraph)}</p>
-          ))}
-      </div>
+      <div className="news-detail__content" dangerouslySetInnerHTML={{ __html: safeContentHtml }} />
       {news.galeria?.length ? (
         <div className="news-detail__gallery">
           {news.galeria.map((image, index) => (
