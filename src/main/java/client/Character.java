@@ -312,6 +312,7 @@ public class Character extends AbstractCharacterObject {
     private ScheduledFuture<?> cpqSchedule = null;
     private ScheduledFuture<?> familyRateExpireTask = null;
     private int familyExpRate = 1, familyDropRate = 1, familyMesoRate = 1;
+    private final Set<BuffStat> familyRateVisualStats = new LinkedHashSet<>();
     private final Lock chrLock = new ReentrantLock(true);
     private final Lock evtLock = new ReentrantLock(true);
     private final Lock petLock = new ReentrantLock(true);
@@ -5014,6 +5015,7 @@ public class Character extends AbstractCharacterObject {
         }
 
         familyRateExpireTask = TimerManager.getInstance().schedule(() -> cancelFamilyEntitlementRate(true), duration);
+        showFamilyRateBuffIcon(exp, drop, multiplier, duration);
         message(entitlementName + " is active for " + (duration / 60000) + " minute(s).");
     }
 
@@ -5032,10 +5034,51 @@ public class Character extends AbstractCharacterObject {
         familyDropRate = 1;
         familyMesoRate = 1;
 
+        cancelFamilyRateBuffIcon();
         updateCouponRates();
 
         if (notify && isLoggedin()) {
             message("Family entitlement bonus has expired.");
+        }
+    }
+
+    private void showFamilyRateBuffIcon(boolean exp, boolean drop, int multiplier, long duration) {
+        if (!isLoggedin() || multiplier != 2) {
+            return;
+        }
+
+        List<Pair<BuffStat, Integer>> statups = new ArrayList<>();
+        if (exp && getBuffedValue(BuffStat.COUPON_EXP2) == null) {
+            statups.add(new Pair<>(BuffStat.COUPON_EXP2, 1));
+            familyRateVisualStats.add(BuffStat.COUPON_EXP2);
+        }
+        if (drop && getBuffedValue(BuffStat.COUPON_DRP2) == null) {
+            statups.add(new Pair<>(BuffStat.COUPON_DRP2, 1));
+            familyRateVisualStats.add(BuffStat.COUPON_DRP2);
+        }
+
+        if (!statups.isEmpty()) {
+            int buffItemId = exp ? ItemId.EXP_COUPON_2X_4H : ItemId.DROP_COUPON_2X_4H;
+            sendPacket(PacketCreator.giveBuff(-buffItemId, (int) duration, statups));
+        }
+    }
+
+    private void cancelFamilyRateBuffIcon() {
+        if (familyRateVisualStats.isEmpty() || !isLoggedin()) {
+            familyRateVisualStats.clear();
+            return;
+        }
+
+        List<BuffStat> statups = new ArrayList<>();
+        for (BuffStat stat : familyRateVisualStats) {
+            if (getBuffedValue(stat) == null) {
+                statups.add(stat);
+            }
+        }
+        familyRateVisualStats.clear();
+
+        if (!statups.isEmpty()) {
+            sendPacket(PacketCreator.cancelBuff(statups));
         }
     }
 
