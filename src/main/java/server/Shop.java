@@ -84,6 +84,11 @@ public class Shop {
     }
 
     public void buy(Client c, short slot, int itemId, short quantity) {
+        if (quantity <= 0) {
+            c.sendPacket(PacketCreator.shopTransaction((byte) 0x6));
+            return;
+        }
+
         ShopItem item = findBySlot(slot);
         if (item != null) {
             if (item.getItemId() != itemId) {
@@ -117,7 +122,7 @@ public class Shop {
             }
 
         } else if (item.getPitch() > 0) {
-            int amount = (int) Math.min((float) item.getPitch() * quantity, Integer.MAX_VALUE);
+            int amount = (int) Math.min((long) item.getPitch() * quantity, Integer.MAX_VALUE);
 
             if (c.getPlayer().getInventory(InventoryType.ETC).countById(ItemId.PERFECT_PITCH) >= amount) {
                 if (InventoryManipulator.checkSpace(c, itemId, quantity, "")) {
@@ -134,6 +139,8 @@ public class Shop {
                 } else {
                     c.sendPacket(PacketCreator.shopTransaction((byte) 3));
                 }
+            } else {
+                c.sendPacket(PacketCreator.shopTransaction((byte) 0xD));
             }
 
         } else if (c.getPlayer().getInventory(InventoryType.CASH).countById(token) != 0) {

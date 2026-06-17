@@ -24,7 +24,7 @@ function action(mode, type, selection) {
         }
     } else if (status == 2) {
         if (selection >= 1 && selection <= cm.itemQuantity(exchangeItem) / 100) {
-            if (!cm.canHold(4310000, selection)) {
+            if (!cm.canHold(4310000, selection, exchangeItem, selection * 100)) {
                 cm.sendOk("Please make some space in ETC tab.");
             } else {
                 cm.gainItem(4310000, selection);
