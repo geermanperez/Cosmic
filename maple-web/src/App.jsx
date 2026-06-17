@@ -54,6 +54,7 @@ const discordUrl = "https://discord.gg/MQmemhMfX";
 const whatsappUrl = "https://chat.whatsapp.com/GKQyubuq4ml8HMrhUTzr7H?s=sw&p=i&ilr=2";
 const gtop100VoteUrl = "https://gtop100.com/MapleStory/server-106094?vote=1";
 const newsPageSize = 6;
+const socialPostsPageSize = 6;
 const emptyNewsForm = {
   id: null,
   titulo: "",
@@ -204,6 +205,9 @@ const translations = {
       topOne: "Top 1",
       topThree: "Top 3",
       topTen: "Top 10",
+      members: "Members",
+      leader: "Leader",
+      guildPoints: "GP",
       staff: "Staff",
       beta: "Beta Tester",
       donor: "Donor",
@@ -477,6 +481,9 @@ const translations = {
       topOne: "Top 1",
       topThree: "Top 3",
       topTen: "Top 10",
+      members: "Miembros",
+      leader: "Lider",
+      guildPoints: "GP",
       staff: "Staff",
       beta: "Beta Tester",
       donor: "Donador",
@@ -720,13 +727,8 @@ const DEFAULT_WEAPON = 1302000;
 const RANKING_TABS = ["level", "fame", "guilds", "bosses"];
 const RANKING_PAGE_SIZE = 12;
 
-// Placeholder-only datasets until the backend exposes /ranking/guilds and /ranking/bosses.
+// Placeholder-only dataset until the backend exposes a boss-clears ranking.
 const rankingEndpointPlaceholders = {
-  guilds: [
-    { id: "guild-latinos", name: "Latinos", level: 5, job: "Guild", guild_name: "120 miembros", fame: 1840 },
-    { id: "guild-ellinia", name: "ElliniaClub", level: 4, job: "Guild", guild_name: "86 miembros", fame: 1320 },
-    { id: "guild-henesys", name: "HenesysCrew", level: 4, job: "Guild", guild_name: "74 miembros", fame: 1185 },
-  ],
   bosses: [
     { id: "boss-zakum", name: "Zakum Hunters", level: 47, job: "Boss clears", guild_name: "Top semanal", fame: 970 },
     { id: "boss-pap", name: "Papulatus Team", level: 31, job: "Boss clears", guild_name: "Top semanal", fame: 720 },
@@ -1027,6 +1029,10 @@ function getPlayerFame(player) {
   return Number.isFinite(fame) && fame > 0 ? fame : null;
 }
 
+function isGuildRankingItem(player) {
+  return player?.type === "guild";
+}
+
 function hasTruthyFlag(player, keys) {
   return keys.some((key) => {
     const value = player?.[key];
@@ -1107,10 +1113,15 @@ function RankingCard({ player, rank, language, text, featured = false, compact =
   const name = getPlayerName(player);
   const guild = getPlayerGuild(player);
   const fame = getPlayerFame(player);
+  const isGuild = isGuildRankingItem(player);
   const displayRank = player?._rankingPosition ?? rank;
   const rankBadges = getRankBadges(displayRank, text);
   const specialBadges = getSpecialBadges(player, text);
   const jobName = getJobName(player?.job, language);
+  const memberCount = Number(player?.member_count ?? player?.level ?? 0);
+  const capacity = Number(player?.capacity ?? 0);
+  const memberLabel = capacity > 0 ? `${memberCount}/${capacity}` : String(memberCount || "-");
+  const leaderName = player?.leader_name || player?.leaderName || "";
 
   return (
     <article className={`ranking-card ranking-card--rank-${Math.min(displayRank, 10)}${featured ? " ranking-card--featured" : ""}${compact ? " ranking-card--compact" : ""}`}>
@@ -1140,10 +1151,20 @@ function RankingCard({ player, rank, language, text, featured = false, compact =
         </div>
 
         <div className="ranking-card__stats">
-          <span><Sparkles size={15} />{text.level} {player?.level ?? "-"}</span>
-          <span><Swords size={15} />{jobName}</span>
-          {guild ? <span><Users size={15} />{guild}</span> : null}
-          {fame ? <span><Heart size={15} />{fame}</span> : null}
+          {isGuild ? (
+            <>
+              <span><Users size={15} />{text.members} {memberLabel}</span>
+              <span><Trophy size={15} />{text.guildPoints} {fame ?? 0}</span>
+              {leaderName ? <span><Crown size={15} />{text.leader} {leaderName}</span> : null}
+            </>
+          ) : (
+            <>
+              <span><Sparkles size={15} />{text.level} {player?.level ?? "-"}</span>
+              <span><Swords size={15} />{jobName}</span>
+              {guild ? <span><Users size={15} />{guild}</span> : null}
+              {fame ? <span><Heart size={15} />{fame}</span> : null}
+            </>
+          )}
         </div>
 
         <div className="ranking-card__badges">
@@ -1157,7 +1178,7 @@ function RankingCard({ player, rank, language, text, featured = false, compact =
           <span><Trophy size={15} />#{displayRank}</span>
         </div>
 
-        {!compact ? (
+        {!compact && !isGuild ? (
           <a className="ranking-card__link" href={getProfileHref(player)}>
             {text.viewProfile}
             <ArrowRight size={16} />
@@ -1277,7 +1298,7 @@ function RankingPage({
       ) : null}
 
       {!loading && players.length === 0 ? (
-        <p className="ranking-empty">{activeTab === "level" || activeTab === "fame" ? text.noResults : text.noModeData}</p>
+        <p className="ranking-empty">{activeTab === "bosses" ? text.noModeData : text.noResults}</p>
       ) : null}
     </section>
   );
@@ -1415,11 +1436,16 @@ function App() {
   const [hashLocation, setHashLocation] = useState(() => window.location.hash);
   const [status, setStatus] = useState(null);
   const [ranking, setRanking] = useState([]);
+  const [guildRanking, setGuildRanking] = useState([]);
   const [rankingLoading, setRankingLoading] = useState(true);
   const [rankingTab, setRankingTab] = useState("level");
   const [rankingSearch, setRankingSearch] = useState("");
   const [rankingPage, setRankingPage] = useState(1);
   const [socialPosts, setSocialPosts] = useState([]);
+  const [socialPostsHasMore, setSocialPostsHasMore] = useState(false);
+  const [socialPostsLoading, setSocialPostsLoading] = useState(false);
+  const [socialPostDateFrom, setSocialPostDateFrom] = useState("");
+  const [socialPostDateTo, setSocialPostDateTo] = useState("");
   const [socialPostForm, setSocialPostForm] = useState({ caption: "", image_url: "", image_name: "" });
   const [socialPostMessage, setSocialPostMessage] = useState("");
   const [commentDrafts, setCommentDrafts] = useState({});
@@ -1428,6 +1454,8 @@ function App() {
   const [publicNewsLoading, setPublicNewsLoading] = useState(false);
   const [publicNewsSearch, setPublicNewsSearch] = useState("");
   const [publicNewsCategory, setPublicNewsCategory] = useState("Todas");
+  const [publicNewsDateFrom, setPublicNewsDateFrom] = useState("");
+  const [publicNewsDateTo, setPublicNewsDateTo] = useState("");
   const [newsCategories, setNewsCategories] = useState([]);
   const [selectedNews, setSelectedNews] = useState(null);
   const [relatedNews, setRelatedNews] = useState([]);
@@ -1544,21 +1572,28 @@ function App() {
     };
 
     const loadRanking = async () => {
-      const url = `${API_URL}/ranking`;
+      const rankingUrl = `${API_URL}/ranking`;
+      const guildRankingUrl = `${API_URL}/ranking/guilds`;
       setRankingLoading(true);
       try {
-        const res = await fetch(url);
-        const data = await res.json();
+        const [rankingRes, guildRankingRes] = await Promise.all([
+          fetch(rankingUrl),
+          fetch(guildRankingUrl),
+        ]);
+        const data = await rankingRes.json();
+        const guildData = await guildRankingRes.json();
 
         if (Array.isArray(data)) {
           setRanking(data);
-          return;
+        } else {
+          setRanking(Array.isArray(data.ranking) ? data.ranking : []);
         }
 
-        setRanking(Array.isArray(data.ranking) ? data.ranking : []);
+        setGuildRanking(Array.isArray(guildData.ranking) ? guildData.ranking : []);
       } catch (error) {
-        console.error(`Error loading ranking from ${url}`, error);
+        console.error(`Error loading ranking from ${rankingUrl}`, error);
         setRanking([]);
+        setGuildRanking([]);
       } finally {
         setRankingLoading(false);
       }
@@ -1569,15 +1604,16 @@ function App() {
   }, [t.messages.serverError]);
 
   useEffect(() => {
-    void loadSocialPosts();
-    // Social feed should refresh when auth changes so liked_by_me is accurate.
-  }, [token]);
+    void loadSocialPosts({ reset: true });
+    // Social feed refreshes when auth or date filters change so liked_by_me and pagination stay accurate.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token, socialPostDateFrom, socialPostDateTo]);
 
   useEffect(() => {
     void loadPublicNews({ reset: true });
-    // Public news reloads when search/category changes.
+    // Public news reloads when search/category/date filters change.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [publicNewsSearch, publicNewsCategory]);
+  }, [publicNewsSearch, publicNewsCategory, publicNewsDateFrom, publicNewsDateTo]);
 
   useEffect(() => {
     void loadNewsCategories();
@@ -1608,13 +1644,27 @@ function App() {
     }, 120);
   }
 
-  async function loadSocialPosts() {
+  async function loadSocialPosts({ reset = false } = {}) {
+    setSocialPostsLoading(true);
     try {
-      const data = await request("/social/posts");
-      setSocialPosts(Array.isArray(data.posts) ? data.posts : []);
+      const offset = reset ? 0 : socialPosts.length;
+      const params = new URLSearchParams({
+        limit: String(socialPostsPageSize),
+        offset: String(offset),
+      });
+      if (socialPostDateFrom) params.set("desde", socialPostDateFrom);
+      if (socialPostDateTo) params.set("hasta", socialPostDateTo);
+
+      const data = await request(`/social/posts?${params.toString()}`);
+      const nextPosts = Array.isArray(data.posts) ? data.posts : [];
+      setSocialPosts((current) => (reset ? nextPosts : [...current, ...nextPosts]));
+      setSocialPostsHasMore(Boolean(data.hasMore));
     } catch (error) {
       console.error("Error loading social posts", error);
-      setSocialPosts([]);
+      if (reset) setSocialPosts([]);
+      setSocialPostsHasMore(false);
+    } finally {
+      setSocialPostsLoading(false);
     }
   }
 
@@ -1630,6 +1680,8 @@ function App() {
       if (publicNewsCategory && !["Todas", "All"].includes(publicNewsCategory)) {
         params.set("categoria", publicNewsCategory);
       }
+      if (publicNewsDateFrom) params.set("desde", publicNewsDateFrom);
+      if (publicNewsDateTo) params.set("hasta", publicNewsDateTo);
 
       const data = await request(`/noticias?${params.toString()}`, { silent: true });
       const nextNews = Array.isArray(data.noticias) ? data.noticias : [];
@@ -1770,7 +1822,7 @@ function App() {
       });
       setSocialPostForm({ caption: "", image_url: "", image_name: "" });
       setSocialPostMessage(language === "es" ? "Post publicado." : "Post published.");
-      await loadSocialPosts();
+      await loadSocialPosts({ reset: true });
     } catch (err) {
       setSocialPostMessage(err.body?.message || err.message || (language === "es" ? "No se pudo publicar." : "Could not publish."));
     }
@@ -1888,7 +1940,7 @@ function App() {
     }
 
     await request(`/social/posts/${postId}/like`, { method: "POST" });
-    await loadSocialPosts();
+    await loadSocialPosts({ reset: true });
   };
 
   const submitSocialComment = async (postId) => {
@@ -1905,7 +1957,7 @@ function App() {
       body: JSON.stringify({ comment }),
     });
     setCommentDrafts((current) => ({ ...current, [postId]: "" }));
-    await loadSocialPosts();
+    await loadSocialPosts({ reset: true });
   };
 
   function acknowledgeUpdateNotice() {
@@ -2176,9 +2228,11 @@ function App() {
 
   const rankingPreview = ranking.length > 0 ? ranking.slice(0, 3) : topPlayersFallback;
   const rankingRows = useMemo(() => {
-    const source = rankingTab === "guilds" || rankingTab === "bosses"
-      ? rankingEndpointPlaceholders[rankingTab]
-      : [...ranking];
+    const source = rankingTab === "guilds"
+      ? [...guildRanking]
+      : rankingTab === "bosses"
+        ? rankingEndpointPlaceholders.bosses
+        : [...ranking];
 
     const sortedSource = rankingTab === "fame"
       ? [...source].sort((a, b) => (getPlayerFame(b) ?? 0) - (getPlayerFame(a) ?? 0))
@@ -2189,7 +2243,7 @@ function App() {
     if (!searchValue) return rankedSource;
 
     return rankedSource.filter((player) => getPlayerName(player).toLowerCase().includes(searchValue));
-  }, [ranking, rankingSearch, rankingTab]);
+  }, [guildRanking, ranking, rankingSearch, rankingTab]);
   const selectedPlayerProfile = useMemo(
     () => (view === "profile" ? findPlayerProfile(ranking, getProfileTargetFromHash()) : null),
     [ranking, view],
@@ -2209,7 +2263,13 @@ function App() {
     destacada: index === 0,
     fecha_publicacion: new Date().toISOString(),
   }));
-  const newsForDisplay = publicNews.length > 0 ? publicNews : fallbackNews;
+  const hasPublicNewsFilters = Boolean(
+    publicNewsSearch.trim() ||
+    publicNewsDateFrom ||
+    publicNewsDateTo ||
+    (publicNewsCategory && !["Todas", "All"].includes(publicNewsCategory)),
+  );
+  const newsForDisplay = publicNews.length > 0 ? publicNews : (hasPublicNewsFilters ? [] : fallbackNews);
   const onlinePlayers =
     status?.onlinePlayers ??
     status?.playersOnline ??
@@ -2414,11 +2474,22 @@ function App() {
                       onCommentChange={(postId, value) => setCommentDrafts((current) => ({ ...current, [postId]: value }))}
                       onImageSelect={handleSocialPostImageFile}
                       onLike={toggleSocialLike}
+                      onLoadMore={() => loadSocialPosts({ reset: false })}
                       onSubmitComment={submitSocialComment}
                       onSubmitPost={submitSocialPost}
+                      onDateFromChange={setSocialPostDateFrom}
+                      onDateToChange={setSocialPostDateTo}
                       onPostChange={handleSocialPostChange}
+                      onResetDateFilter={() => {
+                        setSocialPostDateFrom("");
+                        setSocialPostDateTo("");
+                      }}
                       postForm={socialPostForm}
                       posts={socialPosts}
+                      dateFrom={socialPostDateFrom}
+                      dateTo={socialPostDateTo}
+                      hasMore={socialPostsHasMore}
+                      loading={socialPostsLoading}
                       token={token}
                       message={socialPostMessage}
                       composerRef={socialComposerRef}
@@ -2489,14 +2560,22 @@ function App() {
                     language={language}
                     loading={publicNewsLoading}
                     onCategoryChange={setPublicNewsCategory}
+                    onDateFromChange={setPublicNewsDateFrom}
+                    onDateToChange={setPublicNewsDateTo}
                     onLoadMore={() => loadPublicNews({ reset: false })}
                     onOpenNews={(slug) => {
                       if (String(slug).startsWith("fallback")) return;
                       window.location.hash = `news?slug=${encodeURIComponent(slug)}`;
                     }}
+                    onResetDateFilter={() => {
+                      setPublicNewsDateFrom("");
+                      setPublicNewsDateTo("");
+                    }}
                     onSearchChange={setPublicNewsSearch}
                     search={publicNewsSearch}
                     selectedCategory={publicNewsCategory}
+                    dateFrom={publicNewsDateFrom}
+                    dateTo={publicNewsDateTo}
                     showLoadMore={publicNews.length > 0}
                   />
                 )}
@@ -2829,13 +2908,18 @@ function App() {
 
 function NewsList({
   categories,
+  dateFrom,
+  dateTo,
   hasMore,
   items,
   language,
   loading,
   onCategoryChange,
+  onDateFromChange,
+  onDateToChange,
   onLoadMore,
   onOpenNews,
+  onResetDateFilter,
   onSearchChange,
   search,
   selectedCategory,
@@ -2867,6 +2951,21 @@ function NewsList({
               {category}
             </button>
           ))}
+        </div>
+        <div className="date-range-filter">
+          <label>
+            {isSpanish ? "Desde" : "From"}
+            <input type="date" value={dateFrom} onChange={(event) => onDateFromChange(event.target.value)} />
+          </label>
+          <label>
+            {isSpanish ? "Hasta" : "To"}
+            <input type="date" value={dateTo} onChange={(event) => onDateToChange(event.target.value)} />
+          </label>
+          {(dateFrom || dateTo) ? (
+            <button type="button" onClick={onResetDateFilter}>
+              {isSpanish ? "Limpiar fechas" : "Clear dates"}
+            </button>
+          ) : null}
         </div>
       </div>
 
@@ -3120,10 +3219,18 @@ function getPostAvatarSrc(post) {
 function SocialFeed({
   composerRef,
   commentDrafts,
+  dateFrom,
+  dateTo,
+  hasMore,
   language,
+  loading,
   onCommentChange,
+  onDateFromChange,
+  onDateToChange,
   onImageSelect,
   onLike,
+  onLoadMore,
+  onResetDateFilter,
   onSubmitComment,
   onSubmitPost,
   onPostChange,
@@ -3142,7 +3249,8 @@ function SocialFeed({
         { id: "fallback-1", display_name: "Staff", account_name: "Staff", caption: "Share screenshots, achievements, rare drops, and party moments.", likes: 128, comments_count: 12, comments: [] },
         { id: "fallback-2", display_name: "Ranking", account_name: "Ranking", caption: "Post your progress and let the community follow your climb.", likes: 96, comments_count: 8, comments: [] },
       ];
-  const visiblePosts = posts.length > 0 ? posts.slice(0, 3) : fallbackPosts;
+  const hasDateFilter = Boolean(dateFrom || dateTo);
+  const visiblePosts = posts.length > 0 ? posts : (hasDateFilter ? [] : fallbackPosts);
 
   return (
     <section className="panel home-social-feed">
@@ -3192,6 +3300,22 @@ function SocialFeed({
         </div>
         {message ? <p className="feedback">{message}</p> : null}
       </form>
+
+      <div className="social-feed-filters">
+        <label>
+          {isSpanish ? "Desde" : "From"}
+          <input type="date" value={dateFrom} onChange={(event) => onDateFromChange(event.target.value)} />
+        </label>
+        <label>
+          {isSpanish ? "Hasta" : "To"}
+          <input type="date" value={dateTo} onChange={(event) => onDateToChange(event.target.value)} />
+        </label>
+        {hasDateFilter ? (
+          <button type="button" onClick={onResetDateFilter}>
+            {isSpanish ? "Limpiar fechas" : "Clear dates"}
+          </button>
+        ) : null}
+      </div>
 
       <div className="social-post-feed">
         {visiblePosts.map((post) => {
@@ -3255,6 +3379,16 @@ function SocialFeed({
           );
         })}
       </div>
+
+      {posts.length === 0 && hasDateFilter && !loading ? (
+        <p className="feedback">{isSpanish ? "No hay publicaciones en ese rango de fechas." : "No posts in that date range."}</p>
+      ) : null}
+
+      {posts.length > 0 && hasMore ? (
+        <button type="button" className="button-secondary social-load-more" onClick={onLoadMore} disabled={loading}>
+          {loading ? (isSpanish ? "Cargando..." : "Loading...") : (isSpanish ? "Ver publicaciones anteriores" : "View older posts")}
+        </button>
+      ) : null}
     </section>
   );
 }

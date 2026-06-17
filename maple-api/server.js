@@ -1077,6 +1077,8 @@ app.get("/noticias", async (req, res) => {
     const offset = Math.max(Number(req.query.offset || 0), 0);
     const search = String(req.query.search || "").trim();
     const categoria = String(req.query.categoria || "").trim();
+    const desde = String(req.query.desde || "").trim();
+    const hasta = String(req.query.hasta || "").trim();
     const where = ["estado = 'Publicado'", "fecha_publicacion <= NOW()"];
     const params = [];
 
@@ -1088,6 +1090,18 @@ app.get("/noticias", async (req, res) => {
     if (categoria && categoria !== "Todas" && categoria !== "All") {
       where.push("categoria = ?");
       params.push(categoria);
+    }
+
+    if (desde) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(desde)) return res.status(400).json({ ok: false, message: "Fecha desde invalida." });
+      where.push("fecha_publicacion >= ?");
+      params.push(`${desde} 00:00:00`);
+    }
+
+    if (hasta) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(hasta)) return res.status(400).json({ ok: false, message: "Fecha hasta invalida." });
+      where.push("fecha_publicacion < DATE_ADD(?, INTERVAL 1 DAY)");
+      params.push(`${hasta} 00:00:00`);
     }
 
     const [rows] = await pool.query(
@@ -1328,6 +1342,29 @@ app.get("/status/debug", async (req, res) => {
 app.get("/social/posts", async (req, res) => {
   try {
     const user = getOptionalUser(req);
+    const limit = Math.min(Math.max(Number(req.query.limit || 6), 1), 24);
+    const offset = Math.max(Number(req.query.offset || 0), 0);
+    const desde = String(req.query.desde || "").trim();
+    const hasta = String(req.query.hasta || "").trim();
+    const where = [];
+    const params = [];
+
+    if (desde) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(desde)) return res.status(400).json({ ok: false, message: "Fecha desde invalida." });
+      where.push("sp.created_at >= ?");
+      params.push(`${desde} 00:00:00`);
+    }
+
+    if (hasta) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(hasta)) return res.status(400).json({ ok: false, message: "Fecha hasta invalida." });
+      where.push("sp.created_at < DATE_ADD(?, INTERVAL 1 DAY)");
+      params.push(`${hasta} 00:00:00`);
+    }
+
+    const likedByMeSql = user
+      ? "(SELECT COUNT(*) FROM social_post_likes mine WHERE mine.post_id = sp.id AND mine.account_id = ?) AS liked_by_me"
+      : "0 AS liked_by_me";
+    const queryParams = user ? [user.id, ...params, limit + 1, offset] : [...params, limit + 1, offset];
     const [posts] = await pool.query(`
       SELECT
         sp.id,
@@ -1389,15 +1426,17 @@ app.get("/social/posts", async (req, res) => {
         ) AS hair,
         (SELECT COUNT(*) FROM social_post_likes spl WHERE spl.post_id = sp.id) AS likes,
         (SELECT COUNT(*) FROM social_post_comments spc WHERE spc.post_id = sp.id) AS comments_count,
-        ${user ? "(SELECT COUNT(*) FROM social_post_likes mine WHERE mine.post_id = sp.id AND mine.account_id = ?) AS liked_by_me" : "0 AS liked_by_me"}
+        ${likedByMeSql}
       FROM social_posts sp
       LEFT JOIN accounts a ON sp.account_id = a.id
       LEFT JOIN web_profiles wp ON sp.account_id = wp.account_id
+      ${where.length ? `WHERE ${where.join(" AND ")}` : ""}
       ORDER BY sp.created_at DESC
-      LIMIT 20
-    `, user ? [user.id] : []);
+      LIMIT ? OFFSET ?
+    `, queryParams);
 
-    const postIds = posts.map((post) => post.id);
+    const visiblePosts = posts.slice(0, limit);
+    const postIds = visiblePosts.map((post) => post.id);
     let commentsByPost = new Map();
 
     if (postIds.length > 0) {
@@ -1427,13 +1466,15 @@ app.get("/social/posts", async (req, res) => {
 
     return res.json({
       ok: true,
-      posts: posts.map((post) => ({
+      posts: visiblePosts.map((post) => ({
         ...post,
         likes: Number(post.likes || 0),
         comments_count: Number(post.comments_count || 0),
         liked_by_me: Number(post.liked_by_me || 0) > 0,
         comments: commentsByPost.get(post.id) || [],
       })),
+      hasMore: posts.length > limit,
+      nextOffset: offset + Math.min(posts.length, limit),
     });
   } catch (err) {
     console.error(err);
@@ -1595,6 +1636,58 @@ app.get("/ranking", async (req, res) => {
     return res.status(500).json({
       ok: false,
       message: "No se pudo cargar el ranking.",
+      error: error.message,
+    });
+  }
+});
+
+app.get("/ranking/guilds", async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT
+        g.guildid AS id,
+        g.guildid,
+        g.name,
+        g.GP AS gp,
+        g.capacity,
+        g.leader AS leader_id,
+        leader.name AS leader_name,
+        COUNT(c.id) AS member_count,
+        COALESCE(SUM(c.level), 0) AS total_level,
+        COALESCE(MAX(c.level), 0) AS top_level
+      FROM guilds g
+      LEFT JOIN characters c ON c.guildid = g.guildid AND c.gm = 0
+      LEFT JOIN characters leader ON leader.id = g.leader
+      GROUP BY g.guildid, g.name, g.GP, g.capacity, g.leader, leader.name
+      ORDER BY g.GP DESC, member_count DESC, total_level DESC, g.name ASC
+      LIMIT 50
+    `);
+
+    const ranking = rows.map((row) => ({
+      id: `guild-${row.guildid}`,
+      guildid: row.guildid,
+      type: "guild",
+      name: row.name,
+      job: "Guild",
+      level: Number(row.member_count || 0),
+      fame: Number(row.gp || 0),
+      gp: Number(row.gp || 0),
+      points: Number(row.gp || 0),
+      member_count: Number(row.member_count || 0),
+      capacity: Number(row.capacity || 0),
+      leader_id: row.leader_id,
+      leader_name: row.leader_name || "",
+      total_level: Number(row.total_level || 0),
+      top_level: Number(row.top_level || 0),
+      guild_name: row.leader_name ? `Leader: ${row.leader_name}` : "",
+    }));
+
+    return res.json({ ok: true, rankingVersion: "guilds-v1", ranking });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      ok: false,
+      message: "No se pudo cargar el ranking de guilds.",
       error: error.message,
     });
   }

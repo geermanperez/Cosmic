@@ -680,7 +680,7 @@
 
 .news-toolbar {
   display: grid;
-  grid-template-columns: minmax(240px, 0.65fr) minmax(0, 1fr);
+  grid-template-columns: minmax(220px, 0.58fr) minmax(0, 1fr);
   gap: 12px;
   align-items: center;
 }
@@ -732,6 +732,54 @@
 .news-category-filter button.is-active {
   color: #221307;
   background: linear-gradient(135deg, #ffd76f, #ff8b26);
+}
+
+.date-range-filter,
+.social-feed-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: end;
+  grid-column: 1 / -1;
+}
+
+.date-range-filter label,
+.social-feed-filters label {
+  display: grid;
+  min-width: 150px;
+  gap: 5px;
+  color: #ffd47b;
+  font-size: 0.76rem;
+  font-weight: 1000;
+  text-transform: uppercase;
+}
+
+.date-range-filter input,
+.social-feed-filters input {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  color: #fff8ef;
+  background: rgba(7, 12, 14, 0.74);
+  color-scheme: dark;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.date-range-filter button,
+.social-feed-filters button {
+  min-height: 40px;
+  padding: 0 13px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 12px;
+  color: #f1e1cd;
+  background: rgba(255, 255, 255, 0.08);
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 1000;
+  cursor: pointer;
 }
 
 .news-grid {
@@ -4827,6 +4875,17 @@ button.home-rail-link {
 
 .social-post-feed {
   gap: 14px;
+}
+
+.social-feed-filters {
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.social-load-more {
+  justify-self: center;
+  margin-top: 4px;
 }
 
 .social-post-card--live {
