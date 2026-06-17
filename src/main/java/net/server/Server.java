@@ -321,7 +321,18 @@ public class Server {
     public String[] getInetSocket(Client client, int world, int channel) {
         String remoteIp = client.getRemoteAddress();
 
-        String[] hostAddress = getIP(world, channel).split(":");
+        String channelAddress = getIP(world, channel);
+        if (channelAddress == null || channelAddress.isBlank()) {
+            log.warn("No channel endpoint registered for world {}, channel {}", world, channel);
+            return null;
+        }
+
+        String[] hostAddress = channelAddress.split(":", 2);
+        if (hostAddress.length != 2 || hostAddress[0].isBlank() || hostAddress[1].isBlank()) {
+            log.warn("Invalid channel endpoint '{}' for world {}, channel {}", channelAddress, world, channel);
+            return null;
+        }
+
         if (IpAddresses.isLocalAddress(remoteIp)) {
             hostAddress[0] = YamlConfig.config.server.LOCALHOST;
         } else if (IpAddresses.isLanAddress(remoteIp)) {
@@ -329,8 +340,14 @@ public class Server {
         }
 
         try {
+            int port = Integer.parseInt(hostAddress[1]);
+            if (port < 1 || port > 65535) {
+                log.warn("Invalid channel port '{}' for world {}, channel {}", hostAddress[1], world, channel);
+                return null;
+            }
             return hostAddress;
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
+            log.warn("Invalid channel port '{}' for world {}, channel {}", hostAddress[1], world, channel, e);
             return null;
         }
     }

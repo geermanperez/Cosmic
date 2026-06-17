@@ -98,13 +98,22 @@ public final class CharSelectedHandler extends AbstractPacketHandler {
             return;
         }
 
+        InetAddress channelAddress;
+        int channelPort;
+        try {
+            channelAddress = InetAddress.getByName(socket[0]);
+            channelPort = Integer.parseInt(socket[1]);
+        } catch (UnknownHostException | NumberFormatException e) {
+            log.warn("Unable to resolve channel socket {}:{} for account {}, character {}, world {}, channel {}",
+                    socket[0], socket[1], c.getAccID(), charId, c.getWorld(), c.getChannel(), e);
+            c.sendPacket(PacketCreator.getAfterLoginError(10));
+            return;
+        }
+
+        log.info("Sending character {} from account {} to world {}, channel {}, endpoint {}:{}",
+                charId, c.getAccID(), c.getWorld(), c.getChannel(), channelAddress.getHostAddress(), channelPort);
         server.unregisterLoginState(c);
         c.setCharacterOnSessionTransitionState(charId);
-
-        try {
-            c.sendPacket(PacketCreator.getServerIP(InetAddress.getByName(socket[0]), Integer.parseInt(socket[1]), charId));
-        } catch (UnknownHostException | NumberFormatException e) {
-            e.printStackTrace();
-        }
+        c.sendPacket(PacketCreator.getServerIP(channelAddress, channelPort, charId));
     }
 }

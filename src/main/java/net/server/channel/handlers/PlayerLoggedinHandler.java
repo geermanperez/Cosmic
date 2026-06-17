@@ -116,12 +116,16 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
 
         if (!c.tryacquireClient()) {
             // thanks MedicOP for assisting on concurrency protection here
+            log.warn("Rejected channel login for character {} from {}: client lock unavailable", cid, c.getRemoteAddress());
             c.sendPacket(PacketCreator.getAfterLoginError(10));
+            return;
         }
 
         try {
             World wserv = server.getWorld(c.getWorld());
             if (wserv == null) {
+                log.warn("Rejected channel login for character {} from {}: world {} is unavailable",
+                        cid, c.getRemoteAddress(), c.getWorld());
                 c.disconnect(true, false);
                 return;
             }
@@ -132,6 +136,8 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
                 cserv = wserv.getChannel(c.getChannel());
 
                 if (cserv == null) {
+                    log.warn("Rejected channel login for character {} from {}: channel {} is unavailable in world {}",
+                            cid, c.getRemoteAddress(), c.getChannel(), c.getWorld());
                     c.disconnect(true, false);
                     return;
                 }
@@ -143,6 +149,8 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
             if (player == null) {
                 hwid = SessionCoordinator.getInstance().pickLoginSessionHwid(c);
                 if (hwid == null) {
+                    log.warn("Rejected channel login for character {} from {}: no pending transition HWID",
+                            cid, c.getRemoteAddress());
                     c.disconnect(true, false);
                     return;
                 }
@@ -153,6 +161,8 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
             c.setHwid(hwid);
 
             if (!server.validateCharacteridInTransition(c, cid)) {
+                log.warn("Rejected channel login for character {} from {}: character was not in transition for world {}, channel {}",
+                        cid, c.getRemoteAddress(), c.getWorld(), c.getChannel());
                 c.disconnect(true, false);
                 return;
             }
@@ -167,6 +177,8 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
                 }
 
                 if (player == null) { //If you are still getting null here then please just uninstall the game >.>, we dont need you fucking with the logs
+                    log.warn("Rejected channel login for character {} from {}: character could not be loaded",
+                            cid, c.getRemoteAddress());
                     c.disconnect(true, false);
                     return;
                 }
@@ -197,6 +209,8 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
                 try {
                     int state = c.getLoginState();
                     if (state != Client.LOGIN_SERVER_TRANSITION || !allowLogin) {
+                        log.warn("Rejected channel login for character {} from {}: account {} state {}, allowLogin {}",
+                                cid, c.getRemoteAddress(), accId, state, allowLogin);
                         c.setPlayer(null);
                         c.setAccID(0);
 
@@ -213,6 +227,8 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
                     releaseAccount(accId);
                 }
             } else {
+                log.warn("Rejected channel login for character {} from {}: account {} already entering game",
+                        cid, c.getRemoteAddress(), accId);
                 c.setPlayer(null);
                 c.setAccID(0);
                 c.sendPacket(PacketCreator.getAfterLoginError(10));
