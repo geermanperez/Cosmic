@@ -1778,7 +1778,7 @@ function App() {
       console.error("[vote] Could not load vote status", error);
       setVoteStatus(null);
       setVoteRemainingSeconds(0);
-      setVoteMessage(language === "es" ? "No se pudo verificar el estado de voto. IntentÃ¡ nuevamente." : "Could not verify vote status. Please try again.");
+      setVoteMessage(language === "es" ? "No se pudo verificar el estado de voto. Intentá nuevamente." : "Could not verify vote status. Please try again.");
     } finally {
       setVoteStatusLoading(false);
     }
@@ -1821,7 +1821,7 @@ function App() {
         return;
       }
       console.error("[vote] Token endpoint failed", err);
-      setVoteMessage(language === "es" ? "No se pudo iniciar el voto. IntentÃ¡ nuevamente." : "Could not start voting. Please try again.");
+      setVoteMessage(language === "es" ? "No se pudo iniciar el voto. Intentá nuevamente." : "Could not start voting. Please try again.");
     } finally {
       setVoteStarting(false);
     }
@@ -2413,14 +2413,14 @@ function App() {
                 type="button"
                 onClick={handleVoteNx}
                 disabled={voteStatusLoading || voteStarting || !voteStatus?.canVote}
-                title={!voteStatus?.canVote ? (language === "es" ? "EsperÃ¡ el cooldown de 24 horas" : "Wait for the 24-hour cooldown") : undefined}
+                title={!voteStatus?.canVote ? (language === "es" ? "Esperá el cooldown de 24 horas" : "Wait for the 24-hour cooldown") : undefined}
               >
                 {voteStatusLoading
                   ? (language === "es" ? "Verificando voto..." : "Checking vote...")
                   : voteStarting
                     ? (language === "es" ? "Iniciando voto..." : "Starting vote...")
                     : !voteStatus?.canVote
-                      ? (language === "es" ? `PodrÃ¡s votar en ${formatVoteRemaining(voteRemainingSeconds)}` : `Vote in ${formatVoteRemaining(voteRemainingSeconds)}`)
+                      ? (language === "es" ? `Podrás votar en ${formatVoteRemaining(voteRemainingSeconds)}` : `Vote in ${formatVoteRemaining(voteRemainingSeconds)}`)
                       : t.nav.voteNx}
               </button>
             ) : null}
@@ -2438,9 +2438,9 @@ function App() {
                 <span>{language === "es" ? "Reloj de voto" : "Vote clock"}</span>
                 <strong>{voteStatus.canVote ? (language === "es" ? "Disponible ahora" : "Available now") : formatVoteRemaining(voteRemainingSeconds)}</strong>
                 {!voteStatus.canVote ? (
-                  <small>{language === "es" ? `PrÃ³ximo voto: ${formatVoteNextAt(voteStatus.nextVoteAt, language)}` : `Next vote: ${formatVoteNextAt(voteStatus.nextVoteAt, language)}`}</small>
+                  <small>{language === "es" ? `Próximo voto: ${formatVoteNextAt(voteStatus.nextVoteAt, language)}` : `Next vote: ${formatVoteNextAt(voteStatus.nextVoteAt, language)}`}</small>
                 ) : (
-                  <small>{language === "es" ? "PodÃ©s votar ahora y recibir NX." : "You can vote now and receive NX."}</small>
+                  <small>{language === "es" ? "Podés votar ahora y recibir NX." : "You can vote now and receive NX."}</small>
                 )}
               </div>
               <div className="vote-status-panel__total">
@@ -2449,7 +2449,7 @@ function App() {
                 <small>{language === "es" ? "Tu total acumulado" : "Your accumulated total"}</small>
               </div>
               {!voteStatus.canVote ? (
-                <p>{language === "es" ? "PodÃ©s votar una vez cada 24 horas. El botón se habilitará automáticamente cuando se cumpla el tiempo desde tu último voto aceptado." : "You can vote once every 24 hours. The button will enable automatically after 24 hours from your last accepted vote."}</p>
+                <p>{language === "es" ? "Podés votar una vez cada 24 horas. El botón se habilitará automáticamente cuando se cumpla el tiempo desde tu último voto aceptado." : "You can vote once every 24 hours. The button will enable automatically after 24 hours from your last accepted vote."}</p>
               ) : null}
             </div>
           ) : null}
