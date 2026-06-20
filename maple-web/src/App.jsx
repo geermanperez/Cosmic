@@ -784,19 +784,23 @@ function getResetTokenFromHash() {
   return new URLSearchParams(queryString).get("token") || "";
 }
 
-function getAccountNameFromToken(token) {
-  try {
-    const payload = token?.split(".")[1];
-    if (!payload) return "";
-    const normalizedPayload = payload.replace(/-/g, "+").replace(/_/g, "/");
-    const paddedPayload = normalizedPayload.padEnd(
-      normalizedPayload.length + ((4 - (normalizedPayload.length % 4)) % 4),
-      "=",
-    );
-    return JSON.parse(window.atob(paddedPayload))?.name || "";
-  } catch {
-    return "";
-  }
+function formatVoteRemaining(remainingSeconds) {
+  const totalSeconds = Math.max(0, Number(remainingSeconds) || 0);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  return `${String(hours).padStart(2, "0")}h ${String(minutes).padStart(2, "0")}m ${String(seconds).padStart(2, "0")}s`;
+}
+
+function formatVoteNextAt(nextVoteAt, language) {
+  if (!nextVoteAt) return "";
+  const date = new Date(nextVoteAt);
+  if (Number.isNaN(date.getTime())) return "";
+  return new Intl.DateTimeFormat(language === "es" ? "es-AR" : "en-US", {
+    dateStyle: "short",
+    timeStyle: "medium",
+    timeZone: "America/Argentina/Catamarca",
+  }).format(date);
 }
 
 function getInitialLanguage() {
@@ -1505,6 +1509,11 @@ function App() {
   const [adminOnlinePlayers, setAdminOnlinePlayers] = useState([]);
   const [loadingAdmin, setLoadingAdmin] = useState(false);
   const [showUpdateNotice, setShowUpdateNotice] = useState(shouldShowUpdateNotice);
+  const [voteStatus, setVoteStatus] = useState(null);
+  const [voteRemainingSeconds, setVoteRemainingSeconds] = useState(0);
+  const [voteStatusLoading, setVoteStatusLoading] = useState(false);
+  const [voteStarting, setVoteStarting] = useState(false);
+  const [voteMessage, setVoteMessage] = useState("");
 
   const countryOptions = useMemo(() => {
     const regionNames = new Intl.DisplayNames([language], { type: "region" });
@@ -1557,6 +1566,32 @@ function App() {
     // loadAccount reads the latest auth/profile state and should only rerun on route/token changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view, token]);
+
+  useEffect(() => {
+    if (!token) return;
+    void loadVoteStatus();
+    // The status is refreshed whenever the authenticated account changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
+
+  useEffect(() => {
+    if (!token || voteStatus?.canVote || voteRemainingSeconds <= 0) return undefined;
+
+    const intervalId = window.setInterval(() => {
+      setVoteRemainingSeconds((current) => {
+        if (current <= 1) {
+          window.clearInterval(intervalId);
+          void loadVoteStatus();
+          return 0;
+        }
+        return current - 1;
+      });
+    }, 1000);
+
+    return () => window.clearInterval(intervalId);
+    // The API remains the source of truth when the visual counter reaches zero.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token, voteStatus?.canVote, voteRemainingSeconds > 0]);
 
   useEffect(() => {
     const loadStatus = async () => {
@@ -1732,8 +1767,26 @@ function App() {
     }
   }
 
+  async function loadVoteStatus() {
+    setVoteStatusLoading(true);
+    try {
+      const data = await request("/vote/status", { silent: true });
+      setVoteStatus(data);
+      setVoteRemainingSeconds(Math.max(0, Number(data?.remainingSeconds) || 0));
+      setVoteMessage("");
+    } catch (error) {
+      console.error("[vote] Could not load vote status", error);
+      setVoteStatus(null);
+      setVoteRemainingSeconds(0);
+      setVoteMessage(language === "es" ? "No se pudo verificar el estado de voto. IntentÃ¡ nuevamente." : "Could not verify vote status. Please try again.");
+    } finally {
+      setVoteStatusLoading(false);
+    }
+  }
+
   async function handleVoteNx() {
     setLoginMessage("");
+    setVoteMessage("");
 
     if (!token) {
       setLoginMessage(t.messages.voteLoginRequired);
@@ -1741,8 +1794,11 @@ function App() {
       return;
     }
 
+    if (voteStatusLoading || voteStarting || !voteStatus?.canVote) return;
+
     // Obtener un token seguro del servidor vinculado al account_id real del usuario autenticado.
     // Esto evita que se acrediten NX a una cuenta equivocada por usernames similares.
+    setVoteStarting(true);
     try {
       const data = await request("/vote/token", { method: "POST" });
       if (!data?.ok || !data?.token) {
@@ -1752,16 +1808,22 @@ function App() {
       const voteUrl = `${gtop100VoteUrl}&pingUsername=${encodeURIComponent(data.token)}`;
       window.open(voteUrl, "_blank", "noopener,noreferrer");
     } catch (err) {
-      // Si la API no esta disponible, fallback al nombre de cuenta (flujo legacy)
-      console.warn("[vote] Token endpoint failed, falling back to account name", err);
-      const accountName = accountData?.name || getAccountNameFromToken(token);
-      if (!accountName) {
-        setLoginMessage(t.messages.voteLoginRequired);
-        goToView("login");
+      if (err.status === 429 && err.body?.code === "VOTE_COOLDOWN") {
+        setVoteStatus((current) => ({
+          ...current,
+          success: true,
+          canVote: false,
+          nextVoteAt: err.body.nextVoteAt,
+          remainingSeconds: err.body.remainingSeconds,
+        }));
+        setVoteRemainingSeconds(Math.max(0, Number(err.body.remainingSeconds) || 0));
+        setVoteMessage(err.body.message);
         return;
       }
-      const voteUrl = `${gtop100VoteUrl}&pingUsername=${encodeURIComponent(accountName)}`;
-      window.open(voteUrl, "_blank", "noopener,noreferrer");
+      console.error("[vote] Token endpoint failed", err);
+      setVoteMessage(language === "es" ? "No se pudo iniciar el voto. IntentÃ¡ nuevamente." : "Could not start voting. Please try again.");
+    } finally {
+      setVoteStarting(false);
     }
   }
 
@@ -2347,8 +2409,19 @@ function App() {
               {t.nav.download}
             </button>
             {token ? (
-              <button type="button" onClick={handleVoteNx}>
-                {t.nav.voteNx}
+              <button
+                type="button"
+                onClick={handleVoteNx}
+                disabled={voteStatusLoading || voteStarting || !voteStatus?.canVote}
+                title={!voteStatus?.canVote ? (language === "es" ? "EsperÃ¡ el cooldown de 24 horas" : "Wait for the 24-hour cooldown") : undefined}
+              >
+                {voteStatusLoading
+                  ? (language === "es" ? "Verificando voto..." : "Checking vote...")
+                  : voteStarting
+                    ? (language === "es" ? "Iniciando voto..." : "Starting vote...")
+                    : !voteStatus?.canVote
+                      ? (language === "es" ? `PodrÃ¡s votar en ${formatVoteRemaining(voteRemainingSeconds)}` : `Vote in ${formatVoteRemaining(voteRemainingSeconds)}`)
+                      : t.nav.voteNx}
               </button>
             ) : null}
             <button
@@ -2359,6 +2432,28 @@ function App() {
               {token ? t.nav.account : t.nav.login}
             </button>
           </nav>
+          {token && !voteStatusLoading && voteStatus ? (
+            <div className="vote-status-panel" role="status" aria-live="polite">
+              <div className="vote-status-panel__clock">
+                <span>{language === "es" ? "Reloj de voto" : "Vote clock"}</span>
+                <strong>{voteStatus.canVote ? (language === "es" ? "Disponible ahora" : "Available now") : formatVoteRemaining(voteRemainingSeconds)}</strong>
+                {!voteStatus.canVote ? (
+                  <small>{language === "es" ? `PrÃ³ximo voto: ${formatVoteNextAt(voteStatus.nextVoteAt, language)}` : `Next vote: ${formatVoteNextAt(voteStatus.nextVoteAt, language)}`}</small>
+                ) : (
+                  <small>{language === "es" ? "PodÃ©s votar ahora y recibir NX." : "You can vote now and receive NX."}</small>
+                )}
+              </div>
+              <div className="vote-status-panel__total">
+                <span>{language === "es" ? "Votos aceptados" : "Accepted votes"}</span>
+                <strong>{Number(voteStatus.totalVotes) || 0}</strong>
+                <small>{language === "es" ? "Tu total acumulado" : "Your accumulated total"}</small>
+              </div>
+              {!voteStatus.canVote ? (
+                <p>{language === "es" ? "PodÃ©s votar una vez cada 24 horas. El botón se habilitará automáticamente cuando se cumpla el tiempo desde tu último voto aceptado." : "You can vote once every 24 hours. The button will enable automatically after 24 hours from your last accepted vote."}</p>
+              ) : null}
+            </div>
+          ) : null}
+          {token && voteMessage ? <div className="vote-cooldown-notice vote-cooldown-notice--message" role="status">{voteMessage}</div> : null}
         </div>
       </header>
 
@@ -3784,6 +3879,37 @@ function AccountPanel({
                         ))}
                       </div>
                     </div>
+                  </div>
+                  <div className="admin-list-container admin-vote-ranking">
+                    <div className="admin-vote-ranking__head">
+                      <div>
+                        <h4>{language === "es" ? "Ranking de votos" : "Vote ranking"}</h4>
+                        <p>{language === "es" ? "Solo votos aceptados; usá este total para premios." : "Accepted votes only; use these totals for rewards."}</p>
+                      </div>
+                      <span>{language === "es" ? "Top 100" : "Top 100"}</span>
+                    </div>
+                    {(adminStats.voteRanking || []).length === 0 ? (
+                      <p>{language === "es" ? "Todavía no hay votos aceptados para mostrar." : "There are no accepted votes to show yet."}</p>
+                    ) : (
+                      <div className="admin-vote-ranking__table" role="table" aria-label={language === "es" ? "Ranking de votos aceptados" : "Accepted vote ranking"}>
+                        <div className="admin-vote-ranking__row admin-vote-ranking__row--head" role="row">
+                          <span>#</span>
+                          <span>{language === "es" ? "Cuenta" : "Account"}</span>
+                          <span>{language === "es" ? "Votos" : "Votes"}</span>
+                          <span>NX</span>
+                          <span>{language === "es" ? "Último voto" : "Last vote"}</span>
+                        </div>
+                        {adminStats.voteRanking.map((vote, index) => (
+                          <div key={vote.account_id} className="admin-vote-ranking__row" role="row">
+                            <span>{index + 1}</span>
+                            <span><strong>{vote.account_name}</strong><small>ID #{vote.account_id}</small></span>
+                            <span>{Number(vote.accepted_votes) || 0}</span>
+                            <span>{(Number(vote.total_reward_nx) || 0).toLocaleString()}</span>
+                            <span>{formatVoteNextAt(vote.last_accepted_vote, language) || "-"}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </>
               )}

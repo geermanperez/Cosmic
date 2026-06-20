@@ -56,7 +56,7 @@ const pool = mysql.createPool({
 const VOTE_BASE_NX = Number(process.env.VOTE_BASE_NX || 500);
 const VOTE_WEEKLY_BONUS_NX = Number(process.env.VOTE_WEEKLY_BONUS_NX || 1000);
 const VOTE_MONTHLY_BONUS_NX = Number(process.env.VOTE_MONTHLY_BONUS_NX || 5000);
-const VOTE_DAILY_SECONDS = Number(process.env.VOTE_DAILY_SECONDS || 86400);
+const VOTE_COOLDOWN_MS = 24 * 60 * 60 * 1000;
 const VOTE_STREAK_RESET_SECONDS = Number(process.env.VOTE_STREAK_RESET_SECONDS || 172800);
 const GTOP100_PINGBACK_KEY = process.env.GTOP100_PINGBACK_KEY || "";
 const VOTE_TOKEN_TTL_SECONDS = Number(process.env.VOTE_TOKEN_TTL_SECONDS || 3600); // 1 hora
@@ -108,6 +108,39 @@ function hashPasswordResetToken(token) {
 
 function getPasswordResetUrl(token) {
   return `${PUBLIC_SITE_URL}/#reset-password?token=${encodeURIComponent(token)}`;
+}
+
+// `vote_time` is a MySQL TIMESTAMP. Asking MySQL for its Unix epoch keeps the
+// comparison independent from the Node process or database session timezone.
+async function getVoteCooldownStatus(accountId) {
+  const [rows] = await pool.query(
+    `SELECT UNIX_TIMESTAMP(vote_time) * 1000 AS last_accepted_vote_ms
+     FROM gtop100_votes
+     WHERE account_id = ? AND status = 'accepted'
+     ORDER BY vote_time DESC
+     LIMIT 1`,
+    [accountId]
+  );
+
+  const lastAcceptedVoteMs = Number(rows[0]?.last_accepted_vote_ms);
+  if (!Number.isFinite(lastAcceptedVoteMs)) {
+    return {
+      canVote: true,
+      lastAcceptedVote: null,
+      nextVoteAt: null,
+      remainingSeconds: 0,
+    };
+  }
+
+  const nextVoteAtMs = lastAcceptedVoteMs + VOTE_COOLDOWN_MS;
+  const remainingSeconds = Math.max(0, Math.ceil((nextVoteAtMs - Date.now()) / 1000));
+
+  return {
+    canVote: remainingSeconds === 0,
+    lastAcceptedVote: new Date(lastAcceptedVoteMs).toISOString(),
+    nextVoteAt: new Date(nextVoteAtMs).toISOString(),
+    remainingSeconds,
+  };
 }
 
 function createMailTransport() {
@@ -528,7 +561,11 @@ async function processGTop100VoteEntry(req, entry, sharedFields = {}) {
 
   const now = new Date();
   const [lastVoteRows] = await pool.query(
-    `SELECT * FROM gtop100_votes WHERE account_id = ? AND success = 0 ORDER BY vote_time DESC LIMIT 1`,
+    `SELECT *, UNIX_TIMESTAMP(vote_time) * 1000 AS vote_time_ms
+     FROM gtop100_votes
+     WHERE account_id = ? AND status = 'accepted'
+     ORDER BY vote_time DESC
+     LIMIT 1`,
     [account.id]
   );
   const lastVote = lastVoteRows[0] || null;
@@ -546,8 +583,8 @@ async function processGTop100VoteEntry(req, entry, sharedFields = {}) {
     totalVotes = lastVote.total_votes || 0;
     lastWeeklyReward = lastVote.last_weekly_reward;
     lastMonthlyReward = lastVote.last_monthly_reward;
-    const ageSeconds = (now.getTime() - new Date(lastVote.vote_time).getTime()) / 1000;
-    if (ageSeconds < VOTE_DAILY_SECONDS) {
+    const ageSeconds = (now.getTime() - Number(lastVote.vote_time_ms)) / 1000;
+    if (ageSeconds < VOTE_COOLDOWN_MS / 1000) {
       votedWithinDay = true;
       streak = lastVote.streak || 0;
     } else if (ageSeconds <= VOTE_STREAK_RESET_SECONDS) {
@@ -682,6 +719,18 @@ app.post("/vote/token", authMiddleware, async (req, res) => {
     }
     const account = accountRows[0];
 
+    const cooldown = await getVoteCooldownStatus(account.id);
+    if (!cooldown.canVote) {
+      return res.status(429).json({
+        success: false,
+        ok: false,
+        code: "VOTE_COOLDOWN",
+        message: "TodavÃ­a no pasaron 24 horas desde tu Ãºltimo voto.",
+        nextVoteAt: cooldown.nextVoteAt,
+        remainingSeconds: cooldown.remainingSeconds,
+      });
+    }
+
     // Invalidar tokens anteriores no usados de este usuario
     await pool.query(
       "DELETE FROM vote_tokens WHERE account_id = ? AND used_at IS NULL",
@@ -754,6 +803,7 @@ app.all("/vote/gtop100/pingback", async (req, res) => {
 app.get("/vote/status", authMiddleware, async (req, res) => {
   try {
     const uid = req.user.id;
+    const cooldown = await getVoteCooldownStatus(uid);
     const [latestRows] = await pool.query(
       `SELECT vote_time, streak, total_votes
        FROM gtop100_votes
@@ -764,21 +814,12 @@ app.get("/vote/status", authMiddleware, async (req, res) => {
     );
     const latest = latestRows[0] || null;
     const now = new Date();
-    let alreadyVotedToday = false;
-    let nextVoteInSeconds = 0;
     let streak = 0;
     let totalVotes = 0;
-    let lastVoteTime = null;
 
     if (latest) {
-      lastVoteTime = new Date(latest.vote_time);
       streak = latest.streak || 0;
       totalVotes = latest.total_votes || 0;
-      const elapsed = (now.getTime() - lastVoteTime.getTime()) / 1000;
-      if (elapsed < VOTE_DAILY_SECONDS) {
-        alreadyVotedToday = true;
-        nextVoteInSeconds = Math.max(0, VOTE_DAILY_SECONDS - Math.floor(elapsed));
-      }
     }
 
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -791,12 +832,15 @@ app.get("/vote/status", authMiddleware, async (req, res) => {
     const nxThisMonth = monthRows[0]?.nx_this_month || 0;
 
     return res.json({
+      success: true,
       ok: true,
-      alreadyVotedToday,
-      nextVoteInSeconds,
+      ...cooldown,
+      rewardNx: VOTE_BASE_NX,
+      alreadyVotedToday: !cooldown.canVote,
+      nextVoteInSeconds: cooldown.remainingSeconds,
       currentStreak: streak,
       nxGainedThisMonthApprox: nxThisMonth,
-      lastVoteTime,
+      lastVoteTime: cooldown.lastAcceptedVote,
       totalVotes,
     });
   } catch (err) {
@@ -1047,6 +1091,20 @@ app.get("/admin/stats", authMiddleware, adminMiddleware, async (req, res) => {
     stats.latestAccounts = (await pool.query("SELECT id, name FROM accounts ORDER BY id DESC LIMIT 5"))[0];
     stats.latestCharacters = (await pool.query("SELECT id, name, level, job FROM characters ORDER BY id DESC LIMIT 5"))[0];
     stats.onlineList = await loadOnlinePlayers();
+    stats.voteRanking = (await pool.query(`
+      SELECT
+        v.account_id,
+        a.name AS account_name,
+        COUNT(*) AS accepted_votes,
+        COALESCE(SUM(v.reward_nx), 0) AS total_reward_nx,
+        MAX(v.vote_time) AS last_accepted_vote
+      FROM gtop100_votes v
+      INNER JOIN accounts a ON a.id = v.account_id
+      WHERE v.status = 'accepted'
+      GROUP BY v.account_id, a.name
+      ORDER BY accepted_votes DESC, last_accepted_vote DESC, v.account_id ASC
+      LIMIT 100
+    `))[0];
 
     res.json({ ok: true, stats });
   } catch (err) {
