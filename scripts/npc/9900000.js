@@ -68,30 +68,24 @@ function action(mode, type, selection) {
 				hairnew = selection == 2 ? maleHair2 : femaleHair2;
 			else if (selection == 3 || selection == 6)
 				hairnew = selection == 3 ? maleHair3 : femaleHair3;
-            hairnew = filterCosmetics(hairnew);
             cm.sendStyle("Choose a style!\r\nThere are " + hairnew.length + " styles to choose from.", hairnew);
         } else if (selection == 7) {
 			var setHairToBlack = setBlack(cm.getPlayer().getHair(), true);
 			haircolor = range(setHairToBlack, setHairToBlack + 7, 1);
-            haircolor = filterCosmetics(haircolor);
             cm.sendStyle("Which color?", haircolor);
-			
+
         } else if (selection == 8 || selection == 9) {
 			facenew = selection == 8 ? maleFace : femaleFace;
-            facenew = filterCosmetics(facenew);
             cm.sendStyle("Choose a style!\r\nThere are " + facenew.length + " styles to choose from.", facenew);
 		} else if (selection == 10 || selection == 11) {
 			facenew = selection == 10 ? maleFace2 : femaleFace2;
-            facenew = filterCosmetics(facenew);
             cm.sendStyle("Choose a style!\r\nThere are " + facenew.length + " styles to choose from.", facenew);
 		} else if (selection == 12) {
 			facenew = specialFace;
-            facenew = filterCosmetics(facenew);
             cm.sendStyle("Choose a style!\r\nThere are " + facenew.length + " styles to choose from.", facenew);
         } else if (selection == 13) {
 			var setEyeToBlack = setBlack(cm.getPlayer().getFace(), false);
 			eyecolors = range(setEyeToBlack, setEyeToBlack + 800, 100);
-            eyecolors = filterCosmetics(eyecolors);
             cm.sendStyle("Which color?", eyecolors);
 		}
     } else if (status == 2) {
@@ -124,26 +118,6 @@ function filterSkins(styles) {
         }
     }
     return filtered;
-}
-
-function filterCosmetics(styles) {
-    var filtered = new Array();
-    for (var i = 0; i < styles.length; i++) {
-        var itemid = cm.getCosmeticItem(styles[i]);
-        if (itemid != -1 && !cm.isCosmeticEquipped(itemid) && !contains(filtered, itemid)) {
-            filtered.push(itemid);
-        }
-    }
-    return filtered.length > 0 ? filtered : styles;
-}
-
-function contains(styles, itemid) {
-    for (var i = 0; i < styles.length; i++) {
-        if (styles[i] == itemid) {
-            return true;
-        }
-    }
-    return false;
 }
 
 function setBlack(id, hair) {
