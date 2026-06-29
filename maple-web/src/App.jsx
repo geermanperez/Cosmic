@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+﻿import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   AtSign,
@@ -43,7 +43,7 @@ import "./App.css";
 import { API_URL, getToken, saveToken, request } from "./apiClient";
 
 const downloadUrl =
-  "https://drive.google.com/file/d/1EoiMS9gUzMtnpqUDRgq-RnY0kAY6klx5/view?usp=sharing";
+  "https://drive.google.com/file/d/1EpJqn0SKdwXl5rHrPmMhtUfKo91V3LAJ/view?usp=sharing";
 const updateDownloadUrl =
   "https://drive.google.com/file/d/1MO9nkQUnwGjgMrNGaBcGgw2i1BtbM2fs/view?usp=sharing";
 const updateNoticeStorageKey = "latinms-visual-patch-notice-2026-06-05";
@@ -90,7 +90,7 @@ const translations = {
       online: "Server ONLINE",
       offline: "Server OFFLINE",
       playersOnline: "Players online",
-      rates: "2x Mesos · 2x Drops · 5x Quests",
+      rates: "2x Mesos Â· 2x Drops Â· 5x Quests",
       version: "Server version",
     },
     community: {
@@ -366,7 +366,7 @@ const translations = {
       online: "Servidor EN LINEA",
       offline: "Servidor FUERA DE LINEA",
       playersOnline: "Jugadores en linea",
-      rates: "2x Mesos · 2x Drops · 5x Quests",
+      rates: "2x Mesos Â· 2x Drops Â· 5x Quests",
       version: "Version del servidor",
     },
     community: {
@@ -1778,7 +1778,7 @@ function App() {
       console.error("[vote] Could not load vote status", error);
       setVoteStatus(null);
       setVoteRemainingSeconds(0);
-      setVoteMessage(language === "es" ? "No se pudo verificar el estado de voto. Intentá nuevamente." : "Could not verify vote status. Please try again.");
+      setVoteMessage(language === "es" ? "No se pudo verificar el estado de voto. IntentÃ¡ nuevamente." : "Could not verify vote status. Please try again.");
     } finally {
       setVoteStatusLoading(false);
     }
@@ -1821,7 +1821,7 @@ function App() {
         return;
       }
       console.error("[vote] Token endpoint failed", err);
-      setVoteMessage(language === "es" ? "No se pudo iniciar el voto. Intentá nuevamente." : "Could not start voting. Please try again.");
+      setVoteMessage(language === "es" ? "No se pudo iniciar el voto. IntentÃ¡ nuevamente." : "Could not start voting. Please try again.");
     } finally {
       setVoteStarting(false);
     }
@@ -2413,14 +2413,14 @@ function App() {
                 type="button"
                 onClick={handleVoteNx}
                 disabled={voteStatusLoading || voteStarting || !voteStatus?.canVote}
-                title={!voteStatus?.canVote ? (language === "es" ? "Esperá el cooldown de 24 horas" : "Wait for the 24-hour cooldown") : undefined}
+                title={!voteStatus?.canVote ? (language === "es" ? "EsperÃ¡ el cooldown de 24 horas" : "Wait for the 24-hour cooldown") : undefined}
               >
                 {voteStatusLoading
                   ? (language === "es" ? "Verificando voto..." : "Checking vote...")
                   : voteStarting
                     ? (language === "es" ? "Iniciando voto..." : "Starting vote...")
                     : !voteStatus?.canVote
-                      ? (language === "es" ? `Podrás votar en ${formatVoteRemaining(voteRemainingSeconds)}` : `Vote in ${formatVoteRemaining(voteRemainingSeconds)}`)
+                      ? (language === "es" ? `PodrÃ¡s votar en ${formatVoteRemaining(voteRemainingSeconds)}` : `Vote in ${formatVoteRemaining(voteRemainingSeconds)}`)
                       : t.nav.voteNx}
               </button>
             ) : null}
@@ -2438,9 +2438,9 @@ function App() {
                 <span>{language === "es" ? "Reloj de voto" : "Vote clock"}</span>
                 <strong>{voteStatus.canVote ? (language === "es" ? "Disponible ahora" : "Available now") : formatVoteRemaining(voteRemainingSeconds)}</strong>
                 {!voteStatus.canVote ? (
-                  <small>{language === "es" ? `Próximo voto: ${formatVoteNextAt(voteStatus.nextVoteAt, language)}` : `Next vote: ${formatVoteNextAt(voteStatus.nextVoteAt, language)}`}</small>
+                  <small>{language === "es" ? `PrÃ³ximo voto: ${formatVoteNextAt(voteStatus.nextVoteAt, language)}` : `Next vote: ${formatVoteNextAt(voteStatus.nextVoteAt, language)}`}</small>
                 ) : (
-                  <small>{language === "es" ? "Podés votar ahora y recibir NX." : "You can vote now and receive NX."}</small>
+                  <small>{language === "es" ? "PodÃ©s votar ahora y recibir NX." : "You can vote now and receive NX."}</small>
                 )}
               </div>
               <div className="vote-status-panel__total">
@@ -2449,7 +2449,7 @@ function App() {
                 <small>{language === "es" ? "Tu total acumulado" : "Your accumulated total"}</small>
               </div>
               {!voteStatus.canVote ? (
-                <p>{language === "es" ? "Podés votar una vez cada 24 horas. El botón se habilitará automáticamente cuando se cumpla el tiempo desde tu último voto aceptado." : "You can vote once every 24 hours. The button will enable automatically after 24 hours from your last accepted vote."}</p>
+                <p>{language === "es" ? "PodÃ©s votar una vez cada 24 horas. El botÃ³n se habilitarÃ¡ automÃ¡ticamente cuando se cumpla el tiempo desde tu Ãºltimo voto aceptado." : "You can vote once every 24 hours. The button will enable automatically after 24 hours from your last accepted vote."}</p>
               ) : null}
             </div>
           ) : null}
@@ -3288,7 +3288,7 @@ function AdminNewsManager({
           <article key={item.id} className="admin-news-row">
             <img src={item.imagen_principal} alt="" />
             <div>
-              <span>{item.estado} · {item.categoria} · {formatNewsDate(item.fecha_publicacion, language)}</span>
+              <span>{item.estado} Â· {item.categoria} Â· {formatNewsDate(item.fecha_publicacion, language)}</span>
               <strong>{item.titulo}</strong>
               <small>{item.destacada ? (isSpanish ? "Destacada" : "Featured") : ""} {item.vistas || 0} vistas</small>
             </div>
@@ -3699,14 +3699,14 @@ function AccountPanel({
               {characters.length === 0 ? (
                 <div className="vote-account-warning" style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.25)", borderRadius: "8px", padding: "12px 16px", marginTop: "12px", fontSize: "0.875rem", color: "var(--text-secondary, #9ca3af)" }}>
                   {language === "es"
-                    ? "⚠️ Esta cuenta no tiene personajes creados. Los NX votados se acreditarán a esta cuenta, pero solo los verás en el Cash Shop cuando ingreses con un personaje asociado a ella."
-                    : "⚠️ This account has no characters. Vote NX will be credited here, but you will only see it in the Cash Shop when you log in with a character linked to this account."}
+                    ? "âš ï¸ Esta cuenta no tiene personajes creados. Los NX votados se acreditarÃ¡n a esta cuenta, pero solo los verÃ¡s en el Cash Shop cuando ingreses con un personaje asociado a ella."
+                    : "âš ï¸ This account has no characters. Vote NX will be credited here, but you will only see it in the Cash Shop when you log in with a character linked to this account."}
                 </div>
               ) : (
                 <div className="vote-account-info" style={{ background: "rgba(16,185,129,0.06)", border: "1px solid rgba(16,185,129,0.2)", borderRadius: "8px", padding: "10px 16px", marginTop: "12px", fontSize: "0.875rem", color: "var(--text-secondary, #9ca3af)" }}>
                   {language === "es"
-                    ? `✅ Al votar, los NX se acreditarán a la cuenta "${accountData?.name}" (ID #${accountData?.id}), que tiene ${characters.length} personaje${characters.length !== 1 ? "s" : ""} asociado${characters.length !== 1 ? "s" : ""}.`
-                    : `✅ When voting, NX will be credited to account "${accountData?.name}" (ID #${accountData?.id}), which has ${characters.length} associated character${characters.length !== 1 ? "s" : ""}.`}
+                    ? `âœ… Al votar, los NX se acreditarÃ¡n a la cuenta "${accountData?.name}" (ID #${accountData?.id}), que tiene ${characters.length} personaje${characters.length !== 1 ? "s" : ""} asociado${characters.length !== 1 ? "s" : ""}.`
+                    : `âœ… When voting, NX will be credited to account "${accountData?.name}" (ID #${accountData?.id}), which has ${characters.length} associated character${characters.length !== 1 ? "s" : ""}.`}
                 </div>
               )}
 
@@ -3884,12 +3884,12 @@ function AccountPanel({
                     <div className="admin-vote-ranking__head">
                       <div>
                         <h4>{language === "es" ? "Ranking de votos" : "Vote ranking"}</h4>
-                        <p>{language === "es" ? "Solo votos aceptados; usá este total para premios." : "Accepted votes only; use these totals for rewards."}</p>
+                        <p>{language === "es" ? "Solo votos aceptados; usÃ¡ este total para premios." : "Accepted votes only; use these totals for rewards."}</p>
                       </div>
                       <span>{language === "es" ? "Top 100" : "Top 100"}</span>
                     </div>
                     {(adminStats.voteRanking || []).length === 0 ? (
-                      <p>{language === "es" ? "Todavía no hay votos aceptados para mostrar." : "There are no accepted votes to show yet."}</p>
+                      <p>{language === "es" ? "TodavÃ­a no hay votos aceptados para mostrar." : "There are no accepted votes to show yet."}</p>
                     ) : (
                       <div className="admin-vote-ranking__table" role="table" aria-label={language === "es" ? "Ranking de votos aceptados" : "Accepted vote ranking"}>
                         <div className="admin-vote-ranking__row admin-vote-ranking__row--head" role="row">
@@ -3897,7 +3897,7 @@ function AccountPanel({
                           <span>{language === "es" ? "Cuenta" : "Account"}</span>
                           <span>{language === "es" ? "Votos" : "Votes"}</span>
                           <span>NX</span>
-                          <span>{language === "es" ? "Último voto" : "Last vote"}</span>
+                          <span>{language === "es" ? "Ãšltimo voto" : "Last vote"}</span>
                         </div>
                         {adminStats.voteRanking.map((vote, index) => (
                           <div key={vote.account_id} className="admin-vote-ranking__row" role="row">
