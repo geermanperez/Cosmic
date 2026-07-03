@@ -518,6 +518,7 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
                             map.broadcastMessage(PacketCreator.damageMonster(monster.getObjectId(), totDamageToOneMonster));
                         }
 
+                        totDamageToOneMonster = applyAranDamageBalance(player, attack.skill, totDamageToOneMonster);
                         map.damageMonster(player, monster, totDamageToOneMonster, target.getValue().delay());
                     }
                     if (monster.isBuffed(MonsterStatus.WEAPON_REFLECT) && !attack.magic) {
@@ -543,6 +544,34 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static int applyAranDamageBalance(Character player, int skillId, int damage) {
+        if (damage <= 0 || !player.isAran()) {
+            return damage;
+        }
+
+        if (skillId == Aran.COMBO_TEMPEST || skillId == Aran.BODY_PRESSURE) {
+            return damage;
+        }
+
+        int jobId = player.getJob().getId();
+        double multiplier;
+
+        if (jobId >= 2112) {
+            multiplier = 1.25;
+        } else if (jobId >= 2111) {
+            multiplier = 1.20;
+        } else if (jobId >= 2110) {
+            multiplier = 1.15;
+        } else if (jobId >= 2100) {
+            multiplier = 1.10;
+        } else {
+            multiplier = 1.0;
+        }
+
+        long balancedDamage = Math.round(damage * multiplier);
+        return balancedDamage > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) balancedDamage;
     }
 
     private static void damageMonsterWithSkill(final Character attacker, final MapleMap map, final Monster monster,
