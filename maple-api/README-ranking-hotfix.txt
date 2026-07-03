@@ -1,1 +1,0 @@
-Ranking hotfix: incluir donadores en ranking web con gm menor a 3 y mantener staff oculto.
