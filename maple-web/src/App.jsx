@@ -90,7 +90,7 @@ const translations = {
       online: "Server ONLINE",
       offline: "Server OFFLINE",
       playersOnline: "Players online",
-      rates: "2x Mesos Â· 2x Drops Â· 5x Quests",
+      rates: "2x Mesos \u00B7 2x Drops \u00B7 5x Quests",
       version: "Server version",
     },
     community: {
@@ -366,7 +366,7 @@ const translations = {
       online: "Servidor EN LINEA",
       offline: "Servidor FUERA DE LINEA",
       playersOnline: "Jugadores en linea",
-      rates: "2x Mesos Â· 2x Drops Â· 5x Quests",
+      rates: "2x Mesos \u00B7 2x Drops \u00B7 5x Quests",
       version: "Version del servidor",
     },
     community: {
@@ -3288,7 +3288,7 @@ function AdminNewsManager({
           <article key={item.id} className="admin-news-row">
             <img src={item.imagen_principal} alt="" />
             <div>
-              <span>{item.estado} Â· {item.categoria} Â· {formatNewsDate(item.fecha_publicacion, language)}</span>
+              <span>{item.estado} {"\u00B7"} {item.categoria} {"\u00B7"} {formatNewsDate(item.fecha_publicacion, language)}</span>
               <strong>{item.titulo}</strong>
               <small>{item.destacada ? (isSpanish ? "Destacada" : "Featured") : ""} {item.vistas || 0} vistas</small>
             </div>

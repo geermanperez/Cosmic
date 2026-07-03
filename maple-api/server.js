@@ -1611,7 +1611,7 @@ app.post("/social/posts/:id/comments", authMiddleware, async (req, res) => {
 app.get("/ranking", async (req, res) => {
   try {
     const { job, country } = req.query;
-    const where = ["c.gm = 0"];
+    const where = ["c.gm < 3"];
     const params = [];
 
     if (job && job !== "all") {

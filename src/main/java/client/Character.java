@@ -1145,6 +1145,17 @@ public class Character extends AbstractCharacterObject {
         }, 777);
     }
 
+    private void grantShadowerCustomSkills(Job newJob) {
+        if (newJob != Job.SHADOWER) {
+            return;
+        }
+
+        Skill shadowPartner = SkillFactory.getSkill(Hermit.SHADOW_PARTNER);
+        if (getSkillLevel(shadowPartner) < 30 || getMasterLevel(shadowPartner) < 30) {
+            changeSkillLevel(shadowPartner, (byte) 30, 30, -1);
+        }
+    }
+
     public synchronized void changeJob(Job newJob) {
         if (newJob == null) {
             return;//the fuck you doing idiot!
@@ -1174,6 +1185,8 @@ public class Character extends AbstractCharacterObject {
         if (spGain > 0) {
             gainSp(spGain, GameConstants.getSkillBook(newJob.getId()), true);
         }
+
+        grantShadowerCustomSkills(newJob);
 
         // thanks xinyifly for finding out missing AP awards (AP Reset can be used as a compass)
         if (newJob.getId() % 100 >= 1) {
