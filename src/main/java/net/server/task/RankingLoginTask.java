@@ -1,8 +1,8 @@
 /*
-	This file is part of the OdinMS Maple Story Server
+ 	This file is part of the OdinMS Maple Story Server
     Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
-		       Matthias Butz <matze@odinms.de>
-		       Jan Christian Meyer <vimes@odinms.de>
+ 		       Matthias Butz <matze@odinms.de>
+ 		       Jan Christian Meyer <vimes@odinms.de>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -18,7 +18,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 package net.server.task;
 
 import client.Job;
@@ -48,7 +48,8 @@ public class RankingLoginTask implements Runnable {
     }
 
     private void updateRanking(int job, int world) throws SQLException {
-        String sqlCharSelect = "SELECT c.id, " + (job != -1 ? "c.jobRank, c.jobRankMove" : "c.`rank`, c.rankMove") + ", a.lastlogin AS lastlogin, a.loggedin FROM characters AS c LEFT JOIN accounts AS a ON c.accountid = a.id WHERE c.gm < 2 AND c.world = ? ";
+        // Include donor ranks in the public ranking while keeping higher staff/GM ranks hidden.
+        String sqlCharSelect = "SELECT c.id, " + (job != -1 ? "c.jobRank, c.jobRankMove" : "c.`rank`, c.rankMove") + ", a.lastlogin AS lastlogin, a.loggedin FROM characters AS c LEFT JOIN accounts AS a ON c.accountid = a.id WHERE c.gm < 3 AND c.world = ? ";
         if (job != -1) {
             sqlCharSelect += "AND c.job DIV 100 = ? ";
         }
