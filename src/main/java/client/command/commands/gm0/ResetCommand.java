@@ -32,15 +32,17 @@ import tools.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ResetCommand extends Command {
-    private static final int RESET_REQUIRED_LEVEL = 255;
+    private static final int RESET_REQUIRED_LEVEL = 200;
     private static final int RESET_COST = 50000000;
+    private static final int RESET_AP_REWARD = 500;
     private static final int BEGINNER_JOB_ID = 0;
 
     {
-        setDescription("Reset level to 1 Beginner for 50,000,000 mesos.");
+        setDescription("Reset level to 1 Beginner and gain 500 AP for 50,000,000 mesos.");
     }
 
     @Override
@@ -48,7 +50,7 @@ public class ResetCommand extends Command {
         Character player = c.getPlayer();
 
         if (player.getLevel() < RESET_REQUIRED_LEVEL) {
-            player.message("Necesitas ser nivel 255 para usar @reset.");
+            player.message("Necesitas ser nivel 200 para usar @reset.");
             return;
         }
 
@@ -59,7 +61,8 @@ public class ResetCommand extends Command {
         }
 
         int newMeso = currentMeso - RESET_COST;
-        if (!persistReset(player.getId(), newMeso)) {
+        ResetResult resetResult = persistReset(player.getId(), newMeso);
+        if (!resetResult.success) {
             player.message("No se pudo completar el reset. Intentalo de nuevo en unos segundos.");
             return;
         }
@@ -68,24 +71,80 @@ public class ResetCommand extends Command {
         player.setLevel(1);
         player.setJob(Job.BEGINNER);
         player.setExp(0);
+        player.gainAp(resetResult.remainingAp - player.getRemainingAp(), true);
         player.updateSingleStat(Stat.LEVEL, 1);
         player.updateSingleStat(Stat.JOB, BEGINNER_JOB_ID);
         player.updateSingleStat(Stat.EXP, 0);
-        player.message("Reset realizado correctamente. Volviste a nivel 1 Beginner conservando tus stats, skills y teclado.");
+        player.updateSingleStat(Stat.AVAILABLEAP, resetResult.remainingAp);
+        player.message("Reset realizado correctamente. Volviste a nivel 1 Beginner y tenes " + resetResult.remainingAp + " puntos para repartir.");
     }
 
-    private boolean persistReset(int characterId, int newMeso) {
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement("UPDATE characters SET level = ?, job = ?, exp = ?, meso = ? WHERE id = ?")) {
-            ps.setInt(1, 1);
-            ps.setInt(2, BEGINNER_JOB_ID);
-            ps.setInt(3, 0);
-            ps.setInt(4, newMeso);
-            ps.setInt(5, characterId);
-            return ps.executeUpdate() == 1;
+    private ResetResult persistReset(int characterId, int newMeso) {
+        try (Connection con = DatabaseConnection.getConnection()) {
+            con.setAutoCommit(false);
+            try {
+                int reborns;
+                try (PreparedStatement select = con.prepareStatement("SELECT reborns FROM characters WHERE id = ? FOR UPDATE")) {
+                    select.setInt(1, characterId);
+                    try (ResultSet rs = select.executeQuery()) {
+                        if (!rs.next()) {
+                            con.rollback();
+                            return ResetResult.failure();
+                        }
+                        reborns = rs.getInt("reborns");
+                    }
+                }
+
+                if (reborns >= Integer.MAX_VALUE / RESET_AP_REWARD) {
+                    con.rollback();
+                    return ResetResult.failure();
+                }
+
+                int newReborns = reborns + 1;
+                int newRemainingAp = newReborns * RESET_AP_REWARD;
+                try (PreparedStatement ps = con.prepareStatement("UPDATE characters SET level = ?, job = ?, exp = ?, meso = ?, ap = ?, reborns = ? WHERE id = ?")) {
+                    ps.setInt(1, 1);
+                    ps.setInt(2, BEGINNER_JOB_ID);
+                    ps.setInt(3, 0);
+                    ps.setInt(4, newMeso);
+                    ps.setInt(5, newRemainingAp);
+                    ps.setInt(6, newReborns);
+                    ps.setInt(7, characterId);
+                    if (ps.executeUpdate() != 1) {
+                        con.rollback();
+                        return ResetResult.failure();
+                    }
+                }
+
+                con.commit();
+                return ResetResult.success(newRemainingAp);
+            } catch (SQLException e) {
+                con.rollback();
+                throw e;
+            } finally {
+                con.setAutoCommit(true);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return ResetResult.failure();
+        }
+    }
+
+    private static class ResetResult {
+        private final boolean success;
+        private final int remainingAp;
+
+        private ResetResult(boolean success, int remainingAp) {
+            this.success = success;
+            this.remainingAp = remainingAp;
+        }
+
+        private static ResetResult success(int remainingAp) {
+            return new ResetResult(true, remainingAp);
+        }
+
+        private static ResetResult failure() {
+            return new ResetResult(false, 0);
         }
     }
 }
