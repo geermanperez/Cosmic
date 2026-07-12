@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="20260712-donor-expiration" author="ChatGPT">
+        <sql>
+            ALTER TABLE accounts
+                ADD COLUMN donor_until DATETIME NULL,
+                ADD INDEX idx_accounts_donor_until (donor_until);
+        </sql>
+        <rollback>
+            ALTER TABLE accounts DROP INDEX idx_accounts_donor_until;
+            ALTER TABLE accounts DROP COLUMN donor_until;
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

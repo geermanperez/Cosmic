@@ -291,6 +291,10 @@ const translations = {
       topOneBadge: "Top 1 ranking",
       topRankBadge: "Top ranking",
       noBio: "No bio yet. Add one so other players can know you.",
+      donorBadge: "Donor",
+      donorStatus: "Donor status",
+      donorActiveUntil: "Active until",
+      donorInactive: "Inactive",
       socialLinks: "Social links",
       mainCharacter: "Main character",
       level: "Level",
@@ -308,6 +312,12 @@ const translations = {
       players: "Players",
       latestAccounts: "Latest accounts",
       latestCharacters: "Latest characters",
+      activeDonors: "Active donors",
+      donorAdminTitle: "Donor role",
+      donorAccountId: "Account ID",
+      donorDays: "Days to add",
+      donorGrant: "Add donor days",
+      donorRemove: "Remove donor",
     },
     sidebar: {
       shortcuts: "Shortcuts",
@@ -567,6 +577,10 @@ const translations = {
       topOneBadge: "Top 1 ranking",
       topRankBadge: "Top ranking",
       noBio: "Todavia no tienes bio. Agrega una para que otros jugadores te conozcan.",
+      donorBadge: "Donador",
+      donorStatus: "Estado donador",
+      donorActiveUntil: "Activo hasta",
+      donorInactive: "Inactivo",
       socialLinks: "Enlaces sociales",
       mainCharacter: "Personaje principal",
       level: "Nivel",
@@ -584,6 +598,12 @@ const translations = {
       players: "Jugadores",
       latestAccounts: "Ultimas cuentas",
       latestCharacters: "Ultimos personajes",
+      activeDonors: "Donadores activos",
+      donorAdminTitle: "Rol donador",
+      donorAccountId: "ID de cuenta",
+      donorDays: "Dias a sumar",
+      donorGrant: "Sumar dias donador",
+      donorRemove: "Quitar donador",
     },
     sidebar: {
       shortcuts: "Accesos",
@@ -799,6 +819,17 @@ function formatVoteNextAt(nextVoteAt, language) {
   return new Intl.DateTimeFormat(language === "es" ? "es-AR" : "en-US", {
     dateStyle: "short",
     timeStyle: "medium",
+    timeZone: "America/Argentina/Catamarca",
+  }).format(date);
+}
+
+function formatDonorUntil(value, language) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  return new Intl.DateTimeFormat(language === "es" ? "es-AR" : "en-US", {
+    dateStyle: "medium",
+    timeStyle: "short",
     timeZone: "America/Argentina/Catamarca",
   }).format(date);
 }
@@ -1503,6 +1534,8 @@ function App() {
     newPassword: "",
     confirmPassword: "",
   });
+  const [donorForm, setDonorForm] = useState({ accountId: "", days: "30" });
+  const [donorAdminMessage, setDonorAdminMessage] = useState("");
   const [accountMessage, setAccountMessage] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminStats, setAdminStats] = useState(null);
@@ -2273,6 +2306,38 @@ function App() {
     setPasswordForm((current) => ({ ...current, [event.target.name]: event.target.value }));
   };
 
+  const handleDonorFormChange = (event) => {
+    setDonorForm((current) => ({ ...current, [event.target.name]: event.target.value }));
+  };
+
+  const submitDonorGrant = async (event) => {
+    event.preventDefault();
+    setDonorAdminMessage("");
+    try {
+      const data = await request(`/admin/accounts/${encodeURIComponent(donorForm.accountId)}/donor`, {
+        method: "POST",
+        body: JSON.stringify({ days: Number(donorForm.days || 30) }),
+      });
+      setDonorAdminMessage(data.message || (language === "es" ? "Donador actualizado." : "Donor updated."));
+      await loadAccount();
+    } catch (err) {
+      setDonorAdminMessage(err.body?.message || err.message || (language === "es" ? "No se pudo actualizar el donador." : "Could not update donor."));
+    }
+  };
+
+  const removeDonor = async () => {
+    setDonorAdminMessage("");
+    try {
+      const data = await request(`/admin/accounts/${encodeURIComponent(donorForm.accountId)}/donor`, {
+        method: "DELETE",
+      });
+      setDonorAdminMessage(data.message || (language === "es" ? "Donador removido." : "Donor removed."));
+      await loadAccount();
+    } catch (err) {
+      setDonorAdminMessage(err.body?.message || err.message || (language === "es" ? "No se pudo remover el donador." : "Could not remove donor."));
+    }
+  };
+
   const submitPassword = async (event) => {
     event.preventDefault();
     setAccountMessage("");
@@ -2837,7 +2902,10 @@ function App() {
                 adminStats={adminStats}
                 characters={characters}
                 deleteAdminNews={deleteAdminNews}
+                donorAdminMessage={donorAdminMessage}
+                donorForm={donorForm}
                 editAdminNews={editAdminNews}
+                handleDonorFormChange={handleDonorFormChange}
                 handleLogout={handleLogout}
                 handleAdminGalleryImage={handleAdminGalleryImage}
                 handleAdminNewsChange={handleAdminNewsChange}
@@ -2852,7 +2920,9 @@ function App() {
                 ranking={ranking}
                 setAccountTab={setAccountTab}
                 resetAdminNewsForm={resetAdminNewsForm}
+                removeDonor={removeDonor}
                 submitAdminNews={submitAdminNews}
+                submitDonorGrant={submitDonorGrant}
                 submitPassword={submitPassword}
                 submitProfile={submitProfile}
                 adminOnlinePlayers={adminOnlinePlayers}
@@ -3553,6 +3623,7 @@ function SocialAccountProfile({ accountData, characters, isAdmin, profileForm, r
             <span><BadgeCheck size={15} />{text.youBadge}</span>
             {bestRank === 1 ? <span><Crown size={15} />{text.topOneBadge}</span> : null}
             {bestRank && bestRank > 1 && bestRank <= 10 ? <span><Trophy size={15} />#{bestRank} {text.topRankBadge}</span> : null}
+            {accountData?.is_donor ? <span><BadgeCheck size={15} />{text.donorBadge}</span> : null}
             {isAdmin ? <span><ShieldCheck size={15} />Staff</span> : null}
           </div>
 
@@ -3590,7 +3661,10 @@ function AccountPanel({
   adminStats,
   characters,
   deleteAdminNews,
+  donorAdminMessage,
+  donorForm,
   editAdminNews,
+  handleDonorFormChange,
   handleLogout,
   handleAdminGalleryImage,
   handleAdminNewsChange,
@@ -3605,8 +3679,10 @@ function AccountPanel({
   profileForm,
   ranking,
   resetAdminNewsForm,
+  removeDonor,
   setAccountTab,
   submitAdminNews,
+  submitDonorGrant,
   submitPassword,
   submitProfile,
   text,
@@ -3693,6 +3769,14 @@ function AccountPanel({
                 <div>
                   <span>Banned</span>
                   <strong>{accountData?.banned ?? "-"}</strong>
+                </div>
+                <div>
+                  <span>{text.donorStatus}</span>
+                  <strong>{accountData?.is_donor ? text.donorBadge : text.donorInactive}</strong>
+                </div>
+                <div>
+                  <span>{text.donorActiveUntil}</span>
+                  <strong>{formatDonorUntil(accountData?.donor_until, language) || "-"}</strong>
                 </div>
               </div>
 
@@ -3837,14 +3921,34 @@ function AccountPanel({
                       <strong>{adminStats.normalCharacters}</strong>
                       <span>{text.players}</span>
                     </article>
+                    <article className="metric-card">
+                      <strong>{adminStats.activeDonors || 0}</strong>
+                      <span>{text.activeDonors}</span>
+                    </article>
                   </div>
+                  <form className="form-card" onSubmit={submitDonorGrant}>
+                    <h4>{text.donorAdminTitle}</h4>
+                    <label>
+                      {text.donorAccountId}
+                      <input name="accountId" value={donorForm.accountId} onChange={handleDonorFormChange} placeholder="123" />
+                    </label>
+                    <label>
+                      {text.donorDays}
+                      <input type="number" min="1" max="365" name="days" value={donorForm.days} onChange={handleDonorFormChange} />
+                    </label>
+                    <div className="auth-actions">
+                      <button type="submit" className="button-primary">{text.donorGrant}</button>
+                      <button type="button" className="button-secondary" onClick={removeDonor}>{text.donorRemove}</button>
+                    </div>
+                    {donorAdminMessage ? <p className="feedback">{donorAdminMessage}</p> : null}
+                  </form>
                   <div className="split-grid admin-split">
                     <div className="admin-list-container">
                       <h4>{text.latestAccounts}</h4>
                       <div className="ranking-list">
                         {adminStats.latestAccounts.map((account) => (
                           <div key={account.id} className="ranking-row ranking-row--compact">
-                            <span>ID: {account.id} - <strong>{account.name}</strong></span>
+                            <span>ID: {account.id} - <strong>{account.name}</strong>{account.is_donor ? ` - ${text.donorBadge}` : ""}</span>
                           </div>
                         ))}
                       </div>

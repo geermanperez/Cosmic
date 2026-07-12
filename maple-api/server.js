@@ -247,6 +247,24 @@ async function ensureWebProfilesTable() {
   }
 }
 
+async function ensureAccountDonorColumns() {
+  try {
+    await pool.query("ALTER TABLE accounts ADD COLUMN donor_until DATETIME NULL");
+  } catch (err) {
+    if (err.code !== "ER_DUP_FIELDNAME") {
+      console.error("Error adding accounts.donor_until:", err.message);
+    }
+  }
+
+  try {
+    await pool.query("ALTER TABLE accounts ADD INDEX idx_accounts_donor_until (donor_until)");
+  } catch (err) {
+    if (err.code !== "ER_DUP_KEYNAME" && err.code !== "ER_DUP_FIELDNAME") {
+      console.error("Error adding idx_accounts_donor_until:", err.message);
+    }
+  }
+}
+
 function slugify(value) {
   return String(value || "")
     .normalize("NFD")
@@ -1085,10 +1103,20 @@ app.get("/admin/stats", authMiddleware, adminMiddleware, async (req, res) => {
       stats.gmCharacters = gms[0].total;
     } else stats.gmCharacters = 0;
 
+    stats.activeDonors = (await pool.query("SELECT COUNT(*) AS total FROM accounts WHERE donor_until IS NOT NULL AND donor_until > NOW()"))[0][0].total;
     stats.normalCharacters = stats.totalCharacters - stats.gmCharacters;
 
     // Listas (sin datos sensibles)
-    stats.latestAccounts = (await pool.query("SELECT id, name FROM accounts ORDER BY id DESC LIMIT 5"))[0];
+    stats.latestAccounts = (await pool.query(`
+      SELECT
+        id,
+        name,
+        donor_until,
+        donor_until IS NOT NULL AND donor_until > NOW() AS is_donor
+      FROM accounts
+      ORDER BY id DESC
+      LIMIT 5
+    `))[0];
     stats.latestCharacters = (await pool.query("SELECT id, name, level, job FROM characters ORDER BY id DESC LIMIT 5"))[0];
     stats.onlineList = await loadOnlinePlayers();
     stats.voteRanking = (await pool.query(`
@@ -1110,6 +1138,70 @@ app.get("/admin/stats", authMiddleware, adminMiddleware, async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ ok: false, message: "No se pudieron cargar las estadísticas.", error: err.message });
+  }
+});
+
+app.post("/admin/accounts/:id/donor", authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const accountId = Number(req.params.id);
+    const days = Number(req.body.days || 30);
+
+    if (!Number.isInteger(accountId) || accountId <= 0) {
+      return res.status(400).json({ ok: false, message: "Cuenta invalida." });
+    }
+
+    if (!Number.isInteger(days) || days < 1 || days > 365) {
+      return res.status(400).json({ ok: false, message: "Los dias deben estar entre 1 y 365." });
+    }
+
+    const [updateResult] = await pool.query(
+      `UPDATE accounts
+       SET donor_until = DATE_ADD(CASE WHEN donor_until IS NOT NULL AND donor_until > NOW() THEN donor_until ELSE NOW() END, INTERVAL ? DAY)
+       WHERE id = ?`,
+      [days, accountId]
+    );
+
+    if (updateResult.affectedRows === 0) {
+      return res.status(404).json({ ok: false, message: "Cuenta no encontrada." });
+    }
+
+    const [rows] = await pool.query(
+      `SELECT
+        id,
+        name,
+        donor_until,
+        donor_until IS NOT NULL AND donor_until > NOW() AS is_donor
+       FROM accounts
+       WHERE id = ?
+       LIMIT 1`,
+      [accountId]
+    );
+
+    return res.json({ ok: true, message: "Donador actualizado.", account: rows[0] });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ ok: false, message: "No se pudo actualizar el donador.", error: err.message });
+  }
+});
+
+app.delete("/admin/accounts/:id/donor", authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const accountId = Number(req.params.id);
+
+    if (!Number.isInteger(accountId) || accountId <= 0) {
+      return res.status(400).json({ ok: false, message: "Cuenta invalida." });
+    }
+
+    const [updateResult] = await pool.query("UPDATE accounts SET donor_until = NULL WHERE id = ?", [accountId]);
+
+    if (updateResult.affectedRows === 0) {
+      return res.status(404).json({ ok: false, message: "Cuenta no encontrada." });
+    }
+
+    return res.json({ ok: true, message: "Donador removido.", account: { id: accountId, donor_until: null, is_donor: false } });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ ok: false, message: "No se pudo remover el donador.", error: err.message });
   }
 });
 
@@ -1648,8 +1740,12 @@ app.get("/ranking", async (req, res) => {
         p.discord_url,
         p.website_url,
         p.location,
-        p.country
+        p.country,
+        a.donor_until,
+        a.donor_until IS NOT NULL AND a.donor_until > NOW() AS is_donor,
+        a.donor_until IS NOT NULL AND a.donor_until > NOW() AS donor
       FROM characters c
+      LEFT JOIN accounts a ON c.accountid = a.id
       LEFT JOIN guilds g ON c.guildid = g.guildid
       LEFT JOIN web_profiles p ON c.accountid = p.account_id
       WHERE ${where.join(" AND ")}
@@ -1969,7 +2065,20 @@ app.post("/password-recovery/reset", async (req, res) => {
 app.get("/account/me", authMiddleware, async (req, res) => {
   try {
     const uid = req.user.id;
-    const [accRows] = await pool.query("SELECT id, name, loggedin, banned, nxCredit, nxPrepaid FROM accounts WHERE id = ? LIMIT 1", [uid]);
+    const [accRows] = await pool.query(`
+      SELECT
+        id,
+        name,
+        loggedin,
+        banned,
+        nxCredit,
+        nxPrepaid,
+        donor_until,
+        donor_until IS NOT NULL AND donor_until > NOW() AS is_donor
+      FROM accounts
+      WHERE id = ?
+      LIMIT 1
+    `, [uid]);
     if (accRows.length === 0) return res.status(404).json({ ok: false, message: "Cuenta no encontrada" });
 
     const account = accRows[0];
@@ -2101,6 +2210,7 @@ const PORT = process.env.PORT || 3001;
 
 // Ensure web_profiles and start server
 Promise.all([
+  ensureAccountDonorColumns(),
   ensureWebProfilesTable(),
   ensureGTop100VotesTable(),
   ensureVoteTokensTable(),
