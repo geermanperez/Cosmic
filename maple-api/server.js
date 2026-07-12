@@ -1097,9 +1097,9 @@ app.get("/admin/stats", authMiddleware, adminMiddleware, async (req, res) => {
       stats.onlineUsers = online[0].total;
     } else stats.onlineUsers = 0;
 
-    // GMs en personajes
+    // GMs reales: gm 2 se usa como donador y no debe contar como staff.
     if (charColNames.includes('gm')) {
-      const [gms] = await pool.query("SELECT COUNT(*) AS total FROM characters WHERE gm > 0");
+      const [gms] = await pool.query("SELECT COUNT(*) AS total FROM characters WHERE gm >= 3");
       stats.gmCharacters = gms[0].total;
     } else stats.gmCharacters = 0;
 
