@@ -1,23 +1,27 @@
 /*
-    NPC de prueba: Pase diario de login.
-    NPC ID usado: 9209001, existe en Npc.wz del cliente.
-
-    Recompensas:
-    Dia 1: 100,000 mesos
-    Dia 2: 500 NX
-    Dia 3: 200,000 mesos
-    Dia 4: 500 NX
+    EVENTO DIA DEL AMIGO
+    NPC ID usado: 9209001, Mimi.
  */
 
 var status = -1;
 var selected = -1;
 
-var CAMPAIGN_KEY = "daily_login_test_20260712";
+var CAMPAIGN_KEY = "friend_day_20260712";
+var EVENT_NAME = "EVENTO DIA DEL AMIGO";
+var ONYX_APPLE = 2022179;
+var VIP_TELEPORT_ROCK = 5041000;
+var FRIEND_RING = 1112800;
+var FRIEND_RING_DAYS = 90;
+var MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
+
 var rewards = [
-    { type: "meso", amount: 100000, label: "100,000 mesos" },
-    { type: "nx", amount: 500, label: "500 NX" },
-    { type: "meso", amount: 200000, label: "200,000 mesos" },
-    { type: "nx", amount: 500, label: "500 NX" }
+    { type: "meso", amount: 10000000, label: "10,000,000 mesos" },
+    { type: "nx", amount: 1000, label: "1,000 NX" },
+    { type: "item", itemId: ONYX_APPLE, quantity: 5, label: "Onyx Apple x5" },
+    { type: "nx", amount: 1500, label: "1,500 NX" },
+    { type: "item", itemId: VIP_TELEPORT_ROCK, quantity: 10, label: "VIP Teleport Rock x10" },
+    { type: "nx", amount: 5000, label: "5,000 NX" },
+    { type: "friendRing", itemId: FRIEND_RING, quantity: 1, label: "Anillo Dia del Amigo +5000 HP/MP por 90 dias" }
 ];
 
 function start() {
@@ -34,7 +38,7 @@ function action(mode, type, selection) {
     status++;
     if (status == 0) {
         var progress = getProgress();
-        var text = "#ePase diario de prueba#n\r\n\r\n";
+        var text = "#e" + EVENT_NAME + "#n\r\n\r\n";
         text += "Progreso actual: #b" + progress.claimedDays + "/" + rewards.length + "#k dias cobrados.\r\n\r\n";
         text += buildRewardList(progress.claimedDays);
         text += "\r\n#L0#Cobrar recompensa de hoy#l";
@@ -62,7 +66,7 @@ function action(mode, type, selection) {
 
         if (selected == 99 && cm.getPlayer().gmLevel() >= 3) {
             resetProgress();
-            cm.sendOk("Progreso de prueba reiniciado para esta cuenta.");
+            cm.sendOk("Progreso del " + EVENT_NAME + " reiniciado para esta cuenta.");
             cm.dispose();
             return;
         }
@@ -97,13 +101,18 @@ function getClaimPreview(ignoreDateGate) {
         return { canClaim: false, message: "Ya cobraste la recompensa de hoy. Vuelve manana para el siguiente dia del pase." };
     }
     if (progress.claimedDays >= rewards.length) {
-        return { canClaim: false, message: "Ya completaste todas las recompensas de este pase de prueba." };
+        return { canClaim: false, message: "Ya completaste todas las recompensas del " + EVENT_NAME + "." };
+    }
+
+    var reward = rewards[progress.claimedDays];
+    if (!canHoldReward(reward)) {
+        return { canClaim: false, message: "No tienes espacio suficiente en el inventario para recibir: #b" + reward.label + "#k." };
     }
 
     return {
         canClaim: true,
         day: progress.claimedDays + 1,
-        reward: rewards[progress.claimedDays]
+        reward: reward
     };
 }
 
@@ -136,7 +145,7 @@ function claimReward(ignoreDateGate) {
         ps.setString(3, CAMPAIGN_KEY);
         ps.setInt(4, day);
         ps.setString(5, reward.type);
-        ps.setInt(6, reward.amount);
+        ps.setInt(6, getRewardRecordAmount(reward));
         ps.executeUpdate();
         closeQuietly(ps);
         ps = null;
@@ -153,6 +162,10 @@ function claimReward(ignoreDateGate) {
             ps.executeUpdate();
             closeQuietly(ps);
             ps = null;
+        } else if (reward.type == "item") {
+            cm.gainItem(reward.itemId, reward.quantity);
+        } else if (reward.type == "friendRing") {
+            giveFriendRing();
         } else {
             return { ok: false, message: "Tipo de recompensa no soportado: " + reward.type };
         }
@@ -165,6 +178,35 @@ function claimReward(ignoreDateGate) {
         closeQuietly(ps);
         closeQuietly(con);
     }
+}
+
+function canHoldReward(reward) {
+    if (reward.type == "item" || reward.type == "friendRing") {
+        return cm.canHold(reward.itemId, reward.quantity);
+    }
+    return true;
+}
+
+function getRewardRecordAmount(reward) {
+    if (reward.type == "item" || reward.type == "friendRing") {
+        return reward.itemId;
+    }
+    return reward.amount;
+}
+
+function giveFriendRing() {
+    var ItemInformationProvider = Java.type("server.ItemInformationProvider");
+    var InventoryManipulator = Java.type("client.inventory.manipulator.InventoryManipulator");
+    var ItemConstants = Java.type("constants.inventory.ItemConstants");
+
+    var equip = ItemInformationProvider.getInstance().getEquipById(FRIEND_RING);
+    equip.setOwner("DIA AMIGO");
+    equip.setHp(5000);
+    equip.setMp(5000);
+    equip.setExpiration(cm.getCurrentTime() + (FRIEND_RING_DAYS * MILLIS_PER_DAY));
+    equip.setFlag(equip.getFlag() | ItemConstants.UNTRADEABLE);
+
+    InventoryManipulator.addFromDrop(cm.getClient(), equip, true);
 }
 
 function getProgress() {

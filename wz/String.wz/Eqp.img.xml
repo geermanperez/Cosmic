@@ -16598,8 +16598,8 @@
         <string name="name" value="Ring of Silver Wing: 3 Carats"/>
       </imgdir>
       <imgdir name="1112800">
-        <string name="name" value="Friendship Ring : Clover"/>
-        <string name="desc" value="Put on this ring with your friend, stand next to each other, and see the clover effect "/>
+        <string name="name" value="Anillo Dia del Amigo"/>
+        <string name="desc" value="Anillo especial del Evento Dia del Amigo. Otorga +5000 HP y +5000 MP por 90 dias."/>
       </imgdir>
       <imgdir name="1112801">
         <string name="name" value="Friendship Ring : Flower Petal"/>
