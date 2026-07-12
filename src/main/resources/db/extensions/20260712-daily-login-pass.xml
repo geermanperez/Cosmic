@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="20260712-daily-login-pass" author="ChatGPT">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="daily_login_pass_claims"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE daily_login_pass_claims (
+                id INT NOT NULL AUTO_INCREMENT,
+                account_id INT NOT NULL,
+                character_id INT NOT NULL,
+                campaign_key VARCHAR(64) NOT NULL,
+                reward_day TINYINT NOT NULL,
+                claimed_on DATE NOT NULL,
+                reward_type VARCHAR(16) NOT NULL,
+                reward_amount INT NOT NULL DEFAULT 0,
+                claimed_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id),
+                UNIQUE KEY uq_daily_login_pass_account_day (account_id, campaign_key, reward_day),
+                UNIQUE KEY uq_daily_login_pass_account_date (account_id, campaign_key, claimed_on),
+                INDEX idx_daily_login_pass_account_campaign (account_id, campaign_key),
+                CONSTRAINT fk_daily_login_pass_account
+                    FOREIGN KEY (account_id) REFERENCES accounts (id) ON DELETE CASCADE,
+                CONSTRAINT fk_daily_login_pass_character
+                    FOREIGN KEY (character_id) REFERENCES characters (id) ON DELETE CASCADE
+            );
+        </sql>
+        <rollback>
+            DROP TABLE daily_login_pass_claims;
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
