@@ -36,7 +36,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ResetCommand extends Command {
-    private static final int RESET_REQUIRED_LEVEL = 200;
+    private static final int RESET_REQUIRED_LEVEL = 255;
     private static final int RESET_COST = 50000000;
     private static final int RESET_AP_REWARD = 500;
     private static final int BEGINNER_JOB_ID = 0;
@@ -51,7 +51,7 @@ public class ResetCommand extends Command {
         Character player = c.getPlayer();
 
         if (player.getLevel() < RESET_REQUIRED_LEVEL) {
-            player.message("Necesitas ser nivel 200 para usar @reset.");
+            player.message("Necesitas ser nivel 255 para usar @reset.");
             return;
         }
 
