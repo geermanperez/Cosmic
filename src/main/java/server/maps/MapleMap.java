@@ -3004,7 +3004,7 @@ public class MapleMap {
     public void addMonsterSpawn(Monster monster, int mobTime, int team) {
         Point newpos = calcPointBelow(monster.getPosition());
         newpos.y -= 1;
-        SpawnPoint sp = new SpawnPoint(monster, newpos, !monster.isMobile(), mobTime, mobInterval, team);
+        SpawnPoint sp = new SpawnPoint(monster, newpos, !monster.isMobile(), mobTime, mobInterval, team, getSpawnPointMobLimit());
         monsterSpawn.add(sp);
         if (sp.shouldSpawn() || mobTime == -1) {// -1 does not respawn and should not either but force ONE spawn
             spawnMonster(sp.getMonster());
@@ -3014,7 +3014,7 @@ public class MapleMap {
     public void addAllMonsterSpawn(Monster monster, int mobTime, int team) {
         Point newpos = calcPointBelow(monster.getPosition());
         newpos.y -= 1;
-        SpawnPoint sp = new SpawnPoint(monster, newpos, !monster.isMobile(), mobTime, mobInterval, team);
+        SpawnPoint sp = new SpawnPoint(monster, newpos, !monster.isMobile(), mobTime, mobInterval, team, getSpawnPointMobLimit());
         allMonsterSpawn.add(sp);
     }
 
@@ -3511,6 +3511,18 @@ public class MapleMap {
         return 0.70 + (0.05 * Math.min(6, numPlayers));
     }
 
+    private static double getMobSpawnMultiplier() {
+        return Math.max(1.0, YamlConfig.config.server.MOB_SPAWN_MULTIPLIER);
+    }
+
+    private static int getSpawnPointMobLimit() {
+        return (int) Math.ceil(getMobSpawnMultiplier());
+    }
+
+    private int getMaxMobSpawnCount() {
+        return (int) Math.ceil(monsterSpawn.size() * getMobSpawnMultiplier());
+    }
+
     private int getNumShouldSpawn(int numPlayers) {
         /*
         System.out.println("----------------------------------");
@@ -3522,10 +3534,10 @@ public class MapleMap {
         */
 
         if (YamlConfig.config.server.USE_ENABLE_FULL_RESPAWN) {
-            return (monsterSpawn.size() - spawnedMonstersOnMap.get());
+            return (getMaxMobSpawnCount() - spawnedMonstersOnMap.get());
         }
 
-        int maxNumShouldSpawn = (int) Math.ceil(getCurrentSpawnRate(numPlayers) * monsterSpawn.size());
+        int maxNumShouldSpawn = (int) Math.ceil(getCurrentSpawnRate(numPlayers) * getMaxMobSpawnCount());
         return maxNumShouldSpawn - spawnedMonstersOnMap.get();
     }
 

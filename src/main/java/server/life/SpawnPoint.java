@@ -38,11 +38,12 @@ public class SpawnPoint {
     private final Point pos;
     private long nextPossibleSpawn;
     private int mobInterval = 5000;
+    private final int maxSpawnedMonsters;
     private final AtomicInteger spawnedMonsters = new AtomicInteger(0);
     private final boolean immobile;
     private boolean denySpawn = false;
 
-    public SpawnPoint(final Monster monster, Point pos, boolean immobile, int mobTime, int mobInterval, int team) {
+    public SpawnPoint(final Monster monster, Point pos, boolean immobile, int mobTime, int mobInterval, int team, int maxSpawnedMonsters) {
         this.monster = monster.getId();
         this.pos = new Point(pos);
         this.mobTime = mobTime;
@@ -51,6 +52,7 @@ public class SpawnPoint {
         this.f = monster.getF();
         this.immobile = immobile;
         this.mobInterval = mobInterval;
+        this.maxSpawnedMonsters = Math.max(1, maxSpawnedMonsters);
         this.nextPossibleSpawn = Server.getInstance().getCurrentTime();
     }
 
@@ -67,14 +69,14 @@ public class SpawnPoint {
     }
 
     public boolean shouldSpawn() {
-        if (denySpawn || mobTime < 0 || spawnedMonsters.get() > 0) {
+        if (denySpawn || mobTime < 0 || spawnedMonsters.get() >= maxSpawnedMonsters) {
             return false;
         }
         return nextPossibleSpawn <= Server.getInstance().getCurrentTime();
     }
 
     public boolean shouldForceSpawn() {
-        return mobTime >= 0 && spawnedMonsters.get() <= 0;
+        return mobTime >= 0 && spawnedMonsters.get() < maxSpawnedMonsters;
     }
 
     public Monster getMonster() {
