@@ -1,99 +1,229 @@
 /*
-	This file is part of the OdinMS Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
-		       Matthias Butz <matze@odinms.de>
-		       Jan Christian Meyer <vimes@odinms.de>
+    NPC de prueba: Pase diario de login.
+    NPC ID usado: 9209001, existe en Npc.wz del cliente.
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as
-    published by the Free Software Foundation version 3 as published by
-    the Free Software Foundation. You may not use, modify or distribute
-    this program under any other version of the GNU Affero General Public
-    License.
+    Recompensas:
+    Dia 1: 100,000 mesos
+    Dia 2: 500 NX
+    Dia 3: 200,000 mesos
+    Dia 4: 500 NX
+ */
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
+var status = -1;
+var selected = -1;
 
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-status = -1;
-var sel, sel2;
+var CAMPAIGN_KEY = "daily_login_test_20260712";
+var rewards = [
+    { type: "meso", amount: 100000, label: "100,000 mesos" },
+    { type: "nx", amount: 500, label: "500 NX" },
+    { type: "meso", amount: 200000, label: "200,000 mesos" },
+    { type: "nx", amount: 500, label: "500 NX" }
+];
 
 function start() {
-    cm.sendOk("Hello, the Maple 7th Day Market is currently unavailable.");
-    cm.dispose();
-    return;
-
-    cm.sendSimple("Hello, the Maple 7th Day Market opens today.#b\r\n#L0#Move to Maple 7th Day Market map\r\n#L1#Listen for an explanation about the Maple 7th Day Market");
+    status = -1;
+    action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-    status++;
-    if (status == 6 && mode == 1) {
-        sel2 = undefined;
-        status = 0;
+    if (mode < 1) {
+        cm.dispose();
+        return;
     }
-    if (mode != 1) {
-        if (mode == 0 && type == 0) {
-            status -= 2;
-        } else {
+
+    status++;
+    if (status == 0) {
+        var progress = getProgress();
+        var text = "#ePase diario de prueba#n\r\n\r\n";
+        text += "Progreso actual: #b" + progress.claimedDays + "/" + rewards.length + "#k dias cobrados.\r\n\r\n";
+        text += buildRewardList(progress.claimedDays);
+        text += "\r\n#L0#Cobrar recompensa de hoy#l";
+
+        if (cm.getPlayer().gmLevel() >= 3) {
+            text += "\r\n#L98#GM: cobrar siguiente dia ignorando fecha#l";
+            text += "\r\n#L99#GM: reiniciar mi progreso de prueba#l";
+        }
+
+        cm.sendSimple(text);
+    } else if (status == 1) {
+        selected = selection;
+
+        if (selected == 98 && cm.getPlayer().gmLevel() >= 3) {
+            var gmPreview = getClaimPreview(true);
+            if (!gmPreview.canClaim) {
+                cm.sendOk(gmPreview.message);
+                cm.dispose();
+                return;
+            }
+
+            cm.sendYesNo("Modo GM de prueba:\r\n\r\nVas a cobrar el #bDia " + gmPreview.day + "#k ignorando el bloqueo diario.\r\n\r\nRecompensa: #e" + gmPreview.reward.label + "#n\r\n\r\nDeseas continuar?");
+            return;
+        }
+
+        if (selected == 99 && cm.getPlayer().gmLevel() >= 3) {
+            resetProgress();
+            cm.sendOk("Progreso de prueba reiniciado para esta cuenta.");
             cm.dispose();
             return;
         }
-    }
-    if (status == 0) {
-        if (sel == undefined) {
-            sel = selection;
-        }
-        if (selection == 0) {
-            cm.sendNext("Okay, we will send you to the Maple 7th Day Market map.");
-        } else {
-            cm.sendSimple("What would you like to know about the Maple 7th Day Market?#b\r\n#L0#Where does the Maple 7th Day Market take place?\r\n#L1#What can you do at the Maple 7th Day Market?\r\n#L2#I do not have any questions.");
-        }
-    } else if (status == 1) {
-        if (sel == 0) {
-            cm.getPlayer().saveLocation("EVENT");
-            cm.warp(680100000 + parseInt(Math.random() * 3));
+
+        var preview = getClaimPreview();
+        if (!preview.canClaim) {
+            cm.sendOk(preview.message);
             cm.dispose();
-        } else if (selection == 0) {
-            cm.sendNext("The Maple 7th Day Market opens only on Sundays. You can enter if you find me in any town, Henesys, New Leaf City, Leafre, Kerning City, Ludibrium, I'm just about everywhere!");
-            status -= 2;
-        } else if (selection == 1) {
-            cm.sendSimple("You can find rare goods that are hard to find elsewhere at the Maple 7th Day Market.#b\r\n#L0#Purchase Special Items\r\n#L1#Help the Poultry Farm Owner");
-        } else {
-            cm.sendNext("I guess you don't have any question. Please keep us in your thoughts, and ask if you are curious about anything.");
-            cm.dispose();
+            return;
         }
+
+        cm.sendYesNo("Vas a cobrar la recompensa del #bDia " + preview.day + "#k:\r\n\r\n#e" + preview.reward.label + "#n\r\n\r\nDeseas continuar?");
     } else if (status == 2) {
-        if (sel2 == undefined) {
-            sel2 = selection;
-        }
-        if (sel2 == 0) {
-            cm.sendNext("You can find many items at the Maple 7th Day Market. The prices are subject to change, so you'd better get them when they're cheap!");
+        var result = claimReward(selected == 98 && cm.getPlayer().gmLevel() >= 3);
+        cm.sendOk(result.message);
+        cm.dispose();
+    }
+}
+
+function buildRewardList(claimedDays) {
+    var text = "";
+    for (var i = 0; i < rewards.length; i++) {
+        var marker = i < claimedDays ? "#g[Cobrado]#k" : (i == claimedDays ? "#b[Siguiente]#k" : "#d[Pendiente]#k");
+        text += marker + " Dia " + (i + 1) + ": " + rewards[i].label + "\r\n";
+    }
+    return text;
+}
+
+function getClaimPreview(ignoreDateGate) {
+    var progress = getProgress();
+    if (!ignoreDateGate && progress.claimedToday) {
+        return { canClaim: false, message: "Ya cobraste la recompensa de hoy. Vuelve manana para el siguiente dia del pase." };
+    }
+    if (progress.claimedDays >= rewards.length) {
+        return { canClaim: false, message: "Ya completaste todas las recompensas de este pase de prueba." };
+    }
+
+    return {
+        canClaim: true,
+        day: progress.claimedDays + 1,
+        reward: rewards[progress.claimedDays]
+    };
+}
+
+function claimReward(ignoreDateGate) {
+    var preview = getClaimPreview(ignoreDateGate);
+    if (!preview.canClaim) {
+        return { ok: false, message: preview.message };
+    }
+
+    var accountId = cm.getPlayer().getAccountID();
+    var characterId = cm.getPlayer().getId();
+    var day = preview.day;
+    var reward = preview.reward;
+
+    var con = null;
+    var ps = null;
+
+    try {
+        var DatabaseConnection = Java.type("tools.DatabaseConnection");
+        con = DatabaseConnection.getConnection();
+
+        var claimedOnSql = ignoreDateGate ? "DATE_ADD(CURRENT_DATE, INTERVAL " + day + " DAY)" : "CURRENT_DATE";
+        ps = con.prepareStatement(
+            "INSERT INTO daily_login_pass_claims " +
+            "(account_id, character_id, campaign_key, reward_day, claimed_on, reward_type, reward_amount) " +
+            "VALUES (?, ?, ?, ?, " + claimedOnSql + ", ?, ?)"
+        );
+        ps.setInt(1, accountId);
+        ps.setInt(2, characterId);
+        ps.setString(3, CAMPAIGN_KEY);
+        ps.setInt(4, day);
+        ps.setString(5, reward.type);
+        ps.setInt(6, reward.amount);
+        ps.executeUpdate();
+        closeQuietly(ps);
+        ps = null;
+
+        if (reward.type == "meso") {
+            cm.gainMeso(reward.amount);
+        } else if (reward.type == "nx") {
+            var CashShop = Java.type("server.CashShop");
+            cm.getPlayer().getCashShop().gainCash(CashShop.NX_CREDIT, reward.amount);
+
+            ps = con.prepareStatement("UPDATE accounts SET nxCredit = COALESCE(nxCredit, 0) + ? WHERE id = ?");
+            ps.setInt(1, reward.amount);
+            ps.setInt(2, accountId);
+            ps.executeUpdate();
+            closeQuietly(ps);
+            ps = null;
         } else {
-            cm.sendNext("Aside from the merchants, you can also find the lazy daughter of the poultry farm owner at the Maple 7th Day Market. Help Mimi and hatch her egg until it grows to be a chicken!");
+            return { ok: false, message: "Tipo de recompensa no soportado: " + reward.type };
         }
-    } else if (status == 3) {
-        if (sel2 == 0) {
-            cm.sendNextPrev("The purchases made here can be sold back to the merchant intermediary, Abdula. He won't accept anything more than a week old, so make sure you re-sell by Saturday!");
-        } else {
-            cm.sendNextPrev("Since she can't just trust anyone with the egg, she'll ask for deposit money. Pay her the deposit and take good care of the egg.");
+
+        cm.getPlayer().saveCharToDB();
+        return { ok: true, message: "Listo. Cobraste la recompensa del Dia " + day + ": #b" + reward.label + "#k." };
+    } catch (err) {
+        return { ok: false, message: "No se pudo cobrar la recompensa. Si ya cobraste hoy, vuelve manana.\r\n\r\nDetalle: " + err };
+    } finally {
+        closeQuietly(ps);
+        closeQuietly(con);
+    }
+}
+
+function getProgress() {
+    var accountId = cm.getPlayer().getAccountID();
+    var con = null;
+    var ps = null;
+    var rs = null;
+
+    try {
+        var DatabaseConnection = Java.type("tools.DatabaseConnection");
+        con = DatabaseConnection.getConnection();
+        ps = con.prepareStatement(
+            "SELECT COUNT(*) AS claimed_days, " +
+            "SUM(CASE WHEN claimed_on = CURRENT_DATE THEN 1 ELSE 0 END) AS claimed_today " +
+            "FROM daily_login_pass_claims WHERE account_id = ? AND campaign_key = ?"
+        );
+        ps.setInt(1, accountId);
+        ps.setString(2, CAMPAIGN_KEY);
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            return {
+                claimedDays: rs.getInt("claimed_days"),
+                claimedToday: rs.getInt("claimed_today") > 0
+            };
         }
-    } else if (status == 4) {
-        if (sel2 == 0) {
-            cm.sendNextPrev("Abdula adjusts his reselling rates as well, so it would be wise to sell when you can make the most profit. The prices tend to fluctuate hourly, so remember to check often.");
-        } else {
-            cm.sendNextPrev("If you manage to successfully grow the egg into a chicken and take it back to Mimi, Mimi will reward you. She may be lazy but she's not ungrateful.");
-        }
-    } else if (status == 5) {
-        if (sel2 == 0) {
-            cm.sendNextPrev("Test your business wit by buying good at low prices in the Maple 7th Day Market and selling it to the merchant intermediary when its value goes up!");
-        } else {
-            cm.sendNextPrev("You can click on the egg to check on its growth. You have to be diligent with the egg since the EXP you gain and the egg will grow together.");
+    } catch (err) {
+        return { claimedDays: 0, claimedToday: false };
+    } finally {
+        closeQuietly(rs);
+        closeQuietly(ps);
+        closeQuietly(con);
+    }
+
+    return { claimedDays: 0, claimedToday: false };
+}
+
+function resetProgress() {
+    var con = null;
+    var ps = null;
+
+    try {
+        var DatabaseConnection = Java.type("tools.DatabaseConnection");
+        con = DatabaseConnection.getConnection();
+        ps = con.prepareStatement("DELETE FROM daily_login_pass_claims WHERE account_id = ? AND campaign_key = ?");
+        ps.setInt(1, cm.getPlayer().getAccountID());
+        ps.setString(2, CAMPAIGN_KEY);
+        ps.executeUpdate();
+    } finally {
+        closeQuietly(ps);
+        closeQuietly(con);
+    }
+}
+
+function closeQuietly(resource) {
+    if (resource != null) {
+        try {
+            resource.close();
+        } catch (ignore) {
         }
     }
 }
