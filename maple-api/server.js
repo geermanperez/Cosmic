@@ -53,7 +53,7 @@ const pool = mysql.createPool({
   connectionLimit: 10,
 });
 
-const VOTE_BASE_NX = Number(process.env.VOTE_BASE_NX || 500);
+const VOTE_BASE_NX = Number(process.env.VOTE_BASE_NX || 2000);
 const VOTE_WEEKLY_BONUS_NX = Number(process.env.VOTE_WEEKLY_BONUS_NX || 1000);
 const VOTE_MONTHLY_BONUS_NX = Number(process.env.VOTE_MONTHLY_BONUS_NX || 5000);
 const VOTE_COOLDOWN_MS = 24 * 60 * 60 * 1000;
@@ -74,6 +74,7 @@ const SMTP_SECURE = String(process.env.SMTP_SECURE || "false").toLowerCase() ===
 const SMTP_USER = process.env.SMTP_USER || "";
 const SMTP_PASS = process.env.SMTP_PASS || "";
 const SMTP_FROM = process.env.SMTP_FROM || SMTP_USER || "";
+const WEB_ADMIN_ACCOUNT_NAMES = new Set(["anubis", "geermanperez"]);
 
 function hashPassword(password, algorithm) {
   return crypto.createHash(algorithm).update(password, "utf8").digest("hex");
@@ -108,6 +109,10 @@ function hashPasswordResetToken(token) {
 
 function getPasswordResetUrl(token) {
   return `${PUBLIC_SITE_URL}/#reset-password?token=${encodeURIComponent(token)}`;
+}
+
+function isWebAdminAccountName(accountName) {
+  return WEB_ADMIN_ACCOUNT_NAMES.has(String(accountName || "").trim().toLowerCase());
 }
 
 // `vote_time` is a MySQL TIMESTAMP. Asking MySQL for its Unix epoch keeps the
@@ -952,52 +957,15 @@ function getOptionalUser(req) {
 async function adminMiddleware(req, res, next) {
   try {
     const uid = req.user.id;
-    const dbName = process.env.DB_NAME || "cosmic";
-
-    console.log(`[AdminCheck] Verificando permisos para UID: ${uid} en DB: ${dbName}`);
-
-    // Verificar columnas existentes en la tabla accounts
-    const [accCols] = await pool.query(
-      "SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema = ? AND table_name = 'accounts'",
-      [dbName]
+    const [accRows] = await pool.query(
+      "SELECT id, name FROM accounts WHERE id = ? LIMIT 1",
+      [uid]
     );
-    const accColNames = accCols.map(c => c.COLUMN_NAME.toLowerCase());
-    console.log(`[AdminCheck] Columnas encontradas en accounts:`, accColNames);
+    const account = accRows[0];
 
-    let isAdmin = false;
-    const accChecks = [];
-    if (accColNames.includes('gm')) accChecks.push("gm > 0");
-    if (accColNames.includes('admin')) accChecks.push("admin > 0");
-
-    if (accChecks.length > 0) {
-      const [accRows] = await pool.query(
-        `SELECT id FROM accounts WHERE id = ? AND (${accChecks.join(" OR ")}) LIMIT 1`,
-        [uid]
-      );
-      console.log(`[AdminCheck] Resultado chequeo cuentas:`, accRows.length > 0 ? "Admin encontrado" : "No es admin en accounts");
-      if (accRows.length > 0) isAdmin = true;
-    }
-
-    // Si no es admin por cuenta, verificar si tiene algún personaje GM
-    if (!isAdmin) {
-      const [charCols] = await pool.query(
-        "SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema = ? AND table_name = 'characters'",
-        [dbName]
-      );
-      const charColNames = charCols.map(c => c.COLUMN_NAME.toLowerCase());
-
-      if (charColNames.includes('gm')) {
-        const [charRows] = await pool.query(
-          "SELECT id FROM characters WHERE accountid = ? AND gm > 0 LIMIT 1",
-          [uid]
-        );
-        console.log(`[AdminCheck] Resultado chequeo personajes:`, charRows.length > 0 ? "GM encontrado" : "No tiene personajes GM");
-        if (charRows.length > 0) isAdmin = true;
-      }
-    }
+    const isAdmin = account && isWebAdminAccountName(account.name);
 
     if (!isAdmin) {
-      console.warn(`[AdminCheck] Acceso denegado para UID: ${uid}`);
       return res.status(403).json({ ok: false, message: "No tenés permisos de administrador." });
     }
 
@@ -2152,6 +2120,7 @@ app.get("/account/me", authMiddleware, async (req, res) => {
     if (accRows.length === 0) return res.status(404).json({ ok: false, message: "Cuenta no encontrada" });
 
     const account = accRows[0];
+    account.is_web_admin = isWebAdminAccountName(account.name);
 
     const [profiles] = await pool.query("SELECT display_name, avatar_url, bio, instagram_url, discord_url, website_url, location FROM web_profiles WHERE account_id = ? LIMIT 1", [uid]);
     let profile = profiles[0];

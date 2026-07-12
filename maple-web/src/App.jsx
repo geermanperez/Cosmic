@@ -2223,6 +2223,8 @@ function App() {
     try {
       const acc = await request("/account/me");
       setAccountData(acc.account || null);
+      const canUseAdminPanel = Boolean(acc.account?.is_web_admin);
+      setIsAdmin(canUseAdminPanel);
       setProfileForm({
         display_name: acc.profile?.display_name || "",
         avatar_url: acc.profile?.avatar_url || "",
@@ -2235,6 +2237,13 @@ function App() {
 
       const chars = await request("/account/me/characters");
       setCharacters(chars.characters || []);
+
+      if (!canUseAdminPanel) {
+        setAdminStats(null);
+        setAdminOnlinePlayers([]);
+        setLoadingAdmin(false);
+        return acc.account || null;
+      }
 
       setLoadingAdmin(true);
       try {

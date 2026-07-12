@@ -44,7 +44,7 @@ services:
       DB_PASSWORD: ""
       DB_NAME: "cosmic"
       GTOP100_PINGBACK_KEY: "LatinMS2026GTop100Reward9472"
-      VOTE_BASE_NX: "500"
+      VOTE_BASE_NX: "2000"
       VOTE_WEEKLY_BONUS_NX: "1000"
       VOTE_MONTHLY_BONUS_NX: "5000"
       PUBLIC_SITE_URL: "https://latinms.redly.com.ar"
