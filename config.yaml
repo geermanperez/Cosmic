@@ -172,7 +172,7 @@ server:
     CHANNEL_LOAD: 100                   #Max players per channel (limit actually used to calculate the World server capacity).
     CHANNEL_LOCKS: 20                   #Total number of structure management locks each channel has.
 
-    RESPAWN_INTERVAL: 6000              #6 seconds, 6000.
+    RESPAWN_INTERVAL: 4000              #4 seconds, 4000.
     PURGING_INTERVAL: 300000            #5 minutes, 300000.
     RANKING_INTERVAL: 3600000           #60 minutes, 3600000.
     COUPON_INTERVAL: 3600000            #60 minutes, 3600000.
@@ -259,7 +259,7 @@ server:
     USE_BUFF_MOST_SIGNIFICANT: true     #When applying buffs, the player will stick with the highest stat boost among the listed, rather than overwriting stats.
     USE_BUFF_EVERLASTING: false         #Every applied buff on players holds expiration time so high it'd be considered permanent. Suggestion thanks to Vcoc.
     USE_MULTIPLE_SAME_EQUIP_DROP: true  #Enables multiple drops by mobs of the same equipment, number of possible drops based on the quantities provided at the drop data.
-    USE_ENABLE_FULL_RESPAWN: false       #At respawn task, always respawn missing mobs when they're available. Spawn count doesn't depend on how many players are currently there.
+    USE_ENABLE_FULL_RESPAWN: true        #At respawn task, always respawn missing mobs when they're available. Spawn count doesn't depend on how many players are currently there.
     USE_ENABLE_CHAT_LOG: false          #Write in-game chat to log
     USE_MAP_OWNERSHIP_SYSTEM: false      #Flag to enable/disable map ownership system
     USE_FISHING_SYSTEM: false            #Flag to enable/disable custom fishing system
