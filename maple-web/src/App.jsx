@@ -310,7 +310,7 @@ const translations = {
       accounts: "Accounts",
       banned: "Banned",
       players: "Players",
-      latestAccounts: "Latest accounts",
+      latestAccounts: "Accounts list",
       latestCharacters: "Latest characters",
       activeDonors: "Active donors",
       donorAdminTitle: "Donor role",
@@ -596,7 +596,7 @@ const translations = {
       accounts: "Cuentas",
       banned: "Baneados",
       players: "Jugadores",
-      latestAccounts: "Ultimas cuentas",
+      latestAccounts: "Listado de cuentas",
       latestCharacters: "Ultimos personajes",
       activeDonors: "Donadores activos",
       donorAdminTitle: "Rol donador",
@@ -3945,7 +3945,7 @@ function AccountPanel({
                   <div className="split-grid admin-split">
                     <div className="admin-list-container">
                       <h4>{text.latestAccounts}</h4>
-                      <div className="ranking-list">
+                      <div className="ranking-list admin-accounts-list">
                         {adminStats.latestAccounts.map((account) => (
                           <div key={account.id} className="ranking-row ranking-row--compact">
                             <span>ID: {account.id} - <strong>{account.name}</strong>{account.is_donor ? ` - ${text.donorBadge}` : ""}</span>

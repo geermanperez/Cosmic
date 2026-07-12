@@ -1996,6 +1996,12 @@
   gap: 20px;
 }
 
+.admin-accounts-list {
+  max-height: 520px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
 @media (max-width: 1040px) {
   .hero-card,
   .content-grid,

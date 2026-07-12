@@ -1115,7 +1115,6 @@ app.get("/admin/stats", authMiddleware, adminMiddleware, async (req, res) => {
         donor_until IS NOT NULL AND donor_until > NOW() AS is_donor
       FROM accounts
       ORDER BY id DESC
-      LIMIT 5
     `))[0];
     stats.latestCharacters = (await pool.query("SELECT id, name, level, job FROM characters ORDER BY id DESC LIMIT 5"))[0];
     stats.onlineList = await loadOnlinePlayers();
