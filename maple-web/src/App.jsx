@@ -2814,16 +2814,6 @@ function App() {
                       <ArrowRight size={18} />
                     </a>
                     <p className="download-recommendation">{t.pages.launcherRecommendation}</p>
-                    {showUpdateContent ? (
-                      <div className="download-patch">
-                        <h3>{t.pages.patchTitle}</h3>
-                        <p>{t.pages.patchCopy}</p>
-                        <a className="button-secondary" href={updateDownloadUrl} target="_blank" rel="noreferrer">
-                          {t.pages.patchDownload}
-                          <Download size={18} />
-                        </a>
-                      </div>
-                    ) : null}
                   </div>
                 </div>
               </section>
