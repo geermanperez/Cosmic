@@ -104,6 +104,43 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
         }
     }
 
+    private void expireDonorRoleIfNeeded(Client c, Character player) {
+        if (player.gmLevel() != 2) {
+            return;
+        }
+
+        try (Connection con = DatabaseConnection.getConnection()) {
+            boolean donorActive = false;
+            try (PreparedStatement ps = con.prepareStatement(
+                    "SELECT donor_until IS NOT NULL AND donor_until > NOW() AS donor_active FROM accounts WHERE id = ?")) {
+                ps.setInt(1, player.getAccountID());
+                try (ResultSet rs = ps.executeQuery()) {
+                    donorActive = rs.next() && rs.getBoolean("donor_active");
+                }
+            }
+
+            if (donorActive) {
+                return;
+            }
+
+            try (PreparedStatement ps = con.prepareStatement("UPDATE characters SET gm = 0 WHERE accountid = ? AND gm = 2")) {
+                ps.setInt(1, player.getAccountID());
+                ps.executeUpdate();
+            }
+
+            try (PreparedStatement ps = con.prepareStatement("UPDATE accounts SET donor_until = NULL WHERE id = ?")) {
+                ps.setInt(1, player.getAccountID());
+                ps.executeUpdate();
+            }
+
+            player.setGMLevel(0);
+            c.setGMLevel(0);
+            player.dropMessage("Tu rango de donador expiro.");
+        } catch (SQLException e) {
+            log.warn("Failed to expire donor role for account {}", player.getAccountID(), e);
+        }
+    }
+
     @Override
     public final boolean validateState(Client c) {
         return !c.isLoggedIn();
@@ -185,6 +222,7 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
             }
             c.setPlayer(player);
             c.setAccID(player.getAccountID());
+            expireDonorRoleIfNeeded(c, player);
 
             boolean allowLogin = true;
 

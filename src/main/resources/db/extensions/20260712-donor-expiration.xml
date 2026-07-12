@@ -6,6 +6,11 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <changeSet id="20260712-donor-expiration" author="ChatGPT">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="accounts" columnName="donor_until"/>
+            </not>
+        </preConditions>
         <sql>
             ALTER TABLE accounts
                 ADD COLUMN donor_until DATETIME NULL,
