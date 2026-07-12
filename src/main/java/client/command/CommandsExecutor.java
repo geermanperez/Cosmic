@@ -323,13 +323,23 @@ public class CommandsExecutor {
     }
 
     private void addCommand(String syntax, int rank, Class<? extends Command> commandClass) {
+        addCommand(syntax, rank, commandClass, true);
+    }
+
+    private void addHiddenCommand(String syntax, int rank, Class<? extends Command> commandClass) {
+        addCommand(syntax, rank, commandClass, false);
+    }
+
+    private void addCommand(String syntax, int rank, Class<? extends Command> commandClass, boolean showInHelp) {
         if (registeredCommands.containsKey(syntax.toLowerCase())) {
             log.warn("Error on register command with name: {}. Already exists.", syntax);
             return;
         }
 
         String commandName = syntax.toLowerCase();
-        addCommandInfo(commandName, commandClass);
+        if (showInHelp) {
+            addCommandInfo(commandName, commandClass);
+        }
 
         try {
             Command commandInstance = commandClass.getDeclaredConstructor().newInstance();     // thanks Halcyon for noticing commands getting reinstanced every call
@@ -385,7 +395,7 @@ public class CommandsExecutor {
         addCommand("online", 1, OnlineCommand.class);
         addCommand("buffme", 1, BuffMeCommand.class);
         addCommand("goto", 1, GotoCommand.class);
-        addCommand("loot", 2, LootCommand.class);
+        addHiddenCommand("loot", 2, LootCommand.class);
 
         commandsNameDesc.add(levelCommandsCursor);
     }

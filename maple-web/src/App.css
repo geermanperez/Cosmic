@@ -2002,6 +2002,14 @@
   padding-right: 6px;
 }
 
+.admin-accounts-list small {
+  display: block;
+  margin-top: 4px;
+  color: rgba(49, 22, 1, 0.72);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
 @media (max-width: 1040px) {
   .hero-card,
   .content-grid,

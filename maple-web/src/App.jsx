@@ -315,9 +315,11 @@ const translations = {
       activeDonors: "Active donors",
       donorAdminTitle: "Donor role",
       donorAccountId: "Account ID",
+      donorCharacterId: "Character ID",
       donorDays: "Days to add",
       donorGrant: "Add donor days",
       donorRemove: "Remove donor",
+      donorCharactersHint: "Characters",
     },
     sidebar: {
       shortcuts: "Shortcuts",
@@ -601,9 +603,11 @@ const translations = {
       activeDonors: "Donadores activos",
       donorAdminTitle: "Rol donador",
       donorAccountId: "ID de cuenta",
+      donorCharacterId: "ID de personaje",
       donorDays: "Dias a sumar",
       donorGrant: "Sumar dias donador",
       donorRemove: "Quitar donador",
+      donorCharactersHint: "Personajes",
     },
     sidebar: {
       shortcuts: "Accesos",
@@ -1534,7 +1538,7 @@ function App() {
     newPassword: "",
     confirmPassword: "",
   });
-  const [donorForm, setDonorForm] = useState({ accountId: "", days: "30" });
+  const [donorForm, setDonorForm] = useState({ accountId: "", characterId: "", days: "30" });
   const [donorAdminMessage, setDonorAdminMessage] = useState("");
   const [accountMessage, setAccountMessage] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
@@ -2316,7 +2320,10 @@ function App() {
     try {
       const data = await request(`/admin/accounts/${encodeURIComponent(donorForm.accountId)}/donor`, {
         method: "POST",
-        body: JSON.stringify({ days: Number(donorForm.days || 30) }),
+        body: JSON.stringify({
+          characterId: Number(donorForm.characterId),
+          days: Number(donorForm.days || 30),
+        }),
       });
       setDonorAdminMessage(data.message || (language === "es" ? "Donador actualizado." : "Donor updated."));
       await loadAccount();
@@ -2330,6 +2337,7 @@ function App() {
     try {
       const data = await request(`/admin/accounts/${encodeURIComponent(donorForm.accountId)}/donor`, {
         method: "DELETE",
+        body: JSON.stringify({ characterId: Number(donorForm.characterId) }),
       });
       setDonorAdminMessage(data.message || (language === "es" ? "Donador removido." : "Donor removed."));
       await loadAccount();
@@ -3933,6 +3941,10 @@ function AccountPanel({
                       <input name="accountId" value={donorForm.accountId} onChange={handleDonorFormChange} placeholder="123" />
                     </label>
                     <label>
+                      {text.donorCharacterId}
+                      <input name="characterId" value={donorForm.characterId} onChange={handleDonorFormChange} placeholder="456" />
+                    </label>
+                    <label>
                       {text.donorDays}
                       <input type="number" min="1" max="365" name="days" value={donorForm.days} onChange={handleDonorFormChange} />
                     </label>
@@ -3948,7 +3960,16 @@ function AccountPanel({
                       <div className="ranking-list admin-accounts-list">
                         {adminStats.latestAccounts.map((account) => (
                           <div key={account.id} className="ranking-row ranking-row--compact">
-                            <span>ID: {account.id} - <strong>{account.name}</strong>{account.is_donor ? ` - ${text.donorBadge}` : ""}</span>
+                            <span>
+                              ID: {account.id} - <strong>{account.name}</strong>{account.is_donor ? ` - ${text.donorBadge}` : ""}
+                              {(account.characters || []).length > 0 ? (
+                                <small>
+                                  {text.donorCharactersHint}: {(account.characters || []).map((character) => (
+                                    `#${character.id} ${character.name}${Number(character.gm) === 2 ? ` (${text.donorBadge})` : ""}`
+                                  )).join(" | ")}
+                                </small>
+                              ) : null}
+                            </span>
                           </div>
                         ))}
                       </div>

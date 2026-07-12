@@ -1116,6 +1116,27 @@ app.get("/admin/stats", authMiddleware, adminMiddleware, async (req, res) => {
       FROM accounts
       ORDER BY id DESC
     `))[0];
+    if (stats.latestAccounts.length > 0) {
+      const accountIds = stats.latestAccounts.map((account) => account.id);
+      const accountPlaceholders = accountIds.map(() => "?").join(",");
+      const [accountCharacters] = await pool.query(`
+        SELECT id, accountid, name, level, gm
+        FROM characters
+        WHERE accountid IN (${accountPlaceholders})
+        ORDER BY accountid DESC, level DESC, id ASC
+      `, accountIds);
+      const charactersByAccount = new Map();
+      for (const character of accountCharacters) {
+        if (!charactersByAccount.has(character.accountid)) {
+          charactersByAccount.set(character.accountid, []);
+        }
+        charactersByAccount.get(character.accountid).push(character);
+      }
+      stats.latestAccounts = stats.latestAccounts.map((account) => ({
+        ...account,
+        characters: charactersByAccount.get(account.id) || [],
+      }));
+    }
     stats.latestCharacters = (await pool.query("SELECT id, name, level, job FROM characters ORDER BY id DESC LIMIT 5"))[0];
     stats.onlineList = await loadOnlinePlayers();
     stats.voteRanking = (await pool.query(`
@@ -1144,14 +1165,30 @@ app.post("/admin/accounts/:id/donor", authMiddleware, adminMiddleware, async (re
   try {
     const accountId = Number(req.params.id);
     const days = Number(req.body.days || 30);
+    const characterId = Number(req.body.characterId);
 
     if (!Number.isInteger(accountId) || accountId <= 0) {
       return res.status(400).json({ ok: false, message: "Cuenta invalida." });
     }
 
+    if (!Number.isInteger(characterId) || characterId <= 0) {
+      return res.status(400).json({ ok: false, message: "Personaje invalido." });
+    }
+
     if (!Number.isInteger(days) || days < 1 || days > 365) {
       return res.status(400).json({ ok: false, message: "Los dias deben estar entre 1 y 365." });
     }
+
+    const [characterRows] = await pool.query(
+      "SELECT id, name FROM characters WHERE id = ? AND accountid = ? LIMIT 1",
+      [characterId, accountId]
+    );
+
+    if (characterRows.length === 0) {
+      return res.status(404).json({ ok: false, message: "El personaje no pertenece a esa cuenta." });
+    }
+
+    await pool.query("UPDATE characters SET gm = 2 WHERE id = ? AND accountid = ?", [characterId, accountId]);
 
     const [updateResult] = await pool.query(
       `UPDATE accounts
@@ -1176,7 +1213,7 @@ app.post("/admin/accounts/:id/donor", authMiddleware, adminMiddleware, async (re
       [accountId]
     );
 
-    return res.json({ ok: true, message: "Donador actualizado.", account: rows[0] });
+    return res.json({ ok: true, message: "Donador actualizado.", account: rows[0], character: characterRows[0] });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ ok: false, message: "No se pudo actualizar el donador.", error: err.message });
@@ -1186,18 +1223,52 @@ app.post("/admin/accounts/:id/donor", authMiddleware, adminMiddleware, async (re
 app.delete("/admin/accounts/:id/donor", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const accountId = Number(req.params.id);
+    const characterId = Number(req.body.characterId);
 
     if (!Number.isInteger(accountId) || accountId <= 0) {
       return res.status(400).json({ ok: false, message: "Cuenta invalida." });
     }
 
-    const [updateResult] = await pool.query("UPDATE accounts SET donor_until = NULL WHERE id = ?", [accountId]);
-
-    if (updateResult.affectedRows === 0) {
-      return res.status(404).json({ ok: false, message: "Cuenta no encontrada." });
+    if (!Number.isInteger(characterId) || characterId <= 0) {
+      return res.status(400).json({ ok: false, message: "Personaje invalido." });
     }
 
-    return res.json({ ok: true, message: "Donador removido.", account: { id: accountId, donor_until: null, is_donor: false } });
+    const [characterRows] = await pool.query(
+      "SELECT id, name FROM characters WHERE id = ? AND accountid = ? LIMIT 1",
+      [characterId, accountId]
+    );
+
+    if (characterRows.length === 0) {
+      return res.status(404).json({ ok: false, message: "El personaje no pertenece a esa cuenta." });
+    }
+
+    await pool.query("UPDATE characters SET gm = 0 WHERE id = ? AND accountid = ? AND gm = 2", [characterId, accountId]);
+
+    const [remainingDonors] = await pool.query(
+      "SELECT id FROM characters WHERE accountid = ? AND gm = 2 LIMIT 1",
+      [accountId]
+    );
+
+    if (remainingDonors.length === 0) {
+      const [updateResult] = await pool.query("UPDATE accounts SET donor_until = NULL WHERE id = ?", [accountId]);
+      if (updateResult.affectedRows === 0) {
+        return res.status(404).json({ ok: false, message: "Cuenta no encontrada." });
+      }
+    }
+
+    const [accountRows] = await pool.query(
+      `SELECT
+        id,
+        name,
+        donor_until,
+        donor_until IS NOT NULL AND donor_until > NOW() AS is_donor
+       FROM accounts
+       WHERE id = ?
+       LIMIT 1`,
+      [accountId]
+    );
+
+    return res.json({ ok: true, message: "Donador removido.", account: accountRows[0], character: characterRows[0] });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ ok: false, message: "No se pudo remover el donador.", error: err.message });
