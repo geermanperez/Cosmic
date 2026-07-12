@@ -1,368 +1,229 @@
 /*
-    This file is part of the HeavenMS MapleStory Server
-    Copyleft (L) 2016 - 2019 RonanLana
+    NPC de prueba: Pase diario de login.
+    NPC ID usado: 9977777, custom del server y sin flujo de quests del cliente.
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as
-    published by the Free Software Foundation version 3 as published by
-    the Free Software Foundation. You may not use, modify or distribute
-    this program under any other version of the GNU Affero General Public
-    License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-/* Ronan
-	Hidden Street - Developers' Headquarters (777777777)
-	HeavenMS developer info.
+    Recompensas:
+    Dia 1: 100,000 mesos
+    Dia 2: 500 NX
+    Dia 3: 200,000 mesos
+    Dia 4: 500 NX
  */
 
-var status;
+var status = -1;
+var selected = -1;
 
-var ambientSong = "Bgm04/Shinin'Harbor";
-
-var feature_tree = [];
-var feature_cursor;
-
-var tabs = ["PQs", "Skills", "Quests", "Player Social Network", "Cash & Items", "Monsters, Maps & Reactors", "PQ potentials", "Player potentials", "Server potentials", "Commands", "Custom NPCs", "Localhost edits", "Project"];
-
-function addFeature(feature) {
-    feature_cursor.push(feature);
-}
-
-function writeFeatureTab_PQs() {
-    addFeature("HPQ/KPQ/LPQ/LMPQ/OPQ/APQ/EllinPQ/PiratePQ.");
-    addFeature("RnJPQ/HorntailPQ/TreasurePQ/ElnathPQ/HolidayPQ.");
-    addFeature("CWKPQ as Expedition-based instance.");
-    addFeature("Scarga/Horntail/Showa/Balrog/Zakum/Pinkbean.");
-    addFeature("Expeditions with entry-limit system available.");
-    addFeature("GuildPQ & queue with multi-lobby system available.");
-    addFeature("Brand-new PQs: BossRushPQ, CafePQ.");
-    addFeature("Mu Lung Dojo.");
-    addFeature("Monster Carnival 1 & 2 - thanks Dragohe4rt & Jayd!");
-    addFeature("AriantPQ - thanks Dragohe4rt & Jayd!");
-    addFeature("Capt. Latanica with party fighting the boss.");
-    addFeature("Filled up missing obligatory event script methods.");
-    addFeature("Secured uniquety of active lobby-name instances.");
-}
-
-function writeFeatureTab_Skills() {
-    addFeature("Reviewed many skills, such as Steal and M. Door.");
-    addFeature("Heal GMS-like: fixed HP gain & Heal skill packet.");
-    addFeature("Improved battleship: HP visible and map-persistent.");
-    addFeature("Maker skill features developed - pckts thanks Arnah.");
-    addFeature("Chair Mastery - map chair boosts HP/MP rec.");
-    addFeature("Mu Lung Dojo skills functional.");
-    addFeature("M. Magnet on bosses no longer crash.");
-    addFeature("M. Magnet on fixed no longer crash - thanks shavit!");
-    addFeature("HP/MP consumption from skills triggers pet autopot.");
-    addFeature("Elemental weapon imbue visibility for other players.");
-}
-
-function writeFeatureTab_Quests() {
-    addFeature("Doll house quest functional.");
-    addFeature("Q. items required to start quests shows up properly.");
-    addFeature("Quests are now rewarding items properly.");
-    addFeature("Items from starting quest reacquireable on NPC talk.");
-    addFeature("Selection of rewards works properly.");
-    addFeature("Loads of quests have been patched.");
-    addFeature("Aran questline has been reviewed.");
-    addFeature("Reviewed several 4th job skill questlines.");
-    addFeature("Rewarding system now looks up for item stacking.");
-    addFeature("3rd job quiz with all 40-question pool available.");
-    addFeature("Item raising functional.");
-    addFeature("Cleared issue with player movement during NPC talk.");
-    addFeature("Reviewed usage of quest progress data as requisite.");
-}
-
-function writeFeatureTab_PlayerSocialNetwork() {
-    addFeature("Party Search fully functional.");
-    addFeature("Guild and Alliance system fully functional.");
-    addFeature("Guild contract system held in Guild Headquarters.");
-    addFeature("Party for novices-only.");
-    addFeature("P. members' HPBar accounts HP gain on equips.");
-    addFeature("Thoroughly reviewed P. Shops and H. Merchants.");
-    addFeature("Transactions on Merchs instantly announced to owner.");
-    addFeature("Proper meso space check on player transactions.");
-    addFeature("Game minirooms with functional pw system.");
-    addFeature("Proper item pickup cooldown on non-owned items.");
-    addFeature("Improved ranking system, with daily movement.");
-    addFeature("Protected and improved face expression system.");
-    addFeature("Automated support for Player NPCs and Hall of Fame.");
-    addFeature("Engagement & Wedding system with ring effects.");
-    addFeature("Wedding Wishlists - thanks Dragohe4rt!");
-    addFeature("Equipments displays to everyone it's level & EXP info.");
-    addFeature("Further improved the existent minigame mechanics.");
-    addFeature("Trade complete using handshake synchronization.");
-    addFeature("GMS-like trade results displaying after transactions.");
-}
-
-function writeFeatureTab_CashItems() {
-    addFeature("EXP/DROP/Cosmetic Coupons.");
-    addFeature("EXP/DROP Coupon as buff effect during active time.");
-    addFeature("Great deal of cash items functional.");
-    addFeature("Proper depletion of picked slot for usable cash items.");
-    addFeature("Code coupons functional, with multi-items support.");
-    addFeature("Merged unique ids for pets, rings and cash items.");
-    addFeature("MapleTV mechanics stabilized and split by world.");
-    addFeature("GMS-esque omok/match card drop chances.");
-    addFeature("New town scroll: antibanish. Counters boss banishes.");
-    addFeature("Inventory system checks for free slot & stack space.");
-    addFeature("Storage with 'Arrange Items' feature functional.");
-    addFeature("Close-quarters evaluation mode for items.");
-    addFeature("Reviewed Karma scissors & Untradeable items.");
-    addFeature("Reviewed an pet position issue within CASH inventory.");
-    addFeature("Reviewed fashion-related contents, almost GMS-like.");
-    addFeature("Plastic surgeons/stylists no longer stuck characters.");
-    addFeature("Reworked gachapon loots, website-lists lookalike.");
-    addFeature("Scroll for Spikes on Shoes.");
-    addFeature("Scroll for Cold Protection.");
-    addFeature("Vega's spell.");
-    addFeature("Owl of Minerva.");
-    addFeature("Pet item ignore.");
-    addFeature("New Year's card.");
-    addFeature("Kite.");
-    addFeature("Cash Shop surprise.");
-    addFeature("Maple Life.");
-    addFeature("EXP Increase.");
-}
-
-function writeFeatureTab_MonstersMapsReactors() {
-    addFeature("Every monsterbook card is now droppable.");
-    addFeature("Added meso drop data for many missing mobs.");
-    addFeature("Monsterbook displays updated drop data info.");
-    addFeature("Every skill/mastery book is now obtainable.");
-    addFeature("Enhanced aggro system, with real-time DPS detection.");
-    addFeature("Puppets keep targeted mobs nearby on new aggro.");
-    addFeature("Mobs now can drop more than one of the same equip.");
-    addFeature("Mobs only drop items collectable by the player/party.");
-    addFeature("Mobs shouldn't fall from foothold too often now.");
-    addFeature("Properly applying MP cost on non-skill mob moves.");
-    addFeature("Limited underling mob spawns.");
-    addFeature("Implemented mob banish by touch & skill move.");
-    addFeature("Redesigned HT mechanics: assemble & dmg taken.");
-    addFeature("Implemented Zombify disease status.");
-    addFeature("Dmg Reflect mobskill icons no longer lags to display.");
-    addFeature("Added Boss HP Bar for dozens of bosses.");
-    addFeature("Game will favor showing the targeted boss HPbar.");
-    addFeature("Boss HPBar & Srv Message toggle - GabrielSin's idea.");
-    addFeature("Dmg overtime on maps and neutralizers functional.");
-    addFeature("Items will consistently stay within the walking area.");
-    addFeature("Boats, elevator and other travel mechanics functional.");
-    addFeature("C. Balrog's boat approaching visual effect functional.");
-    addFeature("Maps having everlasting items no longer expires them.");
-    addFeature("PQs, Taxis and events warps players to random SPs.");
-    addFeature("Uncovered missing portal SFX on scripted portals.");
-    addFeature("PQ boxes sprays items when opened, GMS-like.");
-    addFeature("Reactors pick items up smartly from the field.");
-    addFeature("Updated scripted portals, now with proper portal SFX.");
-    addFeature("Reviewed Masteria, W. Tour, N. Desert and Neo City.");
-    addFeature("Added world maps for M. Castle, W. Tour & Ellin areas.");
-    addFeature("Added W. Tour & Masteria continents in the world map.");
-    addFeature("Reviewed several issues with W. Map tooltips & links.");
-    addFeature("Continent separated global drops.");
-    addFeature("Giant Cake boss drops s. bags and Maple items.");
-}
-
-function writeFeatureTab_PQpotentials() {
-    addFeature("Advanced and well-safe PQ registration system.");
-    addFeature("Lobby system: Same channel, multiple PQ instances.");
-    addFeature("Exped system: Many parties can join a same instance.");
-    addFeature("Guild queue: guild registration for the GPQ.");
-    addFeature("EIM Pool system: optimized instance loadouts.");
-    addFeature("Recall system: players can rejoin PQ after d/c.");
-}
-
-function writeFeatureTab_Playerpotentials() {
-    addFeature("Adventurer Mount quests functional.");
-    addFeature("All Equipment levels up.");
-    addFeature("Player level rates.");
-    addFeature("Gain fame by quests and event instances.");
-    addFeature("Pet evolutions functional (not GMS-like).");
-    addFeature("Reviewed keybinding system.");
-    addFeature("Character slots per world/server-wide.");
-    addFeature("Optional cash shop inventory separated by classes.");
-    addFeature("Players manage 'same-typed' invites exclusively.");
-    addFeature("Player buffs with conditional active effects.");
-    addFeature("Rock-paper-scissors minigame - thanks Arnah!");
-}
-
-function writeFeatureTab_Serverpotentials() {
-    addFeature("Multi-worlds.");
-    addFeature("Each world can hold it's own rates from server bootup.");
-    addFeature("Dynamic World/Channel deployment.");
-    addFeature("Inventory auto-gather and auto-sorting feature.");
-    addFeature("Enhanced auto-pot system: smart pet potion handle.");
-    addFeature("Enhanced buff system: best buffs effects takes place.");
-    addFeature("Enhanced AP auto-assigner: focus on eqp demands.");
-    addFeature("Enhanced inventory check: free slots smartly fetched.");
-    addFeature("Enhanced petloot handler: no brute-force inv. checks.");
-    addFeature("Matching system: everyone's decision to trigger action.");
-    addFeature("Players-appointed bestsellers for Owl and Cash Shop.");
-    addFeature("Tweaked pet/mount hunger to a balanced growth rate.");
-    addFeature("Consistent experience and meso gain system.");
-    addFeature("Fredrick Store Bank warn/delete unclaimed items.");
-    addFeature("NPC crafters won't take items freely anymore.");
-    addFeature("Duey: pkg rcvd popup and many delivery mechanics.");
-    addFeature("Pet pickup gives preference to player attacks.");
-    addFeature("Channel capacity bar and worlds with capacity check.");
-    addFeature("Diseases visible for others, even after changing maps.");
-    addFeature("Persistent diseases. Players keeps status on login.");
-    addFeature("Poison damage value visible for other players.");
-    addFeature("M. book announcer displays info based on demand.");
-    addFeature("Custom jail system.");
-    addFeature("Custom fishing system having 'seasonal' catch times.");
-    addFeature("Actual fishing handling w/ F. Net - thanks Dragohe4rt!");
-    addFeature("Custom map leasing system.");
-    addFeature("Delete Character.");
-    addFeature("Smooth view-all-char, now showing all account chars.");
-    addFeature("Centralized servertime, boosting handler performance.");
-    addFeature("Centralized timestamping, unused rcvd timestamps.");
-    addFeature("Autosaver (periodically saves player's data on DB).");
-    addFeature("Fixed and randomized HP/MP growth rate available.");
-    addFeature("Players' MaxHP/MaxMP method accounting equip gain.");
-    addFeature("Prevented 'NPC gone after some uptime' issue.");
-    addFeature("AP assigning available for novices level 10 or below.");
-    addFeature("SP cap past tier-level, recovered after job upgrade.");
-    addFeature("Bypassable PIN/PIC system for authenticated users.");
-    addFeature("Automatic account registration - thanks shavit!");
-    addFeature("Any NPC scriptable - thanks GabrielSin!");
-}
-
-function writeFeatureTab_Commands() {
-    addFeature("Spawn Zakum/Horntail/Pinkbean.");
-    addFeature("Permanent NPCs & mobs.");
-    addFeature("Several new commands.");
-    addFeature("Rank command highlighting users by world or overall.");
-    addFeature("Server commands layered by GM levels.");
-    addFeature("Revamped command files layout - thanks Arthur L!");
-    addFeature("Improved 'Search' performance & added map search.");
-}
-
-function writeFeatureTab_CustomNPCs() {
-    addFeature("Spiegelmann: automatized rock-refiner.");
-    addFeature("Asia: scroll & rarities shop NPC.");
-    addFeature("Abdula: lists droppers of needed skill/mastery books.");
-    addFeature("Agent E: accessory crafter.");
-    addFeature("Dalair: automatized equipment-merger.");
-    addFeature("Donation Box: automatized item-buyer.");
-    addFeature("Coco & Ace of Hearts: C. scroll crafters.");
-    addFeature("Barry (MapleTV): fill book & exchange items for scroll.");
-}
-
-function writeFeatureTab_Localhostedits() {
-    addFeature("Removed the 'n' NPC dialog issue.");
-    addFeature("Removed caps for MATK, WMDEF, ACC and AVOID.");
-    addFeature("Removed MTS block.");
-    addFeature("Removed party blocks for novices under level 10.");
-    addFeature("Set a much more higher cap for SPEED.");
-    addFeature("Removed AP usage block for novices.");
-    addFeature("Removed attack gem block on non-weapons w/ Maker.");
-    addFeature("Removed AP excess popup - thanks kevintjuh93!");
-    addFeature("Removed 'GMs can't attack' - thanks kevintjuh93!");
-    addFeature("Removed 'Gained a level!' - thanks PrinceReborn!");
-}
-
-function writeFeatureTab_Project() {
-    addFeature("Organized project code.");
-    addFeature("Highly updated drop data.");
-    addFeature("Highly configurable & optimized server.");
-    addFeature("Fixed/added many missing packet opcodes.");
-    addFeature("Uncovered many opcodes throughout the source.");
-    addFeature("Reviewed many Java aspects that needed attention.");
-    addFeature("Reviewed SQL data, eliminating duplicated entries.");
-    addFeature("Improved login phase, using cache over DB queries.");
-    addFeature("Protected many flaws with login management system.");
-    addFeature("Developed a robust anti-exploit login coordinator.");
-    addFeature("Revised uniqueness aspect of logged in accounts.");
-    addFeature("Usage of HikariCP to improve DB connection calls.");
-    addFeature("Usage of Java Threadpool to improve runnable calls.");
-    addFeature("Developed many survey tools for content profiling.");
-    addFeature("Removed dangling item name throughout game files.");
-    addFeature("Remodeled item scripts, properly using NPC dialogs.");
-    addFeature("ThreadTracker: runtime tool for deadlock detection.");
-    addFeature("Channel, World and Server-wide timer management.");
-    addFeature("Developed services as preemptive task scheduler.");
-    addFeature("Thoroughly reviewed encapsulation for player stats.");
-    addFeature("Heavily reviewed future task management, spawning much less threads and relieving task overload on the TimerManager.");
-}
-
-function writeAllFeatures() {
-    var re = /[ ,&\/]+/g;
-
-    for (var i = 0; i < tabs.length; i++) {
-        feature_cursor = [];
-
-        var tabName = (tabs[i]).replace(re, "");
-        this["writeFeatureTab_" + tabName]();
-
-        feature_tree.push(feature_cursor);
-    }
-}
+var CAMPAIGN_KEY = "daily_login_test_20260712";
+var rewards = [
+    { type: "meso", amount: 100000, label: "100,000 mesos" },
+    { type: "nx", amount: 500, label: "500 NX" },
+    { type: "meso", amount: 200000, label: "200,000 mesos" },
+    { type: "nx", amount: 500, label: "500 NX" }
+];
 
 function start() {
     status = -1;
-    writeAllFeatures();
     action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-    const PacketCreator = Java.type('tools.PacketCreator');
-    if (mode == -1) {
-        cm.getPlayer().sendPacket(PacketCreator.musicChange(ambientSong));
+    if (mode < 1) {
         cm.dispose();
-    } else {
-        if (mode == 0 && type > 0) {
-            cm.getPlayer().sendPacket(PacketCreator.musicChange(ambientSong));
+        return;
+    }
+
+    status++;
+    if (status == 0) {
+        var progress = getProgress();
+        var text = "#ePase diario de prueba#n\r\n\r\n";
+        text += "Progreso actual: #b" + progress.claimedDays + "/" + rewards.length + "#k dias cobrados.\r\n\r\n";
+        text += buildRewardList(progress.claimedDays);
+        text += "\r\n#L0#Cobrar recompensa de hoy#l";
+
+        if (cm.getPlayer().gmLevel() >= 3) {
+            text += "\r\n#L98#GM: cobrar siguiente dia ignorando fecha#l";
+            text += "\r\n#L99#GM: reiniciar mi progreso de prueba#l";
+        }
+
+        cm.sendSimple(text);
+    } else if (status == 1) {
+        selected = selection;
+
+        if (selected == 98 && cm.getPlayer().gmLevel() >= 3) {
+            var gmPreview = getClaimPreview(true);
+            if (!gmPreview.canClaim) {
+                cm.sendOk(gmPreview.message);
+                cm.dispose();
+                return;
+            }
+
+            cm.sendYesNo("Modo GM de prueba:\r\n\r\nVas a cobrar el #bDia " + gmPreview.day + "#k ignorando el bloqueo diario.\r\n\r\nRecompensa: #e" + gmPreview.reward.label + "#n\r\n\r\nDeseas continuar?");
+            return;
+        }
+
+        if (selected == 99 && cm.getPlayer().gmLevel() >= 3) {
+            resetProgress();
+            cm.sendOk("Progreso de prueba reiniciado para esta cuenta.");
             cm.dispose();
             return;
         }
-        if (mode == 1) {
-            status++;
-        } else {
-            status--;
-        }
 
-        if (status == 0) {
-            var sendStr = "HeavenMS was developed on the timespan of 4 years, based on where Solaxia left. I'm glad to say the development itself had continuously been agraciated by dozens of contributors and cheerers (truly thanks for the trusting vow, guys & gals!).\r\n\r\nTalking about results: many nice features emerged, development aimed to get back the old GMS experience. Now many of these so-long missing features are gracefully presented to you in the shape of this server. Long live MapleStory!!\r\n\r\nThese are the features from #bHeavenMS#k:\r\n\r\n";
-            for (var i = 0; i < tabs.length; i++) {
-                sendStr += "#L" + i + "##b" + tabs[i] + "#k#l\r\n";
-            }
-
-            cm.sendSimple(sendStr);
-        } else if (status == 1) {
-            var tabName;
-
-            for (var i = 0; i < tabs.length; i++) {
-                if (selection == i) {
-                    tabName = feature_tree[i];
-                    break;
-                }
-            }
-
-            var sendStr = "#b" + tabs[selection] + "#k:\r\n\r\n";
-            for (var i = 0; i < tabName.length; i++) {
-                sendStr += "  #L" + i + "# " + tabName[i];
-                sendStr += "#l\r\n";
-            }
-
-            cm.sendPrev(sendStr);
-        } else {
-            cm.getPlayer().sendPacket(PacketCreator.musicChange(ambientSong));
+        var preview = getClaimPreview();
+        if (!preview.canClaim) {
+            cm.sendOk(preview.message);
             cm.dispose();
+            return;
         }
+
+        cm.sendYesNo("Vas a cobrar la recompensa del #bDia " + preview.day + "#k:\r\n\r\n#e" + preview.reward.label + "#n\r\n\r\nDeseas continuar?");
+    } else if (status == 2) {
+        var result = claimReward(selected == 98 && cm.getPlayer().gmLevel() >= 3);
+        cm.sendOk(result.message);
+        cm.dispose();
     }
 }
 
-function generateSelectionMenu(array) {
-    var menu = "";
-    for (var i = 0; i < array.length; i++) {
-        menu += "#L" + i + "#" + array[i] + "#l\r\n";
+function buildRewardList(claimedDays) {
+    var text = "";
+    for (var i = 0; i < rewards.length; i++) {
+        var marker = i < claimedDays ? "#g[Cobrado]#k" : (i == claimedDays ? "#b[Siguiente]#k" : "#d[Pendiente]#k");
+        text += marker + " Dia " + (i + 1) + ": " + rewards[i].label + "\r\n";
     }
-    return menu;
+    return text;
+}
+
+function getClaimPreview(ignoreDateGate) {
+    var progress = getProgress();
+    if (!ignoreDateGate && progress.claimedToday) {
+        return { canClaim: false, message: "Ya cobraste la recompensa de hoy. Vuelve manana para el siguiente dia del pase." };
+    }
+    if (progress.claimedDays >= rewards.length) {
+        return { canClaim: false, message: "Ya completaste todas las recompensas de este pase de prueba." };
+    }
+
+    return {
+        canClaim: true,
+        day: progress.claimedDays + 1,
+        reward: rewards[progress.claimedDays]
+    };
+}
+
+function claimReward(ignoreDateGate) {
+    var preview = getClaimPreview(ignoreDateGate);
+    if (!preview.canClaim) {
+        return { ok: false, message: preview.message };
+    }
+
+    var accountId = cm.getPlayer().getAccountID();
+    var characterId = cm.getPlayer().getId();
+    var day = preview.day;
+    var reward = preview.reward;
+
+    var con = null;
+    var ps = null;
+
+    try {
+        var DatabaseConnection = Java.type("tools.DatabaseConnection");
+        con = DatabaseConnection.getConnection();
+
+        var claimedOnSql = ignoreDateGate ? "DATE_ADD(CURRENT_DATE, INTERVAL " + day + " DAY)" : "CURRENT_DATE";
+        ps = con.prepareStatement(
+            "INSERT INTO daily_login_pass_claims " +
+            "(account_id, character_id, campaign_key, reward_day, claimed_on, reward_type, reward_amount) " +
+            "VALUES (?, ?, ?, ?, " + claimedOnSql + ", ?, ?)"
+        );
+        ps.setInt(1, accountId);
+        ps.setInt(2, characterId);
+        ps.setString(3, CAMPAIGN_KEY);
+        ps.setInt(4, day);
+        ps.setString(5, reward.type);
+        ps.setInt(6, reward.amount);
+        ps.executeUpdate();
+        closeQuietly(ps);
+        ps = null;
+
+        if (reward.type == "meso") {
+            cm.gainMeso(reward.amount);
+        } else if (reward.type == "nx") {
+            var CashShop = Java.type("server.CashShop");
+            cm.getPlayer().getCashShop().gainCash(CashShop.NX_CREDIT, reward.amount);
+
+            ps = con.prepareStatement("UPDATE accounts SET nxCredit = COALESCE(nxCredit, 0) + ? WHERE id = ?");
+            ps.setInt(1, reward.amount);
+            ps.setInt(2, accountId);
+            ps.executeUpdate();
+            closeQuietly(ps);
+            ps = null;
+        } else {
+            return { ok: false, message: "Tipo de recompensa no soportado: " + reward.type };
+        }
+
+        cm.getPlayer().saveCharToDB();
+        return { ok: true, message: "Listo. Cobraste la recompensa del Dia " + day + ": #b" + reward.label + "#k." };
+    } catch (err) {
+        return { ok: false, message: "No se pudo cobrar la recompensa. Si ya cobraste hoy, vuelve manana.\r\n\r\nDetalle: " + err };
+    } finally {
+        closeQuietly(ps);
+        closeQuietly(con);
+    }
+}
+
+function getProgress() {
+    var accountId = cm.getPlayer().getAccountID();
+    var con = null;
+    var ps = null;
+    var rs = null;
+
+    try {
+        var DatabaseConnection = Java.type("tools.DatabaseConnection");
+        con = DatabaseConnection.getConnection();
+        ps = con.prepareStatement(
+            "SELECT COUNT(*) AS claimed_days, " +
+            "SUM(CASE WHEN claimed_on = CURRENT_DATE THEN 1 ELSE 0 END) AS claimed_today " +
+            "FROM daily_login_pass_claims WHERE account_id = ? AND campaign_key = ?"
+        );
+        ps.setInt(1, accountId);
+        ps.setString(2, CAMPAIGN_KEY);
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            return {
+                claimedDays: rs.getInt("claimed_days"),
+                claimedToday: rs.getInt("claimed_today") > 0
+            };
+        }
+    } catch (err) {
+        return { claimedDays: 0, claimedToday: false };
+    } finally {
+        closeQuietly(rs);
+        closeQuietly(ps);
+        closeQuietly(con);
+    }
+
+    return { claimedDays: 0, claimedToday: false };
+}
+
+function resetProgress() {
+    var con = null;
+    var ps = null;
+
+    try {
+        var DatabaseConnection = Java.type("tools.DatabaseConnection");
+        con = DatabaseConnection.getConnection();
+        ps = con.prepareStatement("DELETE FROM daily_login_pass_claims WHERE account_id = ? AND campaign_key = ?");
+        ps.setInt(1, cm.getPlayer().getAccountID());
+        ps.setString(2, CAMPAIGN_KEY);
+        ps.executeUpdate();
+    } finally {
+        closeQuietly(ps);
+        closeQuietly(con);
+    }
+}
+
+function closeQuietly(resource) {
+    if (resource != null) {
+        try {
+            resource.close();
+        } catch (ignore) {
+        }
+    }
 }

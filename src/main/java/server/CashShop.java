@@ -127,6 +127,7 @@ public class CashShop {
     }
 
     public static class CashItem {
+        private static final long CASH_ITEM_EXPIRATION_DAYS = 30;
 
         private final int sn;
         private final int itemId;
@@ -139,7 +140,7 @@ public class CashShop {
             this.sn = sn;
             this.itemId = itemId;
             this.price = price;
-            this.period = (period == 0 ? 90 : period);
+            this.period = CASH_ITEM_EXPIRATION_DAYS;
             this.count = count;
             this.onSale = onSale;
         }
