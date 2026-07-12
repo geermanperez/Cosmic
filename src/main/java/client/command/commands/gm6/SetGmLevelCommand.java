@@ -33,7 +33,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class SetGmLevelCommand extends Command {
-    private static final int DONOR_LEVEL = 2;
+    private static final int DONOR_LEVEL = 1;
 
     {
         setDescription("Set GM level of a player.");

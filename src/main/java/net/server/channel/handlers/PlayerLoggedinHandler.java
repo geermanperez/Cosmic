@@ -105,7 +105,7 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
     }
 
     private void expireDonorRoleIfNeeded(Client c, Character player) {
-        if (player.gmLevel() != 2) {
+        if (player.gmLevel() != 1) {
             return;
         }
 
@@ -123,7 +123,7 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
                 return;
             }
 
-            try (PreparedStatement ps = con.prepareStatement("UPDATE characters SET gm = 0 WHERE accountid = ? AND gm = 2")) {
+            try (PreparedStatement ps = con.prepareStatement("UPDATE characters SET gm = 0 WHERE accountid = ? AND gm = 1")) {
                 ps.setInt(1, player.getAccountID());
                 ps.executeUpdate();
             }

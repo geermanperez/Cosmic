@@ -1097,7 +1097,7 @@ app.get("/admin/stats", authMiddleware, adminMiddleware, async (req, res) => {
       stats.onlineUsers = online[0].total;
     } else stats.onlineUsers = 0;
 
-    // GMs reales: gm 2 se usa como donador y no debe contar como staff.
+    // GMs reales: gm 1 se usa como donador y no debe contar como staff.
     if (charColNames.includes('gm')) {
       const [gms] = await pool.query("SELECT COUNT(*) AS total FROM characters WHERE gm >= 3");
       stats.gmCharacters = gms[0].total;
@@ -1188,7 +1188,7 @@ app.post("/admin/accounts/:id/donor", authMiddleware, adminMiddleware, async (re
       return res.status(404).json({ ok: false, message: "El personaje no pertenece a esa cuenta." });
     }
 
-    await pool.query("UPDATE characters SET gm = 2 WHERE id = ? AND accountid = ?", [characterId, accountId]);
+    await pool.query("UPDATE characters SET gm = 1 WHERE id = ? AND accountid = ?", [characterId, accountId]);
 
     const [updateResult] = await pool.query(
       `UPDATE accounts
@@ -1242,10 +1242,10 @@ app.delete("/admin/accounts/:id/donor", authMiddleware, adminMiddleware, async (
       return res.status(404).json({ ok: false, message: "El personaje no pertenece a esa cuenta." });
     }
 
-    await pool.query("UPDATE characters SET gm = 0 WHERE id = ? AND accountid = ? AND gm = 2", [characterId, accountId]);
+    await pool.query("UPDATE characters SET gm = 0 WHERE id = ? AND accountid = ? AND gm = 1", [characterId, accountId]);
 
     const [remainingDonors] = await pool.query(
-      "SELECT id FROM characters WHERE accountid = ? AND gm = 2 LIMIT 1",
+      "SELECT id FROM characters WHERE accountid = ? AND gm = 1 LIMIT 1",
       [accountId]
     );
 

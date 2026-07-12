@@ -395,7 +395,7 @@ public class CommandsExecutor {
         addCommand("online", 1, OnlineCommand.class);
         addCommand("buffme", 1, BuffMeCommand.class);
         addCommand("goto", 1, GotoCommand.class);
-        addHiddenCommand("loot", 2, LootCommand.class);
+        addHiddenCommand("loot", 1, LootCommand.class);
 
         commandsNameDesc.add(levelCommandsCursor);
     }

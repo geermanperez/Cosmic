@@ -3965,7 +3965,7 @@ function AccountPanel({
                               {(account.characters || []).length > 0 ? (
                                 <small>
                                   {text.donorCharactersHint}: {(account.characters || []).map((character) => (
-                                    `#${character.id} ${character.name}${Number(character.gm) === 2 ? ` (${text.donorBadge})` : ""}`
+                                    `#${character.id} ${character.name}${account.is_donor && Number(character.gm) === 1 ? ` (${text.donorBadge})` : ""}`
                                   )).join(" | ")}
                                 </small>
                               ) : null}

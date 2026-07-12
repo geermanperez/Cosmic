@@ -40,8 +40,8 @@ public class LootCommand extends Command {
     @Override
     public void execute(Client c, String[] params) {
         int gmLevel = c.getPlayer().gmLevel();
-        if (gmLevel < 2 || gmLevel > 6) {
-            c.getPlayer().dropMessage(1, "No puedes usar !loot. Solo roles GM 2 a 6.");
+        if (gmLevel < 1 || gmLevel > 6) {
+            c.getPlayer().dropMessage(1, "No puedes usar !loot. Solo roles donador o superiores.");
             return;
         }
         List<MapObject> items = c.getPlayer().getMap().getMapObjectsInRange(c.getPlayer().getPosition(), Double.POSITIVE_INFINITY, Arrays.asList(MapObjectType.ITEM));
