@@ -43,7 +43,7 @@ import "./App.css";
 import { API_URL, getToken, saveToken, request } from "./apiClient";
 
 const downloadUrl =
-  "https://drive.google.com/file/d/1EpJqn0SKdwXl5rHrPmMhtUfKo91V3LAJ/view?usp=sharing";
+  "https://drive.google.com/file/d/1wBUb8wFIiAz_yzXw6xjeMNPBTlOo1phA/view?usp=sharing";
 const updateDownloadUrl =
   "https://drive.google.com/file/d/1MO9nkQUnwGjgMrNGaBcGgw2i1BtbM2fs/view?usp=sharing";
 const updateNoticeStorageKey = "latinms-visual-patch-notice-2026-06-05";
@@ -141,8 +141,8 @@ const translations = {
       ],
       [
         "/4.png",
-        "LatinMS v1.0 is now available",
-        "If you have an older client, please update before playing. Download LatinMS v1.0 from the download section to enter the server without issues.",
+        "LatinmsV1.0.2 is now available",
+        "If you have an older client, please update before playing. Download LatinmsV1.0.2 from the download section to enter the server without issues.",
       ],
       [
         "/1.png",
@@ -164,10 +164,12 @@ const translations = {
       newsTitle: "Latest LatinMS news",
       rankingTitle: "Top server players",
       downloadKicker: "Download",
-      downloadTitle: "Download the LatinMS v1.0 client",
+      downloadTitle: "Download the LatinmsV1.0.2 client",
       downloadCopy:
-        "LatinMS v1.0 client ready to enter the world of LatinMS. Download it, install it, and use your account to begin the adventure.",
+        "LatinmsV1.0.2 client ready to enter the world of LatinMS. Download it, install it, and use your account to begin the adventure.",
       downloadClient: "Download client",
+      launcherRecommendation:
+        "RECOMMENDATION: to open the game, use LATINMS LAUNCHER.cmd (it closes open client processes and then starts the game cleanly).",
       patchTitle: "Latest visual patch",
       patchCopy:
         "Already have the client? Download this visual patch, unzip it, paste the launcher into your game folder, and replace the previous one when Windows asks.",
@@ -429,8 +431,8 @@ const translations = {
       ],
       [
         "/4.png",
-        "Nueva version LatinMS v1.0 disponible",
-        "Si tenes una version vieja del cliente, actualiza antes de jugar. Descarga LatinMS v1.0 desde la seccion de descarga para entrar al servidor sin problemas.",
+        "Nueva version LatinmsV1.0.2 disponible",
+        "Si tenes una version vieja del cliente, actualiza antes de jugar. Descarga LatinmsV1.0.2 desde la seccion de descarga para entrar al servidor sin problemas.",
       ],
       [
         "/1.png",
@@ -452,10 +454,12 @@ const translations = {
       newsTitle: "Ultimas novedades de LatinMS",
       rankingTitle: "Top jugadores del servidor",
       downloadKicker: "Descarga",
-      downloadTitle: "Descarga el cliente de LatinMS v1.0",
+      downloadTitle: "Descarga el cliente de LatinmsV1.0.2",
       downloadCopy:
-        "Cliente LatinMS v1.0 listo para entrar al mundo de LatinMS. Descargalo, instalalo y usa tu cuenta para comenzar la aventura.",
+        "Cliente LatinmsV1.0.2 listo para entrar al mundo de LatinMS. Descargalo, instalalo y usa tu cuenta para comenzar la aventura.",
       downloadClient: "Descargar cliente",
+      launcherRecommendation:
+        "RECOMENDACION: para abrir el juego usar LATINMS LAUNCHER.cmd (cierra procesos abiertos del cliente y luego inicia el juego limpio).",
       patchTitle: "Parche visual",
       patchCopy:
         "Ya tienes el cliente? Descarga este parche visual, descomprimilo, pega el launcher en la carpeta del juego y reemplaza el anterior cuando Windows pregunte.",
@@ -2809,6 +2813,7 @@ function App() {
                       {t.pages.downloadClient}
                       <ArrowRight size={18} />
                     </a>
+                    <p className="download-recommendation">{t.pages.launcherRecommendation}</p>
                     {showUpdateContent ? (
                       <div className="download-patch">
                         <h3>{t.pages.patchTitle}</h3>
