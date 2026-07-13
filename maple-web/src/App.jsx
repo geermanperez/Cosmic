@@ -23,6 +23,7 @@ import {
   MapPin,
   MessageCircle,
   Newspaper,
+  RotateCcw,
   Search,
   Send,
   Share2,
@@ -196,6 +197,7 @@ const translations = {
       job: "Job",
       guild: "Guild",
       fame: "Fame",
+      resets: "Resets",
       origin: "Origin",
       characterAlt: "Character",
       noData: "No data",
@@ -215,6 +217,7 @@ const translations = {
       donor: "Donor",
       tabs: {
         level: "Top Level",
+        resets: "Top Resets",
         fame: "Top Fame",
         guilds: "Top Guilds",
         bosses: "Top Bosses",
@@ -486,6 +489,7 @@ const translations = {
       job: "Job",
       guild: "Guild",
       fame: "Fama",
+      resets: "Resets",
       origin: "Origen",
       characterAlt: "Personaje",
       noData: "Sin datos",
@@ -505,6 +509,7 @@ const translations = {
       donor: "Donador",
       tabs: {
         level: "Top Level",
+        resets: "Top Resets",
         fame: "Top Fame",
         guilds: "Top Guilds",
         bosses: "Top Bosses",
@@ -752,7 +757,7 @@ const DEFAULT_EQUIPS_BY_GENDER = {
   1: [1041002, 1061002, 1072001],
 };
 const DEFAULT_WEAPON = 1302000;
-const RANKING_TABS = ["level", "fame", "guilds", "bosses"];
+const RANKING_TABS = ["level", "resets", "fame", "guilds", "bosses"];
 const RANKING_PAGE_SIZE = 12;
 
 // Placeholder-only dataset until the backend exposes a boss-clears ranking.
@@ -1072,6 +1077,11 @@ function getPlayerFame(player) {
   return Number.isFinite(fame) && fame > 0 ? fame : null;
 }
 
+function getPlayerResets(player) {
+  const resets = Number(player?.reborns ?? player?.resets ?? player?.reset_count ?? player?.resetCount ?? player?.rebirths ?? 0);
+  return Number.isFinite(resets) && resets > 0 ? resets : null;
+}
+
 function isGuildRankingItem(player) {
   return player?.type === "guild";
 }
@@ -1156,6 +1166,7 @@ function RankingCard({ player, rank, language, text, featured = false, compact =
   const name = getPlayerName(player);
   const guild = getPlayerGuild(player);
   const fame = getPlayerFame(player);
+  const resets = getPlayerResets(player);
   const isGuild = isGuildRankingItem(player);
   const displayRank = player?._rankingPosition ?? rank;
   const rankBadges = getRankBadges(displayRank, text);
@@ -1203,6 +1214,7 @@ function RankingCard({ player, rank, language, text, featured = false, compact =
           ) : (
             <>
               <span><Sparkles size={15} />{text.level} {player?.level ?? "-"}</span>
+              {resets ? <span><RotateCcw size={15} />{text.resets} {resets}</span> : null}
               <span><Swords size={15} />{jobName}</span>
               {guild ? <span><Users size={15} />{guild}</span> : null}
               {fame ? <span><Heart size={15} />{fame}</span> : null}
@@ -1480,6 +1492,7 @@ function App() {
   const [status, setStatus] = useState(null);
   const [ranking, setRanking] = useState([]);
   const [guildRanking, setGuildRanking] = useState([]);
+  const [resetRanking, setResetRanking] = useState([]);
   const [rankingLoading, setRankingLoading] = useState(true);
   const [rankingTab, setRankingTab] = useState("level");
   const [rankingSearch, setRankingSearch] = useState("");
@@ -1650,14 +1663,17 @@ function App() {
     const loadRanking = async () => {
       const rankingUrl = `${API_URL}/ranking`;
       const guildRankingUrl = `${API_URL}/ranking/guilds`;
+      const resetRankingUrl = `${API_URL}/ranking/resets`;
       setRankingLoading(true);
       try {
-        const [rankingRes, guildRankingRes] = await Promise.all([
+        const [rankingRes, guildRankingRes, resetRankingRes] = await Promise.all([
           fetch(rankingUrl),
           fetch(guildRankingUrl),
+          fetch(resetRankingUrl),
         ]);
         const data = await rankingRes.json();
         const guildData = await guildRankingRes.json();
+        const resetData = await resetRankingRes.json();
 
         if (Array.isArray(data)) {
           setRanking(data);
@@ -1666,10 +1682,12 @@ function App() {
         }
 
         setGuildRanking(Array.isArray(guildData.ranking) ? guildData.ranking : []);
+        setResetRanking(Array.isArray(resetData.ranking) ? resetData.ranking : []);
       } catch (error) {
         console.error(`Error loading ranking from ${rankingUrl}`, error);
         setRanking([]);
         setGuildRanking([]);
+        setResetRanking([]);
       } finally {
         setRankingLoading(false);
       }
@@ -2378,12 +2396,16 @@ function App() {
   const rankingRows = useMemo(() => {
     const source = rankingTab === "guilds"
       ? [...guildRanking]
+      : rankingTab === "resets"
+        ? [...resetRanking]
       : rankingTab === "bosses"
         ? rankingEndpointPlaceholders.bosses
         : [...ranking];
 
     const sortedSource = rankingTab === "fame"
       ? [...source].sort((a, b) => (getPlayerFame(b) ?? 0) - (getPlayerFame(a) ?? 0))
+      : rankingTab === "resets"
+        ? [...source].sort((a, b) => (getPlayerResets(b) ?? 0) - (getPlayerResets(a) ?? 0))
       : source;
     const rankedSource = sortedSource.map((player, index) => ({ ...player, _rankingPosition: index + 1 }));
 
@@ -2391,7 +2413,7 @@ function App() {
     if (!searchValue) return rankedSource;
 
     return rankedSource.filter((player) => getPlayerName(player).toLowerCase().includes(searchValue));
-  }, [guildRanking, ranking, rankingSearch, rankingTab]);
+  }, [guildRanking, ranking, rankingSearch, rankingTab, resetRanking]);
   const selectedPlayerProfile = useMemo(
     () => (view === "profile" ? findPlayerProfile(ranking, getProfileTargetFromHash()) : null),
     [ranking, view],

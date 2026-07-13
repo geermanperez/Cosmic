@@ -1763,6 +1763,7 @@ app.get("/ranking", async (req, res) => {
         c.id,
         c.name,
         c.level,
+        c.reborns,
         c.job,
         c.fame,
         c.gender,
@@ -1880,6 +1881,85 @@ app.get("/ranking/guilds", async (req, res) => {
     return res.status(500).json({
       ok: false,
       message: "No se pudo cargar el ranking de guilds.",
+      error: error.message,
+    });
+  }
+});
+
+app.get("/ranking/resets", async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT
+        c.id,
+        c.name,
+        c.level,
+        c.reborns,
+        c.job,
+        c.fame,
+        c.gender,
+        c.skincolor AS skin,
+        c.face,
+        c.hair,
+        c.guildid,
+        g.name AS guild_name,
+        p.display_name,
+        p.avatar_url,
+        p.bio,
+        p.instagram_url,
+        p.discord_url,
+        p.website_url,
+        p.location,
+        p.country,
+        a.donor_until,
+        a.donor_until IS NOT NULL AND a.donor_until > NOW() AS is_donor,
+        a.donor_until IS NOT NULL AND a.donor_until > NOW() AS donor
+      FROM characters c
+      LEFT JOIN accounts a ON c.accountid = a.id
+      LEFT JOIN guilds g ON c.guildid = g.guildid
+      LEFT JOIN web_profiles p ON c.accountid = p.account_id
+      WHERE c.gm < 3 AND c.reborns > 0
+      ORDER BY c.reborns DESC, c.level DESC, c.exp DESC
+      LIMIT 50
+    `);
+
+    if (rows.length === 0) {
+      return res.json({ ok: true, rankingVersion: "resets-v1", ranking: [] });
+    }
+
+    const characterIds = rows.map((row) => row.id);
+    const placeholders = characterIds.map(() => "?").join(",");
+    const [equipRows] = await pool.query(`
+      SELECT characterid, itemid, position
+      FROM inventoryitems
+      WHERE characterid IN (${placeholders})
+        AND inventorytype = -1
+        AND position < 0
+      ORDER BY characterid, position
+    `, characterIds);
+
+    const equipsByCharacter = new Map();
+    for (const equip of equipRows) {
+      if (!equipsByCharacter.has(equip.characterid)) {
+        equipsByCharacter.set(equip.characterid, []);
+      }
+      equipsByCharacter.get(equip.characterid).push({
+        itemid: equip.itemid,
+        position: equip.position,
+      });
+    }
+
+    const ranking = rows.map((row) => ({
+      ...row,
+      resets: row.reborns,
+      equips: equipsByCharacter.get(row.id) || [],
+    }));
+
+    return res.json({ ok: true, rankingVersion: "resets-v1", ranking });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      ok: false,
+      message: "No se pudo cargar el ranking de resets.",
       error: error.message,
     });
   }

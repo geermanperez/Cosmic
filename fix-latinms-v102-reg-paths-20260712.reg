@@ -1,0 +1,7 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\Software\WOW6432Node\Wizet\MapleStory]
+"ExecPath"="D:\\LatinMSv1.0.1\\LatinmsV1.0.2"
+"RootPath"="D:\\LatinMSv1.0.1\\LatinmsV1.0.2"
+"Executable"="D:\\LatinMSv1.0.1\\LatinmsV1.0.2\\LatinMS.exe"
+"Icon"="D:\\LatinMSv1.0.1\\LatinmsV1.0.2\\LatinMS.exe,0"
