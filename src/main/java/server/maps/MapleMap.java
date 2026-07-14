@@ -70,6 +70,7 @@ import server.life.SpawnPoint;
 import server.partyquest.CarnivalFactory;
 import server.partyquest.CarnivalFactory.MCSkill;
 import server.partyquest.GuardianSpawnPoint;
+import server.ranking.BossRanking;
 import tools.PacketCreator;
 import tools.Pair;
 import tools.Randomizer;
@@ -1422,6 +1423,8 @@ public class MapleMap {
             }
 
             Character dropOwner = monster.killBy(chr);
+            Character bossRankingOwner = getCharacterById(monster.getHighestDamagerId());
+            BossRanking.recordKill(monster, bossRankingOwner != null ? bossRankingOwner : chr);
             if (withDrops && !monster.dropsDisabled()) {
                 if (dropOwner == null) {
                     dropOwner = chr;

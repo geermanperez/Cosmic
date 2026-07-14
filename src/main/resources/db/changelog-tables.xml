@@ -105,4 +105,8 @@
         <sqlFile path="db/tables/025-gtop100-votes.sql"/>
     </changeSet>
 
+    <changeSet id="26" author="ChatGPT">
+        <sqlFile path="db/tables/026-boss-ranking.sql"/>
+    </changeSet>
+
 </databaseChangeLog>

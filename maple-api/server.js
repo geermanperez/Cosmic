@@ -925,6 +925,28 @@ async function ensureVoteTokensTable() {
   }
 }
 
+async function ensureBossRankingTable() {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS boss_ranking (
+        character_id INT NOT NULL,
+        boss_id INT NOT NULL,
+        boss_name VARCHAR(40) NOT NULL,
+        kills INT NOT NULL DEFAULT 0,
+        points INT NOT NULL DEFAULT 0,
+        last_kill_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (character_id, boss_id),
+        KEY idx_boss_ranking_points (points),
+        KEY idx_boss_ranking_character (character_id),
+        KEY idx_boss_ranking_last_kill (last_kill_at)
+      )
+    `);
+    console.log("boss_ranking table ensured");
+  } catch (err) {
+    console.error("Error ensuring boss_ranking table:", err.message);
+  }
+}
+
 // Auth middleware
 function authMiddleware(req, res, next) {
   const auth = req.headers.authorization;
@@ -1965,6 +1987,118 @@ app.get("/ranking/resets", async (req, res) => {
   }
 });
 
+app.get("/ranking/bosses", async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT
+        c.id,
+        c.name,
+        c.level,
+        c.reborns,
+        c.job,
+        c.fame,
+        c.gender,
+        c.skincolor AS skin,
+        c.face,
+        c.hair,
+        c.guildid,
+        g.name AS guild_name,
+        p.display_name,
+        p.avatar_url,
+        p.bio,
+        p.instagram_url,
+        p.discord_url,
+        p.website_url,
+        p.location,
+        p.country,
+        a.donor_until,
+        a.donor_until IS NOT NULL AND a.donor_until > NOW() AS is_donor,
+        a.donor_until IS NOT NULL AND a.donor_until > NOW() AS donor,
+        SUM(br.kills) AS boss_kills,
+        SUM(br.points) AS boss_points,
+        MAX(br.last_kill_at) AS last_boss_kill_at,
+        GROUP_CONCAT(DISTINCT br.boss_name ORDER BY br.boss_name SEPARATOR ', ') AS boss_names
+      FROM boss_ranking br
+      INNER JOIN characters c ON br.character_id = c.id
+      LEFT JOIN accounts a ON c.accountid = a.id
+      LEFT JOIN guilds g ON c.guildid = g.guildid
+      LEFT JOIN web_profiles p ON c.accountid = p.account_id
+      WHERE c.gm < 3
+      GROUP BY
+        c.id,
+        c.name,
+        c.level,
+        c.reborns,
+        c.job,
+        c.fame,
+        c.gender,
+        c.skincolor,
+        c.face,
+        c.hair,
+        c.guildid,
+        g.name,
+        p.display_name,
+        p.avatar_url,
+        p.bio,
+        p.instagram_url,
+        p.discord_url,
+        p.website_url,
+        p.location,
+        p.country,
+        a.donor_until
+      ORDER BY boss_points DESC, boss_kills DESC, c.level DESC
+      LIMIT 50
+    `);
+
+    if (rows.length === 0) {
+      return res.json({ ok: true, rankingVersion: "boss-points-v1", ranking: [] });
+    }
+
+    const characterIds = rows.map((row) => row.id);
+    const placeholders = characterIds.map(() => "?").join(",");
+    const [equipRows] = await pool.query(`
+      SELECT characterid, itemid, position
+      FROM inventoryitems
+      WHERE characterid IN (${placeholders})
+        AND inventorytype = -1
+        AND position < 0
+      ORDER BY characterid, position
+    `, characterIds);
+
+    const equipsByCharacter = new Map();
+    for (const equip of equipRows) {
+      if (!equipsByCharacter.has(equip.characterid)) {
+        equipsByCharacter.set(equip.characterid, []);
+      }
+      equipsByCharacter.get(equip.characterid).push({
+        itemid: equip.itemid,
+        position: equip.position,
+      });
+    }
+
+    const ranking = rows.map((row) => ({
+      ...row,
+      type: "boss",
+      boss_kills: Number(row.boss_kills || 0),
+      boss_points: Number(row.boss_points || 0),
+      points: Number(row.boss_points || 0),
+      fame: Number(row.boss_points || 0),
+      boss_names: row.boss_names || "",
+      job: "Boss points",
+      equips: equipsByCharacter.get(row.id) || [],
+    }));
+
+    return res.json({ ok: true, rankingVersion: "boss-points-v1", ranking });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      ok: false,
+      message: "No se pudo cargar el ranking de bosses.",
+      error: error.message,
+    });
+  }
+});
+
 // Register - keep compatibility, don't return sensitive fields
 app.post("/register", async (req, res) => {
   try {
@@ -2333,6 +2467,7 @@ Promise.all([
   ensureWebProfilesTable(),
   ensureGTop100VotesTable(),
   ensureVoteTokensTable(),
+  ensureBossRankingTable(),
   ensurePasswordResetTable(),
   ensureSocialTables(),
   ensureNoticiasTable(),

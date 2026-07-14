@@ -16,10 +16,12 @@ public class MobId {
     public static final int GHOST_STUMP_QUEST = 9101002;
 
     public static final int PAPULATUS_CLOCK = 8500001;
+    public static final int PAPULATUS = 8500002;
     public static final int HIGH_DARKSTAR = 8500003;
     public static final int LOW_DARKSTAR = 8500004;
 
     public static final int PIANUS_R = 8510000;
+    public static final int PIANUS_L = 8520000;
     public static final int BLOODY_BOOM = 8510100;
 
     public static final int PINK_BEAN = 8820001;
