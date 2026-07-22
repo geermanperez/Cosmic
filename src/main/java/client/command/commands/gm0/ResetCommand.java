@@ -28,6 +28,7 @@ import client.Client;
 import client.Job;
 import client.Stat;
 import client.command.Command;
+import server.quest.Quest;
 import tools.DatabaseConnection;
 
 import java.sql.Connection;
@@ -41,6 +42,7 @@ public class ResetCommand extends Command {
     private static final int RESET_COST = 50000000;
     private static final int RESET_AP_REWARD = 500;
     private static final int RESET_BASE_STAT = 10;
+    private static final int[] CYGNUS_FIRST_JOB_QUESTS = {20100, 20101, 20102, 20103, 20104, 20105};
 
     {
         setDescription("Reset to level 1, preserving skills. Usage: @reset [explorer|cygnus|aran].");
@@ -84,7 +86,19 @@ public class ResetCommand extends Command {
         player.updateSingleStat(Stat.JOB, resetJob.getId());
         player.updateSingleStat(Stat.EXP, 0);
         player.updateSingleStat(Stat.AVAILABLEAP, resetResult.remainingAp);
+        if (resetJob == Job.NOBLESSE) {
+            resetCygnusFirstJobQuests(player);
+        }
         player.message("Reset realizado correctamente. Volviste a nivel 1 " + resetJob.name() + ", conservaste tus skills y tenes " + resetResult.remainingAp + " puntos para repartir.");
+    }
+
+    private void resetCygnusFirstJobQuests(Character player) {
+        for (int questId : CYGNUS_FIRST_JOB_QUESTS) {
+            Quest quest = Quest.getInstance(questId);
+            if (quest != null) {
+                quest.reset(player);
+            }
+        }
     }
 
     private Job getResetJob(String[] params) {
