@@ -43,7 +43,7 @@ public class ResetCommand extends Command {
     private static final int RESET_BASE_STAT = 10;
 
     {
-        setDescription("Reset to level 1, preserving skills. Usage: @reset [explorer|cygnus|aran|evan].");
+        setDescription("Reset to level 1, preserving skills. Usage: @reset [explorer|cygnus|aran].");
     }
 
     @Override
@@ -52,7 +52,7 @@ public class ResetCommand extends Command {
 
         Job resetJob = getResetJob(params);
         if (resetJob == null) {
-            player.message("Uso: @reset [explorer|cygnus|aran|evan]");
+            player.message("Uso: @reset [explorer|cygnus|aran]");
             return;
         }
 
@@ -99,7 +99,6 @@ public class ResetCommand extends Command {
             case "explorer", "beginner" -> Job.BEGINNER;
             case "cygnus", "noblesse" -> Job.NOBLESSE;
             case "aran", "legend" -> Job.LEGEND;
-            case "evan" -> Job.EVAN;
             default -> null;
         };
     }
