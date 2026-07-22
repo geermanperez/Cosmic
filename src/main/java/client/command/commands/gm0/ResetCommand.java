@@ -42,7 +42,9 @@ public class ResetCommand extends Command {
     private static final int RESET_COST = 50000000;
     private static final int RESET_AP_REWARD = 500;
     private static final int RESET_BASE_STAT = 10;
-    private static final int[] CYGNUS_FIRST_JOB_QUESTS = {20100, 20101, 20102, 20103, 20104, 20105};
+    private static final int CYGNUS_JOB_SELECTION_UNLOCK_QUEST = 20100;
+    private static final int CYGNUS_JOB_SELECTION_NPC = 1101002;
+    private static final int[] CYGNUS_FIRST_JOB_QUESTS = {20101, 20102, 20103, 20104, 20105};
 
     {
         setDescription("Reset to level 1, preserving skills. Usage: @reset [explorer|cygnus|aran].");
@@ -55,6 +57,12 @@ public class ResetCommand extends Command {
         Job resetJob = getResetJob(params);
         if (resetJob == null) {
             player.message("Uso: @reset [explorer|cygnus|aran]");
+            return;
+        }
+
+        if (resetJob == Job.NOBLESSE && player.getJob() == Job.NOBLESSE && player.getLevel() < RESET_REQUIRED_LEVEL) {
+            prepareCygnusFirstJobQuests(player);
+            player.message("Seleccion de job Cygnus habilitada. Ya puedes hablar con los instructores en Ereve.");
             return;
         }
 
@@ -87,12 +95,17 @@ public class ResetCommand extends Command {
         player.updateSingleStat(Stat.EXP, 0);
         player.updateSingleStat(Stat.AVAILABLEAP, resetResult.remainingAp);
         if (resetJob == Job.NOBLESSE) {
-            resetCygnusFirstJobQuests(player);
+            prepareCygnusFirstJobQuests(player);
         }
         player.message("Reset realizado correctamente. Volviste a nivel 1 " + resetJob.name() + ", conservaste tus skills y tenes " + resetResult.remainingAp + " puntos para repartir.");
     }
 
-    private void resetCygnusFirstJobQuests(Character player) {
+    private void prepareCygnusFirstJobQuests(Character player) {
+        Quest unlockQuest = Quest.getInstance(CYGNUS_JOB_SELECTION_UNLOCK_QUEST);
+        if (unlockQuest != null && player.getQuestStatus(CYGNUS_JOB_SELECTION_UNLOCK_QUEST) != 2) {
+            unlockQuest.forceComplete(player, CYGNUS_JOB_SELECTION_NPC);
+        }
+
         for (int questId : CYGNUS_FIRST_JOB_QUESTS) {
             Quest quest = Quest.getInstance(questId);
             if (quest != null) {
