@@ -6945,6 +6945,11 @@ public class Character extends AbstractCharacterObject {
         updateRemainingSp(remainingSp, GameConstants.getSkillBook(job.getId()));
     }
 
+    public void resetRemainingSps() {
+        setRemainingSp(new int[getRemainingSps().length]);
+        updateSingleStat(Stat.AVAILABLESP, 0);
+    }
+
     public static Character loadCharFromDB(final int charid, Client client, boolean channelserver) throws SQLException {
         Character ret = new Character();
         ret.client = client;
