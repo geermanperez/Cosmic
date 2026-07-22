@@ -30,6 +30,7 @@ import client.Skill;
 import client.SkillFactory;
 import client.command.Command;
 import provider.Data;
+import provider.DataFileEntry;
 import provider.DataProviderFactory;
 import provider.wz.WZFiles;
 
@@ -41,25 +42,53 @@ public class MaxSkillCommand extends Command {
     @Override
     public void execute(Client c, String[] params) {
         Character player = c.getPlayer();
-        for (Data skill_ : DataProviderFactory.getDataProvider(WZFiles.STRING).getData("Skill.img").getChildren()) {
-            try {
-                Skill skill = SkillFactory.getSkill(Integer.parseInt(skill_.getName()));
-                player.changeSkillLevel(skill, (byte) skill.getMaxLevel(), skill.getMaxLevel(), -1);
-            } catch (NumberFormatException nfe) {
-                nfe.printStackTrace();
-                break;
-            } catch (NullPointerException npe) {
+        Character target = player;
+        if (params.length > 0) {
+            target = c.getWorldServer().getPlayerStorage().getCharacterByName(params[0]);
+            if (target == null) {
+                player.message("Player '" + params[0] + "' could not be found.");
+                return;
             }
         }
 
-        if (player.getJob().isA(Job.ARAN1) || player.getJob().isA(Job.LEGEND)) {
-            Skill skill = SkillFactory.getSkill(5001005);
-            player.changeSkillLevel(skill, (byte) -1, -1, -1);
-        } else {
-            Skill skill = SkillFactory.getSkill(21001001);
-            player.changeSkillLevel(skill, (byte) -1, -1, -1);
+        for (DataFileEntry skillFile : DataProviderFactory.getDataProvider(WZFiles.SKILL).getRoot().getFiles()) {
+            if (skillFile.getName().length() > 8) {
+                continue;
+            }
+
+            Data skills = DataProviderFactory.getDataProvider(WZFiles.SKILL).getData(skillFile.getName()).getChildByPath("skill");
+            if (skills == null) {
+                continue;
+            }
+
+            for (Data skillData : skills) {
+                maxSkill(target, skillData);
+            }
         }
 
-        player.yellowMessage("Skills maxed out.");
+        if (target.getJob().isA(Job.ARAN1) || target.getJob().isA(Job.LEGEND)) {
+            removeSkill(target, 5001005);
+        } else {
+            removeSkill(target, 21001001);
+        }
+
+        player.yellowMessage(target == player ? "Skills maxed out." : "Skills maxed out for " + target.getName() + ".");
+    }
+
+    private static void maxSkill(Character target, Data skillData) {
+        try {
+            Skill skill = SkillFactory.getSkill(Integer.parseInt(skillData.getName()));
+            if (skill != null && skill.getMaxLevel() > 0) {
+                target.changeSkillLevel(skill, (byte) skill.getMaxLevel(), skill.getMaxLevel(), -1);
+            }
+        } catch (NumberFormatException ignored) {
+        }
+    }
+
+    private static void removeSkill(Character target, int skillId) {
+        Skill skill = SkillFactory.getSkill(skillId);
+        if (skill != null) {
+            target.changeSkillLevel(skill, (byte) -1, -1, -1);
+        }
     }
 }

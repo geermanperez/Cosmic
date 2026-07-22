@@ -26,6 +26,7 @@ package client.command.commands.gm0;
 import client.Character;
 import client.Client;
 import client.Job;
+import client.Skill;
 import client.Stat;
 import client.command.Command;
 import tools.DatabaseConnection;
@@ -34,6 +35,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ResetCommand extends Command {
     private static final int RESET_REQUIRED_LEVEL = 255;
@@ -62,7 +66,7 @@ public class ResetCommand extends Command {
         }
 
         int newMeso = currentMeso - RESET_COST;
-        ResetResult resetResult = persistReset(player.getId(), newMeso);
+        ResetResult resetResult = persistReset(player.getId(), newMeso, player.getRemainingSps().length);
         if (!resetResult.success) {
             player.message("No se pudo completar el reset. Intentalo de nuevo en unos segundos.");
             return;
@@ -73,6 +77,8 @@ public class ResetCommand extends Command {
         player.setJob(Job.BEGINNER);
         player.setExp(0);
         player.gainAp(resetResult.remainingAp - player.getRemainingAp(), true);
+        clearNonBeginnerSkills(player);
+        player.resetRemainingSps();
         player.updateStrDexIntLuk(RESET_BASE_STAT);
         player.updateSingleStat(Stat.LEVEL, 1);
         player.updateSingleStat(Stat.JOB, BEGINNER_JOB_ID);
@@ -81,7 +87,7 @@ public class ResetCommand extends Command {
         player.message("Reset realizado correctamente. Volviste a nivel 1 Beginner con stats base en 10 y tenes " + resetResult.remainingAp + " puntos para repartir.");
     }
 
-    private ResetResult persistReset(int characterId, int newMeso) {
+    private ResetResult persistReset(int characterId, int newMeso, int spBooks) {
         try (Connection con = DatabaseConnection.getConnection()) {
             con.setAutoCommit(false);
             try {
@@ -104,7 +110,7 @@ public class ResetCommand extends Command {
 
                 int newReborns = reborns + 1;
                 int newRemainingAp = newReborns * RESET_AP_REWARD;
-                try (PreparedStatement ps = con.prepareStatement("UPDATE characters SET level = ?, job = ?, exp = ?, meso = ?, ap = ?, reborns = ?, str = ?, dex = ?, `int` = ?, luk = ? WHERE id = ?")) {
+                try (PreparedStatement ps = con.prepareStatement("UPDATE characters SET level = ?, job = ?, exp = ?, meso = ?, ap = ?, reborns = ?, str = ?, dex = ?, `int` = ?, luk = ?, sp = ? WHERE id = ?")) {
                     ps.setInt(1, 1);
                     ps.setInt(2, BEGINNER_JOB_ID);
                     ps.setInt(3, 0);
@@ -115,11 +121,17 @@ public class ResetCommand extends Command {
                     ps.setInt(8, RESET_BASE_STAT);
                     ps.setInt(9, RESET_BASE_STAT);
                     ps.setInt(10, RESET_BASE_STAT);
-                    ps.setInt(11, characterId);
+                    ps.setString(11, zeroedSpString(spBooks));
+                    ps.setInt(12, characterId);
                     if (ps.executeUpdate() != 1) {
                         con.rollback();
                         return ResetResult.failure();
                     }
+                }
+
+                try (PreparedStatement ps = con.prepareStatement("DELETE FROM skills WHERE characterid = ? AND skillid % 10000000 >= 10000")) {
+                    ps.setInt(1, characterId);
+                    ps.executeUpdate();
                 }
 
                 con.commit();
@@ -134,6 +146,19 @@ public class ResetCommand extends Command {
             e.printStackTrace();
             return ResetResult.failure();
         }
+    }
+
+    private void clearNonBeginnerSkills(Character player) {
+        List<Skill> skills = new ArrayList<>(player.getSkills().keySet());
+        for (Skill skill : skills) {
+            if (!skill.isBeginnerSkill()) {
+                player.changeSkillLevel(skill, (byte) -1, -1, -1);
+            }
+        }
+    }
+
+    private static String zeroedSpString(int spBooks) {
+        return String.join(",", Collections.nCopies(spBooks, "0"));
     }
 
     private static class ResetResult {
