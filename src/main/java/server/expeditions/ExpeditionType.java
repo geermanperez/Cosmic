@@ -22,26 +22,24 @@
 
 package server.expeditions;
 
-import config.YamlConfig;
-
 /**
  * @author Alan (SharpAceX)
  */
 
 public enum ExpeditionType {
-    BALROG_EASY(3, 30, 50, 255, 5),
-    BALROG_NORMAL(6, 30, 50, 255, 5),
-    SCARGA(6, 30, 100, 255, 5),
-    SHOWA(3, 30, 100, 255, 5),
-    ZAKUM(6, 30, 50, 255, 5),
-    HORNTAIL(6, 30, 100, 255, 5),
-    CHAOS_ZAKUM(6, 30, 120, 255, 5),
-    CHAOS_HORNTAIL(6, 30, 120, 255, 5),
-    ARIANT(2, 7, 20, 30, 5),
-    ARIANT1(2, 7, 20, 30, 5),
-    ARIANT2(2, 7, 20, 30, 5),
-    PINKBEAN(2, 30, 120, 255, 5),
-    CWKPQ(6, 30, 90, 255, 5);   // CWKPQ min-level 90, found thanks to Cato
+    BALROG_EASY(2, 6, 50, 255, 5),
+    BALROG_NORMAL(2, 6, 50, 255, 5),
+    SCARGA(2, 6, 100, 255, 5),
+    SHOWA(2, 6, 100, 255, 5),
+    ZAKUM(2, 6, 50, 255, 5),
+    HORNTAIL(2, 6, 100, 255, 5),
+    CHAOS_ZAKUM(2, 6, 120, 255, 5),
+    CHAOS_HORNTAIL(2, 6, 120, 255, 5),
+    ARIANT(2, 6, 20, 30, 5),
+    ARIANT1(2, 6, 20, 30, 5),
+    ARIANT2(2, 6, 20, 30, 5),
+    PINKBEAN(2, 6, 120, 255, 5),
+    CWKPQ(2, 6, 90, 255, 5);   // CWKPQ min-level 90, found thanks to Cato
 
     private final int minSize;
     private final int maxSize;
@@ -58,7 +56,7 @@ public enum ExpeditionType {
     }
 
     public int getMinSize() {
-        return !YamlConfig.config.server.USE_ENABLE_SOLO_EXPEDITIONS ? minSize : 1;
+        return minSize;
     }
 
     public int getMaxSize() {

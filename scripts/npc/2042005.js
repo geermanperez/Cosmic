@@ -79,10 +79,10 @@ function action(mode, type, selection) {
             } else {
                 var party = cm.getParty().getMembers();
                 const YamlConfig = Java.type('config.YamlConfig');
-                if ((selection === 0 || selection === 1) && party.size() < (YamlConfig.config.server.USE_ENABLE_SOLO_EXPEDITIONS ? 1 : 2)) {
+                if ((selection === 0 || selection === 1) && party.size() < 2) {
                     cm.sendOk("You need at least 2 players to participate in the battle!");
-                } else if ((selection === 2) && party.size() < (YamlConfig.config.server.USE_ENABLE_SOLO_EXPEDITIONS ? 1 : 3)) {
-                    cm.sendOk("You need at least 3 players to participate in the battle!");
+                } else if ((selection === 2) && party.size() < 2) {
+                    cm.sendOk("You need at least 2 players to participate in the battle!");
                 } else {
                     cm.cpqLobby2(selection);
                 }

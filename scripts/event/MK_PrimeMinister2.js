@@ -3,7 +3,7 @@ var entryMap = 106021601;
 var exitMap = 106021402;
 var recruitMap = 106021402;
 
-var minPlayers = 1, maxPlayers = 3;
+var minPlayers = 2, maxPlayers = 6;
 var minLevel = 30, maxLevel = 255;
 
 var minMapId = 106021601;

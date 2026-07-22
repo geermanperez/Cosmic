@@ -24,7 +24,7 @@
  */
 
 var isPq = true;
-var minPlayers = 3, maxPlayers = 6;
+var minPlayers = 2, maxPlayers = 6;
 var minLevel = 10;
 var entryMap = 910010000;
 var exitMap = 910010300;

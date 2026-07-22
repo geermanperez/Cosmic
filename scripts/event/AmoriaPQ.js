@@ -25,7 +25,7 @@
 
 var isPq = true;
 var onlyMarriedPlayers = true;
-var minPlayers = 6, maxPlayers = 6;
+var minPlayers = 2, maxPlayers = 6;
 var minLevel = 40;
 var entryMap = 670010200;
 var exitMap = 670011000;
