@@ -133,7 +133,7 @@
     </imgdir>
     <imgdir name="4">
       <string name="type" value="n"/>
-      <string name="id" value="9000070"/>
+      <string name="id" value="9209003"/>
       <int name="x" value="-210"/>
       <int name="y" value="26"/>
       <int name="mobTime" value="0"/>

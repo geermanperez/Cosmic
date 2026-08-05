@@ -1,5 +1,6 @@
 /*
  * Forja Astral MVP. Reutiliza recursos v83 existentes para no requerir parche de cliente.
+ * NPC 9209003 (Lung Tup) aporta una zona de clic normal.
  * 4001199 = Fragmento Astral (se muestra como Straw en el cliente actual).
  * 1122013 = Reliquia Astral (se muestra como Gordon's Magic Iron).
  */
