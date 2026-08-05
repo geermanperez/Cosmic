@@ -30,6 +30,13 @@ function action(mode, type, selected) {
     if (status == 0) {
         var progress = getProgress();
         var text = "#eForja Astral#n\r\n\r\n";
+        if (progress.error != null) {
+            text += "#rLa base de datos Astral no esta disponible.#k\r\n";
+            text += "Reinicia o reconstruye el servidor para instalar la migracion.\r\n\r\n";
+            text += "Detalle: " + progress.error;
+            cm.sendOk(text);
+            return;
+        }
         text += "Los bosses principales entregan #bFragmentos Astrales#k. En este cliente se ven como #i" + FRAGMENT + "# #t" + FRAGMENT + "#, pero pertenecen a este sistema.\r\n\r\n";
         text += "Fragmentos en inventario: #b" + cm.getItemQuantity(FRAGMENT) + "#k\r\n";
         text += "Progreso semanal: #b" + progress.fragments + "/" + WEEKLY_CAP + "#k fragmentos, " + progress.kills + " bosses.\r\n";
@@ -135,13 +142,14 @@ function forgeRelic() {
 }
 
 function getProgress() {
-    var result = { fragments: 0, kills: 0, resets: 0 };
+    var result = { fragments: 0, kills: 0, resets: 0, error: null };
     var con = null;
     var ps = null;
     var rs = null;
     try {
         var DatabaseConnection = Java.type("tools.DatabaseConnection");
         con = DatabaseConnection.getConnection();
+        ensureAstralTables(con);
         ps = con.prepareStatement(
             "SELECT c.reborns, COALESCE(a.fragments_earned, 0) fragments_earned, COALESCE(a.boss_kills, 0) boss_kills " +
             "FROM characters c LEFT JOIN astral_weekly_progress a ON a.account_id = c.accountid " +
@@ -154,12 +162,39 @@ function getProgress() {
             result.fragments = rs.getInt("fragments_earned");
             result.kills = rs.getInt("boss_kills");
         }
+    } catch (err) {
+        result.error = String(err);
     } finally {
         closeQuietly(rs);
         closeQuietly(ps);
         closeQuietly(con);
     }
     return result;
+}
+
+function ensureAstralTables(con) {
+    var statement = null;
+    try {
+        statement = con.createStatement();
+        statement.executeUpdate(
+            "CREATE TABLE IF NOT EXISTS astral_weekly_progress (" +
+            "account_id INT NOT NULL, week_start DATE NOT NULL, fragments_earned INT NOT NULL DEFAULT 0, " +
+            "boss_kills INT NOT NULL DEFAULT 0, updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, " +
+            "PRIMARY KEY (account_id, week_start), CONSTRAINT fk_astral_weekly_account " +
+            "FOREIGN KEY (account_id) REFERENCES accounts (id) ON DELETE CASCADE)"
+        );
+        statement.executeUpdate(
+            "CREATE TABLE IF NOT EXISTS astral_relics (" +
+            "account_id INT NOT NULL, character_id INT NOT NULL, tier TINYINT NOT NULL DEFAULT 1, " +
+            "forged_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, " +
+            "updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, " +
+            "PRIMARY KEY (account_id), UNIQUE KEY uq_astral_relic_character (character_id), " +
+            "CONSTRAINT fk_astral_relic_account FOREIGN KEY (account_id) REFERENCES accounts (id) ON DELETE CASCADE, " +
+            "CONSTRAINT fk_astral_relic_character FOREIGN KEY (character_id) REFERENCES characters (id) ON DELETE CASCADE)"
+        );
+    } finally {
+        closeQuietly(statement);
+    }
 }
 
 function formatMesos(value) {
