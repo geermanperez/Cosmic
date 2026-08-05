@@ -198,7 +198,17 @@ function ensureAstralTables(con) {
 }
 
 function formatMesos(value) {
-    return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    var digits = String(value);
+    var formatted = "";
+    var count = 0;
+    for (var i = digits.length - 1; i >= 0; i--) {
+        if (count > 0 && count % 3 == 0) {
+            formatted = "." + formatted;
+        }
+        formatted = digits.charAt(i) + formatted;
+        count++;
+    }
+    return formatted;
 }
 
 function closeQuietly(resource) {
