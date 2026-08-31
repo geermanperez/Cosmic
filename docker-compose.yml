@@ -4,6 +4,7 @@ services:
     restart: unless-stopped
     depends_on:
       - db
+      - everlaf-reset
     ports:
       - "8484:8484"
       - "7575:7575"
@@ -13,11 +14,50 @@ services:
       - "7579:7579"
       - "7580:7580"
     volumes:
-      - ./config.yaml:/opt/server/config.yaml
+      # Preserve the EasyPanel/VPS configuration as the source of truth.
+      # everlaf-start.sh copies it to config.yaml and changes ONLY identity/global rates.
+      - ./config.yaml:/opt/server/config.base.yaml:ro
       - ./scripts:/opt/server/scripts
       - ./wz:/opt/server/wz
+      - everlaf-state:/everlaf-state
     environment:
       DB_HOST: "db"
+
+  # Protected one-time Everlaf MS player reset.
+  # It wipes accounts/characters and player-owned runtime data only.
+  # Static drops, mobs, PQ scripts, commands, WZ/maps and custom content remain untouched.
+  # The SQL stores a DB marker so future redeploys cannot wipe players again.
+  everlaf-reset:
+    image: mysql:8.4.0
+    depends_on:
+      - db
+    restart: "no"
+    volumes:
+      - ./tools/everlaf-reset.sql:/everlaf-reset.sql:ro
+      - everlaf-state:/everlaf-state
+    command:
+      - sh
+      - -c
+      - |
+        until mysqladmin ping -h db -uroot --silent; do
+          echo '[Everlaf] waiting for MySQL...'
+          sleep 2
+        done
+        echo '[Everlaf] MySQL is online.'
+        HAS_ACCOUNTS=$$(mysql -N -s -h db -uroot -e "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='cosmic' AND TABLE_NAME='accounts';")
+        if [ "$$HAS_ACCOUNTS" = "0" ]; then
+          echo '[Everlaf] Fresh database detected: no legacy players exist to wipe.'
+          touch /everlaf-state/reset.done
+          exit 0
+        fi
+        echo '[Everlaf] Existing schema detected. Running protected launch wipe...'
+        if mysql -h db -uroot cosmic < /everlaf-reset.sql; then
+          echo '[Everlaf] Player reset completed/verified.'
+          touch /everlaf-state/reset.done
+        else
+          echo '[Everlaf] ERROR: reset failed; MapleStory startup remains blocked.' >&2
+          exit 1
+        fi
 
   db:
     image: mysql:8.4.0
@@ -66,3 +106,4 @@ services:
 
 volumes:
   cosmic-db-data:
+  everlaf-state:
