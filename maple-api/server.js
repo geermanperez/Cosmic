@@ -74,7 +74,7 @@ const SMTP_SECURE = String(process.env.SMTP_SECURE || "false").toLowerCase() ===
 const SMTP_USER = process.env.SMTP_USER || "";
 const SMTP_PASS = process.env.SMTP_PASS || "";
 const SMTP_FROM = process.env.SMTP_FROM || SMTP_USER || "";
-const WEB_ADMIN_ACCOUNT_NAMES = new Set(["anubis", "geermanperez"]);
+const WEB_ADMIN_ACCOUNT_NAMES = new Set(["anubis", "geermanperez", "geerman"]);
 
 function hashPassword(password, algorithm) {
   return crypto.createHash(algorithm).update(password, "utf8").digest("hex");
@@ -113,6 +113,16 @@ function getPasswordResetUrl(token) {
 
 function isWebAdminAccountName(accountName) {
   return WEB_ADMIN_ACCOUNT_NAMES.has(String(accountName || "").trim().toLowerCase());
+}
+
+function hasWebAdminAccess(account) {
+  return Boolean(
+    account && (
+      isWebAdminAccountName(account.name) ||
+      Number(account.webadmin) > 0 ||
+      Number(account.has_gm_character) > 0
+    )
+  );
 }
 
 // `vote_time` is a MySQL TIMESTAMP. Asking MySQL for its Unix epoch keeps the
@@ -980,12 +990,22 @@ async function adminMiddleware(req, res, next) {
   try {
     const uid = req.user.id;
     const [accRows] = await pool.query(
-      "SELECT id, name FROM accounts WHERE id = ? LIMIT 1",
+      `SELECT
+         a.id,
+         a.name,
+         a.webadmin,
+         EXISTS(
+           SELECT 1 FROM characters c
+           WHERE c.accountid = a.id AND c.gm >= 3
+         ) AS has_gm_character
+       FROM accounts a
+       WHERE a.id = ?
+       LIMIT 1`,
       [uid]
     );
     const account = accRows[0];
 
-    const isAdmin = account && isWebAdminAccountName(account.name);
+    const isAdmin = hasWebAdminAccess(account);
 
     if (!isAdmin) {
       return res.status(403).json({ ok: false, message: "No tenés permisos de administrador." });
@@ -2319,22 +2339,27 @@ app.get("/account/me", authMiddleware, async (req, res) => {
     const uid = req.user.id;
     const [accRows] = await pool.query(`
       SELECT
-        id,
-        name,
-        loggedin,
-        banned,
-        nxCredit,
-        nxPrepaid,
-        donor_until,
-        donor_until IS NOT NULL AND donor_until > NOW() AS is_donor
-      FROM accounts
-      WHERE id = ?
+        a.id,
+        a.name,
+        a.loggedin,
+        a.banned,
+        a.nxCredit,
+        a.nxPrepaid,
+        a.webadmin,
+        a.donor_until,
+        a.donor_until IS NOT NULL AND a.donor_until > NOW() AS is_donor,
+        EXISTS(
+          SELECT 1 FROM characters c
+          WHERE c.accountid = a.id AND c.gm >= 3
+        ) AS has_gm_character
+      FROM accounts a
+      WHERE a.id = ?
       LIMIT 1
     `, [uid]);
     if (accRows.length === 0) return res.status(404).json({ ok: false, message: "Cuenta no encontrada" });
 
     const account = accRows[0];
-    account.is_web_admin = isWebAdminAccountName(account.name);
+    account.is_web_admin = hasWebAdminAccess(account);
 
     const [profiles] = await pool.query("SELECT display_name, avatar_url, bio, instagram_url, discord_url, website_url, location FROM web_profiles WHERE account_id = ? LIMIT 1", [uid]);
     let profile = profiles[0];
