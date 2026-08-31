@@ -12,8 +12,8 @@ const app = express();
 // CORS: allow production frontend and localhost during development
 const FRONTEND_URL = process.env.FRONTEND_URL;
 const allowedOrigins = [
-  "https://latinms.redly.com.ar",
-  "https://www.latinms.redly.com.ar",
+  "https://em.redly.com.ar",
+  "https://www.em.redly.com.ar",
   "http://localhost:5173",
   "http://localhost:3000",
   "http://127.0.0.1:5173",
@@ -66,7 +66,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "dev_jwt_secret_change_me";
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "7d";
 const ADMIN_HTTP_URL = (process.env.ADMIN_HTTP_URL || "http://127.0.0.1:9001").replace(/\/+$/, "");
 const ADMIN_HTTP_TOKEN = process.env.ADMIN_HTTP_TOKEN || "";
-const PUBLIC_SITE_URL = (process.env.PUBLIC_SITE_URL || process.env.FRONTEND_URL || "https://latinms.redly.com.ar").replace(/\/+$/, "");
+const PUBLIC_SITE_URL = (process.env.PUBLIC_SITE_URL || process.env.FRONTEND_URL || "https://em.redly.com.ar").replace(/\/+$/, "");
 const PASSWORD_RESET_EXPIRES_MINUTES = Number(process.env.PASSWORD_RESET_EXPIRES_MINUTES || 30);
 const SMTP_HOST = process.env.SMTP_HOST || "";
 const SMTP_PORT = Number(process.env.SMTP_PORT || 587);
