@@ -1,5 +1,6 @@
 const BRAND_NAME = "EverleafMs";
-const BRAND_LOGO = "/everleafms-logo.svg";
+const BRAND_LOGO = "/everleafms-primary-v2.png";
+const BRAND_EMBLEM = "/everleafms-emblem-v2.png";
 
 const visualBrandImageSelectors = [
   "img.brand__logo",
@@ -52,8 +53,10 @@ function updateAttributes(root) {
 
 function updateBrandImages(root) {
   root.querySelectorAll?.(visualBrandImageSelectors).forEach((image) => {
-    if (image.getAttribute("src") !== BRAND_LOGO) image.setAttribute("src", BRAND_LOGO);
-    image.setAttribute("alt", "EverleafMs V83 Classic");
+    const isEmblem = image.matches(".home-rail-card--brand img");
+    const expectedSource = isEmblem ? BRAND_EMBLEM : BRAND_LOGO;
+    if (image.getAttribute("src") !== expectedSource) image.setAttribute("src", expectedSource);
+    image.setAttribute("alt", isEmblem ? "Emblema EverleafMs V83" : "EverleafMs V83 Classic");
   });
 }
 

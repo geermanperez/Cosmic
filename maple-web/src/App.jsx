@@ -40,6 +40,7 @@ import {
 } from "lucide-react";
 import { gsap } from "gsap";
 import "./App.css";
+import "./Landing.css";
 
 import { API_URL, getToken, saveToken, request } from "./apiClient";
 
@@ -871,10 +872,6 @@ function getDateTimeInputValue(value = new Date()) {
   return offsetDate.toISOString().slice(0, 16);
 }
 
-function stripHtml(value) {
-  return String(value || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-}
-
 function sanitizeNewsHtml(value) {
   const raw = String(value || "").trim();
   if (!raw) return "";
@@ -1588,6 +1585,7 @@ function App() {
   const [voteStatusLoading, setVoteStatusLoading] = useState(false);
   const [voteStarting, setVoteStarting] = useState(false);
   const [voteMessage, setVoteMessage] = useState("");
+  const [showVoteDialog, setShowVoteDialog] = useState(false);
 
   const countryOptions = useMemo(() => {
     const regionNames = new Intl.DisplayNames([language], { type: "region" });
@@ -2475,15 +2473,63 @@ function App() {
     status?.players_online ??
     0;
 
+  useEffect(() => {
+    if (view !== "home") return undefined;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let observer;
+    const frame = window.requestAnimationFrame(() => {
+      const revealGroups = [
+        ".everleaf-section-heading",
+        ".everleaf-feature-grid article",
+        ".home-feed-news",
+        ".home-feed-news-card",
+        ".home-feed-ranking",
+        ".home-feed-ranking .ranking-card",
+        ".home-social-feed",
+        ".social-post-card",
+      ];
+      const elements = [...document.querySelectorAll(revealGroups.join(","))];
+
+      elements.forEach((element, index) => {
+        element.classList.add("everleaf-reveal");
+        element.style.setProperty("--reveal-order", String(index % 6));
+      });
+
+      if (reducedMotion || !("IntersectionObserver" in window)) {
+        elements.forEach((element) => element.classList.add("is-revealed"));
+        return;
+      }
+
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-revealed");
+            observer.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -7% 0px" },
+      );
+
+      elements.forEach((element) => observer.observe(element));
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      observer?.disconnect();
+    };
+  }, [view, newsForDisplay.length, rankingPreview.length, socialPosts.length]);
+
   return (
     <div className="app-shell">
       <div className="app-backdrop">
-        <img src="/portada.png" alt="LatinMS cover" className="app-backdrop__image" />
+        <img src="/portada.png" alt="EverleafMs cover" className="app-backdrop__image" />
       </div>
 
       <header className="topbar">
         <button type="button" className="brand" onClick={() => goToView("home")}>
-          <img src="/latinms.png" alt="LatinMS" className="brand__logo" />
+          <img src="/everleafms-primary-v2.png" alt="EverleafMs V83 Classic" className="brand__logo" />
         </button>
 
         <div className="topbar__right">
@@ -2546,17 +2592,12 @@ function App() {
             {token ? (
               <button
                 type="button"
-                onClick={handleVoteNx}
-                disabled={voteStatusLoading || voteStarting || !voteStatus?.canVote}
-                title={!voteStatus?.canVote ? (language === "es" ? "EsperÃ¡ el cooldown de 24 horas" : "Wait for the 24-hour cooldown") : undefined}
+                className="topbar-vote-button"
+                onClick={() => setShowVoteDialog(true)}
               >
-                {voteStatusLoading
-                  ? (language === "es" ? "Verificando voto..." : "Checking vote...")
-                  : voteStarting
-                    ? (language === "es" ? "Iniciando voto..." : "Starting vote...")
-                    : !voteStatus?.canVote
-                      ? (language === "es" ? `PodrÃ¡s votar en ${formatVoteRemaining(voteRemainingSeconds)}` : `Vote in ${formatVoteRemaining(voteRemainingSeconds)}`)
-                      : t.nav.voteNx}
+                <Heart size={15} />
+                {t.nav.voteNx}
+                {voteStatus?.canVote ? <span className="topbar-vote-button__dot" aria-hidden="true"></span> : null}
               </button>
             ) : null}
             <button
@@ -2567,30 +2608,55 @@ function App() {
               {token ? t.nav.account : t.nav.login}
             </button>
           </nav>
-          {token && !voteStatusLoading && voteStatus ? (
-            <div className="vote-status-panel" role="status" aria-live="polite">
-              <div className="vote-status-panel__clock">
-                <span>{language === "es" ? "Reloj de voto" : "Vote clock"}</span>
-                <strong>{voteStatus.canVote ? (language === "es" ? "Disponible ahora" : "Available now") : formatVoteRemaining(voteRemainingSeconds)}</strong>
-                {!voteStatus.canVote ? (
-                  <small>{language === "es" ? `PrÃ³ximo voto: ${formatVoteNextAt(voteStatus.nextVoteAt, language)}` : `Next vote: ${formatVoteNextAt(voteStatus.nextVoteAt, language)}`}</small>
-                ) : (
-                  <small>{language === "es" ? "PodÃ©s votar ahora y recibir NX." : "You can vote now and receive NX."}</small>
-                )}
-              </div>
-              <div className="vote-status-panel__total">
-                <span>{language === "es" ? "Votos aceptados" : "Accepted votes"}</span>
-                <strong>{Number(voteStatus.totalVotes) || 0}</strong>
-                <small>{language === "es" ? "Tu total acumulado" : "Your accumulated total"}</small>
-              </div>
-              {!voteStatus.canVote ? (
-                <p>{language === "es" ? "PodÃ©s votar una vez cada 24 horas. El botÃ³n se habilitarÃ¡ automÃ¡ticamente cuando se cumpla el tiempo desde tu Ãºltimo voto aceptado." : "You can vote once every 24 hours. The button will enable automatically after 24 hours from your last accepted vote."}</p>
-              ) : null}
-            </div>
-          ) : null}
-          {token && voteMessage ? <div className="vote-cooldown-notice vote-cooldown-notice--message" role="status">{voteMessage}</div> : null}
         </div>
       </header>
+
+      {token && showVoteDialog ? (
+        <div
+          className="vote-dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="vote-dialog-title"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setShowVoteDialog(false);
+          }}
+        >
+          <div className="vote-dialog__panel">
+            <button type="button" className="vote-dialog__close" onClick={() => setShowVoteDialog(false)} aria-label={language === "es" ? "Cerrar" : "Close"}>×</button>
+            <div className="vote-dialog__icon"><Heart size={24} /></div>
+            <span className="vote-dialog__kicker">{language === "es" ? "VOTA Y APOYA EL SERVIDOR" : "VOTE AND SUPPORT THE SERVER"}</span>
+            <h2 id="vote-dialog-title">{language === "es" ? "Votar por EverleafMs" : "Vote for EverleafMs"}</h2>
+            {voteStatusLoading ? (
+              <p>{language === "es" ? "Verificando disponibilidad..." : "Checking availability..."}</p>
+            ) : (
+              <>
+                <div className="vote-dialog__summary">
+                  <div>
+                    <span>{language === "es" ? "Proximo voto" : "Next vote"}</span>
+                    <strong>{voteStatus?.canVote ? (language === "es" ? "Disponible ahora" : "Available now") : formatVoteRemaining(voteRemainingSeconds)}</strong>
+                  </div>
+                  <div>
+                    <span>{language === "es" ? "Votos aceptados" : "Accepted votes"}</span>
+                    <strong>{Number(voteStatus?.totalVotes) || 0}</strong>
+                  </div>
+                </div>
+                <p>{voteStatus?.canVote
+                  ? (language === "es" ? "Tu voto ayuda a crecer la comunidad y te permite recibir NX." : "Your vote helps the community grow and lets you receive NX.")
+                  : (language === "es" ? `Podras votar nuevamente el ${formatVoteNextAt(voteStatus?.nextVoteAt, language)}.` : `You can vote again on ${formatVoteNextAt(voteStatus?.nextVoteAt, language)}.`)}</p>
+                {voteMessage ? <div className="vote-dialog__message" role="status">{voteMessage}</div> : null}
+                <button type="button" className="button-primary vote-dialog__action" onClick={handleVoteNx} disabled={voteStarting || !voteStatus?.canVote}>
+                  <Heart size={17} />
+                  {voteStarting
+                    ? (language === "es" ? "Abriendo votacion..." : "Opening vote...")
+                    : voteStatus?.canVote
+                      ? (language === "es" ? "VOTAR AHORA" : "VOTE NOW")
+                      : (language === "es" ? "AUN NO DISPONIBLE" : "NOT AVAILABLE YET")}
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      ) : null}
 
       {showUpdateNotice ? (
         <div className="update-modal" role="dialog" aria-modal="true" aria-labelledby="update-modal-title">
@@ -2628,8 +2694,8 @@ function App() {
         {view === "home" ? (
           <section className="home-portal-hero">
             <div className="home-portal-hero__content">
-              <img src="/latinms.png" alt="LatinMS" className="home-portal-hero__brand" />
-              <span className="home-portal-hero__badge">v83 LatinMS</span>
+              <img src="/everleafms-primary-v2.png" alt="EverleafMs V83 Classic" className="home-portal-hero__brand" />
+              <span className="home-portal-hero__badge">V83 Classic</span>
               <h1>{t.hero.title}</h1>
               <p>{t.hero.copy}</p>
               <div className="home-portal-hero__actions">
@@ -2648,9 +2714,33 @@ function App() {
                 <span className="status-pill__dot"></span>
                 {serverOnline ? `${onlinePlayers} ${t.hero.playersOnline}` : t.hero.offline}
               </div>
-              <img src="/5.png" alt="" />
+              <img src="/everleafms-emblem-v2.png" alt="Emblema EverleafMs V83" />
             </div>
             <div className="home-portal-hero__rail"></div>
+          </section>
+        ) : null}
+
+        {view === "home" ? (
+          <section className="everleaf-landing-intro" aria-labelledby="everleaf-world-title">
+            <div className="everleaf-section-heading">
+              <span>{language === "es" ? "UN MUNDO CLASICO QUE SIGUE CRECIENDO" : "A CLASSIC WORLD THAT KEEPS GROWING"}</span>
+              <h2 id="everleaf-world-title">{language === "es" ? "Vive tu propia historia en Everleaf" : "Live your own story in Everleaf"}</h2>
+              <p>{language === "es" ? "Explora, forma tu party y progresa en una experiencia V83 cercana, estable y construida alrededor de su comunidad." : "Explore, build your party and progress through a welcoming, stable V83 experience built around its community."}</p>
+            </div>
+            <div className="everleaf-feature-grid">
+              <article>
+                <img src="/3.png" alt="" />
+                <div><strong>{language === "es" ? "Aventura clasica" : "Classic adventure"}</strong><span>V83 · 1x EXP · Party 5x</span></div>
+              </article>
+              <article>
+                <img src="/4.png" alt="" />
+                <div><strong>{language === "es" ? "Eventos activos" : "Active events"}</strong><span>{language === "es" ? "Novedades para toda la comunidad" : "Fresh activities for the community"}</span></div>
+              </article>
+              <article>
+                <img src="/5.png" alt="" />
+                <div><strong>{language === "es" ? "Compite y crece" : "Compete and grow"}</strong><span>{language === "es" ? "Ranking conectado en tiempo real" : "Live connected ranking"}</span></div>
+              </article>
+            </div>
           </section>
         ) : null}
 
@@ -2661,8 +2751,8 @@ function App() {
                 <div className="home-social-layout">
                   <aside className="home-left-rail" aria-label={language === "es" ? "Accesos LatinMS" : "LatinMS shortcuts"}>
                     <section className="home-rail-card home-rail-card--brand">
-                      <img src="/latinms.png" alt="LatinMS" />
-                      <strong>LatinMS v83</strong>
+                      <img src="/everleafms-emblem-v2.png" alt="Emblema EverleafMs V83" />
+                      <strong>EverleafMs V83 Classic</strong>
                     </section>
                     <a href={downloadUrl} target="_blank" rel="noreferrer" className="home-rail-link">
                       <Download size={20} />
@@ -3097,6 +3187,46 @@ function App() {
           </aside>
         </section>
       </main>
+
+      <footer className="site-footer">
+        <div className="site-footer__canopy" aria-hidden="true"></div>
+        <div className="site-footer__inner">
+          <section className="site-footer__brand">
+            <img src="/everleafms-primary-v2.png" alt="EverleafMs V83 Classic" />
+            <p>{language === "es" ? "Tu historia clasica comienza entre hojas, aventuras y una comunidad que crece unida." : "Your classic story begins among leaves, adventures and a community that grows together."}</p>
+            <div className={`site-footer__status${serverOnline ? " is-online" : ""}`}>
+              <span></span>
+              {serverOnline
+                ? `${onlinePlayers} ${language === "es" ? "jugadores en linea" : "players online"}`
+                : t.hero.offline}
+            </div>
+          </section>
+
+          <section className="site-footer__column">
+            <h2>{language === "es" ? "Explorar" : "Explore"}</h2>
+            <button type="button" onClick={() => goToView("home")}>{t.nav.home}</button>
+            <button type="button" onClick={() => goToView("news")}>{t.nav.news}</button>
+            <button type="button" onClick={() => goToView("ranking")}>{t.nav.ranking}</button>
+            <button type="button" onClick={() => goToView("download")}>{t.nav.download}</button>
+          </section>
+
+          <section className="site-footer__column">
+            <h2>{language === "es" ? "Comunidad" : "Community"}</h2>
+            <a href={discordUrl} target="_blank" rel="noreferrer"><MessageCircle size={16} /> Discord</a>
+            <a href={whatsappUrl} target="_blank" rel="noreferrer"><MessageCircle size={16} /> WhatsApp</a>
+            <button type="button" onClick={() => goToView(token ? "account" : "register")}><UserCircle size={16} /> {token ? t.nav.account : t.auth.createAccount}</button>
+            <a href={downloadUrl} target="_blank" rel="noreferrer"><Download size={16} /> {t.pages.downloadClient}</a>
+          </section>
+
+          <section className="site-footer__emblem">
+            <img src="/everleafms-emblem-v2.png" alt="Emblema EverleafMs V83" />
+          </section>
+        </div>
+        <div className="site-footer__bottom">
+          <span>© {new Date().getFullYear()} EverleafMs V83 Classic</span>
+          <span>{language === "es" ? "Creado para nuestra comunidad." : "Created for our community."}</span>
+        </div>
+      </footer>
 
       <nav className="mobile-bottom-nav" aria-label={t.nav.aria}>
         <button type="button" className={view === "home" ? "is-active" : ""} onClick={() => goToView("home")}>

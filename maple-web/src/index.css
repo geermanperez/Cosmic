@@ -2,8 +2,8 @@
   font-family: "Trebuchet MS", "Gill Sans", sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #f7f1e7;
-  background: #05090b;
+  color: #26352b;
+  background: #f4efe2;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -21,7 +21,7 @@ html {
 body {
   margin: 0;
   min-width: 320px;
-  background: #05090b;
+  background: #f4efe2;
 }
 
 body,
