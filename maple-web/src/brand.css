@@ -1,0 +1,191 @@
+/* EverleafMs V83 Classic — brand layer
+   Keeps the existing component structure intact and only overrides presentation. */
+:root {
+  --everleaf-forest: #0f3d2e;
+  --everleaf-forest-deep: #082b20;
+  --everleaf-leaf: #4caf50;
+  --everleaf-sky: #64b5f6;
+  --everleaf-gold: #f4c56b;
+  --everleaf-earth: #6b4f3a;
+  --everleaf-cream: #f7f4ea;
+  --everleaf-ink: #17352a;
+  --everleaf-muted: #5f6c61;
+
+  /* Existing components use these variables in several admin/account areas. */
+  --latin-gold: var(--everleaf-gold);
+  --latin-ink: var(--everleaf-ink);
+  --latin-muted: var(--everleaf-muted);
+  --latin-soft: #849086;
+  --latin-line: rgba(15, 61, 46, 0.14);
+}
+
+html,
+body {
+  background: var(--everleaf-cream);
+}
+
+body {
+  color: var(--everleaf-ink);
+  font-family: "Nunito Sans", "Montserrat", "Trebuchet MS", system-ui, sans-serif;
+}
+
+.app-shell {
+  color: var(--everleaf-ink);
+}
+
+.app-backdrop {
+  background:
+    radial-gradient(circle at 18% 8%, rgba(100, 181, 246, 0.38), transparent 30%),
+    linear-gradient(180deg, #cdeaff 0%, #f7f4ea 58%, #efe9d8 100%);
+}
+
+.app-backdrop::after {
+  background:
+    linear-gradient(180deg, rgba(15, 61, 46, 0.06), rgba(247, 244, 234, 0.87) 58%, #f7f4ea 100%),
+    radial-gradient(circle at 82% 20%, rgba(76, 175, 80, 0.13), transparent 30%);
+}
+
+.brand__logo {
+  width: min(390px, 58vw);
+  filter: drop-shadow(0 12px 26px rgba(15, 61, 46, 0.24));
+}
+
+.topbar__nav,
+.language-switcher {
+  border-color: rgba(15, 61, 46, 0.14);
+  background: rgba(247, 244, 234, 0.9);
+  box-shadow: 0 16px 40px rgba(15, 61, 46, 0.11);
+}
+
+.topbar__nav button,
+.language-switcher {
+  color: var(--everleaf-forest);
+}
+
+.topbar__nav button.is-active,
+.language-switcher button.is-active {
+  color: #fffdf5;
+  background: linear-gradient(135deg, #275f47, var(--everleaf-forest));
+  box-shadow: 0 10px 24px rgba(15, 61, 46, 0.24);
+}
+
+.hero-card,
+.panel,
+.metric-card,
+.highlight-card,
+.news-card,
+.ranking-row,
+.form-card,
+.panel--download,
+.update-modal__panel {
+  border-color: rgba(15, 61, 46, 0.13);
+  background: rgba(247, 244, 234, 0.9);
+  box-shadow: 0 22px 58px rgba(15, 61, 46, 0.11);
+}
+
+.hero-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-card::before {
+  content: "";
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  right: -70px;
+  top: -78px;
+  border-radius: 56% 44% 62% 38%;
+  background: linear-gradient(145deg, rgba(76, 175, 80, 0.2), rgba(15, 61, 46, 0.04));
+  transform: rotate(28deg);
+  pointer-events: none;
+}
+
+.hero-card__eyebrow,
+.panel__kicker {
+  color: var(--everleaf-forest);
+  background: rgba(76, 175, 80, 0.12);
+  border: 1px solid rgba(76, 175, 80, 0.16);
+}
+
+.hero-card__copy h1,
+.panel h2,
+.news-card h3,
+.highlight-card h3,
+.update-modal__panel h2 {
+  color: var(--everleaf-forest-deep);
+}
+
+.hero-card__copy h1,
+.panel h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: -0.025em;
+}
+
+.hero-card__copy p,
+.panel__intro,
+.news-card p,
+.highlight-card p,
+.metric-card span,
+.panel--download p,
+.feedback,
+.helper-note,
+.update-modal__panel p {
+  color: var(--everleaf-muted);
+}
+
+.button-primary {
+  color: #10291f;
+  background: linear-gradient(135deg, #ffe19a, var(--everleaf-gold));
+  box-shadow: 0 14px 30px rgba(184, 132, 37, 0.22);
+}
+
+.button-primary:hover {
+  box-shadow: 0 17px 34px rgba(184, 132, 37, 0.28);
+}
+
+.button-secondary {
+  border-color: rgba(15, 61, 46, 0.18);
+  color: var(--everleaf-forest);
+  background: rgba(255, 253, 245, 0.88);
+}
+
+.metric-card svg,
+.panel__head svg,
+.feature-icon,
+.panel-head-icon,
+.news-card__icon {
+  color: var(--everleaf-leaf);
+}
+
+.status-pill.is-online {
+  color: #155f39;
+  background: rgba(76, 175, 80, 0.14);
+}
+
+.panel--community {
+  border-color: rgba(76, 175, 80, 0.2);
+  background: rgba(247, 244, 234, 0.92);
+}
+
+.vote-cooldown-notice,
+.vote-status-panel {
+  border-color: rgba(15, 61, 46, 0.2);
+  color: var(--everleaf-forest);
+  background: rgba(247, 244, 234, 0.92);
+}
+
+.vote-status-panel strong {
+  color: var(--everleaf-forest);
+}
+
+::selection {
+  color: var(--everleaf-forest-deep);
+  background: rgba(244, 197, 107, 0.7);
+}
+
+@media (max-width: 760px) {
+  .brand__logo {
+    width: min(300px, 70vw);
+  }
+}
