@@ -37,12 +37,14 @@ COPY wz ./wz
 COPY --from=jar /opt/cosmic/target/Cosmic.jar ./Server.jar
 # Scripts are sourced on server startup, so you can mount over them for quicker redeploy.
 COPY scripts ./scripts/
-# Config is read on server startup, so you can mount over it for quicker redeploy.
-COPY config.yaml ./
+# Config is read on server startup. EasyPanel mounts the repository version as config.base.yaml.
+COPY config.yaml ./config.base.yaml
+# Everlaf startup wrapper waits until the protected one-time reset is complete,
+# then creates the runtime config with the Everlaf identity/rates.
+COPY everlaf-start.sh ./everlaf-start.sh
+RUN chmod +x ./everlaf-start.sh
 # Default exposure, although not required if using docker compose.
 # This exposes the login server, and channels.
 # Format for channels: WWCC, where WW is 75 plus the world number and CC is 75 plus the channel number (both zero indexed).
-EXPOSE 8484 7575 7576 7577
-ENTRYPOINT ["java", "-jar", "./Server.jar"]
-
-
+EXPOSE 8484 7575 7576 7577 7578 7579 7580
+ENTRYPOINT ["./everlaf-start.sh"]
