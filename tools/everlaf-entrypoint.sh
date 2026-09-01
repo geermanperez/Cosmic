@@ -28,11 +28,11 @@ sed -i '0,/fishing_rate: 10/s//fishing_rate: 1/' "$RUNTIME_CONFIG"
 sed -i '0,/travel_rate: 10/s//travel_rate: 1/' "$RUNTIME_CONFIG"
 
 # Strong incentive to level in parties while keeping solo progression vanilla.
-sed -i 's/PARTY_BONUS_EXP_RATE: 1.0/PARTY_BONUS_EXP_RATE: 5.0/' "$RUNTIME_CONFIG"
+sed -i 's/PARTY_BONUS_EXP_RATE: 1.0/PARTY_BONUS_EXP_RATE: 3.0/' "$RUNTIME_CONFIG"
 
 printf '%s\n' \
   '[Everlaf] Runtime configuration applied:' \
   '  EXP 1x | MESO 1x | DROP 1x | BOSS DROP 1x | QUEST 1x' \
-  '  PARTY BONUS EXP 5x'
+  '  PARTY BONUS EXP 3x'
 
 exec java -jar ./Server.jar
