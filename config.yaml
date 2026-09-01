@@ -257,7 +257,7 @@ server:
     USE_ERASE_UNTRADEABLE_DROP: true    #Forces flagged untradeable items to disappear when dropped.
     USE_ERASE_PET_ON_EXPIRATION: false  #Forces pets to be removed from inventory when expire time comes, rather than converting it to a doll.
     USE_BUFF_MOST_SIGNIFICANT: true     #When applying buffs, the player will stick with the highest stat boost among the listed, rather than overwriting stats.
-    USE_BUFF_EVERLASTING: false         #Every applied buff on players holds expiration time so high it'd be considered permanent. Suggestion thanks to Vcoc.
+    USE_BUFF_EVERLASTING: false         #Every applied buff on players holds expiration time so high it'd be considered permanent. Suggestion thanks to Alisson (Goukken).
     USE_MULTIPLE_SAME_EQUIP_DROP: true  #Enables multiple drops by mobs of the same equipment, number of possible drops based on the quantities provided at the drop data.
     USE_ENABLE_FULL_RESPAWN: true        #At respawn task, always respawn missing mobs when they're available. Spawn count doesn't depend on how many players are currently there.
     USE_ENABLE_CHAT_LOG: false          #Write in-game chat to log
@@ -291,7 +291,7 @@ server:
     USE_WHOLE_SERVER_RANKING: false     #Enables a ranking pool made from every character registered on the server for the "ranks" command, instead of separated by worlds.
 
     EQUIP_EXP_RATE: 1.0                  #Rate for equipment exp gain, grows linearly. Set 1.0 for default (about 100~200 same-level range mobs killed to pass equip from level 1 to 2).
-    PQ_BONUS_EXP_RATE: 25.0              #Rate for the PQ exp reward.
+    PQ_BONUS_EXP_RATE: 3.0               #Rate for the PQ exp reward.
     PQ_BONUS_DROP_RATE: 5.0              #Rate for drops inside PQs started from the custom PQ hub.
     MOB_SPAWN_MULTIPLIER: 3.0            #Multiplies the maximum amount of mobs maintained on regular maps. 1.0 keeps default spawn density.
 
@@ -299,7 +299,7 @@ server:
     EXP_SPLIT_LEECH_INTERVAL: 5            #Non-contributing players must be within N level between any contributing party member to receive EXP.
     EXP_SPLIT_MVP_MOD: 0.2
     EXP_SPLIT_COMMON_MOD: 0.8
-    PARTY_BONUS_EXP_RATE: 1.0            #Rate for the party exp bonus reward.
+    PARTY_BONUS_EXP_RATE: 3.0            #Rate for the party exp bonus reward.
 
     #Miscellaneous Configuration
     TIMEZONE: GMT
@@ -332,7 +332,7 @@ server:
 
     #Channel Mob Disease Monitor Configuration
     MOB_STATUS_MONITOR_PROC: 200        #Frequency in milliseconds between each proc on the mob disease monitor schedule.
-    MOB_STATUS_MONITOR_LIFE: 84         #Idle proc count the mob disease monitor is allowed to be there before closing it due to inactivity.
+    MOB_STATUS_MONITOR_LIFE: 84         #Idle proc count the mob disease monitor is allowed to be there before closing due to inactivity.
     MOB_STATUS_AGGRO_PERSISTENCE: 2     #Idle proc count on aggro update for a mob to keep following the current controller, given him/her is the leading damage dealer.
     MOB_STATUS_AGGRO_INTERVAL: 5000     #Interval in milliseconds between aggro logistics update.
     USE_AUTOAGGRO_NEARBY: false         #Mobs start following the player when approached.
@@ -355,7 +355,7 @@ server:
     #Other Skills Configuration
     USE_FULL_ARAN_SKILLSET: false   #Enables starter availability to all Aran job skills. Suggestion thanks to Masterrulax.
     USE_FAST_REUSE_HERO_WILL: false  #Greatly reduce cooldown on Hero's Will.
-    USE_ANTI_IMMUNITY_CRASH: false   #Crash skills additionally removes the mob's invincibility buffs. Suggestion thanks to Celestial.
+    USE_ANTI_IMMUNITY_CRASH: false   #Crash skills additionally removes the mob's invincibility buffs.
     USE_UNDISPEL_HOLY_SHIELD: false  #Holy shield buff also prevents players from suffering dispel from mobs.
     USE_FULL_HOLY_SYMBOL: false      #Holy symbol doesn't require EXP sharers to work in full.
 
