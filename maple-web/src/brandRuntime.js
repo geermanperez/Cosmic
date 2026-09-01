@@ -15,6 +15,10 @@ function rebrandText(value) {
   if (!value || protectedOperationalText.test(value)) return value;
 
   return value
+    .replace(
+      "LatinMS is built for Latin players and adventurers from anywhere in the world who want an active community, a special atmosphere, and an experience that feels unique from the first login.",
+      "EverleafMS is made for adventurers from around the world who are looking for a classic MapleStory experience, an active international community, a unique atmosphere, and a world that feels special from the very first login.",
+    )
     .replace(/\bLatinMS\b/g, BRAND_NAME)
     .replace(/\bcomunidad latina\b/gi, "comunidad global")
     .replace(/\bjugadores latinos\b/gi, "jugadores de todo el mundo")
