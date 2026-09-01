@@ -384,7 +384,7 @@ server:
 
     #Family Configuration
     FAMILY_REP_PER_KILL: 4               #Amount of rep gained per monster kill.
-    FAMILY_REP_PER_BOSS_KILL: 20         #Amount of rep gained per monster kill.
+    FAMILY_REP_PER_BOSS_KILL: 20         #Amount of rep gained per boss kill.
     FAMILY_REP_PER_LEVELUP: 200          #Amount of rep gained upon leveling up.
     FAMILY_MAX_GENERATIONS: 1000         #Maximum depth of family tree. (Distance from leader to farthest junior)
 
