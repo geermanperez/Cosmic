@@ -36,5 +36,12 @@ public class ChannelServerInitializer extends ServerChannelInitializer {
         }
 
         initPipeline(socketChannel, client);
+
+        if (Boolean.parseBoolean(System.getenv("LATINMS_LOGIN_DIAGNOSTICS"))) {
+            socketChannel.pipeline().addBefore("PacketCodec", "ChannelWireDiagnostics",
+                    new LoginDiagnostics(clientSessionId, "channel-wire"));
+            socketChannel.pipeline().addBefore("Client", "ChannelDecodedDiagnostics",
+                    new LoginDiagnostics(clientSessionId, "channel-decoded"));
+        }
     }
 }
