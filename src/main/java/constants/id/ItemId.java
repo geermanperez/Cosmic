@@ -63,8 +63,7 @@ public class ItemId {
     private static final int CHAIR_MAX = FISHING_CHAIR;
 
     public static boolean isChair(int itemId) {
-        return itemId >= CHAIR_MIN && itemId <= CHAIR_MAX;
-        // alt: return itemId / 10000 == 301;
+        return itemId / 10000 == 301;
     }
 
     // Throwing star
