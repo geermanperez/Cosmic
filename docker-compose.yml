@@ -22,7 +22,8 @@ services:
       - everlaf-state:/everlaf-state
     environment:
       DB_HOST: "db"
-      LATINMS_LOGIN_DIAGNOSTICS: "${LATINMS_LOGIN_DIAGNOSTICS:-false}"
+      # Temporary login investigation; set to "false" when finished.
+      LATINMS_LOGIN_DIAGNOSTICS: "true"
 
   # Protected one-time Everlaf MS player reset.
   # It wipes accounts/characters and player-owned runtime data only.
