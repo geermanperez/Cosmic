@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<imgdir name="9400405.img">
+  <imgdir name="info">
+    <int name="bodyAttack" value="1"/>
+    <int name="level" value="120"/>
+    <int name="maxHP" value="78000000"/>
+    <int name="maxMP" value="12000"/>
+    <int name="speed" value="-50"/>
+    <int name="PADamage" value="1150"/>
+    <int name="PDDamage" value="3200"/>
+    <int name="MADamage" value="1080"/>
+    <int name="MDDamage" value="1200"/>
+    <int name="acc" value="270"/>
+    <int name="eva" value="42"/>
+    <int name="exp" value="3680000"/>
+    <int name="undead" value="1"/>
+    <int name="pushed" value="250"/>
+    <float name="fs" value="10.0"/>
+    <int name="summonType" value="1"/>
+    <int name="boss" value="1"/>
+  </imgdir>
+</imgdir>
