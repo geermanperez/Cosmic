@@ -22,6 +22,7 @@ services:
       - everlaf-state:/everlaf-state
     environment:
       DB_HOST: "db"
+      LATINMS_LOGIN_DIAGNOSTICS: "${LATINMS_LOGIN_DIAGNOSTICS:-false}"
 
   # Protected one-time Everlaf MS player reset.
   # It wipes accounts/characters and player-owned runtime data only.
