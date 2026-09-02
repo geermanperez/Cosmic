@@ -26,5 +26,11 @@ public class LoginServerInitializer extends ServerChannelInitializer {
         }
 
         initPipeline(socketChannel, client);
+        if (Boolean.parseBoolean(System.getenv("LATINMS_LOGIN_DIAGNOSTICS"))) {
+            socketChannel.pipeline().addBefore("PacketCodec", "LoginWireDiagnostics",
+                    new LoginDiagnostics(clientSessionId, "wire"));
+            socketChannel.pipeline().addBefore("Client", "LoginDecodedDiagnostics",
+                    new LoginDiagnostics(clientSessionId, "decoded"));
+        }
     }
 }
