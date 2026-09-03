@@ -3,7 +3,7 @@ var status = 0;
 var selected = -1;
 var currentList = [];
 
-var skin = [0, 1, 2, 3, 4, 5, 9, 10, 11];
+var skin = [0, 1, 2, 3, 4];
 
 var wigs1 = [32050, 32150, 32160, 32310, 32320, 32330, 32340, 32350, 32360, 32370, 32380, 32390, 32400, 32410, 32420, 32430, 32440, 32450, 32460, 32470, 32480, 32490, 32500, 32520, 32530, 32540, 32550, 32560, 32640, 32650, 32660, 32720, 32730];
 var wigs2 = [32740, 32750, 32760, 39000, 39040, 39050, 39060, 39070, 39080, 39090, 39170, 39190, 39200, 39210, 39220, 39230, 39240, 39250, 39260, 39310, 39320, 39330, 39340, 39350, 39360, 39370, 39380, 39390, 39400, 39410, 39420, 39430, 39440];
@@ -78,10 +78,13 @@ function action(mode, type, selection) {
         var chosen = currentList[selection];
         if (selected == 0) {
             cm.setSkin(chosen);
+            cm.sendOk("Tu nuevo tono de piel ha sido aplicado con exito!");
         } else if (selected == 1 || selected == 10 || selected == 11) {
             cm.setHair(chosen);
+            cm.sendOk("Tu nuevo peinado ha sido aplicado con exito!");
         } else if (selected == 2 || selected == 30 || selected == 31) {
             cm.setFace(chosen);
+            cm.sendOk("Tu nuevo rostro ha sido aplicado con exito!");
         }
         cm.dispose();
     }

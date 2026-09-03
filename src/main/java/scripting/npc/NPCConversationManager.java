@@ -663,7 +663,9 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
     }
 
     private int getEquippedCosmeticid(int itemid) {
-        if (itemid < 30000) {
+        if (itemid < 100) {
+            return getPlayer().getSkinColor() != null ? getPlayer().getSkinColor().getId() : 0;
+        } else if (itemid < 30000) {
             return getPlayer().getFace();
         } else {
             return getPlayer().getHair();
