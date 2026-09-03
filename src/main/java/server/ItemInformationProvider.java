@@ -1601,7 +1601,12 @@ public class ItemInformationProvider {
         if (onEquipUntradeableCache.containsKey(itemId)) {
             return onEquipUntradeableCache.get(itemId);
         }
-        boolean untradeableOnEquip = DataTool.getIntConvert("info/equipTradeBlock", getItemData(itemId), 0) > 0;
+        Data data = getItemData(itemId);
+        if (data == null) {
+            onEquipUntradeableCache.put(itemId, false);
+            return false;
+        }
+        boolean untradeableOnEquip = DataTool.getIntConvert("info/equipTradeBlock", data, 0) > 0;
         onEquipUntradeableCache.put(itemId, untradeableOnEquip);
         return untradeableOnEquip;
     }
@@ -1614,6 +1619,9 @@ public class ItemInformationProvider {
             return null;
         }
         Data itemInfo = getItemData(itemId);
+        if (itemInfo == null) {
+            return null;
+        }
         ScriptedItem script = new ScriptedItem(DataTool.getInt("spec/npc", itemInfo, 0),
                 DataTool.getString("spec/script", itemInfo, ""),
                 DataTool.getInt("spec/runOnPickup", itemInfo, 0) == 1);
@@ -1625,7 +1633,12 @@ public class ItemInformationProvider {
         if (karmaCache.containsKey(itemId)) {
             return karmaCache.get(itemId);
         }
-        boolean bRestricted = DataTool.getIntConvert("info/tradeAvailable", getItemData(itemId), 0) > 0;
+        Data data = getItemData(itemId);
+        if (data == null) {
+            karmaCache.put(itemId, false);
+            return false;
+        }
+        boolean bRestricted = DataTool.getIntConvert("info/tradeAvailable", data, 0) > 0;
         karmaCache.put(itemId, bRestricted);
         return bRestricted;
     }

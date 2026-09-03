@@ -39,10 +39,16 @@ public class DataTool {
     }
 
     public static String getString(String path, Data data) {
+        if (data == null) {
+            return null;
+        }
         return getString(data.getChildByPath(path));
     }
 
     public static String getString(String path, Data data, String def) {
+        if (data == null) {
+            return def;
+        }
         return getString(data.getChildByPath(path), def);
     }
 
@@ -93,7 +99,13 @@ public class DataTool {
     }
 
     public static int getIntConvert(String path, Data data) {
+        if (data == null) {
+            return 0;
+        }
         Data d = data.getChildByPath(path);
+        if (d == null) {
+            return 0;
+        }
         if (d.getType() == DataType.STRING) {
             return Integer.parseInt(getString(d));
         } else {
@@ -117,10 +129,16 @@ public class DataTool {
     }
 
     public static int getInt(String path, Data data, int def) {
+        if (data == null) {
+            return def;
+        }
         return getInt(data.getChildByPath(path), def);
     }
 
     public static int getIntConvert(String path, Data data, int def) {
+        if (data == null) {
+            return def;
+        }
         Data d = data.getChildByPath(path);
         if (d == null) {
             return def;
