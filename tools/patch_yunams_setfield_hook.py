@@ -22,6 +22,35 @@ EXPECTED_PREFIX = bytes.fromhex("55 8B EC 6A FF 68")
 PATCH = b"\xFF\x25" + struct.pack("<I", TRAMPOLINE_POINTER_VA)
 
 
+def fix_hook_relocation(data: bytearray) -> None:
+    """Move the original PUSH operand relocation to the new JMP operand.
+
+    Without this HIGHLOW relocation the jump reads the preferred image base,
+    not the actual DLL base chosen by the Windows loader (ASLR).
+    """
+    pe_offset = struct.unpack_from("<I", data, 0x3C)[0]
+    optional = pe_offset + 24
+    if struct.unpack_from("<H", data, optional)[0] != 0x10B:
+        raise ValueError("Expected a PE32 DLL")
+    reloc_rva, reloc_size = struct.unpack_from("<II", data, optional + 96 + 5 * 8)
+    cursor = rva_to_offset(data, reloc_rva)
+    end = cursor + reloc_size
+    found = False
+    while cursor < end:
+        page, size = struct.unpack_from("<II", data, cursor)
+        if size < 8 or size % 2 or cursor + size > end:
+            raise ValueError("Invalid relocation block")
+        for offset in range(cursor + 8, cursor + size, 2):
+            entry = struct.unpack_from("<H", data, offset)[0]
+            target = page + (entry & 0xFFF)
+            if entry >> 12 == 3 and target in (HOOK_RVA + 6, HOOK_RVA + 2):
+                struct.pack_into("<H", data, offset, 0x3000 | ((HOOK_RVA + 2) - page))
+                found = True
+        cursor += size
+    if not found:
+        raise ValueError("Missing hook operand relocation; refusing unknown build")
+
+
 def rva_to_offset(data: bytes, rva: int) -> int:
     pe_offset = struct.unpack_from("<I", data, 0x3C)[0]
     section_count = struct.unpack_from("<H", data, pe_offset + 6)[0]
@@ -47,21 +76,23 @@ def main() -> None:
     offset = rva_to_offset(original, HOOK_RVA)
     current = original[offset : offset + len(PATCH)]
 
-    if current == PATCH:
-        print(f"Already patched: {dll}")
-        return
-    if current != EXPECTED_PREFIX:
+    if current not in (PATCH, EXPECTED_PREFIX):
         raise SystemExit(
             f"Refusing unknown build: bytes at RVA 0x{HOOK_RVA:X} are "
             f"{current.hex(' ')}, expected {EXPECTED_PREFIX.hex(' ')}"
         )
 
-    backup = dll.with_suffix(dll.suffix + ".before-setfield-fix")
+    patched = bytearray(original)
+    patched[offset : offset + len(PATCH)] = PATCH
+    fix_hook_relocation(patched)
+    if patched == original:
+        print(f"Already patched with ASLR relocation: {dll}")
+        return
+
+    backup = dll.with_suffix(dll.suffix + ".before-setfield-aslr-fix")
     if not backup.exists():
         shutil.copy2(dll, backup)
 
-    patched = bytearray(original)
-    patched[offset : offset + len(PATCH)] = PATCH
     dll.write_bytes(patched)
     print(f"Patched: {dll}")
     print(f"Backup:  {backup}")
