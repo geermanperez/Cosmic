@@ -528,7 +528,17 @@ public class InventoryManipulator {
         Inventory eqpdInv = chr.getInventory(InventoryType.EQUIPPED);
 
         Equip source = (Equip) eqpInv.getItem(src);
-        if (source == null || !ii.canWearEquipment(chr, source, dst)) {
+        if (source == null) {
+            c.sendPacket(PacketCreator.enableActions());
+            return;
+        }
+
+        boolean cash = (dst <= -100) || (source.getSN() > 0) || ii.isCash(source.getItemId());
+        if (cash && dst > -100) {
+            dst = (short) (dst - 100);
+        }
+
+        if (!ii.canWearEquipment(chr, source, dst)) {
             c.sendPacket(PacketCreator.enableActions());
             return;
         } else if ((ItemId.isExplorerMount(source.getItemId()) && chr.isCygnus()) ||

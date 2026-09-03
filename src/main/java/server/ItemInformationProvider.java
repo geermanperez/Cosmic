@@ -1823,7 +1823,7 @@ public class ItemInformationProvider {
         }
         for (Item item : items) {
             Equip equip = (Equip) item;
-            if (isCash(equip.getItemId())) {
+            if (equip.getPosition() <= -100 || equip.getSN() > 0 || isCash(equip.getItemId())) {
                 equip.wear(true);
                 itemz.add(equip);
                 continue;
@@ -1876,7 +1876,7 @@ public class ItemInformationProvider {
         }
 
         String islot = getEquipmentSlot(id);
-        boolean cash = isCash(id);
+        boolean cash = (dst <= -100) || (equip.getSN() > 0) || isCash(id);
         if (!EquipSlot.getFromTextSlot(islot).isAllowed(dst, cash)) {
             equip.wear(false);
             String itemName = ItemInformationProvider.getInstance().getName(equip.getItemId());
