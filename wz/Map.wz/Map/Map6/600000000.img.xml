@@ -5614,14 +5614,14 @@
     <imgdir name="8">
       <string name="id" value="9201081" />
       <int name="x" value="1655" />
-      <int name="y" value="497" />
-      <int name="cy" value="502" />
+      <int name="y" value="496" />
+      <int name="cy" value="501" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="1605" />
       <int name="rx1" value="1705" />
       <int name="f" value="0" />
       <string name="type" value="n" />
-      <int name="fh" value="0" />
+      <int name="fh" value="300" />
     </imgdir>
     <imgdir name="9">
       <string name="id" value="9201083" />
@@ -5784,7 +5784,7 @@
     <imgdir name="22">
       <string name="id" value="1022101" />
       <int name="x" value="3178" />
-      <int name="y" value="307" />
+      <int name="y" value="316" />
       <int name="cy" value="321" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="3128" />
@@ -5792,7 +5792,7 @@
       <int name="f" value="0" />
       <string name="type" value="n" />
       <string name="limitedname" value="xmasvillage" />
-      <int name="fh" value="502" />
+      <int name="fh" value="495" />
     </imgdir>
     <imgdir name="23">
       <string name="id" value="9010022" />

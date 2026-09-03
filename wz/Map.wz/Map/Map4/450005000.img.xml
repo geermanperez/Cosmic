@@ -373,8 +373,8 @@
     <imgdir name="4">
       <string name="id" value="3003320" />
       <int name="x" value="445" />
-      <int name="y" value="2" />
-      <int name="cy" value="2" />
+      <int name="y" value="134" />
+      <int name="cy" value="139" />
       <int name="rx0" value="395" />
       <int name="rx1" value="495" />
       <string name="type" value="n" />

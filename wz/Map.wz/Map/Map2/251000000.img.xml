@@ -1457,26 +1457,26 @@
     <imgdir name="1">
       <string name="id" value="2092000" />
       <int name="x" value="-723" />
-      <int name="y" value="57" />
+      <int name="y" value="60" />
       <int name="cy" value="65" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="-773" />
       <int name="rx1" value="-673" />
       <int name="f" value="0" />
       <string name="type" value="n" />
-      <int name="fh" value="92" />
+      <int name="fh" value="93" />
     </imgdir>
     <imgdir name="2">
       <string name="id" value="2093000" />
       <int name="x" value="-581" />
-      <int name="y" value="-18" />
+      <int name="y" value="-14" />
       <int name="cy" value="-9" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="-631" />
       <int name="rx1" value="-531" />
       <int name="f" value="0" />
       <string name="type" value="n" />
-      <int name="fh" value="92" />
+      <int name="fh" value="99" />
     </imgdir>
     <imgdir name="3">
       <string name="id" value="2093001" />

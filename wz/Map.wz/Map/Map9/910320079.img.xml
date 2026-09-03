@@ -209,13 +209,13 @@
     <imgdir name="0">
       <string name="id" value="9010100" />
       <int name="x" value="-260" />
-      <int name="y" value="235" />
+      <int name="y" value="238" />
       <int name="cy" value="243" />
       <int name="rx0" value="-218" />
       <int name="rx1" value="-178" />
       <int name="f" value="1" />
       <string name="type" value="n" />
-      <int name="fh" value="0" />
+      <int name="fh" value="50" />
     </imgdir>
   </imgdir>
   <imgdir name="foothold">

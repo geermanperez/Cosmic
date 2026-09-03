@@ -6619,12 +6619,12 @@
       <string name="type" value="n" />
       <string name="id" value="9000036" />
       <int name="x" value="1846" />
-      <int name="y" value="151" />
+      <int name="y" value="153" />
       <int name="mobTime" value="0" />
       <string name="limitedname" value="2008summer" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="120" />
+      <int name="fh" value="58" />
       <int name="cy" value="158" />
       <int name="rx0" value="1796" />
       <int name="rx1" value="1896" />
@@ -6633,12 +6633,12 @@
       <string name="type" value="n" />
       <string name="id" value="1022101" />
       <int name="x" value="4896" />
-      <int name="y" value="-643" />
+      <int name="y" value="-627" />
       <int name="mobTime" value="0" />
       <string name="limitedname" value="xmasvillage" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="11" />
+      <int name="fh" value="137" />
       <int name="cy" value="-622" />
       <int name="rx0" value="4847" />
       <int name="rx1" value="4946" />

@@ -1867,12 +1867,12 @@
       <string name="type" value="n" />
       <string name="id" value="9000021" />
       <int name="x" value="135" />
-      <int name="y" value="-274" />
+      <int name="y" value="121" />
       <int name="mobTime" value="0" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="45" />
-      <int name="cy" value="-266" />
+      <int name="fh" value="26" />
+      <int name="cy" value="126" />
       <int name="rx0" value="85" />
       <int name="rx1" value="185" />
     </imgdir>
@@ -1880,12 +1880,12 @@
       <string name="type" value="n" />
       <string name="id" value="9000049" />
       <int name="x" value="-421" />
-      <int name="y" value="209" />
+      <int name="y" value="219" />
       <int name="mobTime" value="0" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="8" />
-      <int name="cy" value="214" />
+      <int name="fh" value="1" />
+      <int name="cy" value="224" />
       <int name="rx0" value="-471" />
       <int name="rx1" value="-371" />
     </imgdir>

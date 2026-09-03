@@ -3231,12 +3231,12 @@
       <string name="type" value="n" />
       <string name="id" value="1022101" />
       <int name="x" value="2877" />
-      <int name="y" value="3" />
+      <int name="y" value="15" />
       <int name="mobTime" value="0" />
       <string name="limitedname" value="xmasvillage" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="122" />
+      <int name="fh" value="94" />
       <int name="cy" value="20" />
       <int name="rx0" value="2827" />
       <int name="rx1" value="2927" />

@@ -9119,7 +9119,7 @@
     <imgdir name="13">
       <string name="id" value="9000036" />
       <int name="x" value="-62" />
-      <int name="y" value="182" />
+      <int name="y" value="187" />
       <int name="cy" value="192" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="-112" />
@@ -9127,12 +9127,12 @@
       <int name="f" value="0" />
       <string name="type" value="n" />
       <string name="limitedname" value="2008summer" />
-      <int name="fh" value="226" />
+      <int name="fh" value="219" />
     </imgdir>
     <imgdir name="14">
       <string name="id" value="1022101" />
       <int name="x" value="1961" />
-      <int name="y" value="177" />
+      <int name="y" value="187" />
       <int name="cy" value="192" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="1911" />
@@ -9140,12 +9140,12 @@
       <int name="f" value="0" />
       <string name="type" value="n" />
       <string name="limitedname" value="xmasvillage" />
-      <int name="fh" value="327" />
+      <int name="fh" value="314" />
     </imgdir>
     <imgdir name="15">
       <string name="id" value="9000017" />
       <int name="x" value="2381" />
-      <int name="y" value="-415" />
+      <int name="y" value="-413" />
       <int name="cy" value="-408" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="2331" />
@@ -9153,12 +9153,12 @@
       <int name="f" value="0" />
       <string name="type" value="n" />
       <string name="limitedname" value="Valentine" />
-      <int name="fh" value="441" />
+      <int name="fh" value="428" />
     </imgdir>
     <imgdir name="16">
       <string name="id" value="2041017" />
       <int name="x" value="2374" />
-      <int name="y" value="-172" />
+      <int name="y" value="-173" />
       <int name="cy" value="-168" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="2324" />
@@ -9166,19 +9166,19 @@
       <int name="f" value="0" />
       <string name="type" value="n" />
       <string name="limitedname" value="Valentine" />
-      <int name="fh" value="442" />
+      <int name="fh" value="429" />
     </imgdir>
     <imgdir name="17">
       <string name="id" value="9010022" />
       <int name="x" value="765" />
-      <int name="y" value="-174" />
-      <int name="cy" value="-168" />
+      <int name="y" value="187" />
+      <int name="cy" value="192" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="715" />
       <int name="rx1" value="815" />
       <int name="f" value="0" />
       <string name="type" value="n" />
-      <int name="fh" value="258" />
+      <int name="fh" value="247" />
     </imgdir>
   </imgdir>
   <imgdir name="foothold">

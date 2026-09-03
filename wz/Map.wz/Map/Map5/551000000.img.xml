@@ -3003,14 +3003,14 @@
     <imgdir name="4">
       <string name="id" value="9000021" />
       <int name="x" value="198" />
-      <int name="y" value="298" />
-      <int name="cy" value="314" />
+      <int name="y" value="310" />
+      <int name="cy" value="315" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="148" />
       <int name="rx1" value="248" />
       <int name="f" value="0" />
       <string name="type" value="n" />
-      <int name="fh" value="154" />
+      <int name="fh" value="119" />
     </imgdir>
   </imgdir>
   <imgdir name="foothold">

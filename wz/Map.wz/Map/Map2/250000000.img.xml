@@ -6967,14 +6967,14 @@
     <imgdir name="13">
       <string name="id" value="2091008" />
       <int name="x" value="-2677" />
-      <int name="y" value="-725" />
-      <int name="cy" value="-717" />
+      <int name="y" value="-746" />
+      <int name="cy" value="-741" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="-2697" />
       <int name="rx1" value="-2657" />
       <int name="f" value="0" />
       <string name="type" value="n" />
-      <int name="fh" value="181" />
+      <int name="fh" value="183" />
     </imgdir>
     <imgdir name="14">
       <string name="id" value="9000021" />
@@ -7044,14 +7044,14 @@
     <imgdir name="19">
       <string name="id" value="9010022" />
       <int name="x" value="889" />
-      <int name="y" value="-567" />
+      <int name="y" value="-554" />
       <int name="cy" value="-549" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="839" />
       <int name="rx1" value="939" />
       <int name="f" value="0" />
       <string name="type" value="n" />
-      <int name="fh" value="534" />
+      <int name="fh" value="527" />
     </imgdir>
   </imgdir>
   <imgdir name="foothold">

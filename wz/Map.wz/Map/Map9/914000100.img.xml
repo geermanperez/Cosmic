@@ -1967,7 +1967,7 @@
       <int name="rx1" value="540" />
       <int name="f" value="0" />
       <string name="type" value="n" />
-      <int name="fh" value="23" />
+      <int name="fh" value="22" />
     </imgdir>
     <imgdir name="1">
       <string name="id" value="1209001" />

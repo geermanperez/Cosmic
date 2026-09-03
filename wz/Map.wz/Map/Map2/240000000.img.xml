@@ -7247,7 +7247,7 @@
       <string name="limitedname" value="maple7market" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="152" />
+      <int name="fh" value="251" />
       <int name="cy" value="422" />
       <int name="rx0" value="1210" />
       <int name="rx1" value="1310" />
@@ -7256,12 +7256,12 @@
       <string name="type" value="n" />
       <string name="id" value="9209000" />
       <int name="x" value="1445" />
-      <int name="y" value="410" />
+      <int name="y" value="417" />
       <int name="mobTime" value="0" />
       <string name="limitedname" value="dealerA" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="151" />
+      <int name="fh" value="255" />
       <int name="cy" value="422" />
       <int name="rx0" value="1395" />
       <int name="rx1" value="1495" />
@@ -7270,12 +7270,12 @@
       <string name="type" value="n" />
       <string name="id" value="9000021" />
       <int name="x" value="930" />
-      <int name="y" value="407" />
+      <int name="y" value="417" />
       <int name="mobTime" value="0" />
       <string name="limitedname" value="gaga" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="148" />
+      <int name="fh" value="218" />
       <int name="cy" value="422" />
       <int name="rx0" value="880" />
       <int name="rx1" value="980" />
@@ -7284,12 +7284,12 @@
       <string name="type" value="n" />
       <string name="id" value="9000036" />
       <int name="x" value="1019" />
-      <int name="y" value="132" />
+      <int name="y" value="147" />
       <int name="mobTime" value="0" />
       <string name="limitedname" value="2008summer" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="116" />
+      <int name="fh" value="227" />
       <int name="cy" value="152" />
       <int name="rx0" value="970" />
       <int name="rx1" value="1069" />
@@ -7298,13 +7298,13 @@
       <string name="type" value="n" />
       <string name="id" value="1022101" />
       <int name="x" value="-952" />
-      <int name="y" value="105" />
+      <int name="y" value="110" />
       <int name="mobTime" value="0" />
       <string name="limitedname" value="xmasvillage" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="287" />
-      <int name="cy" value="116" />
+      <int name="fh" value="89" />
+      <int name="cy" value="115" />
       <int name="rx0" value="-1002" />
       <int name="rx1" value="-902" />
     </imgdir>

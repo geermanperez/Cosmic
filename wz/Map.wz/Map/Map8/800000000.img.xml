@@ -5502,12 +5502,12 @@
       <string name="type" value="n" />
       <string name="id" value="1022101" />
       <int name="x" value="2209" />
-      <int name="y" value="71" />
+      <int name="y" value="90" />
       <int name="mobTime" value="0" />
       <string name="limitedname" value="xmasvillage" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="190" />
+      <int name="fh" value="59" />
       <int name="cy" value="95" />
       <int name="rx0" value="2159" />
       <int name="rx1" value="2259" />
@@ -5516,11 +5516,11 @@
       <string name="type" value="n" />
       <string name="id" value="9000017" />
       <int name="x" value="968" />
-      <int name="y" value="88" />
+      <int name="y" value="90" />
       <int name="mobTime" value="0" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="178" />
+      <int name="fh" value="38" />
       <int name="cy" value="95" />
       <int name="rx0" value="918" />
       <int name="rx1" value="1018" />
@@ -5530,11 +5530,11 @@
       <string name="type" value="n" />
       <string name="id" value="2041017" />
       <int name="x" value="823" />
-      <int name="y" value="89" />
+      <int name="y" value="90" />
       <int name="mobTime" value="0" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="176" />
+      <int name="fh" value="37" />
       <int name="cy" value="95" />
       <int name="rx0" value="773" />
       <int name="rx1" value="873" />
@@ -5544,11 +5544,11 @@
       <string name="type" value="n" />
       <string name="id" value="9010022" />
       <int name="x" value="5219" />
-      <int name="y" value="75" />
+      <int name="y" value="90" />
       <int name="mobTime" value="0" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="179" />
+      <int name="fh" value="202" />
       <int name="cy" value="95" />
       <int name="rx0" value="5169" />
       <int name="rx1" value="5269" />

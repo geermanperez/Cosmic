@@ -654,13 +654,13 @@
       <string name="type" value="n" />
       <string name="id" value="3003315" />
       <int name="x" value="424" />
-      <int name="y" value="-651" />
+      <int name="y" value="-389" />
       <int name="mobTime" value="0" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
       <int name="nofoothold" value="1" />
-      <int name="fh" value="0" />
-      <int name="cy" value="-651" />
+      <int name="fh" value="49" />
+      <int name="cy" value="-384" />
       <int name="rx0" value="374" />
       <int name="rx1" value="429" />
     </imgdir>

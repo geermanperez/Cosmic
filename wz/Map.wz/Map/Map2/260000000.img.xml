@@ -3624,12 +3624,12 @@
       <string name="type" value="n" />
       <string name="id" value="9209000" />
       <int name="x" value="2530" />
-      <int name="y" value="272" />
+      <int name="y" value="270" />
       <int name="mobTime" value="0" />
       <string name="limitedname" value="dealerA" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="57" />
+      <int name="fh" value="209" />
       <int name="cy" value="275" />
       <int name="rx0" value="2480" />
       <int name="rx1" value="2580" />
@@ -3638,12 +3638,12 @@
       <string name="type" value="n" />
       <string name="id" value="9209001" />
       <int name="x" value="1357" />
-      <int name="y" value="272" />
+      <int name="y" value="270" />
       <int name="mobTime" value="0" />
       <string name="limitedname" value="maple7market" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="46" />
+      <int name="fh" value="161" />
       <int name="cy" value="275" />
       <int name="rx0" value="1307" />
       <int name="rx1" value="1407" />
@@ -3680,12 +3680,12 @@
       <string name="type" value="n" />
       <string name="id" value="1022101" />
       <int name="x" value="977" />
-      <int name="y" value="8" />
+      <int name="y" value="22" />
       <int name="mobTime" value="0" />
       <string name="limitedname" value="xmasvillage" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="166" />
+      <int name="fh" value="133" />
       <int name="cy" value="27" />
       <int name="rx0" value="927" />
       <int name="rx1" value="1027" />

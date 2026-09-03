@@ -10874,12 +10874,12 @@
       <int name="rx1" value="-1340" />
       <int name="f" value="0" />
       <string name="type" value="n" />
-      <int name="fh" value="96" />
+      <int name="fh" value="94" />
     </imgdir>
     <imgdir name="23">
       <string name="id" value="9000021" />
       <int name="x" value="293" />
-      <int name="y" value="414" />
+      <int name="y" value="421" />
       <int name="cy" value="426" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="243" />
@@ -10887,12 +10887,12 @@
       <int name="f" value="0" />
       <string name="type" value="n" />
       <string name="limitedname" value="gaga" />
-      <int name="fh" value="236" />
+      <int name="fh" value="229" />
     </imgdir>
     <imgdir name="24">
       <string name="id" value="9000036" />
       <int name="x" value="10" />
-      <int name="y" value="302" />
+      <int name="y" value="301" />
       <int name="cy" value="306" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="-40" />
@@ -10900,12 +10900,12 @@
       <int name="f" value="0" />
       <string name="type" value="n" />
       <string name="limitedname" value="2008summer" />
-      <int name="fh" value="206" />
+      <int name="fh" value="199" />
     </imgdir>
     <imgdir name="25">
       <string name="id" value="1022101" />
       <int name="x" value="-1129" />
-      <int name="y" value="136" />
+      <int name="y" value="151" />
       <int name="cy" value="156" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="-1179" />
@@ -10913,7 +10913,7 @@
       <int name="f" value="0" />
       <string name="type" value="n" />
       <string name="limitedname" value="xmasvillage" />
-      <int name="fh" value="123" />
+      <int name="fh" value="116" />
     </imgdir>
   </imgdir>
   <imgdir name="foothold">

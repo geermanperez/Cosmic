@@ -2231,26 +2231,26 @@
     <imgdir name="8">
       <string name="id" value="1022101" />
       <int name="x" value="1724" />
-      <int name="y" value="166" />
-      <int name="cy" value="174" />
+      <int name="y" value="149" />
+      <int name="cy" value="154" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="1704" />
       <int name="rx1" value="1744" />
       <int name="f" value="0" />
       <string name="type" value="n" />
-      <int name="fh" value="0" />
+      <int name="fh" value="85" />
     </imgdir>
     <imgdir name="9">
       <string name="id" value="9209100" />
       <int name="x" value="-328" />
-      <int name="y" value="-172" />
-      <int name="cy" value="-164" />
+      <int name="y" value="-296" />
+      <int name="cy" value="-291" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="-348" />
       <int name="rx1" value="-308" />
       <int name="f" value="0" />
       <string name="type" value="n" />
-      <int name="fh" value="40" />
+      <int name="fh" value="38" />
     </imgdir>
     <imgdir name="10">
       <string name="id" value="2002001" />

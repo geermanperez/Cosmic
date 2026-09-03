@@ -4339,12 +4339,12 @@
       <string name="type" value="n" />
       <string name="id" value="1022101" />
       <int name="x" value="-957" />
-      <int name="y" value="73" />
+      <int name="y" value="81" />
       <int name="mobTime" value="0" />
       <string name="limitedname" value="xmasvillage" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="15" />
+      <int name="fh" value="145" />
       <int name="cy" value="86" />
       <int name="rx0" value="-1007" />
       <int name="rx1" value="-907" />

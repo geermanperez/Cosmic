@@ -222,12 +222,12 @@
       <string name="id" value="9330046" />
       <int name="x" value="1231" />
       <int name="y" value="-381" />
-      <int name="cy" value="-373" />
+      <int name="cy" value="-376" />
       <int name="rx0" value="1211" />
       <int name="rx1" value="1251" />
       <int name="f" value="1" />
       <string name="type" value="n" />
-      <int name="fh" value="0" />
+      <int name="fh" value="1" />
     </imgdir>
     <imgdir name="4">
       <string name="id" value="9999802" />

@@ -5598,19 +5598,19 @@
     <imgdir name="10">
       <string name="id" value="9000021" />
       <int name="x" value="119" />
-      <int name="y" value="631" />
-      <int name="cy" value="646" />
+      <int name="y" value="642" />
+      <int name="cy" value="647" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="69" />
       <int name="rx1" value="169" />
       <int name="f" value="0" />
       <string name="type" value="n" />
-      <int name="fh" value="107" />
+      <int name="fh" value="100" />
     </imgdir>
     <imgdir name="11">
       <string name="id" value="1022101" />
       <int name="x" value="-80" />
-      <int name="y" value="421" />
+      <int name="y" value="432" />
       <int name="cy" value="437" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="-130" />
@@ -5618,7 +5618,7 @@
       <int name="f" value="0" />
       <string name="type" value="n" />
       <string name="limitedname" value="xmasvillage" />
-      <int name="fh" value="92" />
+      <int name="fh" value="85" />
     </imgdir>
   </imgdir>
   <imgdir name="foothold">

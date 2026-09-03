@@ -373,8 +373,8 @@
     <imgdir name="0">
       <string name="id" value="3003560" />
       <int name="x" value="633" />
-      <int name="y" value="213" />
-      <int name="cy" value="221" />
+      <int name="y" value="243" />
+      <int name="cy" value="248" />
       <int name="rx0" value="583" />
       <int name="rx1" value="683" />
       <string name="type" value="n" />
@@ -393,8 +393,8 @@
     <imgdir name="2">
       <string name="id" value="1032001" />
       <int name="x" value="-18" />
-      <int name="y" value="167" />
-      <int name="cy" value="175" />
+      <int name="y" value="243" />
+      <int name="cy" value="248" />
       <int name="rx0" value="-38" />
       <int name="rx1" value="2" />
       <string name="type" value="n" />
@@ -403,8 +403,8 @@
     <imgdir name="3">
       <string name="id" value="1012100" />
       <int name="x" value="129" />
-      <int name="y" value="164" />
-      <int name="cy" value="172" />
+      <int name="y" value="243" />
+      <int name="cy" value="248" />
       <int name="rx0" value="67" />
       <int name="rx1" value="107" />
       <int name="f" value="1" />
@@ -414,8 +414,8 @@
     <imgdir name="4">
       <string name="id" value="1052001" />
       <int name="x" value="343" />
-      <int name="y" value="186" />
-      <int name="cy" value="194" />
+      <int name="y" value="243" />
+      <int name="cy" value="248" />
       <int name="rx0" value="323" />
       <int name="rx1" value="363" />
       <string name="type" value="n" />
@@ -455,8 +455,8 @@
     <imgdir name="8">
       <string name="id" value="1101003" />
       <int name="x" value="-178" />
-      <int name="y" value="163" />
-      <int name="cy" value="171" />
+      <int name="y" value="243" />
+      <int name="cy" value="248" />
       <int name="rx0" value="-254" />
       <int name="rx1" value="-214" />
       <int name="f" value="1" />

@@ -330,14 +330,14 @@
     <imgdir name="2">
       <string name="id" value="1032110" />
       <int name="x" value="186" />
-      <int name="y" value="-254" />
-      <int name="cy" value="-250" />
+      <int name="y" value="-256" />
+      <int name="cy" value="-251" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="136" />
       <int name="rx1" value="236" />
       <int name="f" value="0" />
       <string name="type" value="n" />
-      <int name="fh" value="18" />
+      <int name="fh" value="16" />
     </imgdir>
     <imgdir name="3">
       <string name="id" value="1032110" />

@@ -884,7 +884,7 @@
       <int name="rx1" value="-490" />
       <int name="f" value="0" />
       <string name="type" value="n" />
-      <int name="fh" value="0" />
+      <int name="fh" value="54" />
     </imgdir>
   </imgdir>
   <imgdir name="foothold">

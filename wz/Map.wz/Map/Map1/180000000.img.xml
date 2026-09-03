@@ -117,26 +117,26 @@
     <imgdir name="0">
       <string name="type" value="n" />
       <string name="id" value="9900000" />
-      <int name="x" value="374" />
-      <int name="y" value="89" />
+      <int name="x" value="230" />
+      <int name="y" value="-1" />
       <int name="mobTime" value="0" />
       <int name="f" value="0" />
-      <int name="fh" value="23" />
-      <int name="cy" value="95" />
-      <int name="rx0" value="324" />
-      <int name="rx1" value="379" />
+      <int name="fh" value="35" />
+      <int name="cy" value="4" />
+      <int name="rx0" value="180" />
+      <int name="rx1" value="280" />
     </imgdir>
     <imgdir name="1">
       <string name="type" value="n" />
       <string name="id" value="9900001" />
-      <int name="x" value="283" />
-      <int name="y" value="-90" />
+      <int name="x" value="330" />
+      <int name="y" value="-1" />
       <int name="mobTime" value="0" />
       <int name="f" value="0" />
-      <int name="fh" value="26" />
-      <int name="cy" value="-85" />
-      <int name="rx0" value="233" />
-      <int name="rx1" value="289" />
+      <int name="fh" value="35" />
+      <int name="cy" value="4" />
+      <int name="rx0" value="280" />
+      <int name="rx1" value="380" />
     </imgdir>
   </imgdir>
   <imgdir name="foothold">

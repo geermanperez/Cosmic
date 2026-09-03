@@ -1575,14 +1575,14 @@
     <imgdir name="17">
       <string name="id" value="2081007" />
       <int name="x" value="308" />
-      <int name="y" value="1627" />
-      <int name="cy" value="1646" />
+      <int name="y" value="1640" />
+      <int name="cy" value="1645" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="258" />
       <int name="rx1" value="358" />
       <int name="f" value="0" />
       <string name="type" value="n" />
-      <int name="fh" value="114" />
+      <int name="fh" value="123" />
     </imgdir>
   </imgdir>
   <imgdir name="foothold">

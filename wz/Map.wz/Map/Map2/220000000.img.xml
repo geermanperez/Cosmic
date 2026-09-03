@@ -7261,23 +7261,23 @@
     <imgdir name="18">
       <string name="id" value="9000017" />
       <int name="x" value="-915" />
-      <int name="y" value="98" />
-      <int name="cy" value="103" />
+      <int name="y" value="97" />
+      <int name="cy" value="102" />
       <int name="mobTime" value="0" />
       <int name="rx0" value="-965" />
       <int name="rx1" value="-865" />
       <int name="f" value="0" />
       <string name="type" value="n" />
-      <int name="fh" value="0" />
+      <int name="fh" value="90" />
     </imgdir>
     <imgdir name="19">
       <string name="type" value="n" />
       <string name="id" value="9000013" />
       <int name="x" value="1321" />
-      <int name="y" value="-198" />
+      <int name="y" value="-203" />
       <int name="mobTime" value="0" />
       <int name="f" value="0" />
-      <int name="fh" value="125" />
+      <int name="fh" value="256" />
       <int name="cy" value="-198" />
       <int name="rx0" value="1271" />
       <int name="rx1" value="1363" />
@@ -7286,12 +7286,12 @@
       <string name="type" value="n" />
       <string name="id" value="9000021" />
       <int name="x" value="178" />
-      <int name="y" value="-347" />
+      <int name="y" value="-344" />
       <int name="mobTime" value="0" />
       <string name="limitedname" value="gaga" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="152" />
+      <int name="fh" value="168" />
       <int name="cy" value="-339" />
       <int name="rx0" value="128" />
       <int name="rx1" value="228" />
@@ -7300,12 +7300,12 @@
       <string name="type" value="n" />
       <string name="id" value="1022101" />
       <int name="x" value="-108" />
-      <int name="y" value="-351" />
+      <int name="y" value="-344" />
       <int name="mobTime" value="0" />
       <string name="limitedname" value="xmasvillage" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="153" />
+      <int name="fh" value="144" />
       <int name="cy" value="-339" />
       <int name="rx0" value="-158" />
       <int name="rx1" value="-58" />
@@ -7314,11 +7314,11 @@
       <string name="type" value="n" />
       <string name="id" value="9010022" />
       <int name="x" value="-374" />
-      <int name="y" value="-215" />
+      <int name="y" value="-203" />
       <int name="mobTime" value="0" />
       <int name="f" value="0" />
       <int name="hide" value="0" />
-      <int name="fh" value="246" />
+      <int name="fh" value="132" />
       <int name="cy" value="-198" />
       <int name="rx0" value="-424" />
       <int name="rx1" value="-347" />

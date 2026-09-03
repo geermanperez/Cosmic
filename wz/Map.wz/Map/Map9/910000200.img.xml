@@ -329,12 +329,12 @@
     <imgdir name="3">
       <string name="id" value="9330046" />
       <int name="x" value="-932" />
-      <int name="y" value="-1070" />
-      <int name="cy" value="-1062" />
+      <int name="y" value="-1068" />
+      <int name="cy" value="-1063" />
       <int name="rx0" value="-952" />
       <int name="rx1" value="-912" />
       <string name="type" value="n" />
-      <int name="fh" value="2" />
+      <int name="fh" value="1" />
     </imgdir>
     <imgdir name="4">
       <string name="id" value="1081000" />
