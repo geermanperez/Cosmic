@@ -515,6 +515,34 @@ public class ItemInformationProvider {
         return ret;
     }
 
+    public static String getDefaultEquipmentSlot(int itemId) {
+        int prefix = itemId / 10000;
+        return switch (prefix) {
+            case 100 -> "Cp";    // Hat / Cap
+            case 101 -> "Af";    // Face Accessory
+            case 102 -> "Ay";    // Eye Accessory
+            case 103 -> "Ae";    // Earrings
+            case 104 -> "Ma";    // Top
+            case 105 -> "MaPn";  // Overall
+            case 106 -> "Pn";    // Bottom / Pants
+            case 107 -> "So";    // Shoes
+            case 108 -> "GlGw";  // Gloves
+            case 109 -> "Si";    // Shield
+            case 110 -> "Sr";    // Cape
+            case 111 -> "Ri";    // Ring
+            case 112 -> "Pe";    // Pendant
+            case 113 -> "Be";    // Belt
+            case 114 -> "Me";    // Medal
+            case 180, 181, 182, 183 -> "PetEquip";
+            default -> {
+                if (prefix >= 130 && prefix <= 170) {
+                    yield "Wp";  // Weapons
+                }
+                yield null;
+            }
+        };
+    }
+
     protected String getEquipmentSlot(int itemId) {
         if (equipmentSlotCache.containsKey(itemId)) {
             return equipmentSlotCache.get(itemId);
@@ -525,16 +553,27 @@ public class ItemInformationProvider {
         Data item = getItemData(itemId);
 
         if (item == null) {
-            return null;
+            ret = getDefaultEquipmentSlot(itemId);
+            if (ret != null) {
+                equipmentSlotCache.put(itemId, ret);
+            }
+            return ret;
         }
 
         Data info = item.getChildByPath("info");
 
         if (info == null) {
-            return null;
+            ret = getDefaultEquipmentSlot(itemId);
+            if (ret != null) {
+                equipmentSlotCache.put(itemId, ret);
+            }
+            return ret;
         }
 
         ret = DataTool.getString("islot", info, "");
+        if (ret == null || ret.isEmpty()) {
+            ret = getDefaultEquipmentSlot(itemId);
+        }
 
         equipmentSlotCache.put(itemId, ret);
 
@@ -1717,12 +1756,15 @@ public class ItemInformationProvider {
         if (itemType == 5) {
             return true;
         }
+        if (CashShop.CashItemFactory.isCashItem(itemId)) {
+            return true;
+        }
         if (itemType != 1) {
             return false;
         }
 
         Map<String, Integer> eqpStats = getEquipStats(itemId);
-        return eqpStats != null && eqpStats.get("cash") == 1;
+        return eqpStats != null && eqpStats.getOrDefault("cash", 0) == 1;
     }
 
     public boolean isUpgradeable(int itemId) {
@@ -1781,6 +1823,11 @@ public class ItemInformationProvider {
         }
         for (Item item : items) {
             Equip equip = (Equip) item;
+            if (isCash(equip.getItemId())) {
+                equip.wear(true);
+                itemz.add(equip);
+                continue;
+            }
             int reqLevel = getEquipLevelReq(equip.getItemId());
             if (highfivestamp) {
                 reqLevel -= 5;
@@ -1796,18 +1843,20 @@ public class ItemInformationProvider {
              }*/
             if (reqLevel > chr.getLevel()) {
                 continue;
-            } else if (getEquipStats(equip.getItemId()).get("reqDEX") > tdex) {
-                continue;
-            } else if (getEquipStats(equip.getItemId()).get("reqSTR") > tstr) {
-                continue;
-            } else if (getEquipStats(equip.getItemId()).get("reqLUK") > tluk) {
-                continue;
-            } else if (getEquipStats(equip.getItemId()).get("reqINT") > tint) {
-                continue;
             }
-            int reqPOP = getEquipStats(equip.getItemId()).get("reqPOP");
-            if (reqPOP > 0) {
-                if (getEquipStats(equip.getItemId()).get("reqPOP") > fame) {
+            Map<String, Integer> stats = getEquipStats(equip.getItemId());
+            if (stats != null) {
+                if (stats.getOrDefault("reqDEX", 0) > tdex) {
+                    continue;
+                } else if (stats.getOrDefault("reqSTR", 0) > tstr) {
+                    continue;
+                } else if (stats.getOrDefault("reqLUK", 0) > tluk) {
+                    continue;
+                } else if (stats.getOrDefault("reqINT", 0) > tint) {
+                    continue;
+                }
+                int reqPOP = stats.getOrDefault("reqPOP", 0);
+                if (reqPOP > 0 && reqPOP > fame) {
                     continue;
                 }
             }
@@ -1827,7 +1876,8 @@ public class ItemInformationProvider {
         }
 
         String islot = getEquipmentSlot(id);
-        if (!EquipSlot.getFromTextSlot(islot).isAllowed(dst, isCash(id))) {
+        boolean cash = isCash(id);
+        if (!EquipSlot.getFromTextSlot(islot).isAllowed(dst, cash)) {
             equip.wear(false);
             String itemName = ItemInformationProvider.getInstance().getName(equip.getItemId());
             Server.getInstance().broadcastGMMessage(chr.getWorld(), PacketCreator.sendYellowTip("[Warning]: " + chr.getName() + " tried to equip " + itemName + " into slot " + dst + "."));
@@ -1836,7 +1886,7 @@ public class ItemInformationProvider {
             return false;
         }
 
-        if (chr.getJob() == Job.SUPERGM || chr.getJob() == Job.GM) {
+        if (chr.getJob() == Job.SUPERGM || chr.getJob() == Job.GM || cash) {
             equip.wear(true);
             return true;
         }
@@ -1864,19 +1914,22 @@ public class ItemInformationProvider {
         //Removed job check. Shouldn't really be needed.
         if (reqLevel > chr.getLevel()) {
             i++;
-        } else if (getEquipStats(equip.getItemId()).get("reqDEX") > chr.getTotalDex()) {
-            i++;
-        } else if (getEquipStats(equip.getItemId()).get("reqSTR") > chr.getTotalStr()) {
-            i++;
-        } else if (getEquipStats(equip.getItemId()).get("reqLUK") > chr.getTotalLuk()) {
-            i++;
-        } else if (getEquipStats(equip.getItemId()).get("reqINT") > chr.getTotalInt()) {
-            i++;
-        }
-        int reqPOP = getEquipStats(equip.getItemId()).get("reqPOP");
-        if (reqPOP > 0) {
-            if (getEquipStats(equip.getItemId()).get("reqPOP") > chr.getFame()) {
-                i++;
+        } else {
+            Map<String, Integer> stats = getEquipStats(equip.getItemId());
+            if (stats != null) {
+                if (stats.getOrDefault("reqDEX", 0) > chr.getTotalDex()) {
+                    i++;
+                } else if (stats.getOrDefault("reqSTR", 0) > chr.getTotalStr()) {
+                    i++;
+                } else if (stats.getOrDefault("reqLUK", 0) > chr.getTotalLuk()) {
+                    i++;
+                } else if (stats.getOrDefault("reqINT", 0) > chr.getTotalInt()) {
+                    i++;
+                }
+                int reqPOP = stats.getOrDefault("reqPOP", 0);
+                if (reqPOP > 0 && reqPOP > chr.getFame()) {
+                    i++;
+                }
             }
         }
 

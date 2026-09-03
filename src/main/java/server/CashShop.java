@@ -46,10 +46,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -235,11 +237,13 @@ public class CashShop {
         private static volatile Map<Integer, CashItem> items = new HashMap<>();
         private static volatile Map<Integer, List<Integer>> packages = new HashMap<>();
         private static volatile List<SpecialCashItem> specialcashitems = new ArrayList<>();
+        private static volatile Set<Integer> cashItemIds = new HashSet<>();
 
         public static void loadAllCashItems() {
             DataProvider etc = DataProviderFactory.getDataProvider(WZFiles.ETC);
 
             Map<Integer, CashItem> loadedItems = new HashMap<>();
+            Set<Integer> loadedItemIds = new HashSet<>();
             for (Data item : etc.getData("Commodity.img").getChildren()) {
                 int sn = DataTool.getIntConvert("SN", item);
                 int itemId = DataTool.getIntConvert("ItemId", item);
@@ -248,8 +252,10 @@ public class CashShop {
                 short count = (short) DataTool.getIntConvert("Count", item, 1);
                 boolean onSale = DataTool.getIntConvert("OnSale", item, 0) == 1;
                 loadedItems.put(sn, new CashItem(sn, itemId, price, period, count, onSale));
+                loadedItemIds.add(itemId);
             }
             CashItemFactory.items = loadedItems;
+            CashItemFactory.cashItemIds = loadedItemIds;
 
             Map<Integer, List<Integer>> loadedPackages = new HashMap<>();
             for (Data cashPackage : etc.getData("CashPackage.img").getChildren()) {
@@ -312,6 +318,10 @@ public class CashShop {
 
         public static List<SpecialCashItem> getSpecialCashItems() {
             return specialcashitems;
+        }
+
+        public static boolean isCashItem(int itemId) {
+            return cashItemIds.contains(itemId);
         }
     }
 

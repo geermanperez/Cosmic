@@ -555,6 +555,17 @@ public class InventoryManipulator {
                 unequip(c, (byte) -5, eqpInv.getNextFreeSlot());
             }
             break;
+        case -106:
+            Item ctop = eqpdInv.getItem((short) -105);
+            if (ctop != null && ItemConstants.isOverall(ctop.getItemId())) {
+                if (eqpInv.isFull()) {
+                    c.sendPacket(PacketCreator.getInventoryFull());
+                    c.sendPacket(PacketCreator.getShowInventoryFull());
+                    return;
+                }
+                unequip(c, (byte) -105, eqpInv.getNextFreeSlot());
+            }
+            break;
         case -5:
             final Item bottom = eqpdInv.getItem((short) -6);
             if (bottom != null && ItemConstants.isOverall(source.getItemId())) {
@@ -564,6 +575,17 @@ public class InventoryManipulator {
                     return;
                 }
                 unequip(c, (byte) -6, eqpInv.getNextFreeSlot());
+            }
+            break;
+        case -105:
+            final Item cbottom = eqpdInv.getItem((short) -106);
+            if (cbottom != null && ItemConstants.isOverall(source.getItemId())) {
+                if (eqpInv.isFull()) {
+                    c.sendPacket(PacketCreator.getInventoryFull());
+                    c.sendPacket(PacketCreator.getShowInventoryFull());
+                    return;
+                }
+                unequip(c, (byte) -106, eqpInv.getNextFreeSlot());
             }
             break;
         case -10: // check if weapon is two-handed
