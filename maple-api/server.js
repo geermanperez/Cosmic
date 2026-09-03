@@ -1,5 +1,6 @@
 const express = require("express");
 const mysql = require("mysql2/promise");
+const { initializeDatabase } = require("./database-startup");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
@@ -51,6 +52,7 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME || "cosmic",
   waitForConnections: true,
   connectionLimit: 10,
+  connectTimeout: 10000,
 });
 
 const VOTE_BASE_NX = Number(process.env.VOTE_BASE_NX || 2000);
@@ -259,6 +261,7 @@ async function ensureWebProfilesTable() {
     console.log("web_profiles table ensured");
   } catch (err) {
     console.error("Error ensuring web_profiles table:", err.message);
+    throw err;
   }
 }
 
@@ -268,6 +271,7 @@ async function ensureAccountDonorColumns() {
   } catch (err) {
     if (err.code !== "ER_DUP_FIELDNAME") {
       console.error("Error adding accounts.donor_until:", err.message);
+      throw err;
     }
   }
 
@@ -276,6 +280,7 @@ async function ensureAccountDonorColumns() {
   } catch (err) {
     if (err.code !== "ER_DUP_KEYNAME" && err.code !== "ER_DUP_FIELDNAME") {
       console.error("Error adding idx_accounts_donor_until:", err.message);
+      throw err;
     }
   }
 }
@@ -400,6 +405,7 @@ async function ensureSocialTables() {
     console.log("social tables ensured");
   } catch (err) {
     console.error("Error ensuring social tables:", err.message);
+    throw err;
   }
 }
 
@@ -429,6 +435,7 @@ async function ensureNoticiasTable() {
     console.log("noticias table ensured");
   } catch (err) {
     console.error("Error ensuring noticias table:", err.message);
+    throw err;
   }
 }
 
@@ -480,6 +487,7 @@ async function ensurePasswordResetTable() {
     console.log("password_reset_tokens table ensured");
   } catch (err) {
     console.error("Error ensuring password_reset_tokens table:", err.message);
+    throw err;
   }
 }
 
@@ -907,6 +915,7 @@ async function ensureGTop100VotesTable() {
     console.log("gtop100_votes table ensured");
   } catch (err) {
     console.error("Error ensuring gtop100_votes table:", err.message);
+    throw err;
   }
 }
 
@@ -932,6 +941,7 @@ async function ensureVoteTokensTable() {
     console.log("vote_tokens table ensured");
   } catch (err) {
     console.error("Error ensuring vote_tokens table:", err.message);
+    throw err;
   }
 }
 
@@ -954,6 +964,7 @@ async function ensureBossRankingTable() {
     console.log("boss_ranking table ensured");
   } catch (err) {
     console.error("Error ensuring boss_ranking table:", err.message);
+    throw err;
   }
 }
 
@@ -2194,8 +2205,6 @@ app.post("/login", async (req, res) => {
     if (!account) return res.status(401).json({ ok: false, message: "Credenciales inválidas" });
 
     console.log("[login] banned:", account?.banned);
-    console.log("[login] password length DB:", account?.password?.length);
-    console.log("[login] password prefix DB:", account?.password?.slice(0, 8));
 
     if (Number(account.banned) === 1) return res.status(403).json({ ok: false, message: "Cuenta bloqueada" });
 
@@ -2224,8 +2233,6 @@ app.post("/login-legacy-disabled", async (req, res) => {
     console.log("[login] usuario:", username);
     console.log("[login] cuenta encontrada:", Boolean(account));
     console.log("[login] banned:", account?.banned);
-    console.log("[login] password length DB:", account?.password?.length);
-    console.log("[login] password prefix DB:", account?.password?.slice(0, 8));
 
     if (Number(account.banned) === 1) return res.status(403).json({ ok: false, message: "Cuenta bloqueada" });
 
@@ -2484,18 +2491,29 @@ app.get("/account/check", authMiddleware, (req, res) => {
   return res.json({ ok: true, user: req.user });
 });
 
+app.get("/health", async (req, res) => {
+  res.set("Cache-Control", "no-store");
+  try {
+    await pool.query("SELECT id FROM accounts LIMIT 0");
+    await pool.query("SELECT id FROM characters LIMIT 0");
+    return res.json({ ok: true, database: "ready" });
+  } catch {
+    return res.status(503).json({ ok: false, database: "unavailable" });
+  }
+});
+
 const PORT = process.env.PORT || 3001;
 
-// Ensure web_profiles and start server
-Promise.all([
-  ensureAccountDonorColumns(),
-  ensureWebProfilesTable(),
-  ensureGTop100VotesTable(),
-  ensureVoteTokensTable(),
-  ensureBossRankingTable(),
-  ensurePasswordResetTable(),
-  ensureSocialTables(),
-  ensureNoticiasTable(),
+// Wait for the game schema and all web migrations before accepting requests.
+initializeDatabase(pool, [
+  ensureAccountDonorColumns,
+  ensureWebProfilesTable,
+  ensureGTop100VotesTable,
+  ensureVoteTokensTable,
+  ensureBossRankingTable,
+  ensurePasswordResetTable,
+  ensureSocialTables,
+  ensureNoticiasTable,
 ]).then(async () => {
   // Log de conexión a DB para diagnóstico (sin contraseña)
   try {
