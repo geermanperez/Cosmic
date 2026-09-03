@@ -1443,6 +1443,12 @@ public class Character extends AbstractCharacterObject {
     }
 
     public void changeMap(final MapleMap target, Portal pto) {
+        if (target != null && target.getId() == 970030000 && !isGM()) {
+            dropMessage(1, "El mapa 970030000 se encuentra deshabilitado.");
+            sendPacket(PacketCreator.enableActions());
+            return;
+        }
+
         canWarpCounter++;
 
         eventChangedMap(target.getId());    // player can be dropped from an event here, hence the new warping target.
@@ -1462,6 +1468,12 @@ public class Character extends AbstractCharacterObject {
     }
 
     public void changeMap(final MapleMap target, final Point pos) {
+        if (target != null && target.getId() == 970030000 && !isGM()) {
+            dropMessage(1, "El mapa 970030000 se encuentra deshabilitado.");
+            sendPacket(PacketCreator.enableActions());
+            return;
+        }
+
         canWarpCounter++;
 
         eventChangedMap(target.getId());
@@ -1479,6 +1491,11 @@ public class Character extends AbstractCharacterObject {
 
     public void forceChangeMap(final MapleMap target, Portal pto) {
         // will actually enter the map given as parameter, regardless of being an eventmap or whatnot
+        if (target != null && target.getId() == 970030000 && !isGM()) {
+            dropMessage(1, "El mapa 970030000 se encuentra deshabilitado.");
+            sendPacket(PacketCreator.enableActions());
+            return;
+        }
 
         canWarpCounter++;
         eventChangedMap(MapId.NONE);
@@ -7109,6 +7126,10 @@ public class Character extends AbstractCharacterObject {
 
                     if (channelserver) {
                         MapManager mapManager = client.getChannelServer().getMapFactory();
+                        if (ret.mapid == 970030000 && ret.gmLevel() == 0) {
+                            ret.mapid = MapId.HENESYS;
+                            ret.initialSpawnPoint = 0;
+                        }
                         ret.map = mapManager.getMap(ret.mapid);
 
                         if (ret.map == null) {

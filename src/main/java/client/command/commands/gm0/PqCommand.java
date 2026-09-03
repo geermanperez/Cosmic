@@ -41,24 +41,6 @@ public class PqCommand extends Command {
 
     @Override
     public void execute(Client c, String[] params) {
-        Character player = c.getPlayer();
-        if (!player.isAlive()) {
-            player.dropMessage(1, "This command cannot be used when you're dead.");
-            return;
-        }
-
-        if (!player.isGM() && (player.getEventInstance() != null || MiniDungeonInfo.isDungeonMap(player.getMapId()) || FieldLimit.CANNOTMIGRATE.check(player.getMap().getFieldLimit()))) {
-            player.dropMessage(1, "This command can not be used in this map.");
-            return;
-        }
-
-        MapleMap target = c.getChannelServer().getMapFactory().getMap(PQ_HUB_MAP);
-        Portal targetPortal = target.getPortal(PQ_HUB_PORTAL);
-        if (targetPortal == null) {
-            targetPortal = target.getRandomPlayerSpawnpoint();
-        }
-
-        player.saveLocationOnWarp();
-        player.changeMap(target, targetPortal);
+        c.getPlayer().dropMessage(1, "El comando @pq ha sido deshabilitado.");
     }
 }

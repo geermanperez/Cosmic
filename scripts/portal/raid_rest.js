@@ -34,7 +34,7 @@ function enter(pi) {
 
     if (pi.getPlayer().getEventInstance().giveEventReward(pi.getPlayer(), evLevel)) {
         pi.playPortalSound();
-        pi.warp(970030000);
+        pi.warp(100000000);
         return true;
     } else {
         pi.message("Make a room available on all EQUIP, USE, SET-UP and ETC inventory to claim an instance prize.");
