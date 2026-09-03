@@ -1,0 +1,335 @@
+<?xml version='1.0' encoding='utf-8'?>
+<imgdir name="401060101.img">
+  <imgdir name="info">
+    <string name="bgm" value="Bgm28/thefinalWar" />
+    <int name="cloud" value="0" />
+    <int name="swim" value="0" />
+    <int name="forcedReturn" value="401060000" />
+    <int name="hideMinimap" value="1" />
+    <string name="mapMark" value="Magnus" />
+    <float name="mobRate" value="1.0" />
+    <int name="returnMap" value="401060000" />
+    <int name="town" value="0" />
+    <int name="version" value="10" />
+    <int name="fieldLimit" value="336636" />
+    <string name="onFirstUserEnter" value="magnus_summon_N" />
+    <string name="onUserEnter" value="magnus_enter_HP" />
+    <int name="decInterval" value="2000" />
+    <int name="limitUpgradeItem" value="1" />
+    <int name="standAlone" value="0" />
+    <int name="partyStandAlone" value="0" />
+    <string name="fieldScript" value="BossMagnus" />
+    <int name="isFixDec" value="1" />
+    <int name="decHPr" value="1" />
+    <int name="isDecView" value="1" />
+    <int name="largeSplit" value="2" />
+    <int name="remoteEffect" value="-2" />
+    <int name="quarterView" value="0" />
+    <int name="reviveCurField" value="1" />
+    <int name="noChair" value="1" />
+    <int name="VRLeft" value="956" />
+    <int name="VRRight" value="2486" />
+    <int name="VRTop" value="-2050" />
+    <int name="VRBottom" value="-1142" />
+  </imgdir>
+  <imgdir name="back">
+    <imgdir name="0">
+      <int name="x" value="-153" />
+      <int name="y" value="-131" />
+      <int name="rx" value="0" />
+      <int name="ry" value="0" />
+      <int name="cx" value="0" />
+      <int name="cy" value="0" />
+      <int name="a" value="255" />
+      <int name="type" value="1" />
+      <int name="front" value="0" />
+      <int name="f" value="0" />
+      <string name="bS" value="grandisHelisium" />
+      <int name="ani" value="0" />
+      <int name="no" value="0" />
+    </imgdir>
+    <imgdir name="1">
+      <int name="x" value="-1140" />
+      <int name="y" value="-379" />
+      <int name="rx" value="-15" />
+      <int name="ry" value="-15" />
+      <int name="cx" value="0" />
+      <int name="cy" value="0" />
+      <int name="a" value="255" />
+      <int name="type" value="0" />
+      <int name="front" value="0" />
+      <int name="f" value="0" />
+      <string name="bS" value="grandisHelisium" />
+      <int name="ani" value="0" />
+      <int name="no" value="4" />
+    </imgdir>
+    <imgdir name="2">
+      <int name="x" value="-700" />
+      <int name="y" value="-106" />
+      <int name="rx" value="-17" />
+      <int name="ry" value="-17" />
+      <int name="cx" value="0" />
+      <int name="cy" value="0" />
+      <int name="a" value="255" />
+      <int name="type" value="0" />
+      <int name="front" value="0" />
+      <int name="f" value="0" />
+      <string name="bS" value="grandisHelisium" />
+      <int name="ani" value="0" />
+      <int name="no" value="2" />
+    </imgdir>
+    <imgdir name="3">
+      <int name="x" value="-466" />
+      <int name="y" value="114" />
+      <int name="rx" value="-30" />
+      <int name="ry" value="-30" />
+      <int name="cx" value="2000" />
+      <int name="cy" value="0" />
+      <int name="a" value="255" />
+      <int name="type" value="1" />
+      <int name="front" value="0" />
+      <int name="f" value="0" />
+      <string name="bS" value="grandisHelisium" />
+      <int name="ani" value="0" />
+      <int name="no" value="5" />
+    </imgdir>
+    <imgdir name="4">
+      <int name="x" value="234" />
+      <int name="y" value="-126" />
+      <int name="rx" value="-30" />
+      <int name="ry" value="-30" />
+      <int name="cx" value="2500" />
+      <int name="cy" value="0" />
+      <int name="a" value="255" />
+      <int name="type" value="1" />
+      <int name="front" value="0" />
+      <int name="f" value="0" />
+      <string name="bS" value="grandisHelisium" />
+      <int name="ani" value="0" />
+      <int name="no" value="6" />
+    </imgdir>
+    <imgdir name="5">
+      <int name="x" value="-2709" />
+      <int name="y" value="30" />
+      <int name="rx" value="-30" />
+      <int name="ry" value="-30" />
+      <int name="cx" value="0" />
+      <int name="cy" value="0" />
+      <int name="a" value="255" />
+      <int name="type" value="0" />
+      <int name="front" value="0" />
+      <int name="f" value="0" />
+      <string name="bS" value="grandisHelisium" />
+      <int name="ani" value="0" />
+      <int name="no" value="7" />
+    </imgdir>
+    <imgdir name="6">
+      <int name="x" value="-1909" />
+      <int name="y" value="12" />
+      <int name="rx" value="-30" />
+      <int name="ry" value="-30" />
+      <int name="cx" value="0" />
+      <int name="cy" value="0" />
+      <int name="a" value="255" />
+      <int name="type" value="0" />
+      <int name="front" value="0" />
+      <int name="f" value="0" />
+      <string name="bS" value="grandisHelisium" />
+      <int name="ani" value="0" />
+      <int name="no" value="8" />
+    </imgdir>
+    <imgdir name="7">
+      <int name="x" value="-1109" />
+      <int name="y" value="117" />
+      <int name="rx" value="-30" />
+      <int name="ry" value="-30" />
+      <int name="cx" value="0" />
+      <int name="cy" value="0" />
+      <int name="a" value="255" />
+      <int name="type" value="0" />
+      <int name="front" value="0" />
+      <int name="f" value="0" />
+      <string name="bS" value="grandisHelisium" />
+      <int name="ani" value="0" />
+      <int name="no" value="9" />
+    </imgdir>
+    <imgdir name="8">
+      <int name="x" value="-308" />
+      <int name="y" value="-75" />
+      <int name="rx" value="-30" />
+      <int name="ry" value="-30" />
+      <int name="cx" value="0" />
+      <int name="cy" value="0" />
+      <int name="a" value="255" />
+      <int name="type" value="0" />
+      <int name="front" value="0" />
+      <int name="f" value="0" />
+      <string name="bS" value="grandisHelisium" />
+      <int name="ani" value="0" />
+      <int name="no" value="10" />
+    </imgdir>
+    <imgdir name="9">
+      <int name="x" value="491" />
+      <int name="y" value="30" />
+      <int name="rx" value="-30" />
+      <int name="ry" value="-30" />
+      <int name="cx" value="0" />
+      <int name="cy" value="0" />
+      <int name="a" value="255" />
+      <int name="type" value="0" />
+      <int name="front" value="0" />
+      <int name="f" value="0" />
+      <string name="bS" value="grandisHelisium" />
+      <int name="ani" value="0" />
+      <int name="no" value="7" />
+    </imgdir>
+    <imgdir name="10">
+      <int name="x" value="-2824" />
+      <int name="y" value="110" />
+      <int name="rx" value="-40" />
+      <int name="ry" value="-40" />
+      <int name="cx" value="0" />
+      <int name="cy" value="0" />
+      <int name="a" value="255" />
+      <int name="type" value="0" />
+      <int name="front" value="0" />
+      <int name="f" value="0" />
+      <string name="bS" value="grandisHelisiumTo�" />
+      <int name="ani" value="0" />
+      <int name="no" value="1" />
+    </imgdir>
+    <imgdir name="11">
+      <int name="x" value="484" />
+      <int name="y" value="154" />
+      <int name="rx" value="-40" />
+      <int name="ry" value="-40" />
+      <int name="cx" value="0" />
+      <int name="cy" value="0" />
+      <int name="a" value="255" />
+      <int name="type" value="0" />
+      <int name="front" value="0" />
+      <int name="f" value="0" />
+      <string name="bS" value="grandisHelisiumTo�" />
+      <int name="ani" value="0" />
+      <int name="no" value="0" />
+    </imgdir>
+    <imgdir name="12">
+      <int name="x" value="-2110" />
+      <int name="y" value="145" />
+      <int name="rx" value="-40" />
+      <int name="ry" value="-40" />
+      <int name="cx" value="0" />
+      <int name="cy" value="0" />
+      <int name="a" value="255" />
+      <int name="type" value="0" />
+      <int name="front" value="0" />
+      <int name="f" value="0" />
+      <string name="bS" value="grandisHelisiumTo�" />
+      <int name="ani" value="0" />
+      <int name="no" value="0" />
+    </imgdir>
+    <imgdir name="13">
+      <int name="x" value="-1206" />
+      <int name="y" value="136" />
+      <int name="rx" value="-40" />
+      <int name="ry" value="-40" />
+      <int name="cx" value="0" />
+      <int name="cy" value="0" />
+      <int name="a" value="255" />
+      <int name="type" value="0" />
+      <int name="front" value="0" />
+      <int name="f" value="0" />
+      <string name="bS" value="grandisHelisiumTo�" />
+      <int name="ani" value="0" />
+      <int name="no" value="1" />
+    </imgdir>
+    <imgdir name="14">
+      <int name="x" value="1291" />
+      <int name="y" value="12" />
+      <int name="rx" value="-30" />
+      <int name="ry" value="-30" />
+      <int name="cx" value="0" />
+      <int name="cy" value="0" />
+      <int name="a" value="255" />
+      <int name="type" value="0" />
+      <int name="front" value="0" />
+      <int name="f" value="0" />
+      <string name="bS" value="grandisHelisium" />
+      <int name="ani" value="0" />
+      <int name="no" value="8" />
+    </imgdir>
+    <imgdir name="15">
+      <int name="x" value="2091" />
+      <int name="y" value="117" />
+      <int name="rx" value="-30" />
+      <int name="ry" value="-30" />
+      <int name="cx" value="0" />
+      <int name="cy" value="0" />
+      <int name="a" value="255" />
+      <int name="type" value="0" />
+      <int name="front" value="0" />
+      <int name="f" value="0" />
+      <string name="bS" value="grandisHelisiumTo�" />
+      <int name="ani" value="0" />
+      <int name="no" value="9" />
+    </imgdir>
+  </imgdir>
+  <imgdir name="foothold">
+    <imgdir name="4">
+      <imgdir name="0">
+        <imgdir name="1">
+          <int name="x1" value="955" />
+          <int name="y1" value="-1347" />
+          <int name="x2" value="1307" />
+          <int name="y2" value="-1347" />
+          <int name="prev" value="0" />
+          <int name="next" value="2" />
+        </imgdir>
+        <imgdir name="2">
+          <int name="x1" value="1307" />
+          <int name="y1" value="-1347" />
+          <int name="x2" value="1757" />
+          <int name="y2" value="-1347" />
+          <int name="prev" value="1" />
+          <int name="next" value="3" />
+          <int name="piece" value="1" />
+        </imgdir>
+        <imgdir name="3">
+          <int name="x1" value="1757" />
+          <int name="y1" value="-1347" />
+          <int name="x2" value="2472" />
+          <int name="y2" value="-1349" />
+          <int name="prev" value="2" />
+          <int name="next" value="0" />
+          <int name="piece" value="2" />
+        </imgdir>
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="portal">
+    <imgdir name="0">
+      <int name="x" value="1756" />
+      <int name="y" value="-1540" />
+      <int name="pt" value="0" />
+      <int name="tm" value="999999999" />
+      <string name="tn" value="" />
+      <string name="pn" value="sp" />
+    </imgdir>
+    <imgdir name="1">
+      <int name="x" value="1437" />
+      <int name="y" value="-1348" />
+      <int name="pt" value="2" />
+      <int name="tm" value="401060100" />
+      <string name="tn" value="magnus" />
+      <string name="pn" value="out00" />
+    </imgdir>
+    <imgdir name="2">
+      <int name="x" value="1569" />
+      <int name="y" value="-1517" />
+      <int name="pt" value="0" />
+      <int name="tm" value="999999999" />
+      <string name="tn" value="" />
+      <string name="pn" value="sp" />
+    </imgdir>
+  </imgdir>
+</imgdir>
