@@ -58,6 +58,7 @@ import net.server.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import scripting.event.EventInstanceManager;
+import server.ItemInformationProvider;
 import server.life.MobSkill;
 import service.NoteService;
 import tools.DatabaseConnection;
@@ -163,6 +164,25 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
             }
         }
         return moved;
+    }
+
+    private void logCharacterDataCompatibility(Character player) {
+        if (!Boolean.parseBoolean(System.getenv("LATINMS_LOGIN_DIAGNOSTICS"))) {
+            return;
+        }
+        log.info("CharacterDataDiag session={} character={} id={} job={} level={} map={} skin={} face={} hair={}",
+                player.getClient().getSessionId(), player.getName(), player.getId(), player.getJob().getId(),
+                player.getLevel(), player.getMapId(), player.getSkinColor().getId(), player.getFace(), player.getHair());
+        ItemInformationProvider items = ItemInformationProvider.getInstance();
+        for (InventoryType type : List.of(InventoryType.EQUIPPED, InventoryType.EQUIP, InventoryType.USE,
+                InventoryType.SETUP, InventoryType.ETC, InventoryType.CASH)) {
+            for (Item item : player.getInventory(type).list()) {
+                boolean equipDataPresent = !(item instanceof Equip) || items.getEquipStats(item.getItemId()) != null;
+                log.info("CharacterDataDiag session={} inventory={} slot={} item={} wireType={} quantity={} cash={} equipDataPresent={}",
+                        player.getClient().getSessionId(), type, item.getPosition(), item.getItemId(),
+                        item.getItemType(), item.getQuantity(), items.isCash(item.getItemId()), equipDataPresent);
+            }
+        }
     }
 
     @Override
@@ -325,6 +345,12 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
                         quarantinedPetAbilities, player.getName());
             }
 
+            try {
+                logCharacterDataCompatibility(player);
+            } catch (RuntimeException ex) {
+                // Optional diagnostics must not introduce a new login failure.
+                log.warn("CharacterDataDiag failed for character {}", player.getId(), ex);
+            }
             c.sendPacket(PacketCreator.getCharInfo(player));
             if (quarantinedPetAbilities > 0) {
                 player.dropMessage(1, "Tus accesorios de habilidad de mascota fueron guardados en el inventario del Cash Shop para evitar que el cliente se cierre.");
