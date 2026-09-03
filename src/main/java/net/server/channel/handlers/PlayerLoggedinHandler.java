@@ -39,6 +39,7 @@ import client.inventory.Pet;
 import client.keybind.KeyBinding;
 import config.YamlConfig;
 import constants.game.GameConstants;
+import constants.id.ItemId;
 import net.AbstractPacketHandler;
 import net.packet.InPacket;
 import net.server.PlayerBuffValueHolder;
@@ -139,6 +140,29 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
         } catch (SQLException e) {
             log.warn("Failed to expire donor role for account {}", player.getAccountID(), e);
         }
+    }
+
+    /**
+     * The Yuna client cannot deserialize these v83 pet ability equips from
+     * SET_FIELD. Keep the purchased items safe in the account Cash Shop
+     * inventory until the client supports their inventory representation.
+     */
+    private int quarantineUnsupportedPetAbilities(Character player) {
+        int moved = 0;
+        for (InventoryType type : List.of(InventoryType.EQUIP, InventoryType.EQUIPPED)) {
+            Inventory inventory = player.getInventory(type);
+            for (Item item : new ArrayList<>(inventory.list())) {
+                if (!ItemId.isYunaUnsupportedPetAbility(item.getItemId())) {
+                    continue;
+                }
+
+                inventory.removeSlot(item.getPosition());
+                item.setPosition((short) 0);
+                player.getCashShop().addToInventory(item);
+                moved++;
+            }
+        }
+        return moved;
     }
 
     @Override
@@ -294,7 +318,17 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
                 player.silentApplyDiseases(diseases);
             }
 
+            int quarantinedPetAbilities = quarantineUnsupportedPetAbilities(player);
+            if (quarantinedPetAbilities > 0) {
+                player.saveCharToDB();
+                log.warn("Moved {} incompatible pet ability item(s) from chr {} to Cash Shop inventory before SET_FIELD",
+                        quarantinedPetAbilities, player.getName());
+            }
+
             c.sendPacket(PacketCreator.getCharInfo(player));
+            if (quarantinedPetAbilities > 0) {
+                player.dropMessage(1, "Tus accesorios de habilidad de mascota fueron guardados en el inventario del Cash Shop para evitar que el cliente se cierre.");
+            }
             if (!player.isHidden()) {
                 if (player.isGM() && YamlConfig.config.server.USE_AUTOHIDE_GM) {
                     player.toggleHide(true);

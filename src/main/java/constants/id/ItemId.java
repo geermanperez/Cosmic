@@ -185,7 +185,14 @@ public class ItemId {
     // Pet equip
     public static final int MESO_MAGNET = 1812000;
     public static final int ITEM_POUCH = 1812001;
+    public static final int AUTO_HP_POTION_POUCH = 1812002;
+    public static final int AUTO_MP_POTION_POUCH = 1812003;
+    public static final int WING_BOOTS = 1812004;
     public static final int ITEM_IGNORE = 1812007;
+
+    public static boolean isYunaUnsupportedPetAbility(int itemId) {
+        return itemId >= MESO_MAGNET && itemId <= WING_BOOTS;
+    }
 
     public static boolean isPet(int itemId) {
         return itemId / 1000 == 5000;
