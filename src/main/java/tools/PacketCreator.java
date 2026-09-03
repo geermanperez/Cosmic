@@ -428,12 +428,16 @@ public class PacketCreator {
         addExpirationTime(p, item.getExpiration());
         if (isPet) {
             Pet pet = item.getPet();
-            p.writeFixedString(StringUtil.getRightPaddedStr(pet.getName(), '\0', 13));
-            p.writeByte(pet.getLevel());
-            p.writeShort(pet.getTameness());
-            p.writeByte(pet.getFullness());
+            if (pet == null && item.getPetId() > -1) {
+                pet = Pet.loadFromDb(item.getItemId(), item.getPosition(), item.getPetId());
+            }
+            String petName = pet != null ? pet.getName() : "Pet";
+            p.writeFixedString(StringUtil.getRightPaddedStr(petName, '\0', 13));
+            p.writeByte(pet != null ? pet.getLevel() : 1);
+            p.writeShort(pet != null ? pet.getTameness() : 0);
+            p.writeByte(pet != null ? pet.getFullness() : 100);
             addExpirationTime(p, item.getExpiration());
-            p.writeShort(pet.getPetAttribute()); // PetAttribute noticed by lrenex & Spoon
+            p.writeShort(pet != null ? pet.getPetAttribute() : 0); // PetAttribute noticed by lrenex & Spoon
             p.writeShort(0); // PetSkill
             p.writeInt(18000); // RemainLife
             p.writeShort(0); // attribute

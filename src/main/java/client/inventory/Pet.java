@@ -81,13 +81,17 @@ public class Pet extends Item {
             ps.setInt(1, petid);
 
             try (ResultSet rs = ps.executeQuery()) {
-                rs.next();
-                ret.setName(rs.getString("name"));
-                ret.setTameness(Math.min(rs.getInt("closeness"), 30000));
-                ret.setLevel((byte) Math.min(rs.getByte("level"), 30));
-                ret.setFullness(Math.min(rs.getInt("fullness"), 100));
-                ret.setSummoned(rs.getInt("summoned") == 1);
-                ret.setPetAttribute(rs.getInt("flag"));
+                if (rs.next()) {
+                    String petName = rs.getString("name");
+                    ret.setName(petName != null && !petName.isBlank() ? petName : "Pet");
+                    ret.setTameness(Math.min(rs.getInt("closeness"), 30000));
+                    ret.setLevel((byte) Math.min(rs.getByte("level"), 30));
+                    ret.setFullness(Math.min(rs.getInt("fullness"), 100));
+                    ret.setSummoned(rs.getInt("summoned") == 1);
+                    ret.setPetAttribute(rs.getInt("flag"));
+                } else {
+                    return null;
+                }
             }
             return ret;
         } catch (SQLException e) {
@@ -130,7 +134,13 @@ public class Pet extends Item {
              PreparedStatement ps = con.prepareStatement("INSERT INTO pets (petid, name, level, closeness, fullness, summoned, flag) VALUES (?, ?, 1, 0, 100, 0, 0)")) {
             int ret = CashIdGenerator.generateCashId();
             ps.setInt(1, ret);
-            ps.setString(2, ItemInformationProvider.getInstance().getName(itemid));
+            String petName = ItemInformationProvider.getInstance().getName(itemid);
+            if (petName == null || petName.isBlank()) {
+                petName = "Pet";
+            } else if (petName.length() > 13) {
+                petName = petName.substring(0, 13);
+            }
+            ps.setString(2, petName);
             ps.executeUpdate();
             return ret;
         } catch (SQLException e) {
@@ -144,7 +154,13 @@ public class Pet extends Item {
              PreparedStatement ps = con.prepareStatement("INSERT INTO pets (petid, name, level, closeness, fullness, summoned, flag) VALUES (?, ?, ?, ?, ?, 0, 0)")) {
             int ret = CashIdGenerator.generateCashId();
             ps.setInt(1, ret);
-            ps.setString(2, ItemInformationProvider.getInstance().getName(itemid));
+            String petName = ItemInformationProvider.getInstance().getName(itemid);
+            if (petName == null || petName.isBlank()) {
+                petName = "Pet";
+            } else if (petName.length() > 13) {
+                petName = petName.substring(0, 13);
+            }
+            ps.setString(2, petName);
             ps.setByte(3, level);
             ps.setInt(4, tameness);
             ps.setInt(5, fullness);
@@ -157,7 +173,7 @@ public class Pet extends Item {
     }
 
     public String getName() {
-        return name;
+        return name != null && !name.isBlank() ? name : "Pet";
     }
 
     public void setName(String name) {

@@ -304,11 +304,15 @@ public class CashShop {
 
         public static List<Item> getPackage(int itemId) {
             List<Item> cashPackage = new ArrayList<>();
-
-            for (int sn : packages.get(itemId)) {
-                cashPackage.add(getItem(sn).toItem());
+            List<Integer> packageSns = packages.get(itemId);
+            if (packageSns != null) {
+                for (int sn : packageSns) {
+                    CashItem ci = getItem(sn);
+                    if (ci != null) {
+                        cashPackage.add(ci.toItem());
+                    }
+                }
             }
-
             return cashPackage;
         }
 
