@@ -3397,9 +3397,10 @@ public class PacketCreator {
         p.writeByte(7);
         p.writeByte(0); //speaker
         p.writeString(talk);
-        p.writeByte(styles.length);
-        for (int style : styles) {
-            p.writeInt(style);
+        int count = Math.min(styles.length, 120);
+        p.writeByte((byte) count);
+        for (int i = 0; i < count; i++) {
+            p.writeInt(styles[i]);
         }
         return p;
     }

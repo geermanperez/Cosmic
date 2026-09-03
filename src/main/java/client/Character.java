@@ -6013,7 +6013,7 @@ public class Character extends AbstractCharacterObject {
     }
 
     public SkinColor getSkinColor() {
-        return skinColor;
+        return skinColor != null ? skinColor : SkinColor.LIGHT;
     }
 
     public int getSlot() {

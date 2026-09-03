@@ -169,11 +169,12 @@ public class NPCScriptManager extends AbstractScriptManager {
             try {
                 c.setClickedNPC();
                 iv.invokeFunction("action", mode, type, selection);
-            } catch (ScriptException | NoSuchMethodException t) {
+            } catch (Throwable t) {
                 if (getCM(c) != null) {
                     log.error("Error performing NPC script action for npc: {}", getCM(c).getNpc(), t);
                 }
                 dispose(c);
+                c.sendPacket(PacketCreator.enableActions());
             }
         }
     }

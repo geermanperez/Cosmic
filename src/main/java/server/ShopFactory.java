@@ -52,9 +52,18 @@ public class ShopFactory {
 
     public Shop getShop(int shopId) {
         if (shops.containsKey(shopId)) {
-            return shops.get(shopId);
+            Shop s = shops.get(shopId);
+            if (s != null) {
+                return s;
+            }
         }
-        return loadShop(shopId, true);
+        Shop s = loadShop(shopId, true);
+        if (s == null && shopId == 1337) {
+            s = Shop.createGmShop();
+            shops.put(1337, s);
+            npcShops.put(s.getNpcId(), s);
+        }
+        return s;
     }
 
     public Shop getShopForNPC(int npcId) {

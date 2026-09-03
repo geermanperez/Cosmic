@@ -38,6 +38,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -85,56 +86,46 @@ public class Shop {
 
     public void buy(Client c, short slot, int itemId, short quantity) {
         if (quantity <= 0) {
+            if (ItemConstants.isRechargeable(itemId)) {
+                quantity = 1;
+            } else {
+                c.sendPacket(PacketCreator.shopTransaction((byte) 0x6));
+                return;
+            }
+        }
+
+        ShopItem item = findBySlot(slot);
+        if (item == null || item.getItemId() != itemId) {
+            for (ShopItem si : items) {
+                if (si.getItemId() == itemId) {
+                    item = si;
+                    break;
+                }
+            }
+        }
+        if (item == null) {
+            log.warn("Item {} not found in shop {}", itemId, id);
             c.sendPacket(PacketCreator.shopTransaction((byte) 0x6));
             return;
         }
 
-        ShopItem item = findBySlot(slot);
-        if (item != null) {
-            if (item.getItemId() != itemId) {
-                log.warn("Wrong slot number in shop {}", id);
-                return;
-            }
-        } else {
-            return;
-        }
         ItemInformationProvider ii = ItemInformationProvider.getInstance();
-        if (item.getPrice() > 0) {
-            int amount = (int) Math.min((float) item.getPrice() * quantity, Integer.MAX_VALUE);
-            if (c.getPlayer().getMeso() >= amount) {
-                if (InventoryManipulator.checkSpace(c, itemId, quantity, "")) {
-                    if (!ItemConstants.isRechargeable(itemId)) { //Pets can't be bought from shops
-                        InventoryManipulator.addById(c, itemId, quantity, "", -1);
-                        c.getPlayer().gainMeso(-amount, false);
-                    } else {
-                        short slotMax = ii.getSlotMax(c, item.getItemId());
-                        quantity = slotMax;
-                        InventoryManipulator.addById(c, itemId, quantity, "", -1);
-                        c.getPlayer().gainMeso(-item.getPrice(), false);
-                    }
-                    c.sendPacket(PacketCreator.shopTransaction((byte) 0));
-                } else {
-                    c.sendPacket(PacketCreator.shopTransaction((byte) 3));
-                }
-
-            } else {
-                c.sendPacket(PacketCreator.shopTransaction((byte) 2));
-            }
-
-        } else if (item.getPitch() > 0) {
+        if (item.getPitch() > 0) {
             int amount = (int) Math.min((long) item.getPitch() * quantity, Integer.MAX_VALUE);
 
             if (c.getPlayer().getInventory(InventoryType.ETC).countById(ItemId.PERFECT_PITCH) >= amount) {
                 if (InventoryManipulator.checkSpace(c, itemId, quantity, "")) {
-                    if (!ItemConstants.isRechargeable(itemId)) {
+                    if (ItemConstants.isEquipment(itemId)) {
+                        for (int i = 0; i < quantity; i++) {
+                            InventoryManipulator.addById(c, itemId, (short) 1, "", -1);
+                        }
+                    } else if (!ItemConstants.isRechargeable(itemId)) {
                         InventoryManipulator.addById(c, itemId, quantity, "", -1);
-                        InventoryManipulator.removeById(c, InventoryType.ETC, ItemId.PERFECT_PITCH, amount, false, false);
                     } else {
                         short slotMax = ii.getSlotMax(c, item.getItemId());
-                        quantity = slotMax;
-                        InventoryManipulator.addById(c, itemId, quantity, "", -1);
-                        InventoryManipulator.removeById(c, InventoryType.ETC, ItemId.PERFECT_PITCH, amount, false, false);
+                        InventoryManipulator.addById(c, itemId, slotMax, "", -1);
                     }
+                    InventoryManipulator.removeById(c, InventoryType.ETC, ItemId.PERFECT_PITCH, amount, false, false);
                     c.sendPacket(PacketCreator.shopTransaction((byte) 0));
                 } else {
                     c.sendPacket(PacketCreator.shopTransaction((byte) 3));
@@ -142,26 +133,59 @@ public class Shop {
             } else {
                 c.sendPacket(PacketCreator.shopTransaction((byte) 0xD));
             }
+        } else {
+            long cost = (long) Math.max(0, item.getPrice()) * (ItemConstants.isRechargeable(itemId) ? 1 : quantity);
+            if (cost > Integer.MAX_VALUE) {
+                cost = Integer.MAX_VALUE;
+            }
 
-        } else if (c.getPlayer().getInventory(InventoryType.CASH).countById(token) != 0) {
-            int amount = c.getPlayer().getInventory(InventoryType.CASH).countById(token);
-            int value = amount * tokenvalue;
-            int cost = item.getPrice() * quantity;
-            if (c.getPlayer().getMeso() + value >= cost) {
-                int cardreduce = value - cost;
-                int diff = cardreduce + c.getPlayer().getMeso();
+            if (c.getPlayer().getMeso() >= cost) {
                 if (InventoryManipulator.checkSpace(c, itemId, quantity, "")) {
-                    if (ItemConstants.isPet(itemId)) {
-                        int petid = Pet.createPet(itemId);
-                        InventoryManipulator.addById(c, itemId, quantity, "", petid, -1);
+                    if (ItemConstants.isEquipment(itemId)) {
+                        for (int i = 0; i < quantity; i++) {
+                            InventoryManipulator.addById(c, itemId, (short) 1, "", -1);
+                        }
+                    } else if (!ItemConstants.isRechargeable(itemId)) {
+                        InventoryManipulator.addById(c, itemId, quantity, "", -1);
                     } else {
-                        InventoryManipulator.addById(c, itemId, quantity, "", -1, -1);
+                        short slotMax = ii.getSlotMax(c, item.getItemId());
+                        InventoryManipulator.addById(c, itemId, slotMax, "", -1);
                     }
-                    c.getPlayer().gainMeso(diff, false);
+                    if (cost > 0) {
+                        c.getPlayer().gainMeso((int) -cost, false);
+                    }
+                    c.sendPacket(PacketCreator.shopTransaction((byte) 0));
                 } else {
                     c.sendPacket(PacketCreator.shopTransaction((byte) 3));
                 }
-                c.sendPacket(PacketCreator.shopTransaction((byte) 0));
+            } else if (c.getPlayer().getInventory(InventoryType.CASH).countById(token) != 0) {
+                int amount = c.getPlayer().getInventory(InventoryType.CASH).countById(token);
+                long value = (long) amount * tokenvalue;
+                if (c.getPlayer().getMeso() + value >= cost) {
+                    long cardreduce = value - cost;
+                    long diff = cardreduce + c.getPlayer().getMeso();
+                    if (InventoryManipulator.checkSpace(c, itemId, quantity, "")) {
+                        if (ItemConstants.isEquipment(itemId)) {
+                            for (int i = 0; i < quantity; i++) {
+                                InventoryManipulator.addById(c, itemId, (short) 1, "", -1);
+                            }
+                        } else if (ItemConstants.isPet(itemId)) {
+                            int petid = Pet.createPet(itemId);
+                            InventoryManipulator.addById(c, itemId, quantity, "", petid, -1);
+                        } else if (!ItemConstants.isRechargeable(itemId)) {
+                            InventoryManipulator.addById(c, itemId, quantity, "", -1);
+                        } else {
+                            short slotMax = ii.getSlotMax(c, item.getItemId());
+                            InventoryManipulator.addById(c, itemId, slotMax, "", -1);
+                        }
+                        c.getPlayer().gainMeso((int) diff, false);
+                        c.sendPacket(PacketCreator.shopTransaction((byte) 0));
+                    } else {
+                        c.sendPacket(PacketCreator.shopTransaction((byte) 3));
+                    }
+                } else {
+                    c.sendPacket(PacketCreator.shopTransaction((byte) 2));
+                }
             } else {
                 c.sendPacket(PacketCreator.shopTransaction((byte) 2));
             }
@@ -245,7 +269,58 @@ public class Shop {
     }
 
     private ShopItem findBySlot(short slot) {
-        return items.get(slot);
+        if (slot >= 0 && slot < items.size()) {
+            return items.get(slot);
+        }
+        return null;
+    }
+
+    public List<ShopItem> getItems() {
+        return Collections.unmodifiableList(items);
+    }
+
+    public static Shop createGmShop() {
+        Shop gmShop = new Shop(1337, 11000);
+        int[] gmItemIds = new int[]{
+            // Scrolls
+            2340000, 2040807, 2041200, 2044908, 2044815, 2044512, 2044712, 2044612, 2043312, 2043117,
+            2043217, 2043023, 2044417, 2044317, 2043812, 2044117, 2044217, 2044025, 2043712,
+            // Potions & Buffs
+            2050004, 2022179, 2022273, 2000005, 2000004, 2000003, 2000002, 2000001, 2000000,
+            // Stars & Bullets
+            2070018, 2070016, 2070006, 2330005, 2332000, 2331000, 2060004, 2061004,
+            // ETC / Rocks
+            4006001, 4001017, 4031179,
+            // Megaphones
+            5072000, 5390000, 5390001, 5390002, 5390005, 5390006,
+            // Equips & GM gears
+            1002140, 1042003, 1062007, 1322013, 1072010, 1002959, 1122000, 1082149,
+            1492013, 1482013, 1452044, 1472052, 1462039, 1332050, 1312031, 1322052,
+            1302059, 1442045, 1432038, 1382036, 1412026, 1422028, 1402036, 1372032,
+            // Mounts & Saddles
+            1912000, 1902000, 1902001, 1902002, 1912005, 1902005, 1902006, 1902007,
+            1912011, 1902015, 1902016, 1902017, 1902018
+        };
+        for (int itemId : gmItemIds) {
+            if (ItemConstants.isRechargeable(itemId)) {
+                gmShop.addItem(new ShopItem((short) 1, itemId, 1, 0));
+            } else {
+                gmShop.addItem(new ShopItem((short) 1000, itemId, 1, 0));
+            }
+        }
+        for (Integer recharge : rechargeableItems) {
+            boolean already = false;
+            for (int itemId : gmItemIds) {
+                if (itemId == recharge) {
+                    already = true;
+                    break;
+                }
+            }
+            if (!already) {
+                gmShop.addItem(new ShopItem((short) 1, recharge, 1, 0));
+            }
+        }
+        return gmShop;
     }
 
     public static Shop createFromDB(int id, boolean isShopId) {
@@ -267,6 +342,9 @@ public class Shop {
                         shopId = rs.getInt("shopid");
                         ret = new Shop(shopId, rs.getInt("npcid"));
                     } else {
+                        if (isShopId && id == 1337) {
+                            return createGmShop();
+                        }
                         return null;
                     }
                 }
@@ -293,8 +371,14 @@ public class Shop {
                     }
                 }
             }
+            if (isShopId && id == 1337 && ret.items.isEmpty()) {
+                return createGmShop();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
+            if (isShopId && id == 1337) {
+                return createGmShop();
+            }
         }
         return ret;
     }

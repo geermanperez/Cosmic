@@ -25,6 +25,7 @@ package client.command.commands.gm2;
 
 import client.Client;
 import client.command.Command;
+import server.Shop;
 import server.ShopFactory;
 
 public class GmShopCommand extends Command {
@@ -34,6 +35,10 @@ public class GmShopCommand extends Command {
 
     @Override
     public void execute(Client c, String[] params) {
-        ShopFactory.getInstance().getShop(1337).sendShop(c);
+        Shop shop = ShopFactory.getInstance().getShop(1337);
+        if (shop == null) {
+            shop = Shop.createGmShop();
+        }
+        shop.sendShop(c);
     }
 }

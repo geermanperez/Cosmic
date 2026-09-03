@@ -203,12 +203,66 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
     }
 
     public void sendStyle(String text, int[] styles) {
-        if (styles.length > 0) {
+        if (styles != null && styles.length > 0) {
             getClient().sendPacket(PacketCreator.getNPCTalkStyle(npc, text, styles));
         } else {    // thanks Conrad for noticing empty styles crashing players
             sendOk("Sorry, there are no options of cosmetics available for you here at the moment.");
             dispose();
         }
+    }
+
+    public void sendStyle(String text, Object stylesObj) {
+        if (stylesObj == null) {
+            sendOk("Sorry, there are no options of cosmetics available for you here at the moment.");
+            dispose();
+            return;
+        }
+        if (stylesObj instanceof int[] intArr) {
+            sendStyle(text, intArr);
+            return;
+        }
+        if (stylesObj instanceof java.util.Collection<?> col) {
+            int[] arr = new int[col.size()];
+            int idx = 0;
+            for (Object o : col) {
+                if (o instanceof Number num) {
+                    arr[idx++] = num.intValue();
+                }
+            }
+            if (idx < arr.length) {
+                arr = java.util.Arrays.copyOf(arr, idx);
+            }
+            sendStyle(text, arr);
+            return;
+        }
+        if (stylesObj instanceof Object[] objArr) {
+            int[] arr = new int[objArr.length];
+            int idx = 0;
+            for (Object o : objArr) {
+                if (o instanceof Number num) {
+                    arr[idx++] = num.intValue();
+                }
+            }
+            if (idx < arr.length) {
+                arr = java.util.Arrays.copyOf(arr, idx);
+            }
+            sendStyle(text, arr);
+            return;
+        }
+        try {
+            if (stylesObj instanceof org.graalvm.polyglot.Value val && val.hasArrayElements()) {
+                long size = val.getArraySize();
+                int[] arr = new int[(int) size];
+                for (int i = 0; i < size; i++) {
+                    arr[i] = val.getArrayElement(i).asInt();
+                }
+                sendStyle(text, arr);
+                return;
+            }
+        } catch (Throwable ignored) {
+        }
+        sendOk("Sorry, there are no options of cosmetics available for you here at the moment.");
+        dispose();
     }
 
     public void sendGetNumber(String text, int def, int min, int max) {
@@ -292,21 +346,26 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
     }
 
     public void setHair(int hair) {
+        if (hair <= 0) return;
         getPlayer().setHair(hair);
         getPlayer().updateSingleStat(Stat.HAIR, hair);
         getPlayer().equipChanged();
     }
 
     public void setFace(int face) {
+        if (face <= 0) return;
         getPlayer().setFace(face);
         getPlayer().updateSingleStat(Stat.FACE, face);
         getPlayer().equipChanged();
     }
 
     public void setSkin(int color) {
-        getPlayer().setSkinColor(SkinColor.getById(color));
-        getPlayer().updateSingleStat(Stat.SKIN, color);
-        getPlayer().equipChanged();
+        SkinColor sc = SkinColor.getById(color);
+        if (sc != null) {
+            getPlayer().setSkinColor(sc);
+            getPlayer().updateSingleStat(Stat.SKIN, color);
+            getPlayer().equipChanged();
+        }
     }
 
     public boolean isSkinColorAvailable(int color) {

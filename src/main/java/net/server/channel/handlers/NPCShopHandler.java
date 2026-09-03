@@ -29,6 +29,8 @@ import net.packet.InPacket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tools.PacketCreator;
+
 /**
  * @author Matze
  */
@@ -37,17 +39,25 @@ public final class NPCShopHandler extends AbstractPacketHandler {
 
     @Override
     public void handlePacket(InPacket p, Client c) {
+        if (c.getPlayer() == null) {
+            return;
+        }
         byte bmode = p.readByte();
         switch (bmode) {
         case 0: { // mode 0 = buy :)
             short slot = p.readShort();// slot
             int itemId = p.readInt();
             short quantity = p.readShort();
-            if (quantity < 1) {
-                AutobanFactory.PACKET_EDIT.alert(c.getPlayer(),
-                        c.getPlayer().getName() + " tried to packet edit a npc shop.");
-                log.warn("Chr {} tried to buy quantity {} of itemid {}", c.getPlayer().getName(), quantity, itemId);
-                c.disconnect(true, false);
+            if (c.getPlayer().getShop() == null) {
+                return;
+            }
+            if (ItemConstants.isRechargeable(itemId)) {
+                if (quantity < 1) {
+                    quantity = 1;
+                }
+            } else if (quantity < 1) {
+                log.warn("Chr {} tried to buy invalid quantity {} of itemid {}", c.getPlayer().getName(), quantity, itemId);
+                c.sendPacket(PacketCreator.shopTransaction((byte) 0x6));
                 return;
             }
             c.getPlayer().getShop().buy(c, slot, itemId, quantity);
@@ -57,12 +67,17 @@ public final class NPCShopHandler extends AbstractPacketHandler {
             short slot = p.readShort();
             int itemId = p.readInt();
             short quantity = p.readShort();
+            if (c.getPlayer().getShop() == null) {
+                return;
+            }
             c.getPlayer().getShop().sell(c, ItemConstants.getInventoryType(itemId), slot, quantity);
             break;
         }
         case 2: { // recharge ;)
-
             byte slot = (byte) p.readShort();
+            if (c.getPlayer().getShop() == null) {
+                return;
+            }
             c.getPlayer().getShop().recharge(c, slot);
             break;
         }

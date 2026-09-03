@@ -368,6 +368,7 @@ public class CommandsExecutor {
         addCommand("rates", RatesCommand.class);
         addCommand("gm", GmCommand.class);
         addCommand("reportbug", ReportBugCommand.class);
+        addCommand("gmshop", GmShopCommand.class);
         addCommand("points", ReadPointsCommand.class);
         addCommand("reset", ResetCommand.class);
         addCommand("joinevent", JoinEventCommand.class);
@@ -421,7 +422,6 @@ public class CommandsExecutor {
         addCommand("warp", 2, WarpCommand.class);
         addCommand(new String[]{"warphere", "summon"}, 2, SummonCommand.class);
         addCommand(new String[]{"warpto", "reach", "follow"}, 2, ReachCommand.class);
-        addCommand("gmshop", 2, GmShopCommand.class);
         addCommand("heal", 2, HealCommand.class);
         addCommand("item", 2, ItemCommand.class);
         addCommand("drop", 2, ItemDropCommand.class);
