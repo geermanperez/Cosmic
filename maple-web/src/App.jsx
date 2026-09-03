@@ -48,7 +48,7 @@ const downloadUrl =
   "https://drive.google.com/file/d/1VOHgLVWUu1uaJY7hoVFBGaQTOkYq3E2h/view?usp=sharing";
 const updateDownloadUrl =
   "https://drive.google.com/file/d/1MO9nkQUnwGjgMrNGaBcGgw2i1BtbM2fs/view?usp=sharing";
-const updateNoticeStorageKey = "latinms-visual-patch-notice-2026-06-05";
+const updateNoticeStorageKey = "everleafms-visual-patch-notice-2026-06-05";
 const updateNoticeStartDate = "2026-06-05";
 const updateNoticeDurationDays = 7;
 const showUpdateContent = true;
@@ -83,10 +83,10 @@ const translations = {
       login: "Sign in",
     },
     hero: {
-      eyebrow: "A unique experience for the Latin community",
+      eyebrow: "A unique experience for the classic community",
       title: "Play Maple in a classic, welcoming, truly unforgettable way.",
       copy:
-        "LatinMS is built for Latin players and adventurers from anywhere in the world who want an active community, a special atmosphere, and an experience that feels unique from the first login.",
+        "EverleafMs is built for adventurers from anywhere in the world who want an active community, a special atmosphere, and an experience that feels unique from the first login.",
       start: "Start your adventure",
       enter: "Enter your account",
       online: "Server ONLINE",
@@ -97,12 +97,12 @@ const translations = {
     },
     community: {
       kicker: "Official community",
-      title: "Join the LatinMS WhatsApp group",
+      title: "Join the EverleafMs WhatsApp group",
       copy:
         "Scan the QR code and come meet other players, ask questions, share progress, and stay close to the latest server news.",
       action: "Join the group",
       discordAction: "Join Discord",
-      imageAlt: "QR code to join the LatinMS WhatsApp community",
+      imageAlt: "QR code to join the EverleafMs WhatsApp community",
     },
     home: {
       statusKicker: "World status",
@@ -116,7 +116,7 @@ const translations = {
         [
           "/3.png",
           "A community with identity",
-          "A server made for Latin players, open to anyone in the world who wants to feel part of it.",
+          "A server made for classic players, open to anyone in the world who wants to feel part of it.",
         ],
         [
           "/4.png",
@@ -124,11 +124,11 @@ const translations = {
           "Create your account in minutes and begin your journey without extra steps.",
         ],
       ],
-      newsTitle: "Why LatinMS feels different",
+      newsTitle: "Why EverleafMs feels different",
       topKicker: "Top players",
       topTitle: "The adventurers setting the pace",
       feedKicker: "Community feed",
-      feedTitle: "What is moving in LatinMS",
+      feedTitle: "What is moving in EverleafMs",
       socialPosts: [
         ["Staff", "Party Quests are active as a main leveling route. Gather your party and share your progress."],
         ["Ranking", "The top players update live. Your next level can move your profile up the feed."],
@@ -138,23 +138,23 @@ const translations = {
     newsItems: [
       [
         "/2.png",
-        "Party Quests renewed for LatinMS",
+        "Party Quests renewed for EverleafMs",
         "Party Quests are now a main leveling path from Lv. 10 to 90+. They keep minimum level requirements, no maximum level cap, stronger clear EXP, and better common rewards for party play.",
       ],
       [
         "/4.png",
-        "LatinmsV1.0.2 is now available",
-        "If you have an older client, please update before playing. Download LatinmsV1.0.2 from the download section to enter the server without issues.",
+        "EverleafmsV1.0.2 is now available",
+        "If you have an older client, please update before playing. Download EverleafmsV1.0.2 from the download section to enter the server without issues.",
       ],
       [
         "/1.png",
         "A classic adventure with its own identity",
-        "LatinMS blends nostalgia, progress, and community in a world designed to feel familiar and different at the same time.",
+        "EverleafMs blends nostalgia, progress, and community in a world designed to feel familiar and different at the same time.",
       ],
       [
         "/4.png",
-        "Latin players, global connection",
-        "We created a space for players from Latin America and anyone around the world who wants to enjoy Maple with a close community.",
+        "Classic players, global connection",
+        "We created a space for players from all over the world who want to enjoy Maple with a close community.",
       ],
       [
         "/2.png",
@@ -163,15 +163,15 @@ const translations = {
       ],
     ],
     pages: {
-      newsTitle: "Latest LatinMS news",
+      newsTitle: "Latest EverleafMs news",
       rankingTitle: "Top server players",
       downloadKicker: "Download",
-      downloadTitle: "Download the LatinmsV1.0.2 client",
+      downloadTitle: "Download the EverleafmsV1.0.2 client",
       downloadCopy:
-        "LatinmsV1.0.2 client ready to enter the world of LatinMS. Download it, install it, and use your account to begin the adventure.",
+        "EverleafmsV1.0.2 client ready to enter the world of EverleafMs. Download it, install it, and use your account to begin the adventure.",
       downloadClient: "Download client",
       launcherRecommendation:
-        "RECOMMENDATION: to open the game, use LATINMS LAUNCHER.cmd (it closes open client processes and then starts the game cleanly).",
+        "RECOMMENDATION: to open the game, use EVERLEAFMS LAUNCHER.cmd (it closes open client processes and then starts the game cleanly).",
       patchTitle: "Latest visual patch",
       patchCopy:
         "Already have the client? Download this visual patch, unzip it, paste the launcher into your game folder, and replace the previous one when Windows asks.",
@@ -179,9 +179,9 @@ const translations = {
     },
     updateNotice: {
       kicker: "Required update",
-      title: "Download the latest LatinMS visual patch",
+      title: "Download the latest EverleafMs visual patch",
       copy:
-        "A new visual patch is available. Download it now and replace the launcher so your client shows the latest LatinMS visuals.",
+        "A new visual patch is available. Download it now and replace the launcher so your client shows the latest EverleafMs visuals.",
       steps: [
         "Download the visual patch.",
         "Unzip it.",
@@ -258,7 +258,7 @@ const translations = {
       repeatNewPassword: "Repeat new password",
       resetButton: "Update password",
       registerKicker: "Create account",
-      registerTitle: "Quick registration for LatinMS",
+      registerTitle: "Quick registration for EverleafMs",
       registerIntro:
         "Form connected to the API so registration stays separate from the main cover page.",
       displayName: "Name",
@@ -288,7 +288,7 @@ const translations = {
       displayName: "Display name",
       avatarUrl: "Avatar URL",
       bio: "Bio",
-      bioPlaceholder: "Tell the LatinMS community who you are, what you play, and what you are looking for.",
+      bioPlaceholder: "Tell the EverleafMs community who you are, what you play, and what you are looking for.",
       instagram: "Instagram",
       discord: "Discord",
       website: "Website",
@@ -337,7 +337,7 @@ const translations = {
       seeRanking: "View ranking",
       client: "Client",
       title: "Download the game",
-      copy: "Client available so you can start your LatinMS adventure right now.",
+      copy: "Client available so you can start your EverleafMs adventure right now.",
       voteAlt: "Vote for us on GTop100",
     },
     messages: {
@@ -377,10 +377,10 @@ const translations = {
       login: "Iniciar sesion",
     },
     hero: {
-      eyebrow: "Una experiencia unica para la comunidad latina",
+      eyebrow: "Una experiencia clasica y cercana",
       title: "Vive Maple de una forma clasica, cercana y realmente inolvidable.",
       copy:
-        "LatinMS esta pensado para jugadores latinos y para aventureros de cualquier parte del mundo que buscan una comunidad activa, una atmosfera especial y una experiencia que se sienta unica desde el primer inicio de sesion.",
+        "EverleafMs esta pensado para aventureros de cualquier parte del mundo que buscan una comunidad activa, una atmosfera especial y una experiencia que se sienta unica desde el primer inicio de sesion.",
       start: "Comienza tu aventura",
       enter: "Entra con tu cuenta",
       online: "Servidor EN LINEA",
@@ -391,12 +391,12 @@ const translations = {
     },
     community: {
       kicker: "Comunidad oficial",
-      title: "Unite al grupo de WhatsApp de LatinMS",
+      title: "Unite al grupo de WhatsApp de EverleafMs",
       copy:
         "Escanea el codigo QR y ven a conocer otros jugadores, resolver dudas, compartir tu progreso y enterarte de las novedades del servidor.",
       action: "Unirse al grupo",
       discordAction: "Unirse al Discord",
-      imageAlt: "Codigo QR para unirse a la comunidad de WhatsApp de LatinMS",
+      imageAlt: "Codigo QR para unirse a la comunidad de WhatsApp de EverleafMs",
     },
     home: {
       statusKicker: "Estado del mundo",
@@ -410,7 +410,7 @@ const translations = {
         [
           "/3.png",
           "Comunidad con identidad",
-          "Un servidor pensado para jugadores latinos, abierto a cualquier persona del mundo que quiera sentirse parte.",
+          "Un servidor pensado para la comunidad clasica, abierto a cualquier persona del mundo que quiera sentirse parte.",
         ],
         [
           "/4.png",
@@ -418,11 +418,11 @@ const translations = {
           "Crea tu cuenta en minutos y empieza tu recorrido sin vueltas ni pasos innecesarios.",
         ],
       ],
-      newsTitle: "Por que LatinMS se siente diferente",
+      newsTitle: "Por que EverleafMs se siente diferente",
       topKicker: "Top de jugadores",
       topTitle: "Los aventureros que marcan el ritmo",
       feedKicker: "Muro de comunidad",
-      feedTitle: "Lo que se mueve en LatinMS",
+      feedTitle: "Lo que se mueve en EverleafMs",
       socialPosts: [
         ["Staff", "Las Party Quests estan activas como ruta principal de leveleo. Arma party y comparte tu progreso."],
         ["Ranking", "El top se actualiza en vivo. Tu proximo nivel puede subir tu perfil en el feed."],
@@ -432,23 +432,23 @@ const translations = {
     newsItems: [
       [
         "/2.png",
-        "Party Quests renovadas en LatinMS",
+        "Party Quests renovadas en EverleafMs",
         "Las Party Quests ahora son una ruta principal de leveleo desde Lv. 10 hasta 90+. Mantienen nivel minimo, ya no tienen nivel maximo, entregan mas EXP por clear y mejores recompensas comunes para jugar en party.",
       ],
       [
         "/4.png",
-        "Nueva version LatinmsV1.0.2 disponible",
-        "Si tenes una version vieja del cliente, actualiza antes de jugar. Descarga LatinmsV1.0.2 desde la seccion de descarga para entrar al servidor sin problemas.",
+        "Nueva version EverleafmsV1.0.2 disponible",
+        "Si tenes una version vieja del cliente, actualiza antes de jugar. Descarga EverleafmsV1.0.2 desde la seccion de descarga para entrar al servidor sin problemas.",
       ],
       [
         "/1.png",
         "Una aventura clasica con identidad propia",
-        "LatinMS mezcla nostalgia, progreso y comunidad en un mundo pensado para sentirse familiar y a la vez distinto.",
+        "EverleafMs mezcla nostalgia, progreso y comunidad en un mundo pensado para sentirse familiar y a la vez distinto.",
       ],
       [
         "/4.png",
-        "Jugadores latinos, conexion global",
-        "Creamos un espacio para jugadores de Latinoamerica y para cualquier persona del mundo que quiera vivir Maple con una comunidad cercana.",
+        "Jugadores clasicos, conexion global",
+        "Creamos un espacio para cualquier persona del mundo que quiera vivir Maple con una comunidad cercana.",
       ],
       [
         "/2.png",
@@ -457,15 +457,15 @@ const translations = {
       ],
     ],
     pages: {
-      newsTitle: "Ultimas novedades de LatinMS",
+      newsTitle: "Ultimas novedades de EverleafMs",
       rankingTitle: "Top jugadores del servidor",
       downloadKicker: "Descarga",
-      downloadTitle: "Descarga el cliente de LatinmsV1.0.2",
+      downloadTitle: "Descarga el cliente de EverleafmsV1.0.2",
       downloadCopy:
-        "Cliente LatinmsV1.0.2 listo para entrar al mundo de LatinMS. Descargalo, instalalo y usa tu cuenta para comenzar la aventura.",
+        "Cliente EverleafmsV1.0.2 listo para entrar al mundo de EverleafMs. Descargalo, instalalo y usa tu cuenta para comenzar la aventura.",
       downloadClient: "Descargar cliente",
       launcherRecommendation:
-        "RECOMENDACION: para abrir el juego usar LATINMS LAUNCHER.cmd (cierra procesos abiertos del cliente y luego inicia el juego limpio).",
+        "RECOMENDACION: para abrir el juego usar EVERLEAFMS LAUNCHER.cmd (cierra procesos abiertos del cliente y luego inicia el juego limpio).",
       patchTitle: "Parche visual",
       patchCopy:
         "Ya tienes el cliente? Descarga este parche visual, descomprimilo, pega el launcher en la carpeta del juego y reemplaza el anterior cuando Windows pregunte.",
@@ -473,9 +473,9 @@ const translations = {
     },
     updateNotice: {
       kicker: "Actualizacion necesaria",
-      title: "Descarga el ultimo parche visual de LatinMS",
+      title: "Descarga el ultimo parche visual de EverleafMs",
       copy:
-        "Hay un nuevo parche visual disponible. Descargalo y reemplaza el launcher para que tu cliente muestre los ultimos visuales de LatinMS.",
+        "Hay un nuevo parche visual disponible. Descargalo y reemplaza el launcher para que tu cliente muestre los ultimos visuales de EverleafMs.",
       steps: [
         "Descarga el parche visual.",
         "Descomprimila.",
@@ -552,7 +552,7 @@ const translations = {
       repeatNewPassword: "Repetir nueva contrasena",
       resetButton: "Actualizar contrasena",
       registerKicker: "Crear cuenta",
-      registerTitle: "Registro rapido para LatinMS",
+      registerTitle: "Registro rapido para EverleafMs",
       registerIntro:
         "Formulario conectado a la API para que el registro no quede mezclado con la portada principal.",
       displayName: "Nombre",
@@ -582,7 +582,7 @@ const translations = {
       displayName: "Nombre visible",
       avatarUrl: "Avatar URL",
       bio: "Bio",
-      bioPlaceholder: "Contale a la comunidad LatinMS quien sos, que jugas y que estas buscando.",
+      bioPlaceholder: "Contale a la comunidad EverleafMs quien sos, que jugas y que estas buscando.",
       instagram: "Instagram",
       discord: "Discord",
       website: "Sitio web",
@@ -631,7 +631,7 @@ const translations = {
       seeRanking: "Ver ranking",
       client: "Cliente",
       title: "Descarga el juego",
-      copy: "Cliente disponible para que empieces tu aventura en LatinMS ahora mismo.",
+      copy: "Cliente disponible para que empieces tu aventura en EverleafMs ahora mismo.",
       voteAlt: "Votanos en GTop100",
     },
     messages: {
@@ -756,7 +756,7 @@ const fallbackCountryCodes = [
   "VE",
 ];
 
-const DEFAULT_CHARACTER_IMAGE = "/latinms.png";
+const DEFAULT_CHARACTER_IMAGE = "/everleafms-primary-v2.png";
 const DEFAULT_EQUIPS_BY_GENDER = {
   0: [1040002, 1060002, 1072001],
   1: [1041002, 1061002, 1072001],
@@ -844,7 +844,7 @@ function formatDonorUntil(value, language) {
 }
 
 function getInitialLanguage() {
-  const saved = localStorage.getItem("latinms-language");
+  const saved = localStorage.getItem("everleafms-language") || localStorage.getItem("latinms-language");
   return saved === "es" ? "es" : "en";
 }
 
@@ -928,7 +928,7 @@ function getNewsShareUrl(news) {
 
 function openShare(provider, news) {
   const url = encodeURIComponent(getNewsShareUrl(news));
-  const text = encodeURIComponent(news?.titulo || "LatinMS");
+  const text = encodeURIComponent(news?.titulo || "EverleafMs");
   const shareUrls = {
     whatsapp: `https://wa.me/?text=${text}%20${url}`,
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
@@ -1057,7 +1057,7 @@ function getCharacterImage(character) {
 }
 
 function getPlayerName(player) {
-  return player?.name ?? player?.character_name ?? player?.characterName ?? player?.guildName ?? player?.guild_name ?? "LatinMS";
+  return player?.name ?? player?.character_name ?? player?.characterName ?? player?.guildName ?? player?.guild_name ?? "EverleafMs";
 }
 
 function getPlayerGuild(player) {
@@ -1196,7 +1196,7 @@ function RankingCard({ player, rank, language, text, featured = false, compact =
             alt={`${text.characterAlt} ${name}`}
             onError={(event) => {
               event.currentTarget.onerror = null;
-              event.currentTarget.src = "/latinms.png";
+              event.currentTarget.src = "/everleafms-primary-v2.png";
             }}
           />
         </div>
@@ -1204,7 +1204,7 @@ function RankingCard({ player, rank, language, text, featured = false, compact =
 
       <div className="ranking-card__body">
         <div className="ranking-card__post-head">
-          <span>{displayRank <= 3 ? "Featured post" : "LatinMS post"}</span>
+          <span>{displayRank <= 3 ? "Featured post" : "EverleafMs post"}</span>
           <small>#{displayRank}</small>
         </div>
 
@@ -1438,7 +1438,7 @@ function PublicPlayerProfile({ player, loading, language, rankingText, accountTe
               alt={`${rankingText.characterAlt} ${name}`}
               onError={(event) => {
                 event.currentTarget.onerror = null;
-                event.currentTarget.src = "/latinms.png";
+                event.currentTarget.src = "/everleafms-primary-v2.png";
               }}
             />
           </div>
@@ -1488,11 +1488,11 @@ function PublicPlayerProfile({ player, loading, language, rankingText, accountTe
         <RankingCard player={player} rank={rank || 1} language={language} text={rankingText} featured={rank === 1} />
         <article className="player-profile-journal">
           <span>{rankingText.tabs.level}</span>
-          <h3>{language === "es" ? `${name} en LatinMS` : `${name} on LatinMS`}</h3>
+          <h3>{language === "es" ? `${name} en EverleafMs` : `${name} on EverleafMs`}</h3>
           <p>
             {language === "es"
-              ? `${name} forma parte del ranking de LatinMS con nivel ${player.level ?? "-"} como ${getJobName(player.job, language)}.${guild ? ` Representa a ${guild} y sigue subiendo dentro de la comunidad.` : " Este perfil se actualiza con los datos visibles del servidor."}`
-              : `${name} is part of the LatinMS ranking at level ${player.level ?? "-"} as ${getJobName(player.job, language)}.${guild ? ` They represent ${guild} and keep climbing inside the community.` : " This profile updates with visible server data."}`}
+              ? `${name} forma parte del ranking de EverleafMs con nivel ${player.level ?? "-"} como ${getJobName(player.job, language)}.${guild ? ` Representa a ${guild} y sigue subiendo dentro de la comunidad.` : " Este perfil se actualiza con los datos visibles del servidor."}`
+              : `${name} is part of the EverleafMs ranking at level ${player.level ?? "-"} as ${getJobName(player.job, language)}.${guild ? ` They represent ${guild} and keep climbing inside the community.` : " This profile updates with visible server data."}`}
           </p>
         </article>
       </div>
@@ -1609,7 +1609,7 @@ function App() {
   );
 
   useEffect(() => {
-    localStorage.setItem("latinms-language", language);
+    localStorage.setItem("everleafms-language", language);
     document.documentElement.lang = language;
   }, [language]);
 
@@ -2749,7 +2749,7 @@ function App() {
             {view === "home" ? (
               <>
                 <div className="home-social-layout">
-                  <aside className="home-left-rail" aria-label={language === "es" ? "Accesos LatinMS" : "LatinMS shortcuts"}>
+                  <aside className="home-left-rail" aria-label={language === "es" ? "Accesos EverleafMs" : "EverleafMs shortcuts"}>
                     <section className="home-rail-card home-rail-card--brand">
                       <img src="/everleafms-emblem-v2.png" alt="Emblema EverleafMs V83" />
                       <strong>EverleafMs V83 Classic</strong>
@@ -2825,9 +2825,9 @@ function App() {
                       {newsForDisplay.slice(0, 2).map((news) => (
                         <article key={news.slug || news.id} className="home-feed-news-card">
                           <div className="home-feed-news-card__head">
-                            <img src="/latinms.png" alt="" />
+                            <img src="/everleafms-primary-v2.png" alt="" />
                             <div>
-                              <strong>LatinMS</strong>
+                              <strong>EverleafMs</strong>
                               <span>{news.categoria || (language === "es" ? "Noticia oficial" : "Official news")}</span>
                             </div>
                           </div>
@@ -3625,7 +3625,7 @@ function SocialFeed({
             name="caption"
             value={postForm.caption}
             onChange={onPostChange}
-            placeholder={token ? (isSpanish ? "Que estas pensando en LatinMS?" : "What are you thinking in LatinMS?") : (isSpanish ? "Inicia sesion para publicar." : "Sign in to post.")}
+            placeholder={token ? (isSpanish ? "Que estas pensando en EverleafMs?" : "What are you thinking in EverleafMs?") : (isSpanish ? "Inicia sesion para publicar." : "Sign in to post.")}
             rows={2}
             disabled={!token}
           ></textarea>
@@ -3682,18 +3682,18 @@ function SocialFeed({
               {postAvatarSrc ? (
                 <img
                   src={postAvatarSrc}
-                  alt={post.display_name || post.account_name || "LatinMS"}
+                  alt={post.display_name || post.account_name || "EverleafMs"}
                   onError={(event) => {
                     event.currentTarget.onerror = null;
                     event.currentTarget.src = DEFAULT_CHARACTER_IMAGE;
                   }}
                 />
               ) : (
-                (post.display_name || post.account_name || "L").slice(0, 1)
+                (post.display_name || post.account_name || "E").slice(0, 1)
               )}
             </div>
             <div className="social-post-card__content">
-              <strong>{post.display_name || post.account_name || "LatinMS"}</strong>
+              <strong>{post.display_name || post.account_name || "EverleafMs"}</strong>
               {post.main_character_name ? <span className="social-post-card__character">{post.main_character_name}</span> : null}
               <p>{post.caption}</p>
               {post.image_url ? (
@@ -3774,8 +3774,8 @@ function normalizeSocialUrl(value, provider) {
 function SocialAccountProfile({ accountData, characters, isAdmin, profileForm, ranking, setAccountTab, text }) {
   const primaryCharacter = getPrimaryCharacter(characters);
   const rankingMatch = getBestRankingMatch(characters, ranking);
-  const displayName = profileForm.display_name || accountData?.name || "LatinMS";
-  const avatarSrc = profileForm.avatar_url || (primaryCharacter ? getCharacterImage(primaryCharacter) : "/latinms.png");
+  const displayName = profileForm.display_name || accountData?.name || "EverleafMs";
+  const avatarSrc = profileForm.avatar_url || (primaryCharacter ? getCharacterImage(primaryCharacter) : "/everleafms-primary-v2.png");
   const bestLevel = primaryCharacter?.level ?? "-";
   const bestRank = rankingMatch?._rankingPosition ?? null;
   const socialLinks = [
@@ -3794,7 +3794,7 @@ function SocialAccountProfile({ accountData, characters, isAdmin, profileForm, r
             alt={displayName}
             onError={(event) => {
               event.currentTarget.onerror = null;
-              event.currentTarget.src = "/latinms.png";
+              event.currentTarget.src = "/everleafms-primary-v2.png";
             }}
           />
         </div>
@@ -4007,7 +4007,7 @@ function AccountPanel({
                 </label>
                 <label>
                   {text.instagram}
-                  <input name="instagram_url" value={profileForm.instagram_url} onChange={handleProfileChange} placeholder="@latinms" />
+                  <input name="instagram_url" value={profileForm.instagram_url} onChange={handleProfileChange} placeholder="@everleafms" />
                 </label>
                 <label>
                   {text.discord}
@@ -4061,7 +4061,7 @@ function AccountPanel({
                           className="character-avatar"
                           onError={(event) => {
                             event.currentTarget.onerror = null;
-                            event.currentTarget.src = "/latinms.png";
+                            event.currentTarget.src = "/everleafms-primary-v2.png";
                           }}
                         />
                       </div>

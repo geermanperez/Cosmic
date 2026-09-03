@@ -9,7 +9,7 @@ const visualBrandImageSelectors = [
   ".home-feed-news-card__head img",
 ].join(",");
 
-const protectedOperationalText = /(LATINMS\s+LAUNCHER|LatinmsV1\.0\.2|latinms-visual-patch-notice)/i;
+const protectedOperationalText = /(EVERLEAFMS\s+LAUNCHER|EverleafmsV1\.0\.2|everleafms-visual-patch-notice)/i;
 
 function rebrandText(value) {
   if (!value || protectedOperationalText.test(value)) return value;
@@ -19,7 +19,12 @@ function rebrandText(value) {
       "LatinMS is built for Latin players and adventurers from anywhere in the world who want an active community, a special atmosphere, and an experience that feels unique from the first login.",
       "EverleafMS is made for adventurers from around the world who are looking for a classic MapleStory experience, an active international community, a unique atmosphere, and a world that feels special from the very first login.",
     )
+    .replace(/LATINMS\s+LAUNCHER/gi, "EVERLEAFMS LAUNCHER")
+    .replace(/LatinmsV1\.0\.2/gi, "EverleafmsV1.0.2")
+    .replace(/latinms-visual-patch-notice/gi, "everleafms-visual-patch-notice")
     .replace(/\bLatinMS\b/g, BRAND_NAME)
+    .replace(/\bLatinms\b/g, BRAND_NAME)
+    .replace(/\blatinms\b/gi, BRAND_NAME)
     .replace(/\bcomunidad latina\b/gi, "comunidad global")
     .replace(/\bjugadores latinos\b/gi, "jugadores de todo el mundo")
     .replace(/\bLatin community\b/gi, "global classic community")

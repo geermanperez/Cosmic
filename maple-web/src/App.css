@@ -3170,7 +3170,7 @@ textarea::placeholder,
   }
 }
 
-/* LatinMS strict dark Maple theme. Keep new sections aligned to this visual rule. */
+/* EverleafMs strict dark Maple theme. Keep new sections aligned to this visual rule. */
 :root {
   --latin-bg: #05090b;
   --latin-ink: #f8f2e8;
@@ -4344,7 +4344,7 @@ textarea::placeholder,
   }
 }
 
-/* Responsive hardening pass: keep every LatinMS surface usable from phones to wide desktop. */
+/* Responsive hardening pass: keep every EverleafMs surface usable from phones to wide desktop. */
 html,
 body,
 #root {
@@ -5289,7 +5289,7 @@ canvas {
   }
 }
 
-/* Home as a social app feed inspired by Facebook/Instagram, adapted to LatinMS. */
+/* Home as a social app feed inspired by Facebook/Instagram, adapted to EverleafMs. */
 .home-portal-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 230px;
@@ -5796,7 +5796,7 @@ canvas {
   }
 }
 
-/* Final social-app shell: Facebook/Instagram structure with LatinMS identity. */
+/* Final social-app shell: Facebook/Instagram structure with EverleafMs identity. */
 .brand {
   align-items: center;
   gap: 10px;

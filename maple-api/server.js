@@ -190,22 +190,22 @@ function escapeHtml(value) {
 
 async function sendPasswordRecoveryEmail({ to, username, resetUrl, expiresMinutes }) {
   const transporter = createMailTransport();
-  const subject = "Recuperacion de contrasena - LatinMS";
+  const subject = "Recuperacion de contrasena - EverleafMs";
   const text = [
     `Hola ${username},`,
     "",
-    "Recibimos una solicitud para recuperar la contrasena de tu cuenta de LatinMS.",
+    "Recibimos una solicitud para recuperar la contrasena de tu cuenta de EverleafMs.",
     `Usa este enlace para crear una nueva contrasena. Expira en ${expiresMinutes} minutos:`,
     resetUrl,
     "",
     "Si no solicitaste este cambio, ignora este correo.",
-    "LatinMS",
+    "EverleafMs",
   ].join("\n");
   const safeUsername = escapeHtml(username);
   const safeResetUrl = escapeHtml(resetUrl);
   const html = `
     <p>Hola ${safeUsername},</p>
-    <p>Recibimos una solicitud para recuperar la contrasena de tu cuenta de LatinMS.</p>
+    <p>Recibimos una solicitud para recuperar la contrasena de tu cuenta de EverleafMs.</p>
     <p><a href="${safeResetUrl}">Crear nueva contrasena</a></p>
     <p>Este enlace expira en ${expiresMinutes} minutos.</p>
     <p>Si no solicitaste este cambio, ignora este correo.</p>
