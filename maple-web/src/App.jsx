@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   AtSign,
@@ -45,7 +45,7 @@ import "./Landing.css";
 import { API_URL, getToken, saveToken, request } from "./apiClient";
 
 const downloadUrl =
-  "https://drive.google.com/file/d/1wBUb8wFIiAz_yzXw6xjeMNPBTlOo1phA/view?usp=sharing";
+  "https://drive.google.com/file/d/1VOHgLVWUu1uaJY7hoVFBGaQTOkYq3E2h/view?usp=sharing";
 const updateDownloadUrl =
   "https://drive.google.com/file/d/1MO9nkQUnwGjgMrNGaBcGgw2i1BtbM2fs/view?usp=sharing";
 const updateNoticeStorageKey = "latinms-visual-patch-notice-2026-06-05";
