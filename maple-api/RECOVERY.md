@@ -36,7 +36,18 @@ docker compose exec maple-api node -e "fetch('http://127.0.0.1:3001/health').the
 docker compose restart maple-web
 ```
 
-El reinicio de maple-web permite que Nginx resuelva la IP actual de maple-api.
+Si la API responde 200 dentro del contenedor pero la web devuelve 502, comparar
+desde maple-web `wget -S -O - http://maple-api:3001/health` con
+`wget -S -O - http://127.0.0.1/api/health`. Si solo falla el segundo, ejecutar
+`nginx -t && nginx -s reload` en maple-web para actualizar el upstream sin
+reiniciar el juego. Esto recuperó el acceso público el 03/09/2026.
+
+La configuración actual de maple-web usa el DNS de Docker (`127.0.0.11`) y
+un upstream con `resolve`, para actualizar la IP de maple-api cada 10 segundos.
+Requiere Nginx 1.27.3 o posterior; fue validada en el contenedor de producción.
+Reconstruir maple-web en el próximo despliegue para conservar esta configuración.
+
+El reinicio de maple-web también permite que Nginx resuelva la IP actual de maple-api.
 `--no-deps` evita ejecutar servicios adicionales; la API espera internamente a
 MySQL y al esquema del juego. Los nuevos healthchecks del Compose se aplican
 cuando se recrea cada contenedor; no hace falta recrear db para recuperar la API.
