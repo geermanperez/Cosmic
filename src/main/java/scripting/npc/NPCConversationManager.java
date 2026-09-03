@@ -261,6 +261,50 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             }
         } catch (Throwable ignored) {
         }
+        try {
+            java.lang.reflect.Method sizeMethod = null;
+            try {
+                sizeMethod = stylesObj.getClass().getMethod("size");
+            } catch (Exception e) {
+                try {
+                    sizeMethod = stylesObj.getClass().getMethod("getArraySize");
+                } catch (Exception e2) {
+                    try {
+                        sizeMethod = stylesObj.getClass().getMethod("length");
+                    } catch (Exception ignored) {}
+                }
+            }
+            if (sizeMethod != null) {
+                Object sizeRes = sizeMethod.invoke(stylesObj);
+                int size = ((Number) sizeRes).intValue();
+                java.lang.reflect.Method getMethod = null;
+                for (java.lang.reflect.Method m : stylesObj.getClass().getMethods()) {
+                    if ((m.getName().equals("get") || m.getName().equals("getArrayElement") || m.getName().equals("getSlot"))
+                            && m.getParameterCount() == 1) {
+                        getMethod = m;
+                        break;
+                    }
+                }
+                if (getMethod != null) {
+                    int[] arr = new int[size];
+                    Class<?> paramType = getMethod.getParameterTypes()[0];
+                    for (int i = 0; i < size; i++) {
+                        Object arg = paramType == long.class ? (long) i : i;
+                        Object elem = getMethod.invoke(stylesObj, arg);
+                        if (elem instanceof Number num) {
+                            arr[i] = num.intValue();
+                        } else if (elem != null) {
+                            try {
+                                arr[i] = Integer.parseInt(elem.toString());
+                            } catch (Exception ignored) {}
+                        }
+                    }
+                    sendStyle(text, arr);
+                    return;
+                }
+            }
+        } catch (Throwable ignored) {
+        }
         sendOk("Sorry, there are no options of cosmetics available for you here at the moment.");
         dispose();
     }
