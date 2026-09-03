@@ -1769,6 +1769,14 @@ public class ItemInformationProvider {
         if (itemType == 5) {
             return true;
         }
+        // Pet equipment (180xxxx-183xxxx) is always encoded as cash equipment by
+        // the v83 client.  Keep this independent from Commodity.img load order:
+        // omitting the 8-byte cash id corrupts SET_FIELD and crashes the client
+        // with error 38 while entering the channel.
+        int equipType = itemId / 10000;
+        if (equipType >= 180 && equipType <= 183) {
+            return true;
+        }
         if (CashShop.CashItemFactory.isCashItem(itemId)) {
             return true;
         }
