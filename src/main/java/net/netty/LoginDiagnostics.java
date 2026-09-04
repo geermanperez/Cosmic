@@ -17,6 +17,8 @@ public final class LoginDiagnostics extends ChannelDuplexHandler {
     private final String stage;
     private int received;
     private int sent;
+    private int lastSendOpcode = -1;
+    private int lastSendBytes = -1;
 
     public LoginDiagnostics(long session, String stage) {
         this.session = session;
@@ -33,6 +35,10 @@ public final class LoginDiagnostics extends ChannelDuplexHandler {
         } else if (message instanceof Packet packet) {
             byte[] bytes = packet.getBytes();
             int opcode = bytes.length < 2 ? -1 : (bytes[0] & 0xff) | ((bytes[1] & 0xff) << 8);
+            if ("send".equals(direction)) {
+                lastSendOpcode = opcode;
+                lastSendBytes = bytes.length;
+            }
             if (!shouldRecordPacket(direction, opcode, count)) {
                 return;
             }
@@ -54,6 +60,7 @@ public final class LoginDiagnostics extends ChannelDuplexHandler {
                 || opcode == SendOpcode.OPEN_NPC_SHOP.getValue()
                 || opcode == SendOpcode.CONFIRM_SHOP_TRANSACTION.getValue();
     }
+
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object message) throws Exception {
@@ -80,8 +87,8 @@ public final class LoginDiagnostics extends ChannelDuplexHandler {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        log.info("LoginDiag session={} stage={} closed received={} sent={}",
-                session, stage, received, sent);
+        log.info("LoginDiag session={} stage={} closed received={} sent={} lastSendOpcode={} lastSendBytes={}",
+                session, stage, received, sent, lastSendOpcode, lastSendBytes);
         super.channelInactive(ctx);
     }
 }

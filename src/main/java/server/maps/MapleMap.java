@@ -2903,13 +2903,18 @@ public class MapleMap {
                         o.sendSpawnData(chr.getClient());
                         chr.addVisibleMapObject(o);
                     }
+                } else if (o.getType() == MapObjectType.MONSTER) {
+                    Monster mob = (Monster) o;
+                    chr.addVisibleMapObject(mob);
+                    if (mob.getController() == null) {
+                        mob.aggroUpdateController();
+                    }
+                    if (mob.getController() != chr) {
+                        mob.sendSpawnData(chr.getClient());
+                    }
                 } else {
                     o.sendSpawnData(chr.getClient());
                     chr.addVisibleMapObject(o);
-
-                    if (o.getType() == MapObjectType.MONSTER) {
-                        ((Monster) o).aggroUpdateController();
-                    }
                 }
             }
         }
