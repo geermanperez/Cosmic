@@ -58,7 +58,9 @@ public final class LoginDiagnostics extends ChannelDuplexHandler {
         }
         return opcode == SendOpcode.NPC_TALK.getValue()
                 || opcode == SendOpcode.OPEN_NPC_SHOP.getValue()
-                || opcode == SendOpcode.CONFIRM_SHOP_TRANSACTION.getValue();
+                || opcode == SendOpcode.CONFIRM_SHOP_TRANSACTION.getValue()
+                || opcode == SendOpcode.STAT_CHANGED.getValue()
+                || opcode == SendOpcode.UPDATE_CHAR_LOOK.getValue();
     }
 
 

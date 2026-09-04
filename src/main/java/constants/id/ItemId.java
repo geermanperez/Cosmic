@@ -1,6 +1,7 @@
 package constants.id;
 
 import java.util.stream.IntStream;
+import java.util.Set;
 
 public class ItemId {
     // Misc
@@ -190,8 +191,19 @@ public class ItemId {
     public static final int WING_BOOTS = 1812004;
     public static final int ITEM_IGNORE = 1812007;
 
+    // Explicit baseline: the 54 Pet XMLs shipped with this Cosmic repository.
+    // Importing more XML must not silently re-enable unverified client pets.
+    private static final Set<Integer> CLASSIC_PETS = Set.of(
+            5000000, 5000001, 5000002, 5000003, 5000004, 5000005, 5000006, 5000007,
+            5000008, 5000009, 5000010, 5000011, 5000012, 5000013, 5000014, 5000015,
+            5000017, 5000018, 5000020, 5000021, 5000022, 5000023, 5000024, 5000025,
+            5000026, 5000028, 5000029, 5000030, 5000031, 5000032, 5000033, 5000034,
+            5000036, 5000037, 5000039, 5000041, 5000042, 5000044, 5000045, 5000047,
+            5000048, 5000049, 5000050, 5000051, 5000052, 5000053, 5000054, 5000055,
+            5000058, 5000060, 5000066, 5000100, 5000101, 5000102);
+
     public static boolean isYunaQuarantinedPet(int itemId) {
-        return itemId == 5002292 || itemId == 5002293;
+        return isPet(itemId) && !CLASSIC_PETS.contains(itemId);
     }
 
     public static boolean isYunaQuarantinedCashItem(int itemId) {

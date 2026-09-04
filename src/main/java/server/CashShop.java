@@ -164,7 +164,7 @@ public class CashShop {
         }
 
         public boolean isOnSale() {
-            return onSale;
+            return onSale && CashItemFactory.isAllowed(itemId);
         }
 
         public Item toItem() {
@@ -318,6 +318,30 @@ public class CashShop {
 
         public static boolean isPackage(int itemId) {
             return packages.containsKey(itemId);
+        }
+
+        public static boolean isAllowed(int itemId) {
+            return isAllowed(itemId, new java.util.HashSet<>());
+        }
+
+        private static boolean isAllowed(int itemId, java.util.Set<Integer> visiting) {
+            if (ItemId.isYunaQuarantinedCashItem(itemId) || !visiting.add(itemId)) {
+                return false;
+            }
+            try {
+                List<Integer> sns = packages.get(itemId);
+                if (sns != null) {
+                    for (int sn : sns) {
+                        CashItem child = getItem(sn);
+                        if (child == null || !isAllowed(child.getItemId(), visiting)) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            } finally {
+                visiting.remove(itemId);
+            }
         }
 
         public static List<SpecialCashItem> getSpecialCashItems() {

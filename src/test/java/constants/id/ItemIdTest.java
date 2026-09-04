@@ -8,13 +8,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ItemIdTest {
 
     @Test
-    void quarantinesOnlyTheTwoCustomPets() {
+    void quarantinesAllNonClassicPets() {
         assertTrue(ItemId.isYunaQuarantinedPet(5002292));
         assertTrue(ItemId.isYunaQuarantinedPet(5002293));
         assertTrue(ItemId.isYunaQuarantinedCashItem(5002292));
         assertTrue(ItemId.isYunaQuarantinedCashItem(5002293));
-        assertFalse(ItemId.isYunaQuarantinedPet(5002291));
-        assertFalse(ItemId.isYunaQuarantinedPet(5002294));
+        assertTrue(ItemId.isYunaQuarantinedPet(5002291));
+        assertTrue(ItemId.isYunaQuarantinedPet(5002294));
+        assertTrue(ItemId.isYunaQuarantinedPet(5001000));
+        assertTrue(ItemId.isYunaQuarantinedPet(5009999));
+        assertFalse(ItemId.isYunaQuarantinedPet(5010000));
+        assertFalse(ItemId.isYunaQuarantinedPet(4999999));
+        assertFalse(ItemId.isYunaQuarantinedPet(5000054));
+        assertFalse(ItemId.isYunaQuarantinedPet(5000102));
         assertFalse(ItemId.isYunaQuarantinedCashItem(5000000));
         assertFalse(ItemId.isYunaQuarantinedCashItem(2000000));
     }

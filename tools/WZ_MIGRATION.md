@@ -7,10 +7,36 @@ again: Meso Magnet, Item Pouch, Auto HP Pouch, Auto MP Pouch and Wing Boots.
 They can be purchased/withdrawn and are no longer moved out of character
 inventory on login. Existing items in Cash Shop storage can be withdrawn
 normally after deployment; deleted items are not recreated by this change.
-Only pets 5002292 and 5002293 remain quarantined. Earlier references below to
+All non-baseline pets are now quarantined: an explicit allowlist retains the
+54 Pet XML IDs originally shipped in this Cosmic tree. The audited client has
+1,011 pets, of which 957 are outside that baseline and are disabled. The policy
+also denies future unknown 500xxxx IDs, rather than silently enabling new files.
+Purchase/gift eligibility checks reject packages containing a disabled pet,
+including nested packages, before item creation or charging. Existing disabled
+pets keep their data in Cash Shop storage and cannot be withdrawn or summoned.
+Earlier references below to
 the five-accessory quarantine describe historical diagnostics, not current policy.
 The user reports successful login after clearing Caitlyn's inventory; this
 does not establish which individual item or stored field caused the crash.
+
+### Shop/hair investigation, 2026-09-04
+
+Session 7847 closes 98 ms after OPEN_NPC_SHOP (305), 1,310 bytes, NPC 1011100.
+There is no purchase request in the supplied fragment. All 48 shop IDs exist in
+the client. Its executable reads five 32-bit values per row, then either two
+shorts or an eight-byte double and a short (0x7529ad through 0x752a78). This
+matches the packet lengths. Recharge unit prices previously retained only the
+highest 16 bits of a double; the encoder now writes all 64 bits, with a mixed
+potion/recharge regression test. This precision fix is not a proven crash fix.
+
+The local stat decoder reads hair and mesos as 32-bit values and reads the
+extra pet byte only for mask 0x180008 (0x4e2fba, 0xa1fbce). Tests lock in that
+layout. All 706 hair IDs in the KIN page arrays exist in the audited client.
+There is no hairstyle failure sequence or fresh client dump in the supplied
+log. StyleDiag records preview IDs and chosen hair; stat/look metadata remains
+logged after the initial packet limit. A fresh client dump and matching game
+log are needed to identify the unresolved shop/hair fault. No binary patch or
+claim of successful in-game shop/hair validation is made.
 
 This tool does not modify the client, the database, or `Cosmic/wz`.
 It indexes PKG1 archives and exports selected IMG property trees to a new,

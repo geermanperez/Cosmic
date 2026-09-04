@@ -14,8 +14,10 @@ class ShopDiagnosticsTest {
     }
 
     @Test void keepsOtherTrafficBoundedAndDirectionSpecific() {
-        assertTrue(LoginDiagnostics.shouldRecordPacket("receive", 41, 32));
-        assertFalse(LoginDiagnostics.shouldRecordPacket("receive", 41, 33));
-        assertFalse(LoginDiagnostics.shouldRecordPacket("receive", SendOpcode.OPEN_NPC_SHOP.getValue(), 281));
+        assertTrue(LoginDiagnostics.shouldRecordPacket("receive", 41, 512));
+        assertFalse(LoginDiagnostics.shouldRecordPacket("receive", 41, 513));
+        assertFalse(LoginDiagnostics.shouldRecordPacket("receive", SendOpcode.OPEN_NPC_SHOP.getValue(), 513));
+        assertTrue(LoginDiagnostics.shouldRecordPacket("send", SendOpcode.STAT_CHANGED.getValue(), 3000));
+        assertTrue(LoginDiagnostics.shouldRecordPacket("send", SendOpcode.UPDATE_CHAR_LOOK.getValue(), 3001));
     }
 }

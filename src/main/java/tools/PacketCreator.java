@@ -2468,13 +2468,14 @@ public class PacketCreator {
         return p;
     }
 
-    // someone thought it was a good idea to handle floating point representation through packets ROFL
-    private static int doubleToShortBits(double d) {
-        return (int) (Double.doubleToLongBits(d) >> 48);
-    }
-
     public static Packet getNPCShop(Client c, int sid, List<ShopItem> items) {
         ItemInformationProvider ii = ItemInformationProvider.getInstance();
+        return encodeNPCShop(sid, items, ii::getUnitPrice, itemId -> ii.getSlotMax(c, itemId));
+    }
+
+    static Packet encodeNPCShop(int sid, List<ShopItem> items,
+                               java.util.function.IntToDoubleFunction unitPrice,
+                               java.util.function.IntUnaryOperator slotMax) {
         final OutPacket p = OutPacket.create(SendOpcode.OPEN_NPC_SHOP);
         p.writeInt(sid);
         p.writeShort(items.size()); // item count
@@ -2488,10 +2489,8 @@ public class PacketCreator {
                 p.writeShort(1); // stacksize o.o
                 p.writeShort(item.getBuyable());
             } else {
-                p.writeShort(0);
-                p.writeInt(0);
-                p.writeShort(doubleToShortBits(ii.getUnitPrice(item.getItemId())));
-                p.writeShort(ii.getSlotMax(c, item.getItemId()));
+                p.writeLong(Double.doubleToLongBits(unitPrice.applyAsDouble(item.getItemId())));
+                p.writeShort(slotMax.applyAsInt(item.getItemId()));
             }
         }
         return p;

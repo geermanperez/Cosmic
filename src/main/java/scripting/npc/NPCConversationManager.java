@@ -204,6 +204,10 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
 
     public void sendStyle(String text, int[] styles) {
         if (styles != null && styles.length > 0) {
+            if (Boolean.parseBoolean(System.getenv("LATINMS_LOGIN_DIAGNOSTICS"))) {
+                log.info("StyleDiag session={} npc={} preview={}", getClient().getSessionId(), npc,
+                        java.util.Arrays.toString(styles));
+            }
             getClient().sendPacket(PacketCreator.getNPCTalkStyle(npc, text, styles));
         } else {    // thanks Conrad for noticing empty styles crashing players
             sendOk("Sorry, there are no options of cosmetics available for you here at the moment.");
@@ -391,6 +395,10 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
 
     public void setHair(int hair) {
         if (hair <= 0) return;
+        if (Boolean.parseBoolean(System.getenv("LATINMS_LOGIN_DIAGNOSTICS"))) {
+            log.info("StyleDiag session={} npc={} oldHair={} newHair={}", getClient().getSessionId(),
+                    npc, getPlayer().getHair(), hair);
+        }
         getPlayer().setHair(hair);
         getPlayer().updateSingleStat(Stat.HAIR, hair);
         getPlayer().equipChanged();
