@@ -23,6 +23,7 @@ import client.Character;
 import client.Client;
 import client.SkillFactory;
 import client.inventory.InventoryType;
+import client.inventory.Item;
 import client.inventory.Pet;
 import client.inventory.manipulator.InventoryManipulator;
 import constants.id.ItemId;
@@ -44,12 +45,22 @@ public class SpawnPetProcessor {
         if (c.tryacquireClient()) {
             try {
                 Character chr = c.getPlayer();
-                Pet pet = chr.getInventory(InventoryType.CASH).getItem(slot).getPet();
+                Item petItem = chr.getInventory(InventoryType.CASH).getItem(slot);
+                if (petItem == null) {
+                    c.sendPacket(PacketCreator.enableActions());
+                    return;
+                }
+                Pet pet = petItem.getPet();
                 if (pet == null) {
                     return;
                 }
 
                 int petid = pet.getItemId();
+                if (ItemId.isYunaQuarantinedPet(petid)) {
+                    chr.dropMessage(5, "Esta mascota esta temporalmente deshabilitada por compatibilidad.");
+                    c.sendPacket(PacketCreator.enableActions());
+                    return;
+                }
                 if (petid == ItemId.DRAGON_PET || petid == ItemId.ROBO_PET) {
                     if (chr.haveItem(petid + 1)) {
                         chr.dropMessage(5, "You can't hatch your " + (petid == ItemId.DRAGON_PET ? "Dragon egg" : "Robo egg") + " if you already have a Baby " + (petid == ItemId.DRAGON_PET ? "Dragon." : "Robo."));

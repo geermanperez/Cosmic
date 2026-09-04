@@ -117,6 +117,28 @@ No successful in-game login or complete client/server compatibility is claimed.
 
 ## Before production import
 
+### Pet containment and shop diagnostics
+
+The subsequent session 7809 log identifies pets 5002292 (DOGDOG) and 5002293
+(Black Ewe). Their client XML exists, but server XML is absent. Missing XML is
+not conclusive evidence of the native crash. At the user's request, both IDs
+are temporarily quarantined: login clears their summoned state and moves their
+existing Item objects into account Cash Shop storage before SET_FIELD. Ownership,
+pet IDs and other item fields are retained. Purchase, withdrawal and summoning
+are blocked for these IDs; other pets are unaffected. The character/storage save
+is invoked synchronously, with failures handled by the existing save routine.
+This is containment, not full pet compatibility. Re-enable only after a tested
+client/server fix and then withdraw the preserved items normally.
+
+Shop construction omits entries without server XML or explicitly quarantined
+IDs, keeping the transmitted list and purchase lookup aligned. A stale slot may
+resolve another known requested ID, but an unknown ID cannot purchase the old
+slot's unrelated item. These guards do not establish the cause of Eren's DC.
+With login diagnostics enabled, ShopDiag records the shop/NPC and item IDs;
+NPC talk/shop packet metadata remains logged beyond the initial 32 packets.
+Test shop opening and buying/selling potions after deployment. If it still
+disconnects, retain ShopDiag and the adjacent decoded packet entries.
+
 1. Recover/verify enough client keystream and finish the relevant exports.
 2. Reject any image with errors; review missing IDs and changed properties.
 3. Back up the database and deployed XML tree.

@@ -194,6 +194,14 @@ public class ItemId {
         return itemId >= MESO_MAGNET && itemId <= WING_BOOTS;
     }
 
+    public static boolean isYunaQuarantinedPet(int itemId) {
+        return itemId == 5002292 || itemId == 5002293;
+    }
+
+    public static boolean isYunaQuarantinedCashItem(int itemId) {
+        return isYunaUnsupportedPetAbility(itemId) || isYunaQuarantinedPet(itemId);
+    }
+
     public static boolean isPet(int itemId) {
         return itemId / 1000 == 5000;
     }

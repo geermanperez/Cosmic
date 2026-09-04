@@ -294,6 +294,10 @@ public class ItemInformationProvider {
         return blockMouse;
     }
 
+    public boolean hasItemData(int itemId) {
+        return itemId >= 1000000 && itemId <= 9999999 && getItemData(itemId) != null;
+    }
+
     private Data getItemData(int itemId) {
         Data ret = null;
         String idStr = "0" + itemId;

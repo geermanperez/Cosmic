@@ -5,6 +5,8 @@ import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import net.packet.Packet;
+import net.opcodes.RecvOpcode;
+import net.opcodes.SendOpcode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,18 +24,35 @@ public final class LoginDiagnostics extends ChannelDuplexHandler {
     }
 
     private void record(String direction, Object message, int count) {
-        if (count > 32) {
-            return;
-        }
         if (message instanceof ByteBuf buffer) {
+            if (count > 32) {
+                return;
+            }
             log.info("LoginDiag session={} stage={} direction={} bytes={}",
                     session, stage, direction, buffer.readableBytes());
         } else if (message instanceof Packet packet) {
             byte[] bytes = packet.getBytes();
             int opcode = bytes.length < 2 ? -1 : (bytes[0] & 0xff) | ((bytes[1] & 0xff) << 8);
+            if (!shouldRecordPacket(direction, opcode, count)) {
+                return;
+            }
             log.info("LoginDiag session={} stage={} direction={} bytes={} opcode={}",
                     session, stage, direction, bytes.length, opcode);
         }
+    }
+
+    static boolean shouldRecordPacket(String direction, int opcode, int count) {
+        if (count <= 32) {
+            return true;
+        }
+        if ("receive".equals(direction)) {
+            return opcode == RecvOpcode.NPC_TALK.getValue()
+                    || opcode == RecvOpcode.NPC_TALK_MORE.getValue()
+                    || opcode == RecvOpcode.NPC_SHOP.getValue();
+        }
+        return opcode == SendOpcode.NPC_TALK.getValue()
+                || opcode == SendOpcode.OPEN_NPC_SHOP.getValue()
+                || opcode == SendOpcode.CONFIRM_SHOP_TRANSACTION.getValue();
     }
 
     @Override

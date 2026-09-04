@@ -144,16 +144,22 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
     }
 
     /**
-     * The Yuna client cannot deserialize these v83 pet ability equips from
-     * SET_FIELD. Keep the purchased items safe in the account Cash Shop
-     * inventory until the client supports their inventory representation.
+     * Temporary, reversible containment while client compatibility is investigated.
+     * Keep ownership and pet data in the account Cash Shop inventory.
      */
     private int quarantineUnsupportedPetAbilities(Character player) {
         int moved = 0;
-        for (InventoryType type : List.of(InventoryType.EQUIP, InventoryType.EQUIPPED)) {
+        for (Pet pet : player.getPets()) {
+            if (pet != null && ItemId.isYunaQuarantinedPet(pet.getItemId())) {
+                pet.setSummoned(false);
+                pet.saveToDb();
+                player.removePet(pet, false); // No spawn/despawn packets before SET_FIELD.
+            }
+        }
+        for (InventoryType type : List.of(InventoryType.EQUIP, InventoryType.EQUIPPED, InventoryType.CASH)) {
             Inventory inventory = player.getInventory(type);
             for (Item item : new ArrayList<>(inventory.list())) {
-                if (!ItemId.isYunaUnsupportedPetAbility(item.getItemId())) {
+                if (!ItemId.isYunaQuarantinedCashItem(item.getItemId())) {
                     continue;
                 }
 
@@ -177,10 +183,10 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
         for (InventoryType type : List.of(InventoryType.EQUIPPED, InventoryType.EQUIP, InventoryType.USE,
                 InventoryType.SETUP, InventoryType.ETC, InventoryType.CASH)) {
             for (Item item : player.getInventory(type).list()) {
-                boolean equipDataPresent = !(item instanceof Equip) || items.getEquipStats(item.getItemId()) != null;
-                log.info("CharacterDataDiag session={} inventory={} slot={} item={} wireType={} quantity={} cash={} equipDataPresent={}",
+                boolean itemDataPresent = items.hasItemData(item.getItemId());
+                log.info("CharacterDataDiag session={} inventory={} slot={} item={} wireType={} quantity={} cash={} itemDataPresent={}",
                         player.getClient().getSessionId(), type, item.getPosition(), item.getItemId(),
-                        item.getItemType(), item.getQuantity(), items.isCash(item.getItemId()), equipDataPresent);
+                        item.getItemType(), item.getQuantity(), items.isCash(item.getItemId()), itemDataPresent);
             }
         }
     }
@@ -340,8 +346,8 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
 
             int quarantinedPetAbilities = quarantineUnsupportedPetAbilities(player);
             if (quarantinedPetAbilities > 0) {
-                player.saveCharToDB();
-                log.warn("Moved {} incompatible pet ability item(s) from chr {} to Cash Shop inventory before SET_FIELD",
+                player.saveCharToDB(true);
+                log.warn("Moved {} quarantined pet/item(s) from chr {} to Cash Shop inventory before SET_FIELD",
                         quarantinedPetAbilities, player.getName());
             }
 
@@ -353,7 +359,7 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
             }
             c.sendPacket(PacketCreator.getCharInfo(player));
             if (quarantinedPetAbilities > 0) {
-                player.dropMessage(1, "Tus accesorios de habilidad de mascota fueron guardados en el inventario del Cash Shop para evitar que el cliente se cierre.");
+                player.dropMessage(1, "Tus mascotas o accesorios en revision fueron apartados en el Cash Shop. No fueron eliminados.");
             }
             if (!player.isHidden()) {
                 if (player.isGM() && YamlConfig.config.server.USE_AUTOHIDE_GM) {

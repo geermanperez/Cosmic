@@ -76,10 +76,21 @@ public class Shop {
     }
 
     private void addItem(ShopItem item) {
+        if (!ItemInformationProvider.getInstance().hasItemData(item.getItemId())
+                || ItemId.isYunaQuarantinedCashItem(item.getItemId())) {
+            log.warn("ShopDataGuard shop={} npc={} omittedItem={} (missing XML or quarantined)",
+                    id, npcId, item.getItemId());
+            return;
+        }
         items.add(item);
     }
 
     public void sendShop(Client c) {
+        if (Boolean.parseBoolean(System.getenv("LATINMS_LOGIN_DIAGNOSTICS"))) {
+            log.info("ShopDiag session={} character={} shop={} npc={} items={}",
+                    c.getSessionId(), c.getPlayer().getName(), id, npcId,
+                    items.stream().map(ShopItem::getItemId).toList());
+        }
         c.getPlayer().setShop(this);
         c.sendPacket(PacketCreator.getNPCShop(c, getNpcId(), items));
     }
@@ -94,15 +105,7 @@ public class Shop {
             }
         }
 
-        ShopItem item = findBySlot(slot);
-        if (item == null || item.getItemId() != itemId) {
-            for (ShopItem si : items) {
-                if (si.getItemId() == itemId) {
-                    item = si;
-                    break;
-                }
-            }
-        }
+        ShopItem item = findRequestedItem(items, slot, itemId);
         if (item == null) {
             log.warn("Item {} not found in shop {}", itemId, id);
             c.sendPacket(PacketCreator.shopTransaction((byte) 0x6));
@@ -268,11 +271,11 @@ public class Shop {
         }
     }
 
-    private ShopItem findBySlot(short slot) {
-        if (slot >= 0 && slot < items.size()) {
+    static ShopItem findRequestedItem(List<ShopItem> items, short slot, int itemId) {
+        if (slot >= 0 && slot < items.size() && items.get(slot).getItemId() == itemId) {
             return items.get(slot);
         }
-        return null;
+        return items.stream().filter(item -> item.getItemId() == itemId).findFirst().orElse(null);
     }
 
     public List<ShopItem> getItems() {
