@@ -449,7 +449,7 @@ public class PacketCreator {
             p.writeString(item.getOwner());
             p.writeShort(item.getFlag()); // flag
 
-            if (ItemConstants.isRechargeable(item.getItemId())) {
+            if (usesRechargeableWireFormat(item.getItemId())) {
                 p.writeInt(2);
                 p.writeBytes(new byte[]{(byte) 0x54, 0, 0, (byte) 0x34});
             }
@@ -2485,7 +2485,7 @@ public class PacketCreator {
             p.writeInt(item.getPrice() == 0 ? item.getPitch() : 0); //Perfect Pitch
             p.writeInt(0); //Can be used x minutes after purchase
             p.writeInt(0); //Hmm
-            if (!ItemConstants.isRechargeable(item.getItemId())) {
+            if (!usesRechargeableWireFormat(item.getItemId())) {
                 p.writeShort(1); // stacksize o.o
                 p.writeShort(item.getBuyable());
             } else {
@@ -2494,6 +2494,13 @@ public class PacketCreator {
             }
         }
         return p;
+    }
+
+    // Yuna's hooks at 0x752A53 (shop rows) and 0x4E3FDF (item data)
+    // also classify category 206 (arrows) as rechargeable. Keep this wire
+    // distinction separate from the server's stacking and charging rules.
+    private static boolean usesRechargeableWireFormat(int itemId) {
+        return itemId / 10000 == 206 || ItemConstants.isRechargeable(itemId);
     }
 
     /* 00 = /

@@ -21,6 +21,31 @@ does not establish which individual item or stored field caused the crash.
 
 ### Shop/hair investigation, 2026-09-04
 
+#### Follow-up: disconnect while opening potion vendors
+
+The local `yunams.dll` changes the stock executable's rechargeable checks.
+Its hook at RVA `0x283d0` routes category 206 (arrows), in addition to bullets,
+from EXE `0x752a53` into `0x752a5a`: shop rows consume an eight-byte double
+and a two-byte capacity. The stock executable already routes category 207
+there. The server previously wrote two shorts for arrows, leaving each arrow
+row six bytes short and desynchronizing the next item. Potion vendors that
+also list arrows can therefore disconnect before any purchase request.
+
+The hook at DLL RVA `0x28e80`, installed at EXE `0x4e3fdf`, likewise consumes
+eight extra bytes for arrow inventory records. `PacketCreator` now uses the
+same 206/207/233 wire classification for both shop rows and item records.
+Server stacking/pricing rules still use their existing classification.
+This targets the Yuna protocol; an unmodified v83 client has a different
+arrow format. Audited DLL SHA-256:
+`c5ec61cba8f0006364a28e49c57bbe200618de2781ac44378d4bd1831c2ca984`.
+
+Regression coverage decodes bow arrows, crossbow arrows, stars, bullets and
+potions in one shop packet, plus an arrow and a subsequent potion in one
+inventory update. Deployment of the rebuilt server and an in-game opening
+of a potion vendor are still required to validate the live service.
+
+#### Earlier investigation
+
 Session 7847 closes 98 ms after OPEN_NPC_SHOP (305), 1,310 bytes, NPC 1011100.
 There is no purchase request in the supplied fragment. All 48 shop IDs exist in
 the client. Its executable reads five 32-bit values per row, then either two
