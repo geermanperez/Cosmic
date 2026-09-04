@@ -1,5 +1,17 @@
 # Yuna client data audit / Cosmic XML staging
 
+## Current restriction status (2026-09-04)
+
+At the user's explicit request, accessories 1812000 through 1812004 are enabled
+again: Meso Magnet, Item Pouch, Auto HP Pouch, Auto MP Pouch and Wing Boots.
+They can be purchased/withdrawn and are no longer moved out of character
+inventory on login. Existing items in Cash Shop storage can be withdrawn
+normally after deployment; deleted items are not recreated by this change.
+Only pets 5002292 and 5002293 remain quarantined. Earlier references below to
+the five-accessory quarantine describe historical diagnostics, not current policy.
+The user reports successful login after clearing Caitlyn's inventory; this
+does not establish which individual item or stored field caused the crash.
+
 This tool does not modify the client, the database, or `Cosmic/wz`.
 It indexes PKG1 archives and exports selected IMG property trees to a new,
 separate staging directory. It preserves XML property types, vectors, UOLs,

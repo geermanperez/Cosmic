@@ -22,13 +22,15 @@ class PetQuarantineTest {
         Item dog = mock(Item.class);
         Item ewe = mock(Item.class);
         Item other = mock(Item.class);
+        Item ability = mock(Item.class);
+        when(ability.getItemId()).thenReturn(1812000);
         when(pet.getItemId()).thenReturn(5002292);
         when(player.getPets()).thenReturn(new Pet[]{pet, null, null});
         when(player.getInventory(InventoryType.EQUIP)).thenReturn(equip);
         when(player.getInventory(InventoryType.EQUIPPED)).thenReturn(equipped);
         when(player.getInventory(InventoryType.CASH)).thenReturn(cash);
         when(player.getCashShop()).thenReturn(storage);
-        when(equip.list()).thenReturn(List.of());
+        when(equip.list()).thenReturn(List.of(ability));
         when(equipped.list()).thenReturn(List.of());
         when(cash.list()).thenReturn(List.of(dog, ewe, other));
         when(dog.getItemId()).thenReturn(5002292);
@@ -49,6 +51,8 @@ class PetQuarantineTest {
         verify(storage).addToInventory(dog);
         verify(storage).addToInventory(ewe);
         verify(storage, never()).addToInventory(other);
+        verify(storage, never()).addToInventory(ability);
+        verify(equip, never()).removeSlot(anyShort());
         verify(player, never()).getClient();
     }
 }

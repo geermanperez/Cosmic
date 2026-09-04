@@ -190,16 +190,12 @@ public class ItemId {
     public static final int WING_BOOTS = 1812004;
     public static final int ITEM_IGNORE = 1812007;
 
-    public static boolean isYunaUnsupportedPetAbility(int itemId) {
-        return itemId >= MESO_MAGNET && itemId <= WING_BOOTS;
-    }
-
     public static boolean isYunaQuarantinedPet(int itemId) {
         return itemId == 5002292 || itemId == 5002293;
     }
 
     public static boolean isYunaQuarantinedCashItem(int itemId) {
-        return isYunaUnsupportedPetAbility(itemId) || isYunaQuarantinedPet(itemId);
+        return isYunaQuarantinedPet(itemId);
     }
 
     public static boolean isPet(int itemId) {

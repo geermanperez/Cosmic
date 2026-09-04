@@ -8,11 +8,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ItemIdTest {
 
     @Test
-    void quarantinesOnlyTheTwoCustomPetsAndExistingAbilities() {
+    void quarantinesOnlyTheTwoCustomPets() {
         assertTrue(ItemId.isYunaQuarantinedPet(5002292));
         assertTrue(ItemId.isYunaQuarantinedPet(5002293));
         assertTrue(ItemId.isYunaQuarantinedCashItem(5002292));
-        assertTrue(ItemId.isYunaQuarantinedCashItem(ItemId.MESO_MAGNET));
+        assertTrue(ItemId.isYunaQuarantinedCashItem(5002293));
         assertFalse(ItemId.isYunaQuarantinedPet(5002291));
         assertFalse(ItemId.isYunaQuarantinedPet(5002294));
         assertFalse(ItemId.isYunaQuarantinedCashItem(5000000));
@@ -20,14 +20,14 @@ class ItemIdTest {
     }
 
     @Test
-    void detectsYunaUnsupportedPetAbilities() {
-        assertTrue(ItemId.isYunaUnsupportedPetAbility(ItemId.MESO_MAGNET));
-        assertTrue(ItemId.isYunaUnsupportedPetAbility(ItemId.ITEM_POUCH));
-        assertTrue(ItemId.isYunaUnsupportedPetAbility(ItemId.AUTO_HP_POTION_POUCH));
-        assertTrue(ItemId.isYunaUnsupportedPetAbility(ItemId.AUTO_MP_POTION_POUCH));
-        assertTrue(ItemId.isYunaUnsupportedPetAbility(ItemId.WING_BOOTS));
-        assertFalse(ItemId.isYunaUnsupportedPetAbility(1811999));
-        assertFalse(ItemId.isYunaUnsupportedPetAbility(1812005));
+    void allowsTheFiveReenabledPetAbilities() {
+        assertFalse(ItemId.isYunaQuarantinedCashItem(ItemId.MESO_MAGNET));
+        assertFalse(ItemId.isYunaQuarantinedCashItem(ItemId.ITEM_POUCH));
+        assertFalse(ItemId.isYunaQuarantinedCashItem(ItemId.AUTO_HP_POTION_POUCH));
+        assertFalse(ItemId.isYunaQuarantinedCashItem(ItemId.AUTO_MP_POTION_POUCH));
+        assertFalse(ItemId.isYunaQuarantinedCashItem(ItemId.WING_BOOTS));
+        assertFalse(ItemId.isYunaQuarantinedCashItem(1811999));
+        assertFalse(ItemId.isYunaQuarantinedCashItem(1812005));
     }
 
     @Test
