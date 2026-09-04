@@ -173,7 +173,8 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
     }
 
     private void logCharacterDataCompatibility(Character player) {
-        if (!Boolean.parseBoolean(System.getenv("LATINMS_LOGIN_DIAGNOSTICS"))) {
+        String env = System.getenv("LATINMS_LOGIN_DIAGNOSTICS");
+        if (env != null && "false".equalsIgnoreCase(env)) {
             return;
         }
         log.info("CharacterDataDiag session={} character={} id={} job={} level={} map={} skin={} face={} hair={}",

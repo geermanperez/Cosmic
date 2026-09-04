@@ -27,7 +27,7 @@ public final class LoginDiagnostics extends ChannelDuplexHandler {
 
     private void record(String direction, Object message, int count) {
         if (message instanceof ByteBuf buffer) {
-            if (count > 32) {
+            if (count > 512) {
                 return;
             }
             log.info("LoginDiag session={} stage={} direction={} bytes={}",
@@ -48,7 +48,7 @@ public final class LoginDiagnostics extends ChannelDuplexHandler {
     }
 
     static boolean shouldRecordPacket(String direction, int opcode, int count) {
-        if (count <= 32) {
+        if (count <= 512) {
             return true;
         }
         if ("receive".equals(direction)) {

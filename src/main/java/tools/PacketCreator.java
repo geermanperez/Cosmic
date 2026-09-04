@@ -116,6 +116,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -1010,40 +1011,89 @@ public class PacketCreator {
         OutPacket p = OutPacket.create(SendOpcode.STAT_CHANGED);
         p.writeBool(enableActions);
         int updateMask = 0;
+        Map<Stat, Integer> statValues = new EnumMap<>(Stat.class);
         for (Pair<Stat, Integer> statupdate : stats) {
-            updateMask |= statupdate.getLeft().getValue();
-        }
-        List<Pair<Stat, Integer>> mystats = stats;
-        if (mystats.size() > 1) {
-            mystats.sort((o1, o2) -> {
-                int val1 = o1.getLeft().getValue();
-                int val2 = o2.getLeft().getValue();
-                return (val1 < val2 ? -1 : (val1 == val2 ? 0 : 1));
-            });
+            Stat stat = statupdate.getLeft();
+            updateMask |= stat.getValue();
+            statValues.put(stat, statupdate.getRight());
         }
         p.writeInt(updateMask);
-        for (Pair<Stat, Integer> statupdate : mystats) {
-            if (statupdate.getLeft().getValue() >= 1) {
-                if (statupdate.getLeft().getValue() == 0x1) {
-                    p.writeByte(statupdate.getRight().byteValue());
-                } else if (statupdate.getLeft().getValue() <= 0x4) {
-                    p.writeInt(statupdate.getRight());
-                } else if (statupdate.getLeft().getValue() < 0x20) {
-                    p.writeByte(statupdate.getRight().shortValue());
-                } else if (statupdate.getLeft().getValue() == 0x8000) {
-                    if (GameConstants.hasSPTable(chr.getJob())) {
-                        addRemainingSkillInfo(p, chr);
-                    } else {
-                        p.writeShort(statupdate.getRight().shortValue());
-                    }
-                } else if (statupdate.getLeft().getValue() < 0xFFFF) {
-                    p.writeShort(statupdate.getRight().shortValue());
-                } else if (statupdate.getLeft().getValue() == 0x20000) {
-                    p.writeShort(statupdate.getRight().shortValue());
-                } else {
-                    p.writeInt(statupdate.getRight());
-                }
+
+        if ((updateMask & Stat.SKIN.getValue()) != 0) {
+            p.writeByte(statValues.getOrDefault(Stat.SKIN, 0).byteValue());
+        }
+        if ((updateMask & Stat.FACE.getValue()) != 0) {
+            p.writeInt(statValues.getOrDefault(Stat.FACE, 0));
+        }
+        if ((updateMask & Stat.HAIR.getValue()) != 0) {
+            p.writeInt(statValues.getOrDefault(Stat.HAIR, 0));
+        }
+        if ((updateMask & 0x8) != 0) {
+            Pet pet = (chr != null && chr.getPets() != null && chr.getPets().length > 0) ? chr.getPets()[0] : null;
+            p.writeLong(pet != null ? pet.getUniqueId() : 0L);
+        }
+        if ((updateMask & 0x80000) != 0) {
+            Pet pet = (chr != null && chr.getPets() != null && chr.getPets().length > 1) ? chr.getPets()[1] : null;
+            p.writeLong(pet != null ? pet.getUniqueId() : 0L);
+        }
+        if ((updateMask & 0x100000) != 0) {
+            Pet pet = (chr != null && chr.getPets() != null && chr.getPets().length > 2) ? chr.getPets()[2] : null;
+            p.writeLong(pet != null ? pet.getUniqueId() : 0L);
+        }
+        if ((updateMask & Stat.LEVEL.getValue()) != 0) {
+            p.writeByte(statValues.getOrDefault(Stat.LEVEL, 0).byteValue());
+        }
+        if ((updateMask & Stat.JOB.getValue()) != 0) {
+            p.writeShort(statValues.getOrDefault(Stat.JOB, 0).shortValue());
+        }
+        if ((updateMask & Stat.STR.getValue()) != 0) {
+            p.writeShort(statValues.getOrDefault(Stat.STR, 0).shortValue());
+        }
+        if ((updateMask & Stat.DEX.getValue()) != 0) {
+            p.writeShort(statValues.getOrDefault(Stat.DEX, 0).shortValue());
+        }
+        if ((updateMask & Stat.INT.getValue()) != 0) {
+            p.writeShort(statValues.getOrDefault(Stat.INT, 0).shortValue());
+        }
+        if ((updateMask & Stat.LUK.getValue()) != 0) {
+            p.writeShort(statValues.getOrDefault(Stat.LUK, 0).shortValue());
+        }
+        if ((updateMask & Stat.HP.getValue()) != 0) {
+            p.writeShort(statValues.getOrDefault(Stat.HP, 0).shortValue());
+        }
+        if ((updateMask & Stat.MAXHP.getValue()) != 0) {
+            p.writeShort(statValues.getOrDefault(Stat.MAXHP, 0).shortValue());
+        }
+        if ((updateMask & Stat.MP.getValue()) != 0) {
+            p.writeShort(statValues.getOrDefault(Stat.MP, 0).shortValue());
+        }
+        if ((updateMask & Stat.MAXMP.getValue()) != 0) {
+            p.writeShort(statValues.getOrDefault(Stat.MAXMP, 0).shortValue());
+        }
+        if ((updateMask & Stat.AVAILABLEAP.getValue()) != 0) {
+            p.writeShort(statValues.getOrDefault(Stat.AVAILABLEAP, 0).shortValue());
+        }
+        if ((updateMask & Stat.AVAILABLESP.getValue()) != 0) {
+            if (chr != null && GameConstants.hasSPTable(chr.getJob())) {
+                addRemainingSkillInfo(p, chr);
+            } else {
+                p.writeShort(statValues.getOrDefault(Stat.AVAILABLESP, 0).shortValue());
             }
+        }
+        if ((updateMask & Stat.EXP.getValue()) != 0) {
+            p.writeInt(statValues.getOrDefault(Stat.EXP, 0));
+        }
+        if ((updateMask & Stat.FAME.getValue()) != 0) {
+            p.writeShort(statValues.getOrDefault(Stat.FAME, 0).shortValue());
+        }
+        if ((updateMask & Stat.MESO.getValue()) != 0) {
+            p.writeInt(statValues.getOrDefault(Stat.MESO, 0));
+        }
+        if ((updateMask & Stat.GACHAEXP.getValue()) != 0) {
+            p.writeInt(statValues.getOrDefault(Stat.GACHAEXP, 0));
+        }
+        if ((updateMask & 0x180008) != 0) {
+            p.writeByte(0);
         }
         return p;
     }

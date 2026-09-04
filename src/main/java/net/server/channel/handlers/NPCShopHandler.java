@@ -48,6 +48,9 @@ public final class NPCShopHandler extends AbstractPacketHandler {
             short slot = p.readShort();// slot
             int itemId = p.readInt();
             short quantity = p.readShort();
+            if (p.available() >= 4) {
+                p.readInt(); // client sends 4-byte price
+            }
             if (c.getPlayer().getShop() == null) {
                 return;
             }
