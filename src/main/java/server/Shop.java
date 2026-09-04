@@ -129,7 +129,7 @@ public class Shop {
                         InventoryManipulator.addById(c, itemId, slotMax, "", -1);
                     }
                     InventoryManipulator.removeById(c, InventoryType.ETC, ItemId.PERFECT_PITCH, amount, false, false);
-                    c.sendPacket(PacketCreator.shopTransaction((byte) 0));
+                    c.sendPacket(PacketCreator.shopTransaction((byte) 0x8));
                 } else {
                     c.sendPacket(PacketCreator.shopTransaction((byte) 3));
                 }
@@ -157,7 +157,7 @@ public class Shop {
                     if (cost > 0) {
                         c.getPlayer().gainMeso((int) -cost, false);
                     }
-                    c.sendPacket(PacketCreator.shopTransaction((byte) 0));
+                    c.sendPacket(PacketCreator.shopTransaction((byte) 0x8));
                 } else {
                     c.sendPacket(PacketCreator.shopTransaction((byte) 3));
                 }
@@ -182,7 +182,7 @@ public class Shop {
                             InventoryManipulator.addById(c, itemId, slotMax, "", -1);
                         }
                         c.getPlayer().gainMeso((int) diff, false);
-                        c.sendPacket(PacketCreator.shopTransaction((byte) 0));
+                        c.sendPacket(PacketCreator.shopTransaction((byte) 0x8));
                     } else {
                         c.sendPacket(PacketCreator.shopTransaction((byte) 3));
                     }

@@ -358,9 +358,6 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
                 log.warn("CharacterDataDiag failed for character {}", player.getId(), ex);
             }
             c.sendPacket(PacketCreator.getCharInfo(player));
-            if (quarantinedPetAbilities > 0) {
-                player.dropMessage(1, "Tus mascotas o accesorios en revision fueron apartados en el Cash Shop. No fueron eliminados.");
-            }
             if (!player.isHidden()) {
                 if (player.isGM() && YamlConfig.config.server.USE_AUTOHIDE_GM) {
                     player.toggleHide(true);
@@ -530,6 +527,9 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
 
             player.commitExcludedItems();
             showDueyNotification(c, player);
+            if (quarantinedPetAbilities > 0) {
+                player.dropMessage(5, "Tus mascotas o accesorios en revision fueron apartados en el Cash Shop. No fueron eliminados.");
+            }
 
             player.resetPlayerRates();
             if (YamlConfig.config.server.USE_ADD_RATES_BY_LEVEL) {

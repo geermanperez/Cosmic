@@ -11,6 +11,20 @@ var wigs2 = [32740, 32750, 32760, 39000, 39040, 39050, 39060, 39070, 39080, 3909
 var cosplayFace1 = [26046, 26047, 26048, 26049, 26050, 26051, 26052, 26053, 26054, 26055, 26056, 26057, 26058, 26059, 26060, 26061, 26062, 26063, 26064, 26065, 26066, 26067, 26073, 26074, 26075, 26076, 26077, 26078, 26079, 26080, 26081, 26082, 26083, 26084, 26085, 26086, 26089, 26090, 26091, 26094, 26095, 26096, 26097, 26099, 27006, 27007, 27008, 27009, 27010, 27011, 27013, 27014, 27015, 27016, 27017, 27018, 27019, 27020, 27021, 27022, 27023, 27024, 27025, 27035, 27036, 27037, 27038, 27039, 27040, 27041, 27048, 27051, 27052, 27053];
 var cosplayFace2 = [27055, 27067, 27077, 27080, 27087, 27088, 27092, 27098, 27099, 28000, 28001, 28002, 28008, 28009, 28010, 28011, 28012, 28013, 28014, 28015, 28016, 28017, 28019, 28020, 28021, 28022, 28023, 28024, 28025, 28026, 28027, 28028, 28029, 28030, 28042, 28043, 28044, 28045, 28046, 28056, 28058, 28060, 28071, 28072, 28073, 28074, 28075, 28076, 28077, 28079, 28080, 28084, 28086, 28087, 28088, 28090, 28091, 28092, 28093, 28096, 28097, 28098, 29026, 29027, 29028, 29029, 29030, 29031, 29032, 29033, 29034, 29035, 29036, 29037];
 
+// Keep the preview and selection arrays identical after resolving cosmetics.
+// The original salon scripts exclude unavailable and already equipped styles.
+function filterPreviewStyles(styles) {
+    var available = [];
+    for (var i = 0; i < styles.length; i++) {
+        // Skin IDs are not items in String.wz; keep their explicit allowlist.
+        var style = selected == 0 ? styles[i] : cm.getCosmeticItem(styles[i]);
+        if (style != -1 && !cm.isCosmeticEquipped(style) && available.indexOf(style) == -1) {
+            available.push(style);
+        }
+    }
+    return available;
+}
+
 function start() {
     status = 0;
     var msg = "\t\t#e#b[ Cosplay & Special Catalog - NimaKIN ]#k#n\r\n";
@@ -63,7 +77,8 @@ function action(mode, type, selection) {
             currentList = cosplayFace2;
         }
 
-        if (!currentList || currentList.length === 0) {
+        currentList = filterPreviewStyles(currentList);
+        if (currentList.length === 0) {
             cm.sendOk("No hay opciones disponibles en esta categoria.");
             cm.dispose();
             return;
