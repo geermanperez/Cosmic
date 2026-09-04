@@ -203,7 +203,7 @@ public class ItemId {
     }
 
     public static boolean isPet(int itemId) {
-        return itemId / 1000 == 5000;
+        return itemId / 10000 == 500;
     }
 
     // Expirable pet

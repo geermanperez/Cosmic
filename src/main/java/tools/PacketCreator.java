@@ -2678,7 +2678,6 @@ public class PacketCreator {
         addRingLook(p, chr, true);
         addRingLook(p, chr, false);
         addMarriageRingLook(target, p, chr);
-        p.writeInt(0);
         return p;
     }
 
@@ -4498,7 +4497,7 @@ public class PacketCreator {
         p.writeLong(pet.getUniqueId());
         p.writePos(pet.getPos());
         p.writeByte(pet.getStance());
-        p.writeInt(pet.getFh());
+        p.writeShort(pet.getFh());
     }
 
     public static Packet showPet(Character chr, Pet pet, boolean remove, boolean hunger) {
@@ -4507,18 +4506,16 @@ public class PacketCreator {
         p.writeByte(chr.getPetIndex(pet));
         if (remove) {
             p.writeByte(0);
-            p.writeBool(hunger);
         } else {
             addPetInfo(p, pet, true);
         }
         return p;
     }
 
-    public static Packet movePet(int cid, int pid, byte slot, List<LifeMovementFragment> moves) {
+    public static Packet movePet(int cid, byte slot, List<LifeMovementFragment> moves) {
         final OutPacket p = OutPacket.create(SendOpcode.MOVE_PET);
         p.writeInt(cid);
         p.writeByte(slot);
-        p.writeInt(pid);
         serializeMovementList(p, moves);
         return p;
     }
