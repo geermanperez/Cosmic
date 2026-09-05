@@ -68,7 +68,9 @@ public class PetDataFactory {
         synchronized (petHunger) {
             ret = petHunger.get(petId);
             if (ret == null) {
-                ret = DataTool.getInt(dataRoot.getData("Pet/" + petId + ".img").getChildByPath("info/hungry"), 1);
+                Data petData = dataRoot.getData("Pet/" + petId + ".img");
+                ret = petData == null ? 1 : DataTool.getInt("info/hungry", petData, 1);
+                petHunger.put(petId, ret);
             }
             return ret;
         }

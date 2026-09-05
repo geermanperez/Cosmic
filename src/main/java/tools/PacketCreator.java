@@ -4504,6 +4504,11 @@ public class PacketCreator {
         p.writePos(pet.getPos());
         p.writeByte(pet.getStance());
         p.writeShort(pet.getFh());
+        // Everleaf's CPet::Init consumes two one-byte encrypted flags after the
+        // foothold. Omitting them shifts the next pet/mount field or overruns
+        // the standalone SPAWN_PET payload.
+        p.writeByte(0); // name-tag override
+        p.writeByte(0); // chat-balloon override
     }
 
     public static Packet showPet(Character chr, Pet pet, boolean remove, boolean hunger) {

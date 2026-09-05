@@ -1,23 +1,24 @@
 # Yuna client data audit / Cosmic XML staging
 
-## Current restriction status (2026-09-04)
+## Current pet compatibility status (2026-09-05)
 
-At the user's explicit request, accessories 1812000 through 1812004 are enabled
-again: Meso Magnet, Item Pouch, Auto HP Pouch, Auto MP Pouch and Wing Boots.
-They can be purchased/withdrawn and are no longer moved out of character
-inventory on login. Existing items in Cash Shop storage can be withdrawn
-normally after deployment; deleted items are not recreated by this change.
-All non-baseline pets are now quarantined: an explicit allowlist retains the
-54 Pet XML IDs originally shipped in this Cosmic tree. The audited client has
-1,011 pets, of which 957 are outside that baseline and are disabled. The policy
-also denies future unknown 500xxxx IDs, rather than silently enabling new files.
-Purchase/gift eligibility checks reject packages containing a disabled pet,
-including nested packages, before item creation or charging. Existing disabled
-pets keep their data in Cash Shop storage and cannot be withdrawn or summoned.
-Earlier references below to
-the five-accessory quarantine describe historical diagnostics, not current policy.
-The user reports successful login after clearing Caitlyn's inventory; this
-does not establish which individual item or stored field caused the crash.
+Reverse engineering of `EverleafMS.exe` established the exact pet creation
+layout. `CPet::Init` consumes a 16-bit foothold followed by two one-byte flags;
+the server previously omitted both flags. This desynchronized every standalone
+`SPAWN_PET` packet and every remote-player record containing a summoned pet.
+The encoder now writes the complete layout. The executable also confirms that
+pet movement has no extra pet ID and pet removal has no hunger trailer.
+
+The temporary pet allowlist/quarantine has been removed. All 500xxxx pets and
+pet ability accessories can be purchased, withdrawn and summoned. Items moved
+to account Cash Shop storage by the earlier containment remain recoverable there.
+The 140 complete, missing Pet XML trees from the verified audit were imported
+without overwriting the 54 existing trees, giving the server metadata for all
+194 pets that the recovered keystream could decode safely. Pets without a
+decoded server tree use safe hunger and command defaults instead of throwing a
+null-pointer exception. The 1,035 unique missing children from the fully decoded client
+`String.wz/Pet.img` were also merged without replacing the 54 existing strings.
+Incomplete/error exports remain excluded.
 
 ### Shop/hair investigation, 2026-09-04
 
@@ -180,21 +181,18 @@ No successful in-game login or complete client/server compatibility is claimed.
 
 ## Before production import
 
-### Pet containment and shop diagnostics
+### Historical pet containment and shop diagnostics
 
 The subsequent session 7809 log identifies pets 5002292 (DOGDOG) and 5002293
 (Black Ewe). Their client XML exists, but server XML is absent. Missing XML is
-not conclusive evidence of the native crash. At the user's request, both IDs
-are temporarily quarantined: login clears their summoned state and moves their
-existing Item objects into account Cash Shop storage before SET_FIELD. Ownership,
-pet IDs and other item fields are retained. Purchase, withdrawal and summoning
-are blocked for these IDs; other pets are unaffected. The character/storage save
-is invoked synchronously, with failures handled by the existing save routine.
-This is containment, not full pet compatibility. Re-enable only after a tested
-client/server fix and then withdraw the preserved items normally.
+not conclusive evidence of the native crash. Both IDs were temporarily
+quarantined while the packet contract was unknown. That containment was removed
+after the client decoder proved the missing two-byte trailer was the protocol
+defect. This paragraph is retained only as incident history; neither ID is
+blocked now.
 
-Shop construction omits entries without server XML or explicitly quarantined
-IDs, keeping the transmitted list and purchase lookup aligned. A stale slot may
+Shop construction omits entries without server XML, keeping the transmitted
+list and purchase lookup aligned. A stale slot may
 resolve another known requested ID, but an unknown ID cannot purchase the old
 slot's unrelated item. These guards do not establish the cause of Eren's DC.
 With login diagnostics enabled, ShopDiag records the shop/NPC and item IDs;
@@ -207,5 +205,5 @@ disconnects, retain ShopDiag and the adjacent decoded packet entries.
 3. Back up the database and deployed XML tree.
 4. Import only reviewed paths into a test server using the matching client.
 5. Test character login, map transitions, cash shop, equip/unequip and reconnect.
-6. Deploy the reviewed changes with a rollback manifest. Do not remove the
-   temporary server quarantine until the original items work in the client.
+6. Deploy the reviewed changes with a rollback manifest and verify the original
+   affected characters with one, two and three summoned pets.

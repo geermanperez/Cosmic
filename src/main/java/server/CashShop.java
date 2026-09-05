@@ -325,7 +325,7 @@ public class CashShop {
         }
 
         private static boolean isAllowed(int itemId, java.util.Set<Integer> visiting) {
-            if (ItemId.isYunaQuarantinedCashItem(itemId) || !visiting.add(itemId)) {
+            if (!visiting.add(itemId)) {
                 return false;
             }
             try {

@@ -39,7 +39,6 @@ import client.inventory.Pet;
 import client.keybind.KeyBinding;
 import config.YamlConfig;
 import constants.game.GameConstants;
-import constants.id.ItemId;
 import net.AbstractPacketHandler;
 import net.packet.InPacket;
 import net.server.PlayerBuffValueHolder;
@@ -141,35 +140,6 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
         } catch (SQLException e) {
             log.warn("Failed to expire donor role for account {}", player.getAccountID(), e);
         }
-    }
-
-    /**
-     * Temporary, reversible containment while client compatibility is investigated.
-     * Keep ownership and pet data in the account Cash Shop inventory.
-     */
-    private int quarantineUnsupportedPetAbilities(Character player) {
-        int moved = 0;
-        for (Pet pet : player.getPets()) {
-            if (pet != null && ItemId.isYunaQuarantinedPet(pet.getItemId())) {
-                pet.setSummoned(false);
-                pet.saveToDb();
-                player.removePet(pet, false); // No spawn/despawn packets before SET_FIELD.
-            }
-        }
-        for (InventoryType type : List.of(InventoryType.EQUIP, InventoryType.EQUIPPED, InventoryType.CASH)) {
-            Inventory inventory = player.getInventory(type);
-            for (Item item : new ArrayList<>(inventory.list())) {
-                if (!ItemId.isYunaQuarantinedCashItem(item.getItemId())) {
-                    continue;
-                }
-
-                inventory.removeSlot(item.getPosition());
-                item.setPosition((short) 0);
-                player.getCashShop().addToInventory(item);
-                moved++;
-            }
-        }
-        return moved;
     }
 
     private void logCharacterDataCompatibility(Character player) {
@@ -343,13 +313,6 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
             Map<Disease, Pair<Long, MobSkill>> diseases = server.getPlayerBuffStorage().getDiseasesFromStorage(cid);
             if (diseases != null) {
                 player.silentApplyDiseases(diseases);
-            }
-
-            int quarantinedPetAbilities = quarantineUnsupportedPetAbilities(player);
-            if (quarantinedPetAbilities > 0) {
-                player.saveCharToDB(true);
-                log.warn("Moved {} quarantined pet/item(s) from chr {} to Cash Shop inventory before SET_FIELD",
-                        quarantinedPetAbilities, player.getName());
             }
 
             try {
@@ -530,9 +493,6 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
 
             player.commitExcludedItems();
             showDueyNotification(c, player);
-            if (quarantinedPetAbilities > 0) {
-                player.dropMessage(5, "Tus mascotas o accesorios en revision fueron apartados en el Cash Shop. No fueron eliminados.");
-            }
 
             player.resetPlayerRates();
             if (YamlConfig.config.server.USE_ADD_RATES_BY_LEVEL) {

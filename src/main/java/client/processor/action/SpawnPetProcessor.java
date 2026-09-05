@@ -56,11 +56,6 @@ public class SpawnPetProcessor {
                 }
 
                 int petid = pet.getItemId();
-                if (ItemId.isYunaQuarantinedPet(petid)) {
-                    chr.dropMessage(5, "Esta mascota esta temporalmente deshabilitada por compatibilidad.");
-                    c.sendPacket(PacketCreator.enableActions());
-                    return;
-                }
                 if (petid == ItemId.DRAGON_PET || petid == ItemId.ROBO_PET) {
                     if (chr.haveItem(petid + 1)) {
                         chr.dropMessage(5, "You can't hatch your " + (petid == ItemId.DRAGON_PET ? "Dragon egg" : "Robo egg") + " if you already have a Baby " + (petid == ItemId.DRAGON_PET ? "Dragon." : "Robo."));

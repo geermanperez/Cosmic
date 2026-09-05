@@ -13,7 +13,7 @@ class CashPetPolicyTest {
         return constructor.newInstance(sn, id, 1, 90L, (short) 1, true);
     }
 
-    @Test void blocksNewPetsAndPackagesBeforeItemCreation() throws Exception {
+    @Test void allowsAllPetsAndRejectsBrokenOrRecursivePackages() throws Exception {
         var itemField = CashShop.CashItemFactory.class.getDeclaredField("items");
         var packageField = CashShop.CashItemFactory.class.getDeclaredField("packages");
         itemField.setAccessible(true);
@@ -27,10 +27,10 @@ class CashPetPolicyTest {
             packageField.set(null, Map.of(9100000, List.of(1), 9100001, List.of(1, 2),
                     9100002, List.of(3), 9100003, List.of(999)));
             assertTrue(classic.isOnSale());
-            assertFalse(modern.isOnSale());
+            assertTrue(modern.isOnSale());
             assertTrue(CashShop.CashItemFactory.isAllowed(9100000));
-            assertFalse(CashShop.CashItemFactory.isAllowed(9100001));
-            assertFalse(CashShop.CashItemFactory.isAllowed(9100002));
+            assertTrue(CashShop.CashItemFactory.isAllowed(9100001));
+            assertTrue(CashShop.CashItemFactory.isAllowed(9100002));
             assertFalse(CashShop.CashItemFactory.isAllowed(9100003));
             assertTrue(CashShop.CashItemFactory.isAllowed(1812000));
             packageField.set(null, Map.of(9100001, List.of(3)));

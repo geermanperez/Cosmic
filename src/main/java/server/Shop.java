@@ -76,9 +76,8 @@ public class Shop {
     }
 
     private void addItem(ShopItem item) {
-        if (!ItemInformationProvider.getInstance().hasItemData(item.getItemId())
-                || ItemId.isYunaQuarantinedCashItem(item.getItemId())) {
-            log.warn("ShopDataGuard shop={} npc={} omittedItem={} (missing XML or quarantined)",
+        if (!ItemInformationProvider.getInstance().hasItemData(item.getItemId())) {
+            log.warn("ShopDataGuard shop={} npc={} omittedItem={} (missing XML)",
                     id, npcId, item.getItemId());
             return;
         }

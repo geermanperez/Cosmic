@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='utf-8'?>
+<imgdir name="5000240.img">
+  <imgdir name="angry">
+    <canvas name="0" width="40" height="36" />
+    <canvas name="1" width="44" height="43" />
+    <canvas name="2" width="45" height="46" />
+    <canvas name="3" width="70" height="53" />
+    <canvas name="4" width="73" height="53" />
+    <canvas name="5" width="77" height="52" />
+    <canvas name="6" width="78" height="44" />
+    <canvas name="7" width="54" height="36" />
+    <canvas name="8" width="49" height="35" />
+    <canvas name="9" width="36" height="36" />
+  </imgdir>
+  <imgdir name="chat">
+    <canvas name="0" width="39" height="38" />
+    <canvas name="1" width="42" height="41" />
+    <canvas name="2" width="43" height="38" />
+    <canvas name="3" width="42" height="41" />
+  </imgdir>
+  <imgdir name="cry">
+    <canvas name="0" width="54" height="34" />
+    <canvas name="1" width="65" height="35" />
+    <canvas name="2" width="54" height="34" />
+    <canvas name="3" width="65" height="35" />
+  </imgdir>
+  <imgdir name="eat">
+    <canvas name="0" width="35" height="35" />
+    <canvas name="1" width="37" height="34" />
+    <canvas name="2" width="56" height="35" />
+    <canvas name="3" width="51" height="36" />
+    <canvas name="4" width="38" height="32" />
+    <canvas name="5" width="38" height="32" />
+    <canvas name="6" width="41" height="34" />
+    <canvas name="7" width="37" height="34" />
+    <canvas name="8" width="34" height="34" />
+    <canvas name="9" width="37" height="34" />
+    <canvas name="10" width="41" height="35" />
+    <canvas name="11" width="37" height="35" />
+    <canvas name="12" width="40" height="35" />
+    <canvas name="13" width="45" height="35" />
+    <canvas name="14" width="51" height="35" />
+    <canvas name="15" width="38" height="35" />
+  </imgdir>
+  <imgdir name="fly">
+    <canvas name="0" width="34" height="36" />
+    <canvas name="1" width="37" height="36" />
+    <canvas name="2" width="42" height="36" />
+    <canvas name="3" width="37" height="36" />
+  </imgdir>
+  <imgdir name="guitar">
+    <canvas name="1" width="51" height="49" />
+    <canvas name="2" width="53" height="48" />
+    <canvas name="3" width="55" height="46" />
+    <canvas name="4" width="68" height="43" />
+    <canvas name="5" width="66" height="46" />
+    <canvas name="6" width="46" height="40" />
+    <canvas name="7" width="68" height="42" />
+    <canvas name="8" width="66" height="46" />
+    <canvas name="9" width="46" height="40" />
+    <canvas name="10" width="68" height="42" />
+    <canvas name="12" width="48" height="40" />
+    <canvas name="13" width="68" height="42" />
+    <canvas name="14" width="66" height="46" />
+    <canvas name="15" width="65" height="44" />
+    <canvas name="16" width="52" height="49" />
+    <canvas name="17" width="51" height="48" />
+    <canvas name="18" width="54" height="44" />
+  </imgdir>
+  <imgdir name="hang">
+    <canvas name="0" width="28" height="35" />
+  </imgdir>
+  <imgdir name="hungry">
+    <canvas name="0" width="68" height="48" />
+    <canvas name="1" width="68" height="48" />
+    <canvas name="2" width="68" height="48" />
+    <canvas name="3" width="69" height="49" />
+    <canvas name="4" width="53" height="48" />
+    <canvas name="5" width="53" height="48" />
+    <canvas name="6" width="53" height="48" />
+    <canvas name="7" width="53" height="48" />
+    <canvas name="8" width="53" height="48" />
+  </imgdir>
+  <imgdir name="info">
+    <canvas name="icon" width="32" height="30" />
+    <canvas name="iconRaw" width="32" height="29" />
+    <canvas name="iconD" width="33" height="29" />
+    <canvas name="iconRawD" width="33" height="28" />
+  </imgdir>
+  <imgdir name="jump">
+    <canvas name="0" width="50" height="36" />
+  </imgdir>
+  <imgdir name="love">
+    <canvas name="1" width="37" height="34" />
+    <canvas name="2" width="40" height="36" />
+    <canvas name="3" width="60" height="34" />
+    <canvas name="4" width="77" height="39" />
+    <canvas name="5" width="80" height="41" />
+    <canvas name="6" width="75" height="35" />
+    <canvas name="7" width="78" height="35" />
+  </imgdir>
+  <imgdir name="melong">
+    <canvas name="0" width="34" height="35" />
+    <canvas name="1" width="37" height="36" />
+    <canvas name="2" width="42" height="35" />
+    <canvas name="3" width="37" height="35" />
+    <canvas name="4" width="35" height="35" />
+    <canvas name="5" width="38" height="35" />
+    <canvas name="6" width="42" height="35" />
+    <canvas name="7" width="38" height="35" />
+    <canvas name="10" width="43" height="35" />
+    <canvas name="11" width="37" height="35" />
+  </imgdir>
+  <imgdir name="move">
+    <canvas name="0" width="34" height="34" />
+    <canvas name="1" width="36" height="36" />
+    <canvas name="3" width="41" height="35" />
+    <canvas name="4" width="37" height="35" />
+  </imgdir>
+  <imgdir name="play">
+    <canvas name="3" width="49" height="52" />
+    <canvas name="4" width="50" height="53" />
+    <canvas name="5" width="54" height="47" />
+    <canvas name="6" width="41" height="54" />
+    <canvas name="7" width="37" height="46" />
+    <canvas name="8" width="34" height="45" />
+    <canvas name="9" width="37" height="40" />
+    <canvas name="10" width="41" height="54" />
+    <canvas name="13" width="37" height="40" />
+    <canvas name="14" width="41" height="54" />
+    <canvas name="16" width="49" height="52" />
+    <canvas name="17" width="50" height="53" />
+    <canvas name="18" width="54" height="44" />
+    <canvas name="19" width="37" height="35" />
+  </imgdir>
+  <imgdir name="rest0">
+    <canvas name="0" width="40" height="33" />
+    <canvas name="2" width="40" height="33" />
+  </imgdir>
+  <imgdir name="sleep">
+    <canvas name="0" width="51" height="33" />
+    <canvas name="1" width="57" height="33" />
+    <canvas name="2" width="57" height="33" />
+    <canvas name="3" width="57" height="33" />
+    <canvas name="4" width="54" height="33" />
+    <canvas name="5" width="49" height="33" />
+    <canvas name="7" width="49" height="33" />
+  </imgdir>
+  <imgdir name="stand0">
+    <canvas name="0" width="34" height="35" />
+    <canvas name="1" width="37" height="34" />
+    <canvas name="2" width="41" height="35" />
+    <canvas name="3" width="36" height="36" />
+  </imgdir>
+  <imgdir name="stand1">
+    <canvas name="0" width="34" height="35" />
+    <canvas name="1" width="36" height="36" />
+    <canvas name="2" width="41" height="35" />
+    <canvas name="3" width="37" height="34" />
+    <canvas name="4" width="34" height="35" />
+    <canvas name="5" width="36" height="36" />
+    <canvas name="6" width="41" height="35" />
+  </imgdir>
+  <imgdir name="stunned">
+    <canvas name="0" width="42" height="42" />
+    <canvas name="1" width="43" height="43" />
+    <canvas name="2" width="46" height="46" />
+    <canvas name="3" width="42" height="42" />
+    <canvas name="4" width="43" height="43" />
+    <canvas name="5" width="45" height="45" />
+  </imgdir>
+  <imgdir name="upset">
+    <canvas name="0" width="54" height="53" />
+    <canvas name="1" width="54" height="53" />
+    <canvas name="2" width="58" height="53" />
+    <canvas name="3" width="56" height="51" />
+    <canvas name="4" width="54" height="53" />
+    <canvas name="5" width="54" height="53" />
+    <canvas name="6" width="58" height="53" />
+    <canvas name="7" width="56" height="51" />
+  </imgdir>
+</imgdir>

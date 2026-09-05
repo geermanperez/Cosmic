@@ -91,11 +91,7 @@ public final class CashOperationHandler extends AbstractPacketHandler {
                     }
 
                     if (action == 0x03) { // Item
-                        if (ItemId.isYunaQuarantinedCashItem(cItem.getItemId())) {
-                            chr.dropMessage(1, "Esta mascota o accesorio esta temporalmente deshabilitado por compatibilidad con el cliente.");
-                            c.enableCSActions();
-                            return;
-                        } else if (ItemConstants.isCashStore(cItem.getItemId()) && chr.getLevel() < 16) {
+                        if (ItemConstants.isCashStore(cItem.getItemId()) && chr.getLevel() < 16) {
                             c.enableCSActions();
                             return;
                         } else if (ItemConstants.isRateCoupon(cItem.getItemId()) && !YamlConfig.config.server.USE_SUPPLY_RATE_COUPONS) {
@@ -290,11 +286,6 @@ public final class CashOperationHandler extends AbstractPacketHandler {
                 } else if (action == 0x0D) { // Take from Cash Inventory
                     Item item = cs.findByCashId(p.readInt());
                     if (item == null) {
-                        c.enableCSActions();
-                        return;
-                    }
-                    if (ItemId.isYunaQuarantinedCashItem(item.getItemId())) {
-                        chr.dropMessage(1, "Esta mascota o accesorio debe permanecer en el Cash Shop durante la revision de compatibilidad.");
                         c.enableCSActions();
                         return;
                     }
