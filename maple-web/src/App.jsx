@@ -45,7 +45,7 @@ import "./Landing.css";
 import { API_URL, getToken, saveToken, request } from "./apiClient";
 
 const downloadUrl =
-  "https://drive.google.com/file/d/1EySrR_KqCpsK6N6AVJPDC2JhuGB8t4EK/view?usp=sharing";
+  "https://drive.google.com/file/d/135SdtvRBD22_9GtFQcWzaIZxrkd6LXLo/view?usp=sharing";
 const updateDownloadUrl =
   "https://drive.google.com/file/d/1MO9nkQUnwGjgMrNGaBcGgw2i1BtbM2fs/view?usp=sharing";
 const updateNoticeStorageKey = "everleafms-visual-patch-notice-2026-06-05";
