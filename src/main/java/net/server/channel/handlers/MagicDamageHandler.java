@@ -32,10 +32,15 @@ import constants.skills.Bishop;
 import constants.skills.Evan;
 import constants.skills.FPArchMage;
 import constants.skills.ILArchMage;
+import constants.skills.SuperGM;
 import net.packet.InPacket;
 import net.packet.Packet;
 import server.StatEffect;
+import server.life.Monster;
 import tools.PacketCreator;
+
+import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -65,12 +70,14 @@ public final class MagicDamageHandler extends AbstractDealDamageHandler {
             c.sendPacket(PacketCreator.getEnergy("energy", chr.getDojoEnergy()));
         }
 
+        StatEffect effect = attack.getAttackEffect(chr, null);
+        expandSuperDragonRoarTargets(attack, chr, effect);
+
         int charge = (attack.skill == Evan.FIRE_BREATH || attack.skill == Evan.ICE_BREATH || attack.skill == FPArchMage.BIG_BANG || attack.skill == ILArchMage.BIG_BANG || attack.skill == Bishop.BIG_BANG) ? attack.charge : -1;
         Packet packet = PacketCreator.magicAttack(chr, attack.skill, attack.skilllevel, attack.stance,
                 attack.numAttackedAndDamage, attack.targets, charge, attack.speed, attack.direction, attack.display);
 
         chr.getMap().broadcastMessage(chr, packet, false, true);
-        StatEffect effect = attack.getAttackEffect(chr, null);
         Skill skill = SkillFactory.getSkill(attack.skill);
         StatEffect effect_ = skill.getEffect(chr.getSkillLevel(skill));
         if (effect_.getCooldown() > 0) {
@@ -89,5 +96,35 @@ public final class MagicDamageHandler extends AbstractDealDamageHandler {
                 eaterSkill.getEffect(eaterLevel).applyPassive(chr, chr.getMap().getMapObject(oid), 0);
             }
         }
+    }
+
+    private void expandSuperDragonRoarTargets(AttackInfo attack, Character chr, StatEffect effect) {
+        if (attack.skill != SuperGM.SUPER_DRAGON_ROAR || effect == null || attack.targets.isEmpty()) {
+            return;
+        }
+
+        int maxTargets = Math.min(effect.getMobCount(), 15);
+        if (attack.targets.size() >= maxTargets) {
+            return;
+        }
+
+        AttackTarget template = attack.targets.values().iterator().next();
+        Rectangle bounds = effect.getBoundingBox(chr.getPosition(), chr.isFacingLeft());
+        for (Monster monster : chr.getMap().getAllMonsters()) {
+            if (attack.targets.size() >= maxTargets) {
+                break;
+            }
+            if (!monster.isAlive() || monster.getStats().isFriendly()
+                    || !bounds.contains(monster.getPosition())
+                    || attack.targets.containsKey(monster.getObjectId())) {
+                continue;
+            }
+
+            attack.targets.put(monster.getObjectId(),
+                    new AttackTarget(template.delay(), new ArrayList<>(template.damageLines())));
+        }
+
+        attack.numAttacked = attack.targets.size();
+        attack.numAttackedAndDamage = (attack.numAttacked << 4) | attack.numDamage;
     }
 }

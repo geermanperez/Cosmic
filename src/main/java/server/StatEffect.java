@@ -1217,6 +1217,10 @@ public class StatEffect {
         return bounds;
     }
 
+    public Rectangle getBoundingBox(Point position, boolean facingLeft) {
+        return calculateBoundingBox(position, facingLeft);
+    }
+
     public int getBuffLocalDuration() {
         return !YamlConfig.config.server.USE_BUFF_EVERLASTING ? duration : Integer.MAX_VALUE;
     }
