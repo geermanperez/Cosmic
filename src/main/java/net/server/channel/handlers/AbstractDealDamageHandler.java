@@ -103,6 +103,7 @@ import tools.Randomizer;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -924,12 +925,12 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
             p.skip(4);
             ret.position.setLocation(p.readShort(), p.readShort());
         }
-        expandSuperDragonRoarTargets(ret, chr);
+        completeAreaAttackTargets(ret, chr);
         return ret;
     }
 
-    private void expandSuperDragonRoarTargets(AttackInfo attack, Character chr) {
-        if (attack.skill != SuperGM.SUPER_DRAGON_ROAR || attack.targets.isEmpty()) {
+    static void completeAreaAttackTargets(AttackInfo attack, Character chr) {
+        if (attack.skill <= 0 || attack.targets.isEmpty()) {
             return;
         }
 
@@ -939,13 +940,15 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
         }
 
         int maxTargets = Math.min(effect.getMobCount(), 15);
-        if (attack.targets.size() >= maxTargets) {
+        if (maxTargets <= 1 || attack.targets.size() >= maxTargets) {
             return;
         }
 
         AttackTarget template = attack.targets.values().iterator().next();
-        Rectangle bounds = effect.getBoundingBox(chr.getPosition(), chr.isFacingLeft());
-        for (Monster monster : chr.getMap().getAllMonsters()) {
+        Rectangle bounds = effect.getAttackBoundingBox(chr.getPosition(), chr.isFacingLeft());
+        List<Monster> candidates = new ArrayList<>(chr.getMap().getAllMonsters());
+        candidates.sort(Comparator.comparingDouble(monster -> chr.getPosition().distanceSq(monster.getPosition())));
+        for (Monster monster : candidates) {
             if (attack.targets.size() >= maxTargets) {
                 break;
             }

@@ -534,7 +534,7 @@
           <string name="hs" value="h20"/>
           <int name="mpCon" value="25"/>
           <int name="damage" value="170"/>
-          <int name="mobCount" value="3"/>
+          <int name="mobCount" value="4"/>
           <int name="bulletConsume" value="1"/>
           <vector name="lt" x="-250" y="-80"/>
           <vector name="rb" x="-10" y="40"/>

@@ -142,7 +142,7 @@ public class StatEffect {
     private boolean skill;
     private List<Pair<BuffStat, Integer>> statups;
     private Map<MonsterStatus, Integer> monsterStatus;
-    private int x, y, mobCount, moneyCon, cooldown, morphId = 0, ghost, fatigue, berserk, booster;
+    private int x, y, mobCount, attackRange, moneyCon, cooldown, morphId = 0, ghost, fatigue, berserk, booster;
     private double prop;
     private int itemCon, itemConNo;
     private int damage, attackCount, fixdamage;
@@ -270,6 +270,7 @@ public class StatEffect {
         ret.nuffSkill = DataTool.getInt("nuffSkill", source, 0);
 
         ret.mobCount = DataTool.getInt("mobCount", source, 1);
+        ret.attackRange = DataTool.getInt("range", source, 0);
         ret.cooldown = DataTool.getInt("cooltime", source, 0);
         ret.morphId = DataTool.getInt("morph", source, 0);
         ret.ghost = DataTool.getInt("ghost", source, 0);
@@ -1217,8 +1218,15 @@ public class StatEffect {
         return bounds;
     }
 
-    public Rectangle getBoundingBox(Point position, boolean facingLeft) {
-        return calculateBoundingBox(position, facingLeft);
+    public Rectangle getAttackBoundingBox(Point position, boolean facingLeft) {
+        if (lt != null && rb != null) {
+            return calculateBoundingBox(position, facingLeft);
+        }
+
+        int horizontalRange = attackRange > 0 ? attackRange : 300;
+        int verticalRange = Math.max(100, Math.min(horizontalRange / 2, 250));
+        int left = facingLeft ? position.x - horizontalRange : position.x;
+        return new Rectangle(left, position.y - verticalRange, horizontalRange, verticalRange * 2);
     }
 
     public int getBuffLocalDuration() {

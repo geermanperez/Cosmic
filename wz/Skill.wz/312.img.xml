@@ -2897,7 +2897,7 @@
           <string name="hs" value="h29"/>
           <int name="mpCon" value="36"/>
           <int name="damage" value="98"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="7"/>
           <int name="range" value="440"/>
           <int name="prop" value="100"/>
         </imgdir>
@@ -2905,7 +2905,7 @@
           <string name="hs" value="h30"/>
           <int name="mpCon" value="36"/>
           <int name="damage" value="100"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="7"/>
           <int name="range" value="440"/>
           <int name="prop" value="100"/>
         </imgdir>

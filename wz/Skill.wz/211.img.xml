@@ -293,7 +293,7 @@
           <int name="mastery" value="1"/>
           <vector name="lt" x="-110" y="-82"/>
           <vector name="rb" x="110" y="83"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="4"/>
         </imgdir>
         <imgdir name="2">
           <string name="hs" value="h2"/>
@@ -554,7 +554,7 @@
           <int name="mastery" value="10"/>
           <vector name="lt" x="-200" y="-150"/>
           <vector name="rb" x="200" y="150"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="7"/>
         </imgdir>
       </imgdir>
       <imgdir name="prepare">

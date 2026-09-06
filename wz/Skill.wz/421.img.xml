@@ -2048,7 +2048,7 @@
           <int name="mpCon" value="25"/>
           <int name="damage" value="200"/>
           <int name="x" value="5"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="5"/>
           <vector name="rb" x="150" y="50"/>
           <vector name="lt" x="-150" y="-50"/>
         </imgdir>
