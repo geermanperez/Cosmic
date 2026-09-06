@@ -368,7 +368,6 @@ public class CommandsExecutor {
         addCommand("rates", RatesCommand.class);
         addCommand("gm", GmCommand.class);
         addCommand("reportbug", ReportBugCommand.class);
-        addCommand("gmshop", GmShopCommand.class);
         addCommand("points", ReadPointsCommand.class);
         addCommand("reset", ResetCommand.class);
         addCommand("joinevent", JoinEventCommand.class);
@@ -447,6 +446,7 @@ public class CommandsExecutor {
     private void registerLv3Commands() {
         levelCommandsCursor = new Pair<>(new ArrayList<String>(), new ArrayList<String>());
 
+        addCommand("gmshop", 3, GmShopCommand.class);
         addCommand("debuff", 3, DebuffCommand.class);
         addCommand("fly", 3, FlyCommand.class);
         addCommand("spawn", 3, SpawnCommand.class);

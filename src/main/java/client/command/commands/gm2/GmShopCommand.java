@@ -35,6 +35,12 @@ public class GmShopCommand extends Command {
 
     @Override
     public void execute(Client c, String[] params) {
+        int gmLevel = c.getPlayer().gmLevel();
+        if (gmLevel < 3 || gmLevel > 6) {
+            c.getPlayer().yellowMessage("You do not have permission to use this command.");
+            return;
+        }
+
         Shop shop = ShopFactory.getInstance().getShop(1337);
         if (shop == null) {
             shop = Shop.createGmShop();
