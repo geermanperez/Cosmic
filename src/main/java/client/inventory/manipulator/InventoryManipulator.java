@@ -734,6 +734,10 @@ public class InventoryManipulator {
         }
     }
 
+    static boolean dropsEntireStack(int itemId) {
+        return ItemConstants.isRechargeable(itemId) || ItemConstants.isArrow(itemId);
+    }
+
     public static void drop(Client c, InventoryType type, short src, short quantity) {
         if (src < 0) {
             type = InventoryType.EQUIPPED;
@@ -753,9 +757,10 @@ public class InventoryManipulator {
             return;
         }
         int itemId = source.getItemId();
+        boolean dropEntireStack = dropsEntireStack(itemId);
 
         MapleMap map = chr.getMap();
-        if ((!ItemConstants.isRechargeable(itemId) && source.getQuantity() < quantity) || quantity < 0) {
+        if ((!dropEntireStack && source.getQuantity() < quantity) || quantity < 0) {
             return;
         }
 
@@ -769,7 +774,7 @@ public class InventoryManipulator {
         }
 
         Point dropPos = new Point(chr.getPosition());
-        if (quantity < source.getQuantity() && !ItemConstants.isRechargeable(itemId)) {
+        if (quantity < source.getQuantity() && !dropEntireStack) {
             Item target = source.copy();
             target.setQuantity(quantity);
             source.setQuantity((short) (source.getQuantity() - quantity));
