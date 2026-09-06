@@ -924,7 +924,43 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
             p.skip(4);
             ret.position.setLocation(p.readShort(), p.readShort());
         }
+        expandSuperDragonRoarTargets(ret, chr);
         return ret;
+    }
+
+    private void expandSuperDragonRoarTargets(AttackInfo attack, Character chr) {
+        if (attack.skill != SuperGM.SUPER_DRAGON_ROAR || attack.targets.isEmpty()) {
+            return;
+        }
+
+        StatEffect effect = attack.getAttackEffect(chr, null);
+        if (effect == null) {
+            return;
+        }
+
+        int maxTargets = Math.min(effect.getMobCount(), 15);
+        if (attack.targets.size() >= maxTargets) {
+            return;
+        }
+
+        AttackTarget template = attack.targets.values().iterator().next();
+        Rectangle bounds = effect.getBoundingBox(chr.getPosition(), chr.isFacingLeft());
+        for (Monster monster : chr.getMap().getAllMonsters()) {
+            if (attack.targets.size() >= maxTargets) {
+                break;
+            }
+            if (!monster.isAlive() || monster.getStats().isFriendly()
+                    || !bounds.contains(monster.getPosition())
+                    || attack.targets.containsKey(monster.getObjectId())) {
+                continue;
+            }
+
+            attack.targets.put(monster.getObjectId(),
+                    new AttackTarget(template.delay(), new ArrayList<>(template.damageLines())));
+        }
+
+        attack.numAttacked = attack.targets.size();
+        attack.numAttackedAndDamage = (attack.numAttacked << 4) | attack.numDamage;
     }
 
     private AttackInfo parseMesoExplosion(InPacket p, AttackInfo attackInfo) {
