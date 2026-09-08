@@ -1218,6 +1218,10 @@ public class StatEffect {
         return bounds;
     }
 
+    public Rectangle getBoundingBox(Point position, boolean facingLeft) {
+        return calculateBoundingBox(position, facingLeft);
+    }
+
     public Rectangle getAttackBoundingBox(Point position, boolean facingLeft) {
         if (lt != null && rb != null) {
             return calculateBoundingBox(position, facingLeft);
