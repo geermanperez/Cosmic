@@ -70,7 +70,7 @@ class AreaAttackTargetsTest {
         when(effect.getMobCount()).thenReturn(6);
 
         AttackInfo attack = attackWithEffect(effect);
-        attack.skill = 1001005; // Slash Blast
+        attack.skill = 1001005; // Slash Blast (Warrior melee)
         attack.numAttacked = 1;
         attack.numDamage = 1;
         attack.numAttackedAndDamage = 0x11;
@@ -82,6 +82,86 @@ class AreaAttackTargetsTest {
 
         assertEquals(1, attack.targets.size());
         assertEquals(0x11, attack.numAttackedAndDamage);
+    }
+
+    @Test
+    void preservesMultiTargetMeleeSkillWithThreeTargets() {
+        StatEffect effect = mock(StatEffect.class);
+        when(effect.getMobCount()).thenReturn(3);
+
+        AttackInfo attack = attackWithEffect(effect);
+        attack.skill = 1121008; // Brandish (Hero melee)
+        attack.numAttacked = 3;
+        attack.numDamage = 2;
+        attack.numAttackedAndDamage = 0x32;
+        attack.targets = new HashMap<>();
+        attack.targets.put(101, new AttackTarget((short) 0, new ArrayList<>(List.of(1500, 1600))));
+        attack.targets.put(102, new AttackTarget((short) 0, new ArrayList<>(List.of(1450, 1550))));
+        attack.targets.put(103, new AttackTarget((short) 0, new ArrayList<>(List.of(1520, 1580))));
+
+        Character character = mock(Character.class);
+        AbstractDealDamageHandler.expandSuperDragonRoarTargets(attack, character);
+
+        assertEquals(3, attack.targets.size());
+        assertEquals(3, attack.numAttacked);
+        assertEquals(0x32, attack.numAttackedAndDamage);
+        assertTrue(attack.targets.containsKey(101));
+        assertTrue(attack.targets.containsKey(102));
+        assertTrue(attack.targets.containsKey(103));
+    }
+
+    @Test
+    void preservesMultiTargetMagicSkillWithSixTargets() {
+        StatEffect effect = mock(StatEffect.class);
+        when(effect.getMobCount()).thenReturn(6);
+
+        AttackInfo attack = attackWithEffect(effect);
+        attack.skill = 2301002; // Heal (Cleric magic)
+        attack.magic = true;
+        attack.numAttacked = 6;
+        attack.numDamage = 1;
+        attack.numAttackedAndDamage = 0x61;
+        attack.targets = new HashMap<>();
+        for (int i = 1; i <= 6; i++) {
+            attack.targets.put(200 + i, new AttackTarget((short) 0, new ArrayList<>(List.of(800 + i))));
+        }
+
+        Character character = mock(Character.class);
+        AbstractDealDamageHandler.expandSuperDragonRoarTargets(attack, character);
+
+        assertEquals(6, attack.targets.size());
+        assertEquals(6, attack.numAttacked);
+        assertEquals(0x61, attack.numAttackedAndDamage);
+        for (int i = 1; i <= 6; i++) {
+            assertTrue(attack.targets.containsKey(200 + i));
+        }
+    }
+
+    @Test
+    void preservesMultiTargetRangedSkillWithMultipleTargets() {
+        StatEffect effect = mock(StatEffect.class);
+        when(effect.getMobCount()).thenReturn(6);
+
+        AttackInfo attack = attackWithEffect(effect);
+        attack.skill = 3201005; // Arrow Eruption (Sniper ranged)
+        attack.ranged = true;
+        attack.numAttacked = 4;
+        attack.numDamage = 1;
+        attack.numAttackedAndDamage = 0x41;
+        attack.targets = new HashMap<>();
+        for (int i = 1; i <= 4; i++) {
+            attack.targets.put(300 + i, new AttackTarget((short) 0, new ArrayList<>(List.of(2000 + i))));
+        }
+
+        Character character = mock(Character.class);
+        AbstractDealDamageHandler.expandSuperDragonRoarTargets(attack, character);
+
+        assertEquals(4, attack.targets.size());
+        assertEquals(4, attack.numAttacked);
+        assertEquals(0x41, attack.numAttackedAndDamage);
+        for (int i = 1; i <= 4; i++) {
+            assertTrue(attack.targets.containsKey(300 + i));
+        }
     }
 
     private static AttackInfo attackWithEffect(StatEffect effect) {

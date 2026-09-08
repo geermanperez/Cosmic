@@ -609,13 +609,14 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
             }
         }
 
+        p.skip(8);
+
         if (ret.skill == Evan.ICE_BREATH || ret.skill == Evan.FIRE_BREATH || ret.skill == FPArchMage.BIG_BANG || ret.skill == ILArchMage.BIG_BANG || ret.skill == Bishop.BIG_BANG || ret.skill == Gunslinger.GRENADE || ret.skill == Brawler.CORKSCREW_BLOW || ret.skill == ThunderBreaker.CORKSCREW_BLOW || ret.skill == NightWalker.POISON_BOMB) {
             ret.charge = p.readInt();
         } else {
             ret.charge = 0;
         }
 
-        p.skip(8);
         ret.display = p.readByte();
         ret.direction = p.readByte();
         ret.stance = p.readByte();
@@ -629,7 +630,11 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
             p.readByte();
             ret.rangedirection = p.readByte();
             p.skip(7);
-            if (ret.skill == Bowmaster.HURRICANE || ret.skill == Marksman.PIERCING_ARROW || ret.skill == Corsair.RAPID_FIRE || ret.skill == WindArcher.HURRICANE) {
+            boolean noProjectile = ret.skill == Bowmaster.HURRICANE || ret.skill == Marksman.PIERCING_ARROW
+                    || ret.skill == Corsair.RAPID_FIRE || ret.skill == WindArcher.HURRICANE
+                    || ret.skill == NightLord.TAUNT || ret.skill == Shadower.TAUNT
+                    || ret.skill == Buccaneer.ENERGY_ORB || ret.skill == 4111004;
+            if (!noProjectile && p.available() >= (ret.numAttacked * (22 + ret.numDamage * 4) + 4)) {
                 p.skip(4);
             }
         } else {
@@ -910,7 +915,7 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
 
                 damageLines.add(damage);
             }
-            if (ret.skill != Corsair.RAPID_FIRE || ret.skill != Aran.HIDDEN_FULL_DOUBLE || ret.skill != Aran.HIDDEN_FULL_TRIPLE || ret.skill != Aran.HIDDEN_OVER_DOUBLE || ret.skill != Aran.HIDDEN_OVER_TRIPLE) {
+            if (ret.skill != Corsair.RAPID_FIRE && ret.skill != Aran.HIDDEN_FULL_DOUBLE && ret.skill != Aran.HIDDEN_FULL_TRIPLE && ret.skill != Aran.HIDDEN_OVER_DOUBLE && ret.skill != Aran.HIDDEN_OVER_TRIPLE) {
                 p.skip(4);
             }
             ret.targets.put(oid, new AttackTarget(delay, damageLines));
