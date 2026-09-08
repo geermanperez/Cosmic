@@ -255,7 +255,6 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
                         monster.refreshMobPosition();
                     }
 
-                    int totDamageToOneMonster = 0;
                     List<Integer> onedList = target.getValue().damageLines();
 
                     if (attack.magic) { // thanks BHB, Alex (CanIGetaPR) for noticing no immunity status check here
@@ -280,13 +279,8 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
                         }
                     }
 
-                    for (Integer eachd : onedList) {
-                        if (eachd < 0) {
-                            eachd += Integer.MAX_VALUE + 1;
-                        }
-                        totDamageToOneMonster += eachd;
-                    }
-                    totDamage += totDamageToOneMonster;
+                    int totDamageToOneMonster = sumDamageLines(onedList);
+                    totDamage = addDamageCapped(totDamage, totDamageToOneMonster);
                     monster.aggroMonsterDamage(player, totDamageToOneMonster);
                     if (player.getBuffedValue(BuffStat.PICKPOCKET) != null && (attack.skill == 0 || attack.skill == Rogue.DOUBLE_STAB || attack.skill == Bandit.SAVAGE_BLOW || attack.skill == ChiefBandit.ASSAULTER || attack.skill == ChiefBandit.BAND_OF_THIEVES || attack.skill == Shadower.ASSASSINATE || attack.skill == Shadower.TAUNT || attack.skill == Shadower.BOOMERANG_STEP)) {
                         Skill pickpocket = SkillFactory.getSkill(ChiefBandit.PICKPOCKET);
@@ -567,6 +561,21 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
 
         long balancedDamage = Math.round(damage * multiplier);
         return balancedDamage > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) balancedDamage;
+    }
+
+    static int sumDamageLines(List<Integer> damageLines) {
+        int total = 0;
+        for (int damage : damageLines) {
+            // The client uses the sign bit as part of its encoded damage value.
+            int normalizedDamage = damage < 0 ? damage & Integer.MAX_VALUE : damage;
+            total = addDamageCapped(total, normalizedDamage);
+        }
+        return total;
+    }
+
+    private static int addDamageCapped(int currentDamage, int additionalDamage) {
+        long total = (long) currentDamage + additionalDamage;
+        return total >= Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) total;
     }
 
     private static void damageMonsterWithSkill(final Character attacker, final MapleMap map, final Monster monster,
@@ -945,7 +954,9 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
 
         AttackTarget template = attack.targets.values().iterator().next();
         Rectangle bounds = effect.getBoundingBox(chr.getPosition(), chr.isFacingLeft());
-        for (Monster monster : chr.getMap().getAllMonsters()) {
+        List<Monster> candidates = new ArrayList<>(chr.getMap().getAllMonsters());
+        candidates.sort(Comparator.comparingDouble(monster -> chr.getPosition().distanceSq(monster.getPosition())));
+        for (Monster monster : candidates) {
             if (attack.targets.size() >= maxTargets) {
                 break;
             }

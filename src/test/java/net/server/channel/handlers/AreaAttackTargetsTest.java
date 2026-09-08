@@ -2,6 +2,7 @@ package net.server.channel.handlers;
 
 import client.Character;
 import client.Skill;
+import constants.skills.SuperGM;
 import net.server.channel.handlers.AbstractDealDamageHandler.AttackInfo;
 import net.server.channel.handlers.AbstractDealDamageHandler.AttackTarget;
 import org.junit.jupiter.api.Test;
@@ -24,13 +25,43 @@ import static org.mockito.Mockito.when;
 
 class AreaAttackTargetsTest {
     @Test
+    void capsMultiLineDamageInsteadOfOverflowingNegative() {
+        int total = AbstractDealDamageHandler.sumDamageLines(List.of(1_878_149_417, 1_746_022_936));
+
+        assertEquals(Integer.MAX_VALUE, total);
+        assertTrue(total > 0);
+    }
+
+    @Test
+    void cappedMultiLineDamageCanReduceMonsterHpToZero() {
+        MonsterStats stats = new MonsterStats();
+        stats.setHp(50_000);
+        Monster monster = new Monster(100100, stats);
+
+        int total = AbstractDealDamageHandler.sumDamageLines(List.of(1_878_149_417, 1_746_022_936));
+
+        assertEquals(50_000, monster.applyAndGetHpDamage(total, false));
+        assertEquals(0, monster.getHp());
+    }
+
+    @Test
+    void preservesNormalMultiLineDamage() {
+        assertEquals(9_300, AbstractDealDamageHandler.sumDamageLines(List.of(3_000, 3_100, 3_200)));
+    }
+
+    @Test
+    void normalizesClientDamageWithSignBitWithoutOverflow() {
+        assertEquals(1, AbstractDealDamageHandler.sumDamageLines(List.of(Integer.MIN_VALUE + 1)));
+    }
+
+    @Test
     void completesSuperDragonRoarUpToItsConfiguredTargetLimit() {
         StatEffect effect = mock(StatEffect.class);
         when(effect.getMobCount()).thenReturn(3);
         when(effect.getBoundingBox(new Point(0, 0), false)).thenReturn(new Rectangle(0, -100, 300, 200));
 
         AttackInfo attack = attackWithEffect(effect);
-        attack.skill = 9101004;
+        attack.skill = SuperGM.SUPER_DRAGON_ROAR;
         attack.numAttacked = 1;
         attack.numDamage = 1;
         attack.numAttackedAndDamage = 0x11;
