@@ -86,7 +86,7 @@ class PetPacketEncodingTest {
     }
 
     @Test
-    void despawnPetLocalIncludesReasonByte() {
+    void despawnPetLocalOmitsReasonByte() {
         Character chr = mock(Character.class);
         Pet pet = mock(Pet.class);
         when(chr.getId()).thenReturn(1234);
@@ -99,7 +99,6 @@ class PetPacketEncodingTest {
         assertEquals(1234, bHunger.getInt());
         assertEquals(2, bHunger.get());
         assertEquals(0, bHunger.get());
-        assertEquals(1, bHunger.get()); // hunger reason
         assertFalse(bHunger.hasRemaining());
 
         // Normal unsummon
@@ -109,7 +108,6 @@ class PetPacketEncodingTest {
         assertEquals(1234, bNormal.getInt());
         assertEquals(2, bNormal.get());
         assertEquals(0, bNormal.get());
-        assertEquals(0, bNormal.get()); // normal unsummon reason
         assertFalse(bNormal.hasRemaining());
     }
 

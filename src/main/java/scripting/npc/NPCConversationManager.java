@@ -402,6 +402,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         getPlayer().setHair(hair);
         getPlayer().updateSingleStat(Stat.HAIR, hair);
         getPlayer().equipChanged();
+        getPlayer().sendPacket(PacketCreator.updateCharLook(getClient(), getPlayer()));
     }
 
     public void setFace(int face) {
@@ -409,6 +410,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         getPlayer().setFace(face);
         getPlayer().updateSingleStat(Stat.FACE, face);
         getPlayer().equipChanged();
+        getPlayer().sendPacket(PacketCreator.updateCharLook(getClient(), getPlayer()));
     }
 
     public void setSkin(int color) {
@@ -417,6 +419,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             getPlayer().setSkinColor(sc);
             getPlayer().updateSingleStat(Stat.SKIN, color);
             getPlayer().equipChanged();
+            getPlayer().sendPacket(PacketCreator.updateCharLook(getClient(), getPlayer()));
         }
     }
 

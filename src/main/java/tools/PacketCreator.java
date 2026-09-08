@@ -4523,7 +4523,6 @@ public class PacketCreator {
         p.writeByte(chr.getPetIndex(pet));
         if (remove) {
             p.writeByte(0);
-            p.writeByte(hunger ? 1 : 0);
         } else {
             addPetInfo(p, pet, true);
         }

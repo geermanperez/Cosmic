@@ -24,13 +24,13 @@ import static org.mockito.Mockito.when;
 
 class AreaAttackTargetsTest {
     @Test
-    void completesAnyAreaSkillUpToItsConfiguredTargetLimit() {
+    void completesSuperDragonRoarUpToItsConfiguredTargetLimit() {
         StatEffect effect = mock(StatEffect.class);
         when(effect.getMobCount()).thenReturn(3);
-        when(effect.getAttackBoundingBox(new Point(0, 0), false)).thenReturn(new Rectangle(0, -100, 300, 200));
+        when(effect.getBoundingBox(new Point(0, 0), false)).thenReturn(new Rectangle(0, -100, 300, 200));
 
         AttackInfo attack = attackWithEffect(effect);
-        attack.skill = 15111007;
+        attack.skill = 9101004;
         attack.numAttacked = 1;
         attack.numDamage = 1;
         attack.numAttackedAndDamage = 0x11;
@@ -51,7 +51,7 @@ class AreaAttackTargetsTest {
         Monster outside = monster(6, 400, 0, false);
         when(map.getAllMonsters()).thenReturn(List.of(overLimit, outside, nextNearest, friendly, nearest, original));
 
-        AbstractDealDamageHandler.completeAreaAttackTargets(attack, character);
+        AbstractDealDamageHandler.expandSuperDragonRoarTargets(attack, character);
 
         assertEquals(3, attack.numAttacked);
         assertEquals(0x31, attack.numAttackedAndDamage);
@@ -65,12 +65,12 @@ class AreaAttackTargetsTest {
     }
 
     @Test
-    void leavesSingleTargetSkillsUnchanged() {
+    void leavesRegularAreaSkillsUnchanged() {
         StatEffect effect = mock(StatEffect.class);
-        when(effect.getMobCount()).thenReturn(1);
+        when(effect.getMobCount()).thenReturn(6);
 
         AttackInfo attack = attackWithEffect(effect);
-        attack.skill = 1001004;
+        attack.skill = 1001005; // Slash Blast
         attack.numAttacked = 1;
         attack.numDamage = 1;
         attack.numAttackedAndDamage = 0x11;
@@ -78,7 +78,7 @@ class AreaAttackTargetsTest {
         attack.targets.put(1, new AttackTarget((short) 0, new ArrayList<>(List.of(100))));
 
         Character character = mock(Character.class);
-        AbstractDealDamageHandler.completeAreaAttackTargets(attack, character);
+        AbstractDealDamageHandler.expandSuperDragonRoarTargets(attack, character);
 
         assertEquals(1, attack.targets.size());
         assertEquals(0x11, attack.numAttackedAndDamage);

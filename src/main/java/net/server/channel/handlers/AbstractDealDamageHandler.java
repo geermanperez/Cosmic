@@ -282,7 +282,7 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
 
                     for (Integer eachd : onedList) {
                         if (eachd < 0) {
-                            eachd += Integer.MAX_VALUE;
+                            eachd += Integer.MAX_VALUE + 1;
                         }
                         totDamageToOneMonster += eachd;
                     }
@@ -295,15 +295,9 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
                             short delay = 0;
                             final int maxmeso = player.getBuffedValue(BuffStat.PICKPOCKET);
                             for (Integer eachd : onedList) {
-                                eachd += Integer.MAX_VALUE;
+                                final int eachdf = eachd < 0 ? eachd + Integer.MAX_VALUE + 1 : eachd;
 
                                 if (pickpocket.getEffect(picklv).makeChanceResult()) {
-                                    final int eachdf;
-                                    if (eachd < 0) {
-                                        eachdf = eachd + Integer.MAX_VALUE;
-                                    } else {
-                                        eachdf = eachd;
-                                    }
 
                                     int meso = Math.min((int) Math.max(((double) eachdf / (double) 20000) * (double) maxmeso, 1), maxmeso);
                                     Point position = new Point((int) (monster.getPosition().getX() + Randomizer.nextInt(100) - 50), (int) (monster.getPosition().getY()));
@@ -925,12 +919,12 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
             p.skip(4);
             ret.position.setLocation(p.readShort(), p.readShort());
         }
-        completeAreaAttackTargets(ret, chr);
+        expandSuperDragonRoarTargets(ret, chr);
         return ret;
     }
 
-    static void completeAreaAttackTargets(AttackInfo attack, Character chr) {
-        if (attack.skill <= 0 || attack.targets.isEmpty()) {
+    static void expandSuperDragonRoarTargets(AttackInfo attack, Character chr) {
+        if (attack.skill != SuperGM.SUPER_DRAGON_ROAR || attack.targets.isEmpty()) {
             return;
         }
 
@@ -940,15 +934,13 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
         }
 
         int maxTargets = Math.min(effect.getMobCount(), 15);
-        if (maxTargets <= 1 || attack.targets.size() >= maxTargets) {
+        if (attack.targets.size() >= maxTargets) {
             return;
         }
 
         AttackTarget template = attack.targets.values().iterator().next();
-        Rectangle bounds = effect.getAttackBoundingBox(chr.getPosition(), chr.isFacingLeft());
-        List<Monster> candidates = new ArrayList<>(chr.getMap().getAllMonsters());
-        candidates.sort(Comparator.comparingDouble(monster -> chr.getPosition().distanceSq(monster.getPosition())));
-        for (Monster monster : candidates) {
+        Rectangle bounds = effect.getBoundingBox(chr.getPosition(), chr.isFacingLeft());
+        for (Monster monster : chr.getMap().getAllMonsters()) {
             if (attack.targets.size() >= maxTargets) {
                 break;
             }
