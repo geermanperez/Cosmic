@@ -55,6 +55,7 @@ import constants.id.ItemId;
 import constants.id.MapId;
 import constants.id.NpcId;
 import constants.inventory.ItemConstants;
+import java.awt.Point;
 import constants.skills.Buccaneer;
 import constants.skills.ChiefBandit;
 import constants.skills.Corsair;
@@ -2043,13 +2044,7 @@ public class PacketCreator {
 
         p.writeShort(0);//chr.getFh()
         p.writeByte(0);
-        Pet[] pet = chr.getPets();
-        for (int i = 0; i < 3; i++) {
-            if (pet[i] != null) {
-                addPetInfo(p, pet[i], false);
-            }
-        }
-        p.writeByte(0); //end of pets
+        addRemotePetInfo(p, chr.getPets());
         if (chr.getMount() == null) {
             p.writeInt(1); // mob level
             p.writeLong(0); // mob exp + tiredness
@@ -4511,22 +4506,43 @@ public class PacketCreator {
         p.writeByte(0); // chat-balloon override
     }
 
+    static void addRemotePetInfo(final OutPacket p, Pet[] pets) {
+        if (pets != null) {
+            for (int i = 0; i < Math.min(3, pets.length); i++) {
+                if (pets[i] != null) {
+                    addPetInfo(p, pets[i], false);
+                }
+            }
+        }
+        p.writeByte(0); // end of remote pets
+    }
+
     public static Packet showPet(Character chr, Pet pet, boolean remove, boolean hunger) {
         OutPacket p = OutPacket.create(SendOpcode.SPAWN_PET);
         p.writeInt(chr.getId());
         p.writeByte(chr.getPetIndex(pet));
         if (remove) {
             p.writeByte(0);
+            p.writeByte(hunger ? 1 : 0);
         } else {
             addPetInfo(p, pet, true);
         }
         return p;
     }
 
-    public static Packet movePet(int cid, byte slot, List<LifeMovementFragment> moves) {
+    public static Packet removeRemotePet(Character chr, Pet pet) {
+        OutPacket p = OutPacket.create(SendOpcode.SPAWN_PET);
+        p.writeInt(chr.getId());
+        p.writeByte(chr.getPetIndex(pet));
+        p.writeByte(0);
+        return p;
+    }
+
+    public static Packet movePet(int cid, byte slot, Point startPos, List<LifeMovementFragment> moves) {
         final OutPacket p = OutPacket.create(SendOpcode.MOVE_PET);
         p.writeInt(cid);
         p.writeByte(slot);
+        p.writePos(startPos);
         serializeMovementList(p, moves);
         return p;
     }

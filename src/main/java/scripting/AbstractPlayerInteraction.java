@@ -548,8 +548,6 @@ public class AbstractPlayerInteraction {
                 return(null);
             }
             
-            getPlayer().addPet(evolved);
-            
             getPlayer().getMap().broadcastMessage(c.getPlayer(), PacketCreator.showPet(c.getPlayer(), evolved, false, false), true);
             c.sendPacket(PacketCreator.petStatUpdate(c.getPlayer()));
             c.sendPacket(PacketCreator.enableActions());

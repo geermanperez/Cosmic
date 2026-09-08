@@ -24,6 +24,7 @@ package client.inventory;
 import client.Character;
 import client.inventory.manipulator.CashIdGenerator;
 import constants.game.ExpTable;
+import net.packet.Packet;
 import server.ItemInformationProvider;
 import server.movement.AbsoluteLifeMovement;
 import server.movement.LifeMovement;
@@ -227,7 +228,7 @@ public class Pet extends Item {
                 while (newTameness >= ExpTable.getTamenessNeededForLevel(level)) {
                     level += 1;
                     owner.sendPacket(PacketCreator.showOwnPetLevelUp(slot));
-                    owner.getMap().broadcastMessage(PacketCreator.showPetLevelUp(owner, slot));
+                    owner.getMap().broadcastMessage(owner, PacketCreator.showPetLevelUp(owner, slot), false);
                 }
             }
 
@@ -246,7 +247,9 @@ public class Pet extends Item {
             enjoyed = false;
         }
 
-        owner.getMap().broadcastMessage(PacketCreator.petFoodResponse(owner.getId(), slot, enjoyed, false));
+        Packet foodResponse = PacketCreator.petFoodResponse(owner.getId(), slot, enjoyed, false);
+        owner.sendPacket(foodResponse);
+        owner.getMap().broadcastMessage(owner, foodResponse, false);
         saveToDb();
 
         Item petz = owner.getInventory(InventoryType.CASH).getItem(getPosition());

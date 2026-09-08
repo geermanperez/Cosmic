@@ -5836,6 +5836,10 @@ public class Character extends AbstractCharacterObject {
         }
     }
 
+    public byte getPetIndex(long petId) {
+        return getPetIndex((int) petId);
+    }
+
     public byte getPetIndex(Pet pet) {
         petLock.lock();
         try {
@@ -9521,7 +9525,8 @@ public class Character extends AbstractCharacterObject {
         }
 
         this.getClient().getWorldServer().unregisterPetHunger(this, petIdx);
-        getMap().broadcastMessage(this, PacketCreator.showPet(this, pet, true, hunger), true);
+        sendPacket(PacketCreator.showPet(this, pet, true, hunger));
+        getMap().broadcastMessage(this, PacketCreator.removeRemotePet(this, pet), false);
 
         removePet(pet, shift_left);
         commitExcludedItems();
