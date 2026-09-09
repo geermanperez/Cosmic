@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
 
 class AreaAttackTargetsTest {
     @Test
-    void detectsV102TargetsWithoutFourByteTrailer() {
+    void detectsTargetsWithoutFourByteTrailer() {
         int nextMonsterOid = 1234;
         Character character = characterWithMonster(nextMonsterOid);
         InPacket packet = packetWithInts(nextMonsterOid, 0x55667788);
@@ -38,13 +38,55 @@ class AreaAttackTargetsTest {
     }
 
     @Test
-    void detectsV83TargetsWithFourByteTrailer() {
+    void detectsTargetsWithFourByteTrailer() {
         int nextMonsterOid = 1234;
         Character character = characterWithMonster(nextMonsterOid);
         InPacket packet = packetWithInts(0x55667788, nextMonsterOid);
 
         assertTrue(AbstractDealDamageHandler.detectAttackTargetTrailer(packet, character, false));
         assertEquals(0, packet.getPosition());
+    }
+
+    @Test
+    void recoversOnlyMissingTargetsDeclaredByAreaAttackPacket() {
+        StatEffect effect = mock(StatEffect.class);
+        when(effect.getMobCount()).thenReturn(6);
+        when(effect.getAttackBoundingBox(new Point(0, 0), false)).thenReturn(new Rectangle(0, -100, 400, 200));
+
+        AttackInfo attack = attackWithEffect(effect);
+        attack.skill = 5121001; // Dragon Strike
+        attack.numAttacked = 3;
+        attack.numDamage = 2;
+        attack.numAttackedAndDamage = 0x32;
+        attack.targets = new HashMap<>();
+        attack.targets.put(1, new AttackTarget((short) 20, new ArrayList<>(List.of(1_800_000_000, 1_700_000_000))));
+        attack.targets.put(998, new AttackTarget((short) 20, new ArrayList<>(List.of(100, 100))));
+        attack.targets.put(999, new AttackTarget((short) 20, new ArrayList<>(List.of(100, 100))));
+
+        Character character = mock(Character.class);
+        MapleMap map = mock(MapleMap.class);
+        when(character.getMap()).thenReturn(map);
+        when(character.getPosition()).thenReturn(new Point(0, 0));
+        when(character.isFacingLeft()).thenReturn(false);
+
+        Monster original = monster(1, 50, 0, false);
+        Monster nearest = monster(2, 100, 0, false);
+        Monster nextNearest = monster(3, 200, 0, false);
+        Monster extra = monster(4, 300, 0, false);
+        when(map.getMonsterByOid(1)).thenReturn(original);
+        when(map.getAllMonsters()).thenReturn(List.of(extra, nextNearest, nearest, original));
+
+        AbstractDealDamageHandler.recoverMissingAreaAttackTargets(attack, character);
+
+        assertEquals(3, attack.targets.size());
+        assertTrue(attack.targets.containsKey(1));
+        assertTrue(attack.targets.containsKey(2));
+        assertTrue(attack.targets.containsKey(3));
+        assertFalse(attack.targets.containsKey(4));
+        assertFalse(attack.targets.containsKey(998));
+        assertFalse(attack.targets.containsKey(999));
+        assertEquals(List.of(1_800_000_000, 1_700_000_000), attack.targets.get(2).damageLines());
+        assertEquals(0x32, attack.numAttackedAndDamage);
     }
 
     @Test

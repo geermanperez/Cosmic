@@ -916,7 +916,7 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
                 if(effect != null) {
                     int maxattack = Math.max(effect.getBulletCount(), effect.getAttackCount());
                     if (ret.skill == Buccaneer.DRAGON_STRIKE) {
-                        // The v102 client sends Dragon Strike as two damage lines.
+                        // This client build sends Dragon Strike as two damage lines.
                         maxattack = Math.max(maxattack, 2);
                     }
                     if (shadowPartner) {
@@ -941,6 +941,7 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
             p.skip(4);
             ret.position.setLocation(p.readShort(), p.readShort());
         }
+        recoverMissingAreaAttackTargets(ret, chr);
         expandSuperDragonRoarTargets(ret, chr);
         return ret;
     }
@@ -961,8 +962,8 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
         int oidWithTrailer = p.readInt();
         p.seek(position);
 
-        // v83 packets normally contain a four-byte target trailer, while the
-        // v102 client can put the next target OID immediately after the damage.
+        // Some client builds include a four-byte target trailer, while others
+        // put the next target OID immediately after the damage lines.
         if (chr.getMap().getMonsterByOid(oidWithoutTrailer) != null) {
             return false;
         }
@@ -970,6 +971,46 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
             return true;
         }
         return defaultValue;
+    }
+
+    static void recoverMissingAreaAttackTargets(AttackInfo attack, Character chr) {
+        if (attack.skill <= 0 || attack.numAttacked <= 1 || attack.targets.isEmpty()) {
+            return;
+        }
+
+        StatEffect effect = attack.getAttackEffect(chr, null);
+        if (effect == null) {
+            return;
+        }
+
+        int reportedTargets = Math.min(attack.numAttacked, Math.min(effect.getMobCount(), 15));
+        if (reportedTargets <= 1) {
+            return;
+        }
+
+        MapleMap map = chr.getMap();
+        attack.targets.entrySet().removeIf(target -> map.getMonsterByOid(target.getKey()) == null);
+        if (attack.targets.isEmpty() || attack.targets.size() >= reportedTargets) {
+            return;
+        }
+
+        AttackTarget template = attack.targets.values().iterator().next();
+        Rectangle bounds = effect.getAttackBoundingBox(chr.getPosition(), chr.isFacingLeft());
+        List<Monster> candidates = new ArrayList<>(map.getAllMonsters());
+        candidates.sort(Comparator.comparingDouble(monster -> chr.getPosition().distanceSq(monster.getPosition())));
+
+        for (Monster monster : candidates) {
+            if (attack.targets.size() >= reportedTargets) {
+                break;
+            }
+            if (!monster.isAlive() || monster.getStats().isFriendly()
+                    || !bounds.contains(monster.getPosition())
+                    || attack.targets.containsKey(monster.getObjectId())) {
+                continue;
+            }
+            attack.targets.put(monster.getObjectId(),
+                    new AttackTarget(template.delay(), new ArrayList<>(template.damageLines())));
+        }
     }
 
     static void expandSuperDragonRoarTargets(AttackInfo attack, Character chr) {
