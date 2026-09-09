@@ -791,6 +791,7 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
                 calcDmgMax = fixed;
             }
         }
+        boolean skipTargetTrailer = hasDefaultAttackTargetTrailer(ret.skill);
         for (int i = 0; i < ret.numAttacked; i++) {
             int oid = p.readInt();
             p.skip(4);
@@ -914,6 +915,10 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
 
                 if(effect != null) {
                     int maxattack = Math.max(effect.getBulletCount(), effect.getAttackCount());
+                    if (ret.skill == Buccaneer.DRAGON_STRIKE) {
+                        // The v102 client sends Dragon Strike as two damage lines.
+                        maxattack = Math.max(maxattack, 2);
+                    }
                     if (shadowPartner) {
                         maxattack = maxattack * 2;
                     }
@@ -924,7 +929,10 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
 
                 damageLines.add(damage);
             }
-            if (ret.skill != Corsair.RAPID_FIRE && ret.skill != Aran.HIDDEN_FULL_DOUBLE && ret.skill != Aran.HIDDEN_FULL_TRIPLE && ret.skill != Aran.HIDDEN_OVER_DOUBLE && ret.skill != Aran.HIDDEN_OVER_TRIPLE) {
+            if (i < ret.numAttacked - 1) {
+                skipTargetTrailer = detectAttackTargetTrailer(p, chr, skipTargetTrailer);
+            }
+            if (skipTargetTrailer) {
                 p.skip(4);
             }
             ret.targets.put(oid, new AttackTarget(delay, damageLines));
@@ -935,6 +943,33 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
         }
         expandSuperDragonRoarTargets(ret, chr);
         return ret;
+    }
+
+    private static boolean hasDefaultAttackTargetTrailer(int skillId) {
+        return skillId != Corsair.RAPID_FIRE && skillId != Aran.HIDDEN_FULL_DOUBLE
+                && skillId != Aran.HIDDEN_FULL_TRIPLE && skillId != Aran.HIDDEN_OVER_DOUBLE
+                && skillId != Aran.HIDDEN_OVER_TRIPLE;
+    }
+
+    static boolean detectAttackTargetTrailer(InPacket p, Character chr, boolean defaultValue) {
+        if (p.available() < 8) {
+            return defaultValue;
+        }
+
+        int position = p.getPosition();
+        int oidWithoutTrailer = p.readInt();
+        int oidWithTrailer = p.readInt();
+        p.seek(position);
+
+        // v83 packets normally contain a four-byte target trailer, while the
+        // v102 client can put the next target OID immediately after the damage.
+        if (chr.getMap().getMonsterByOid(oidWithoutTrailer) != null) {
+            return false;
+        }
+        if (chr.getMap().getMonsterByOid(oidWithTrailer) != null) {
+            return true;
+        }
+        return defaultValue;
     }
 
     static void expandSuperDragonRoarTargets(AttackInfo attack, Character chr) {

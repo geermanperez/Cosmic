@@ -3,6 +3,9 @@ package net.server.channel.handlers;
 import client.Character;
 import client.Skill;
 import constants.skills.SuperGM;
+import io.netty.buffer.Unpooled;
+import net.packet.ByteBufInPacket;
+import net.packet.InPacket;
 import net.server.channel.handlers.AbstractDealDamageHandler.AttackInfo;
 import net.server.channel.handlers.AbstractDealDamageHandler.AttackTarget;
 import org.junit.jupiter.api.Test;
@@ -24,6 +27,26 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class AreaAttackTargetsTest {
+    @Test
+    void detectsV102TargetsWithoutFourByteTrailer() {
+        int nextMonsterOid = 1234;
+        Character character = characterWithMonster(nextMonsterOid);
+        InPacket packet = packetWithInts(nextMonsterOid, 0x55667788);
+
+        assertFalse(AbstractDealDamageHandler.detectAttackTargetTrailer(packet, character, true));
+        assertEquals(0, packet.getPosition());
+    }
+
+    @Test
+    void detectsV83TargetsWithFourByteTrailer() {
+        int nextMonsterOid = 1234;
+        Character character = characterWithMonster(nextMonsterOid);
+        InPacket packet = packetWithInts(0x55667788, nextMonsterOid);
+
+        assertTrue(AbstractDealDamageHandler.detectAttackTargetTrailer(packet, character, false));
+        assertEquals(0, packet.getPosition());
+    }
+
     @Test
     void capsMultiLineDamageInsteadOfOverflowingNegative() {
         int total = AbstractDealDamageHandler.sumDamageLines(List.of(1_878_149_417, 1_746_022_936));
@@ -202,6 +225,18 @@ class AreaAttackTargetsTest {
                 return effect;
             }
         };
+    }
+
+    private static Character characterWithMonster(int monsterOid) {
+        Character character = mock(Character.class);
+        MapleMap map = mock(MapleMap.class);
+        when(character.getMap()).thenReturn(map);
+        when(map.getMonsterByOid(monsterOid)).thenReturn(mock(Monster.class));
+        return character;
+    }
+
+    private static InPacket packetWithInts(int first, int second) {
+        return new ByteBufInPacket(Unpooled.buffer(8).writeIntLE(first).writeIntLE(second));
     }
 
     private static Monster monster(int objectId, int x, int y, boolean friendly) {
