@@ -37,9 +37,14 @@ import net.packet.Packet;
 import server.StatEffect;
 import tools.PacketCreator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public final class MagicDamageHandler extends AbstractDealDamageHandler {
+    private static final Logger log = LoggerFactory.getLogger(MagicDamageHandler.class);
+
     @Override
     public final void handlePacket(InPacket p, Client c) {
         Character chr = c.getPlayer();
@@ -51,6 +56,12 @@ public final class MagicDamageHandler extends AbstractDealDamageHandler {
 		chr.getAutobanManager().spam(8);*/
 
         AttackInfo attack = parseDamage(p, chr, false, true);
+
+        if (log.isDebugEnabled()) {
+            log.debug("MagicDamageHandler: chr={} skill={} numAttacked={} numDamage={} targets={}",
+                    chr != null ? chr.getName() : "null", attack.skill, attack.numAttacked, attack.numDamage,
+                    attack.targets != null ? attack.targets.size() : 0);
+        }
 
         if (chr.getBuffEffect(BuffStat.MORPH) != null) {
             if (chr.getBuffEffect(BuffStat.MORPH).isMorphWithoutAttack()) {
@@ -72,8 +83,8 @@ public final class MagicDamageHandler extends AbstractDealDamageHandler {
         chr.getMap().broadcastMessage(chr, packet, false, true);
         StatEffect effect = attack.getAttackEffect(chr, null);
         Skill skill = SkillFactory.getSkill(attack.skill);
-        StatEffect effect_ = skill.getEffect(chr.getSkillLevel(skill));
-        if (effect_.getCooldown() > 0) {
+        StatEffect effect_ = skill != null ? skill.getEffect(chr.getSkillLevel(skill)) : null;
+        if (effect_ != null && effect_.getCooldown() > 0) {
             if (chr.skillIsCooling(attack.skill)) {
                 return;
             } else {
@@ -81,7 +92,8 @@ public final class MagicDamageHandler extends AbstractDealDamageHandler {
                 chr.addCooldown(attack.skill, currentServerTime(), SECONDS.toMillis(effect_.getCooldown()));
             }
         }
-        applyAttack(attack, chr, effect.getAttackCount());
+        int attackCount = effect != null ? effect.getAttackCount() : 1;
+        applyAttack(attack, chr, attackCount);
         Skill eaterSkill = SkillFactory.getSkill((chr.getJob().getId() - (chr.getJob().getId() % 10)) * 10000);// MP Eater, works with right job
         int eaterLevel = chr.getSkillLevel(eaterSkill);
         if (eaterLevel > 0) {

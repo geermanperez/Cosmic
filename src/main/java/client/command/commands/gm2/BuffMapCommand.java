@@ -25,10 +25,24 @@ package client.command.commands.gm2;
 
 import client.Character;
 import client.Client;
+import client.Skill;
 import client.SkillFactory;
 import client.command.Command;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import server.StatEffect;
 
 public class BuffMapCommand extends Command {
+    private static final Logger log = LoggerFactory.getLogger(BuffMapCommand.class);
+
+    private static final int[] BUFF_SKILLS = {
+            4101004, // Haste
+            2311003, // Holy Symbol
+            1301007, // Hyper Body
+            2301004, // Bless
+            1005     // Echo of Hero
+    };
+
     {
         setDescription("Give GM buffs to the whole map.");
     }
@@ -36,11 +50,30 @@ public class BuffMapCommand extends Command {
     @Override
     public void execute(Client c, String[] params) {
         Character player = c.getPlayer();
-        SkillFactory.getSkill(9101001).getEffect(SkillFactory.getSkill(9101001).getMaxLevel()).applyTo(player, true);
-        SkillFactory.getSkill(9101002).getEffect(SkillFactory.getSkill(9101002).getMaxLevel()).applyTo(player, true);
-        SkillFactory.getSkill(9101003).getEffect(SkillFactory.getSkill(9101003).getMaxLevel()).applyTo(player, true);
-        SkillFactory.getSkill(9101008).getEffect(SkillFactory.getSkill(9101008).getMaxLevel()).applyTo(player, true);
-        SkillFactory.getSkill(1005).getEffect(SkillFactory.getSkill(1005).getMaxLevel()).applyTo(player, true);
+        if (player == null || player.getMap() == null) {
+            return;
+        }
 
+        if (log.isDebugEnabled()) {
+            log.debug("BuffMap: executed by GM {} on map {}", player.getName(), player.getMapId());
+        }
+
+        for (Character target : player.getMap().getAllPlayers()) {
+            if (target != null && target.isAlive()) {
+                for (int skillId : BUFF_SKILLS) {
+                    Skill skill = SkillFactory.getSkill(skillId);
+                    if (skill != null) {
+                        StatEffect effect = skill.getEffect(skill.getMaxLevel());
+                        if (effect != null) {
+                            effect.applyTo(target);
+                        }
+                    }
+                }
+                target.healHpMp();
+                if (log.isDebugEnabled()) {
+                    log.debug("BuffMap: applied buffs to player {}", target.getName());
+                }
+            }
+        }
     }
 }

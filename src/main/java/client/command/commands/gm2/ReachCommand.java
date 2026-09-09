@@ -26,9 +26,14 @@ package client.command.commands.gm2;
 import client.Character;
 import client.Client;
 import client.command.Command;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import server.maps.MapleMap;
+import server.maps.Portal;
 
 public class ReachCommand extends Command {
+    private static final Logger log = LoggerFactory.getLogger(ReachCommand.class);
+
     {
         setDescription("Warp to a player.");
     }
@@ -47,8 +52,30 @@ public class ReachCommand extends Command {
                 player.dropMessage(5, "Player '" + victim.getName() + "' is at channel " + victim.getClient().getChannel() + ".");
             } else {
                 MapleMap map = victim.getMap();
+                if (map == null) {
+                    player.dropMessage(6, "Target map is unavailable.");
+                    return;
+                }
                 player.saveLocationOnWarp();
-                player.forceChangeMap(map, map.findClosestPortal(victim.getPosition()));
+                if (player.getMap() == map) {
+                    if (log.isDebugEnabled()) {
+                        log.debug("Reach/Follow in-map: GM {} -> Target {} at pos {}", player.getName(), victim.getName(), victim.getPosition());
+                    }
+                    player.changeMap(map, victim.getPosition());
+                } else {
+                    Portal portal = map.findClosestPlayerSpawnpoint(victim.getPosition());
+                    if (portal == null) {
+                        portal = map.getRandomPlayerSpawnpoint();
+                    }
+                    if (portal == null) {
+                        portal = map.getPortal(0);
+                    }
+                    if (log.isDebugEnabled()) {
+                        log.debug("Reach/Follow cross-map: GM {} -> Target {} at map {} portal {}",
+                                player.getName(), victim.getName(), map.getId(), portal != null ? portal.getId() : -1);
+                    }
+                    player.forceChangeMap(map, portal);
+                }
             }
         } else {
             player.dropMessage(6, "Unknown player.");

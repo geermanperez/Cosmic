@@ -3528,7 +3528,6 @@ public class PacketCreator {
         p.writeInt(skillId);
         p.writeByte(direction);
         p.writeByte(1);
-        p.writeLong(0);
         return p;
     }
 
@@ -3547,7 +3546,7 @@ public class PacketCreator {
         OutPacket p = OutPacket.create(SendOpcode.SHOW_ITEM_GAIN_INCHAT);
         p.writeByte(effectId);
         p.writeInt(skillId);
-        p.writeByte(0xA9);
+        p.writeByte(1);
         p.writeByte(1);
         return p;
     }

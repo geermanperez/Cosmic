@@ -120,6 +120,16 @@ class AreaAttackTargetsTest {
     }
 
     @Test
+    void ignoresMissAndNegativeDamageWithoutOverflowingToMaxInt() {
+        assertEquals(0, AbstractDealDamageHandler.sumDamageLines(List.of(-1)));
+        assertEquals(0, AbstractDealDamageHandler.sumDamageLines(List.of(-1, -1)));
+        assertEquals(50, AbstractDealDamageHandler.sumDamageLines(List.of(50, -1)));
+        assertEquals(75, AbstractDealDamageHandler.sumDamageLines(List.of(-1, 75)));
+        assertEquals(120, AbstractDealDamageHandler.sumDamageLines(List.of(60, 60)));
+        assertEquals(50, AbstractDealDamageHandler.sumDamageLines(List.of(Integer.MIN_VALUE + 50, -1)));
+    }
+
+    @Test
     void completesSuperDragonRoarUpToItsConfiguredTargetLimit() {
         StatEffect effect = mock(StatEffect.class);
         when(effect.getMobCount()).thenReturn(3);

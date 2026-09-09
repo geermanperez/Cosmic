@@ -566,9 +566,18 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
     static int sumDamageLines(List<Integer> damageLines) {
         int total = 0;
         for (int damage : damageLines) {
-            // The client uses the sign bit as part of its encoded damage value.
-            int normalizedDamage = damage < 0 ? damage & Integer.MAX_VALUE : damage;
-            total = addDamageCapped(total, normalizedDamage);
+            if (damage <= 0) {
+                if (damage == -1 || damage == Integer.MIN_VALUE) {
+                    continue; // miss or cancelled damage line
+                }
+                int unmasked = damage & Integer.MAX_VALUE;
+                if (unmasked == Integer.MAX_VALUE || unmasked <= 0) {
+                    continue; // 0xFFFFFFFF is -1 (miss), unmasked 0 has no damage
+                }
+                total = addDamageCapped(total, unmasked);
+            } else {
+                total = addDamageCapped(total, damage);
+            }
         }
         return total;
     }
