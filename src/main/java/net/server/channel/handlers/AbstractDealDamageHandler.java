@@ -105,9 +105,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -800,7 +802,10 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
                 calcDmgMax = fixed;
             }
         }
-        boolean skipTargetTrailer = hasDefaultAttackTargetTrailer(ret.skill);
+        // Latin v111 appends a four-byte CRC to every target. Some compatible clients omit it.
+        // Choose one layout for the complete block so a single unknown OID cannot desync the rest of the attack.
+        int targetTrailerBytes = detectAttackTargetTrailerSize(p, chr, ret.numAttacked, ret.numDamage,
+                hasDefaultAttackTargetTrailer(ret.skill));
         for (int i = 0; i < ret.numAttacked; i++) {
             int oid = p.readInt();
             p.skip(4);
@@ -938,11 +943,8 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
 
                 damageLines.add(damage);
             }
-            if (i < ret.numAttacked - 1) {
-                skipTargetTrailer = detectAttackTargetTrailer(p, chr, skipTargetTrailer);
-            }
-            if (skipTargetTrailer) {
-                p.skip(4);
+            if (targetTrailerBytes > 0) {
+                p.skip(targetTrailerBytes);
             }
             ret.targets.put(oid, new AttackTarget(delay, damageLines));
         }
@@ -961,25 +963,44 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
                 && skillId != Aran.HIDDEN_OVER_TRIPLE;
     }
 
-    static boolean detectAttackTargetTrailer(InPacket p, Character chr, boolean defaultValue) {
-        if (p.available() < 8) {
-            return defaultValue;
+    static int detectAttackTargetTrailerSize(InPacket p, Character chr, int targetCount, int damageLineCount,
+                                             boolean defaultTrailer) {
+        if (targetCount <= 1) {
+            return defaultTrailer ? 4 : 0;
         }
 
         int position = p.getPosition();
-        int oidWithoutTrailer = p.readInt();
-        int oidWithTrailer = p.readInt();
+        int bytesWithoutTrailer = 18 + damageLineCount * Integer.BYTES;
+        int withoutTrailerScore = scoreAttackTargetLayout(p, chr, targetCount, bytesWithoutTrailer);
+        int withTrailerScore = scoreAttackTargetLayout(p, chr, targetCount, bytesWithoutTrailer + Integer.BYTES);
         p.seek(position);
 
-        // Some client builds include a four-byte target trailer, while others
-        // put the next target OID immediately after the damage lines.
-        if (chr.getMap().getMonsterByOid(oidWithoutTrailer) != null) {
-            return false;
+        if (withoutTrailerScore > withTrailerScore) {
+            return 0;
         }
-        if (chr.getMap().getMonsterByOid(oidWithTrailer) != null) {
-            return true;
+        if (withTrailerScore > withoutTrailerScore) {
+            return Integer.BYTES;
         }
-        return defaultValue;
+        return defaultTrailer ? Integer.BYTES : 0;
+    }
+
+    private static int scoreAttackTargetLayout(InPacket p, Character chr, int targetCount, int bytesPerTarget) {
+        int position = p.getPosition();
+        if (p.available() < targetCount * bytesPerTarget) {
+            return -1;
+        }
+
+        int score = 0;
+        Set<Integer> seenOids = new HashSet<>();
+        for (int i = 0; i < targetCount; i++) {
+            p.seek(position + i * bytesPerTarget);
+            int oid = p.readInt();
+            if (seenOids.add(oid) && chr.getMap().getMonsterByOid(oid) != null) {
+                score++;
+            }
+        }
+        p.seek(position);
+        return score;
     }
 
     static void recoverMissingAreaAttackTargets(AttackInfo attack, Character chr) {

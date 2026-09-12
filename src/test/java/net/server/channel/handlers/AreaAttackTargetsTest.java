@@ -28,22 +28,30 @@ import static org.mockito.Mockito.when;
 
 class AreaAttackTargetsTest {
     @Test
-    void detectsTargetsWithoutFourByteTrailer() {
-        int nextMonsterOid = 1234;
-        Character character = characterWithMonster(nextMonsterOid);
-        InPacket packet = packetWithInts(nextMonsterOid, 0x55667788);
+    void detectsWholeTargetBlockWithoutFourByteTrailer() {
+        Character character = characterWithMonsters(1001, 1002, 1003);
+        InPacket packet = targetBlock(2, false, 1001, 1002, 1003);
 
-        assertFalse(AbstractDealDamageHandler.detectAttackTargetTrailer(packet, character, true));
+        assertEquals(0, AbstractDealDamageHandler.detectAttackTargetTrailerSize(packet, character, 3, 2, true));
         assertEquals(0, packet.getPosition());
     }
 
     @Test
-    void detectsTargetsWithFourByteTrailer() {
-        int nextMonsterOid = 1234;
-        Character character = characterWithMonster(nextMonsterOid);
-        InPacket packet = packetWithInts(0x55667788, nextMonsterOid);
+    void detectsWholeLatinV111TargetBlockWithFourByteCrc() {
+        Character character = characterWithMonsters(1001, 1002, 1003);
+        InPacket packet = targetBlock(2, true, 1001, 1002, 1003);
 
-        assertTrue(AbstractDealDamageHandler.detectAttackTargetTrailer(packet, character, false));
+        assertEquals(Integer.BYTES,
+                AbstractDealDamageHandler.detectAttackTargetTrailerSize(packet, character, 3, 2, false));
+        assertEquals(0, packet.getPosition());
+    }
+
+    @Test
+    void choosesLayoutWithMostValidTargetsInsteadOfChangingStrideMidAttack() {
+        Character character = characterWithMonsters(1001, 1003);
+        InPacket packet = targetBlock(1, false, 1001, 1002, 1003);
+
+        assertEquals(0, AbstractDealDamageHandler.detectAttackTargetTrailerSize(packet, character, 3, 1, true));
         assertEquals(0, packet.getPosition());
     }
 
@@ -279,16 +287,29 @@ class AreaAttackTargetsTest {
         };
     }
 
-    private static Character characterWithMonster(int monsterOid) {
+    private static Character characterWithMonsters(int... monsterOids) {
         Character character = mock(Character.class);
         MapleMap map = mock(MapleMap.class);
         when(character.getMap()).thenReturn(map);
-        when(map.getMonsterByOid(monsterOid)).thenReturn(mock(Monster.class));
+        for (int monsterOid : monsterOids) {
+            when(map.getMonsterByOid(monsterOid)).thenReturn(mock(Monster.class));
+        }
         return character;
     }
 
-    private static InPacket packetWithInts(int first, int second) {
-        return new ByteBufInPacket(Unpooled.buffer(8).writeIntLE(first).writeIntLE(second));
+    private static InPacket targetBlock(int damageLineCount, boolean withTrailer, int... monsterOids) {
+        var buffer = Unpooled.buffer();
+        for (int monsterOid : monsterOids) {
+            buffer.writeIntLE(monsterOid);
+            buffer.writeZero(14);
+            for (int i = 0; i < damageLineCount; i++) {
+                buffer.writeIntLE(1_000 + i);
+            }
+            if (withTrailer) {
+                buffer.writeIntLE(0x55667788);
+            }
+        }
+        return new ByteBufInPacket(buffer);
     }
 
     private static Monster monster(int objectId, int x, int y, boolean friendly) {
