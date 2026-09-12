@@ -103,13 +103,10 @@ import tools.Randomizer;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -629,14 +626,13 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
             }
         }
 
-        p.skip(8);
-
         if (ret.skill == Evan.ICE_BREATH || ret.skill == Evan.FIRE_BREATH || ret.skill == FPArchMage.BIG_BANG || ret.skill == ILArchMage.BIG_BANG || ret.skill == Bishop.BIG_BANG || ret.skill == Gunslinger.GRENADE || ret.skill == Brawler.CORKSCREW_BLOW || ret.skill == ThunderBreaker.CORKSCREW_BLOW || ret.skill == NightWalker.POISON_BOMB) {
             ret.charge = p.readInt();
         } else {
             ret.charge = 0;
         }
 
+        p.skip(8);
         ret.display = p.readByte();
         ret.direction = p.readByte();
         ret.stance = p.readByte();
@@ -650,11 +646,8 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
             p.readByte();
             ret.rangedirection = p.readByte();
             p.skip(7);
-            boolean noProjectile = ret.skill == Bowmaster.HURRICANE || ret.skill == Marksman.PIERCING_ARROW
-                    || ret.skill == Corsair.RAPID_FIRE || ret.skill == WindArcher.HURRICANE
-                    || ret.skill == NightLord.TAUNT || ret.skill == Shadower.TAUNT
-                    || ret.skill == Buccaneer.ENERGY_ORB || ret.skill == 4111004;
-            if (!noProjectile && p.available() >= (ret.numAttacked * (22 + ret.numDamage * 4) + 4)) {
+            if (ret.skill == Bowmaster.HURRICANE || ret.skill == Marksman.PIERCING_ARROW
+                    || ret.skill == Corsair.RAPID_FIRE || ret.skill == WindArcher.HURRICANE) {
                 p.skip(4);
             }
         } else {
@@ -802,10 +795,6 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
                 calcDmgMax = fixed;
             }
         }
-        // Latin v111 appends a four-byte CRC to every target. Some compatible clients omit it.
-        // Choose one layout for the complete block so a single unknown OID cannot desync the rest of the attack.
-        int targetTrailerBytes = detectAttackTargetTrailerSize(p, chr, ret.numAttacked, ret.numDamage,
-                hasDefaultAttackTargetTrailer(ret.skill));
         for (int i = 0; i < ret.numAttacked; i++) {
             int oid = p.readInt();
             p.skip(4);
@@ -943,141 +932,14 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
 
                 damageLines.add(damage);
             }
-            if (targetTrailerBytes > 0) {
-                p.skip(targetTrailerBytes);
-            }
+            p.skip(4);
             ret.targets.put(oid, new AttackTarget(delay, damageLines));
         }
         if (ret.skill == NightWalker.POISON_BOMB) { // Poison Bomb
             p.skip(4);
             ret.position.setLocation(p.readShort(), p.readShort());
         }
-        recoverMissingAreaAttackTargets(ret, chr);
-        expandSuperDragonRoarTargets(ret, chr);
         return ret;
-    }
-
-    private static boolean hasDefaultAttackTargetTrailer(int skillId) {
-        return skillId != Corsair.RAPID_FIRE && skillId != Aran.HIDDEN_FULL_DOUBLE
-                && skillId != Aran.HIDDEN_FULL_TRIPLE && skillId != Aran.HIDDEN_OVER_DOUBLE
-                && skillId != Aran.HIDDEN_OVER_TRIPLE;
-    }
-
-    static int detectAttackTargetTrailerSize(InPacket p, Character chr, int targetCount, int damageLineCount,
-                                             boolean defaultTrailer) {
-        if (targetCount <= 1) {
-            return defaultTrailer ? 4 : 0;
-        }
-
-        int position = p.getPosition();
-        int bytesWithoutTrailer = 18 + damageLineCount * Integer.BYTES;
-        int withoutTrailerScore = scoreAttackTargetLayout(p, chr, targetCount, bytesWithoutTrailer);
-        int withTrailerScore = scoreAttackTargetLayout(p, chr, targetCount, bytesWithoutTrailer + Integer.BYTES);
-        p.seek(position);
-
-        if (withoutTrailerScore > withTrailerScore) {
-            return 0;
-        }
-        if (withTrailerScore > withoutTrailerScore) {
-            return Integer.BYTES;
-        }
-        return defaultTrailer ? Integer.BYTES : 0;
-    }
-
-    private static int scoreAttackTargetLayout(InPacket p, Character chr, int targetCount, int bytesPerTarget) {
-        int position = p.getPosition();
-        if (p.available() < targetCount * bytesPerTarget) {
-            return -1;
-        }
-
-        int score = 0;
-        Set<Integer> seenOids = new HashSet<>();
-        for (int i = 0; i < targetCount; i++) {
-            p.seek(position + i * bytesPerTarget);
-            int oid = p.readInt();
-            if (seenOids.add(oid) && chr.getMap().getMonsterByOid(oid) != null) {
-                score++;
-            }
-        }
-        p.seek(position);
-        return score;
-    }
-
-    static void recoverMissingAreaAttackTargets(AttackInfo attack, Character chr) {
-        if (attack.skill <= 0 || attack.numAttacked <= 1 || attack.targets.isEmpty()) {
-            return;
-        }
-
-        StatEffect effect = attack.getAttackEffect(chr, null);
-        if (effect == null) {
-            return;
-        }
-
-        int reportedTargets = Math.min(attack.numAttacked, Math.min(effect.getMobCount(), 15));
-        if (reportedTargets <= 1) {
-            return;
-        }
-
-        MapleMap map = chr.getMap();
-        attack.targets.entrySet().removeIf(target -> map.getMonsterByOid(target.getKey()) == null);
-        if (attack.targets.isEmpty() || attack.targets.size() >= reportedTargets) {
-            return;
-        }
-
-        AttackTarget template = attack.targets.values().iterator().next();
-        Rectangle bounds = effect.getAttackBoundingBox(chr.getPosition(), chr.isFacingLeft());
-        List<Monster> candidates = new ArrayList<>(map.getAllMonsters());
-        candidates.sort(Comparator.comparingDouble(monster -> chr.getPosition().distanceSq(monster.getPosition())));
-
-        for (Monster monster : candidates) {
-            if (attack.targets.size() >= reportedTargets) {
-                break;
-            }
-            if (!monster.isAlive() || monster.getStats().isFriendly()
-                    || !bounds.contains(monster.getPosition())
-                    || attack.targets.containsKey(monster.getObjectId())) {
-                continue;
-            }
-            attack.targets.put(monster.getObjectId(),
-                    new AttackTarget(template.delay(), new ArrayList<>(template.damageLines())));
-        }
-    }
-
-    static void expandSuperDragonRoarTargets(AttackInfo attack, Character chr) {
-        if (attack.skill != SuperGM.SUPER_DRAGON_ROAR || attack.targets.isEmpty()) {
-            return;
-        }
-
-        StatEffect effect = attack.getAttackEffect(chr, null);
-        if (effect == null) {
-            return;
-        }
-
-        int maxTargets = Math.min(effect.getMobCount(), 15);
-        if (attack.targets.size() >= maxTargets) {
-            return;
-        }
-
-        AttackTarget template = attack.targets.values().iterator().next();
-        Rectangle bounds = effect.getBoundingBox(chr.getPosition(), chr.isFacingLeft());
-        List<Monster> candidates = new ArrayList<>(chr.getMap().getAllMonsters());
-        candidates.sort(Comparator.comparingDouble(monster -> chr.getPosition().distanceSq(monster.getPosition())));
-        for (Monster monster : candidates) {
-            if (attack.targets.size() >= maxTargets) {
-                break;
-            }
-            if (!monster.isAlive() || monster.getStats().isFriendly()
-                    || !bounds.contains(monster.getPosition())
-                    || attack.targets.containsKey(monster.getObjectId())) {
-                continue;
-            }
-
-            attack.targets.put(monster.getObjectId(),
-                    new AttackTarget(template.delay(), new ArrayList<>(template.damageLines())));
-        }
-
-        attack.numAttacked = attack.targets.size();
-        attack.numAttackedAndDamage = (attack.numAttacked << 4) | attack.numDamage;
     }
 
     private AttackInfo parseMesoExplosion(InPacket p, AttackInfo attackInfo) {
