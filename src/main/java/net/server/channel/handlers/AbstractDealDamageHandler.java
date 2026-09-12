@@ -104,9 +104,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.IntPredicate;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -795,6 +798,8 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
                 calcDmgMax = fixed;
             }
         }
+        int targetTrailerBytes = detectAttackTargetTrailerSize(p, ret.numAttacked, ret.numDamage,
+                oid -> chr.getMap().getMonsterByOid(oid) != null, defaultTargetTrailerBytes(ret.skill));
         for (int i = 0; i < ret.numAttacked; i++) {
             int oid = p.readInt();
             p.skip(4);
@@ -932,7 +937,7 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
 
                 damageLines.add(damage);
             }
-            p.skip(4);
+            p.skip(targetTrailerBytes);
             ret.targets.put(oid, new AttackTarget(delay, damageLines));
         }
         if (ret.skill == NightWalker.POISON_BOMB) { // Poison Bomb
@@ -940,6 +945,59 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
             ret.position.setLocation(p.readShort(), p.readShort());
         }
         return ret;
+    }
+
+    private static int defaultTargetTrailerBytes(int skillId) {
+        return skillId == Corsair.RAPID_FIRE || skillId == Aran.HIDDEN_FULL_DOUBLE
+                || skillId == Aran.HIDDEN_FULL_TRIPLE || skillId == Aran.HIDDEN_OVER_DOUBLE
+                || skillId == Aran.HIDDEN_OVER_TRIPLE ? 0 : Integer.BYTES;
+    }
+
+    static int detectAttackTargetTrailerSize(InPacket p, int targetCount, int damageLineCount,
+                                             IntPredicate isCurrentMonster, int defaultTrailerBytes) {
+        if (targetCount <= 1) {
+            return defaultTrailerBytes;
+        }
+
+        int position = p.getPosition();
+        int available = p.available();
+        int fixedTargetBytes = 18 + damageLineCount * Integer.BYTES;
+        int maxTrailerBytes = Math.min(32, Math.max(0, available / targetCount - fixedTargetBytes));
+        int bestTrailerBytes = defaultTrailerBytes;
+        int bestScore = -1;
+
+        for (int trailerBytes = 0; trailerBytes <= maxTrailerBytes; trailerBytes++) {
+            int targetBytes = fixedTargetBytes + trailerBytes;
+            if ((long) targetCount * targetBytes > available) {
+                continue;
+            }
+
+            int score = scoreAttackTargetLayout(p, position, targetCount, targetBytes, isCurrentMonster);
+            if (score > bestScore) {
+                bestScore = score;
+                bestTrailerBytes = trailerBytes;
+                if (score == targetCount) {
+                    break;
+                }
+            }
+        }
+
+        p.seek(position);
+        return bestScore > 1 ? bestTrailerBytes : defaultTrailerBytes;
+    }
+
+    private static int scoreAttackTargetLayout(InPacket p, int position, int targetCount, int targetBytes,
+                                               IntPredicate isCurrentMonster) {
+        int score = 0;
+        Set<Integer> seenOids = new HashSet<>();
+        for (int i = 0; i < targetCount; i++) {
+            p.seek(position + i * targetBytes);
+            int oid = p.readInt();
+            if (seenOids.add(oid) && isCurrentMonster.test(oid)) {
+                score++;
+            }
+        }
+        return score;
     }
 
     private AttackInfo parseMesoExplosion(InPacket p, AttackInfo attackInfo) {
