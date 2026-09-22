@@ -5,7 +5,7 @@ worlds:
     #Properties for LatinMS 0
   - flag: 2
     server_message: Bienvenido a LatinMS - MapleStory Latinoamerica!
-    event_message: LatinMS v82 | EXP 2x | Mesos 2x | Quest 5x | Drops 2x
+    event_message: LatinMS v82 | EXP 1x | Mesos 1x | Quest 5x | Drops 1x
     why_am_i_recommended: Servidor latino, comunidad amigable, rates equilibrados y progresion clasica.
     channels: 6
     exp_rate: 2
@@ -199,8 +199,8 @@ server:
     LOGIN_ATTEMPT_DURATION: 120         #Period in seconds the login attempt remains registered on the system.
 
     #Ip Configuration
-    HOST: 72.60.154.185                 #WAN IPv4 address
-    LANHOST: 72.60.154.185              #LAN IPv4 address
+    HOST: ms.redly.com.ar                 #WAN IPv4 address
+    LANHOST: ms.redly.com.ar              #LAN IPv4 address
     LOCALHOST: 127.0.0.1            #Loopback IPv4 address
     GMSERVER: false
 
