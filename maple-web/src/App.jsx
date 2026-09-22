@@ -47,10 +47,10 @@ import { API_URL, getToken, saveToken, request } from "./apiClient";
 const downloadUrl =
   "https://drive.google.com/file/d/135SdtvRBD22_9GtFQcWzaIZxrkd6LXLo/view?usp=sharing";
 const updateDownloadUrl =
-  "https://drive.google.com/file/d/1MO9nkQUnwGjgMrNGaBcGgw2i1BtbM2fs/view?usp=sharing";
-const updateNoticeStorageKey = "everleafms-visual-patch-notice-2026-06-05";
-const updateNoticeStartDate = "2026-06-05";
-const updateNoticeDurationDays = 7;
+  "https://drive.google.com/file/d/1Y7rOwKW08_11oOszWmQimhZ45boNk04c/view?usp=sharing";
+const updateNoticeStorageKey = "everleafms-correction-patch-notice-2026-09-22";
+const updateNoticeStartDate = "2026-09-22";
+const updateNoticeDurationDays = 14;
 const showUpdateContent = true;
 const discordUrl = "https://discord.gg/MQmemhMfX";
 const whatsappUrl = "https://chat.whatsapp.com/GKQyubuq4ml8HMrhUTzr7H?s=sw&p=i&ilr=2";
@@ -172,24 +172,32 @@ const translations = {
       downloadClient: "Download client",
       launcherRecommendation:
         "RECOMMENDATION: to open the game, use EVERLEAFMS LAUNCHER.cmd (it closes open client processes and then starts the game cleanly).",
-      patchTitle: "Latest visual patch",
+      patchTitle: "Correction patch",
       patchCopy:
-        "Already have the client? Download this visual patch, unzip it, paste the launcher into your game folder, and replace the previous one when Windows asks.",
+        "Keep your current EverleafMs client installed. Download this correction patch and copy its files into the existing game folder, replacing the previous files when Windows asks.",
+      patchSteps: [
+        "Close EverleafMs and the launcher before starting.",
+        "Download and extract parcheEverleafMs.rar.",
+        "Open the extracted patch folder and copy all its files.",
+        "Paste them into the folder where your current EverleafMs client is installed.",
+        "When Windows asks, choose Replace the files in the destination.",
+        "Start the game normally. You do not need to download or reinstall the full client.",
+      ],
       patchDownload: "Download patch",
     },
     updateNotice: {
-      kicker: "Required update",
-      title: "Download the latest EverleafMs visual patch",
+      kicker: "Correction patch",
+      title: "Download the new EverleafMs correction patch",
       copy:
-        "A new visual patch is available. Download it now and replace the launcher so your client shows the latest EverleafMs visuals.",
+        "Keep your original client. Apply this patch over the existing installation and replace the previous files when Windows asks.",
       steps: [
-        "Download the visual patch.",
-        "Unzip it.",
-        "Take the launcher file from the extracted download.",
-        "Open your game folder and paste the launcher there.",
-        "When Windows asks if you want to replace it, choose Yes.",
+        "Close the game and the launcher.",
+        "Download and extract parcheEverleafMs.rar.",
+        "Copy all the extracted files into your current EverleafMs folder.",
+        "When Windows asks, choose Replace the files in the destination.",
+        "Start the game normally; do not reinstall the full client.",
       ],
-      download: "Download visual patch",
+      download: "Download correction patch",
       accept: "Got it, do not show today",
       closeLabel: "Close update notice",
     },
@@ -466,24 +474,32 @@ const translations = {
       downloadClient: "Descargar cliente",
       launcherRecommendation:
         "RECOMENDACION: para abrir el juego usar EVERLEAFMS LAUNCHER.cmd (cierra procesos abiertos del cliente y luego inicia el juego limpio).",
-      patchTitle: "Parche visual",
+      patchTitle: "Parche de correccion",
       patchCopy:
-        "Ya tienes el cliente? Descarga este parche visual, descomprimilo, pega el launcher en la carpeta del juego y reemplaza el anterior cuando Windows pregunte.",
+        "Conserva instalado tu cliente actual de EverleafMs. Descarga este parche de correccion y copia sus archivos dentro de la carpeta existente del juego, reemplazando los anteriores cuando Windows pregunte.",
+      patchSteps: [
+        "Cierra EverleafMs y el launcher antes de comenzar.",
+        "Descarga y descomprime parcheEverleafMs.rar.",
+        "Abre la carpeta del parche extraido y copia todos sus archivos.",
+        "Pegalos dentro de la carpeta donde ya tienes instalado el cliente de EverleafMs.",
+        "Cuando Windows pregunte, elige Reemplazar los archivos en el destino.",
+        "Inicia el juego normalmente. No necesitas volver a descargar ni reinstalar el cliente completo.",
+      ],
       patchDownload: "Descargar parche",
     },
     updateNotice: {
-      kicker: "Actualizacion necesaria",
-      title: "Descarga el ultimo parche visual de EverleafMs",
+      kicker: "Parche de correccion",
+      title: "Descarga el nuevo parche de correccion de EverleafMs",
       copy:
-        "Hay un nuevo parche visual disponible. Descargalo y reemplaza el launcher para que tu cliente muestre los ultimos visuales de EverleafMs.",
+        "Conserva tu cliente original. Aplica este parche sobre la instalacion existente y reemplaza los archivos anteriores cuando Windows pregunte.",
       steps: [
-        "Descarga el parche visual.",
-        "Descomprimila.",
-        "Toma el archivo launcher de la descarga extraida.",
-        "Abre la carpeta del juego y pega el launcher ahi.",
-        "Cuando Windows pregunte si lo quieres reemplazar, elige Si.",
+        "Cierra el juego y el launcher.",
+        "Descarga y descomprime parcheEverleafMs.rar.",
+        "Copia todos los archivos extraidos dentro de tu carpeta actual de EverleafMs.",
+        "Cuando Windows pregunte, elige Reemplazar los archivos en el destino.",
+        "Inicia el juego normalmente; no reinstales el cliente completo.",
       ],
-      download: "Descargar parche visual",
+      download: "Descargar parche de correccion",
       accept: "Entendido, no mostrar hoy",
       closeLabel: "Cerrar aviso de actualizacion",
     },
@@ -2953,6 +2969,19 @@ function App() {
                       <ArrowRight size={18} />
                     </a>
                     <p className="download-recommendation">{t.pages.launcherRecommendation}</p>
+                    <section className="download-patch" aria-labelledby="correction-patch-title">
+                      <h3 id="correction-patch-title">{t.pages.patchTitle}</h3>
+                      <p>{t.pages.patchCopy}</p>
+                      <ol>
+                        {t.pages.patchSteps.map((step) => (
+                          <li key={step}>{step}</li>
+                        ))}
+                      </ol>
+                      <a className="button-secondary" href={updateDownloadUrl} target="_blank" rel="noreferrer">
+                        <Download size={18} />
+                        {t.pages.patchDownload}
+                      </a>
+                    </section>
                   </div>
                 </div>
               </section>

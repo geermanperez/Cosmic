@@ -2994,6 +2994,20 @@ textarea::placeholder,
   line-height: 1.55;
 }
 
+.download-patch ol {
+  display: grid;
+  gap: 8px;
+  margin: 2px 0 4px;
+  padding-left: 22px;
+  color: #6c533f;
+  line-height: 1.5;
+}
+
+.download-patch li::marker {
+  color: var(--everleaf-gold);
+  font-weight: 900;
+}
+
 .download-patch .button-secondary {
   justify-self: start;
 }
