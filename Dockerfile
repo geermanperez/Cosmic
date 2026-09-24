@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 # Initial Docker support thanks to xinyifly
 # Optimisation performed by wejrox
 
@@ -12,17 +13,11 @@ WORKDIR /opt/cosmic
 # Any changes to the pom will affect the entire build, so it should be copied first.
 COPY pom.xml ./pom.xml
 
-# Grab all the dependencies listed in the pom early, since it prevents changes to source code from requiring a complete re-download.
-# Skip compiling tests since we don't want all the dependencies to be downloaded.
-# RUN mvn -f ./pom.xml clean dependency:go-offline -Dmaven.test.skip -T 1C
-# TODO: The above command stopped working as of Java 21 upgrade due to:
-# Failed to execute goal org.apache.maven.plugins:maven-dependency-plugin:3.6.1:go-offline (default-cli) on project Cosmic: org.eclipse.aether.resolution.DependencyResolutionException: The following artifacts could
-# not be resolved: io.netty:netty-tcnative:jar:${os.detected.classifier}:2.0.65.Final (absent): Could not find artifact io.netty:netty-tcnative:jar:${os.detected.classifier}:2.0.65.Final in central (https://repo.maven.apache.org/maven2) -> [Help 1]
-
-# Source code changes may not change dependencies, so it can go last.
-# Skip compiling tests since we don't want all the dependecies to be downloaded for plugins.
+# Reuse downloaded dependencies and plugins when source changes invalidate this layer.
+# BuildKit retains this cache on the builder; sharing=locked protects concurrent builds.
+# Keep normal package resolution instead of the incompatible dependency:go-offline goal.
 COPY src ./src
-RUN mvn -f ./pom.xml clean package -Dmaven.test.skip -T 1C
+RUN --mount=type=cache,id=cosmic-maven-repository,target=/root/.m2/repository,sharing=locked mvn -B -ntp -f ./pom.xml clean package -Dmaven.test.skip -T 1C
 
 #
 # Server creation stage
