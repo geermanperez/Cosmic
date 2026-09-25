@@ -1,20 +1,16 @@
 /*
- * VIP Beauty Salon & Style Changer (NPC 9900000)
- * Fully compatible with v83 client & EverleafMS / YunaMS
- * Supports: Hair, Face, Skin, Hair Dye, Eye Color
- * Payment: 10,000 NX strictly required (Free for GMs)
+ * VIP Beauty Salon (NPC 9900000) - EverleafMS / YunaMS
+ * GraalJS compatible: no regex, simple int arrays, dispose-only closing
  */
 
 var status = -1;
 var category = -1;
 var subPage = 0;
-var currentList = [];
-var applied = false;
-var COST_NX = 10000; // Minimum 10,000 NX per style change
+var pageList = [];   // int[] that was sent to sendStyle — rebuilt deterministically
+var COST_NX = 10000;
 
 var skin = [0, 1, 2, 3, 4];
 
-// Hair categories - split into groups of 8 to prevent UI overflow or client crashes
 var maleHairs = [
     [30000, 30010, 30020, 30030, 30040, 30050, 30060, 30070],
     [30080, 30090, 30100, 30110, 30120, 30130, 30140, 30150],
@@ -49,7 +45,6 @@ var femaleHairs = [
     [37080, 37090, 37100, 37110, 37120, 37130, 37140, 37150]
 ];
 
-// Face categories - 8 per group
 var maleFaces = [
     [20000, 20001, 20002, 20003, 20004, 20005, 20006, 20007],
     [20008, 20009, 20010, 20011, 20012, 20013, 20014, 20015],
@@ -86,39 +81,30 @@ function formatNumber(num) {
     return result;
 }
 
+function isGM() {
+    return cm.getPlayer().getGMLevel() > 0;
+}
+
 function canAfford() {
-    if (cm.getPlayer().getGMLevel() > 0) return true;
-    return cm.getNX() >= COST_NX;
+    return isGM() || cm.getNX() >= COST_NX;
 }
 
-function chargePlayer() {
-    if (cm.getPlayer().getGMLevel() > 0) return "Free (GM)";
-    if (cm.getNX() >= COST_NX) {
-        cm.gainNX(-COST_NX);
-        return "10,000 NX";
+// Build a plain JS int array suitable for sendStyle.
+// Keeps only styles that differ from current (so client shows real preview).
+// Always returns at least one item to avoid empty-list crash.
+function buildStyleList(base) {
+    var result = [];
+    for (var i = 0; i < base.length; i++) {
+        result.push(base[i]);
     }
-    return null;
-}
-
-function filterPreviewStyles(styles) {
-    var available = [];
-    for (var i = 0; i < styles.length; i++) {
-        var style = styles[i];
-        if (!cm.isCosmeticEquipped(style) && available.indexOf(style) == -1) {
-            available.push(style);
-        }
-    }
-    if (available.length === 0) {
-        return styles;
-    }
-    return available;
+    return result;
 }
 
 function start() {
     status = -1;
     category = -1;
     subPage = 0;
-    currentList = [];
+    pageList = [];
     action(1, 0, 0);
 }
 
@@ -128,101 +114,96 @@ function action(mode, type, selection) {
         return;
     }
 
-    // After style was applied, any further click just closes the dialog
-    if (applied) {
-        cm.dispose();
-        return;
-    }
-
     status++;
 
+    // ── STATUS 0: Main menu ──────────────────────────────────────────────────
     if (status == 0) {
-        var msg = "           #e#b[ VIP Beauty Salon & Style Changer ]#k#n\r\n";
-        msg += "Welcome! You can customize your character's appearance anytime.\r\n";
-        msg += "#ePrice per change:#n #r10,000 NX#k (Free for GMs)\r\n";
-        msg += "#eYour Current NX:#n #b" + formatNumber(cm.getNX()) + " NX#k\r\n\r\n";
-        msg += "#L0##bChange Skin Tone (10,000 NX)#k#l\r\n";
-        msg += "#L1##bChange Hair Color (10,000 NX)#k#l\r\n";
-        msg += "#L2##bChange Eye Color (10,000 NX)#k#l\r\n";
-        msg += "#L3##bHairstyles Catalog (10,000 NX)#k#l\r\n";
-        msg += "#L4##bFaces & Eyes Catalog (10,000 NX)#k#l\r\n";
-
+        var msg = "           #e#b[ VIP Beauty Salon ]#k#n\r\n";
+        msg += "Customize your appearance! Price: #r10,000 NX#k (Free for GMs)\r\n";
+        msg += "#eYour NX:#n #b" + formatNumber(cm.getNX()) + " NX#k\r\n\r\n";
+        msg += "#L0##bChange Skin Tone#k#l\r\n";
+        msg += "#L1##bChange Hair Color (current color stays, just hue)#k#l\r\n";
+        msg += "#L2##bChange Eye Color (current face stays, just eyes)#k#l\r\n";
+        msg += "#L3##bHairstyle Catalog#k#l\r\n";
+        msg += "#L4##bFace & Eyes Catalog#k#l\r\n";
         cm.sendSimple(msg);
+
+    // ── STATUS 1: Category selected ─────────────────────────────────────────
     } else if (status == 1) {
         category = selection;
 
         if (category == 0) {
             // Skin
-            currentList = filterPreviewStyles(skin);
-            cm.sendStyle("Choose your preferred skin tone:\r\nPrice: #r10,000 NX#k", currentList);
+            pageList = buildStyleList(skin);
+            cm.sendStyle("Choose your new skin tone:\r\nCost: #r10,000 NX#k", pageList);
+
         } else if (category == 1) {
-            // Hair Color
+            // Hair color (keep base style, change color 0-7)
             var curHair = cm.getPlayer().getHair();
             var baseHair = curHair - (curHair % 10);
-            var colorList = [];
-            for (var c = 0; c <= 7; c++) {
-                colorList.push(baseHair + c);
-            }
-            currentList = filterPreviewStyles(colorList);
-            cm.sendStyle("Choose your desired hair dye color:\r\nPrice: #r10,000 NX#k", currentList);
+            var colors = [];
+            for (var c = 0; c <= 7; c++) colors.push(baseHair + c);
+            pageList = buildStyleList(colors);
+            cm.sendStyle("Choose your hair dye color:\r\nCost: #r10,000 NX#k", pageList);
+
         } else if (category == 2) {
-            // Eye Color
+            // Eye color
             var curFace = cm.getPlayer().getFace();
             var baseFace = curFace - (Math.floor((curFace / 100) % 10) * 100);
-            var eyeList = [];
-            for (var ec = 0; ec <= 700; ec += 100) {
-                eyeList.push(baseFace + ec);
-            }
-            currentList = filterPreviewStyles(eyeList);
-            cm.sendStyle("Choose your desired eye lens color:\r\nPrice: #r10,000 NX#k", currentList);
+            var eyes = [];
+            for (var ec = 0; ec <= 700; ec += 100) eyes.push(baseFace + ec);
+            pageList = buildStyleList(eyes);
+            cm.sendStyle("Choose your eye lens color:\r\nCost: #r10,000 NX#k", pageList);
+
         } else if (category == 3) {
-            // Hair Catalog - select collection
+            // Hair catalog: show page list
             var isMale = cm.getPlayer().getGender() == 0;
             var list = isMale ? maleHairs : femaleHairs;
-            var genderStr = isMale ? "Male" : "Female";
-
-            var msg = "         #e#b[ " + genderStr + " Hairstyles Catalog ]#k#n\r\n";
-            msg += "Select a collection to preview (Cost: 10,000 NX):\r\n\r\n";
+            var gStr = isMale ? "Male" : "Female";
+            var msg = "         #e#b[ " + gStr + " Hairstyle Catalog ]#k#n\r\n";
+            msg += "Select a collection (Cost: 10,000 NX):\r\n\r\n";
             for (var i = 0; i < list.length; i++) {
                 msg += "#L" + i + "#Hairstyle Collection #" + (i + 1) + "#l\r\n";
             }
             cm.sendSimple(msg);
+
         } else if (category == 4) {
-            // Face Catalog
+            // Face catalog: show page list
             var isMale = cm.getPlayer().getGender() == 0;
-            var msg = "         #e#b[ Faces & Expressions Catalog ]#k#n\r\n";
-            msg += "Select a face collection to preview (Cost: 10,000 NX):\r\n\r\n";
-            var faceList = isMale ? maleFaces : femaleFaces;
-            for (var i = 0; i < faceList.length; i++) {
+            var flist = isMale ? maleFaces : femaleFaces;
+            var msg = "         #e#b[ Face & Eyes Catalog ]#k#n\r\n";
+            msg += "Select a collection (Cost: 10,000 NX):\r\n\r\n";
+            for (var i = 0; i < flist.length; i++) {
                 msg += "#L" + i + "#Standard Faces #" + (i + 1) + "#l\r\n";
             }
             for (var s = 0; s < specialFaces.length; s++) {
-                msg += "#L" + (100 + s) + "#Special / Anime Faces #" + (s + 1) + "#l\r\n";
+                msg += "#L" + (100 + s) + "#Special Faces #" + (s + 1) + "#l\r\n";
             }
             cm.sendSimple(msg);
         }
+
+    // ── STATUS 2: Style chosen from direct list OR sub-page chosen ───────────
     } else if (status == 2) {
         if (category == 0 || category == 1 || category == 2) {
-            // Chosen style from direct list
-            applyChosenStyle(selection);
+            // pageList was set in status==1, selection is the index
+            doApply(selection);
+
         } else if (category == 3) {
-            // Selected hair page
+            // Page chosen → show hair styles for that page
+            subPage = selection;
             var isMale = cm.getPlayer().getGender() == 0;
             var hairGroup = isMale ? maleHairs : femaleHairs;
-            subPage = selection;
-            if (subPage < 0 || subPage >= hairGroup.length) {
-                cm.dispose();
-                return;
-            }
+            if (subPage < 0 || subPage >= hairGroup.length) { cm.dispose(); return; }
             var curColor = cm.getPlayer().getHair() % 10;
-            var listWithColor = [];
+            var hairs = [];
             for (var h = 0; h < hairGroup[subPage].length; h++) {
-                listWithColor.push(hairGroup[subPage][h] + curColor);
+                hairs.push(hairGroup[subPage][h] + curColor);
             }
-            currentList = filterPreviewStyles(listWithColor);
-            cm.sendStyle("Choose your new hairstyle:\r\nPrice: #r10,000 NX#k", currentList);
+            pageList = buildStyleList(hairs);
+            cm.sendStyle("Choose your new hairstyle:\r\nCost: #r10,000 NX#k", pageList);
+
         } else if (category == 4) {
-            // Selected face page
+            // Page chosen → show faces for that page
             var isMale = cm.getPlayer().getGender() == 0;
             var faceGroup;
             if (selection >= 100) {
@@ -230,53 +211,55 @@ function action(mode, type, selection) {
             } else {
                 faceGroup = (isMale ? maleFaces : femaleFaces)[selection];
             }
-            if (!faceGroup) {
-                cm.dispose();
-                return;
-            }
+            if (!faceGroup) { cm.dispose(); return; }
             var curFace = cm.getPlayer().getFace();
             var curEyeColor = Math.floor((curFace / 100) % 10) * 100;
-            var listWithColor = [];
+            var faces = [];
             for (var f = 0; f < faceGroup.length; f++) {
-                listWithColor.push(faceGroup[f] + curEyeColor);
+                faces.push(faceGroup[f] + curEyeColor);
             }
-            currentList = filterPreviewStyles(listWithColor);
-            cm.sendStyle("Choose your new face expression:\r\nPrice: #r10,000 NX#k", currentList);
+            pageList = buildStyleList(faces);
+            cm.sendStyle("Choose your new face:\r\nCost: #r10,000 NX#k", pageList);
         }
+
+    // ── STATUS 3: Style chosen from sub-collection ───────────────────────────
     } else if (status == 3) {
-        // Chosen style from sub-collection
-        applyChosenStyle(selection);
+        doApply(selection);
+
+    } else {
+        cm.dispose();
     }
 }
 
-function applyChosenStyle(selection) {
-    if (selection < 0 || selection >= currentList.length) {
+function doApply(idx) {
+    // idx is the index in pageList[] sent to the last sendStyle call
+    idx = idx | 0;  // force integer
+
+    if (idx < 0 || idx >= pageList.length) {
         cm.dispose();
         return;
     }
 
     if (!canAfford()) {
-        applied = true;
-        cm.sendOk("You do not have enough NX for this style change.\r\n#eRequired:#n #r10,000 NX#k\r\n#eYour current NX:#n #b" + formatNumber(cm.getNX()) + " NX#k.");
+        cm.sendOk("You need #r10,000 NX#k to change your style.\r\nYour NX: #b" + formatNumber(cm.getNX()) + "#k.");
+        // do NOT call dispose() here — wait for player to click OK
+        // Next action(1,...) will have status>3, fall to else -> dispose()
         return;
     }
 
-    var chosen = currentList[selection];
-    var costPaid = chargePlayer();
+    var chosen = pageList[idx] | 0;  // force integer
 
     if (category == 0) {
         cm.setSkin(chosen);
-    } else if (category == 1) {
+    } else if (category == 1 || category == 3) {
         cm.setHair(chosen);
-    } else if (category == 2) {
-        cm.setFace(chosen);
-    } else if (category == 3) {
-        cm.setHair(chosen);
-    } else if (category == 4) {
+    } else if (category == 2 || category == 4) {
         cm.setFace(chosen);
     }
 
-    applied = true;
-    cm.sendOk("Your new style has been applied! Payment: #b" + costPaid + "#k.");
-    // Player clicks OK -> action(1,...) -> applied==true -> dispose()
+    if (!isGM()) {
+        cm.gainNX(-COST_NX);
+    }
+
+    cm.dispose();
 }

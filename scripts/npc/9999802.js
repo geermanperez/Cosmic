@@ -1,22 +1,20 @@
 /*
  * Jarvis - Multi-function Personal Assistant (EverleafMS / YunaMS)
  * NPC ID: 9999802
- * Accessible via:
- * 1. Trade Button (MTS) anywhere in-game
- * 2. Commands: @jarvis, @servicios
- * 3. Clicking the Jarvis computer NPC in Free Market (910000000)
+ * Access: Trade Button (MTS), @jarvis, @servicios
+ * GraalJS compatible: no regex, no sendOk+dispose race
  */
 
 var status = -1;
 var selectedOption = -1;
-var TELEPORT_COST = 100000; // 100,000 Mesos travel fee
+var TELEPORT_COST = 100000;
 
 var newZones = [
-    { name: "Gate to the Future (Door to the Future)", id: 271000000, desc: "Level 150+ - Future Henesys & Empress Cygnus" },
-    { name: "Lion Heart Castle (Entrance Wall)", id: 211060000, desc: "Level 110+ - Von Leon Castle" },
-    { name: "Tera Forest & Neo City (Time Gate)", id: 240070000, desc: "Level 100+ - Futuristic Time Gate" },
-    { name: "Golden Temple (Sacred Grounds)", id: 950000000, desc: "Level 70+ - Golden Temple & Ravana" },
-    { name: "Crimsonwood Keep (Courtyard)", id: 610030000, desc: "Level 90+ - Masteria Mountains & Keep" },
+    { name: "Gate to the Future", id: 271000000, desc: "Level 150+ - Future Henesys / Empress Cygnus" },
+    { name: "Lion Heart Castle", id: 211060000, desc: "Level 110+ - Von Leon Castle" },
+    { name: "Tera Forest & Neo City", id: 240070000, desc: "Level 100+ - Futuristic Time Gate" },
+    { name: "Golden Temple", id: 950000000, desc: "Level 70+ - Ravana Boss Zone" },
+    { name: "Crimsonwood Keep", id: 610030000, desc: "Level 90+ - Masteria Mountains" },
     { name: "Chryse (Orbis Sky Port)", id: 200080100, desc: "Level 50+ - Celestial Island Departure" }
 ];
 
@@ -46,87 +44,92 @@ function action(mode, type, selection) {
 
     status++;
 
+    // ── STATUS 0: Main menu ──────────────────────────────────────────────────
     if (status == 0) {
         var msg = "             #e#b[ JARVIS - Personal Assistant ]#k#n\r\n";
-        msg += "Hello #e#h ##n, I am Jarvis, your personal assistant. How may I help you today?\r\n\r\n";
+        msg += "Hello #e#h ##n! How may I assist you today?\r\n\r\n";
         msg += "#L0##b[1] Universal Account Storage#k#l\r\n";
         msg += "#L1##b[2] VIP Beauty Salon & Style Changer (10k NX)#k#l\r\n";
         msg += "#L2##b[3] New Expansion Teleport (100k Mesos)#k#l\r\n";
         msg += "#L3##b[4] General Store & Consumables#k#l\r\n";
         msg += "#L4##b[5] Warp to Free Market Entrance#k#l\r\n";
-        msg += "#L5##b[6] Unstuck Character (@dispose)#k#l\r\n";
-        msg += "#L6##b[7] Server Information & Rates#k#l\r\n";
-
+        msg += "#L5##b[6] Server Information & Rates#k#l\r\n";
         cm.sendSimple(msg);
+
+    // ── STATUS 1: Option selected ────────────────────────────────────────────
     } else if (status == 1) {
-        selectedOption = selection;
+        selectedOption = selection | 0;
 
         if (selectedOption == 0) {
-            // Universal Account Storage
             cm.openStorage();
-        } else if (selectedOption == 1) {
-            // VIP Beauty Salon
-            cm.openNpc(9900000);
-        } else if (selectedOption == 2) {
-            // New Expansion Teleport
-            var travelMsg = "         #e#b[ New Expansion Zones Teleport ]#k#n\r\n";
-            travelMsg += "Select an expansion zone to travel to:\r\n";
-            travelMsg += "#eTravel Fee:#n #r" + formatNumber(TELEPORT_COST) + " Mesos#k (Free for GMs)\r\n";
-            travelMsg += "#eYour Mesos:#n #b" + formatNumber(cm.getMeso()) + " Mesos#k\r\n\r\n";
+            cm.dispose();
 
+        } else if (selectedOption == 1) {
+            cm.openNpc(9900000);
+            // openNpc disposes current and starts the other NPC
+
+        } else if (selectedOption == 2) {
+            // Show expansion zone list
+            var isGm = cm.getPlayer().getGMLevel() > 0;
+            var travelMsg = "         #e#b[ New Expansion Zones Teleport ]#k#n\r\n";
+            travelMsg += "Travel Fee: #r" + formatNumber(TELEPORT_COST) + " Mesos#k";
+            travelMsg += (isGm ? " #g(Free for GMs)#k" : "") + "\r\n";
+            travelMsg += "Your Mesos: #b" + formatNumber(cm.getMeso()) + "#k\r\n\r\n";
             for (var i = 0; i < newZones.length; i++) {
-                travelMsg += "#L" + i + "##b" + newZones[i].name + "#k\r\n   #d" + newZones[i].desc + "#k#l\r\n";
+                travelMsg += "#L" + i + "##b" + newZones[i].name + "#k\r\n";
+                travelMsg += "   #d" + newZones[i].desc + "#k#l\r\n";
             }
             cm.sendSimple(travelMsg);
+
         } else if (selectedOption == 3) {
-            // General Store & Consumables (1012000)
             cm.openShopNPC(1012000);
-        } else if (selectedOption == 4) {
-            // Warp to Free Market
-            if (cm.getPlayer().getMapId() == 910000000) {
-                cm.sendOk("You are already at the Free Market!");
-                cm.dispose();
-            } else {
-                cm.warp(910000000);
-                cm.dispose();
-            }
-        } else if (selectedOption == 5) {
-            // Unstuck (@dispose)
-            cm.enableActions();
-            cm.sendOk("Your character actions and status have been refreshed successfully.");
             cm.dispose();
-        } else if (selectedOption == 6) {
+
+        } else if (selectedOption == 4) {
+            // Free Market warp
+            cm.warp(910000000, 0);
+            cm.dispose();
+
+        } else if (selectedOption == 5) {
             // Server Info
             var world = cm.getClient().getWorldServer();
-            var expRate = (world != null) ? world.getExpRate() : 1;
-            var mesoRate = (world != null) ? world.getMesoRate() : 1;
-            var dropRate = (world != null) ? world.getDropRate() : 1;
-            var bossDropRate = (world != null) ? world.getBossDropRate() : 1;
-            var channel = cm.getClient().getChannel();
+            var expRate  = (world != null) ? world.getExpRate()      : 1;
+            var mesoRate = (world != null) ? world.getMesoRate()     : 1;
+            var dropRate = (world != null) ? world.getDropRate()     : 1;
+            var bossRate = (world != null) ? world.getBossDropRate() : 1;
+            var ch = cm.getClient().getChannel();
 
-            var info = "           #e#b[ Server Information ]#k#n\r\n\r\n";
-            info += "#b• Current Channel:#k " + channel + "\r\n";
+            var info = "           #e#b[ YunaMS Server Info ]#k#n\r\n\r\n";
+            info += "#b• Channel:#k " + ch + "\r\n";
             info += "#b• EXP Rate:#k " + expRate + "x\r\n";
             info += "#b• Meso Rate:#k " + mesoRate + "x\r\n";
             info += "#b• Drop Rate:#k " + dropRate + "x\r\n";
-            info += "#b• Boss Drop Rate:#k " + bossDropRate + "x\r\n";
-            info += "#b• Server Time:#k " + new Date().toUTCString() + "\r\n";
+            info += "#b• Boss Drop Rate:#k " + bossRate + "x\r\n";
+            info += "#b• Time (UTC):#k " + new Date().toUTCString() + "\r\n";
 
             cm.sendOk(info);
+            // Player clicks OK -> action(1,...) -> status==2 -> dispose()
+
+        } else {
             cm.dispose();
         }
+
+    // ── STATUS 2: Zone selected from teleport list, or OK after server info ──
     } else if (status == 2) {
         if (selectedOption == 2) {
-            if (selection < 0 || selection >= newZones.length) {
+            // Zone selection: selection is the zone index
+            var idx = selection | 0;
+            if (idx < 0 || idx >= newZones.length) {
                 cm.dispose();
                 return;
             }
 
-            var dest = newZones[selection];
+            var dest = newZones[idx];
+            var destId = dest.id | 0;
             var isGm = cm.getPlayer().getGMLevel() > 0;
 
             if (!isGm && cm.getMeso() < TELEPORT_COST) {
-                cm.sendOk("You do not have enough mesos to travel.\r\nThe travel fee is #r" + formatNumber(TELEPORT_COST) + " Mesos#k.\r\nYour current mesos: #b" + formatNumber(cm.getMeso()) + " Mesos#k.");
+                // Not enough mesos - just dispose (don't sendOk+dispose)
                 cm.dispose();
                 return;
             }
@@ -135,8 +138,15 @@ function action(mode, type, selection) {
                 cm.gainMeso(-TELEPORT_COST);
             }
 
-            cm.warp(dest.id);
+            cm.warp(destId, 0);
+            cm.dispose();
+
+        } else {
+            // Any other status==2 (e.g., after server info sendOk OK click)
             cm.dispose();
         }
+
+    } else {
+        cm.dispose();
     }
 }
