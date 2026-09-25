@@ -25,32 +25,19 @@ import client.Character;
 import client.Client;
 import net.AbstractPacketHandler;
 import net.packet.InPacket;
-import server.maps.FieldLimit;
-import server.maps.MiniDungeonInfo;
+import scripting.npc.NPCScriptManager;
 import tools.PacketCreator;
 
 
 public final class EnterMTSHandler extends AbstractPacketHandler {
-    private static final int FREE_MARKET_ENTRANCE = 910000000;
+    public static final int JARVIS_NPC_ID = 9200000;
 
     @Override
     public void handlePacket(InPacket p, Client c) {
         Character chr = c.getPlayer();
 
         if (chr.getEventInstance() != null) {
-            c.sendPacket(PacketCreator.serverNotice(5, "Entering Free Market is disabled when registered on an event."));
-            c.sendPacket(PacketCreator.enableActions());
-            return;
-        }
-
-        if (MiniDungeonInfo.isDungeonMap(chr.getMapId())) {
-            c.sendPacket(PacketCreator.serverNotice(5, "Changing channels or entering Free Market are disabled when inside a Mini-Dungeon."));
-            c.sendPacket(PacketCreator.enableActions());
-            return;
-        }
-
-        if (FieldLimit.CANNOTMIGRATE.check(chr.getMap().getFieldLimit())) {
-            chr.dropMessage(1, "You can't do it here in this map.");
+            c.sendPacket(PacketCreator.serverNotice(5, "No puedes usar los servicios de Jarvis mientras estas en un evento."));
             c.sendPacket(PacketCreator.enableActions());
             return;
         }
@@ -63,6 +50,9 @@ public final class EnterMTSHandler extends AbstractPacketHandler {
         chr.closePlayerInteractions();
         chr.closePartySearchInteractions();
 
-        chr.changeMap(FREE_MARKET_ENTRANCE);
+        c.sendPacket(PacketCreator.enableActions());
+        NPCScriptManager.getInstance().dispose(c);
+        NPCScriptManager.getInstance().start(c, JARVIS_NPC_ID);
     }
 }
+
