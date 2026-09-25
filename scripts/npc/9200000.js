@@ -51,7 +51,7 @@ function action(mode, type, selection) {
             cm.openNpc(9900000);
         } else if (selectedOption == 2) {
             var travelMsg = "         #e#b[ New Expansion Zones Teleport ]#k#n\r\n";
-            travelMsg += "Select a destination to travel to.\r\n";
+            travelMsg += "Select an expansion zone to travel to:\r\n";
             travelMsg += "#eTravel Fee:#n #r" + TELEPORT_COST.toLocaleString() + " Mesos#k (Free for GMs)\r\n";
             travelMsg += "#eYour Mesos:#n #b" + cm.getMeso().toLocaleString() + " Mesos#k\r\n\r\n";
 

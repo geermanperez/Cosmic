@@ -119,11 +119,11 @@ function action(mode, type, selection) {
         msg += "Welcome! You can customize your character's appearance anytime.\r\n";
         msg += "#ePrice per change:#n #r10,000 NX#k (Free for GMs)\r\n";
         msg += "#eYour Current NX:#n #b" + cm.getNX().toLocaleString() + " NX#k\r\n\r\n";
-        msg += "#L0##bChange Skin Tone#k#l\r\n";
-        msg += "#L1##bChange Hair Color (Dye)#k#l\r\n";
-        msg += "#L2##bChange Eye Color (Cosmetic Lenses)#k#l\r\n";
-        msg += "#L3##bHairstyles Catalog#k#l\r\n";
-        msg += "#L4##bFaces & Eyes Catalog#k#l\r\n";
+        msg += "#L0##bChange Skin Tone (10,000 NX)#k#l\r\n";
+        msg += "#L1##bChange Hair Color (10,000 NX)#k#l\r\n";
+        msg += "#L2##bChange Eye Color (10,000 NX)#k#l\r\n";
+        msg += "#L3##bHairstyles Catalog (10,000 NX)#k#l\r\n";
+        msg += "#L4##bFaces & Eyes Catalog (10,000 NX)#k#l\r\n";
 
         cm.sendSimple(msg);
     } else if (status == 1) {
@@ -137,7 +137,7 @@ function action(mode, type, selection) {
                 cm.dispose();
                 return;
             }
-            cm.sendStyle("Choose your preferred skin tone:\r\nPrice: 10,000 NX", currentList);
+            cm.sendStyle("Choose your preferred skin tone:\r\nPrice: #r10,000 NX#k", currentList);
         } else if (category == 1) {
             // Hair Color
             var curHair = cm.getPlayer().getHair();
@@ -152,7 +152,7 @@ function action(mode, type, selection) {
                 cm.dispose();
                 return;
             }
-            cm.sendStyle("Choose your desired hair dye color:\r\nPrice: 10,000 NX", currentList);
+            cm.sendStyle("Choose your desired hair dye color:\r\nPrice: #r10,000 NX#k", currentList);
         } else if (category == 2) {
             // Eye Color
             var curFace = cm.getPlayer().getFace();
@@ -167,7 +167,7 @@ function action(mode, type, selection) {
                 cm.dispose();
                 return;
             }
-            cm.sendStyle("Choose your desired eye lens color:\r\nPrice: 10,000 NX", currentList);
+            cm.sendStyle("Choose your desired eye lens color:\r\nPrice: #r10,000 NX#k", currentList);
         } else if (category == 3) {
             // Hair Catalog - select gender & page
             var isMale = cm.getPlayer().getGender() == 0;
@@ -175,7 +175,7 @@ function action(mode, type, selection) {
             var genderStr = isMale ? "Male" : "Female";
 
             var msg = "         #e#b[ " + genderStr + " Hairstyles Catalog ]#k#n\r\n";
-            msg += "Select a collection to preview:\r\n\r\n";
+            msg += "Select a collection to preview (Cost: 10,000 NX):\r\n\r\n";
             for (var i = 0; i < list.length; i++) {
                 msg += "#L" + i + "#Hairstyle Collection #" + (i + 1) + "#l\r\n";
             }
@@ -184,7 +184,7 @@ function action(mode, type, selection) {
             // Face Catalog
             var isMale = cm.getPlayer().getGender() == 0;
             var msg = "         #e#b[ Faces & Expressions Catalog ]#k#n\r\n";
-            msg += "Select a face collection to preview:\r\n\r\n";
+            msg += "Select a face collection to preview (Cost: 10,000 NX):\r\n\r\n";
             var faceList = isMale ? maleFaces : femaleFaces;
             for (var i = 0; i < faceList.length; i++) {
                 msg += "#L" + i + "#Standard Faces #" + (i + 1) + "#l\r\n";
@@ -213,7 +213,7 @@ function action(mode, type, selection) {
                 cm.dispose();
                 return;
             }
-            cm.sendStyle("Choose your new hairstyle:\r\nPrice: 10,000 NX", currentList);
+            cm.sendStyle("Choose your new hairstyle:\r\nPrice: #r10,000 NX#k", currentList);
         } else if (category == 4) {
             // Selected face page
             var isMale = cm.getPlayer().getGender() == 0;
@@ -233,7 +233,7 @@ function action(mode, type, selection) {
                 cm.dispose();
                 return;
             }
-            cm.sendStyle("Choose your new face expression:\r\nPrice: 10,000 NX", currentList);
+            cm.sendStyle("Choose your new face expression:\r\nPrice: #r10,000 NX#k", currentList);
         }
     } else if (status == 3) {
         // Chosen style from sub-collection

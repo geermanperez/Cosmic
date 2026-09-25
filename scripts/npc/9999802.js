@@ -58,7 +58,7 @@ function action(mode, type, selection) {
         } else if (selectedOption == 2) {
             // New Expansion Teleport
             var travelMsg = "         #e#b[ New Expansion Zones Teleport ]#k#n\r\n";
-            travelMsg += "Select a destination to travel to.\r\n";
+            travelMsg += "Select an expansion zone to travel to:\r\n";
             travelMsg += "#eTravel Fee:#n #r" + TELEPORT_COST.toLocaleString() + " Mesos#k (Free for GMs)\r\n";
             travelMsg += "#eYour Mesos:#n #b" + cm.getMeso().toLocaleString() + " Mesos#k\r\n\r\n";
 
@@ -104,7 +104,6 @@ function action(mode, type, selection) {
         }
     } else if (status == 2) {
         if (selectedOption == 2) {
-            // Player picked a travel destination
             if (selection < 0 || selection >= newZones.length) {
                 cm.dispose();
                 return;
