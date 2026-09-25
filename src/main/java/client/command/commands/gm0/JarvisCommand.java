@@ -7,13 +7,13 @@ import scripting.npc.NPCScriptManager;
 
 public class JarvisCommand extends Command {
     {
-        setDescription("Abre el asistente de servicios de Jarvis.");
+        setDescription("Opens the Jarvis personal assistant.");
     }
 
     @Override
     public void execute(Client c, String[] params) {
         if (!c.getPlayer().isAlive() || c.getPlayer().getEventInstance() != null) {
-            c.getPlayer().dropMessage(5, "No puedes usar los servicios de Jarvis en este momento.");
+            c.getPlayer().dropMessage(5, "You cannot use Jarvis services at this moment.");
             return;
         }
         NPCScriptManager.getInstance().dispose(c);

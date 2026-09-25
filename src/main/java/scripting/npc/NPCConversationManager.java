@@ -509,6 +509,55 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         }
     }
 
+    public void openNpc(int npcId) {
+        dispose();
+        NPCScriptManager.getInstance().start(getClient(), npcId, getPlayer());
+    }
+
+    public void openNpc(int npcId, String script) {
+        dispose();
+        NPCScriptManager.getInstance().start(getClient(), npcId, script, getPlayer());
+    }
+
+    public void openStorage() {
+        dispose();
+        getPlayer().getStorage().sendStorage(getClient(), 9030000);
+    }
+
+    public int getNX() {
+        if (getPlayer().getCashShop() == null) return 0;
+        return getPlayer().getCashShop().getCash(CashShop.NX_PREPAID) + getPlayer().getCashShop().getCash(CashShop.NX_CREDIT);
+    }
+
+    public void gainNX(int amount) {
+        if (getPlayer().getCashShop() != null) {
+            getPlayer().getCashShop().gainCash(CashShop.NX_PREPAID, amount);
+        }
+    }
+
+    public int getMaplePoints() {
+        if (getPlayer().getCashShop() == null) return 0;
+        return getPlayer().getCashShop().getCash(CashShop.MAPLE_POINT);
+    }
+
+    public void gainMaplePoints(int amount) {
+        if (getPlayer().getCashShop() != null) {
+            getPlayer().getCashShop().gainCash(CashShop.MAPLE_POINT, amount);
+        }
+    }
+
+    public int getVotePoints() {
+        return getClient().getVotePoints();
+    }
+
+    public void gainVotePoints(int amount) {
+        if (amount >= 0) {
+            getClient().addVotePoints(amount);
+        } else {
+            getClient().useVotePoints(-amount);
+        }
+    }
+
     public void maxMastery() {
         for (Data skill_ : DataProviderFactory.getDataProvider(WZFiles.STRING).getData("Skill.img").getChildren()) {
             try {

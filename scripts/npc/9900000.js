@@ -1,40 +1,100 @@
-/* Style Catalog - KIN (9900000) - Strict v83 */
-var status = 0;
-var selected = -1;
+/*
+ * VIP Beauty Salon & Style Changer (KIN 9900000)
+ * Fully compatible with v83 client & EverleafMS / YunaMS
+ * Supports: Hair, Face, Skin, Hair Dye, Eye Color
+ * Payment: 1,000 NX or 500,000 Mesos (Free for GMs)
+ */
+
+var status = -1;
+var category = -1;
+var subPage = 0;
 var currentList = [];
+var COST_NX = 1000;
+var COST_MESO = 500000;
 
 var skin = [0, 1, 2, 3, 4];
 
-var maleHair1 = [30000, 30010, 30020, 30030, 30040, 30050, 30060, 30070, 30080, 30090, 30100, 30110, 30120, 30130, 30140, 30150, 30160, 30170, 30180, 30190, 30200, 30210, 30220, 30230, 30240, 30250, 30260, 30270, 30280, 30290, 30300, 30310, 30320, 30330, 30340, 30350, 30360, 30370, 30380, 30400, 30410, 30420, 30430, 30440, 30450, 30460, 30470, 30480, 30490, 30510, 30520, 30530, 30540, 30550, 30560, 30570, 30580, 30590, 30600, 30610, 30620, 30630, 30640, 30650, 30660, 30670, 30680, 30690, 30700, 30710];
-var maleHair2 = [30720, 30730, 30740, 30750, 30760, 30770, 30780, 30790, 30800, 30810, 30820, 30830, 30840, 30850, 30860, 30870, 30880, 30890, 30900, 30910, 30920, 30930, 30940, 30950, 30960, 30970, 30980, 30990, 33000, 33010, 33020, 33030, 33040, 33050, 33060, 33070, 33080, 33090, 33100, 33110, 33120, 33130, 33140, 33150, 33160, 33170, 33180, 33190, 33200, 33210, 33220, 33240, 33250, 33260, 33270, 33280, 33290, 33300, 33310, 33320, 33330, 33340, 33350, 33360, 33370, 33380, 33390, 33400, 33410, 33420];
-var maleHair3 = [33430, 33440, 33450, 33460, 33470, 33480, 33500, 33510, 33520, 33530, 33540, 33550, 33580, 33590, 33600, 33610, 33620, 33630, 33640, 33660, 33670, 33680, 33690, 33700, 33710, 33720, 33730, 33740, 33750, 33760, 33770, 33780, 33790, 33800, 33810, 33820, 33830, 33930, 33940, 33950, 33960, 33990, 35000, 35010, 35020, 35030, 35040, 35050, 35060, 35070, 35080, 35090, 35100, 35110, 35120, 35130, 35140, 35150, 35160, 35170, 35180, 35190, 35200, 35210, 35220, 35240, 35250, 35260, 35270, 35280];
-var maleHair4 = [35290, 35300, 35310, 35320, 35330, 35340, 35350, 35360, 35420, 35430, 35440, 35450, 35460, 35470, 35480, 35490, 35500, 35510, 35520, 35530, 35540, 35550, 35560, 35570, 35580, 35590, 35600, 35620, 35630, 35640, 35650, 35660, 35670, 35680, 35690, 35700, 35710, 35720, 35740, 35760, 35770, 35780, 35790, 35820, 35830, 35950, 35960, 35970, 36000, 36010, 36020, 36030, 36040, 36050, 36060, 36070, 36080, 36090, 36100, 36110, 36130, 36140, 36150, 36160, 36170, 36180, 36190, 36200, 36210, 36220];
-var maleHair5 = [36230, 36240, 36250, 36260, 36270, 36280, 36300, 36310, 36320, 36330, 36340, 36350, 36380, 36390, 36400, 36410, 36420, 36430, 36440, 36450, 36460, 36470, 36480, 36490, 36500, 36510, 36520, 36530, 36560, 36570, 36580, 36590, 36600, 36610, 36620, 36630, 36640, 36650, 36670, 36680, 36690, 36700, 36710, 36720, 36730, 36740, 36750, 36760, 36770, 36780, 36790, 36800, 36810, 36820, 36830, 36840, 36850, 36860, 36880, 36900, 36910, 36920, 36930, 36940, 36950, 36980, 36990];
+// Hair categories - split into small groups of 8 to ensure zero client lag or crashes
+var maleHairs = [
+    [30000, 30010, 30020, 30030, 30040, 30050, 30060, 30070],
+    [30080, 30090, 30100, 30110, 30120, 30130, 30140, 30150],
+    [30160, 30170, 30180, 30190, 30200, 30210, 30220, 30230],
+    [30240, 30250, 30260, 30270, 30280, 30290, 30300, 30310],
+    [30320, 30330, 30340, 30350, 30360, 30370, 30380, 30400],
+    [30410, 30420, 30430, 30440, 30450, 30460, 30470, 30480],
+    [30510, 30520, 30530, 30540, 30550, 30560, 30570, 30580],
+    [30590, 30600, 30610, 30620, 30630, 30640, 30650, 30660],
+    [30670, 30680, 30690, 30700, 30710, 30720, 30730, 30740],
+    [30750, 30760, 30770, 30780, 30790, 30800, 30810, 30820],
+    [33000, 33010, 33020, 33030, 33040, 33050, 33060, 33070],
+    [33080, 33090, 33100, 33110, 33120, 33130, 33140, 33150],
+    [35000, 35010, 35020, 35030, 35040, 35050, 35060, 35070],
+    [35080, 35090, 35100, 35110, 35120, 35130, 35140, 35150]
+];
 
-var femaleHair1 = [31000, 31010, 31020, 31030, 31040, 31050, 31060, 31070, 31080, 31090, 31100, 31110, 31120, 31130, 31140, 31150, 31160, 31170, 31180, 31190, 31200, 31210, 31220, 31230, 31240, 31250, 31260, 31270, 31280, 31290, 31300, 31310, 31320, 31330, 31340, 31350, 31360, 31380, 31400, 31410, 31420, 31430, 31440, 31450, 31460, 31470, 31480, 31490, 31510, 31520, 31530, 31540, 31550, 31560, 31570, 31580, 31590, 31600, 31610, 31620, 31630, 31640, 31650, 31660, 31670, 31680, 31690, 31700, 31710, 31720, 31730, 31740];
-var femaleHair2 = [31750, 31760, 31770, 31780, 31790, 31800, 31810, 31820, 31830, 31840, 31850, 31860, 31870, 31880, 31890, 31910, 31920, 31930, 31940, 31950, 31960, 31970, 31980, 31990, 34000, 34010, 34020, 34030, 34040, 34050, 34060, 34070, 34080, 34090, 34100, 34110, 34120, 34130, 34140, 34150, 34160, 34170, 34180, 34190, 34200, 34210, 34220, 34230, 34240, 34250, 34260, 34270, 34280, 34290, 34300, 34310, 34320, 34330, 34340, 34350, 34360, 34370, 34380, 34390, 34400, 34410, 34420, 34430, 34440, 34450, 34470, 34480];
-var femaleHair3 = [34490, 34510, 34540, 34560, 34580, 34590, 34600, 34610, 34620, 34630, 34640, 34650, 34660, 34670, 34680, 34690, 34700, 34710, 34720, 34730, 34740, 34750, 34760, 34770, 34780, 34790, 34800, 34810, 34820, 34830, 34840, 34850, 34860, 34870, 34880, 34890, 34900, 34910, 34940, 34950, 34960, 34970, 34980, 37000, 37010, 37020, 37030, 37040, 37050, 37060, 37070, 37080, 37090, 37100, 37110, 37120, 37130, 37140, 37150, 37160, 37170, 37190, 37200, 37210, 37220, 37230, 37240, 37250, 37260, 37270, 37280, 37290];
-var femaleHair4 = [37300, 37310, 37320, 37330, 37340, 37350, 37370, 37380, 37400, 37420, 37440, 37450, 37460, 37470, 37490, 37500, 37510, 37520, 37530, 37560, 37570, 37580, 37590, 37600, 37610, 37620, 37630, 37640, 37650, 37660, 37670, 37680, 37690, 37700, 37710, 37720, 37730, 37740, 37750, 37760, 37770, 37780, 37790, 37800, 37810, 37820, 37830, 37840, 37850, 37860, 37880, 37900, 37910, 37920, 37930, 37940, 37950, 37960, 37970, 37980, 37990, 38000, 38010, 38020, 38030, 38040, 38050, 38060, 38070, 38080, 38090, 38100];
-var femaleHair5 = [38110, 38120, 38130, 38140, 38150, 38160, 38180, 38240, 38250, 38260, 38270, 38280, 38290, 38300, 38310, 38320, 38330, 38350, 38380, 38390, 38400, 38410, 38420, 38430, 38440, 38450, 38460, 38470, 38480, 38490, 38500, 38510, 38520, 38540, 38550, 38560, 38570, 38580, 38590, 38600, 38610, 38620, 38630, 38640, 38650, 38660, 38670, 38680, 38690, 38700, 38710, 38730, 38740, 38750, 38760, 38770, 38780, 38790, 38800, 38810, 38820, 38830, 38840, 38860, 38880, 38890, 38900, 38910, 38920, 38930, 38940];
+var femaleHairs = [
+    [31000, 31010, 31020, 31030, 31040, 31050, 31060, 31070],
+    [31080, 31090, 31100, 31110, 31120, 31130, 31140, 31150],
+    [31160, 31170, 31180, 31190, 31200, 31210, 31220, 31230],
+    [31240, 31250, 31260, 31270, 31280, 31290, 31300, 31310],
+    [31320, 31330, 31340, 31350, 31360, 31380, 31400, 31410],
+    [31420, 31430, 31440, 31450, 31460, 31470, 31480, 31490],
+    [31510, 31520, 31530, 31540, 31550, 31560, 31570, 31580],
+    [31590, 31600, 31610, 31620, 31630, 31640, 31650, 31660],
+    [31670, 31680, 31690, 31700, 31710, 31720, 31730, 31740],
+    [31750, 31760, 31770, 31780, 31790, 31800, 31810, 31820],
+    [34000, 34010, 34020, 34030, 34040, 34050, 34060, 34070],
+    [34080, 34090, 34100, 34110, 34120, 34130, 34140, 34150],
+    [37000, 37010, 37020, 37030, 37040, 37050, 37060, 37070],
+    [37080, 37090, 37100, 37110, 37120, 37130, 37140, 37150]
+];
 
-var maleFace1 = [20000, 20001, 20002, 20003, 20004, 20005, 20006, 20007, 20008, 20009, 20010, 20011, 20012, 20013, 20014, 20015, 20016, 20017, 20018, 20019, 20020, 20021, 20022, 20023, 20024, 20025, 20026, 20027, 20028, 20029, 20030, 20031, 20032, 20033, 20035, 20036, 20037, 20038, 20039, 20040, 20042, 20043, 20044, 20045, 20046, 20047, 20048, 20049, 20050, 20051, 20052, 20053, 20054, 20055, 20056, 20057, 20058, 20059, 20060, 20061, 20062, 20063, 20064, 20065, 20066];
-var maleFace2 = [20067, 20068, 20069, 20070, 20071, 20072, 20073, 20074, 20075, 20076, 20077, 20078, 20079, 20080, 20081, 20082, 20083, 20084, 20085, 20086, 20087, 20088, 20089, 20090, 20091, 20092, 20093, 20094, 20095, 20096, 20097, 20098, 20099, 23000, 23001, 23002, 23003, 23004, 23005, 23006, 23007, 23008, 23009, 23010, 23011, 23012, 23013, 23014, 23015, 23016, 23017, 23018, 23019, 23020, 23021, 23022, 23023, 23024, 23025, 23026, 23027, 23028, 23029, 23030, 23031];
-var maleFace3 = [23032, 23033, 23034, 23035, 23036, 23037, 23038, 23039, 23040, 23041, 23042, 23043, 23044, 23045, 23046, 23047, 23048, 23051, 23052, 23053, 23054, 23055, 23056, 23057, 23058, 23059, 23060, 23061, 23062, 23063, 23064, 23065, 23066, 23067, 23068, 23069, 23070, 23071, 23072, 23073, 23074, 23075, 23076, 23079, 23080, 23081, 23082, 23083, 23084, 23085, 23086, 23087, 23088, 23089, 23090, 23091, 23092, 23093, 23094, 23095, 23096, 23097, 23099];
+// Face categories - 8 per group
+var maleFaces = [
+    [20000, 20001, 20002, 20003, 20004, 20005, 20006, 20007],
+    [20008, 20009, 20010, 20011, 20012, 20013, 20014, 20015],
+    [20016, 20017, 20018, 20019, 20020, 20021, 20022, 20023],
+    [20024, 20025, 20026, 20027, 20028, 20029, 20030, 20031],
+    [20032, 20033, 20035, 20036, 20037, 20038, 20039, 20040],
+    [23000, 23001, 23002, 23003, 23004, 23005, 23006, 23007]
+];
 
-var femaleFace1 = [21000, 21001, 21002, 21003, 21004, 21005, 21006, 21007, 21008, 21009, 21010, 21011, 21012, 21013, 21014, 21015, 21016, 21017, 21018, 21019, 21020, 21021, 21022, 21023, 21024, 21025, 21026, 21027, 21028, 21029, 21030, 21031, 21033, 21034, 21035, 21036, 21037, 21038, 21041, 21042, 21043, 21044, 21045, 21046, 21047, 21048, 21049, 21050, 21051, 21052, 21053, 21054, 21055, 21056, 21057, 21058, 21059, 21060, 21061, 21062, 21063, 21064, 21065, 21066, 21067];
-var femaleFace2 = [21068, 21069, 21070, 21071, 21072, 21073, 21074, 21075, 21076, 21077, 21078, 21079, 21080, 21081, 21082, 21083, 21084, 21085, 21086, 21087, 21088, 21089, 21090, 21091, 21092, 21093, 21094, 21095, 21096, 21097, 21098, 21099, 24001, 24002, 24003, 24004, 24005, 24006, 24007, 24008, 24009, 24010, 24011, 24012, 24013, 24014, 24015, 24016, 24017, 24018, 24019, 24020, 24021, 24022, 24023, 24024, 24025, 24026, 24027, 24028, 24029, 24030, 24031, 24032, 24033];
-var femaleFace3 = [24034, 24035, 24036, 24037, 24038, 24039, 24040, 24041, 24042, 24043, 24044, 24045, 24048, 24049, 24050, 24051, 24052, 24053, 24054, 24055, 24056, 24057, 24058, 24059, 24060, 24061, 24062, 24063, 24064, 24065, 24066, 24067, 24068, 24069, 24070, 24071, 24072, 24073, 24074, 24075, 24076, 24077, 24078, 24079, 24080, 24081, 24082, 24083, 24084, 24085, 24086, 24087, 24088, 24089, 24090, 24091, 24092, 24093, 24094, 24095, 24097, 24098, 24099];
+var femaleFaces = [
+    [21000, 21001, 21002, 21003, 21004, 21005, 21006, 21007],
+    [21008, 21009, 21010, 21011, 21012, 21013, 21014, 21015],
+    [21016, 21017, 21018, 21019, 21020, 21021, 21022, 21023],
+    [21024, 21025, 21026, 21027, 21028, 21029, 21030, 21031],
+    [21033, 21034, 21035, 21036, 21037, 21038, 21041, 21042],
+    [24001, 24002, 24003, 24004, 24005, 24006, 24007, 24008]
+];
 
-var specialFace1 = [22000, 22001, 22003, 22004, 22005, 22011, 25000, 25001, 25003, 25004, 25005, 25006, 25007, 25008, 25009, 25010, 25011, 25012, 25013, 25014, 25015, 25016, 25017, 25018, 25019, 25020, 25021, 25022, 25023, 25024, 25025, 25026, 25027, 25028, 25029, 25030, 25031, 25032, 25033, 25034, 25035, 25036, 25037, 25038, 25039, 25040, 25041, 25042, 25043, 25044, 25045, 25046, 25047, 25048, 25049, 25050, 25051, 25052, 25053, 25054, 25055, 25056, 25057, 25058, 25059, 25060, 25061, 25062, 25063, 25069];
-var specialFace2 = [25070, 25071, 25072, 25073, 25074, 25075, 25076, 25077, 25078, 25079, 25080, 25083, 25084, 25085, 25088, 25089, 25090, 25091, 25093, 25095, 25096, 25097, 25098, 25099, 26000, 26001, 26002, 26003, 26004, 26005, 26006, 26007, 26008, 26009, 26010, 26011, 26012, 26013, 26014, 26015, 26016, 26017, 26018, 26019, 26020, 26021, 26022, 26023, 26024, 26025, 26026, 26027, 26028, 26029, 26030, 26031, 26032, 26033, 26034, 26035, 26036, 26037, 26038, 26039, 26040, 26041, 26042, 26043, 26044, 26045];
+var specialFaces = [
+    [22000, 22001, 22003, 22004, 22005, 22011, 25000, 25001],
+    [25003, 25004, 25005, 25006, 25007, 25008, 25009, 25010],
+    [26000, 26001, 26002, 26003, 26004, 26005, 26006, 26007]
+];
 
-// Keep the preview and selection arrays identical after resolving cosmetics.
-// The original salon scripts exclude unavailable and already equipped styles.
-function filterPreviewStyles(styles) {
+function canAfford() {
+    if (cm.getPlayer().getGMLevel() > 0) return true;
+    return cm.getNX() >= COST_NX || cm.getMeso() >= COST_MESO;
+}
+
+function chargePlayer() {
+    if (cm.getPlayer().getGMLevel() > 0) return "Free (GM)";
+    if (cm.getNX() >= COST_NX) {
+        cm.gainNX(-COST_NX);
+        return "1,000 NX";
+    } else if (cm.getMeso() >= COST_MESO) {
+        cm.gainMeso(-COST_MESO);
+        return "500,000 Mesos";
+    }
+    return null;
+}
+
+function filterPreviewStyles(styles, isSkin) {
     var available = [];
     for (var i = 0; i < styles.length; i++) {
-        // Skin IDs are not items in String.wz; keep their explicit allowlist.
-        var style = selected == 0 ? styles[i] : cm.getCosmeticItem(styles[i]);
+        var style = isSkin ? styles[i] : cm.getCosmeticItem(styles[i]);
         if (style != -1 && !cm.isCosmeticEquipped(style) && available.indexOf(style) == -1) {
             available.push(style);
         }
@@ -43,95 +103,186 @@ function filterPreviewStyles(styles) {
 }
 
 function start() {
-    status = 0;
-    var msg = "\t\t\t\t#e#b[ Style Catalog - KIN ]#k#n\r\n";
-    msg += "#L0##bSkin (Color de Piel)#k#l\r\n";
-    msg += "#L1##bHair Color (Color de Cabello)#k#l\r\n";
-    msg += "#L2##bEye Color (Color de Ojos)#k#l\r\n\r\n";
-
-    msg += "#e[Peinados Masculinos]#n\r\n";
-    msg += "#L10#Male Hair 1#l\t#L11#Male Hair 2#l\t#L12#Male Hair 3#l\r\n";
-    msg += "#L13#Male Hair 4#l\t#L14#Male Hair 5#l\r\n\r\n";
-
-    msg += "#e[Peinados Femeninos]#n\r\n";
-    msg += "#L20#Female Hair 1#l\t#L21#Female Hair 2#l\t#L22#Female Hair 3#l\r\n";
-    msg += "#L23#Female Hair 4#l\t#L24#Female Hair 5#l\r\n\r\n";
-
-    msg += "#e[Rostros / Caras]#n\r\n";
-    msg += "#L30#Male Face 1#l\t#L31#Male Face 2#l\t#L32#Male Face 3#l\r\n";
-    msg += "#L40#Female Face 1#l\t#L41#Female Face 2#l\t#L42#Female Face 3#l\r\n";
-    msg += "#L50#Special Faces 1#l\t#L51#Special Faces 2#l\r\n";
-
-    cm.sendSimple(msg);
+    status = -1;
+    category = -1;
+    subPage = 0;
+    currentList = [];
+    action(1, 0, 0);
 }
 
 function action(mode, type, selection) {
-    if (mode != 1) {
+    if (mode < 1) {
         cm.dispose();
         return;
     }
-    status++;
-    if (status == 1) {
-        selected = selection;
-        currentList = [];
 
-        if (selection == 0) {
-            currentList = skin;
-        } else if (selection == 1) {
+    status++;
+
+    if (status == 0) {
+        var msg = "           #e#b[ VIP Beauty Salon & Style Changer ]#k#n\r\n";
+        msg += "Welcome! You can customize your character's look anytime.\r\n";
+        msg += "#ePrice per change:#n #r1,000 NX#k or #b500,000 Mesos#k (Free for GMs)\r\n";
+        msg += "#eYour Balance:#n #b" + cm.getNX() + " NX#k | #b" + cm.getMeso() + " Mesos#k\r\n\r\n";
+        msg += "#L0##bChange Skin Tone#k#l\r\n";
+        msg += "#L1##bChange Hair Color (Dye)#k#l\r\n";
+        msg += "#L2##bChange Eye Color (Cosmetic Lenses)#k#l\r\n";
+        msg += "#L3##bHairstyles Catalog#k#l\r\n";
+        msg += "#L4##bFaces & Eyes Catalog#k#l\r\n";
+
+        cm.sendSimple(msg);
+    } else if (status == 1) {
+        category = selection;
+
+        if (category == 0) {
+            // Skin
+            currentList = filterPreviewStyles(skin, true);
+            if (currentList.length === 0) {
+                cm.sendOk("No available skin tones found.");
+                cm.dispose();
+                return;
+            }
+            cm.sendStyle("Choose your preferred skin tone:\r\nPrice: 1,000 NX or 500,000 Mesos", currentList);
+        } else if (category == 1) {
+            // Hair Color
             var curHair = cm.getPlayer().getHair();
             var baseHair = curHair - (curHair % 10);
+            var colorList = [];
             for (var c = 0; c <= 7; c++) {
-                currentList.push(baseHair + c);
+                colorList.push(baseHair + c);
             }
-        } else if (selection == 2) {
+            currentList = filterPreviewStyles(colorList, false);
+            if (currentList.length === 0) {
+                cm.sendOk("No available hair colors found.");
+                cm.dispose();
+                return;
+            }
+            cm.sendStyle("Choose your desired hair dye color:\r\nPrice: 1,000 NX or 500,000 Mesos", currentList);
+        } else if (category == 2) {
+            // Eye Color
             var curFace = cm.getPlayer().getFace();
             var baseFace = curFace - (Math.floor((curFace / 100) % 10) * 100);
+            var eyeList = [];
             for (var ec = 0; ec <= 700; ec += 100) {
-                currentList.push(baseFace + ec);
+                eyeList.push(baseFace + ec);
             }
-        } else if (selection == 10) currentList = maleHair1;
-        else if (selection == 11) currentList = maleHair2;
-        else if (selection == 12) currentList = maleHair3;
-        else if (selection == 13) currentList = maleHair4;
-        else if (selection == 14) currentList = maleHair5;
-        else if (selection == 20) currentList = femaleHair1;
-        else if (selection == 21) currentList = femaleHair2;
-        else if (selection == 22) currentList = femaleHair3;
-        else if (selection == 23) currentList = femaleHair4;
-        else if (selection == 24) currentList = femaleHair5;
-        else if (selection == 30) currentList = maleFace1;
-        else if (selection == 31) currentList = maleFace2;
-        else if (selection == 32) currentList = maleFace3;
-        else if (selection == 40) currentList = femaleFace1;
-        else if (selection == 41) currentList = femaleFace2;
-        else if (selection == 42) currentList = femaleFace3;
-        else if (selection == 50) currentList = specialFace1;
-        else if (selection == 51) currentList = specialFace2;
+            currentList = filterPreviewStyles(eyeList, false);
+            if (currentList.length === 0) {
+                cm.sendOk("No available eye colors found.");
+                cm.dispose();
+                return;
+            }
+            cm.sendStyle("Choose your desired eye lens color:\r\nPrice: 1,000 NX or 500,000 Mesos", currentList);
+        } else if (category == 3) {
+            // Hair Catalog - select gender & page
+            var isMale = cm.getPlayer().getGender() == 0;
+            var list = isMale ? maleHairs : femaleHairs;
+            var genderStr = isMale ? "Male" : "Female";
 
-        currentList = filterPreviewStyles(currentList);
-        if (currentList.length === 0) {
-            cm.sendOk("No hay opciones disponibles en esta categoria.");
-            cm.dispose();
-            return;
+            var msg = "         #e#b[ " + genderStr + " Hairstyles Catalog ]#k#n\r\n";
+            msg += "Select a collection to preview:\r\n\r\n";
+            for (var i = 0; i < list.length; i++) {
+                msg += "#L" + i + "#Hairstyle Collection #" + (i + 1) + "#l\r\n";
+            }
+            cm.sendSimple(msg);
+        } else if (category == 4) {
+            // Face Catalog
+            var isMale = cm.getPlayer().getGender() == 0;
+            var msg = "         #e#b[ Faces & Expressions Catalog ]#k#n\r\n";
+            msg += "Select a face collection to preview:\r\n\r\n";
+            var faceList = isMale ? maleFaces : femaleFaces;
+            for (var i = 0; i < faceList.length; i++) {
+                msg += "#L" + i + "#Standard Faces #" + (i + 1) + "#l\r\n";
+            }
+            for (var s = 0; s < specialFaces.length; s++) {
+                msg += "#L" + (100 + s) + "#Special / Anime Faces #" + (s + 1) + "#l\r\n";
+            }
+            cm.sendSimple(msg);
         }
-
-        cm.sendStyle("Elige tu estilo preferido:\r\nHay " + currentList.length + " estilos disponibles.", currentList);
     } else if (status == 2) {
-        if (selection < 0 || selection >= currentList.length) {
-            cm.dispose();
-            return;
+        if (category == 0 || category == 1 || category == 2) {
+            // Chosen style from direct list
+            applyChosenStyle(selection);
+        } else if (category == 3) {
+            // Selected hair page
+            var isMale = cm.getPlayer().getGender() == 0;
+            var hairGroup = isMale ? maleHairs : femaleHairs;
+            subPage = selection;
+            if (subPage < 0 || subPage >= hairGroup.length) {
+                cm.dispose();
+                return;
+            }
+            currentList = filterPreviewStyles(hairGroup[subPage], false);
+            if (currentList.length === 0) {
+                cm.sendOk("No styles in this collection are currently available.");
+                cm.dispose();
+                return;
+            }
+            cm.sendStyle("Choose your new hairstyle:\r\nPrice: 1,000 NX or 500,000 Mesos", currentList);
+        } else if (category == 4) {
+            // Selected face page
+            var isMale = cm.getPlayer().getGender() == 0;
+            var faceGroup;
+            if (selection >= 100) {
+                faceGroup = specialFaces[selection - 100];
+            } else {
+                faceGroup = (isMale ? maleFaces : femaleFaces)[selection];
+            }
+            if (!faceGroup) {
+                cm.dispose();
+                return;
+            }
+            currentList = filterPreviewStyles(faceGroup, false);
+            if (currentList.length === 0) {
+                cm.sendOk("No faces in this collection are currently available.");
+                cm.dispose();
+                return;
+            }
+            cm.sendStyle("Choose your new face expression:\r\nPrice: 1,000 NX or 500,000 Mesos", currentList);
         }
-        var chosen = currentList[selection];
-        if (selected == 0) {
-            cm.setSkin(chosen);
-            cm.sendOk("Tu nuevo tono de piel ha sido aplicado con exito!");
-        } else if (selected == 1 || (selected >= 10 && selected <= 29)) {
-            cm.setHair(chosen);
-            cm.sendOk("Tu nuevo peinado ha sido aplicado con exito!");
-        } else if (selected == 2 || (selected >= 30 && selected <= 59)) {
-            cm.setFace(chosen);
-            cm.sendOk("Tu nuevo rostro ha sido aplicado con exito!");
-        }
-        cm.dispose();
+    } else if (status == 3) {
+        // Chosen style from sub-collection
+        applyChosenStyle(selection);
     }
+}
+
+function applyChosenStyle(selection) {
+    if (selection < 0 || selection >= currentList.length) {
+        cm.dispose();
+        return;
+    }
+
+    if (!canAfford()) {
+        cm.sendOk("You do not have enough NX (1,000) or Mesos (500,000) for this style change.\r\nYour balance:\r\n• NX: " + cm.getNX() + "\r\n• Mesos: " + cm.getMeso());
+        cm.dispose();
+        return;
+    }
+
+    var chosen = currentList[selection];
+    var costPaid = chargePlayer();
+
+    if (category == 0) {
+        // Skin
+        cm.setSkin(chosen);
+    } else if (category == 1) {
+        // Hair color
+        cm.setHair(chosen);
+    } else if (category == 2) {
+        // Eye color
+        cm.setFace(chosen);
+    } else if (category == 3) {
+        // Hair style - preserve existing hair color
+        var curColor = cm.getPlayer().getHair() % 10;
+        var newHair = (chosen - (chosen % 10)) + curColor;
+        cm.setHair(newHair);
+    } else if (category == 4) {
+        // Face - preserve existing eye color
+        var curFace = cm.getPlayer().getFace();
+        var curEyeColor = Math.floor((curFace / 100) % 10) * 100;
+        var newFace = (chosen - (Math.floor((chosen / 100) % 10) * 100)) + curEyeColor;
+        cm.setFace(newFace);
+    }
+
+    cm.showEffect("avatar/congratulation");
+    cm.sendOk("Your new style has been applied successfully!\r\nPayment: " + costPaid + ".\r\nEnjoy your new look!");
+    cm.dispose();
 }

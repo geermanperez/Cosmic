@@ -1,6 +1,10 @@
 /*
- * Jarvis / Assistant Redirect (Cody 9200000)
- * Redirects or runs the assistant script in English
+ * Jarvis - Multi-function Personal Assistant (EverleafMS / YunaMS)
+ * NPC ID: 9999802
+ * Accessible via:
+ * 1. Trade Button (MTS) anywhere in-game
+ * 2. Commands: @jarvis, @services, @bot
+ * 3. Clicking the Jarvis computer NPC in Free Market (910000000)
  */
 
 var status = -1;
@@ -20,7 +24,7 @@ function action(mode, type, selection) {
 
     if (status == 0) {
         var msg = "             #e#b[ JARVIS - Personal Assistant ]#k#n\r\n";
-        msg += "Hello #e#h ##n, I am your personal assistant. How may I assist you today?\r\n\r\n";
+        msg += "Hello #e#h ##n, I am Jarvis, your personal assistant. How may I help you today?\r\n\r\n";
         msg += "#L0##b[1] Universal Account Storage#k#l\r\n";
         msg += "#L1##b[2] VIP Beauty Salon & Style Changer#k#l\r\n";
         msg += "#L2##b[3] General Store & Consumables#k#l\r\n";
@@ -31,12 +35,16 @@ function action(mode, type, selection) {
         cm.sendSimple(msg);
     } else if (status == 1) {
         if (selection == 0) {
+            // Universal Account Storage
             cm.openStorage();
         } else if (selection == 1) {
+            // VIP Beauty Salon
             cm.openNpc(9900000);
         } else if (selection == 2) {
+            // General Store & Consumables (1012000)
             cm.openShopNPC(1012000);
         } else if (selection == 3) {
+            // Warp to Free Market
             if (cm.getPlayer().getMapId() == 910000000) {
                 cm.sendOk("You are already at the Free Market!");
                 cm.dispose();
@@ -45,10 +53,12 @@ function action(mode, type, selection) {
                 cm.dispose();
             }
         } else if (selection == 4) {
+            // Unstuck (@dispose)
             cm.enableActions();
             cm.sendOk("Your character actions and status have been refreshed successfully.");
             cm.dispose();
         } else if (selection == 5) {
+            // Server Info
             var expRate = cm.getClient().getChannelServer().getExpRate();
             var mesoRate = cm.getClient().getChannelServer().getMesoRate();
             var dropRate = cm.getClient().getChannelServer().getDropRate();

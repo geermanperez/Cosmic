@@ -36412,4 +36412,9 @@
     <string name="d0" value="Oh, hey. I managed to get this nice statue of myself, cool huh?"/>
     <string name="func" value="HeavenMS Developer"/>
   </imgdir>
+  <imgdir name="9999802">
+    <string name="name" value="Jarvis"/>
+    <string name="func" value="Personal Assistant"/>
+    <string name="d0" value="Hello, I am Jarvis, your personal assistant."/>
+  </imgdir>
 </imgdir>

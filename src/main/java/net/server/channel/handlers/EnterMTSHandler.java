@@ -30,14 +30,14 @@ import tools.PacketCreator;
 
 
 public final class EnterMTSHandler extends AbstractPacketHandler {
-    public static final int JARVIS_NPC_ID = 9200000;
+    public static final int JARVIS_NPC_ID = 9999802;
 
     @Override
     public void handlePacket(InPacket p, Client c) {
         Character chr = c.getPlayer();
 
         if (chr.getEventInstance() != null) {
-            c.sendPacket(PacketCreator.serverNotice(5, "No puedes usar los servicios de Jarvis mientras estas en un evento."));
+            c.sendPacket(PacketCreator.serverNotice(5, "You cannot use Jarvis services while participating in an event."));
             c.sendPacket(PacketCreator.enableActions());
             return;
         }
