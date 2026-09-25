@@ -74,7 +74,15 @@ var specialFaces = [
 ];
 
 function formatNumber(num) {
-    return ("" + num).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    var s = "" + Math.floor(+num);
+    var result = "";
+    var count = 0;
+    for (var i = s.length - 1; i >= 0; i--) {
+        if (count > 0 && count % 3 === 0) result = "," + result;
+        result = s[i] + result;
+        count++;
+    }
+    return result;
 }
 
 function canAfford() {
