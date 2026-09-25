@@ -16,8 +16,9 @@ public class BotCommand extends Command {
     public void execute(Client c, String[] params) {
         Character player = c.getPlayer();
         if (params.length < 1) {
-            player.yellowMessage("Sintaxis: !bot <spawn/remove/rotate/list>");
+            player.yellowMessage("Sintaxis: !bot <spawn/chair/remove/rotate/list>");
             player.dropMessage(6, "  !bot spawn <personaje> [id_silla] - Spawnea un bot AFK en tu posicion");
+            player.dropMessage(6, "  !bot chair <personaje> <id_silla> - Cambia la silla del bot (0 = parado)");
             player.dropMessage(6, "  !bot remove <personaje>           - Despawnea y elimina el bot");
             player.dropMessage(6, "  !bot rotate                      - Fuerza la rotacion de pueblos ahora");
             player.dropMessage(6, "  !bot list                        - Lista los bots AFK activos");
@@ -66,6 +67,35 @@ public class BotCommand extends Command {
                     player.dropMessage(6, "Bot AFK '" + targetName + "' desplegado exitosamente en tu ubicacion.");
                 } else {
                     player.dropMessage(5, "No se pudo desplegar el bot AFK.");
+                }
+                break;
+            }
+
+            case "chair":
+            case "silla": {
+                if (params.length < 3) {
+                    player.yellowMessage("Uso: !bot chair <nombre_personaje> <id_silla>");
+                    player.dropMessage(6, "  Usa id_silla 0 para dejarlo parado.");
+                    return;
+                }
+                String targetName = params[1];
+                Integer charId = botManager.findCharacterIdByName(targetName);
+                if (charId == null) {
+                    player.dropMessage(5, "Personaje '" + targetName + "' no encontrado.");
+                    return;
+                }
+                int chairId;
+                try {
+                    chairId = Integer.parseInt(params[2]);
+                } catch (NumberFormatException e) {
+                    player.dropMessage(5, "ID de silla invalido.");
+                    return;
+                }
+                boolean updated = botManager.setBotChair(charId, chairId);
+                if (updated) {
+                    player.dropMessage(6, "Silla del bot '" + targetName + "' actualizada a: " + (chairId > 0 ? chairId : "Ninguna (parado)"));
+                } else {
+                    player.dropMessage(5, "El bot '" + targetName + "' no esta activo en este momento.");
                 }
                 break;
             }

@@ -2433,13 +2433,13 @@ public class MapleMap {
         }
 
         if (chr.isHidden()) {
-            broadcastGMSpawnPlayerMapObjectMessage(chr, chr, true);
+            broadcastGMSpawnPlayerMapObjectMessage(chr, chr, !chr.isDummyBot());
             chr.sendPacket(PacketCreator.getGMEffect(0x10, (byte) 1));
 
             List<Pair<BuffStat, Integer>> dsstat = Collections.singletonList(new Pair<>(BuffStat.DARKSIGHT, 0));
             broadcastGMMessage(chr, PacketCreator.giveForeignBuff(chr.getId(), dsstat), false);
         } else {
-            broadcastSpawnPlayerMapObjectMessage(chr, chr, true);
+            broadcastSpawnPlayerMapObjectMessage(chr, chr, !chr.isDummyBot());
         }
 
         sendObjectPlacement(chr.getClient());

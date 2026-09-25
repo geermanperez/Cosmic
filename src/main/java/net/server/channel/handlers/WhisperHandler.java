@@ -26,6 +26,7 @@ import client.Client;
 import client.autoban.AutobanFactory;
 import net.AbstractPacketHandler;
 import net.packet.InPacket;
+import net.server.dummy.DummyBotManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import server.ChatLogger;
@@ -108,11 +109,12 @@ public final class WhisperHandler extends AbstractPacketHandler {
         user.sendPacket(PacketCreator.getWhisperResult(target.getName(), !hidden));
 
         if (target.isDummyBot()) {
+            final String reply = DummyBotManager.getInstance().getBotAfkReply(target.getId());
             server.TimerManager.getInstance().schedule(() -> {
                 if (user.getClient() != null) {
-                    user.sendPacket(PacketCreator.getWhisperReceive(target.getName(), target.getClient().getChannel() - 1, false, "[AFK] Estoy lejos del teclado, te respondo luego!"));
+                    user.sendPacket(PacketCreator.getWhisperReceive(target.getName(), target.getClient().getChannel() - 1, false, reply));
                 }
-            }, 1200);
+            }, 1200 + (int) (Math.random() * 800));
         }
     }
 }

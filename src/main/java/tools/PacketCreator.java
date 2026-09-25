@@ -2032,7 +2032,7 @@ public class PacketCreator {
         p.writeInt(chr.getItemEffect());
         p.writeInt(ItemConstants.getInventoryType(chr.getChair()) == InventoryType.SETUP ? chr.getChair() : 0);
 
-        if (enteringField) {
+        if (enteringField && !chr.isDummyBot()) {
             Point spawnPos = new Point(chr.getPosition());
             spawnPos.y -= 42;
             p.writePos(spawnPos);

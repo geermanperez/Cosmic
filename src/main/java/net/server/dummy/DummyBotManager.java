@@ -50,9 +50,26 @@ public class DummyBotManager {
             250000000  // Mu Lung
     );
 
+    public static final String[] AFK_REPLIES = {
+            "ya vuelvo me llamaron",
+            "despues juego estoy trabajando",
+            "voy al kiosco",
+            "banco 5 min fui a comer",
+            "en un rato vuelvo!",
+            "estoy ocupado ahora, despues te escribo",
+            "deje afk un ratito, ya regreso",
+            "fui a merendar ya vuelvo",
+            "banco que estoy cocinando",
+            "estoy laburando, despues juego bien",
+            "ya regreso me llamo mi vieja",
+            "afk un toque ya vuelvo"
+    };
+
     private final Map<Integer, Character> activeBots = new ConcurrentHashMap<>();
     private final Map<Integer, Integer> botChairs = new ConcurrentHashMap<>();
     private final Map<Integer, String> botNames = new ConcurrentHashMap<>();
+    private final Map<Integer, String> currentBotReplies = new ConcurrentHashMap<>();
+    private final Map<Integer, Long> lastReplyChange = new ConcurrentHashMap<>();
     private boolean initialized = false;
 
     private DummyBotManager() {}
@@ -74,6 +91,18 @@ public class DummyBotManager {
         long fourHours = TimeUnit.HOURS.toMillis(4);
         TimerManager.getInstance().register(this::rotateBots, fourHours, fourHours);
         log.info("DummyBotManager initialized. Scheduled 4-hour map rotation.");
+    }
+
+    public String getBotAfkReply(int charId) {
+        long now = System.currentTimeMillis();
+        Long lastTime = lastReplyChange.get(charId);
+        if (lastTime == null || (now - lastTime > TimeUnit.MINUTES.toMillis(30))) {
+            String selected = AFK_REPLIES[(int) (Math.random() * AFK_REPLIES.length)];
+            currentBotReplies.put(charId, selected);
+            lastReplyChange.put(charId, now);
+            return selected;
+        }
+        return currentBotReplies.getOrDefault(charId, "ya vuelvo me llamaron");
     }
 
     private void ensureDatabaseTable() {
@@ -163,14 +192,26 @@ public class DummyBotManager {
                 map = cserv.getMapFactory().getMap(100000000); // Fallback to Henesys
             }
 
-            Point spawnPos = (customPos != null) ? customPos : getSafeSpawnPosition(map);
+            Point spawnPos = (customPos != null) ? new Point(customPos) : getSafeSpawnPosition(map);
+            Point ground = map.getGroundBelow(spawnPos);
+            if (ground != null) {
+                spawnPos = ground;
+            }
             chr.setPosition(spawnPos);
-            map.addPlayer(chr);
+            chr.setStance(0);
 
             if (chairId > 0) {
                 chr.setChair(chairId);
-                map.broadcastMessage(PacketCreator.showChair(chr.getId(), chairId));
                 botChairs.put(charId, chairId);
+            } else {
+                chr.setChair(-1);
+                botChairs.remove(charId);
+            }
+
+            map.addPlayer(chr);
+
+            if (chairId > 0) {
+                map.broadcastMessage(PacketCreator.showChair(chr.getId(), chairId));
             }
 
             activeBots.put(charId, chr);
@@ -195,6 +236,8 @@ public class DummyBotManager {
         Character chr = activeBots.remove(charId);
         botChairs.remove(charId);
         botNames.remove(charId);
+        currentBotReplies.remove(charId);
+        lastReplyChange.remove(charId);
 
         if (chr != null) {
             try {
@@ -231,6 +274,39 @@ public class DummyBotManager {
         }
     }
 
+    public synchronized boolean setBotChair(int charId, int chairId) {
+        Character chr = activeBots.get(charId);
+        if (chr == null) {
+            return false;
+        }
+        if (chairId > 0) {
+            chr.setChair(chairId);
+            botChairs.put(charId, chairId);
+            if (chr.getMap() != null) {
+                chr.getMap().broadcastMessage(PacketCreator.showChair(chr.getId(), chairId));
+            }
+        } else {
+            chr.setChair(-1);
+            botChairs.remove(charId);
+            if (chr.getMap() != null) {
+                chr.getMap().broadcastMessage(PacketCreator.showChair(chr.getId(), 0));
+            }
+        }
+        updateBotChairInDb(charId, chairId > 0 ? chairId : 0);
+        return true;
+    }
+
+    private void updateBotChairInDb(int charId, int chairId) {
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement("UPDATE dummy_bots SET chair_id = ? WHERE character_id = ?")) {
+            ps.setInt(1, chairId);
+            ps.setInt(2, charId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            log.warn("Failed to update chair_id for bot ID {}", charId, e);
+        }
+    }
+
     public synchronized void rotateBots() {
         log.info("Rotating all active dummy AFK bots across towns...");
         for (Character chr : activeBots.values()) {
@@ -260,15 +336,30 @@ public class DummyBotManager {
                 }
 
                 Point spawnPos = getSafeSpawnPosition(newMap);
+                Point ground = newMap.getGroundBelow(spawnPos);
+                if (ground != null) {
+                    spawnPos = ground;
+                }
                 chr.setMap(newMap);
                 chr.setPosition(spawnPos);
-                newMap.addPlayer(chr);
+                chr.setStance(0);
 
                 int chairId = botChairs.getOrDefault(chr.getId(), 0);
                 if (chairId > 0) {
                     chr.setChair(chairId);
+                } else {
+                    chr.setChair(-1);
+                }
+
+                newMap.addPlayer(chr);
+
+                if (chairId > 0) {
                     newMap.broadcastMessage(PacketCreator.showChair(chr.getId(), chairId));
                 }
+
+                String newReply = AFK_REPLIES[(int) (Math.random() * AFK_REPLIES.length)];
+                currentBotReplies.put(chr.getId(), newReply);
+                lastReplyChange.put(chr.getId(), System.currentTimeMillis());
 
                 updateBotMapInDb(chr.getId(), nextMapId);
                 log.info("Dummy Bot {} rotated to map {}", chr.getName(), nextMapId);
