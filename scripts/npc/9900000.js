@@ -2,15 +2,14 @@
  * VIP Beauty Salon & Style Changer (KIN 9900000)
  * Fully compatible with v83 client & EverleafMS / YunaMS
  * Supports: Hair, Face, Skin, Hair Dye, Eye Color
- * Payment: 1,000 NX or 500,000 Mesos (Free for GMs)
+ * Payment: 10,000 NX strictly required (Free for GMs)
  */
 
 var status = -1;
 var category = -1;
 var subPage = 0;
 var currentList = [];
-var COST_NX = 1000;
-var COST_MESO = 500000;
+var COST_NX = 10000; // Minimum 10,000 NX per style change
 
 var skin = [0, 1, 2, 3, 4];
 
@@ -76,17 +75,14 @@ var specialFaces = [
 
 function canAfford() {
     if (cm.getPlayer().getGMLevel() > 0) return true;
-    return cm.getNX() >= COST_NX || cm.getMeso() >= COST_MESO;
+    return cm.getNX() >= COST_NX;
 }
 
 function chargePlayer() {
     if (cm.getPlayer().getGMLevel() > 0) return "Free (GM)";
     if (cm.getNX() >= COST_NX) {
         cm.gainNX(-COST_NX);
-        return "1,000 NX";
-    } else if (cm.getMeso() >= COST_MESO) {
-        cm.gainMeso(-COST_MESO);
-        return "500,000 Mesos";
+        return "10,000 NX";
     }
     return null;
 }
@@ -120,9 +116,9 @@ function action(mode, type, selection) {
 
     if (status == 0) {
         var msg = "           #e#b[ VIP Beauty Salon & Style Changer ]#k#n\r\n";
-        msg += "Welcome! You can customize your character's look anytime.\r\n";
-        msg += "#ePrice per change:#n #r1,000 NX#k or #b500,000 Mesos#k (Free for GMs)\r\n";
-        msg += "#eYour Balance:#n #b" + cm.getNX() + " NX#k | #b" + cm.getMeso() + " Mesos#k\r\n\r\n";
+        msg += "Welcome! You can customize your character's appearance anytime.\r\n";
+        msg += "#ePrice per change:#n #r10,000 NX#k (Free for GMs)\r\n";
+        msg += "#eYour Current NX:#n #b" + cm.getNX().toLocaleString() + " NX#k\r\n\r\n";
         msg += "#L0##bChange Skin Tone#k#l\r\n";
         msg += "#L1##bChange Hair Color (Dye)#k#l\r\n";
         msg += "#L2##bChange Eye Color (Cosmetic Lenses)#k#l\r\n";
@@ -141,7 +137,7 @@ function action(mode, type, selection) {
                 cm.dispose();
                 return;
             }
-            cm.sendStyle("Choose your preferred skin tone:\r\nPrice: 1,000 NX or 500,000 Mesos", currentList);
+            cm.sendStyle("Choose your preferred skin tone:\r\nPrice: 10,000 NX", currentList);
         } else if (category == 1) {
             // Hair Color
             var curHair = cm.getPlayer().getHair();
@@ -156,7 +152,7 @@ function action(mode, type, selection) {
                 cm.dispose();
                 return;
             }
-            cm.sendStyle("Choose your desired hair dye color:\r\nPrice: 1,000 NX or 500,000 Mesos", currentList);
+            cm.sendStyle("Choose your desired hair dye color:\r\nPrice: 10,000 NX", currentList);
         } else if (category == 2) {
             // Eye Color
             var curFace = cm.getPlayer().getFace();
@@ -171,7 +167,7 @@ function action(mode, type, selection) {
                 cm.dispose();
                 return;
             }
-            cm.sendStyle("Choose your desired eye lens color:\r\nPrice: 1,000 NX or 500,000 Mesos", currentList);
+            cm.sendStyle("Choose your desired eye lens color:\r\nPrice: 10,000 NX", currentList);
         } else if (category == 3) {
             // Hair Catalog - select gender & page
             var isMale = cm.getPlayer().getGender() == 0;
@@ -217,7 +213,7 @@ function action(mode, type, selection) {
                 cm.dispose();
                 return;
             }
-            cm.sendStyle("Choose your new hairstyle:\r\nPrice: 1,000 NX or 500,000 Mesos", currentList);
+            cm.sendStyle("Choose your new hairstyle:\r\nPrice: 10,000 NX", currentList);
         } else if (category == 4) {
             // Selected face page
             var isMale = cm.getPlayer().getGender() == 0;
@@ -237,7 +233,7 @@ function action(mode, type, selection) {
                 cm.dispose();
                 return;
             }
-            cm.sendStyle("Choose your new face expression:\r\nPrice: 1,000 NX or 500,000 Mesos", currentList);
+            cm.sendStyle("Choose your new face expression:\r\nPrice: 10,000 NX", currentList);
         }
     } else if (status == 3) {
         // Chosen style from sub-collection
@@ -252,7 +248,7 @@ function applyChosenStyle(selection) {
     }
 
     if (!canAfford()) {
-        cm.sendOk("You do not have enough NX (1,000) or Mesos (500,000) for this style change.\r\nYour balance:\r\n• NX: " + cm.getNX() + "\r\n• Mesos: " + cm.getMeso());
+        cm.sendOk("You do not have enough NX for this style change.\r\n#eRequired:#n #r10,000 NX#k\r\n#eYour current NX:#n #b" + cm.getNX().toLocaleString() + " NX#k.");
         cm.dispose();
         return;
     }
@@ -283,6 +279,6 @@ function applyChosenStyle(selection) {
     }
 
     cm.showEffect("avatar/congratulation");
-    cm.sendOk("Your new style has been applied successfully!\r\nPayment: " + costPaid + ".\r\nEnjoy your new look!");
+    cm.sendOk("Your new style has been applied successfully!\r\nPayment: #b" + costPaid + "#k.\r\nEnjoy your new look!");
     cm.dispose();
 }
