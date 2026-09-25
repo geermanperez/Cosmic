@@ -64,7 +64,7 @@ function action(mode, type, selection) {
             cm.openNpc(9900000);
 
         } else if (selectedOption == 2) {
-            var isGm = cm.getPlayer().getGMLevel() > 0;
+            var isGm = cm.getPlayer().isGM();
             var travelMsg = "         #e#b[ New Expansion Zones Teleport ]#k#n\r\n";
             travelMsg += "Travel Fee: #r" + formatNumber(TELEPORT_COST) + " Mesos#k";
             travelMsg += (isGm ? " #g(Free for GMs)#k" : "") + "\r\n";
@@ -115,7 +115,7 @@ function action(mode, type, selection) {
             }
             var dest = newZones[idx];
             var destId = dest.id | 0;
-            var isGm = cm.getPlayer().getGMLevel() > 0;
+            var isGm = cm.getPlayer().isGM();
 
             if (!isGm && cm.getMeso() < TELEPORT_COST) {
                 cm.dispose();
