@@ -47,7 +47,7 @@ import { API_URL, getToken, saveToken, request } from "./apiClient";
 const downloadUrl =
   "https://drive.google.com/file/d/135SdtvRBD22_9GtFQcWzaIZxrkd6LXLo/view?usp=sharing";
 const updateDownloadUrl =
-  "https://drive.google.com/file/d/1lW-n9Gj7CV7yCI7NvMiyDAEoP4wb--Mj/view?usp=sharing";
+  "https://drive.google.com/file/d/16_iVS5REoxQF-jp90APeYm23ZEGmeOA7/view?usp=sharing";
 const updateNoticeStorageKey = "everleafms-correction-patch-notice-2026-09-23";
 const updateNoticeStartDate = "2026-09-23";
 const updateNoticeDurationDays = 14;
