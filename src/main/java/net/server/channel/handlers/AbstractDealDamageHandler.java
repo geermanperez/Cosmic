@@ -665,7 +665,7 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
 
         if (magic && ret.skill != 0) {   // thanks onechord for noticing a few false positives stemming from maxdmg as 0
             calcDmgMax = (long) (Math.ceil((chr.getTotalMagic() * Math.ceil(chr.getTotalMagic() / 1000.0) + chr.getTotalMagic()) / 30.0) + Math.ceil(chr.getTotalInt() / 200.0));
-        } else if (ret.skill == 4001344 || ret.skill == NightWalker.LUCKY_SEVEN || ret.skill == NightLord.TRIPLE_THROW) {
+        } else if (ret.skill == 4001344 || ret.skill == NightWalker.LUCKY_SEVEN || ret.skill == NightLord.TRIPLE_THROW || ret.skill == NightWalker.TRIPLE_THROW) {
             calcDmgMax = (long) ((chr.getTotalLuk() * 5) * Math.ceil(chr.getTotalWatk() / 100.0));
         } else if (ret.skill == DragonKnight.DRAGON_ROAR) {
             calcDmgMax = (long) ((chr.getTotalStr() * 4 + chr.getTotalDex()) * Math.ceil(chr.getTotalWatk() / 100.0));
@@ -800,7 +800,9 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
         }
         int targetTrailerBytes = detectAttackTargetTrailerSize(p, ret.numAttacked, ret.numDamage,
                 oid -> chr.getMap().getMonsterByOid(oid) != null, defaultTargetTrailerBytes(ret.skill));
+        final long baseTargetDamage = calcDmgMax;
         for (int i = 0; i < ret.numAttacked; i++) {
+            calcDmgMax = baseTargetDamage;
             int oid = p.readInt();
             p.skip(4);
             Point curPos = p.readPos();
@@ -878,7 +880,7 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
             }
 
             for (int j = 0; j < ret.numDamage; j++) {
-                int damage = p.readInt();
+                int damage = AttackDamage.magnitude(p.readInt());
                 long hitDmgMax = calcDmgMax;
                 if (ret.skill == Buccaneer.BARRAGE || ret.skill == ThunderBreaker.BARRAGE) {
                     if (j > 3) {
@@ -916,9 +918,11 @@ public abstract class AbstractDealDamageHandler extends AbstractPacketHandler {
                     AutobanFactory.DAMAGE_HACK.addPoint(chr.getAutobanManager(), "DMG: " + damage + " MaxDMG: " + maxWithCrit + " SID: " + ret.skill + " MobID: " + (monster != null ? monster.getId() : "null") + " Map: " + chr.getMap().getMapName() + " (" + chr.getMapId() + ")");
                 }
 
+                damage = AttackDamage.cap(damage, maxWithCrit);
+
                 if (ret.skill == Marksman.SNIPE || (canCrit && damage > hitDmgMax)) {
                     // If the skill is a crit, inverse the damage to make it show up on clients.
-                    damage = -Integer.MAX_VALUE + damage - 1;
+                    damage |= Integer.MIN_VALUE;
                 }
 
                 if(effect != null) {
