@@ -50,12 +50,11 @@ function action(mode, type, selection) {
         var msg = "             #e#b[ JARVIS - Personal Assistant ]#k#n\r\n";
         msg += "Hello #e#h ##n! How may I assist you today?\r\n\r\n";
         msg += "#L0##b[1] Universal Account Storage#k#l\r\n";
-        msg += "#L1##b[2] VIP Beauty Salon & (NEW HAIR) Style Changer (10k NX)#k#l\r\n";
+        msg += "#L1##b[2] VIP Beauty Salon & Style Changer#k#l\r\n";
         msg += "#L2##b[3] New Expansion Teleport (100k Mesos)#k#l\r\n";
         msg += "#L3##b[4] General Store & Consumables#k#l\r\n";
         msg += "#L4##b[5] Warp to Free Market Entrance#k#l\r\n";
         msg += "#L5##b[6] Server Information & Rates#k#l\r\n";
-        msg += "#L6##b[7] (NEW HAIR) Modern & Special Hairstyles (10k NX)#k#l\r\n";
         cm.sendSimple(msg);
 
     // ── STATUS 1: Option selected ────────────────────────────────────────────
@@ -66,7 +65,7 @@ function action(mode, type, selection) {
             cm.openStorage();
             cm.dispose();
 
-        } else if (selectedOption == 1 || selectedOption == 6) {
+        } else if (selectedOption == 1) {
             cm.openNpc(9900000);
             // openNpc disposes current and starts the other NPC
 

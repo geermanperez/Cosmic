@@ -548,6 +548,19 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             } else {
                 getPlayer().getCashShop().gainCash(CashShop.NX_PREPAID, amount);
             }
+
+            try (java.sql.Connection con = tools.DatabaseConnection.getConnection();
+                 java.sql.PreparedStatement ps = con.prepareStatement("UPDATE `accounts` SET `nxCredit` = ?, `maplePoint` = ?, `nxPrepaid` = ? WHERE `id` = ?")) {
+                ps.setInt(1, getPlayer().getCashShop().getCash(CashShop.NX_CREDIT));
+                ps.setInt(2, getPlayer().getCashShop().getCash(CashShop.MAPLE_POINT));
+                ps.setInt(3, getPlayer().getCashShop().getCash(CashShop.NX_PREPAID));
+                ps.setInt(4, getPlayer().getAccountID());
+                ps.executeUpdate();
+            } catch (SQLException sqle) {
+                log.error("Failed to update accounts cash in gainNX", sqle);
+            }
+
+            getClient().sendPacket(PacketCreator.showCash(getPlayer()));
         }
     }
 

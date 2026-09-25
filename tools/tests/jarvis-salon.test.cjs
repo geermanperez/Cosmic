@@ -48,27 +48,28 @@ test('every catalog page, gender and color only previews existing resources and 
     for (const gender of [0, 1]) for (const category of [3, 4]) {
         for (let color = 0; color < (category === 3 ? 8 : 7); color++) {
             for (let page = 0; page < (category === 3 ? 10 : 5); page++) {
-                const s = salon({ gender, hair: 30000 + color, face: 20000 + color * 100 });
+                const s = salon({ gender, hair: 30000 + color, face: 20000 + color * 100, nx: 50000 });
                 s.pick(category); s.pick(page);
                 const ids = s.state.previews[0]; assert.ok(ids.length > 0);
                 const kind = category === 3 ? 'Hair' : 'Face';
                 for (const id of ids) assert.ok(fs.existsSync(path.join(root, 'wz/Character.wz', kind, String(id).padStart(8, '0') + '.img.xml')));
                 s.pick(ids.length - 1); s.pick(0);
                 assert.deepEqual(s.state.applied, [[kind.toLowerCase(), ids.at(-1)]]);
-                assert.deepEqual(s.state.charges, [-10000]);
+                assert.deepEqual(s.state.charges, [category === 3 ? -10000 : -12500]);
             }
         }
     }
 });
 
-test('skin and eye selections preserve preview indices and charge once', () => {
+test('skin and eye selections preserve preview indices and charge specific price', () => {
+    const expectedCharges = [ -5000, -6000, -7500 ];
     for (const category of [0, 1, 2]) {
-        const s = salon(); s.pick(category);
+        const s = salon({ nx: 50000 }); s.pick(category);
         const ids = s.state.previews[0];
         assert.ok(!ids.includes([0, 30000, 20000][category]));
         s.pick(ids.length - 1);
         assert.deepEqual(s.state.applied, [[[ 'skin', 'hair', 'face' ][category], ids.at(-1)]]);
-        assert.deepEqual(s.state.charges, [-10000]);
+        assert.deepEqual(s.state.charges, [expectedCharges[category]]);
     }
 });
 
@@ -85,14 +86,14 @@ test('insufficient NX, cancellation, invalid selection and missing resources do 
     assert.deepEqual(missing.state.previews, []); assert.deepEqual(missing.state.charges, []);
 });
 
-test('GM changes remain free', () => {
-    const s = salon({ gm: true, nx: 0 }); s.pick(2); s.pick(0);
-    assert.equal(s.state.applied.length, 1); assert.deepEqual(s.state.charges, []);
+test('GM characters also pay NX properly', () => {
+    const s = salon({ gm: true, nx: 20000 }); s.pick(2); s.pick(0);
+    assert.equal(s.state.applied.length, 1); assert.deepEqual(s.state.charges, [-7500]);
 });
 
 test('(NEW HAIR) category 5 offers all 9 subcategories and previews valid hairs across all collections', () => {
     for (let subCat = 0; subCat < 9; subCat++) {
-        const sSub = salon({ hair: 30000 });
+        const sSub = salon({ hair: 30000, nx: 50000 });
         sSub.pick(5); // Category (NEW HAIR)
         sSub.pick(subCat); // Subcategory
         sSub.pick(0); // Page 0
@@ -104,7 +105,7 @@ test('(NEW HAIR) category 5 offers all 9 subcategories and previews valid hairs 
         sSub.pick(ids.length - 1);
         sSub.pick(0);
         assert.deepEqual(sSub.state.applied, [['hair', ids.at(-1)]]);
-        assert.deepEqual(sSub.state.charges, [-10000]);
+        assert.deepEqual(sSub.state.charges, [-15000]);
     }
 });
 

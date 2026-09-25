@@ -5,7 +5,18 @@ var category = -1;
 var subCategory = -1;
 var subPage = 0;
 var pageList = [];
-var COST_NX = 10000;
+var PRICES = {
+    0: 5000,   // Skin tone: 5,000 NX
+    1: 6000,   // Hair dye / color: 6,000 NX
+    2: 7500,   // Eye color: 7,500 NX
+    3: 10000,  // Classic hairstyle catalog: 10,000 NX
+    4: 12500,  // Face catalog: 12,500 NX
+    5: 15000   // (NEW HAIR) Modern & special hairstyles: 15,000 NX
+};
+
+function getCategoryCost(cat) {
+    return PRICES[cat] || 5000;
+}
 
 // Only offer tones with both body and head resources and a supported server enum.
 var skin = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
@@ -303,8 +314,8 @@ function isGM() {
     return false;
 }
 
-function canAfford() {
-    return isGM() || cm.getNX() >= COST_NX;
+function canAfford(cost) {
+    return cm.getNX() >= cost;
 }
 
 // Use the configured WZ path, not String.wz names (which can outlive graphics).
@@ -380,14 +391,14 @@ function action(mode, type, selection) {
     // ── STATUS 0: Main menu ──────────────────────────────────────────────────
     if (status == 0) {
         var msg = "           #e#b[ VIP Beauty Salon ]#k#n\r\n";
-        msg += "Customize your look! Cost: #r10,000 NX#k (Free for GMs)\r\n";
+        msg += "Customize your look! Choose an option below:\r\n";
         msg += "Your NX: #b" + formatNumber(cm.getNX()) + " NX#k\r\n\r\n";
-        msg += "#L0##bChange Skin Tone#k#l\r\n";
-        msg += "#L1##bChange Hair Color (keeps your style, changes color)#k#l\r\n";
-        msg += "#L2##bChange Eye Color (keeps your face, changes eyes)#k#l\r\n";
-        msg += "#L3##bHairstyle Catalog#k#l\r\n";
-        msg += "#L4##bFace Catalog#k#l\r\n";
-        msg += "#L5##b(NEW HAIR) Modern & Special Styles#k#l\r\n";
+        msg += "#L0##bChange Skin Tone#k #d(" + formatNumber(PRICES[0]) + " NX)#k#l\r\n";
+        msg += "#L1##bChange Hair Color#k #d(" + formatNumber(PRICES[1]) + " NX)#k#l\r\n";
+        msg += "#L2##bChange Eye Color#k #d(" + formatNumber(PRICES[2]) + " NX)#k#l\r\n";
+        msg += "#L3##bHairstyle Catalog#k #d(" + formatNumber(PRICES[3]) + " NX)#k#l\r\n";
+        msg += "#L4##bFace Catalog#k #d(" + formatNumber(PRICES[4]) + " NX)#k#l\r\n";
+        msg += "#L5##b(NEW HAIR) Modern & Special Styles#k #d(" + formatNumber(PRICES[5]) + " NX)#k#l\r\n";
         cm.sendSimple(msg);
 
     // ── STATUS 1: Category picked ────────────────────────────────────────────
@@ -397,7 +408,7 @@ function action(mode, type, selection) {
         if (category == 0) {
             // Skin
             pageList = buildStyleList(skin);
-            showStyles("Pick your skin tone:\r\nCost: #r10,000 NX#k");
+            showStyles("Pick your skin tone:\r\nCost: #r" + formatNumber(PRICES[0]) + " NX#k");
 
         } else if (category == 1) {
             // Hair color (recolor current style, colors 0-7)
@@ -406,7 +417,7 @@ function action(mode, type, selection) {
             var colors = [];
             for (var c = 0; c <= 7; c++) colors.push(baseHair + c);
             pageList = buildStyleList(colors);
-            showStyles("Pick a hair dye color:\r\nCost: #r10,000 NX#k");
+            showStyles("Pick a hair dye color:\r\nCost: #r" + formatNumber(PRICES[1]) + " NX#k");
 
         } else if (category == 2) {
             // Eye color (recolor current face, eye slots 0-600 step 100)
@@ -415,7 +426,7 @@ function action(mode, type, selection) {
             var eyes = [];
             for (var ec = 0; ec <= 600; ec += 100) eyes.push(baseFace + ec);
             pageList = buildStyleList(eyes);
-            showStyles("Pick an eye color:\r\nCost: #r10,000 NX#k");
+            showStyles("Pick an eye color:\r\nCost: #r" + formatNumber(PRICES[2]) + " NX#k");
 
         } else if (category == 3) {
             // Hairstyle catalog — pick a page
@@ -423,7 +434,7 @@ function action(mode, type, selection) {
             var list = isMale ? maleHairs : femaleHairs;
             var gStr = isMale ? "Male" : "Female";
             var msg = "         #e#b[ " + gStr + " Hairstyle Catalog ]#k#n\r\n";
-            msg += "Select a collection (Cost: 10,000 NX):\r\n\r\n";
+            msg += "Select a collection (Cost: #r" + formatNumber(PRICES[3]) + " NX#k):\r\n\r\n";
             for (var i = 0; i < list.length; i++) {
                 msg += "#L" + i + "#Hairstyles " + (i * 8 + 1) + "-" + (i * 8 + 8) + "#l\r\n";
             }
@@ -434,7 +445,7 @@ function action(mode, type, selection) {
             var isMale = cm.getPlayer().getGender() == 0;
             var flist = isMale ? maleFaces : femaleFaces;
             var msg = "         #e#b[ Face Catalog ]#k#n\r\n";
-            msg += "Select a collection (Cost: 10,000 NX):\r\n\r\n";
+            msg += "Select a collection (Cost: #r" + formatNumber(PRICES[4]) + " NX#k):\r\n\r\n";
             for (var i = 0; i < flist.length; i++) {
                 msg += "#L" + i + "#Faces " + (i * 8 + 1) + "-" + (i * 8 + 8) + "#l\r\n";
             }
@@ -443,7 +454,7 @@ function action(mode, type, selection) {
         } else if (category == 5) {
             // (NEW HAIR) Modern & Special Styles — pick a subcategory
             var msg = "         #e#b[ (NEW HAIR) Special & Modern Catalog ]#k#n\r\n";
-            msg += "Select a collection (Cost: 10,000 NX):\r\n\r\n";
+            msg += "Select a collection (Cost: #r" + formatNumber(PRICES[5]) + " NX#k):\r\n\r\n";
             for (var i = 0; i < newHairCategories.length; i++) {
                 msg += "#L" + i + "##b" + newHairCategories[i].name + "#k (" + newHairCategories[i].pages.length + " pages)#l\r\n";
             }
@@ -471,7 +482,7 @@ function action(mode, type, selection) {
                 if (styled > 0) hairs.push(styled);
             }
             pageList = buildStyleList(hairs);
-            showStyles("Pick a hairstyle:\r\nCost: #r10,000 NX#k");
+            showStyles("Pick a hairstyle:\r\nCost: #r" + formatNumber(PRICES[3]) + " NX#k");
 
         } else if (category == 4) {
             // Page selected → show faces
@@ -486,7 +497,7 @@ function action(mode, type, selection) {
                 faces.push((faceGroup[f] | 0) + curEyeColor);
             }
             pageList = buildStyleList(faces);
-            showStyles("Pick a face:\r\nCost: #r10,000 NX#k");
+            showStyles("Pick a face:\r\nCost: #r" + formatNumber(PRICES[4]) + " NX#k");
 
         } else if (category == 5) {
             // Subcategory selected → show page list
@@ -497,7 +508,7 @@ function action(mode, type, selection) {
             }
             var cat = newHairCategories[subCategory];
             var msg = "         #e#b[ " + cat.name + " ]#k#n\r\n";
-            msg += "Select a page to preview (Cost: 10,000 NX):\r\n\r\n";
+            msg += "Select a page to preview (Cost: #r" + formatNumber(PRICES[5]) + " NX#k):\r\n\r\n";
             for (var p = 0; p < cat.pages.length; p++) {
                 var startIdx = p * 8 + 1;
                 var endIdx = startIdx + cat.pages[p].length - 1;
@@ -530,7 +541,7 @@ function action(mode, type, selection) {
                 if (styled > 0) hairs.push(styled);
             }
             pageList = buildStyleList(hairs);
-            showStyles("Pick a hairstyle:\r\nCost: #r10,000 NX#k");
+            showStyles("Pick a (NEW HAIR) style:\r\nCost: #r" + formatNumber(PRICES[5]) + " NX#k");
 
         } else {
             cm.dispose();
@@ -563,9 +574,11 @@ function doApply(idx) {
         return;
     }
 
-    if (!canAfford()) {
+    var cost = getCategoryCost(category);
+
+    if (!canAfford(cost)) {
         status = 99;
-        cm.sendOk("You need #r10,000 NX#k to change your style.\r\nYour NX: #b" + formatNumber(cm.getNX()) + "#k.");
+        cm.sendOk("You need #r" + formatNumber(cost) + " NX#k to change this style.\r\nYour NX: #b" + formatNumber(cm.getNX()) + "#k.");
         // The next response only closes the message.
         return;
     }
@@ -581,8 +594,9 @@ function doApply(idx) {
         cm.setFace(chosen);
     }
 
-    if (!isGM()) {
-        cm.gainNX(-COST_NX);
+    cm.gainNX(-cost);
+    if (cm.getPlayer() && typeof cm.getPlayer().dropMessage === "function") {
+        cm.getPlayer().dropMessage(5, "[VIP Salon] Paid " + formatNumber(cost) + " NX. Remaining balance: " + formatNumber(cm.getNX()) + " NX.");
     }
 
     cm.dispose();
