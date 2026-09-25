@@ -1,0 +1,79 @@
+{
+  "source": "C:\\Users\\germa\\OneDrive\\Escritorio\\YunaMS\\yunams.dll",
+  "destination": "C:\\Users\\germa\\OneDrive\\Escritorio\\YunaMS\\yunams.dll",
+  "backup": "C:\\Users\\germa\\OneDrive\\Escritorio\\YunaMS\\yunams.dll.backup-before-stats-20260902-121151",
+  "sha256_before": "a4799b19037dd5a3138eca05b24b92d254d549d44cde5c0675b01c7e4659f608",
+  "sha256_after": "b48c4d9ee6f5d95226b79c57deca2e8ca684815b41f71843af780a48d22d3638",
+  "changes": [
+    {
+      "rva": "0x18b72",
+      "offset": "0x17f72",
+      "before": "6a02",
+      "after": "6a01",
+      "reason": "character level consumes one byte"
+    },
+    {
+      "rva": "0x18b80",
+      "offset": "0x17f80",
+      "before": "0fbf5df8",
+      "after": "0fb65df8",
+      "reason": "character level is unsigned"
+    },
+    {
+      "rva": "0x18c01",
+      "offset": "0x18001",
+      "before": "6a02",
+      "after": "6a01",
+      "reason": "other character level consumes one byte"
+    },
+    {
+      "rva": "0x18c0f",
+      "offset": "0x1800f",
+      "before": "0fbf5df8",
+      "after": "0fb65df8",
+      "reason": "other character level is unsigned"
+    },
+    {
+      "rva": "0x18ce1",
+      "offset": "0x180e1",
+      "before": "6a02",
+      "after": "6a01",
+      "reason": "updated level consumes one byte"
+    },
+    {
+      "rva": "0x18cef",
+      "offset": "0x180ef",
+      "before": "0fbf5df8",
+      "after": "0fb65df8",
+      "reason": "updated level is unsigned"
+    },
+    {
+      "rva": "0x17990",
+      "offset": "0x16d90",
+      "before": "6a02",
+      "after": "6a01",
+      "reason": "party member level consumes one byte"
+    },
+    {
+      "rva": "0x179a1",
+      "offset": "0x16da1",
+      "before": "668b45f8",
+      "after": "0fb645f8",
+      "reason": "party member level is unsigned"
+    },
+    {
+      "rva": "0x19580",
+      "offset": "0x18980",
+      "before": "6a08",
+      "after": "6a04",
+      "reason": "experience consumes four bytes"
+    },
+    {
+      "rva": "0x19593",
+      "offset": "0x18993",
+      "before": "8b4df8",
+      "after": "33c990",
+      "reason": "zero high half of internal 64-bit EXP cache"
+    }
+  ]
+}
