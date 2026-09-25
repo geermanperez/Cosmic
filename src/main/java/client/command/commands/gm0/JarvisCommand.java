@@ -16,6 +16,7 @@ public class JarvisCommand extends Command {
             c.getPlayer().dropMessage(5, "You cannot use Jarvis services at this moment.");
             return;
         }
+        c.removeClickedNPC();
         NPCScriptManager.getInstance().dispose(c);
         NPCScriptManager.getInstance().start(c, EnterMTSHandler.JARVIS_NPC_ID, c.getPlayer());
     }

@@ -50,7 +50,7 @@ public final class EnterMTSHandler extends AbstractPacketHandler {
         chr.closePlayerInteractions();
         chr.closePartySearchInteractions();
 
-        c.sendPacket(PacketCreator.enableActions());
+        c.removeClickedNPC();
         NPCScriptManager.getInstance().dispose(c);
         NPCScriptManager.getInstance().start(c, JARVIS_NPC_ID, c.getPlayer());
     }

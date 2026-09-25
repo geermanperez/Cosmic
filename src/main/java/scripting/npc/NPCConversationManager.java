@@ -510,13 +510,13 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
     }
 
     public void openNpc(int npcId) {
-        dispose();
+        NPCScriptManager.getInstance().dispose(this);
         getClient().removeClickedNPC();
         NPCScriptManager.getInstance().start(getClient(), npcId, getPlayer());
     }
 
     public void openNpc(int npcId, String script) {
-        dispose();
+        NPCScriptManager.getInstance().dispose(this);
         getClient().removeClickedNPC();
         NPCScriptManager.getInstance().start(getClient(), npcId, script, getPlayer());
     }

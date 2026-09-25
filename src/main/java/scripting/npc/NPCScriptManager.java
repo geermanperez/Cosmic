@@ -116,6 +116,7 @@ public class NPCScriptManager extends AbstractScriptManager {
             final NPCConversationManager cm = new NPCConversationManager(c, npc, oid, fileName, itemScript);
             if (cms.containsKey(c)) {
                 dispose(c);
+                c.removeClickedNPC();
             }
             if (c.canClickNPC()) {
                 cms.put(c, cm);
