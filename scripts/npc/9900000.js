@@ -9,6 +9,7 @@ var status = -1;
 var category = -1;
 var subPage = 0;
 var currentList = [];
+var applied = false;
 var COST_NX = 10000; // Minimum 10,000 NX per style change
 
 var skin = [0, 1, 2, 3, 4];
@@ -123,6 +124,12 @@ function start() {
 
 function action(mode, type, selection) {
     if (mode < 1) {
+        cm.dispose();
+        return;
+    }
+
+    // After style was applied, any further click just closes the dialog
+    if (applied) {
         cm.dispose();
         return;
     }
@@ -249,8 +256,8 @@ function applyChosenStyle(selection) {
     }
 
     if (!canAfford()) {
+        applied = true;
         cm.sendOk("You do not have enough NX for this style change.\r\n#eRequired:#n #r10,000 NX#k\r\n#eYour current NX:#n #b" + formatNumber(cm.getNX()) + " NX#k.");
-        cm.dispose();
         return;
     }
 
@@ -258,23 +265,18 @@ function applyChosenStyle(selection) {
     var costPaid = chargePlayer();
 
     if (category == 0) {
-        // Skin
         cm.setSkin(chosen);
     } else if (category == 1) {
-        // Hair color
         cm.setHair(chosen);
     } else if (category == 2) {
-        // Eye color
         cm.setFace(chosen);
     } else if (category == 3) {
-        // Hair style
         cm.setHair(chosen);
     } else if (category == 4) {
-        // Face expression
         cm.setFace(chosen);
     }
 
-    cm.showEffect("avatar/congratulation");
-    cm.sendOk("Your new style has been applied successfully!\r\nPayment: #b" + costPaid + "#k.\r\nEnjoy your new look!");
-    cm.dispose();
+    applied = true;
+    cm.sendOk("Your new style has been applied! Payment: #b" + costPaid + "#k.");
+    // Player clicks OK -> action(1,...) -> applied==true -> dispose()
 }
