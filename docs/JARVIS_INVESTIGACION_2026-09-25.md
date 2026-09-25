@@ -48,3 +48,24 @@ Los mensajes de lista vacía y falta de NX terminan en un estado que solo permit
 Validación: node --test tools/tests/cosmetic-preview.test.cjs tools/tests/jarvis-salon.test.cjs — 10 pruebas pasan. Se recorren 230 combinaciones de página, género y color además de piel, tintes, cancelación, selección inválida, recursos ausentes, saldo insuficiente y GM. La suite usa Node con puente Java simulado y archivos XML reales; no sustituye una ejecución GraalJS ni la prueba gráfica del cliente.
 
 Para activar: usar este script en la instancia de servidor que atiende al cliente y abrir una conversación nueva (reconectar si conserva un script cacheado). No se desplegó en ningún servidor remoto ni se ejecutó el juego. Verificar en cliente @jarvis → salón → piel/ojos/pelo. Si persiste un cierre, se necesita el registro generado en esa sesión para investigar el cliente y los paquetes.
+
+## Nuevo registro: incompatibilidad binaria confirmada
+
+El registro adjuntado posteriormente captura la sesión 7884: a las 18:02:39.799 se genera `preview=[0, 1, 2, 4, 5, 9, 10, 11]`; a las 18:02:39.800 se envía NPC_TALK (304), 85 bytes. A las 18:02:40.452 llega PARTY_SEARCH_UPDATE (223), y a las 18:02:40.453 se cierra la conexión. No hay NPC_TALK_MORE después del preview, ni selección ni cobro. PARTY_SEARCH_UPDATE solo desregistra la búsqueda de grupo; no es un reporte de error. El usuario confirma que el programa se cierra por completo.
+
+Se desensamblaron, sin modificarlos, EverleafMS.exe y yunams.dll locales. El EXE original despacha el diálogo tipo 7 en 0x7466FE a 0x74713D. Lee el texto, un byte de cantidad (0x747172, Decode1 = 0x4065F3) y un entero por estilo (Decode4 = 0x406629).
+
+Pero yunams.dll **cambia ese protocolo al ejecutarse**:
+
+- RVA 0xE698: `push 0x406629; push 0x747172; call ...` reemplaza la llamada de lectura de cantidad por Decode4.
+- RVA 0xE6A7: instala tres NOP en 0x747177, eliminando la reducción del resultado a un byte (`movzx eax, al`).
+- También modifica el envío del índice elegido a un entero (hook 0x1000E560; Encode4 en 0x4065A6). NPCMoreTalkHandler ya admite selecciones de cuatro bytes.
+- SHA-256 del DLL inspeccionado: `0c53370b19352fd710ca6fe56c5a2c442fde650322eaf7528feaba7c6f405063`.
+
+El servidor conservaba `p.writeByte(count)`. Con los ocho tonos del registro, el cliente consume tres bytes del primer ID al leer la cantidad. La primera piel se convierte en 256 y quedan 29 bytes para leer ocho enteros (32 bytes). En pelo/cara también puede interpretar una cantidad enorme. Esto demuestra una incompatibilidad de protocolo que el filtrado de IDs y las pruebas de scripts anteriores no detectaban. No se atribuye una dirección de excepción concreta sin un dump nuevo.
+
+Corrección: `PacketCreator.getNPCTalkStyle` escribe `p.writeInt(count)`. El paquete del registro pasa de 85 a 88 bytes, conservando texto e IDs. Es específico del cliente Yuna parcheado; el cliente v83 original espera un byte. Se conserva el límite de 120 opciones y no se modifican otros tipos de diálogo ni binarios del juego.
+
+`NpcStyleEncodingTest` verifica el paquete real de piel, pelo, cara, una sola opción y el límite de 120. Incluye una reproducción del desplazamiento del formato anterior. Esta actualización Java requiere reconstruir la imagen/JAR del servidor y reiniciar la instancia desplegada. Actualizar solo scripts o reconectar no basta. La validación final en el juego sigue pendiente del despliegue.
+
+Validación ejecutada con JDK 21: `mvnw.cmd -B -ntp -Dtest=NpcStyleEncodingTest test` finalizó con BUILD SUCCESS (3 pruebas, 0 fallos, 0 errores). `mvnw.cmd -B -ntp -DskipTests package` también finalizó con BUILD SUCCESS y generó `target/Cosmic.jar`. Las pruebas ya se habían ejecutado antes del empaquetado. No se realizó despliegue remoto. EverleafMs continúa excluido de Git.

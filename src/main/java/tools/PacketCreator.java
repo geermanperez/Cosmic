@@ -3448,7 +3448,9 @@ public class PacketCreator {
         p.writeByte(0); //speaker
         p.writeString(talk);
         int count = Math.min(styles.length, 120);
-        p.writeByte((byte) count);
+        // Yuna's salon patch changes AskAvatar's count decoder at 0x747172
+        // from Decode1 to Decode4. A v83 byte count misaligns every style ID.
+        p.writeInt(count);
         for (int i = 0; i < count; i++) {
             p.writeInt(styles[i]);
         }
