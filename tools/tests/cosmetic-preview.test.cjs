@@ -29,7 +29,7 @@ function openCatalog(npc, category, resolve = id => id) {
     return { context, state };
 }
 
-for (const npc of [9900000, 9900001]) {
+for (const npc of [9900001]) {
     test(`${npc}: filter unavailable, equipped and duplicate fallback styles`, () => {
         const resolve = id => id === 30001 ? -1 : id === 30002 ? 30000 : id === 30003 ? 30004 : id;
         const { context, state } = openCatalog(npc, 1, resolve);

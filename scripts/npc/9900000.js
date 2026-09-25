@@ -1,9 +1,4 @@
-/*
- * VIP Beauty Salon (NPC 9900000) - EverleafMS / YunaMS
- * GraalJS compatible: no regex, safe v83 style IDs only
- * Removed: 33xxx/35xxx male hairs, 34xxx/37xxx female hairs,
- *           23xxx male faces, 24xxx female faces, all specialFaces (22/25/26xxx)
- */
+/* VIP Beauty Salon: validate final appearance IDs against Character.wz before preview. */
 
 var status = -1;
 var category = -1;
@@ -11,10 +6,10 @@ var subPage = 0;
 var pageList = [];
 var COST_NX = 10000;
 
-// Skin: 0=Light 1=Tanned 2=Dark 3=Pale — all safe in v83
-var skin = [0, 1, 2, 3];
+// Only offer tones with both body and head resources and a supported server enum.
+var skin = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
 
-// Male hairs — ONLY 30xxx range (confirmed v83 client)
+// Male hairstyle collections; validate every final color variant before preview.
 var maleHairs = [
     [30000, 30010, 30020, 30030, 30040, 30050, 30060, 30070],
     [30080, 30090, 30100, 30110, 30120, 30130, 30140, 30150],
@@ -28,7 +23,7 @@ var maleHairs = [
     [30750, 30760, 30770, 30780, 30790, 30800, 30810, 30820]
 ];
 
-// Female hairs — ONLY 31xxx range (confirmed v83 client)
+// Female hairstyle collections.
 var femaleHairs = [
     [31000, 31010, 31020, 31030, 31040, 31050, 31060, 31070],
     [31080, 31090, 31100, 31110, 31120, 31130, 31140, 31150],
@@ -42,7 +37,7 @@ var femaleHairs = [
     [31750, 31760, 31770, 31780, 31790, 31800, 31810, 31820]
 ];
 
-// Male faces — ONLY 20xxx (removed 23xxx — not in base v83)
+// Male face collections.
 var maleFaces = [
     [20000, 20001, 20002, 20003, 20004, 20005, 20006, 20007],
     [20008, 20009, 20010, 20011, 20012, 20013, 20014, 20015],
@@ -51,7 +46,7 @@ var maleFaces = [
     [20032, 20033, 20035, 20036, 20037, 20038, 20039, 20040]
 ];
 
-// Female faces — ONLY 21xxx (removed 24xxx — not in base v83)
+// Female face collections.
 var femaleFaces = [
     [21000, 21001, 21002, 21003, 21004, 21005, 21006, 21007],
     [21008, 21009, 21010, 21011, 21012, 21013, 21014, 21015],
@@ -60,7 +55,7 @@ var femaleFaces = [
     [21033, 21034, 21035, 21036, 21037, 21038, 21041, 21042]
 ];
 
-// specialFaces REMOVED entirely (22xxx/25xxx/26xxx crash clients)
+// Additional catalogs can be added after checking their client resources.
 
 function formatNumber(num) {
     var s = "" + Math.floor(+num);
@@ -82,12 +77,43 @@ function canAfford() {
     return isGM() || cm.getNX() >= COST_NX;
 }
 
+// Use the configured WZ path, not String.wz names (which can outlive graphics).
+var WzFiles = Java.type("provider.wz.WZFiles");
+var Files = Java.type("java.nio.file.Files");
+
+function hasImage(folder, id) {
+    var name = "00000000" + id;
+    name = name.substring(name.length - 8) + ".img.xml";
+    var root = WzFiles.CHARACTER.getFile();
+    return Files.isRegularFile(root.resolve(folder + name));
+}
+
+function isAvailable(id) {
+    if (category == 0) {
+        return cm.isSkinColorAvailable(id) && hasImage("", 2000 + id) && hasImage("", 12000 + id);
+    }
+    return hasImage(category == 1 || category == 3 ? "Hair/" : "Face/", id);
+}
+
 function buildStyleList(base) {
     var result = [];
     for (var i = 0; i < base.length; i++) {
-        result.push(base[i]);
+        var id = base[i];
+        // Dye must preserve the style; never silently substitute another color.
+        if (isAvailable(id) && !cm.isCosmeticEquipped(id) && result.indexOf(id) < 0) {
+            result.push(id);
+        }
     }
     return result;
+}
+
+function showStyles(message) {
+    if (pageList.length == 0) {
+        status = 99;
+        cm.sendOk("No other available styles or colors were found for this selection.");
+        return;
+    }
+    cm.sendStyle(message, pageList);
 }
 
 function start() {
@@ -125,7 +151,7 @@ function action(mode, type, selection) {
         if (category == 0) {
             // Skin
             pageList = buildStyleList(skin);
-            cm.sendStyle("Pick your skin tone:\r\nCost: #r10,000 NX#k", pageList);
+            showStyles("Pick your skin tone:\r\nCost: #r10,000 NX#k");
 
         } else if (category == 1) {
             // Hair color (recolor current style, colors 0-7)
@@ -134,7 +160,7 @@ function action(mode, type, selection) {
             var colors = [];
             for (var c = 0; c <= 7; c++) colors.push(baseHair + c);
             pageList = buildStyleList(colors);
-            cm.sendStyle("Pick a hair dye color:\r\nCost: #r10,000 NX#k", pageList);
+            showStyles("Pick a hair dye color:\r\nCost: #r10,000 NX#k");
 
         } else if (category == 2) {
             // Eye color (recolor current face, eye slots 0-600 step 100)
@@ -143,7 +169,7 @@ function action(mode, type, selection) {
             var eyes = [];
             for (var ec = 0; ec <= 600; ec += 100) eyes.push(baseFace + ec);
             pageList = buildStyleList(eyes);
-            cm.sendStyle("Pick an eye color:\r\nCost: #r10,000 NX#k", pageList);
+            showStyles("Pick an eye color:\r\nCost: #r10,000 NX#k");
 
         } else if (category == 3) {
             // Hairstyle catalog — pick a page
@@ -189,7 +215,7 @@ function action(mode, type, selection) {
                 hairs.push((hairGroup[subPage][h] | 0) + curColor);
             }
             pageList = buildStyleList(hairs);
-            cm.sendStyle("Pick a hairstyle:\r\nCost: #r10,000 NX#k", pageList);
+            showStyles("Pick a hairstyle:\r\nCost: #r10,000 NX#k");
 
         } else if (category == 4) {
             // Page selected → show faces
@@ -204,7 +230,7 @@ function action(mode, type, selection) {
                 faces.push((faceGroup[f] | 0) + curEyeColor);
             }
             pageList = buildStyleList(faces);
-            cm.sendStyle("Pick a face:\r\nCost: #r10,000 NX#k", pageList);
+            showStyles("Pick a face:\r\nCost: #r10,000 NX#k");
 
         } else {
             cm.dispose();
@@ -227,13 +253,21 @@ function doApply(idx) {
         return;
     }
 
+    if (!isAvailable(pageList[idx]) || cm.isCosmeticEquipped(pageList[idx])) {
+        status = 99;
+        cm.sendOk("This appearance is no longer available or is already equipped.");
+        return;
+    }
+
     if (!canAfford()) {
+        status = 99;
         cm.sendOk("You need #r10,000 NX#k to change your style.\r\nYour NX: #b" + formatNumber(cm.getNX()) + "#k.");
-        // Next action click → status > 3 → dispose
+        // The next response only closes the message.
         return;
     }
 
     var chosen = pageList[idx] | 0;
+    status = 99; // Consume the selection before applying or charging.
 
     if (category == 0) {
         cm.setSkin(chosen);
