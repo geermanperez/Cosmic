@@ -11,7 +11,7 @@ function salon({ hair = 30000, face = 20000, gender = 0, nx = 20000, gm = false,
     const cm = {
         getNX: () => nx,
         gainNX: amount => { nx += amount; state.charges.push(amount); },
-        getPlayer: () => ({ getHair: () => hair, getFace: () => face, getGender: () => gender, getGMLevel: () => gm ? 1 : 0 }),
+        getPlayer: () => ({ getHair: () => hair, getFace: () => face, getGender: () => gender, isGM: () => gm, gmLevel: () => gm ? 1 : 0, getGMLevel: () => gm ? 1 : 0 }),
         isSkinColorAvailable: id => id >= 0 && id <= 17,
         isCosmeticEquipped: id => [skin, hair, face].includes(id),
         sendSimple: () => {},

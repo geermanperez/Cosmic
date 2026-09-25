@@ -6131,6 +6131,10 @@ public class Character extends AbstractCharacterObject {
         return gmLevel;
     }
 
+    public int getGMLevel() {
+        return gmLevel;
+    }
+
     private void guildUpdate() {
         mgc.setLevel(level);
         mgc.setJobId(job.getId());

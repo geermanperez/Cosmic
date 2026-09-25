@@ -70,7 +70,12 @@ function formatNumber(num) {
 }
 
 function isGM() {
-    return cm.getPlayer().getGMLevel() > 0;
+    var p = cm.getPlayer();
+    if (!p) return false;
+    if (typeof p.isGM === "function" && p.isGM()) return true;
+    if (typeof p.gmLevel === "function" && p.gmLevel() > 0) return true;
+    if (typeof p.getGMLevel === "function" && p.getGMLevel() > 0) return true;
+    return false;
 }
 
 function canAfford() {
