@@ -27,3 +27,4 @@ database/docker-pg-db-data
 
 # Local game client
 /EverleafMs/
+/YunaMS/
