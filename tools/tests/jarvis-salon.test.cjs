@@ -89,3 +89,49 @@ test('GM changes remain free', () => {
     const s = salon({ gm: true, nx: 0 }); s.pick(2); s.pick(0);
     assert.equal(s.state.applied.length, 1); assert.deepEqual(s.state.charges, []);
 });
+
+test('(NEW HAIR) category 5 offers all 9 subcategories and previews valid hairs across all collections', () => {
+    for (let subCat = 0; subCat < 9; subCat++) {
+        const sSub = salon({ hair: 30000 });
+        sSub.pick(5); // Category (NEW HAIR)
+        sSub.pick(subCat); // Subcategory
+        sSub.pick(0); // Page 0
+        const ids = sSub.state.previews[0];
+        assert.ok(ids && ids.length > 0 && ids.length <= 8, `Subcat ${subCat} page 0 should have 1-8 styles`);
+        for (const id of ids) {
+            assert.ok(fs.existsSync(path.join(root, 'wz/Character.wz/Hair', String(id).padStart(8, '0') + '.img.xml')), `Hair ${id} must exist in WZ`);
+        }
+        sSub.pick(ids.length - 1);
+        sSub.pick(0);
+        assert.deepEqual(sSub.state.applied, [['hair', ids.at(-1)]]);
+        assert.deepEqual(sSub.state.charges, [-10000]);
+    }
+});
+
+test('(NEW HAIR) preserves dye color or falls back to valid variant for partial color styles', () => {
+    // Character with hair dye color 4
+    const s = salon({ hair: 30004 });
+    s.pick(5); s.pick(0); s.pick(0);
+    const ids = s.state.previews[0];
+    assert.ok(ids.length > 0);
+    for (const id of ids) {
+        assert.ok(fs.existsSync(path.join(root, 'wz/Character.wz/Hair', String(id).padStart(8, '0') + '.img.xml')));
+    }
+
+    // Female character with color 0 on 37360 (which only has colors 1..5) in Modern Female Part 2 (subcat 4)
+    let found37360 = false;
+    for (let p = 0; p < 22; p++) {
+        const sp = salon({ hair: 31000, gender: 1 });
+        sp.pick(5); sp.pick(4); sp.pick(p);
+        const preview = sp.state.previews[0];
+        if (preview && preview.some(id => Math.floor(id / 10) * 10 === 37360)) {
+            const var37360 = preview.find(id => Math.floor(id / 10) * 10 === 37360);
+            assert.ok(var37360 >= 37361 && var37360 <= 37365);
+            assert.ok(fs.existsSync(path.join(root, 'wz/Character.wz/Hair', String(var37360).padStart(8, '0') + '.img.xml')));
+            found37360 = true;
+            break;
+        }
+    }
+    assert.ok(found37360, 'Should find 37360 variant in Modern Female Part 2');
+});
+
