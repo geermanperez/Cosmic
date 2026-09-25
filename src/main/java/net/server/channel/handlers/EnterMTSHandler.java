@@ -52,7 +52,7 @@ public final class EnterMTSHandler extends AbstractPacketHandler {
 
         c.sendPacket(PacketCreator.enableActions());
         NPCScriptManager.getInstance().dispose(c);
-        NPCScriptManager.getInstance().start(c, JARVIS_NPC_ID);
+        NPCScriptManager.getInstance().start(c, JARVIS_NPC_ID, c.getPlayer());
     }
 }
 

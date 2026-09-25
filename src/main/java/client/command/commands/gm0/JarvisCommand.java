@@ -17,6 +17,6 @@ public class JarvisCommand extends Command {
             return;
         }
         NPCScriptManager.getInstance().dispose(c);
-        NPCScriptManager.getInstance().start(c, EnterMTSHandler.JARVIS_NPC_ID);
+        NPCScriptManager.getInstance().start(c, EnterMTSHandler.JARVIS_NPC_ID, c.getPlayer());
     }
 }
