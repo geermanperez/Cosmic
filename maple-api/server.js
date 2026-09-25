@@ -1529,6 +1529,19 @@ app.get("/", (req, res) => {
   res.json({ ok: true, message: "Maple API funcionando" });
 });
 
+// Genera un incremento pseudo-aleatorio consistente entre 5 y 20
+// que rota de manera sincronizada cada 30 minutos (exactamente igual para todos los usuarios).
+function getOnlinePlayerBoost() {
+  const thirtyMinutesBlock = Math.floor(Date.now() / (30 * 60 * 1000));
+  let t = (thirtyMinutesBlock + 0x6D2B79F5) >>> 0;
+  t = Math.imul(t ^ (t >>> 15), t | 1);
+  t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+  const rnd = ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  const min = 5;
+  const max = 20;
+  return Math.floor(rnd * (max - min + 1)) + min;
+}
+
 async function buildStatusPayload() {
   const [accounts] = await pool.query("SELECT COUNT(*) AS total FROM accounts");
   const [characters] = await pool.query("SELECT COUNT(*) AS total FROM characters");
@@ -1540,15 +1553,21 @@ async function buildStatusPayload() {
     ORDER BY loggedin
   `);
 
+  const realOnline = Number(onlinePlayers[0]?.total || 0);
+  const boost = getOnlinePlayerBoost();
+  const displayedOnline = realOnline + boost;
+
   return {
     ok: true,
     server: "online",
     statusVersion: "online-counter-v2",
-    accounts: Number(accounts[0].total || 0),
-    characters: Number(characters[0].total || 0),
-    onlinePlayers: Number(onlinePlayers[0].total || 0),
-    playersOnline: Number(onlinePlayers[0].total || 0),
-    online_players: Number(onlinePlayers[0].total || 0),
+    accounts: Number(accounts[0]?.total || 0),
+    characters: Number(characters[0]?.total || 0),
+    onlinePlayers: displayedOnline,
+    playersOnline: displayedOnline,
+    online_players: displayedOnline,
+    realOnlinePlayers: realOnline,
+    fakeOnlineBoost: boost,
     loginStates,
   };
 }
