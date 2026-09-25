@@ -1453,8 +1453,27 @@ public class Character extends AbstractCharacterObject {
 
         eventChangedMap(target.getId());    // player can be dropped from an event here, hence the new warping target.
         MapleMap to = getWarpMap(target.getId());
+        if (to == null) {
+            dropMessage(1, "Map " + (target != null ? target.getId() : 0) + " could not be loaded.");
+            sendPacket(PacketCreator.enableActions());
+            return;
+        }
         if (pto == null) {
             pto = to.getPortal(0);
+        }
+        if (pto == null) {
+            pto = to.getRandomPlayerSpawnpoint();
+        }
+        if (pto == null) {
+            pto = to.getPortal("sp");
+        }
+        if (pto == null && to.getPortals() != null && !to.getPortals().isEmpty()) {
+            pto = to.getPortals().iterator().next();
+        }
+        if (pto == null) {
+            dropMessage(1, "No valid portal found on target map.");
+            sendPacket(PacketCreator.enableActions());
+            return;
         }
         changeMapInternal(to, pto.getPosition(), PacketCreator.getWarpToMap(to, pto.getId(), this));
         canWarpMap = false;
@@ -6280,6 +6299,16 @@ public class Character extends AbstractCharacterObject {
         return gmLevel > 1;
     }
 
+    private boolean dummyBot = false;
+
+    public boolean isDummyBot() {
+        return dummyBot;
+    }
+
+    public void setDummyBot(boolean dummyBot) {
+        this.dummyBot = dummyBot;
+    }
+
     public boolean isHidden() {
         return hidden;
     }
@@ -7681,7 +7710,7 @@ public class Character extends AbstractCharacterObject {
         }
     }
 
-    private void setChair(int chair) {
+    public void setChair(int chair) {
         this.chair.set(chair);
     }
 

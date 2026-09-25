@@ -3,7 +3,7 @@
  * NPC ID: 9999802
  * Accessible via:
  * 1. Trade Button (MTS) anywhere in-game
- * 2. Commands: @jarvis, @services, @bot
+ * 2. Commands: @jarvis, @servicios
  * 3. Clicking the Jarvis computer NPC in Free Market (910000000)
  */
 
@@ -19,6 +19,10 @@ var newZones = [
     { name: "Crimsonwood Keep (Courtyard)", id: 610030000, desc: "Level 90+ - Masteria Mountains & Keep" },
     { name: "Chryse (Orbis Sky Port)", id: 200080100, desc: "Level 50+ - Celestial Island Departure" }
 ];
+
+function formatNumber(num) {
+    return ("" + num).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 function start() {
     status = -1;
@@ -59,8 +63,8 @@ function action(mode, type, selection) {
             // New Expansion Teleport
             var travelMsg = "         #e#b[ New Expansion Zones Teleport ]#k#n\r\n";
             travelMsg += "Select an expansion zone to travel to:\r\n";
-            travelMsg += "#eTravel Fee:#n #r" + TELEPORT_COST.toLocaleString() + " Mesos#k (Free for GMs)\r\n";
-            travelMsg += "#eYour Mesos:#n #b" + cm.getMeso().toLocaleString() + " Mesos#k\r\n\r\n";
+            travelMsg += "#eTravel Fee:#n #r" + formatNumber(TELEPORT_COST) + " Mesos#k (Free for GMs)\r\n";
+            travelMsg += "#eYour Mesos:#n #b" + formatNumber(cm.getMeso()) + " Mesos#k\r\n\r\n";
 
             for (var i = 0; i < newZones.length; i++) {
                 travelMsg += "#L" + i + "##b" + newZones[i].name + "#k\r\n   #d" + newZones[i].desc + "#k#l\r\n";
@@ -75,7 +79,7 @@ function action(mode, type, selection) {
                 cm.sendOk("You are already at the Free Market!");
                 cm.dispose();
             } else {
-                cm.warp(910000000, 0);
+                cm.warp(910000000);
                 cm.dispose();
             }
         } else if (selectedOption == 5) {
@@ -85,10 +89,11 @@ function action(mode, type, selection) {
             cm.dispose();
         } else if (selectedOption == 6) {
             // Server Info
-            var expRate = cm.getClient().getChannelServer().getExpRate();
-            var mesoRate = cm.getClient().getChannelServer().getMesoRate();
-            var dropRate = cm.getClient().getChannelServer().getDropRate();
-            var bossDropRate = cm.getClient().getChannelServer().getBossDropRate();
+            var world = cm.getClient().getWorldServer();
+            var expRate = (world != null) ? world.getExpRate() : 1;
+            var mesoRate = (world != null) ? world.getMesoRate() : 1;
+            var dropRate = (world != null) ? world.getDropRate() : 1;
+            var bossDropRate = (world != null) ? world.getBossDropRate() : 1;
             var channel = cm.getClient().getChannel();
 
             var info = "           #e#b[ Server Information ]#k#n\r\n\r\n";
@@ -97,7 +102,7 @@ function action(mode, type, selection) {
             info += "#b• Meso Rate:#k " + mesoRate + "x\r\n";
             info += "#b• Drop Rate:#k " + dropRate + "x\r\n";
             info += "#b• Boss Drop Rate:#k " + bossDropRate + "x\r\n";
-            info += "#b• Server Time:#k " + new java.util.Date().toString() + "\r\n";
+            info += "#b• Server Time:#k " + new Date().toUTCString() + "\r\n";
 
             cm.sendOk(info);
             cm.dispose();
@@ -113,7 +118,7 @@ function action(mode, type, selection) {
             var isGm = cm.getPlayer().getGMLevel() > 0;
 
             if (!isGm && cm.getMeso() < TELEPORT_COST) {
-                cm.sendOk("You do not have enough mesos to travel.\r\nThe travel fee is #r" + TELEPORT_COST.toLocaleString() + " Mesos#k.\r\nYour current mesos: #b" + cm.getMeso().toLocaleString() + " Mesos#k.");
+                cm.sendOk("You do not have enough mesos to travel.\r\nThe travel fee is #r" + formatNumber(TELEPORT_COST) + " Mesos#k.\r\nYour current mesos: #b" + formatNumber(cm.getMeso()) + " Mesos#k.");
                 cm.dispose();
                 return;
             }
@@ -122,7 +127,7 @@ function action(mode, type, selection) {
                 cm.gainMeso(-TELEPORT_COST);
             }
 
-            cm.warp(dest.id, 0);
+            cm.warp(dest.id);
             cm.dispose();
         }
     }

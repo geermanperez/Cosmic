@@ -278,6 +278,12 @@ public final class PlayerInteractionHandler extends AbstractPacketHandler {
                     return;
                 }
 
+                if (other.isDummyBot()) {
+                    chr.dropMessage(5, other.getName() + " se encuentra AFK / ocupado.");
+                    chr.sendPacket(PacketCreator.enableActions());
+                    return;
+                }
+
                 Trade.inviteTrade(chr, other);
             } else if (mode == Action.DECLINE.getCode()) {
                 Trade.declineTrade(chr);

@@ -1,5 +1,5 @@
 /*
- * VIP Beauty Salon & Style Changer (KIN 9900000)
+ * VIP Beauty Salon & Style Changer (NPC 9900000)
  * Fully compatible with v83 client & EverleafMS / YunaMS
  * Supports: Hair, Face, Skin, Hair Dye, Eye Color
  * Payment: 10,000 NX strictly required (Free for GMs)
@@ -13,7 +13,7 @@ var COST_NX = 10000; // Minimum 10,000 NX per style change
 
 var skin = [0, 1, 2, 3, 4];
 
-// Hair categories - split into small groups of 8 to ensure zero client lag or crashes
+// Hair categories - split into groups of 8 to prevent UI overflow or client crashes
 var maleHairs = [
     [30000, 30010, 30020, 30030, 30040, 30050, 30060, 30070],
     [30080, 30090, 30100, 30110, 30120, 30130, 30140, 30150],
@@ -73,6 +73,10 @@ var specialFaces = [
     [26000, 26001, 26002, 26003, 26004, 26005, 26006, 26007]
 ];
 
+function formatNumber(num) {
+    return ("" + num).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 function canAfford() {
     if (cm.getPlayer().getGMLevel() > 0) return true;
     return cm.getNX() >= COST_NX;
@@ -87,13 +91,16 @@ function chargePlayer() {
     return null;
 }
 
-function filterPreviewStyles(styles, isSkin) {
+function filterPreviewStyles(styles) {
     var available = [];
     for (var i = 0; i < styles.length; i++) {
-        var style = isSkin ? styles[i] : cm.getCosmeticItem(styles[i]);
-        if (style != -1 && !cm.isCosmeticEquipped(style) && available.indexOf(style) == -1) {
+        var style = styles[i];
+        if (!cm.isCosmeticEquipped(style) && available.indexOf(style) == -1) {
             available.push(style);
         }
+    }
+    if (available.length === 0) {
+        return styles;
     }
     return available;
 }
@@ -118,7 +125,7 @@ function action(mode, type, selection) {
         var msg = "           #e#b[ VIP Beauty Salon & Style Changer ]#k#n\r\n";
         msg += "Welcome! You can customize your character's appearance anytime.\r\n";
         msg += "#ePrice per change:#n #r10,000 NX#k (Free for GMs)\r\n";
-        msg += "#eYour Current NX:#n #b" + cm.getNX().toLocaleString() + " NX#k\r\n\r\n";
+        msg += "#eYour Current NX:#n #b" + formatNumber(cm.getNX()) + " NX#k\r\n\r\n";
         msg += "#L0##bChange Skin Tone (10,000 NX)#k#l\r\n";
         msg += "#L1##bChange Hair Color (10,000 NX)#k#l\r\n";
         msg += "#L2##bChange Eye Color (10,000 NX)#k#l\r\n";
@@ -131,12 +138,7 @@ function action(mode, type, selection) {
 
         if (category == 0) {
             // Skin
-            currentList = filterPreviewStyles(skin, true);
-            if (currentList.length === 0) {
-                cm.sendOk("No available skin tones found.");
-                cm.dispose();
-                return;
-            }
+            currentList = filterPreviewStyles(skin);
             cm.sendStyle("Choose your preferred skin tone:\r\nPrice: #r10,000 NX#k", currentList);
         } else if (category == 1) {
             // Hair Color
@@ -146,12 +148,7 @@ function action(mode, type, selection) {
             for (var c = 0; c <= 7; c++) {
                 colorList.push(baseHair + c);
             }
-            currentList = filterPreviewStyles(colorList, false);
-            if (currentList.length === 0) {
-                cm.sendOk("No available hair colors found.");
-                cm.dispose();
-                return;
-            }
+            currentList = filterPreviewStyles(colorList);
             cm.sendStyle("Choose your desired hair dye color:\r\nPrice: #r10,000 NX#k", currentList);
         } else if (category == 2) {
             // Eye Color
@@ -161,15 +158,10 @@ function action(mode, type, selection) {
             for (var ec = 0; ec <= 700; ec += 100) {
                 eyeList.push(baseFace + ec);
             }
-            currentList = filterPreviewStyles(eyeList, false);
-            if (currentList.length === 0) {
-                cm.sendOk("No available eye colors found.");
-                cm.dispose();
-                return;
-            }
+            currentList = filterPreviewStyles(eyeList);
             cm.sendStyle("Choose your desired eye lens color:\r\nPrice: #r10,000 NX#k", currentList);
         } else if (category == 3) {
-            // Hair Catalog - select gender & page
+            // Hair Catalog - select collection
             var isMale = cm.getPlayer().getGender() == 0;
             var list = isMale ? maleHairs : femaleHairs;
             var genderStr = isMale ? "Male" : "Female";
@@ -207,12 +199,12 @@ function action(mode, type, selection) {
                 cm.dispose();
                 return;
             }
-            currentList = filterPreviewStyles(hairGroup[subPage], false);
-            if (currentList.length === 0) {
-                cm.sendOk("No styles in this collection are currently available.");
-                cm.dispose();
-                return;
+            var curColor = cm.getPlayer().getHair() % 10;
+            var listWithColor = [];
+            for (var h = 0; h < hairGroup[subPage].length; h++) {
+                listWithColor.push(hairGroup[subPage][h] + curColor);
             }
+            currentList = filterPreviewStyles(listWithColor);
             cm.sendStyle("Choose your new hairstyle:\r\nPrice: #r10,000 NX#k", currentList);
         } else if (category == 4) {
             // Selected face page
@@ -227,12 +219,13 @@ function action(mode, type, selection) {
                 cm.dispose();
                 return;
             }
-            currentList = filterPreviewStyles(faceGroup, false);
-            if (currentList.length === 0) {
-                cm.sendOk("No faces in this collection are currently available.");
-                cm.dispose();
-                return;
+            var curFace = cm.getPlayer().getFace();
+            var curEyeColor = Math.floor((curFace / 100) % 10) * 100;
+            var listWithColor = [];
+            for (var f = 0; f < faceGroup.length; f++) {
+                listWithColor.push(faceGroup[f] + curEyeColor);
             }
+            currentList = filterPreviewStyles(listWithColor);
             cm.sendStyle("Choose your new face expression:\r\nPrice: #r10,000 NX#k", currentList);
         }
     } else if (status == 3) {
@@ -248,7 +241,7 @@ function applyChosenStyle(selection) {
     }
 
     if (!canAfford()) {
-        cm.sendOk("You do not have enough NX for this style change.\r\n#eRequired:#n #r10,000 NX#k\r\n#eYour current NX:#n #b" + cm.getNX().toLocaleString() + " NX#k.");
+        cm.sendOk("You do not have enough NX for this style change.\r\n#eRequired:#n #r10,000 NX#k\r\n#eYour current NX:#n #b" + formatNumber(cm.getNX()) + " NX#k.");
         cm.dispose();
         return;
     }
@@ -266,16 +259,11 @@ function applyChosenStyle(selection) {
         // Eye color
         cm.setFace(chosen);
     } else if (category == 3) {
-        // Hair style - preserve existing hair color
-        var curColor = cm.getPlayer().getHair() % 10;
-        var newHair = (chosen - (chosen % 10)) + curColor;
-        cm.setHair(newHair);
+        // Hair style
+        cm.setHair(chosen);
     } else if (category == 4) {
-        // Face - preserve existing eye color
-        var curFace = cm.getPlayer().getFace();
-        var curEyeColor = Math.floor((curFace / 100) % 10) * 100;
-        var newFace = (chosen - (Math.floor((chosen / 100) % 10) * 100)) + curEyeColor;
-        cm.setFace(newFace);
+        // Face expression
+        cm.setFace(chosen);
     }
 
     cm.showEffect("avatar/congratulation");

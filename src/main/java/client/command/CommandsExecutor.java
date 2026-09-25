@@ -157,6 +157,7 @@ import client.command.commands.gm3.UnBanCommand;
 import client.command.commands.gm4.BossDropRateCommand;
 import client.command.commands.gm4.CakeCommand;
 import client.command.commands.gm4.DropRateCommand;
+import client.command.commands.gm4.BotCommand;
 import client.command.commands.gm4.ExpRateCommand;
 import client.command.commands.gm4.FishingRateCommand;
 import client.command.commands.gm4.ForceVacCommand;
@@ -356,7 +357,7 @@ public class CommandsExecutor {
         levelCommandsCursor = new Pair<>(new ArrayList<String>(), new ArrayList<String>());
 
         addCommand(new String[]{"help", "commands"}, HelpCommand.class);
-        addCommand(new String[]{"jarvis", "servicios", "bot"}, JarvisCommand.class);
+        addCommand(new String[]{"jarvis", "servicios"}, JarvisCommand.class);
         addCommand("astral", AstralCommand.class);
         addCommand("droplimit", DropLimitCommand.class);
         addCommand("time", TimeCommand.class);
@@ -539,6 +540,7 @@ public class CommandsExecutor {
         addCommand("pnpcremove", 2, PnpcRemoveCommand.class);
         addCommand("pmob", 4, PmobCommand.class);
         addCommand("pmobremove", 4, PmobRemoveCommand.class);
+        addCommand(new String[]{"bot", "spawnbot", "dummybot"}, 2, BotCommand.class);
 
         commandsNameDesc.add(levelCommandsCursor);
     }

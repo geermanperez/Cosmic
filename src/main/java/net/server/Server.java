@@ -976,6 +976,8 @@ public class Server {
         for (Channel ch : this.getAllChannels()) {
             ch.reloadEventScriptManager();
         }
+
+        net.server.dummy.DummyBotManager.getInstance().init();
     }
 
     private ChannelDependencies registerChannelDependencies() {
@@ -1954,6 +1956,7 @@ public class Server {
         for (World w : getWorlds()) {
             w.shutdown();
         }
+        net.server.dummy.DummyBotManager.getInstance().cleanup();
 
         /*for (World w : getWorlds()) {
             while (w.getPlayerStorage().getAllCharacters().size() > 0) {

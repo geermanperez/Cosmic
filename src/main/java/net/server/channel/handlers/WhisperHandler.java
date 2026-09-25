@@ -106,5 +106,13 @@ public final class WhisperHandler extends AbstractPacketHandler {
 
         boolean hidden = target.isHidden() && target.gmLevel() > user.gmLevel();
         user.sendPacket(PacketCreator.getWhisperResult(target.getName(), !hidden));
+
+        if (target.isDummyBot()) {
+            server.TimerManager.getInstance().schedule(() -> {
+                if (user.getClient() != null) {
+                    user.sendPacket(PacketCreator.getWhisperReceive(target.getName(), target.getClient().getChannel() - 1, false, "[AFK] Estoy lejos del teclado, te respondo luego!"));
+                }
+            }, 1200);
+        }
     }
 }

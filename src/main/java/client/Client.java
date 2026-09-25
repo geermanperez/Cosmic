@@ -370,6 +370,10 @@ public class Client extends ChannelInboundHandlerAdapter {
         return loggedIn;
     }
 
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
+
     public boolean hasBannedIP() {
         boolean ret = false;
         try (Connection con = DatabaseConnection.getConnection();
@@ -1468,7 +1472,9 @@ public class Client extends ChannelInboundHandlerAdapter {
     public void sendPacket(Packet packet) {
         announcerLock.lock();
         try {
-            ioChannel.writeAndFlush(packet);
+            if (ioChannel != null) {
+                ioChannel.writeAndFlush(packet);
+            }
         } finally {
             announcerLock.unlock();
         }

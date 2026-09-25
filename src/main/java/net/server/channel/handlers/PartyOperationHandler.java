@@ -77,6 +77,10 @@ public final class PartyOperationHandler extends AbstractPacketHandler {
                 String name = p.readString();
                 Character invited = world.getPlayerStorage().getCharacterByName(name);
                 if (invited != null) {
+                    if (invited.isDummyBot()) {
+                        c.sendPacket(PacketCreator.partyStatusMessage(22, invited.getName()));
+                        return;
+                    }
                     if (invited.getLevel() < 10 && (!YamlConfig.config.server.USE_PARTY_FOR_STARTERS || player.getLevel() >= 10)) { //min requirement is level 10
                         c.sendPacket(PacketCreator.serverNotice(5, "The player you have invited does not meet the requirements."));
                         return;

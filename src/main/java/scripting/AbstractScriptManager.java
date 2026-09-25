@@ -71,7 +71,7 @@ public abstract class AbstractScriptManager {
         ScriptEngine engine = c.getScriptEngine("scripts/" + path);
         if (engine == null) {
             engine = getInvocableScriptEngine(path);
-            c.setScriptEngine(path, engine);
+            c.setScriptEngine("scripts/" + path, engine);
         }
 
         return engine;

@@ -202,6 +202,10 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
             }
 
             Character player = wserv.getPlayerStorage().getCharacterById(cid);
+            if (player != null && player.isDummyBot()) {
+                net.server.dummy.DummyBotManager.getInstance().despawnBot(player.getId());
+                player = null;
+            }
 
             final Hwid hwid;
             if (player == null) {

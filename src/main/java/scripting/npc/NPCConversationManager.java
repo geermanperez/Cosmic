@@ -511,11 +511,13 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
 
     public void openNpc(int npcId) {
         dispose();
+        getClient().removeClickedNPC();
         NPCScriptManager.getInstance().start(getClient(), npcId, getPlayer());
     }
 
     public void openNpc(int npcId, String script) {
         dispose();
+        getClient().removeClickedNPC();
         NPCScriptManager.getInstance().start(getClient(), npcId, script, getPlayer());
     }
 
@@ -531,7 +533,21 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
 
     public void gainNX(int amount) {
         if (getPlayer().getCashShop() != null) {
-            getPlayer().getCashShop().gainCash(CashShop.NX_PREPAID, amount);
+            if (amount < 0) {
+                int toDeduct = -amount;
+                int prepaid = getPlayer().getCashShop().getCash(CashShop.NX_PREPAID);
+                if (prepaid >= toDeduct) {
+                    getPlayer().getCashShop().gainCash(CashShop.NX_PREPAID, -toDeduct);
+                } else {
+                    if (prepaid > 0) {
+                        getPlayer().getCashShop().gainCash(CashShop.NX_PREPAID, -prepaid);
+                        toDeduct -= prepaid;
+                    }
+                    getPlayer().getCashShop().gainCash(CashShop.NX_CREDIT, -toDeduct);
+                }
+            } else {
+                getPlayer().getCashShop().gainCash(CashShop.NX_PREPAID, amount);
+            }
         }
     }
 
