@@ -74,6 +74,18 @@ function action(mode, type, selection) {
             cm.dispose();
             return;
         }
+    if (cm.getPlayer().getMapId() == 950000000) {
+        if (status == 0) {
+            cm.sendSimple("Hello #h #! I am Nana from the Maple Travel Agency.\r\nAre you finished visiting Golden Temple? Where would you like to go?#b\r\n#L0#Take me to Henesys#l\r\n#L1#Take me to Free Market Entrance#l\r\n#L2#I will stay here a bit longer#l");
+        } else if (status == 1) {
+            if (selection == 0) {
+                cm.warp(100000000, 0);
+            } else if (selection == 1) {
+                cm.warp(910000000, 0);
+            }
+            cm.dispose();
+        }
+        return;
     }
 
     if (travelStatus != -1) {

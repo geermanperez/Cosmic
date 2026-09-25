@@ -13,9 +13,10 @@ var newZones = [
     { name: "Gate to the Future", id: 271000000, desc: "Level 150+ - Future Henesys / Empress Cygnus" },
     { name: "Lion Heart Castle", id: 211060000, desc: "Level 110+ - Von Leon Castle" },
     { name: "Tera Forest & Neo City", id: 240070000, desc: "Level 100+ - Futuristic Time Gate" },
-    { name: "Golden Temple", id: 950000000, desc: "Level 70+ - Ravana Boss Zone" },
     { name: "Crimsonwood Keep", id: 610030000, desc: "Level 90+ - Masteria Mountains" },
-    { name: "Chryse (Orbis Sky Port)", id: 200080100, desc: "Level 50+ - Celestial Island Departure" }
+    { name: "Ellin Forest", id: 300000000, desc: "Level 70+ - Altair Camp / Past Victoria Island" },
+    { name: "Chryse (Orbis Sky Port)", id: 200080100, desc: "Level 50+ - Celestial Island Departure" },
+    { name: "Golden Temple", id: 950000000, desc: "Tourist Zone - World Tour & Safe Rest Area" }
 ];
 
 function formatNumber(num) {
