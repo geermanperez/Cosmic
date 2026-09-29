@@ -4514,6 +4514,64 @@
   <imgdir name="2141002">
     <string name="name" value="Forgotten Temple Keeper"/>
   </imgdir>
+  <imgdir name="2142000">
+    <string name="name" value="Athena Pierce"/>
+    <string name="func" value="Bowman Instructor"/>
+    <string name="n0" value="We must protect what remains of Henesys..."/>
+  </imgdir>
+  <imgdir name="2142001">
+    <string name="name" value="Chief Alex"/>
+    <string name="func" value="Chief of Henesys Ruins"/>
+    <string name="n0" value="I will do everything in my power to protect our people."/>
+  </imgdir>
+  <imgdir name="2142002">
+    <string name="name" value="Ex-chief Stan"/>
+    <string name="func" value="Elder"/>
+    <string name="n0" value="To think that Henesys would end up like this..."/>
+  </imgdir>
+  <imgdir name="2142003">
+    <string name="name" value="Big Headward"/>
+    <string name="func" value="Prince of Hair"/>
+    <string name="n0" value="Even during hard times, a proper hairstyle gives hope!"/>
+  </imgdir>
+  <imgdir name="2142004">
+    <string name="name" value="Maya"/>
+    <string name="n0" value="The air around here has become so dark and heavy..."/>
+  </imgdir>
+  <imgdir name="2142006">
+    <string name="name" value="Camila"/>
+    <string name="n0" value="I miss the peaceful days in Henesys..."/>
+  </imgdir>
+  <imgdir name="2142007">
+    <string name="name" value="Jay"/>
+    <string name="func" value="Historian"/>
+    <string name="n0" value="I am recording everything that has happened to our world."/>
+  </imgdir>
+  <imgdir name="2142008">
+    <string name="name" value="Pathfinder"/>
+  </imgdir>
+  <imgdir name="2142009">
+    <string name="name" value="Scout"/>
+  </imgdir>
+  <imgdir name="2142010">
+    <string name="name" value="Refugee"/>
+  </imgdir>
+  <imgdir name="2142113">
+    <string name="name" value="Danger Zone Taxi"/>
+    <string name="func" value="Transportation"/>
+    <string name="n0" value="Danger Zone Taxi is always ready to take you to perilous destinations."/>
+  </imgdir>
+  <imgdir name="2143000">
+    <string name="name" value="Knight Guard"/>
+  </imgdir>
+  <imgdir name="2143001">
+    <string name="name" value="Cygnus"/>
+  </imgdir>
+  <imgdir name="2143003">
+    <string name="name" value="Informant"/>
+    <string name="func" value="Information Broker"/>
+    <string name="n0" value="Looking for intel on the Knight Stronghold?"/>
+  </imgdir>
   <imgdir name="22000">
     <string name="name" value="Shanks"/>
     <string name="n0" value="I am the captain, dang it!! Don&apos;t be looking down on me!"/>
