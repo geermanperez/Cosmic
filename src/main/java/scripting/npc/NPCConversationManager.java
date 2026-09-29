@@ -503,6 +503,14 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
 
         if (shop != null) {
             shop.sendShop(c);
+        } else if (id == 9999802) {
+            log.warn("Shop ID: 9999802 not found in database, falling back to NLC grocer 9201060.");
+            Shop fallback = ShopFactory.getInstance().getShop(9201060);
+            if (fallback != null) {
+                fallback.sendShop(c);
+            } else {
+                ShopFactory.getInstance().getShop(11000).sendShop(c);
+            }
         } else {    // check for missing shopids thanks to resinate
             log.warn("Shop ID: {} is missing from database.", id);
             ShopFactory.getInstance().getShop(11000).sendShop(c);

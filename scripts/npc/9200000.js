@@ -77,7 +77,7 @@ function action(mode, type, selection) {
             cm.sendSimple(travelMsg);
 
         } else if (selectedOption == 3) {
-            cm.openShopNPC(1012000);
+            cm.openShopNPC(9999802);
             cm.dispose();
 
         } else if (selectedOption == 4) {
