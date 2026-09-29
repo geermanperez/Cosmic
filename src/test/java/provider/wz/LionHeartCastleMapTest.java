@@ -42,6 +42,9 @@ class LionHeartCastleMapTest {
             Data info = mapData.getChildByPath("info");
             assertNotNull(info, "Info null for " + mapId);
 
+            // MapFactory iterates life even in passage maps with no NPCs or mobs.
+            assertNotNull(mapData.getChildByPath("life"), "Life section missing for " + mapId);
+
             Data portalData = mapData.getChildByPath("portal");
             assertNotNull(portalData, "Portal section null for " + mapId);
 

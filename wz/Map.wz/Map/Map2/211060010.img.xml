@@ -539,4 +539,5 @@
       <int name="horizontalImpact" value="0" />
     </imgdir>
   </imgdir>
+  <imgdir name="life" />
 </imgdir>

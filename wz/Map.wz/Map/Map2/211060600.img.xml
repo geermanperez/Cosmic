@@ -1302,4 +1302,5 @@
       <int name="onlyOnce" value="0" />
     </imgdir>
   </imgdir>
+  <imgdir name="life" />
 </imgdir>
