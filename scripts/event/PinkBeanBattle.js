@@ -250,19 +250,33 @@ function noJrBossesLeft(map) {
     return map.countMonster(8820002, 8820006) == 0;
 }
 
-function spawnJrBoss(mobObj, gotKilled) {
-    if (gotKilled) {
-        spawnid = mobObj.getId() + 17;
+function spawnJrBoss(mapObj, statueInfo) {
+    const LifeFactory = Java.type('server.life.LifeFactory');
+    const Point = Java.type('java.awt.Point');
+    var spawnPos = new Point(0, -42);
 
-    } else {
-        mobObj.getMap().killMonster(mobObj.getId());
-        spawnid = mobObj.getId() - 17;
+    for (var i = 0; i < statueInfo.inactives.length; i++) {
+        var inactiveMob = mapObj.getMonsterById(statueInfo.inactives[i]);
+        if (inactiveMob != null) {
+            spawnPos = inactiveMob.getPosition();
+            mapObj.killMonster(inactiveMob.getId());
+            break;
+        }
     }
 
-    const LifeFactory = Java.type('server.life.LifeFactory');
-    var mob = LifeFactory.getMonster(spawnid);
-    mobObj.getMap().spawnMonsterOnGroundBelow(mob, mobObj.getPosition());
+    var activeMob = LifeFactory.getMonster(statueInfo.activeId);
+    if (activeMob != null) {
+        mapObj.spawnMonsterOnGroundBelow(activeMob, spawnPos);
+    }
 }
+
+var statues = [
+    { activeId: 8820003, inactives: [8820024, 8820020] }, // Solomon the Wise (Left)
+    { activeId: 8820004, inactives: [8820025, 8820021] }, // Rex the Wise (Right)
+    { activeId: 8820005, inactives: [8820026, 8820022] }, // Hugin (Inner Left)
+    { activeId: 8820006, inactives: [8820027, 8820023] }, // Munin (Inner Right)
+    { activeId: 8820002, inactives: [8820019] }            // Ariel (Center)
+];
 
 function monsterKilled(mob, eim) {
     if (isPinkBean(mob)) {
@@ -278,14 +292,22 @@ function monsterKilled(mob, eim) {
             var stage = eim.getIntProperty("stage");
 
             if (stage == 5) {
-                var iid = 4001193;
-                const Item = Java.type('client.inventory.Item');
-                var itemObj = new Item(iid, 0, 1);
-                var mapObj = eim.getMapFactory().getMap(270050100);
+                var mapObj = eim.getMapInstance(270050100);
                 var reactObj = mapObj.getReactorById(2708000);
-                var dropper = eim.getPlayers().get(0);
-                mapObj.spawnItemDrop(dropper, dropper, itemObj, reactObj.getPosition(), true, true);
-
+                if (reactObj != null) {
+                    reactObj.forceHitReactor(1);
+                }
+                if (mapObj.getMonsterById(8820000) != null) {
+                    mapObj.killMonster(8820000);
+                } else if (mapObj.getMonsterById(8820001) == null) {
+                    const LifeFactory = Java.type('server.life.LifeFactory');
+                    const Point = Java.type('java.awt.Point');
+                    var pb = LifeFactory.getMonster(8820001);
+                    if (pb != null) {
+                        pb.enableDrops();
+                        mapObj.spawnMonsterOnGroundBelow(pb, new Point(0, -42));
+                    }
+                }
 
                 eim.dropMessage(6, "With the last of its guardians fallen, Pink Bean loses its invulnerability. The real fight starts now!");
             } else {
@@ -301,10 +323,10 @@ function monsterKilled(mob, eim) {
 
 function startWave(eim) {
     var mapObj = eim.getMapInstance(270050100);
-    var stage = eim.getProperty("stage");
+    var stage = eim.getIntProperty("stage");
 
-    for (var i = 1; i <= stage; i++) {
-        spawnJrBoss(mapObj.getMonsterById(8820019 + (i % 5)), false);
+    for (var i = 0; i < stage && i < statues.length; i++) {
+        spawnJrBoss(mapObj, statues[i]);
     }
 }
 
