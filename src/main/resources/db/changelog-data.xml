@@ -44,6 +44,8 @@
         <sqlFile path="db/data/151-global-drop-data.sql"/>
     </changeSet>
     <changeSet id="152" author="Ponk">
+        <validCheckSum>9:6715d59e27dfee66c4fbeb1f62f263d6</validCheckSum>
+        <validCheckSum>9:55cc4dce4babf217b737acc99d4cf2fc</validCheckSum>
         <sqlFile path="db/data/152-drop-data.sql"/>
     </changeSet>
 

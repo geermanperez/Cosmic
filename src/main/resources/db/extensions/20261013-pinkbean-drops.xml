@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="20261013-pinkbean-drops" author="Everleaf">
+        <sql>
+            DELETE FROM drop_data WHERE dropperid = 8820000;
+
+            UPDATE drop_data 
+            SET minimum_quantity = 1, maximum_quantity = 2 
+            WHERE dropperid = 8820001 AND itemid IN (1002971, 1052202);
+
+            DELETE FROM drop_data WHERE dropperid = 8820001 AND itemid = 3010073;
+            INSERT INTO drop_data (dropperid, itemid, minimum_quantity, maximum_quantity, questid, chance)
+            VALUES (8820001, 3010073, 1, 1, 0, 50000);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
