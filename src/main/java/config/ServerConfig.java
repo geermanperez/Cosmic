@@ -108,6 +108,7 @@ public class ServerConfig {
     public boolean USE_ERASE_PET_ON_EXPIRATION;
     public boolean USE_BUFF_MOST_SIGNIFICANT;
     public boolean USE_BUFF_EVERLASTING;
+    public double BUFF_DURATION_RATE = 1.3;
     public boolean USE_MULTIPLE_SAME_EQUIP_DROP;
     public boolean USE_ENABLE_FULL_RESPAWN;
     public boolean USE_ENABLE_CHAT_LOG;

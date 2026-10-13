@@ -1218,7 +1218,18 @@ public class StatEffect {
     }
 
     public int getBuffLocalDuration() {
-        return !YamlConfig.config.server.USE_BUFF_EVERLASTING ? duration : Integer.MAX_VALUE;
+        if (YamlConfig.config.server.USE_BUFF_EVERLASTING) {
+            return Integer.MAX_VALUE;
+        }
+        if (duration <= 0) {
+            return duration;
+        }
+        double rate = YamlConfig.config.server.BUFF_DURATION_RATE;
+        if (rate <= 0) {
+            rate = 1.0;
+        }
+        long calc = Math.round(duration * rate);
+        return calc > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) calc;
     }
 
     public void silentApplyBuff(Character chr, long localStartTime) {
@@ -1323,6 +1334,9 @@ public class StatEffect {
             localDuration = alchemistModifyVal(applyfrom, localDuration, false);
             applyto.getMap().broadcastMessage(applyto, PacketCreator.showBuffEffect(applyto.getId(), sourceid, 1, (byte) 3), false);
         }
+        if (!isMonsterRiding()) {
+            seconds = localDuration / 1000;
+        }
         if (localstatups.size() > 0) {
             Packet buff = null;
             Packet mbuff = null;
@@ -1362,7 +1376,7 @@ public class StatEffect {
                 }
                 buff = PacketCreator.giveBuff(localsourceid, localDuration, localstatups);
                 mbuff = PacketCreator.showMonsterRiding(applyto.getId(), givemount);
-                localDuration = duration;
+                localDuration = getBuffLocalDuration();
             } else if (isShadowPartner()) {
                 List<Pair<BuffStat, Integer>> stat = Collections.singletonList(new Pair<>(BuffStat.SHADOWPARTNER, 0));
                 mbuff = PacketCreator.giveForeignBuff(applyto.getId(), stat);

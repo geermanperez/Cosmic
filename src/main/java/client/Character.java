@@ -6171,7 +6171,7 @@ public class Character extends AbstractCharacterObject {
             sendPacket(PacketCreator.showOwnBuffEffect(energycharge.getId(), 2));
             getMap().broadcastPacket(this, PacketCreator.showBuffEffect(id, energycharge.getId(), 2));
             getMap().broadcastPacket(this, PacketCreator.giveForeignPirateBuff(id, energycharge.getId(),
-                    ceffect.getDuration(), stat));
+                    ceffect.getBuffLocalDuration(), stat));
         }
         if (energybar >= 10000 && energybar < 11000) {
             energybar = 15000;
@@ -6185,7 +6185,7 @@ public class Character extends AbstractCharacterObject {
                     sendPacket(PacketCreator.giveBuff(energybar, 0, stat));
                     getMap().broadcastPacket(chr, PacketCreator.cancelForeignFirstDebuff(id, ((long) 1) << 50));
                 }
-            }, ceffect.getDuration());
+            }, ceffect.getBuffLocalDuration());
         }
     }
 
@@ -6194,7 +6194,7 @@ public class Character extends AbstractCharacterObject {
         Skill combo = SkillFactory.getSkill(skillid);
         List<Pair<BuffStat, Integer>> stat = Collections.singletonList(new Pair<>(BuffStat.COMBO, 1));
         setBuffedValue(BuffStat.COMBO, 1);
-        sendPacket(PacketCreator.giveBuff(skillid, combo.getEffect(getSkillLevel(combo)).getDuration() + (int) ((getBuffedStarttime(BuffStat.COMBO) - System.currentTimeMillis())), stat));
+        sendPacket(PacketCreator.giveBuff(skillid, combo.getEffect(getSkillLevel(combo)).getBuffLocalDuration() + (int) ((getBuffedStarttime(BuffStat.COMBO) - System.currentTimeMillis())), stat));
         getMap().broadcastMessage(this, PacketCreator.giveForeignBuff(getId(), stat), false);
     }
 
