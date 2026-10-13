@@ -2,7 +2,7 @@
 <imgdir name="8210000.img">
   <imgdir name="info">
     <int name="bodyAttack" value="1"/>
-    <int name="level" value="140"/>
+    <int name="level" value="115"/>
     <int name="maxHP" value="750000"/>
     <int name="maxMP" value="5000"/>
     <int name="speed" value="-15"/>
@@ -12,7 +12,7 @@
     <int name="MDDamage" value="675"/>
     <int name="acc" value="320"/>
     <int name="eva" value="40"/>
-    <int name="exp" value="73200"/>
+    <int name="exp" value="31500"/>
     <int name="undead" value="0"/>
     <int name="pushed" value="1500"/>
     <float name="fs" value="10.0"/>

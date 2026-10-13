@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="20261013-lhc-mobs-meso-drops" author="Everleaf">
+        <sql>
+            DELETE FROM drop_data WHERE dropperid IN (8210000, 8210001, 8210002, 8210003, 8210004, 8210005) AND itemid = 0;
+
+            INSERT INTO drop_data (dropperid, itemid, minimum_quantity, maximum_quantity, questid, chance) VALUES
+                (8210000, 0, 667, 1167, 0, 700000),
+                (8210001, 0, 1167, 1667, 0, 700000),
+                (8210002, 0, 1167, 1667, 0, 700000),
+                (8210003, 0, 1500, 2334, 0, 700000),
+                (8210004, 0, 1500, 2334, 0, 700000),
+                (8210005, 0, 1500, 2334, 0, 700000);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

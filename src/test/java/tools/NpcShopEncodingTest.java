@@ -33,7 +33,7 @@ class NpcShopEncodingTest {
                 new ShopItem((short) 1, 2330000, 0, 0),
                 new ShopItem((short) 1000, 2000001, 160, 0));
         byte[] bytes = PacketCreator.encodeNPCShop(1011100, items, id -> 0.3, id -> 1000).getBytes();
-        assertEquals(8 + 3 * 24 + 4 * 30, bytes.length);
+        assertEquals(8 + 5 * 24 + 2 * 30, bytes.length);
         var b = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
         assertEquals(SendOpcode.OPEN_NPC_SHOP.getValue(), b.getShort());
         assertEquals(1011100, b.getInt());
@@ -46,7 +46,7 @@ class NpcShopEncodingTest {
             assertEquals(0, b.getInt());
             int category = item.getItemId() / 10000;
             // Stock EXE handles 207; Yuna's shop hook adds 206 alongside 233.
-            if (category == 206 || category == 207 || category == 233) {
+            if (category == 207 || category == 233) {
                 assertEquals(0.3, b.getDouble());
                 assertEquals(1000, b.getShort());
             } else {
@@ -78,9 +78,6 @@ class NpcShopEncodingTest {
                 assertEquals(item.getQuantity(), b.getShort());
                 assertEquals(0, b.getShort()); // empty owner
                 assertEquals(0, b.getShort()); // flags
-                if (item == arrow) {
-                    b.getLong(); // Yuna's 0x4E3FDF hook consumes the serial for arrows
-                }
             }
             assertFalse(b.hasRemaining());
         }
