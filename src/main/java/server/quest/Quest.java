@@ -159,6 +159,11 @@ public class Quest {
                         relevantMobs.add(DataTool.getInt(mob.getChildByPath("id")));
                     }
                     break;
+                case NORMAL_AUTO_START:
+                    if (DataTool.getInt(startReq, 0) == 1) {
+                        autoStart = true;
+                    }
+                    break;
                 }
 
                 AbstractQuestRequirement req = this.getRequirement(type, startReq);
@@ -290,6 +295,9 @@ public class Quest {
         }
 
         for (AbstractQuestRequirement r : startReqs.values()) {
+            if (autoStart && r instanceof NpcRequirement) {
+                continue;
+            }
             if (!r.check(chr, npcid)) {
                 return false;
             }
@@ -305,6 +313,9 @@ public class Quest {
         }
 
         for (AbstractQuestRequirement r : completeReqs.values()) {
+            if ((autoComplete || autoPreComplete) && r instanceof NpcRequirement) {
+                continue;
+            }
             if (!r.check(chr, npcid)) {
                 return false;
             }
@@ -324,6 +335,9 @@ public class Quest {
             for (AbstractQuestAction a : acts) {
                 a.run(chr, null);
             }
+            if (npc == 0 && startReqs.containsKey(QuestRequirementType.NPC)) {
+                npc = ((NpcRequirement) startReqs.get(QuestRequirementType.NPC)).get();
+            }
             forceStart(chr, npc);
         }
     }
@@ -339,6 +353,9 @@ public class Quest {
                 if (!a.check(chr, selection)) {
                     return;
                 }
+            }
+            if (npc == 0 && completeReqs.containsKey(QuestRequirementType.NPC)) {
+                npc = ((NpcRequirement) completeReqs.get(QuestRequirementType.NPC)).get();
             }
             forceComplete(chr, npc);
             for (AbstractQuestAction a : acts) {

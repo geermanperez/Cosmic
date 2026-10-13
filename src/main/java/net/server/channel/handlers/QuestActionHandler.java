@@ -72,6 +72,9 @@ public final class QuestActionHandler extends AbstractPacketHandler {
         short questid = p.readShort();
         Character player = c.getPlayer();
         Quest quest = Quest.getInstance(questid);
+        if (quest == null) {
+            return;
+        }
 
         switch (action) {
         case 0: // Restore lost item, Credits Darter ( Rajan )
@@ -84,7 +87,7 @@ public final class QuestActionHandler extends AbstractPacketHandler {
             if (!isNpcNearby(p, player, quest, npc)) {
                 return;
             }
-            if (quest.canStart(player, npc)) {
+            if (quest.isAutoStart() || quest.canStart(player, npc)) {
                 quest.start(player, npc);
             }
             break;
@@ -94,7 +97,7 @@ public final class QuestActionHandler extends AbstractPacketHandler {
             if (!isNpcNearby(p, player, quest, npc)) {
                 return;
             }
-            if (quest.canComplete(player, npc)) {
+            if (quest.isAutoComplete() || quest.canComplete(player, npc)) {
                 if (p.available() >= 2) {
                     int selection = p.readShort();
                     quest.complete(player, npc, selection);
@@ -112,7 +115,7 @@ public final class QuestActionHandler extends AbstractPacketHandler {
             if (!isNpcNearby(p, player, quest, npc)) {
                 return;
             }
-            if (quest.canStart(player, npc)) {
+            if (quest.isAutoStart() || quest.canStart(player, npc)) {
                 QuestScriptManager.getInstance().start(c, questid, npc);
             }
             break;
@@ -122,7 +125,7 @@ public final class QuestActionHandler extends AbstractPacketHandler {
             if (!isNpcNearby(p, player, quest, npc)) {
                 return;
             }
-            if (quest.canComplete(player, npc)) {
+            if (quest.isAutoComplete() || quest.canComplete(player, npc)) {
                 QuestScriptManager.getInstance().end(c, questid, npc);
             }
             break;

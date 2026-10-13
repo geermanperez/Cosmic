@@ -69,6 +69,9 @@ public class QuestScriptManager extends AbstractScriptManager {
 
                 if (!quest.hasScriptRequirement(false)) {   // lack of scripted quest checks found thanks to Mali, Resinate
                     qm.dispose();
+                    if (quest.isAutoStart() || quest.canStart(c.getPlayer(), npc)) {
+                        quest.start(c.getPlayer(), npc);
+                    }
                     return;
                 }
 
@@ -76,6 +79,9 @@ public class QuestScriptManager extends AbstractScriptManager {
                 if (engine == null) {
                     log.warn("START Quest {} is uncoded.", questid);
                     qm.dispose();
+                    if (quest.isAutoStart() || quest.canStart(c.getPlayer(), npc)) {
+                        quest.start(c.getPlayer(), npc);
+                    }
                     return;
                 }
 
@@ -128,6 +134,9 @@ public class QuestScriptManager extends AbstractScriptManager {
                 if (engine == null) {
                     log.warn("END Quest {} is uncoded.", questid);
                     qm.dispose();
+                    if (quest.isAutoComplete() || quest.canComplete(c.getPlayer(), npc)) {
+                        quest.complete(c.getPlayer(), npc);
+                    }
                     return;
                 }
 
