@@ -256,6 +256,13 @@ public class Client extends ChannelInboundHandlerAdapter {
     }
 
     private void closeMapleSession() {
+        if (Boolean.parseBoolean(System.getenv("LATINMS_LOGIN_DIAGNOSTICS"))) {
+            if (player != null && player.getShop() != null) {
+                log.info("ShopDisconnectDiag character={} shopId={} npcId={} msSinceLastPacket={}",
+                        player.getName(), player.getShop().getId(), player.getShop().getNpcId(),
+                        System.currentTimeMillis() - lastPacket);
+            }
+        }
         switch (type) {
             case LOGIN -> SessionCoordinator.getInstance().closeLoginSession(this);
             case CHANNEL -> SessionCoordinator.getInstance().closeSession(this, null);
