@@ -1,31 +1,26 @@
 #!/bin/sh
 set -eu
 
-echo "[EverleafMs] waiting for protected reset to complete..."
-while [ ! -f /everlaf-state/reset.done ]; do
-  sleep 1
-done
-
-echo "[EverleafMs] reset gate released. Applying EverleafMs runtime configuration..."
+echo "[EverleafMs] Applying EverleafMs runtime configuration..."
 cp /opt/server/config.base.yaml /opt/server/config.yaml
 
 sed -i \
   -e 's/\r$//' \
   -e 's/#Properties for LatinMS 0/#Properties for EverleafMs 0/' \
   -e 's/server_message: .*/server_message: Welcome to EverleafMs V83 Classic!/' \
-  -e 's/event_message: .*/event_message: EverleafMs V83 Classic | EXP 1x | Mesos 1x | Drops 1x | Party 5x/' \
+  -e 's/event_message: .*/event_message: EverleafMs V83 Classic | EXP 1x | Mesos 1x | Drops 1x | Party 3x/' \
   -e 's/why_am_i_recommended: .*/why_am_i_recommended: Classic MapleStory progression, global community, adventure and enhanced party\/PQ content./' \
   -e 's/^    exp_rate: .*/    exp_rate: 1/' \
   -e 's/^    meso_rate: .*/    meso_rate: 1/' \
   -e 's/^    drop_rate: .*/    drop_rate: 1/' \
   -e 's/^    boss_drop_rate: .*/    boss_drop_rate: 1/' \
   -e 's/^    quest_rate: .*/    quest_rate: 1/' \
-  -e 's/^    PARTY_BONUS_EXP_RATE: .*/    PARTY_BONUS_EXP_RATE: 5.0/' \
+  -e 's/^    PARTY_BONUS_EXP_RATE: .*/    PARTY_BONUS_EXP_RATE: 3.0/' \
   /opt/server/config.yaml
 
 echo "[EverleafMs] Runtime configuration applied:"
 echo "[EverleafMs] EXP 1x | MESO 1x | DROP 1x | BOSS DROP 1x | QUEST 1x"
-echo "[EverleafMs] PARTY BONUS EXP 5x"
+echo "[EverleafMs] PARTY BONUS EXP 3x"
 echo "[EverleafMs] Existing PQ bonuses, mobs, scripts, commands, resets and custom maps are preserved."
 
 exec java -jar ./Server.jar
