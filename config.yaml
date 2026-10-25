@@ -4,10 +4,10 @@
 worlds:
     #Properties for Scania 0
   - flag: 0
-    server_message: Welcome to Scania!
-    event_message: Scania!
-    why_am_i_recommended: Welcome to Scania!
-    channels: 3
+    server_message: Bienvenidos a EverleafMS
+    event_message: EverleafMS
+    why_am_i_recommended: Welcome to EverleafMS
+    channels: 5
     exp_rate: 1
     meso_rate: 1
     drop_rate: 1
@@ -18,16 +18,16 @@ worlds:
 
     #Properties for Bera 1
   - flag: 0
-    server_message: Welcome to Bera!
+    server_message: Bienvenidos a EverleafMS
     event_message: Bera!
-    why_am_i_recommended: Welcome to Bera!
+    why_am_i_recommended: Bienvenidos a EverleafMS
     channels: 3
 
     #Properties for Broa 2
   - flag: 0
-    server_message: Welcome to Broa!
+    server_message: Bienvenidos a EverleafMS
     event_message: Broa!
-    why_am_i_recommended: Welcome to Broa!
+    why_am_i_recommended: Bienvenidos a EverleafMS
     channels: 3
 
     #Properties for Windia 3
