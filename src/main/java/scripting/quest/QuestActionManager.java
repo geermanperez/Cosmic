@@ -27,6 +27,7 @@ import server.ItemInformationProvider;
 import server.quest.Quest;
 import server.quest.actions.ExpAction;
 import server.quest.actions.MesoAction;
+import tools.PacketCreator;
 
 /**
  * @author RMZero213
@@ -52,6 +53,7 @@ public class QuestActionManager extends NPCConversationManager {
     @Override
     public void dispose() {
         QuestScriptManager.getInstance().dispose(this, getClient());
+        getClient().sendPacket(PacketCreator.enableActions());
     }
 
     public boolean forceStartQuest() {

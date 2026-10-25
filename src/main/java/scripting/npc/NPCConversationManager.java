@@ -138,9 +138,9 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         }
     }
 
-    /** Disabled until crash-safe grant + reconciliation have passed testing. */
-    public boolean claimRebirthPassReward() {
-        return false;
+    /** Executes transactional claim for EverleafMS Rebirth Pass. Returns result code. */
+    public int claimRebirthPassReward() {
+        return server.events.RebirthPassService.claim(getPlayer());
     }
 
     public int getNpc() {

@@ -1563,6 +1563,7 @@ public class Client extends ChannelInboundHandlerAdapter {
         this.removeClickedNPC();
         NPCScriptManager.getInstance().dispose(this);
         QuestScriptManager.getInstance().dispose(this);
+        sendPacket(PacketCreator.enableActions());
     }
 
     public boolean attemptCsCoupon() {

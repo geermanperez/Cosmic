@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import scripting.AbstractScriptManager;
 import server.quest.Quest;
+import tools.PacketCreator;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -189,15 +190,20 @@ public class QuestScriptManager extends AbstractScriptManager {
     public void dispose(QuestActionManager qm, Client c) {
         qms.remove(c);
         scripts.remove(c);
+        c.removeClickedNPC();
         c.getPlayer().setNpcCooldown(System.currentTimeMillis());
         resetContext("quest/" + qm.getQuest() + ".js", c);
         c.getPlayer().flushDelayedUpdateQuests();
+        c.sendPacket(PacketCreator.enableActions());
     }
 
     public void dispose(Client c) {
         QuestActionManager qm = qms.get(c);
         if (qm != null) {
             dispose(qm, c);
+        } else {
+            c.removeClickedNPC();
+            c.sendPacket(PacketCreator.enableActions());
         }
     }
 

@@ -453,6 +453,20 @@ public class Character extends AbstractCharacterObject {
         return getJobStyle((byte) ((this.getStr() > this.getDex()) ? 0x80 : 0x40));
     }
 
+    public void addMaxHp(int gain) {
+        setMaxHp(Math.min(30000, getMaxHp() + gain));
+        setHp(Math.min(getCurrentMaxHp(), getHp() + gain));
+        updateSingleStat(Stat.MAXHP, getMaxHp());
+        updateSingleStat(Stat.HP, getHp());
+    }
+
+    public void addMaxMp(int gain) {
+        setMaxMp(Math.min(30000, getMaxMp() + gain));
+        setMp(Math.min(getCurrentMaxMp(), getMp() + gain));
+        updateSingleStat(Stat.MAXMP, getMaxMp());
+        updateSingleStat(Stat.MP, getMp());
+    }
+
     public static Character getDefault(Client c) {
         Character ret = new Character();
         ret.client = c;

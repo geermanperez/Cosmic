@@ -184,6 +184,7 @@ public class NPCScriptManager extends AbstractScriptManager {
         c.getPlayer().setNpcCooldown(System.currentTimeMillis());
         cms.remove(c);
         scripts.remove(c);
+        c.removeClickedNPC();
 
         String scriptFolder = (cm.isItemScript() ? "item" : "npc");
         if (cm.getScriptName() != null) {
@@ -193,12 +194,16 @@ public class NPCScriptManager extends AbstractScriptManager {
         }
 
         c.getPlayer().flushDelayedUpdateQuests();
+        c.sendPacket(PacketCreator.enableActions());
     }
 
     public void dispose(Client c) {
         NPCConversationManager cm = cms.get(c);
         if (cm != null) {
             dispose(cm);
+        } else {
+            c.removeClickedNPC();
+            c.sendPacket(PacketCreator.enableActions());
         }
     }
 

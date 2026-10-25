@@ -26,6 +26,7 @@ import net.AbstractPacketHandler;
 import net.packet.InPacket;
 import scripting.npc.NPCScriptManager;
 import scripting.quest.QuestScriptManager;
+import tools.PacketCreator;
 
 /**
  * @author Matze
@@ -45,14 +46,18 @@ public final class NPCMoreTalkHandler extends AbstractPacketHandler {
                     } else {
                         QuestScriptManager.getInstance().end(c, action, lastMsg, -1);
                     }
-                } else {
+                } else if (c.getCM() != null) {
                     c.getCM().setGetText(returnText);
                     NPCScriptManager.getInstance().action(c, action, lastMsg, -1);
+                } else {
+                    c.sendPacket(PacketCreator.enableActions());
                 }
             } else if (c.getQM() != null) {
                 c.getQM().dispose();
-            } else {
+            } else if (c.getCM() != null) {
                 c.getCM().dispose();
+            } else {
+                c.sendPacket(PacketCreator.enableActions());
             }
         } else {
             int selection = -1;
@@ -69,6 +74,8 @@ public final class NPCMoreTalkHandler extends AbstractPacketHandler {
                 }
             } else if (c.getCM() != null) {
                 NPCScriptManager.getInstance().action(c, action, lastMsg, selection);
+            } else {
+                c.sendPacket(PacketCreator.enableActions());
             }
         }
     }
