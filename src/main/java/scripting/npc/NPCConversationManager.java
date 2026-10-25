@@ -117,6 +117,32 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         this.itemScript = itemScript;
     }
 
+    /** Read-only Rebirth Pass progress for NPC scripts. No rewards are issued. */
+    public int getRebirthPassDeliveredDays() {
+        try {
+            return server.events.RebirthPassService.deliveredDays(getPlayer().getAccountID());
+        } catch (SQLException exception) {
+            log.error("Failed to read Rebirth Pass progress", exception);
+            return -1;
+        }
+    }
+
+    /** Read-only daily claim check; a pending delivery also blocks repeat attempts. */
+    public boolean hasRebirthPassClaimToday() {
+        try {
+            return server.events.RebirthPassService.hasClaimOnDate(
+                    getPlayer().getAccountID(), server.events.RebirthPassService.today());
+        } catch (SQLException exception) {
+            log.error("Failed to read Rebirth Pass claim state", exception);
+            return true; // Fail closed.
+        }
+    }
+
+    /** Disabled until crash-safe grant + reconciliation have passed testing. */
+    public boolean claimRebirthPassReward() {
+        return false;
+    }
+
     public int getNpc() {
         return npc;
     }
