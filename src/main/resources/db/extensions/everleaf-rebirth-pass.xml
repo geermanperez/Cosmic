@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+ <changeSet id="everleaf-rebirth-claims-001" author="everleaf">
+  <createTable tableName="everleaf_rebirth_claims">
+   <column name="id" type="BIGINT" autoIncrement="true"><constraints primaryKey="true" nullable="false"/></column>
+   <column name="account_id" type="INT"><constraints nullable="false"/></column>
+   <column name="pass_day" type="TINYINT"><constraints nullable="false"/></column>
+   <column name="claim_date" type="DATE"><constraints nullable="false"/></column>
+   <column name="status" type="VARCHAR(16)" defaultValue="PENDING"><constraints nullable="false"/></column>
+   <column name="character_id" type="INT"><constraints nullable="false"/></column>
+   <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+   <column name="delivered_at" type="TIMESTAMP"/>
+  </createTable>
+  <addUniqueConstraint tableName="everleaf_rebirth_claims" columnNames="account_id,pass_day" constraintName="uq_rebirth_account_day"/>
+  <addUniqueConstraint tableName="everleaf_rebirth_claims" columnNames="account_id,claim_date" constraintName="uq_rebirth_account_date"/>
+  <createIndex tableName="everleaf_rebirth_claims" indexName="ix_rebirth_status"><column name="status"/></createIndex>
+  <rollback><dropTable tableName="everleaf_rebirth_claims"/></rollback>
+ </changeSet>
+</databaseChangeLog>
