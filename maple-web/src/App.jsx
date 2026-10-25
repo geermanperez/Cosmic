@@ -45,7 +45,7 @@ import "./Landing.css";
 import { API_URL, getToken, saveToken, request } from "./apiClient";
 
 const downloadUrl =
-  "https://drive.google.com/file/d/135SdtvRBD22_9GtFQcWzaIZxrkd6LXLo/view?usp=sharing";
+  "https://archive.org/download/MapleStory-Global-Pre-Big-Bang/MSSetupv83.exe";
 const updateDownloadUrl =
   "https://drive.google.com/file/d/16_iVS5REoxQF-jp90APeYm23ZEGmeOA7/view?usp=sharing";
 const updateNoticeStorageKey = "everleafms-correction-patch-notice-2026-09-23";
