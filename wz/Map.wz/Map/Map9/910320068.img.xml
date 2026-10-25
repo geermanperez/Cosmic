@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='utf-8'?>
+<imgdir name="910320068.img">
+  <imgdir name="info">
+    <int name="version" value="10" />
+    <int name="cloud" value="0" />
+    <int name="hideMinimap" value="0" />
+    <string name="bgm" value="Bgm49/WarCloud" />
+    <string name="mapMark" value="moonBridge" />
+    <int name="returnMap" value="999999999" />
+    <int name="forcedReturn" value="999999999" />
+    <int name="fieldLimit" value="0" />
+    <int name="town" value="0" />
+    <float name="mobRate" value="1.0" />
+    <int name="VRLeft" value="-1066" />
+    <int name="VRTop" value="-463" />
+    <int name="VRRight" value="1067" />
+    <int name="VRBottom" value="328" />
+  </imgdir>
+  <imgdir name="back">
+    <imgdir name="0">
+      <string name="bS" value="BM1_2" />
+      <int name="no" value="2" />
+      <int name="x" value="545" />
+      <int name="y" value="7" />
+      <int name="rx" value="-100" />
+      <int name="ry" value="-100" />
+      <int name="cx" value="0" />
+      <int name="cy" value="0" />
+      <int name="a" value="255" />
+      <int name="type" value="0" />
+      <int name="front" value="0" />
+      <int name="f" value="0" />
+      <int name="ani" value="0" />
+    </imgdir>
+    <imgdir name="1">
+      <string name="bS" value="BM1_2" />
+      <int name="no" value="3" />
+      <int name="x" value="914" />
+      <int name="y" value="121" />
+      <int name="rx" value="-100" />
+      <int name="ry" value="-100" />
+      <int name="cx" value="0" />
+      <int name="cy" value="0" />
+      <int name="a" value="255" />
+      <int name="type" value="0" />
+      <int name="front" value="0" />
+      <int name="f" value="0" />
+      <int name="ani" value="1" />
+    </imgdir>
+  </imgdir>
+  <imgdir name="life" />
+  <imgdir name="foothold">
+    <imgdir name="3">
+      <imgdir name="1">
+        <imgdir name="1">
+          <int name="x1" value="-1068" />
+          <int name="y1" value="264" />
+          <int name="x2" value="1092" />
+          <int name="y2" value="264" />
+          <int name="prev" value="0" />
+          <int name="next" value="0" />
+        </imgdir>
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="portal">
+    <imgdir name="0">
+      <int name="x" value="-606" />
+      <int name="y" value="263" />
+      <int name="pt" value="1" />
+      <int name="tm" value="910320065" />
+      <string name="tn" value="Navigationentry" />
+      <string name="pn" value="Navigation" />
+    </imgdir>
+    <imgdir name="1">
+      <int name="x" value="-424" />
+      <int name="y" value="199" />
+      <int name="pt" value="0" />
+      <int name="tm" value="999999999" />
+      <string name="tn" value="" />
+      <string name="pn" value="sp" />
+    </imgdir>
+  </imgdir>
+</imgdir>
