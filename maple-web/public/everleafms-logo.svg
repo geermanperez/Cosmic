@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" role="img" aria-labelledby="title desc">
+  <title id="title">EverleafMs V83 Classic</title>
+  <desc id="desc">EverleafMs wordmark in forest green and warm gold with leaf details.</desc>
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff0ae"/>
+      <stop offset="0.45" stop-color="#f4c56b"/>
+      <stop offset="1" stop-color="#bd7f27"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#174f3d"/>
+      <stop offset="1" stop-color="#0f3d2e"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#87d96e"/>
+      <stop offset="1" stop-color="#2f8f45"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-30%" width="140%" height="170%">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#18261d" flood-opacity=".35"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadow)">
+    <path d="M74 76C215 29 724 27 873 79l39 80-41 81c-162 42-638 44-797 0l-38-80z" fill="#6b4f3a" stroke="#0f3d2e" stroke-width="10"/>
+    <path d="M91 88c151-37 613-36 763 0l31 68-31 67c-155 34-610 35-763 0l-30-67z" fill="url(#green)" stroke="#f4c56b" stroke-width="5"/>
+
+    <g transform="translate(759 24) rotate(14)">
+      <path d="M43 94C15 69 17 29 87 4c12 61-8 91-44 90Z" fill="url(#leaf)" stroke="#0b3a29" stroke-width="5"/>
+      <path d="M45 91c13-32 25-51 41-73M47 70c14-5 28-13 39-25M55 54c-9-5-17-13-22-24" fill="none" stroke="#d9ef91" stroke-width="4" stroke-linecap="round"/>
+    </g>
+    <g transform="translate(827 57) rotate(34) scale(.72)">
+      <path d="M43 94C15 69 17 29 87 4c12 61-8 91-44 90Z" fill="url(#leaf)" stroke="#0b3a29" stroke-width="5"/>
+      <path d="M45 91c13-32 25-51 41-73" fill="none" stroke="#d9ef91" stroke-width="4" stroke-linecap="round"/>
+    </g>
+
+    <text x="474" y="168" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="111" font-weight="700" letter-spacing="-5" fill="url(#gold)" stroke="#072c20" stroke-width="10" paint-order="stroke">EverleafMs</text>
+    <text x="474" y="168" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="111" font-weight="700" letter-spacing="-5" fill="url(#gold)" stroke="#f7e3a1" stroke-width="2" paint-order="stroke">EverleafMs</text>
+
+    <path d="M255 194h438" stroke="#d9a944" stroke-width="2" opacity=".75"/>
+    <text x="474" y="229" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="700" letter-spacing="9" fill="#f4c56b">V83 CLASSIC</text>
+  </g>
+</svg>
