@@ -4,9 +4,9 @@
 worlds:
     #Properties for Scania 0
   - flag: 0
-    server_message: Welcome to Scania!
-    event_message: Scania!
-    why_am_i_recommended: Welcome to Scania!
+    server_message: Welcome to EverleafMS!
+    event_message: EverleafMS!
+    why_am_i_recommended: Welcome to EverleafMS!
     channels: 3
     exp_rate: 10
     meso_rate: 10
