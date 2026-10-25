@@ -26,7 +26,9 @@ services:
       MYSQL_DATABASE: "cosmic"
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: yes
-    ports:
-      - "3307:3306"
     volumes:
-      - ./database/docker-db-data:/var/lib/mysql
+      # Keep the existing Easypanel-managed database while restoring Cosmic.
+      - cosmic-db-data:/var/lib/mysql
+
+volumes:
+  cosmic-db-data:
