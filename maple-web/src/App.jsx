@@ -47,7 +47,7 @@ import { API_URL, getToken, saveToken, request } from "./apiClient";
 const downloadUrl =
   "https://archive.org/download/MapleStory-Global-Pre-Big-Bang/MSSetupv83.exe";
 const updateDownloadUrl =
-  "https://drive.google.com/file/d/1ReH6KNV3yR6Y6x7IXgQLN9m5jqLF_zp-/view?usp=sharing";
+  "https://drive.google.com/file/d/1BAiSCTBGyYbH5wXlqLnO9A0KhWdUHbNL/view?usp=drivesdk";
 const updateNoticeStorageKey = "everleafms-correction-patch-notice-2026-09-23";
 const updateNoticeStartDate = "2026-09-23";
 const updateNoticeDurationDays = 14;
@@ -174,11 +174,11 @@ const translations = {
         "RECOMMENDATION: to open the game, use EVERLEAFMS LAUNCHER.cmd (it closes open client processes and then starts the game cleanly).",
       patchTitle: "Correction patch",
       patchCopy:
-        "Keep your current EverleafMs client installed. Download this correction patch and copy its files into the existing game folder, replacing the previous files when Windows asks. Archive password: 123456.",
+        "Keep your current EverleafMs client installed. Download this correction patch and copy its files into the existing game folder, replacing the previous files when Windows asks. Archive password: 1234.",
       patchSteps: [
         "Close EverleafMs and the launcher before starting.",
         "Download the correction patch.",
-        "Extract the archive using password 123456.",
+        "Extract the archive using password 1234.",
         "Open the extracted patch folder and copy all its files.",
         "Paste them into the folder where your current EverleafMs client is installed.",
         "When Windows asks, choose Replace the files in the destination.",
@@ -190,11 +190,11 @@ const translations = {
       kicker: "Correction patch",
       title: "Download the new EverleafMs correction patch",
       copy:
-        "Keep your original client. Apply this patch over the existing installation and replace the previous files when Windows asks. Archive password: 123456.",
+        "Keep your original client. Apply this patch over the existing installation and replace the previous files when Windows asks. Archive password: 1234.",
       steps: [
         "Close the game and the launcher.",
         "Download the correction patch.",
-        "Extract the archive using password 123456.",
+        "Extract the archive using password 1234.",
         "Copy all the extracted files into your current EverleafMs folder.",
         "When Windows asks, choose Replace the files in the destination.",
         "Start the game normally; do not reinstall the full client.",
@@ -478,11 +478,11 @@ const translations = {
         "RECOMENDACION: para abrir el juego usar EVERLEAFMS LAUNCHER.cmd (cierra procesos abiertos del cliente y luego inicia el juego limpio).",
       patchTitle: "Parche de correccion",
       patchCopy:
-        "Conserva instalado tu cliente actual de EverleafMs. Descarga este parche de correccion y copia sus archivos dentro de la carpeta existente del juego, reemplazando los anteriores cuando Windows pregunte. La contrasena del archivo es 123456.",
+        "Conserva instalado tu cliente actual de EverleafMs. Descarga este parche de correccion y copia sus archivos dentro de la carpeta existente del juego, reemplazando los anteriores cuando Windows pregunte. La contrasena del archivo es 1234.",
       patchSteps: [
         "Cierra EverleafMs y el launcher antes de comenzar.",
         "Descarga el parche de correccion.",
-        "Descomprime el archivo usando la contrasena 123456.",
+        "Descomprime el archivo usando la contrasena 1234.",
         "Abre la carpeta del parche extraido y copia todos sus archivos.",
         "Pegalos dentro de la carpeta donde ya tienes instalado el cliente de EverleafMs.",
         "Cuando Windows pregunte, elige Reemplazar los archivos en el destino.",
@@ -494,11 +494,11 @@ const translations = {
       kicker: "Parche de correccion",
       title: "Descarga el nuevo parche de correccion de EverleafMs",
       copy:
-        "Conserva tu cliente original. Aplica este parche sobre la instalacion existente y reemplaza los archivos anteriores cuando Windows pregunte. La contrasena del archivo es 123456.",
+        "Conserva tu cliente original. Aplica este parche sobre la instalacion existente y reemplaza los archivos anteriores cuando Windows pregunte. La contrasena del archivo es 1234.",
       steps: [
         "Cierra el juego y el launcher.",
         "Descarga el parche de correccion.",
-        "Descomprime el archivo usando la contrasena 123456.",
+        "Descomprime el archivo usando la contrasena 1234.",
         "Copia todos los archivos extraidos dentro de tu carpeta actual de EverleafMs.",
         "Cuando Windows pregunte, elige Reemplazar los archivos en el destino.",
         "Inicia el juego normalmente; no reinstales el cliente completo.",
