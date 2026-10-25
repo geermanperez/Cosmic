@@ -13,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -23,17 +22,19 @@ public final class BattlePassManager {
     private static final Logger log = LoggerFactory.getLogger(BattlePassManager.class);
     private static final BattlePassManager instance = new BattlePassManager();
     private static final ZoneId TIMEZONE = ZoneId.of("UTC");
+    public static final int MAX_DAYS = 30;
 
     public record RewardItem(int itemId, int count) {}
 
     public record DayReward(int day, List<RewardItem> items, int nx, int mesos, String title) {}
 
-    public record BattlePassInfo(int day, int streak, boolean canClaimToday, LocalDate lastClaimDate) {}
+    public record BattlePassInfo(int day, int streak, boolean canClaimToday, boolean completed, LocalDate lastClaimDate) {}
 
     public enum ClaimResult {
         SUCCESS,
         ALREADY_CLAIMED,
         NO_SPACE,
+        COMPLETED,
         ERROR
     }
 
@@ -109,7 +110,7 @@ public final class BattlePassManager {
         rewards.put(28, new DayReward(28, List.of(new RewardItem(2340000, 2)), 10000, 3000000, "2x White Scroll (Hito 4 Semanas)"));
         // Day 29
         rewards.put(29, new DayReward(29, List.of(new RewardItem(2022179, 10), new RewardItem(2000005, 100)), 7500, 2000000, "10x Onyx Apple & 100x Power Elixir"));
-        // Day 30 - Grand Milestone
+        // Day 30 - Grand Milestone Final
         rewards.put(30, new DayReward(30, List.of(new RewardItem(2340000, 2), new RewardItem(2049100, 3), new RewardItem(3010025, 1)), 15000, 5000000, "2x White Scroll, 3x Chaos Scroll & Silla Maple Tree (Hito Final 30 Días)"));
     }
 
@@ -127,14 +128,19 @@ public final class BattlePassManager {
                     Date dateVal = rs.getDate("last_claim_date");
                     LocalDate lastClaim = dateVal != null ? dateVal.toLocalDate() : null;
 
+                    // If player has already reached and claimed day 30, the battle pass is completely finished!
+                    if (recordedDay >= MAX_DAYS) {
+                        return new BattlePassInfo(MAX_DAYS, streak, false, true, lastClaim);
+                    }
+
                     if (lastClaim != null && lastClaim.equals(today)) {
-                        return new BattlePassInfo(recordedDay, streak, false, lastClaim);
+                        return new BattlePassInfo(recordedDay, streak, false, false, lastClaim);
                     } else if (lastClaim != null && lastClaim.plusDays(1).equals(today)) {
-                        int nextDay = (recordedDay % 30) + 1;
-                        return new BattlePassInfo(nextDay, streak + 1, true, lastClaim);
+                        int nextDay = recordedDay + 1;
+                        return new BattlePassInfo(nextDay, streak + 1, true, false, lastClaim);
                     } else {
-                        int nextDay = (recordedDay % 30) + 1;
-                        return new BattlePassInfo(nextDay, 1, true, lastClaim);
+                        int nextDay = recordedDay + 1;
+                        return new BattlePassInfo(nextDay, 1, true, false, lastClaim);
                     }
                 }
             }
@@ -142,15 +148,19 @@ public final class BattlePassManager {
             log.error("Failed to load battle pass for account {}", accId, e);
         }
 
-        return new BattlePassInfo(1, 1, true, null);
+        return new BattlePassInfo(1, 1, true, false, null);
     }
 
     public boolean canClaim(Character chr) {
-        return getInfo(chr).canClaimToday();
+        BattlePassInfo info = getInfo(chr);
+        return !info.completed() && info.canClaimToday();
     }
 
     public ClaimResult claimReward(Character chr) {
         BattlePassInfo info = getInfo(chr);
+        if (info.completed()) {
+            return ClaimResult.COMPLETED;
+        }
         if (!info.canClaimToday()) {
             return ClaimResult.ALREADY_CLAIMED;
         }

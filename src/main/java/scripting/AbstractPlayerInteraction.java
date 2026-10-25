@@ -1238,13 +1238,18 @@ public class AbstractPlayerInteraction {
         return BattlePassManager.getInstance().canClaim(getPlayer());
     }
 
+    public boolean isBattlePassCompleted() {
+        return BattlePassManager.getInstance().getInfo(getPlayer()).completed();
+    }
+
     public int claimBattlePass() {
         BattlePassManager.ClaimResult result = BattlePassManager.getInstance().claimReward(getPlayer());
         return switch (result) {
             case SUCCESS -> 0;
             case ALREADY_CLAIMED -> 1;
             case NO_SPACE -> 2;
-            case ERROR -> 3;
+            case COMPLETED -> 3;
+            case ERROR -> 4;
         };
     }
 
