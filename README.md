@@ -1,4 +1,7 @@
-﻿# Cosmic
+# EverleafMS
+
+EverleafMS is a clean, classic MapleStory GMS v83 server based on Cosmic by Ponk. This branch starts from the original baseline without Everleaf's later gameplay customizations.
+
 Cosmic is a server emulator for Global MapleStory (GMS) version 83.
 
 ## Introduction
