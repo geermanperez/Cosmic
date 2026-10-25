@@ -466,9 +466,10 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
 
             // Battle pass login reminder
             if (BattlePassManager.getInstance().canClaim(player)) {
+                final Character loggedInPlayer = player;
                 TimerManager.getInstance().schedule(() -> {
-                    if (player.isLoggedin()) {
-                        player.dropMessage(5, "[Pase de Batalla] ¡Tienes disponible tu recompensa diaria de hoy! Escribe @battlepass o habla con Maple Administrator.");
+                    if (loggedInPlayer.isLoggedin()) {
+                        loggedInPlayer.dropMessage(5, "[Pase de Batalla] ¡Tienes disponible tu recompensa diaria de hoy! Escribe @battlepass o habla con Maple Administrator.");
                     }
                 }, 2500);
             }
