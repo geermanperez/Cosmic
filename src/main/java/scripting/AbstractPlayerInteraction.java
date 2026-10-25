@@ -60,6 +60,7 @@ import java.util.*;
 
 import static java.util.concurrent.TimeUnit.DAYS;
 
+import server.battlepass.BattlePassManager;
 public class AbstractPlayerInteraction {
 
     public Client c;
@@ -1223,5 +1224,31 @@ public class AbstractPlayerInteraction {
 
     private void sendBlueNotice(MapleMap map, String message) {
         map.dropMessage(6, message);
+    }
+
+    public int getBattlePassDay() {
+        return BattlePassManager.getInstance().getInfo(getPlayer()).day();
+    }
+
+    public int getBattlePassStreak() {
+        return BattlePassManager.getInstance().getInfo(getPlayer()).streak();
+    }
+
+    public boolean canClaimBattlePass() {
+        return BattlePassManager.getInstance().canClaim(getPlayer());
+    }
+
+    public int claimBattlePass() {
+        BattlePassManager.ClaimResult result = BattlePassManager.getInstance().claimReward(getPlayer());
+        return switch (result) {
+            case SUCCESS -> 0;
+            case ALREADY_CLAIMED -> 1;
+            case NO_SPACE -> 2;
+            case ERROR -> 3;
+        };
+    }
+
+    public BattlePassManager.DayReward getBattlePassReward(int day) {
+        return BattlePassManager.getInstance().getRewardForDay(day);
     }
 }

@@ -26,6 +26,9 @@ import client.Client;
 import net.AbstractPacketHandler;
 import net.packet.InPacket;
 import scripting.quest.QuestScriptManager;
+import constants.id.NpcId;
+import scripting.npc.NPCScriptManager;
+
 import server.life.NPC;
 import server.quest.Quest;
 
@@ -72,6 +75,12 @@ public final class QuestActionHandler extends AbstractPacketHandler {
         short questid = p.readShort();
         Character player = c.getPlayer();
         Quest quest = Quest.getInstance(questid);
+
+        if (questid == 8248 || questid == 8249) {
+            Quest.getInstance(questid).forceComplete(player, NpcId.MAPLE_ADMINISTRATOR);
+            NPCScriptManager.getInstance().start(c, NpcId.MAPLE_ADMINISTRATOR, "battlepass", null);
+            return;
+        }
 
         switch (action) {
         case 0: // Restore lost item, Credits Darter ( Rajan )

@@ -451,6 +451,23 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
                 c.sendPacket(PacketCreator.setNPCScriptable(npcsIds));
             }
 
+            // Fix / complete broken client event quests (8248, 8249) so the stuck lightbulb never appears
+            if (player.getQuest(server.quest.Quest.getInstance(8248)).getStatus() != client.QuestStatus.Status.COMPLETED) {
+                server.quest.Quest.getInstance(8248).forceComplete(player, constants.id.NpcId.MAPLE_ADMINISTRATOR);
+            }
+            if (player.getQuest(server.quest.Quest.getInstance(8249)).getStatus() != client.QuestStatus.Status.COMPLETED) {
+                server.quest.Quest.getInstance(8249).forceComplete(player, constants.id.NpcId.MAPLE_ADMINISTRATOR);
+            }
+
+            // Battle pass login reminder
+            if (server.battlepass.BattlePassManager.getInstance().canClaim(player)) {
+                server.TimerManager.getInstance().schedule(() -> {
+                    if (player.isLoggedin()) {
+                        player.dropMessage(5, "[Pase de Batalla] ¡Tienes disponible tu recompensa diaria de hoy! Escribe @battlepass o habla con Maple Administrator.");
+                    }
+                }, 2500);
+            }
+
             if (newcomer) {
                 player.setLoginTime(System.currentTimeMillis());
             }
