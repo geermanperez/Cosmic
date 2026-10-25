@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="everleaf-rebirth-pass-20261025" author="EverleafMS">
+        <createTable tableName="everleaf_rebirth_pass">
+            <column name="account_id" type="INT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="claimed_days" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_claim_date" type="DATE"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
