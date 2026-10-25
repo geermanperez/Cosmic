@@ -24,7 +24,7 @@ status = -1;
 var sel, sel2;
 
 function start() {
-    cm.sendOk("Hello, the Maple 7th Day Market is currently unavailable.");
+    // Disable this legacy Maple 7th Day Market NPC dialog without changing other NPCs.
     cm.dispose();
     return;
 
