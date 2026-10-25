@@ -19736,13 +19736,14 @@ Able to proceed to &apos;Merry-go-round in Kampung&apos; as next quest.
     <int name="area" value="50"/>
   </imgdir>
   <imgdir name="8248">
-    <string name="name" value="Maple 7th Day Market omok festival!"/>
-    <string name="parent" value="Maple 7th Day Market"/>
+    <string name="name" value="EverleafMS Rebirth Pass"/>
+    <string name="parent" value="Mimi's Rebirth Pass"/>
     <int name="order" value="1"/>
-    <string name="0" value="The Maple 7th Day Market will open soon. Better check with #b#p9209001##k what&apos;s up."/>
-    <string name="1" value="She needs some help collecting omok pieces for the entertainment of the folks, better gather them soon.\n\n#i4030000# #t4030000# #c4030000# / #r16#k\n#i4030001# #t4030001# #c4030001# / #r16#k\n#i4030010# #t4030010# #c4030010# / #r32#k\n#i4030011# #t4030011# #c4030011# / #r32#k\n#i4030013# #t4030013# #c4030013# / #r32#k\n#i4030014# #t4030014# #c4030014# / #r32#k\n#i4030015# #t4030015# #c4030015# / #r32#k\n#i4030016# #t4030016# #c4030016# / #r32#k\n#i4030009# #t4030009# #c4030009# / #r8#k\n#i3010001# #t3010001# #c3010001# / #r16#k\n"/>
-    <string name="2" value="I completed #b#p9209001##k&apos;s first task. Turned out that the main event became even more attractive."/>
-    <int name="area" value="0"/>
+    <string name="0" value="Mimi has a daily reward waiting for you in the EverleafMS Rebirth Pass. Open this reminder to check your progress."/>
+    <string name="1" value="Visit #b#p9209001##k every day to claim the next reward in your 7-day Rebirth Pass."/>
+    <string name="2" value="Keep returning every day until all seven Rebirth Pass rewards have been claimed."/>
+    <int name="area" value="50"/>
+    <int name="autoStart" value="1"/>
   </imgdir>
   <imgdir name="8249">
     <string name="name" value="Maple 7th Day Market card-game convention!"/>

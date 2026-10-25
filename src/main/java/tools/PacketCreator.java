@@ -130,7 +130,6 @@ import java.util.stream.Collectors;
 public class PacketCreator {
 
     public static final List<Pair<Stat, Integer>> EMPTY_STATUPDATE = Collections.emptyList();
-    private static final Set<Short> DISABLED_CLIENT_QUESTS = Set.of((short) 8248, (short) 8249);
     private final static long FT_UT_OFFSET = 116444736010800000L + (10000L * TimeZone.getDefault().getOffset(System.currentTimeMillis())); // normalize with timezone offset suggested by Ari
     private final static long DEFAULT_TIME = 150842304000000000L;//00 80 05 BB 46 E6 17 02
     public final static long ZERO_TIME = 94354848000000000L;//00 40 E0 FD 3B 37 4F 01
@@ -383,25 +382,10 @@ public class PacketCreator {
             }
         }
         List<QuestStatus> completed = chr.getCompletedQuests();
-        Set<Short> completedIds = completed.stream()
-                .map(QuestStatus::getQuestID)
-                .collect(Collectors.toSet());
-        long hiddenQuestCompletionTime = getTime(0L);
-        int disabledQuestCount = (int) DISABLED_CLIENT_QUESTS.stream()
-                .filter(questId -> !completedIds.contains(questId))
-                .count();
-
-        p.writeShort(completed.size() + disabledQuestCount);
+        p.writeShort(completed.size());
         for (QuestStatus qs : completed) {
             p.writeShort(qs.getQuest().getId());
             p.writeLong(getTime(qs.getCompletionTime()));
-        }
-        for (short questId : DISABLED_CLIENT_QUESTS) {
-            if (!completedIds.contains(questId)) {
-                // Keep retired client-side event quests from reopening their remote quest alert.
-                p.writeShort(questId);
-                p.writeLong(hiddenQuestCompletionTime);
-            }
         }
     }
 

@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='utf-8'?>
+<imgdir name="910320064.img">
+  <imgdir name="info">
+    <int name="version" value="10" />
+    <int name="cloud" value="0" />
+    <int name="hideMinimap" value="1" />
+    <string name="bgm" value="Bgm49/WarCloud" />
+    <string name="mapMark" value="moonBridge" />
+    <int name="returnMap" value="999999999" />
+    <int name="forcedReturn" value="999999999" />
+    <int name="fieldLimit" value="67117436" />
+    <int name="town" value="0" />
+    <float name="mobRate" value="1.0" />
+    <int name="VRLeft" value="-1201" />
+    <int name="VRTop" value="-577" />
+    <int name="VRRight" value="1193" />
+    <int name="VRBottom" value="466" />
+  </imgdir>
+  <imgdir name="life" />
+  <imgdir name="foothold">
+    <imgdir name="3">
+      <imgdir name="3">
+        <imgdir name="1">
+          <int name="x1" value="-1058" />
+          <int name="y1" value="223" />
+          <int name="x2" value="850" />
+          <int name="y2" value="223" />
+          <int name="prev" value="0" />
+          <int name="next" value="0" />
+        </imgdir>
+      </imgdir>
+      <imgdir name="1">
+        <imgdir name="2">
+          <int name="x1" value="-1200" />
+          <int name="y1" value="-471" />
+          <int name="x2" value="1192" />
+          <int name="y2" value="-471" />
+          <int name="prev" value="0" />
+          <int name="next" value="0" />
+        </imgdir>
+      </imgdir>
+    </imgdir>
+  </imgdir>
+  <imgdir name="portal">
+    <imgdir name="0">
+      <int name="x" value="741" />
+      <int name="y" value="222" />
+      <int name="pt" value="10" />
+      <int name="tm" value="910320064" />
+      <string name="tn" value="down" />
+      <string name="pn" value="uppies" />
+    </imgdir>
+    <imgdir name="1">
+      <int name="x" value="737" />
+      <int name="y" value="-472" />
+      <int name="pt" value="10" />
+      <int name="tm" value="910320064" />
+      <string name="tn" value="uppies" />
+      <string name="pn" value="down" />
+    </imgdir>
+    <imgdir name="2">
+      <int name="x" value="-1033" />
+      <int name="y" value="-472" />
+      <int name="pt" value="10" />
+      <int name="tm" value="910320064" />
+      <string name="tn" value="uppies" />
+      <string name="pn" value="down2" />
+    </imgdir>
+    <imgdir name="3">
+      <int name="x" value="-606" />
+      <int name="y" value="148" />
+      <int name="pt" value="0" />
+      <int name="tm" value="999999999" />
+      <string name="tn" value="" />
+      <string name="pn" value="sp" />
+    </imgdir>
+    <imgdir name="4">
+      <int name="x" value="-652" />
+      <int name="y" value="222" />
+      <int name="pt" value="10" />
+      <int name="tm" value="910320062" />
+      <string name="tn" value="Engineentry" />
+      <string name="pn" value="Engineexit" />
+    </imgdir>
+    <imgdir name="5">
+      <int name="x" value="-1100" />
+      <int name="y" value="360" />
+      <int name="pt" value="3" />
+      <int name="tm" value="910320064" />
+      <string name="tn" value="Engineexit" />
+      <string name="pn" value="col00" />
+      <int name="hRange" value="500" />
+      <int name="vRange" value="100" />
+    </imgdir>
+    <imgdir name="6">
+      <int name="x" value="970" />
+      <int name="y" value="320" />
+      <int name="pt" value="3" />
+      <int name="tm" value="910320064" />
+      <string name="tn" value="Engineexit" />
+      <string name="pn" value="col01" />
+      <int name="hRange" value="700" />
+      <int name="vRange" value="50" />
+    </imgdir>
+  </imgdir>
+</imgdir>
