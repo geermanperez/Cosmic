@@ -80,17 +80,6 @@ public class MapFactory {
             int hide = DataTool.getInt("hide", life, 0);
             int mobTime = DataTool.getInt("mobTime", life, 0);
 
-            if (cy == 0) {
-                if (y != 0) {
-                    cy = y;
-                } else if (fh != 0 && map.getFootholds() != null) {
-                    Foothold foothold = map.getFootholds().findBelow(new Point(x, y));
-                    if (foothold != null) {
-                        cy = foothold.calculateFooting(x);
-                    }
-                }
-            }
-
             loadLifeRaw(map, Integer.parseInt(id), type, cy, f, fh, rx0, rx1, x, y, hide, mobTime, team);
         }
     }
