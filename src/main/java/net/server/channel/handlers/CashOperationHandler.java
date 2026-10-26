@@ -88,10 +88,6 @@ public final class CashOperationHandler extends AbstractPacketHandler {
                         if (ItemConstants.isCashStore(cItem.getItemId()) && chr.getLevel() < 16) {
                             c.enableCSActions();
                             return;
-                        } else if (ItemConstants.isRateCoupon(cItem.getItemId()) && !YamlConfig.config.server.USE_SUPPLY_RATE_COUPONS) {
-                            chr.dropMessage(1, "Rate coupons are currently unavailable to purchase.");
-                            c.enableCSActions();
-                            return;
                         } else if (ItemConstants.isMapleLife(cItem.getItemId()) && chr.getLevel() < 30) {
                             c.enableCSActions();
                             return;
@@ -484,7 +480,11 @@ public final class CashOperationHandler extends AbstractPacketHandler {
     }
 
     private static boolean canBuy(Character chr, CashItem item, int cash) {
-        if (item != null && item.isOnSale() && item.getPrice() <= cash) {
+        boolean rateCouponDisabled = item != null
+                && !YamlConfig.config.server.USE_SUPPLY_RATE_COUPONS
+                && CashItemFactory.containsRateCoupon(item);
+
+        if (item != null && item.isOnSale() && item.getPrice() <= cash && !rateCouponDisabled) {
             log.debug("Chr {} bought cash item {} (SN {}) for {}", chr, ItemInformationProvider.getInstance().getName(item.getItemId()), item.getSN(), item.getPrice());
             return true;
         } else {

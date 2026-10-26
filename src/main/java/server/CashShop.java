@@ -48,6 +48,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.locks.Lock;
@@ -283,6 +284,8 @@ public class CashShop {
             List<CashItem> itemPool = items.values().stream()
                     .filter(CashItem::isOnSale)
                     .filter(cashItem -> !ItemId.isCashPackage(cashItem.itemId))
+                    .filter(cashItem -> YamlConfig.config.server.USE_SUPPLY_RATE_COUPONS
+                            || !ItemId.isRateCoupon(cashItem.itemId))
                     .toList();
             return Optional.of(getRandomItem(itemPool));
         }
@@ -307,6 +310,18 @@ public class CashShop {
 
         public static boolean isPackage(int itemId) {
             return packages.containsKey(itemId);
+        }
+
+        public static boolean containsRateCoupon(CashItem cashItem) {
+            if (ItemId.isRateCoupon(cashItem.getItemId())) {
+                return true;
+            }
+
+            List<Integer> packageItems = packages.get(cashItem.getItemId());
+            return packageItems != null && packageItems.stream()
+                    .map(items::get)
+                    .filter(Objects::nonNull)
+                    .anyMatch(item -> ItemId.isRateCoupon(item.getItemId()));
         }
 
         public static List<SpecialCashItem> getSpecialCashItems() {
