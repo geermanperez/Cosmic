@@ -143,6 +143,7 @@ public class ServerConfig {
     public float EXP_SPLIT_MVP_MOD;
     public float EXP_SPLIT_COMMON_MOD;
     public float PARTY_BONUS_EXP_RATE;
+    public float MOB_SPAWN_RATE;
 
     //Miscellaneous Configuration
     public String TIMEZONE;

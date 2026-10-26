@@ -3517,7 +3517,8 @@ public class MapleMap {
     }
 
     private static double getCurrentSpawnRate(int numPlayers) {
-        return 0.70 + (0.05 * Math.min(6, numPlayers));
+        double baseSpawnRate = 0.70 + (0.05 * Math.min(6, numPlayers));
+        return Math.min(1.0, baseSpawnRate * YamlConfig.config.server.MOB_SPAWN_RATE);
     }
 
     private int getNumShouldSpawn(int numPlayers) {
