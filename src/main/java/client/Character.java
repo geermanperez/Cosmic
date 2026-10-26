@@ -2990,6 +2990,15 @@ public class Character extends AbstractCharacterObject {
                         for (Item item : inv.list()) {
                             expiration = item.getExpiration();
 
+                            // Battle Pass coupons were previously granted without an expiration.
+                            // They cannot be timed retroactively, so discard these invalid legacy copies.
+                            if (expiration == -1 && item.getItemId() == ItemId.EXP_COUPON_3X_2H) {
+                                sendPacket(PacketCreator.itemExpired(item.getItemId()));
+                                toberemove.add(item);
+                                deletedCoupon = true;
+                                continue;
+                            }
+
                             if (expiration != -1 && (expiration < currenttime) && ((item.getFlag() & ItemConstants.LOCK) == ItemConstants.LOCK)) {
                                 short lock = item.getFlag();
                                 lock &= ~(ItemConstants.LOCK);

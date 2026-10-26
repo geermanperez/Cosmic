@@ -2,6 +2,8 @@ package server.battlepass;
 
 import client.Character;
 import client.inventory.manipulator.InventoryManipulator;
+import constants.id.ItemId;
+import net.server.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tools.DatabaseConnection;
@@ -17,6 +19,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static java.util.concurrent.TimeUnit.HOURS;
 
 public final class BattlePassManager {
     private static final Logger log = LoggerFactory.getLogger(BattlePassManager.class);
@@ -52,7 +56,7 @@ public final class BattlePassManager {
         // Day 1
         rewards.put(1, new DayReward(1, List.of(new RewardItem(2000005, 50)), 1000, 100000, "50x Power Elixir"));
         // Day 2
-        rewards.put(2, new DayReward(2, List.of(new RewardItem(5211060, 1)), 1500, 150000, "1x 2x EXP Coupon (2h)"));
+        rewards.put(2, new DayReward(2, List.of(new RewardItem(5211060, 1)), 1500, 150000, "1x 3x EXP Coupon (2h)"));
         // Day 3
         rewards.put(3, new DayReward(3, List.of(new RewardItem(5041000, 5)), 2000, 200000, "5x VIP Teleport Rock"));
         // Day 4
@@ -179,7 +183,8 @@ public final class BattlePassManager {
 
         // Give items
         for (RewardItem item : reward.items()) {
-            InventoryManipulator.addById(chr.getClient(), item.itemId(), (short) item.count(), "", -1);
+            long expiration = getRewardExpiration(item.itemId());
+            InventoryManipulator.addById(chr.getClient(), item.itemId(), (short) item.count(), "", -1, expiration);
         }
 
         // Give NX
@@ -219,6 +224,16 @@ public final class BattlePassManager {
 
     public DayReward getRewardForDay(int day) {
         return rewards.get(day);
+    }
+
+    private long getRewardExpiration(int itemId) {
+        long duration = switch (itemId) {
+            case ItemId.EXP_COUPON_3X_2H -> HOURS.toMillis(2);
+            case 5360015 -> HOURS.toMillis(4);
+            default -> -1;
+        };
+
+        return duration == -1 ? -1 : Server.getInstance().getCurrentTime() + duration;
     }
 
     public Map<Integer, DayReward> getAllRewards() {
