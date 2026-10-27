@@ -27,15 +27,8 @@
  * @func: Kerning PQ
  */
 
-var stage1Questions = Array(
-    "Here's the question. Collect the same number of coupons as the minimum level required to make the first job advancement as warrior.",
-    "Here's the question. Collect the same number of coupons as the minimum amount of STR needed to make the first job advancement as a warrior.",
-    "Here's the question. Collect the same number of coupons as the minimum amount of INT needed to make the first job advancement as a magician.",
-    "Here's the question. Collect the same number of coupons as the minimum amount of DEX needed to make the first job advancement as a bowman.",
-    "Here's the question. Collect the same number of coupons as the minimum amount of DEX needed to make the first job advancement as a thief.",
-    "Here's the question. Collect the same number of coupons as the minimum level required to advance to 2nd job.",
-    "Here's the question. Collect the same number of coupons as the minimum level required to make the first job advancement as a magician.");
-var stage1Answers = Array(10, 35, 20, 25, 25, 30, 8);
+var stage1Question = "Here's the question. What is 5 + 5? Collect exactly #b10 coupons#k and bring them to me to receive your pass.";
+var stage1Answer = 10;
 
 const Rectangle = Java.type('java.awt.Rectangle');
 var stage2Rects = Array(new Rectangle(-755, -132, 4, 218), new Rectangle(-721, -340, 4, 166), new Rectangle(-586, -326, 4, 150), new Rectangle(-483, -181, 4, 222));
@@ -151,13 +144,13 @@ function action(mode, type, selection) {
                     if (data == 0) {
                         cm.sendNext("Thanks for bringing me the coupons. Please hand the pass to your party leader to continue.");
                     } else if (data == -1) {
-                        data = Math.floor(Math.random() * stage1Questions.length) + 1;   //data will be counted from 1
+                        data = 1; // Every player receives the same easy question.
                         eim.gridInsert(cm.getPlayer(), data);
 
-                        var question = stage1Questions[data - 1];
+                        var question = stage1Question;
                         cm.sendNext(question);
                     } else {
-                        var answer = stage1Answers[data - 1];
+                        var answer = stage1Answer;
 
                         if (cm.itemQuantity(4001007) == answer) {
                             cm.sendNext("That's the right answer! For that you have just received a #bpass#k. Please hand it to the leader of the party.");
@@ -165,7 +158,7 @@ function action(mode, type, selection) {
                             cm.gainItem(4001008, 1);
                             eim.gridInsert(cm.getPlayer(), 0);
                         } else {
-                            var question = stage1Questions[eim.gridCheck(cm.getPlayer()) - 1];
+                            var question = stage1Question;
                             cm.sendNext("I'm sorry, but that is not the right answer!\r\n" + question);
                         }
                     }
