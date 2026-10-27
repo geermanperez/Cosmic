@@ -1,32 +1,16 @@
+// Intercity travel is immediate and still requires the original ticket.
 function start() {
     if (cm.haveItem(4031047)) {
-        var em = cm.getEventManager("Boats");
-        if (em.getProperty("entry") == "true") {
-            cm.sendYesNo("Do you want to go to Ellinia?");
-        } else {
-            cm.sendOk("The boat to Ellinia is already travelling, please be patient for the next one.");
-            cm.dispose();
-        }
+        cm.sendYesNo("Travel to #m101000300# now?");
     } else {
-        cm.sendOk("Make sure you got a Ellinia ticket to travel in this boat. Check your inventory.");
+        cm.sendOk("You need a #t4031047# to travel.");
         cm.dispose();
     }
 }
-
 function action(mode, type, selection) {
-    if (mode <= 0) {
-        cm.sendOk("Okay, talk to me if you change your mind!");
-        cm.dispose();
-        return;
-    }
-
-    var em = cm.getEventManager("Boats");
-    if (em.getProperty("entry") == "true") {
-        cm.warp(200000112);
+    if (mode == 1 && cm.haveItem(4031047)) {
         cm.gainItem(4031047, -1);
-        cm.dispose();
-    } else {
-        cm.sendOk("The boat to Ellinia is ready to take off, please be patient for the next one.");
-        cm.dispose();
+        cm.warp(101000300, 1);
     }
+    cm.dispose();
 }

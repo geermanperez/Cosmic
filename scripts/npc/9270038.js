@@ -1,6 +1,6 @@
 /*
 	This file is part of the OdinMS Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc> 
+    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
                        Matthias Butz <matze@odinms.de>
                        Jan Christian Meyer <vimes@odinms.de>
 
@@ -69,13 +69,10 @@ function action(mode, type, selection) {
             }
         } else if (oldSelection == 1) {
             if (cm.itemQuantity(4031732) > 0) {
-                var em = cm.getEventManager("AirPlane");
-                if (em.getProperty("entry") == "true") {
-                    cm.warp(540010001);
+
+                    cm.warp(103000000, 7);
                     cm.gainItem(4031732, -1);
-                } else {
-                    cm.sendOk("Sorry the plane has taken off, please wait a few minutes.");
-                }
+
             } else {
                 cm.sendOk("You need a #b#t4031732##k to get on the plane!");
             }

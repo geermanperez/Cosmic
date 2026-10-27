@@ -1,30 +1,16 @@
+// Intercity travel is immediate and still requires the original ticket.
 function start() {
     if (cm.haveItem(4031045)) {
-        var em = cm.getEventManager("Cabin");
-        if (em.getProperty("entry") == "true") {
-            cm.sendYesNo("Do you wish to board the flight?");
-        } else {
-            cm.sendOk("The flight has not arrived yet. Come back soon.");
-            cm.dispose();
-        }
+        cm.sendYesNo("Travel to #m200000100# now?");
     } else {
-        cm.sendOk("Make sure you got an Orbis ticket to travel in this flight. Check your inventory.");
+        cm.sendOk("You need a #t4031045# to travel.");
         cm.dispose();
     }
 }
-
 function action(mode, type, selection) {
-    if (mode <= 0) {
-        cm.sendOk("Okay, talk to me if you change your mind!");
-        cm.dispose();
-        return;
-    }
-    var em = cm.getEventManager("Cabin");
-    if (em.getProperty("entry") == "true") {
-        cm.warp(240000111);
+    if (mode == 1 && cm.haveItem(4031045)) {
         cm.gainItem(4031045, -1);
-    } else {
-        cm.sendOk("The flight has not arrived yet. Come back soon.");
+        cm.warp(200000100, 0);
     }
     cm.dispose();
 }
