@@ -535,7 +535,7 @@ public class FamilyEntry {
         return new Pair<>(highestGeneration, juniorCount); //creating new objects to return is a bit inefficient, but cleaner than packing into a long
     }
 
-    public boolean useEntitlement(FamilyEntitlement entitlement) {
+    public synchronized boolean useEntitlement(FamilyEntitlement entitlement) {
         int id = entitlement.ordinal();
         if (entitlements[id] >= 1) {
             return false;
@@ -547,6 +547,7 @@ public class FamilyEntry {
             ps.executeUpdate();
         } catch (SQLException e) {
             log.error("Could not insert new row in 'family_entitlement' for chr {}", getName(), e);
+            return false;
         }
         entitlements[id]++;
         return true;

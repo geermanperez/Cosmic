@@ -651,7 +651,7 @@ public class MapleMap {
         }
     }
 
-    private byte dropItemsFromMonsterOnMap(List<MonsterDropEntry> dropEntry, Point pos, byte index, int chRate,
+    private byte dropItemsFromMonsterOnMap(List<MonsterDropEntry> dropEntry, Point pos, byte index, double chRate,
                                            byte droptype, int mobpos, Character chr, Monster mob, short delay) {
         if (dropEntry.isEmpty()) {
             return index;
@@ -738,7 +738,8 @@ public class MapleMap {
 
         final byte droptype = (byte) (mob.getStats().isExplosiveReward() ? 3 : mob.getStats().isFfaLoot() ? 2 : chr.getParty() != null ? 1 : 0);
         final int mobpos = mob.getPosition().x;
-        int chRate = !mob.isBoss() ? chr.getDropRate() : chr.getBossDropRate();
+        double chRate = (!mob.isBoss() ? chr.getDropRate() : chr.getBossDropRate())
+                * client.FamilyBuffs.dropRate(chr.getId());
         Point pos = new Point(0, mob.getPosition().y);
 
         MonsterStatusEffect stati = mob.getStati(MonsterStatus.SHOWDOWN);

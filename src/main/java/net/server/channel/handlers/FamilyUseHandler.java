@@ -25,6 +25,9 @@ import client.Character;
 import client.Client;
 import client.FamilyEntitlement;
 import client.FamilyEntry;
+import client.FamilyBuffs;
+import java.util.ArrayList;
+import java.util.List;
 import config.YamlConfig;
 import constants.id.MapId;
 import net.AbstractPacketHandler;
@@ -45,10 +48,12 @@ public final class FamilyUseHandler extends AbstractPacketHandler {
         if (!YamlConfig.config.server.USE_FAMILY_SYSTEM) {
             return;
         }
-        FamilyEntitlement type = FamilyEntitlement.values()[p.readInt()];
+        int id = p.readInt();
+        if (id < 0 || id >= FamilyEntitlement.values().length) return;
+        FamilyEntitlement type = FamilyEntitlement.values()[id];
         int cost = type.getRepCost();
         FamilyEntry entry = c.getPlayer().getFamilyEntry();
-        if (entry.getReputation() < cost || entry.isEntitlementUsed(type)) {
+        if (entry == null || entry.getReputation() < cost || entry.isEntitlementUsed(type)) {
             return; // shouldn't even be able to request it
         }
         c.sendPacket(PacketCreator.getFamilyInfo(entry));
@@ -91,42 +96,35 @@ public final class FamilyUseHandler extends AbstractPacketHandler {
                     c.sendPacket(PacketCreator.sendFamilyMessage(67, 0));
                 }
             }
-        } else if (type == FamilyEntitlement.FAMILY_BONDING) {
-            //not implemented
         } else {
-            boolean party = false;
-            boolean isExp = false;
-            float rate = 1.5f;
-            int duration = 15;
-            do {
-                switch (type) {
-                    case PARTY_EXP_2_30MIN:
-                        party = true;
-                        isExp = true;
-                        type = FamilyEntitlement.SELF_EXP_2_30MIN;
-                        continue;
-                    case PARTY_DROP_2_30MIN:
-                        party = true;
-                        type = FamilyEntitlement.SELF_DROP_2_30MIN;
-                        continue;
-                    case SELF_DROP_2_30MIN:
-                        duration = 30;
-                    case SELF_DROP_2:
-                        rate = 2.0f;
-                    case SELF_DROP_1_5:
-                        break;
-                    case SELF_EXP_2_30MIN:
-                        duration = 30;
-                    case SELF_EXP_2:
-                        rate = 2.0f;
-                    case SELF_EXP_1_5:
-                        isExp = true;
-                    default:
-                        break;
+            Character player = c.getPlayer();
+            List<Character> recipients = new ArrayList<>();
+            recipients.add(player);
+            if (type == FamilyEntitlement.FAMILY_BONDING) {
+                List<FamilyEntry> pending = new ArrayList<>(entry.getJuniors());
+                for (int i = 0; i < pending.size(); i++) {
+                    FamilyEntry junior = pending.get(i);
+                    if (junior == null) continue;
+                    pending.addAll(junior.getJuniors());
+                    Character member = junior.getChr();
+                    if (member != null && member.isLoggedinWorld()) recipients.add(member);
                 }
-                break;
-            } while (true);
-            //not implemented
+                if (recipients.size() < 7) {
+                    player.dropMessage(5, "Family Bonding requires 6 juniors online below you in the pedigree.");
+                    return;
+                }
+            } else if (type == FamilyEntitlement.PARTY_EXP_2_30MIN
+                    || type == FamilyEntitlement.PARTY_DROP_2_30MIN) {
+                for (Character member : player.getPartyMembersOnSameMap()) {
+                    if (member != player) recipients.add(member);
+                }
+            }
+            if (useEntitlement(entry, type)) {
+                for (Character recipient : recipients) {
+                    FamilyBuffs.apply(recipient.getId(), type);
+                    recipient.dropMessage(5, type.getName() + " is now active.");
+                }
+            }
         }
     }
 
