@@ -591,7 +591,8 @@ public class Monster extends AbstractLoadedLife {
 
         // thanks Crypter for reporting an insufficiency on party exp bonuses
         boolean hasPartySharers = membersSize > 1;
-        float partyBonusMod = hasPartySharers ? 0.05f * membersSize : 0.0f;
+        // With PARTY_BONUS_EXP_RATE = 2, eligible parties of 2-6 get +50% to +90%.
+        float partyBonusMod = hasPartySharers ? 0.15f + 0.05f * membersSize : 0.0f;
 
         for (Character mc : expMembers) {
             distributePlayerExperience(mc, participationExp, partyBonusMod, totalPartyLevel, mc == participationMvp, isWhiteExpGain(mc, personalRatio, sdevRatio), hasPartySharers);
