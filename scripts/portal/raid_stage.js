@@ -35,9 +35,9 @@ function enter(pi) {
             nextStage = 970030001 + (Math.floor((currentMap - 970030100) / 500));
         }
 
-        // The first Boss Rush stage uses maps 970030100-970030107 (one per lobby).
-        // Award its EXP on stage completion so every eligible party member receives it.
-        if (currentMap >= 970030100 && currentMap <= 970030107) {
+        // The first Boss Rush block ends on maps 970030500-970030507 (one per lobby).
+        // Award its EXP only when leaving the final fight for the first Rest Spot.
+        if (currentMap >= 970030500 && currentMap <= 970030507) {
             var FamilyBuffs = Java.type('client.FamilyBuffs');
             var player = pi.getPlayer();
             var reward = Math.round(70000 * player.getExpRate() * FamilyBuffs.expRate(player.getId()));
