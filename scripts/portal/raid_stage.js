@@ -40,7 +40,7 @@ function enter(pi) {
         if (currentMap >= 970030100 && currentMap <= 970030107) {
             var FamilyBuffs = Java.type('client.FamilyBuffs');
             var player = pi.getPlayer();
-            var reward = Math.round(10000 * player.getExpRate() * FamilyBuffs.expRate(player.getId()));
+            var reward = Math.round(70000 * player.getExpRate() * FamilyBuffs.expRate(player.getId()));
             player.gainExp(reward, true, true, true);
         }
 
