@@ -35,12 +35,19 @@ function enter(pi) {
             nextStage = 970030001 + (Math.floor((currentMap - 970030100) / 500));
         }
 
-        // The first Boss Rush block ends on maps 970030500-970030507 (one per lobby).
-        // Award its EXP only when leaving the final fight for the first Rest Spot.
+        var rewardBase = 0;
+
+        // Each block has one final map per lobby and awards EXP before its Rest Spot.
         if (currentMap >= 970030500 && currentMap <= 970030507) {
+            rewardBase = 70000;
+        } else if (currentMap >= 970031000 && currentMap <= 970031007) {
+            rewardBase = 200000;
+        }
+
+        if (rewardBase > 0) {
             var FamilyBuffs = Java.type('client.FamilyBuffs');
             var player = pi.getPlayer();
-            var reward = Math.round(70000 * player.getExpRate() * FamilyBuffs.expRate(player.getId()));
+            var reward = Math.round(rewardBase * player.getExpRate() * FamilyBuffs.expRate(player.getId()));
             player.gainExp(reward, true, true, true);
         }
 
