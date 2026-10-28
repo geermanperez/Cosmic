@@ -5878,6 +5878,21 @@ public class PacketCreator {
         return p;
     }
 
+    /** Displays the native Family entitlement icon and its remaining duration. */
+    public static Packet showFamilyBuff(int mode, int entitlementId, int expRate,
+                                        int dropRate, int durationMillis) {
+        OutPacket p = OutPacket.create(SendOpcode.FAMILY_RESULT);
+        p.writeByte(mode); // 2 = EXP, 3 = drop, 4 = EXP + drop
+        p.writeInt(entitlementId);
+        if (mode < 4) {
+            p.writeInt(expRate);
+            p.writeInt(dropRate);
+        }
+        p.writeByte(0);
+        p.writeInt(durationMillis);
+        return p;
+    }
+
     public static Packet getFamilyInfo(FamilyEntry f) {
         if (f == null) {
             return getEmptyFamilyInfo();

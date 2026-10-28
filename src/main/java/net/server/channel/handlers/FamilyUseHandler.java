@@ -132,8 +132,17 @@ public final class FamilyUseHandler extends AbstractPacketHandler {
                 }
             }
             if (useEntitlement(entry, type)) {
+                boolean expBuff = FamilyBuffs.affectsExperience(type);
+                boolean dropBuff = FamilyBuffs.affectsDrop(type);
+                int mode = expBuff && dropBuff ? 4 : expBuff ? 2 : 3;
+                int rate = FamilyBuffs.ratePercent(type);
+                int expRate = expBuff ? rate : 100;
+                int dropRate = dropBuff ? rate : 100;
+                int duration = FamilyBuffs.durationMillis(type);
                 for (Character recipient : recipients) {
                     FamilyBuffs.apply(recipient.getId(), type);
+                    recipient.sendPacket(PacketCreator.showFamilyBuff(mode, type.ordinal(),
+                            expRate, dropRate, duration));
                     recipient.dropMessage(5, type.getName() + " is now active.");
                 }
             } else {
