@@ -26,12 +26,22 @@ BossRushPQ - Next Stage
 
 function enter(pi) {
     if (pi.getMap().getMonsters().isEmpty()) {
+        var currentMap = pi.getMapId();
         var nextStage;
 
-        if (pi.getMapId() % 500 >= 100) {
-            nextStage = pi.getMapId() + 100;
+        if (currentMap % 500 >= 100) {
+            nextStage = currentMap + 100;
         } else {
-            nextStage = 970030001 + (Math.floor((pi.getMapId() - 970030100) / 500));
+            nextStage = 970030001 + (Math.floor((currentMap - 970030100) / 500));
+        }
+
+        // The first Boss Rush stage uses maps 970030100-970030107 (one per lobby).
+        // Award its EXP on stage completion so every eligible party member receives it.
+        if (currentMap >= 970030100 && currentMap <= 970030107) {
+            var FamilyBuffs = Java.type('client.FamilyBuffs');
+            var player = pi.getPlayer();
+            var reward = Math.round(10000 * player.getExpRate() * FamilyBuffs.expRate(player.getId()));
+            player.gainExp(reward, true, true, true);
         }
 
         pi.playPortalSound();
