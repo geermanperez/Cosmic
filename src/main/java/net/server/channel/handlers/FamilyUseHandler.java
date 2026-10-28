@@ -49,12 +49,24 @@ public final class FamilyUseHandler extends AbstractPacketHandler {
             return;
         }
         int id = p.readInt();
-        if (id < 0 || id >= FamilyEntitlement.values().length) return;
+        if (id < 0 || id >= FamilyEntitlement.values().length) {
+            c.getPlayer().dropMessage(5, "Invalid Family entitlement.");
+            return;
+        }
         FamilyEntitlement type = FamilyEntitlement.values()[id];
         int cost = type.getRepCost();
         FamilyEntry entry = c.getPlayer().getFamilyEntry();
-        if (entry == null || entry.getReputation() < cost || entry.isEntitlementUsed(type)) {
-            return; // shouldn't even be able to request it
+        if (entry == null) {
+            c.getPlayer().dropMessage(5, "You must belong to a Family to use an entitlement.");
+            return;
+        }
+        if (entry.getReputation() < cost) {
+            c.getPlayer().dropMessage(5, "You need " + cost + " Family reputation to use this entitlement.");
+            return;
+        }
+        if (entry.getEntitlementUsageCount(type) >= type.getUsageLimit()) {
+            c.getPlayer().dropMessage(5, "You have already used this Family entitlement today.");
+            return;
         }
         c.sendPacket(PacketCreator.getFamilyInfo(entry));
         Character victim;
@@ -124,6 +136,8 @@ public final class FamilyUseHandler extends AbstractPacketHandler {
                     FamilyBuffs.apply(recipient.getId(), type);
                     recipient.dropMessage(5, type.getName() + " is now active.");
                 }
+            } else {
+                player.dropMessage(5, "The Family entitlement could not be activated. Please try again.");
             }
         }
     }
