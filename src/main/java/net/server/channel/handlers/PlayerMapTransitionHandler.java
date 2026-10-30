@@ -68,5 +68,13 @@ public final class PlayerMapTransitionHandler extends AbstractPacketHandler {
                 }
             }
         }
+
+        // Fix / complete broken client event quests (8248, 8249) safely after field transition completes
+        if (chr.getQuest(server.quest.Quest.getInstance(8248)).getStatus() != client.QuestStatus.Status.COMPLETED) {
+            server.quest.Quest.getInstance(8248).forceComplete(chr, constants.id.NpcId.MAPLE_ADMINISTRATOR);
+        }
+        if (chr.getQuest(server.quest.Quest.getInstance(8249)).getStatus() != client.QuestStatus.Status.COMPLETED) {
+            server.quest.Quest.getInstance(8249).forceComplete(chr, constants.id.NpcId.MAPLE_ADMINISTRATOR);
+        }
     }
 }

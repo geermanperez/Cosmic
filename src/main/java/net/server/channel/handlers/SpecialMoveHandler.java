@@ -122,9 +122,7 @@ public final class SpecialMoveHandler extends AbstractPacketHandler {
             int lose = chr.safeAddHP(-1 * (chr.getCurrentMaxHp() / ef.getX()));
             int gain = -lose * (ef.getY() / 100);
             chr.addMP(gain);
-        } else if (skillid == SuperGM.HEAL_PLUS_DISPEL) {
-            p.skip(11);
-            chr.getMap().broadcastMessage(chr, PacketCreator.showBuffEffect(chr.getId(), skillid, chr.getSkillLevel(skillid)), false);
+
         } else if (skillid % 10000000 == 1004) {
             p.readShort();
         }

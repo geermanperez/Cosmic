@@ -456,13 +456,7 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
                 c.sendPacket(PacketCreator.setNPCScriptable(npcsIds));
             }
 
-            // Fix / complete broken client event quests (8248, 8249) so the stuck lightbulb never appears
-            if (player.getQuest(Quest.getInstance(8248)).getStatus() != QuestStatus.Status.COMPLETED) {
-                Quest.getInstance(8248).forceComplete(player, NpcId.MAPLE_ADMINISTRATOR);
-            }
-            if (player.getQuest(Quest.getInstance(8249)).getStatus() != QuestStatus.Status.COMPLETED) {
-                Quest.getInstance(8249).forceComplete(player, NpcId.MAPLE_ADMINISTRATOR);
-            }
+
 
             // Battle pass login reminder
             if (BattlePassManager.getInstance().canClaim(player)) {

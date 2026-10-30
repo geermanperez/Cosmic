@@ -223,7 +223,9 @@ public class Client extends ChannelInboundHandlerAdapter {
                 final String chrInfo = player != null ? player.getName() + " on map " + player.getMapId() : "?";
                 log.warn("Error in packet handler {}. Chr {}, account {}. Packet: {}", handler.getClass().getSimpleName(),
                         chrInfo, getAccountName(), packet, t);
-                //client.sendPacket(PacketCreator.enableActions());//bugs sometimes
+                if (isLoggedIn() && player != null && !player.isChangingMaps() && player.getMap() != null && player.isAlive()) {
+                    sendPacket(PacketCreator.enableActions());
+                }
             }
         }
 
