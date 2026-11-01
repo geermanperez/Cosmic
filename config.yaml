@@ -363,6 +363,9 @@ server:
 
     #Quest Configuration
     USE_QUEST_RATE: false           #Exp/Meso gained by quests uses fixed server exp/meso rate times quest rate as multiplier, instead of player rates.
+    NORMAL_QUEST_EXP_MULTIPLIER: 2  #EXP multiplier for regular WZ/scripted quests. Event/PQ rewards such as Boss Rush are unaffected.
+    QUEST_EQUIP_BONUS_CHANCE: 25    #Percent chance for non-weapon equipment rewarded by a quest to gain a small bonus.
+    QUEST_EQUIP_BONUS_MAX_STAT: 2   #Maximum +STR/DEX/INT/LUK granted when the quest equipment bonus succeeds.
 
     #Quest Points Configuration
     QUEST_POINT_REPEATABLE_INTERVAL: 25  #Minimum interval between repeatable quest completions for quest points to be awarded.

@@ -23,9 +23,11 @@ package server.quest.actions;
 
 import client.Character;
 import client.Client;
+import client.inventory.Equip;
 import client.inventory.InventoryType;
 import client.inventory.Item;
 import client.inventory.manipulator.InventoryManipulator;
+import config.YamlConfig;
 import constants.inventory.ItemConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -155,10 +157,55 @@ public class ItemAction extends AbstractQuestAction {
 
         for (ItemData iEntry : giveItem) {
             int itemid = iEntry.getId(), count = iEntry.getCount(), period = iEntry.getPeriod();    // thanks Vcoc for noticing quest milestone item not getting removed from inventory after a while
+            long expiration = period > 0 ? (System.currentTimeMillis() + MINUTES.toMillis(period)) : -1;
 
-            InventoryManipulator.addById(chr.getClient(), itemid, (short) count, "", -1, period > 0 ? (System.currentTimeMillis() + MINUTES.toMillis(period)) : -1);
+            if (isBonusEligibleEquipment(itemid, count)) {
+                Equip equip = (Equip) ItemInformationProvider.getInstance().getEquipById(itemid);
+                equip.setExpiration(expiration);
+                String bonus = applyRandomQuestBonus(equip);
+                InventoryManipulator.addFromDrop(chr.getClient(), equip, false);
+                if (bonus != null) {
+                    chr.dropMessage(5, "Quest reward bonus: " + bonus + " on " + ItemInformationProvider.getInstance().getName(itemid) + ".");
+                }
+            } else {
+                InventoryManipulator.addById(chr.getClient(), itemid, (short) count, "", -1, expiration);
+            }
             chr.sendPacket(PacketCreator.getShowItemGain(itemid, (short) count, true));
         }
+    }
+
+    private static boolean isBonusEligibleEquipment(int itemId, int count) {
+        return count == 1
+                && ItemConstants.getInventoryType(itemId) == InventoryType.EQUIP
+                && !ItemConstants.isWeapon(itemId);
+    }
+
+    private static String applyRandomQuestBonus(Equip equip) {
+        int chance = Math.max(0, Math.min(100, YamlConfig.config.server.QUEST_EQUIP_BONUS_CHANCE));
+        int maxBonus = Math.max(0, YamlConfig.config.server.QUEST_EQUIP_BONUS_MAX_STAT);
+        if (maxBonus == 0 || Randomizer.nextInt(100) >= chance) {
+            return null;
+        }
+
+        short bonus = (short) (1 + Randomizer.nextInt(maxBonus));
+        return switch (Randomizer.nextInt(4)) {
+            case 0 -> {
+                equip.setStr((short) (equip.getStr() + bonus));
+                yield "+" + bonus + " STR";
+            }
+            case 1 -> {
+                equip.setDex((short) (equip.getDex() + bonus));
+                yield "+" + bonus + " DEX";
+            }
+            case 2 -> {
+                equip.setInt((short) (equip.getInt() + bonus));
+                yield "+" + bonus + " INT";
+            }
+            default -> {
+                equip.setLuk((short) (equip.getLuk() + bonus));
+                yield "+" + bonus + " LUK";
+            }
+        };
     }
 
     @Override

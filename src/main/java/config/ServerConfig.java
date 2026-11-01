@@ -138,6 +138,11 @@ public class ServerConfig {
     public double EQUIP_EXP_RATE;
     public double PQ_BONUS_EXP_RATE;
 
+    // Quest rewards
+    public int NORMAL_QUEST_EXP_MULTIPLIER;
+    public int QUEST_EQUIP_BONUS_CHANCE;
+    public int QUEST_EQUIP_BONUS_MAX_STAT;
+
     public byte EXP_SPLIT_LEVEL_INTERVAL;
     public byte EXP_SPLIT_LEECH_INTERVAL;
     public float EXP_SPLIT_MVP_MOD;

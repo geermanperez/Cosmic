@@ -51,10 +51,18 @@ public class ExpAction extends AbstractQuestAction {
     }
 
     public static void runAction(Character chr, int gain) {
+        int multiplier = Math.max(1, YamlConfig.config.server.NORMAL_QUEST_EXP_MULTIPLIER);
+        long boostedGain = (long) gain * multiplier;
+        int questGain = (int) Math.min(boostedGain, Integer.MAX_VALUE);
+
         if (!YamlConfig.config.server.USE_QUEST_RATE) {
-            chr.gainExp(gain * chr.getExpRate(), true, true);
+            chr.gainExp(safeMultiply(questGain, chr.getExpRate()), true, true);
         } else {
-            chr.gainExp(gain * chr.getQuestExpRate(), true, true);
+            chr.gainExp(safeMultiply(questGain, chr.getQuestExpRate()), true, true);
         }
+    }
+
+    private static int safeMultiply(int value, int rate) {
+        return (int) Math.min((long) value * rate, Integer.MAX_VALUE);
     }
 } 

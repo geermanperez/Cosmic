@@ -53,7 +53,7 @@ function action(mode, type, selection) {
         } else if (status == 2) {
             cm.sendAcceptDecline("If you feel you are powerful enough, you can join others like you at where we are hosting the contests of power. ... So, what is your decision? Will you come to where the contests are being held right now?");
         } else if (status == 3) {
-            cm.sendOk("Very well. Remember, there you can assemble a team or take on the fightings on your own, it's up to you. Good luck!");
+            cm.sendOk("Very well. Remember, you need a party of at least 3 players to participate. Good luck!");
         } else if (status == 4) {
             cm.getPlayer().saveLocation("BOSSPQ");
             cm.warp(970030000, "out00");
