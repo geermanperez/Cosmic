@@ -980,7 +980,7 @@
           <string name="hs" value="h1"/>
           <int name="mpCon" value="10"/>
           <int name="damage" value="11"/>
-          <int name="mobCount" value="3"/>
+          <int name="mobCount" value="5"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="4"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -990,7 +990,7 @@
           <string name="hs" value="h2"/>
           <int name="mpCon" value="10"/>
           <int name="damage" value="12"/>
-          <int name="mobCount" value="3"/>
+          <int name="mobCount" value="5"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="4"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -1000,7 +1000,7 @@
           <string name="hs" value="h3"/>
           <int name="mpCon" value="10"/>
           <int name="damage" value="13"/>
-          <int name="mobCount" value="3"/>
+          <int name="mobCount" value="5"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="4"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -1010,7 +1010,7 @@
           <string name="hs" value="h4"/>
           <int name="mpCon" value="10"/>
           <int name="damage" value="14"/>
-          <int name="mobCount" value="3"/>
+          <int name="mobCount" value="5"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="5"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -1020,7 +1020,7 @@
           <string name="hs" value="h5"/>
           <int name="mpCon" value="10"/>
           <int name="damage" value="15"/>
-          <int name="mobCount" value="3"/>
+          <int name="mobCount" value="5"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="5"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -1030,7 +1030,7 @@
           <string name="hs" value="h6"/>
           <int name="mpCon" value="16"/>
           <int name="damage" value="16"/>
-          <int name="mobCount" value="4"/>
+          <int name="mobCount" value="6"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="5"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -1040,7 +1040,7 @@
           <string name="hs" value="h7"/>
           <int name="mpCon" value="16"/>
           <int name="damage" value="17"/>
-          <int name="mobCount" value="4"/>
+          <int name="mobCount" value="6"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="6"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -1050,7 +1050,7 @@
           <string name="hs" value="h8"/>
           <int name="mpCon" value="16"/>
           <int name="damage" value="18"/>
-          <int name="mobCount" value="4"/>
+          <int name="mobCount" value="6"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="6"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -1060,7 +1060,7 @@
           <string name="hs" value="h9"/>
           <int name="mpCon" value="16"/>
           <int name="damage" value="19"/>
-          <int name="mobCount" value="4"/>
+          <int name="mobCount" value="6"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="6"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -1070,7 +1070,7 @@
           <string name="hs" value="h10"/>
           <int name="mpCon" value="16"/>
           <int name="damage" value="20"/>
-          <int name="mobCount" value="4"/>
+          <int name="mobCount" value="6"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="7"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -1080,7 +1080,7 @@
           <string name="hs" value="h11"/>
           <int name="mpCon" value="22"/>
           <int name="damage" value="21"/>
-          <int name="mobCount" value="5"/>
+          <int name="mobCount" value="8"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="7"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -1090,7 +1090,7 @@
           <string name="hs" value="h12"/>
           <int name="mpCon" value="22"/>
           <int name="damage" value="22"/>
-          <int name="mobCount" value="5"/>
+          <int name="mobCount" value="8"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="7"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -1100,7 +1100,7 @@
           <string name="hs" value="h13"/>
           <int name="mpCon" value="22"/>
           <int name="damage" value="23"/>
-          <int name="mobCount" value="5"/>
+          <int name="mobCount" value="8"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="8"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -1110,7 +1110,7 @@
           <string name="hs" value="h14"/>
           <int name="mpCon" value="22"/>
           <int name="damage" value="24"/>
-          <int name="mobCount" value="5"/>
+          <int name="mobCount" value="8"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="8"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -1120,7 +1120,7 @@
           <string name="hs" value="h15"/>
           <int name="mpCon" value="22"/>
           <int name="damage" value="25"/>
-          <int name="mobCount" value="5"/>
+          <int name="mobCount" value="8"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="8"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -1130,7 +1130,7 @@
           <string name="hs" value="h16"/>
           <int name="mpCon" value="28"/>
           <int name="damage" value="26"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="8"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="9"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -1140,7 +1140,7 @@
           <string name="hs" value="h17"/>
           <int name="mpCon" value="28"/>
           <int name="damage" value="27"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="8"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="9"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -1150,7 +1150,7 @@
           <string name="hs" value="h18"/>
           <int name="mpCon" value="28"/>
           <int name="damage" value="28"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="8"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="9"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -1160,7 +1160,7 @@
           <string name="hs" value="h19"/>
           <int name="mpCon" value="28"/>
           <int name="damage" value="29"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="8"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="10"/>
           <vector name="lt" x="-400" y="-80"/>
@@ -1170,7 +1170,7 @@
           <string name="hs" value="h20"/>
           <int name="mpCon" value="28"/>
           <int name="damage" value="30"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="8"/>
           <int name="attackCount" value="4"/>
           <int name="x" value="10"/>
           <vector name="lt" x="-400" y="-80"/>

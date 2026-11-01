@@ -827,7 +827,7 @@
             </imgdir>
             <int name="type" value="1"/>
             <int name="attackAfter" value="450"/>
-            <int name="mobCount" value="3"/>
+            <int name="mobCount" value="5"/>
           </imgdir>
           <canvas name="0" width="52" height="59">
             <vector name="origin" x="24" y="94"/>

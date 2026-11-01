@@ -971,7 +971,7 @@
             </imgdir>
             <int name="type" value="1"/>
             <int name="attackAfter" value="1920"/>
-            <int name="mobCount" value="3"/>
+            <int name="mobCount" value="5"/>
           </imgdir>
           <canvas name="0" width="77" height="75">
             <vector name="origin" x="46" y="162"/>
@@ -1130,7 +1130,7 @@
         <imgdir name="1">
           <string name="hs" value="h1"/>
           <string name="damage" value="73"/>
-          <int name="mobCount" value="2"/>
+          <int name="mobCount" value="4"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1140,7 +1140,7 @@
         <imgdir name="2">
           <string name="hs" value="h2"/>
           <string name="damage" value="76"/>
-          <int name="mobCount" value="2"/>
+          <int name="mobCount" value="4"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1150,7 +1150,7 @@
         <imgdir name="3">
           <string name="hs" value="h3"/>
           <string name="damage" value="79"/>
-          <int name="mobCount" value="2"/>
+          <int name="mobCount" value="4"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1160,7 +1160,7 @@
         <imgdir name="4">
           <string name="hs" value="h4"/>
           <string name="damage" value="82"/>
-          <int name="mobCount" value="2"/>
+          <int name="mobCount" value="4"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1170,7 +1170,7 @@
         <imgdir name="5">
           <string name="hs" value="h5"/>
           <string name="damage" value="85"/>
-          <int name="mobCount" value="2"/>
+          <int name="mobCount" value="4"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1180,7 +1180,7 @@
         <imgdir name="6">
           <string name="hs" value="h6"/>
           <string name="damage" value="88"/>
-          <int name="mobCount" value="2"/>
+          <int name="mobCount" value="4"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1190,7 +1190,7 @@
         <imgdir name="7">
           <string name="hs" value="h7"/>
           <string name="damage" value="91"/>
-          <int name="mobCount" value="3"/>
+          <int name="mobCount" value="5"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1200,7 +1200,7 @@
         <imgdir name="8">
           <string name="hs" value="h8"/>
           <string name="damage" value="94"/>
-          <int name="mobCount" value="3"/>
+          <int name="mobCount" value="5"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1210,7 +1210,7 @@
         <imgdir name="9">
           <string name="hs" value="h9"/>
           <string name="damage" value="97"/>
-          <int name="mobCount" value="3"/>
+          <int name="mobCount" value="5"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1220,7 +1220,7 @@
         <imgdir name="10">
           <string name="hs" value="h10"/>
           <string name="damage" value="100"/>
-          <int name="mobCount" value="3"/>
+          <int name="mobCount" value="5"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1230,7 +1230,7 @@
         <imgdir name="11">
           <string name="hs" value="h11"/>
           <string name="damage" value="103"/>
-          <int name="mobCount" value="3"/>
+          <int name="mobCount" value="5"/>
           <int name="time" value="4"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1240,7 +1240,7 @@
         <imgdir name="12">
           <string name="hs" value="h12"/>
           <string name="damage" value="106"/>
-          <int name="mobCount" value="3"/>
+          <int name="mobCount" value="5"/>
           <int name="time" value="4"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1250,7 +1250,7 @@
         <imgdir name="13">
           <string name="hs" value="h13"/>
           <string name="damage" value="109"/>
-          <int name="mobCount" value="4"/>
+          <int name="mobCount" value="6"/>
           <int name="time" value="4"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1260,7 +1260,7 @@
         <imgdir name="14">
           <string name="hs" value="h14"/>
           <string name="damage" value="112"/>
-          <int name="mobCount" value="4"/>
+          <int name="mobCount" value="6"/>
           <int name="time" value="4"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1270,7 +1270,7 @@
         <imgdir name="15">
           <string name="hs" value="h15"/>
           <string name="damage" value="115"/>
-          <int name="mobCount" value="4"/>
+          <int name="mobCount" value="6"/>
           <int name="time" value="4"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1280,7 +1280,7 @@
         <imgdir name="16">
           <string name="hs" value="h16"/>
           <string name="damage" value="118"/>
-          <int name="mobCount" value="4"/>
+          <int name="mobCount" value="6"/>
           <int name="time" value="4"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1290,7 +1290,7 @@
         <imgdir name="17">
           <string name="hs" value="h17"/>
           <string name="damage" value="121"/>
-          <int name="mobCount" value="4"/>
+          <int name="mobCount" value="6"/>
           <int name="time" value="4"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1300,7 +1300,7 @@
         <imgdir name="18">
           <string name="hs" value="h18"/>
           <string name="damage" value="124"/>
-          <int name="mobCount" value="4"/>
+          <int name="mobCount" value="6"/>
           <int name="time" value="4"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1310,7 +1310,7 @@
         <imgdir name="19">
           <string name="hs" value="h19"/>
           <string name="damage" value="127"/>
-          <int name="mobCount" value="5"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="4"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1320,7 +1320,7 @@
         <imgdir name="20">
           <string name="hs" value="h20"/>
           <string name="damage" value="130"/>
-          <int name="mobCount" value="5"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="4"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1330,7 +1330,7 @@
         <imgdir name="21">
           <string name="hs" value="h21"/>
           <string name="damage" value="133"/>
-          <int name="mobCount" value="5"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="5"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1340,7 +1340,7 @@
         <imgdir name="22">
           <string name="hs" value="h22"/>
           <string name="damage" value="136"/>
-          <int name="mobCount" value="5"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="5"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1350,7 +1350,7 @@
         <imgdir name="23">
           <string name="hs" value="h23"/>
           <string name="damage" value="139"/>
-          <int name="mobCount" value="5"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="5"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1360,7 +1360,7 @@
         <imgdir name="24">
           <string name="hs" value="h24"/>
           <string name="damage" value="142"/>
-          <int name="mobCount" value="5"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="5"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1370,7 +1370,7 @@
         <imgdir name="25">
           <string name="hs" value="h25"/>
           <string name="damage" value="145"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="5"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1380,7 +1380,7 @@
         <imgdir name="26">
           <string name="hs" value="h26"/>
           <string name="damage" value="148"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="5"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1390,7 +1390,7 @@
         <imgdir name="27">
           <string name="hs" value="h27"/>
           <string name="damage" value="151"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="5"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1400,7 +1400,7 @@
         <imgdir name="28">
           <string name="hs" value="h28"/>
           <string name="damage" value="154"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="5"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1410,7 +1410,7 @@
         <imgdir name="29">
           <string name="hs" value="h29"/>
           <string name="damage" value="157"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="5"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1420,7 +1420,7 @@
         <imgdir name="30">
           <string name="hs" value="h30"/>
           <string name="damage" value="160"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="5"/>
           <int name="itemConsume" value="2331000"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1599,7 +1599,7 @@
         <imgdir name="1">
           <string name="hs" value="h1"/>
           <string name="damage" value="72"/>
-          <int name="mobCount" value="2"/>
+          <int name="mobCount" value="4"/>
           <int name="time" value="1"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1609,7 +1609,7 @@
         <imgdir name="2">
           <string name="hs" value="h2"/>
           <string name="damage" value="74"/>
-          <int name="mobCount" value="2"/>
+          <int name="mobCount" value="4"/>
           <int name="time" value="1"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1619,7 +1619,7 @@
         <imgdir name="3">
           <string name="hs" value="h3"/>
           <string name="damage" value="76"/>
-          <int name="mobCount" value="2"/>
+          <int name="mobCount" value="4"/>
           <int name="time" value="1"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1629,7 +1629,7 @@
         <imgdir name="4">
           <string name="hs" value="h4"/>
           <string name="damage" value="78"/>
-          <int name="mobCount" value="2"/>
+          <int name="mobCount" value="4"/>
           <int name="time" value="1"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1639,7 +1639,7 @@
         <imgdir name="5">
           <string name="hs" value="h5"/>
           <string name="damage" value="80"/>
-          <int name="mobCount" value="2"/>
+          <int name="mobCount" value="4"/>
           <int name="time" value="1"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1649,7 +1649,7 @@
         <imgdir name="6">
           <string name="hs" value="h6"/>
           <string name="damage" value="82"/>
-          <int name="mobCount" value="2"/>
+          <int name="mobCount" value="4"/>
           <int name="time" value="1"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1659,7 +1659,7 @@
         <imgdir name="7">
           <string name="hs" value="h7"/>
           <string name="damage" value="84"/>
-          <int name="mobCount" value="3"/>
+          <int name="mobCount" value="5"/>
           <int name="time" value="1"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1669,7 +1669,7 @@
         <imgdir name="8">
           <string name="hs" value="h8"/>
           <string name="damage" value="86"/>
-          <int name="mobCount" value="3"/>
+          <int name="mobCount" value="5"/>
           <int name="time" value="1"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1679,7 +1679,7 @@
         <imgdir name="9">
           <string name="hs" value="h9"/>
           <string name="damage" value="88"/>
-          <int name="mobCount" value="3"/>
+          <int name="mobCount" value="5"/>
           <int name="time" value="1"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1689,7 +1689,7 @@
         <imgdir name="10">
           <string name="hs" value="h10"/>
           <string name="damage" value="90"/>
-          <int name="mobCount" value="3"/>
+          <int name="mobCount" value="5"/>
           <int name="time" value="1"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1699,7 +1699,7 @@
         <imgdir name="11">
           <string name="hs" value="h11"/>
           <string name="damage" value="92"/>
-          <int name="mobCount" value="3"/>
+          <int name="mobCount" value="5"/>
           <int name="time" value="2"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1709,7 +1709,7 @@
         <imgdir name="12">
           <string name="hs" value="h12"/>
           <string name="damage" value="94"/>
-          <int name="mobCount" value="3"/>
+          <int name="mobCount" value="5"/>
           <int name="time" value="2"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1719,7 +1719,7 @@
         <imgdir name="13">
           <string name="hs" value="h13"/>
           <string name="damage" value="96"/>
-          <int name="mobCount" value="4"/>
+          <int name="mobCount" value="6"/>
           <int name="time" value="2"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1729,7 +1729,7 @@
         <imgdir name="14">
           <string name="hs" value="h14"/>
           <string name="damage" value="98"/>
-          <int name="mobCount" value="4"/>
+          <int name="mobCount" value="6"/>
           <int name="time" value="2"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1739,7 +1739,7 @@
         <imgdir name="15">
           <string name="hs" value="h15"/>
           <string name="damage" value="100"/>
-          <int name="mobCount" value="4"/>
+          <int name="mobCount" value="6"/>
           <int name="time" value="2"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1749,7 +1749,7 @@
         <imgdir name="16">
           <string name="hs" value="h16"/>
           <string name="damage" value="102"/>
-          <int name="mobCount" value="4"/>
+          <int name="mobCount" value="6"/>
           <int name="time" value="2"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1759,7 +1759,7 @@
         <imgdir name="17">
           <string name="hs" value="h17"/>
           <string name="damage" value="104"/>
-          <int name="mobCount" value="4"/>
+          <int name="mobCount" value="6"/>
           <int name="time" value="2"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1769,7 +1769,7 @@
         <imgdir name="18">
           <string name="hs" value="h18"/>
           <string name="damage" value="106"/>
-          <int name="mobCount" value="4"/>
+          <int name="mobCount" value="6"/>
           <int name="time" value="2"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1779,7 +1779,7 @@
         <imgdir name="19">
           <string name="hs" value="h19"/>
           <string name="damage" value="108"/>
-          <int name="mobCount" value="5"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="2"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1789,7 +1789,7 @@
         <imgdir name="20">
           <string name="hs" value="h20"/>
           <string name="damage" value="110"/>
-          <int name="mobCount" value="5"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="2"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1799,7 +1799,7 @@
         <imgdir name="21">
           <string name="hs" value="h21"/>
           <string name="damage" value="112"/>
-          <int name="mobCount" value="5"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1809,7 +1809,7 @@
         <imgdir name="22">
           <string name="hs" value="h22"/>
           <string name="damage" value="114"/>
-          <int name="mobCount" value="5"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1819,7 +1819,7 @@
         <imgdir name="23">
           <string name="hs" value="h23"/>
           <string name="damage" value="116"/>
-          <int name="mobCount" value="5"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1829,7 +1829,7 @@
         <imgdir name="24">
           <string name="hs" value="h24"/>
           <string name="damage" value="118"/>
-          <int name="mobCount" value="5"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1839,7 +1839,7 @@
         <imgdir name="25">
           <string name="hs" value="h25"/>
           <string name="damage" value="120"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1849,7 +1849,7 @@
         <imgdir name="26">
           <string name="hs" value="h26"/>
           <string name="damage" value="122"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1859,7 +1859,7 @@
         <imgdir name="27">
           <string name="hs" value="h27"/>
           <string name="damage" value="124"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1869,7 +1869,7 @@
         <imgdir name="28">
           <string name="hs" value="h28"/>
           <string name="damage" value="126"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1879,7 +1879,7 @@
         <imgdir name="29">
           <string name="hs" value="h29"/>
           <string name="damage" value="128"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
@@ -1889,7 +1889,7 @@
         <imgdir name="30">
           <string name="hs" value="h30"/>
           <string name="damage" value="130"/>
-          <int name="mobCount" value="6"/>
+          <int name="mobCount" value="8"/>
           <int name="time" value="3"/>
           <int name="itemConsume" value="2331001"/>
           <vector name="lt" x="-350" y="-100"/>
