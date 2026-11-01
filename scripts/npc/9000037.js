@@ -127,7 +127,7 @@ function action(mode, type, selection) {
                     return;
                 }
 
-                cm.sendSimple("#e#b<Misión del grupo: Ataque al jefe>\r\n#k#n" + em.getProperty("fiesta") + "\r\n\r\nReúna un grupo de al menos#b3 jugadores#k. El líder del partido debe hablar conmigo para comenzar.#b\r\n#L0#Quiero participar en la búsqueda del grupo.\r\n#L1#Me gustaría" + (cm.getPlayer().isRecvPartySearchInviteEnabled() ? "desactivar" : "permitir") + "Party Search.\r\n#L2#Me gustaría escuchar más detalles.");
+                cm.sendSimple("#e#b<Misión del grupo: Ataque al jefe>\r\n#k#n" + em.getProperty("fiesta") + "\r\n\r\nReúna un grupo de al menos#b2 jugadores#k. El líder del partido debe hablar conmigo para comenzar.#b\r\n#L0#Quiero participar en la búsqueda del grupo.\r\n#L1#Me gustaría" + (cm.getPlayer().isRecvPartySearchInviteEnabled() ? "desactivar" : "permitir") + "Party Search.\r\n#L2#Me gustaría escuchar más detalles.");
             }
         } else if (status == 1) {
             if (state == 3) {
@@ -180,7 +180,7 @@ function action(mode, type, selection) {
                     cm.sendOk("El estado de tu búsqueda de grupo es ahora: #b" + (psState ? "activado" : "desactivado") + "#k. Habla conmigo cuando quieras volver a cambiarlo.");
                     cm.dispose();
                 } else {
-                    cm.sendOk("#e#b<Misión del grupo: Ataque al jefe>#k#n\r\nValientes aventureros de todos los lugares viajan aquí para poner a prueba sus habilidades y destrezas en combate contra los poderosos jefes de MapleStory. Reúna un grupo de#b3 a 6 jugadores#ky trabajar juntos para avanzar. Las RECOMPENSAS se otorgan según lo lejos que llegue el grupo, y se otorgan premios adicionales al final de la expedición.\r\n\r\nEsta instancia también admite#bmúltiples lobbys para emparejamiento varios rangos de niveles de equipo#kinmediatamente.");
+                    cm.sendOk("#e#b<Misión del grupo: Ataque al jefe>#k#n\r\nValientes aventureros de todos los lugares viajan aquí para poner a prueba sus habilidades y destrezas en combate contra los poderosos jefes de MapleStory. Reúna un grupo de#b2 a 6 jugadores#ky trabajar juntos para avanzar. Las RECOMPENSAS se otorgan según lo lejos que llegue el grupo, y se otorgan premios adicionales al final de la expedición.\r\n\r\nEsta instancia también admite#bmúltiples lobbys para emparejamiento varios rangos de niveles de equipo#kinmediatamente.");
                     cm.dispose();
                 }
             }

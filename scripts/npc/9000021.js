@@ -53,7 +53,7 @@ function action(mode, type, selection) {
         } else if (status == 2) {
             cm.sendAcceptDecline("Si crees que eres lo suficientemente poderoso, puedes unirte a otros como tú en el lugar donde organizamos las competencias de poder. ... Entonces, ¿cuál es tu decisión? ¿Vendrás a donde se están celebrando los concursos ahora mismo?");
         } else if (status == 3) {
-            cm.sendOk("Muy bien. Recuerda, necesitas un grupo de al menos 3 jugadores para participar. ¡Buena suerte!");
+            cm.sendOk("Muy bien. Recuerda, necesitas un grupo de al menos 2 jugadores para participar. ¡Buena suerte!");
         } else if (status == 4) {
             cm.getPlayer().saveLocation("BOSSPQ");
             cm.warp(970030000, "out00");
