@@ -165,7 +165,10 @@ public class LifeFactory {
         stats.setDropPeriod(DataTool.getIntConvert("dropItemPeriod", monsterInfoData, stats.getDropPeriod() / 10000) * 10000);
 
         // thanks yuxaij, Riizade, Z1peR, Anesthetic for noticing some bosses crashing players due to missing requirements
-        boolean hpbarBoss = stats.isBoss() && hpbarBosses.contains(mid);
+        // Hidden gauges (including the third-job instructors) must not receive
+        // a boss HP packet, even when the server's UI data contains an icon.
+        boolean hpbarBoss = stats.isBoss() && hpbarBosses.contains(mid)
+                && DataTool.getIntConvert("HPgaugeHide", monsterInfoData, 0) == 0;
         stats.setTagColor(hpbarBoss ? DataTool.getIntConvert("hpTagColor", monsterInfoData, 0) : 0);
         stats.setTagBgColor(hpbarBoss ? DataTool.getIntConvert("hpTagBgcolor", monsterInfoData, 0) : 0);
 
