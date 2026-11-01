@@ -48,28 +48,28 @@ function start() {
     } else {
         if (cm.getJobId() == 0) {
             actionx["1stJob"] = true;
-            cm.sendNext("Do you want to become a #rwarrior#k? You need to meet some criteria in order to do so.#b You should be at least in level 10, and at least " + cm.getFirstJobStatRequirement(jobType) + "#k. Let's see...");   // thanks Vcoc for noticing a need to state and check requirements on first job adv starting message
+            cm.sendNext("¿Quieres convertirte en #rwarrior#k? Debes cumplir algunos criterios para poder hacerlo.#b Debes estar al menos en el nivel 10, y al menos" + cm.getFirstJobStatRequirement(jobType) + "#k. Vamos a ver...");   // thanks Vcoc for noticing a need to state and check requirements on first job adv starting message
         } else if (cm.getLevel() >= 30 && cm.getJobId() == 100) {
             actionx["2ndJob"] = true;
             if (cm.haveItem(4031012)) {
-                cm.sendNext("Oh... you came back safe! I knew you'd breeze through. I'll admit, you are a strong, formidable Warrior! Alright, I'll make you an even stronger Warrior than you already are. But before that, you need to choose one of the three paths that you'll be given. It isn't going to be easy, so if you have and questions, feel free to ask.");
+                cm.sendNext("¡Oh... volviste sano y salvo! Sabía que saldrías adelante. ¡Lo admito, eres un guerrero fuerte y formidable! Muy bien, te haré un guerrero aún más fuerte de lo que ya eres. Pero antes de eso, deberás elegir uno de los tres caminos que se te presentarán. No será fácil, así que si tienes alguna pregunta, no dudes en preguntar.");
             } else if (cm.haveItem(4031008)) {
-                cm.sendOk("Go and see the #b#p1072000##k.");
+                cm.sendOk("Ve y ve el#b#p1072000##k.");
                 cm.dispose();
             } else {
-                cm.sendNext("The progress you have made is astonishing.");
+                cm.sendNext("El progreso que has logrado es asombroso.");
             }
         } else if (actionx["3thJobI"] || (cm.getPlayer().gotPartyQuestItem("JB3") && cm.getLevel() >= 70 && (cm.getJobId() % 10 == 0 && parseInt(cm.getJobId() / 100) == 1 && !cm.getPlayer().gotPartyQuestItem("JBP")))) {
             actionx["3thJobI"] = true;
-            cm.sendNext("I was waiting for you. Few days ago, I heard about you from #b#p2020008##k in Ossyria. Well... I'd like to test your strength. There is a secret passage near the ant tunnel. Nobody but you can go into that passage. If you go into the passage, you will meat my the other self. Beat him and bring #b#t4031059##k to me.");
+            cm.sendNext("Te estaba esperando. Hace unos días escuché de ti por#b#p2020008##ken Ossiria. Bueno... me gustaría probar tu fuerza. Hay un pasaje secreto cerca del túnel de las hormigas. Nadie más que tú puede entrar en ese pasaje. Si entras en el pasillo, te alimentarás con el otro yo. Golpéalo y tráelo#b#t4031059##ka mí.");
         } else if (cm.getPlayer().gotPartyQuestItem("JBP") && !cm.haveItem(4031059)) {
-            cm.sendNext("Please, bring me the #b#t4031059##k.");
+            cm.sendNext("Por favor, tráeme el#b#t4031059##k.");
             cm.dispose();
         } else if (cm.haveItem(4031059) && cm.getPlayer().gotPartyQuestItem("JBP")) {
             actionx["3thJobC"] = true;
-            cm.sendNext("Wow... You beat my the other self and brought #b#t4031059##k to me. Good! this surely proves your strength. In terms of strength, you are ready to advance to 3th job. As I promised, I will give #b#t4031057##k to you. Give this necklace to #b#p2020008##k in Ossyria and you will be able to take second test of 3rd job advancement. Good Luck~");
+            cm.sendNext("Vaya... venciste a mi otro yo y trajiste#b#t4031059##ka mí. ¡Bien! Esto seguramente prueba tu fuerza. En términos de fuerza, estás listo para avanzar al tercer trabajo. Como prometí, te daré#b#t4031057##kA usted. Dale este collar a#b#p2020008##ken Ossiria y podrá realizar la segunda prueba de ascenso al tercer puesto. Buena suerte ~");
         } else {
-            cm.sendOk("You have chosen wisely.");
+            cm.sendOk("Has elegido sabiamente.");
             cm.dispose();
         }
     }
@@ -91,7 +91,7 @@ function action(mode, type, selection) {
         if (spawnPnpc) {
             if (mode > 0) {
                 if (cm.getMeso() < spawnPnpcFee) {
-                    cm.sendOk("Sorry, you don't have enough mesos to purchase your place on the Hall of Fame.");
+                    cm.sendOk("Lo sentimos, no tienes suficientes mesos para comprar tu lugar en el Salón de la Fama.");
                     cm.dispose();
                     return;
                 }
@@ -99,10 +99,10 @@ function action(mode, type, selection) {
                 const PlayerNPC = Java.type('server.life.PlayerNPC');
                 const GameConstants = Java.type('constants.game.GameConstants');
                 if (PlayerNPC.spawnPlayerNPC(GameConstants.getHallOfFameMapid(cm.getJob()), cm.getPlayer())) {
-                    cm.sendOk("There you go! Hope you will like it.");
+                    cm.sendOk("¡Ahí tienes! Espero que te guste.");
                     cm.gainMeso(-spawnPnpcFee);
                 } else {
-                    cm.sendOk("Sorry, the Hall of Fame is currently full...");
+                    cm.sendOk("Lo sentimos, el Salón de la Fama está actualmente lleno...");
                 }
             }
 
@@ -111,7 +111,7 @@ function action(mode, type, selection) {
         } else {
             if (mode != 1 || status == 7 && type != 1 || (actionx["1stJob"] && status == 4) || (cm.haveItem(4031008) && status == 2) || (actionx["3thJob"] && status == 1)) {
                 if (mode == 0 && status == 2 && type == 1) {
-                    cm.sendOk("Make up your mind and visit me again.");
+                    cm.sendOk("Decídete y visítame de nuevo.");
                 }
                 if (!(mode == 0 && type != 1)) {
                     cm.dispose();
@@ -124,9 +124,9 @@ function action(mode, type, selection) {
     if (actionx["1stJob"]) {
         if (status == 0) {
             if (cm.getLevel() >= 10 && cm.canGetFirstJob(jobType)) {
-                cm.sendNextPrev("It is an important and final choice. You will not be able to turn back.");
+                cm.sendNextPrev("Es una elección importante y definitiva. No podrás dar marcha atrás.");
             } else {
-                cm.sendOk("Train a bit more until you reach the base requirements and I can show you the way of the #rWarrior#k.");
+                cm.sendOk("Entrena un poco más hasta llegar a los requisitos básicos y podré mostrarte el camino del #rWarrior#k.");
                 cm.dispose();
             }
         } else if (status == 1) {
@@ -136,24 +136,24 @@ function action(mode, type, selection) {
                     cm.gainItem(1302077, 1);
                     cm.resetStats();
                 }
-                cm.sendNext("From here on out, you are going to the Warrior path. This is not an easy job, but if you have discipline and confidence in your own body and skills, you will overcome any difficulties in your path. Go, young Warrior!");
+                cm.sendNext("De ahora en adelante, irás al camino del Guerrero. Este no es un trabajo fácil, pero si tienes disciplina y confianza en tu propio cuerpo y habilidades, superarás cualquier dificultad en tu camino. ¡Ve, joven guerrero!");
             } else {
-                cm.sendNext("Make some room in your inventory and talk back to me.");
+                cm.sendNext("Haz algo de espacio en tu inventario y habla conmigo.");
                 cm.dispose();
             }
         } else if (status == 2) {
-            cm.sendNextPrev("You've gotten much stronger now. Plus every single one of your inventories have added slots. A whole row, to be exact. Go see for it yourself. I just gave you a little bit of #bSP#k. When you open up the #bSkill#k menu on the lower left corner of the screen, there are skills you can learn by using SP's. One warning, though: You can't raise it all together all at once. There are also skills you can acquire only after having learned a couple of skills first.");
+            cm.sendNextPrev("Te has vuelto mucho más fuerte ahora. Además, cada uno de tus inventarios tiene espacios agregados. Una fila entera, para ser exactos. Ve a verlo tú mismo. Acabo de darte un poquito de #bSP#k. Cuando abres el menú #bSkill#k en la esquina inferior izquierda de la pantalla, hay habilidades que puedes aprender usando SP. Sin embargo, una advertencia: no se pueden plantear todos juntos a la vez. También hay habilidades que puedes adquirir sólo después de haber aprendido un par de habilidades primero.");
         } else if (status == 3) {
-            cm.sendNextPrev("Now a reminder. Once you have chosen, you cannot change up your mind and try to pick another path. Go now, and live as a proud Warrior.");
+            cm.sendNextPrev("Ahora un recordatorio. Una vez que hayas elegido, no podrás cambiar de opinión e intentar elegir otro camino. Ve ahora y vive como un orgulloso guerrero.");
         } else {
             cm.dispose();
         }
     } else if (actionx["2ndJob"]) {
         if (status == 0) {
             if (cm.haveItem(4031012)) {
-                cm.sendSimple("Alright, when you have made your decision, click on [I'll choose my occupation] at the bottom.#b\r\n#L0#Please explain to me what being the Fighter is all about.\r\n#L1#Please explain to me what being the Page is all about.\r\n#L2#Please explain to me what being the Spearman is all about.\r\n#L3#I'll choose my occupation!");
+                cm.sendSimple("Muy bien, cuando hayas tomado tu decisión, haz clic en [Elegiré mi ocupación] en la parte inferior.#b\r\n#L0#Por favor explícame de qué se trata ser el luchador.\r\n#L1#Por favor explícame de qué se trata ser la Página.\r\n#L2#Por favor, explícame de qué se trata ser el lancero.\r\n#L3#¡Elegiré mi ocupación!");
             } else {
-                cm.sendNext("Good decision. You look strong, but I need to see if you really are strong enough to pass the test, it's not a difficult test, so you'll do just fine. Here, take my letter first... make sure you don't lose it!");
+                cm.sendNext("Buena decisión. Te ves fuerte, pero necesito ver si realmente eres lo suficientemente fuerte como para pasar la prueba, no es una prueba difícil, así que lo harás bien. Toma, toma mi carta primero... ¡asegúrate de no perderla!");
                 if (!cm.isQuestStarted(100003)) {
                     cm.startQuest(100003);
                 }
@@ -164,24 +164,24 @@ function action(mode, type, selection) {
                     if (!cm.haveItem(4031008)) {
                         cm.gainItem(4031008, 1);
                     }
-                    cm.sendNextPrev("Please get this letter to #b#p1072000##k who's around #b#m102020300##k near Perion. He is taking care of the job of an instructor in place of me. Give him the letter and he'll test you in place of me. Best of luck to you.");
+                    cm.sendNextPrev("Por favor envíe esta carta a#b#p1072000##kquien esta cerca#b#m102020300##kcerca de Perión. Él se está haciendo cargo del trabajo de instructor en mi lugar. Dale la carta y él te pondrá a prueba en mi lugar. Mucha suerte para ti.");
                 } else {
-                    cm.sendNext("Please, make some space in your inventory.");
+                    cm.sendNext("Por favor, haga algo de espacio en su inventario.");
                     cm.dispose();
                 }
             } else {
                 if (selection < 3) {
                     if (selection == 0) {    //fighter
-                        cm.sendNext("Warriors that master #rSwords or Axes#k.\r\n\r\n#rFighters#k get #bRage#k, which boosts your party's weapon attack by 10. During 2nd job this is strongly appreciated, as it is free (except for -10 wep def, which is not going to impact the damage you take much at all), takes no Use slots and increases each party member's damage (except Mages) by several hundreds. The other classes can give themselves a weapon attack boost as well, but need items to do so. #rFighters#k also get #bPower Guard#k, reducing touch damage by 40% and deals it back to the monster. This is the main reason why #rFighters#k are considered soloers is because this reduces pot costs immensely.");
+                        cm.sendNext("Guerreros que dominan#rEspadas o hachas#k.\r\n\r\n#rFighters#k conseguir#bRage#k, que aumenta el ataque con armas de tu grupo en 10. Durante el segundo trabajo, esto se agradece mucho, ya que es gratis (excepto -10 wep def, que no afectará mucho el daño que recibes), no requiere espacios de uso y aumenta el daño de cada miembro del grupo (excepto los magos) en varios cientos. Las otras clases también pueden aumentar el ataque con arma, pero necesitan elementos para hacerlo.#rFighters#k también obtenga#bGuardia de poder#k, reduciendo el daño táctil en un 40% y se lo devuelve al monstruo. Ésta es la razón principal por la que#rFighters#k se consideran solistas es porque esto reduce enormemente los costos del bote.");
                     } else if (selection == 1) {    //page
-                        cm.sendNext("Warriors that master #rSwords or Maces/Blunt weapons#k.\r\n\r\n#rPages#k get #bThreaten#k, a skill that lowers the enemies' weapon defense and weapon attack by 20; this is mostly used to lower damage dealt to you. Pages also get #bPower Guard#k, reducing touch damage by 40% and deals it back to the monster. This is one of the main reason why #bPages/WKs#k are considered soloers, that's because this reduces pot costs immensely. Of course, constant KB and #bIce Charge#k helps also to the soloing factor.");
+                        cm.sendNext("Guerreros que dominan#rEspadas o mazas/armas contundentes#k.\r\n\r\n#rPages#k conseguir#bThreaten#k, una habilidad que reduce la defensa y el ataque con armas de los enemigos en 20; esto se usa principalmente para reducir el daño que te infligen. Las páginas también obtienen#bGuardia de poder#k, reduciendo el daño táctil en un 40% y se lo devuelve al monstruo. Esta es una de las razones principales por las que#bPáginas/semanas#kse consideran solitarios, eso se debe a que esto reduce enormemente los costos del bote. Por supuesto, KB constante y#bCarga de hielo#kTambién ayuda al factor solo.");
                     } else {    //spearman
-                        cm.sendNext("Warriors that master #rSpears or Polearms#k.\r\n\r\n#rSpearmen#k get #bHyper Body#k, which boosts your max HP/MP and that of your party by 60% when maxed. This skill is particularly useful for helping partied Thieves, Archers, and Mages to survive more hits from enemies and/or PQ bosses. They also get #bIron Will#k which gives +20 wep def and +20 mag def for 300 sec. It is basically a nerfed Bless with 100 seconds more duration but gives no accuracy or avoidability bonus. Even with this skill maxed, it isn't even close to being in the same league as Power Guard and is why Spearmen/Dark Knights are not considered a soloing class.");
+                        cm.sendNext("Guerreros que dominan#rLanzas o armas de asta#k.\r\n\r\n#rSpearmen#k conseguir#bHipercuerpo#k, que aumenta tu HP/MP máximo y el de tu grupo en un 60% cuando está al máximo. Esta habilidad es particularmente útil para ayudar a los ladrones, arqueros y magos en grupo a sobrevivir a más golpes de enemigos y/o jefes PQ. ellos también obtienen#bVoluntad de hierro#klo que da +20 wep def y +20 mag def durante 300 segundos. Básicamente es una bendición debilitada con 100 segundos más de duración, pero no ofrece bonificación de precisión ni evitabilidad. Incluso con esta habilidad al máximo, ni siquiera está cerca de estar en la misma liga que Power Guard y es por eso que los lanceros/caballeros oscuros no se consideran una clase en solitario.");
                     }
 
                     status -= 2;
                 } else {
-                    cm.sendSimple("Now... have you made up your mind? Please choose the job you'd like to select for your 2nd job advancement. #b\r\n#L0#Fighter\r\n#L1#Page\r\n#L2#Spearman");
+                    cm.sendSimple("Ahora… ¿has tomado una decisión? Elija el trabajo que desea seleccionar para su segundo ascenso laboral.#b\r\n#L0#Combatiente\r\n#L1#Página\r\n#L2#Lancero");
                 }
             }
         } else if (status == 2) {
@@ -190,7 +190,7 @@ function action(mode, type, selection) {
                 return;
             }
             job += selection * 10;
-            cm.sendYesNo("So you want to make the second job advancement as the " + (job == 110 ? "#bFighter#k" : job == 120 ? "#bPage#k" : "#bSpearman#k") + "? You know you won't be able to choose a different job for the 2nd job advancement once you make your desicion here, right? Are you sure about this?");
+            cm.sendYesNo("Entonces, ¿quieres lograr el segundo avance laboral como" + (job == 110 ? "#bFighter#k" : job == 120 ? "#bPage#k" : "#bSpearman#k") + "? Sabes que no podrás elegir un trabajo diferente para el segundo ascenso laboral una vez que tomes tu decisión aquí, ¿verdad? ¿Estás seguro de esto?");
         } else if (status == 3) {
             if (cm.haveItem(4031012)) {
                 cm.gainItem(4031012, -1);
@@ -198,21 +198,21 @@ function action(mode, type, selection) {
             cm.completeQuest(100005);
 
             if (job == 110) {
-                cm.sendNext("Alright, you have now become the #bFighter#k. A fighter strives to become the strongest of the strong, and never stops fighting. Don't ever lose that will to fight, and push forward 24/7. I'll help you become even stronger than you already are.");
+                cm.sendNext("Muy bien, ahora te has convertido en el #bFighter#k. Un luchador se esfuerza por convertirse en el más fuerte de los fuertes y nunca deja de luchar. Nunca pierdas esa voluntad de luchar y sigue adelante las 24 horas del día, los 7 días de la semana. Te ayudaré a ser aún más fuerte de lo que ya eres.");
             } else if (job == 120) {
-                cm.sendNext("Alright, you have now become a #bPage#k! Pages have high intelligence and bravery, which I hope you'll employ throughout your journey to the right path. I'll help you become much stronger than you already are.");
+                cm.sendNext("Muy bien, ¡ahora te has convertido en #bPage#k! Los pajes tienen una gran inteligencia y valentía, que espero que emplees a lo largo de tu viaje por el camino correcto. Te ayudaré a ser mucho más fuerte de lo que ya eres.");
             } else {
-                cm.sendNext("Alright, you have now become the #bSpearman#k. The Spearman use the power of darkness to take out the enemies, always in shadows... Please believe in yourself and your awesome power as you go in your journey. I'll help you become much stronger than you are right now.");
+                cm.sendNext("Muy bien, ahora te has convertido en el #bSpearman#k. El lancero usa el poder de la oscuridad para eliminar a los enemigos, siempre en las sombras... Por favor, cree en ti mismo y en tu asombroso poder a medida que avanzas en tu viaje. Te ayudaré a ser mucho más fuerte de lo que eres ahora.");
             }
             if (cm.getJobId() != job) {
                 cm.changeJobById(job);
             }
         } else if (status == 4) {
-            cm.sendNextPrev("I have just given you a book that gives you the list of skills you can acquire as a " + (job == 110 ? "fighter" : job == 120 ? "page" : "spearman") + ". Also your etc inventory has expanded by adding another row to it. Your max HP and MP have increased, too. Go check and see for it yourself.");
+            cm.sendNextPrev("Acabo de darte un libro que te da la lista de habilidades que puedes adquirir como" + (job == 110 ? "combatiente" : job == 120 ? "página" : "lancero") + ". Además, su inventario, etc. se ha ampliado al agregarle otra fila. Tu HP y MP máximos también han aumentado. Ve a comprobarlo y compruébalo tú mismo.");
         } else if (status == 5) {
-            cm.sendNextPrev("I have also given you a little bit of #bSP#k. Open the #bSkill Menu#k located at the bottomleft corner. you'll be able to boost up the newer acquired 2nd level skills. A word of warning, though. You can't boost them up all at once. Some of the skills are only available after you have learned other skills. Make sure yo remember that.");
+            cm.sendNextPrev("También te he dado un poquito de#bSP#k. Abre el#bMenú de habilidades#kubicado en la esquina inferior izquierda. Podrás mejorar las nuevas habilidades adquiridas de segundo nivel. Sin embargo, una palabra de advertencia. No puedes potenciarlos todos a la vez. Algunas de las habilidades sólo están disponibles después de haber aprendido otras habilidades. Asegúrate de recordar eso.");
         } else if (status == 6) {
-            cm.sendNextPrev((job == 110 ? "Fighter" : job == 120 ? "Page" : "Spearman") + " need to be strong. But remember that you can't abuse that power and use it on a weakling. Please use your enormous power the right way, because... for you to use that the right way, that is much harden than just getting stronger. Please find me after you have advanced much further. I'll be waiting for you.");
+            cm.sendNextPrev((job == 110 ? "Combatiente" : job == 120 ? "Página" : "Lancero") + "hay que ser fuerte. Pero recuerda que no puedes abusar de ese poder y usarlo con un debilucho. Por favor, usa tu enorme poder de la manera correcta, porque... para que lo uses de la manera correcta, eso es mucho más difícil que simplemente hacerte más fuerte. Por favor, encuéntrame después de haber avanzado mucho más. Te estaré esperando.");
         }
     } else if (actionx["3thJobI"]) {
         if (status == 0) {
@@ -220,7 +220,7 @@ function action(mode, type, selection) {
                 cm.getPlayer().removePartyQuestItem("JB3");
                 cm.getPlayer().setPartyQuestItemObtained("JBP");
             }
-            cm.sendNextPrev("My the other self is quite strong. He uses many special skills and you should fight with him 1 on 1. However, people cannot stay long in the secret passage, so it is important to beat him ASAP. Well... Good luck I will look forward to you bringing #b#t4031059##k to me.");
+            cm.sendNextPrev("Mi otro yo es bastante fuerte. Utiliza muchas habilidades especiales y debes luchar con él 1 contra 1. Sin embargo, la gente no puede permanecer mucho tiempo en el pasaje secreto, por lo que es importante vencerlo lo antes posible. Bueno... Buena suerte. Espero que me traigas#b#t4031059##ka mí.");
         }
     } else if (actionx["3thJobC"]) {
         cm.getPlayer().removePartyQuestItem("JBP");

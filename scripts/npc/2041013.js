@@ -38,19 +38,19 @@ function action(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            cm.sendSimple("Oh, hello! Welcome to the Ludibrium Skin-Care! Are you interested in getting tanned and looking sexy? How about a beautiful, snow-white skin? If you have #b#t5153002##k, you can let us take care of the rest and have the kind of skin you've always dreamed of!\r\n#L2#Skin Care: #i5153002##t5153002##l");
+            cm.sendSimple("¡Hola! ¡Bienvenido al cuidado de la piel Ludibrium! ¿Estás interesado en broncearte y lucir sexy? ¿Qué tal una piel hermosa y blanca como la nieve? si tienes#b#t5153002##k¡Puedes dejar que nosotros nos encarguemos del resto y tener el tipo de piel que siempre has soñado!\r\n#L2#Protección de la piel:#i5153002##t5153002##l");
         } else if (status == 1) {
             if (selection == 2) {
-                cm.sendStyle("With our specialized machine, you can see the way you'll look after the treatment PRIOR to the procedure. What kind of a look are you looking for? Go ahead and choose the style of your liking~!", skin);
+                cm.sendStyle("Con nuestra máquina especializada, podrás ver cómo lucirás después del tratamiento ANTES del procedimiento. ¿Qué tipo de look estás buscando? ¡Adelante, elige el estilo que más te guste~!", skin);
             }
         } else if (status == 2) {
             cm.dispose();
             if (cm.haveItem(5153002) == true) {
                 cm.gainItem(5153002, -1);
                 cm.setSkin(skin[selection]);
-                cm.sendOk("Enjoy your new and improved skin!");
+                cm.sendOk("¡Disfruta de tu piel nueva y mejorada!");
             } else {
-                cm.sendOk("Um...you don't have the skin-care coupon you need to receive the treatment. Sorry, but I am afraid we can't do it for you...");
+                cm.sendOk("Um...no tienes el cupón de cuidado de la piel que necesitas para recibir el tratamiento. Lo siento, pero me temo que no podemos hacerlo por usted...");
             }
         }
     }

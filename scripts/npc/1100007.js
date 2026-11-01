@@ -25,7 +25,7 @@ function action(mode, type, selection) {
             cm.dispose();
             return;
         } else if (mode == 0) {
-            cm.sendNext("If you're not interested, then oh well...");
+            cm.sendNext("Si no estás interesado, entonces bueno...");
             cm.dispose();
             return;
         }
@@ -35,11 +35,11 @@ function action(mode, type, selection) {
             for (var i = 0; i < menu.length; i++) {
                 display += "\r\n#L" + i + "##b Ereve (1000 mesos)#k";
             }
-            cm.sendSimple("Eh... So... Um... Are you trying to leave Victoria to go to a different region? You can take this boat to #bEreve#k. There, you will see bright sunlight shinning on the leaves and feel a gentle breeze on your skin. It's where Shinsoo and Empress Cygnus are. Would you like to go to Ereve? It will take about #b2 Minutes#k, and it will cost you #b1000#k mesos.\r\n" + display);
+            cm.sendSimple("Eh... Entonces... Um... ¿Estás intentando dejar Victoria para ir a una región diferente? Puedes tomar este barco para#bEreve#k. Allí verás la brillante luz del sol brillando sobre las hojas y sentirás una suave brisa en tu piel. Es donde están Shinsoo y la emperatriz Cygnus. ¿Te gustaría ir a Ereve? Tomará aproximadamente#b2 minutos#ky te costará#b1000#k mesos.\r\n" + display);
 
         } else if (status == 1) {
             if (cm.getMeso() < 1000) {
-                cm.sendNext("Hmm... Are you sure you have #b1000#k Mesos? Check your Inventory and make sure you have enough. You must pay the fee or I can't let you get on...");
+                cm.sendNext("Hmm... ¿Estás seguro de que tienes #b1000#k Mesos? Revisa tu inventario y asegúrate de tener suficiente. Debes pagar la tarifa o no puedo dejarte subir...");
                 cm.dispose();
             } else {
                 cm.gainMeso(-1000);

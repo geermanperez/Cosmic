@@ -31,7 +31,7 @@ function start(mode, type, selection) {
         qm.dispose();
     } else {
         if (status == 0 && mode == 0) {
-            qm.sendNext("Hmmm... do you feel like you still have missions to take care of as a trainee? I commend your level of patience, but this has gone too far. Cygnus Knights is in dire need of new, more powerful knights.");
+            qm.sendNext("Hmmm... ¿sientes que todavía tienes misiones que cumplir como aprendiz? Elogio su nivel de paciencia, pero esto ha ido demasiado lejos. Cygnus Knights necesita urgentemente caballeros nuevos y más poderosos.");
             qm.dispose();
             return;
         }
@@ -41,12 +41,12 @@ function start(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            qm.sendAcceptDecline("#h0#? Wow, your level has sky-rocketed since the last time I saw you. You also look like you've taken care of a number of missions as well... You seem much more ready to move on now than the last time I saw you. What do you think? Are you interested in taking the #bKnighthood Exam#k? It's time for you to grow out of the Knight-in-Training and become a bonafide Knight, right?");
+            qm.sendAcceptDecline("#h0#? Vaya, tu nivel se ha disparado desde la última vez que te vi. También parece que te has encargado de varias misiones... Pareces mucho más preparado para seguir adelante ahora que la última vez que te vi. ¿Qué opinas? ¿Estás interesado en tomar el#bExamen de caballería#k? Es hora de que dejes de ser un Caballero en entrenamiento y te conviertas en un Caballero auténtico, ¿verdad?");
         } else if (status == 1) {
             qm.startQuest();
             qm.completeQuest();
 
-            qm.sendOk("If you wish to take the Knighthood Exam, please come to Ereve. Each Chief Knight will test your abilities, and if you meet their standards, then you will officially become a Knight.");
+            qm.sendOk("Si desea realizar el examen de título de caballero, venga a Ereve. Cada Caballero Jefe pondrá a prueba tus habilidades y, si cumples con sus estándares, te convertirás oficialmente en Caballero.");
         } else if (status == 2) {
             qm.dispose();
         }

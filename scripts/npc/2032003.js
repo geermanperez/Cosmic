@@ -38,15 +38,15 @@ function action(mode, type, selection) {
         status++;
 
         if (status == 0) {
-            cm.sendNext("Congratulations on getting this far! Well, I suppose I'd better give you the #bBreath of Fire#k. You've certainly earned it!");
+            cm.sendNext("¡Felicitaciones por llegar hasta aquí! Bueno, supongo que será mejor que te dé la#bAliento de fuego#k. ¡Sin duda te lo has ganado!");
         } else if (status == 1) {
             if (!cm.canHold(4031062)) {
-                cm.sendOk("Try freeing a slot to receive the #b#t4031062##k.");
+                cm.sendOk("Intenta liberar un espacio para recibir el#b#t4031062##k.");
                 cm.dispose();
                 return;
             }
 
-            cm.sendNext("Well, time for you to head off.");
+            cm.sendNext("Bueno, es hora de que te vayas.");
         } else if (status == 2) {
             cm.gainItem(4031062, 1);
             cm.gainExp(10000 * cm.getPlayer().getExpRate());

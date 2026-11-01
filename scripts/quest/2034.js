@@ -10,11 +10,11 @@ function end(mode, type, selection) {
     status++;
 
     if (status == 0) {
-        qm.sendNext("I knew it ... I knew you could get it done with, quickly! You did your job well last time, and here you are again, taking care of business!! Alright, since you have done it so well, I should reward you well. #b#p1051000##k is giving you a pair of shoes in hopes of helping you out on your future traveling.");
+        qm.sendNext("Lo sabía... ¡Sabía que podías hacerlo rápidamente! ¡¡Hiciste bien tu trabajo la última vez y aquí estás de nuevo, ocupándote de tus asuntos!! Muy bien, ya que lo has hecho tan bien, debería recompensarte bien.#b#p1051000##kte está regalando un par de zapatos con la esperanza de ayudarte en tus futuros viajes.");
     } else if (status == 1) {
         const InventoryType = Java.type('client.inventory.InventoryType');
         if (qm.getPlayer().getInventory(InventoryType.EQUIP).getNumFreeSlot() < 1) {
-            qm.sendOk("Please free a EQUIP inventory slot to receive the reward.");
+            qm.sendOk("Libere un espacio de inventario EQUIP para recibir la recompensa.");
             qm.dispose();
             return;
         }
@@ -41,7 +41,7 @@ function end(mode, type, selection) {
         qm.gainExp(2200);
         qm.completeQuest();
 
-        qm.sendOk("Alright, if you need work sometime down the road, feel free to come back and see me. This town sure can use a person like you for help~");
+        qm.sendOk("Muy bien, si necesitas trabajo en algún momento, no dudes en volver a verme. Esta ciudad seguramente necesita ayuda de una persona como tú~");
     } else if (status == 2) {
         qm.dispose();
     }

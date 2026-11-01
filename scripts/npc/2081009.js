@@ -37,16 +37,16 @@ function action(mode, type, selection) {
     status++;
     if (status == 0) {
         if (cm.isQuestStarted(6180) && cm.getQuestProgressInt(6180, 9300096) < 200) {
-            cm.sendYesNo("Pay attention: during the time you stay inside the training ground make sure you #bhave equipped your #t1092041##k, it is of the utmost importance. Are you ready to proceed to the training area?");
+            cm.sendYesNo("Presta atención: durante el tiempo que permanezcas dentro del campo de entrenamiento asegúrate de#bhas equipado tu#t1092041##k, es de suma importancia. ¿Estás listo para proceder al área de entrenamiento?");
         } else {
-            cm.sendOk("Only assigned personnel can access the training ground.");
+            cm.sendOk("Sólo el personal asignado puede acceder al campo de entrenamiento.");
             cm.dispose();
         }
     } else if (status == 1) {
         if (cm.getPlayer().haveItemEquipped(1092041)) {
-            cm.sendNext("Have your shield equipped until the end of the quest, or else you will need to start all over again!");
+            cm.sendNext("¡Ten tu escudo equipado hasta el final de la misión, o tendrás que empezar de nuevo!");
         } else {
-            cm.sendOk("Please equip the #r#t1092041##k before entering the training ground.");
+            cm.sendOk("Por favor equipe el#r#t1092041##kantes de entrar al campo de entrenamiento.");
             cm.dispose();
         }
     } else {

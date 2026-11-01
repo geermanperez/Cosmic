@@ -52,7 +52,7 @@ function action(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            cm.sendSimple("Well well well, welcome to the Orbis Plastic Surgery! Would you like to transform your face into something new? With a #b#t5152005##k, you can let us take care of the rest and have the face you've always wanted~!\r\n#L2#Plastic Surgery: #i5152005##t5152005##l");
+            cm.sendSimple("Bueno, bueno, ¡bienvenido a Orbis Plastic Surgery! ¿Te gustaría transformar tu rostro en algo nuevo? con un#b#t5152005##k, ¡puedes dejarnos encargarnos del resto y tener la cara que siempre has querido~!\r\n#L2#Cirugía plástica:#i5152005##t5152005##l");
         } else if (status == 1) {
             if (selection == 2) {
                 facenew = Array();
@@ -70,16 +70,16 @@ function action(mode, type, selection) {
                                 % 100));
                     }
                 }
-                cm.sendStyle("I can totally transform your face into something new... how about giving us a try? For #b#t5152005##k, you can get the face of your liking...take your time in choosing the face of your preference.", facenew);
+                cm.sendStyle("Puedo transformar totalmente tu rostro en algo nuevo... ¿qué tal si nos das una oportunidad? Para#b#t5152005##k, podrás conseguir el rostro de tu agrado... tómate tu tiempo en elegir el rostro de tu preferencia.", facenew);
             }
         } else if (status == 2) {
             cm.dispose();
             if (cm.haveItem(5152005) == true) {
                 cm.gainItem(5152005, -1);
                 cm.setFace(facenew[selection]);
-                cm.sendOk("Enjoy your new and improved face!");
+                cm.sendOk("¡Disfruta de tu cara nueva y mejorada!");
             } else {
-                cm.sendOk("Hmm ... it looks like you don't have the coupon specifically for this place. Sorry to say this, but without the coupon, there's no plastic surgery for you...");
+                cm.sendOk("Hmm... parece que no tienes el cupón específico para este lugar. Lamento decirte esto, pero sin el cupón, no hay cirugía plástica para ti...");
             }
         }
     }

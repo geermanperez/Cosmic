@@ -63,27 +63,27 @@ function action(mode, type, selection) {
         var eim = cm.getPlayer().getEventInstance();
 
         if (eim.getProperty(stage.toString() + "stageclear") != null) {
-            cm.sendNext("Hurry, goto the next stage, the portal is open!");
+            cm.sendNext("¡Date prisa, pasa a la siguiente etapa, el portal está abierto!");
         } else {
             if (eim.isEventLeader(cm.getPlayer())) {
                 var state = eim.getIntProperty("statusStg" + stage);
 
                 if (state == -1) {           // preamble
-                    cm.sendOk("Hi. Welcome to the #bstage " + stage + "#k. This is the 2nd stage, but everyone has to cooperate. There are 6 portals here. One is guarded by undefeatable monsters, and one is very high. I'd like you and your party to go in each one and break the boxes inside. Bring back the drops -- there should be 24.");
+                    cm.sendOk("Hola. Bienvenido al escenario #b" + stage + "#k. Esta es la segunda etapa, pero todos tienen que cooperar. Hay 6 portales aquí. Uno está custodiado por monstruos invencibles y el otro está muy alto. Me gustaría que tú y tu grupo entraran en cada uno y rompieran las cajas del interior. Trae de vuelta las gotas; debería haber 24.");
                     eim.setProperty("statusStg" + stage, 0);
                 } else {       // check stage completion
                     if (cm.haveItem(4001022, 24)) {
-                        cm.sendOk("Good job! You have collected all 24 #b#t4001022#'s.#k");
+                        cm.sendOk("¡Buen trabajo! Has recogido los 24#b#t4001022#'s.#k");
                         cm.gainItem(4001022, -24);
 
                         eim.setProperty("statusStg" + stage, 1);
                         clearStage(stage, eim, curMap);
                     } else {
-                        cm.sendNext("Sorry you don't have all 24 #b#t4001022#'s.#k");
+                        cm.sendNext("Lo siento, no tienes los 24#b#t4001022#'s.#k");
                     }
                 }
             } else {
-                cm.sendNext("Please tell your #bParty-Leader#k to come talk to me.");
+                cm.sendNext("Por favor dile a tu#bLíder del partido#kpara venir a hablar conmigo.");
             }
         }
 

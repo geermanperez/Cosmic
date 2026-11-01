@@ -39,11 +39,11 @@ function start(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            qm.sendNext("What? Neinheart sent you here? Ahh, you must be a rookie. Welcome, welcome. My name is Kiku, and my job is to train and mold kids like you into bonafide knights. Hmmm.. Why are you looking at me like that... Ahh, you must have never seen Piyos before.");
+            qm.sendNext("¿Qué? ¿Neinheart te envió aquí? Ahh, debes ser un novato. Bienvenido, bienvenido. Mi nombre es Kiku y mi trabajo es entrenar y convertir a niños como tú en auténticos caballeros. Hmmm... ¿Por qué me miras así? Ahh, nunca debes haber visto a Piyos antes.");
         } else if (status == 1) {
-            qm.sendNext("We belong to a race called Piyos. You've talked to Shinsoo before, right? The one that stands next to the Empress. Yeah, Shinsoo is a Piyo, too. He may be of a different class, but... oh well. Piyos are only found in Ereve, so you may find us a bit odd at first, but you'll get used to us.");
+            qm.sendNext("Pertenecemos a una raza llamada Piyos. Has hablado con Shinsoo antes, ¿verdad? El que está al lado de la Emperatriz. Sí, Shinsoo también es un Piyo. Puede que sea de una clase diferente, pero... bueno. Los piyos solo se encuentran en Ereve, por lo que puede que al principio te parezcan un poco extraños, pero te acostumbrarás a nosotros.");
         } else if (status == 2) {
-            qm.sendAcceptDecline("Ah, I don't know if you are aware of this, but you won't find any monsters here in Ereve. Any form of evil will not be able to set foot on this island. Don't worry, you'll still have your opportunity to train here. Shinsoo created a fantasy creature called Mimi, which will be used as your training partners. Shall we begin?");
+            qm.sendAcceptDecline("Ah, no sé si eres consciente de esto, pero no encontrarás ningún monstruo aquí en Ereve. Ninguna forma de maldad podrá poner un pie en esta isla. No te preocupes, aún tendrás la oportunidad de entrenar aquí. Shinsoo creó una criatura de fantasía llamada Mimi, que será utilizada como compañera de entrenamiento. ¿Empezamos?");
         } else if (status == 3) {
             qm.forceStartQuest();
             qm.forceCompleteQuest();
@@ -53,7 +53,7 @@ function start(mode, type, selection) {
             qm.gainItem(2000021, 10); // Blue Potion for Noblesse * 10
             qm.gainItem(1002869, 1);  // Elegant Noblesse Hat * 1
 
-            qm.sendOk("Ha, I like your enthusiasm, but you must prepare yourself for the training first before we start things off. Make sure that you are equipped with weapons, and that your skills are calibrated and ready to be used. I also gave you some potions, so have it ready just in case. Let me know when you're ready. You're going to wish that you didn't sign up to become a Cygnus Knight.");
+            qm.sendOk("Ja, me gusta tu entusiasmo, pero primero debes prepararte para el entrenamiento antes de comenzar. Asegúrate de estar equipado con armas y de que tus habilidades estén calibradas y listas para ser utilizadas. También te di algunas pociones, así que tenlas listas por si acaso. Avísame cuando estés listo. Desearás no haberte registrado para convertirte en Cygnus Knight.");
         } else if (status == 4) {
             qm.dispose();
         }

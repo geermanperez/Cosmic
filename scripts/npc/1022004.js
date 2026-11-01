@@ -170,11 +170,11 @@ function action(mode, type, selection) {
         }
 
         if (!cm.canHold(recvItem, recvQty)) {
-            cm.sendOk("Check your inventory for a free slot first.");
+            cm.sendOk("Primero verifique su inventario para ver si hay un espacio libre.");
             cm.dispose();
             return;
         } else if (cm.getMeso() < cost * qty) {
-            cm.sendOk("I may still be an apprentice, but I do need to earn a living.");
+            cm.sendOk("Puede que todavía sea aprendiz, pero necesito ganarme la vida.");
             cm.dispose();
             return;
         } else {
@@ -190,7 +190,7 @@ function action(mode, type, selection) {
         }
 
         if (!complete) {
-            cm.sendOk("I'm still an apprentice, I don't know if I can substitute other items in yet... Can you please bring what the recipe calls for?");
+            cm.sendOk("Todavía soy aprendiz, no sé si puedo sustituir otros elementos todavía... ¿Puedes traer lo que pide la receta?");
         } else {
             if (mats instanceof Array) {
                 for (var i = 0; i < mats.length; i++) {
@@ -205,7 +205,7 @@ function action(mode, type, selection) {
             }
 
             cm.gainItem(recvItem, recvQty);
-            cm.sendOk("Did that come out right? Come by me again if you have anything for me to practice on.");
+            cm.sendOk("¿Salió bien? Ven a verme otra vez si tienes algo para que practique.");
         }
         cm.dispose();
     }

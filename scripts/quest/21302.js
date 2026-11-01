@@ -26,19 +26,19 @@ function end(mode, type, selection) {
     status++;
     if (mode != 1) {
         if (mode == 0 && type == 1) {
-            qm.sendNext("Hey! At least say you tried!");
+            qm.sendNext("¡Ey! ¡Al menos di que lo intentaste!");
         }
         qm.dispose();
         return;
     }
     if (status == 0) {
-        qm.sendNext("Wait.. Isn't that.. Did you remember how to make Red Jade?\r\nWow... you may be stupid and prone to amnesia, but this is why I can't abandon you. Now give me the jade!"); //Giant Polearm
+        qm.sendNext("Espera... ¿No es eso... ¿Recuerdas cómo hacer Red Jade?\r\nWow... puede que seas estúpido y propenso a la amnesia, pero es por eso que no puedo abandonarte. ¡Ahora dame el jade!"); //Giant Polearm
     } else if (status == 1) {
-        qm.sendNextPrev("Okay, now that I have the Red Jade back on, let me work on reawakening more of your abilities. I mean, your level's gone much higher since the last time we met, so I am sure I can work my magic a bit more this time!");
+        qm.sendNextPrev("Bien, ahora que he vuelto a tener el Red Jade, déjame trabajar para despertar más de tus habilidades. Quiero decir, tu nivel ha subido mucho más desde la última vez que nos vimos, ¡así que estoy seguro de que puedo hacer mi magia un poco más esta vez!");
     } else if (status == 2) {
         if (!qm.isQuestCompleted(21302)) {
             if (!qm.canHold(1142131)) {
-                qm.sendOk("Wow, your #bequip#k inventory is full. I need you to make at least 1 empty slot to complete this quest.");
+                qm.sendOk("Vaya, su inventario #bequip#k está lleno. Necesito que hagas al menos 1 espacio vacío para completar esta misión.");
                 qm.dispose();
                 return;
             }
@@ -58,7 +58,7 @@ function end(mode, type, selection) {
             qm.completeQuest();
         }
 
-        qm.sendNext("Come on, keep training so you can get all your abilities back, and that way we can explore together once more!");
+        qm.sendNext("¡Vamos, sigue entrenando para que puedas recuperar todas tus habilidades y así podremos explorar juntos una vez más!");
     } else if (status == 3) {
         qm.dispose();
     }

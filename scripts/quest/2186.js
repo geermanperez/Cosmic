@@ -28,10 +28,10 @@ function end(mode, type, selection) {
                         qm.gainExp(1700);
                         qm.gainItem(2030019, 10);
 
-                        qm.sendOk("Geez, you found my glasses! Thank you, thank you so much. Now I'm able to see everything again!");
+                        qm.sendOk("¡Caray, encontraste mis gafas! Gracias, muchas gracias. ¡Ahora puedo verlo todo otra vez!");
                         qm.forceCompleteQuest();
                     } else {
-                        qm.sendOk("I need you to have an USE slot available to reward you properly!");
+                        qm.sendOk("¡Necesito que tengas un espacio USE disponible para recompensarte adecuadamente!");
                     }
                 } else if (qm.haveItem(4031854) || qm.haveItem(4031855)) { //When I figure out how to make a completance with just a pickup xD
                     if (qm.canHold(2030019)) {
@@ -44,10 +44,10 @@ function end(mode, type, selection) {
                         qm.gainExp(1000);
                         qm.gainItem(2030019, 5);
 
-                        qm.sendOk("Hm, those aren't my glasses... But alas, I'll take it anyway. Thanks.");
+                        qm.sendOk("Mmmm, esas no son mis gafas... Pero, por desgracia, las llevaré de todos modos. Gracias.");
                         qm.forceCompleteQuest();
                     } else {
-                        qm.sendOk("I need you to have an USE slot available to reward you properly!");
+                        qm.sendOk("¡Necesito que tengas un espacio USE disponible para recompensarte adecuadamente!");
                     }
                 }
             }

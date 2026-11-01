@@ -4,7 +4,7 @@ var status = 0;
 function start() {
     arena = cm.getPlayer().getAriantColiseum();
     if (arena == null) {
-        cm.sendOk("Hey, I did not see you on the field during the battle in the arena! What are you doing here?");
+        cm.sendOk("¡Oye, no te vi en el campo durante la batalla en la arena! ¿Qué estás haciendo aquí?");
         cm.dispose();
         return;
     }
@@ -29,10 +29,10 @@ function action(mode, type, selection) {
         if (status == 0) {
             copns = arena.getAriantScore(cm.getPlayer());
             if (copns < 1 && !cm.getPlayer().isGM()) {
-                cm.sendOk("Too bad, you did not get any jewelry!");
+                cm.sendOk("¡Qué pena que no hayas conseguido ninguna joya!");
                 cm.dispose();
             } else {
-                cm.sendNext("Ok, let's see... You did very well and you brought #b" + copns + "#k jewelry that I love. Since you have completed the match, I will reward you with a Battle Arena score of #b" + arena.getAriantRewardTier(cm.getPlayer()) + " points#k. If you want to know more about the Battle Arena score, then talk to #b#p2101015##k.");
+                cm.sendNext("Ok, veamos... Lo hiciste muy bien y trajiste #b" + copns + "#kjoyas que me encantan. Como has completado la partida, te recompensaré con una puntuación de Battle Arena de#b" + arena.getAriantRewardTier(cm.getPlayer()) + "agujas#k. Si quieres saber más sobre la puntuación de Battle Arena, habla con#b#p2101015##k.");
             }
         } else if (status == 1) {
             //cm.warp(980010020, 0);
@@ -43,7 +43,7 @@ function action(mode, type, selection) {
 
             cm.getPlayer().gainExp(92.7 * cm.getPlayer().getExpRate() * copns, true, true);
             cm.getPlayer().gainAriantPoints(copns);
-            cm.sendOk("Alright! Make me more jewels next time! Ahahahahah!");
+            cm.sendOk("¡Está bien! ¡Hazme más joyas la próxima vez! ¡Jajajajaja!");
             cm.dispose();
         }
     }

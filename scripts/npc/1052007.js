@@ -6,7 +6,7 @@ var NLC = false;
 var em;
 
 function start() {
-    cm.sendSimple("Pick your destination.\n\r\n#L0##bKerning Square Shopping Center#l\n\n\r\n#L1#Enter Contruction Site#l\r\n#L2#New Leaf City#l");
+    cm.sendSimple("Elige tu destino.\n\r\n#L0##bCentro Comercial Plaza Kerning#l\n\n\r\n#L1#Ingresar al sitio de construcción#l\r\n#L2#Ciudad Nueva Hoja#l");
 }
 
 function action(mode, type, selection) {
@@ -24,7 +24,7 @@ function action(mode, type, selection) {
         if (selection == 0) {
             var em = cm.getEventManager("KerningTrain");
             if (!em.startInstance(cm.getPlayer())) {
-                cm.sendOk("The passenger wagon is already full. Try again a bit later.");
+                cm.sendOk("El vagón de pasajeros ya está lleno. Inténtalo de nuevo un poco más tarde.");
             }
 
             cm.dispose();
@@ -40,18 +40,18 @@ function action(mode, type, selection) {
                 cm.sendSimple(text);
                 hasTicket = true;
             } else {
-                cm.sendOk("It seems as though you don't have a ticket!");
+                cm.sendOk("¡Parece que no tienes billete!");
                 cm.dispose();
 
             }
         } else if (selection == 2) {
             if (!cm.haveItem(4031711) && cm.getPlayer().getMapId() == 103000100) {
-                cm.sendOk("It seems you don't have a ticket! You can buy one from Bell.");
+                cm.sendOk("¡Parece que no tienes billete! Puedes comprar uno en Bell.");
                 cm.dispose();
                 return;
             }
 
-                cm.sendYesNo("It looks like there's plenty of room for this ride. Please have your ticket ready so I can let you in. You will arrive immediately. What do you think? Do you want to get on this ride?");
+                cm.sendYesNo("Parece que hay mucho espacio para este viaje. Por favor tenga su boleto listo para que pueda dejarle entrar. Llegará inmediatamente. ¿Qué opinas? ¿Quieres subirte a este paseo?");
 
         }
     } else if (status == 2) {

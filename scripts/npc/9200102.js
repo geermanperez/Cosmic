@@ -59,7 +59,7 @@ function action(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            cm.sendSimple("Um... hi, I'm Dr. Bosch, and I am a cosmetic lens expert here at the Ludibrium Plastic Surgery Shop. I believe your eyes are the most important feature in your body, and with #b#t5152012##k or #b#t5152015##k, I can prescribe the right kind of cosmetic lenses for you. Now, what would you like to use?\r\n#L1#Cosmetic Lenses: #i5152012##t5152012##l\r\n#L2#Cosmetic Lenses: #i5152015##t5152015##l\r\n#L3#One-time Cosmetic Lenses: #i5152105# (any color)#l");
+            cm.sendSimple("Um... hola, soy el Dr. Bosch y soy un experto en lentes cosméticos aquí en el Taller de Cirugía Plástica Ludibrium. Creo que tus ojos son la característica más importante de tu cuerpo, y con#b#t5152012##ko#b#t5152015##kPuedo recetarle el tipo adecuado de lentillas cosméticas. Ahora, ¿qué te gustaría usar?\r\n#L1#Lentes cosméticas:#i5152012##t5152012##l\r\n#L2#Lentes cosméticas:#i5152015##t5152015##l\r\n#L3#Lentes cosméticas de una sola vez:#i5152105#(cualquier color)#l");
         } else if (status == 1) {
             if (selection == 1) {
                 beauty = 1;
@@ -71,7 +71,7 @@ function action(mode, type, selection) {
                 }
                 colors = Array();
                 pushIfItemsExists(colors, [current + 200, current + 300, current + 400, current + 500, current + 700]);
-                cm.sendYesNo("If you use the regular coupon, you'll be awarded a random pair of cosmetic lenses. Are you going to use a #b#t5152012##k and really make the change to your eyes?");
+                cm.sendYesNo("Si utiliza el cupón normal, se le otorgará un par de lentes cosméticos al azar. ¿Vas a utilizar un#b#t5152012##ky realmente hacer el cambio en tus ojos?");
             } else if (selection == 2) {
                 beauty = 2;
                 if (cm.getPlayer().getGender() == 0) {
@@ -82,7 +82,7 @@ function action(mode, type, selection) {
                 }
                 colors = Array();
                 pushIfItemsExists(colors, [current + 200, current + 300, current + 400, current + 500, current + 700]);
-                cm.sendStyle("With our new computer program, you can see yourself after the treatment in advance. What kind of lens would you like to wear? Please choose the style of your liking.", colors);
+                cm.sendStyle("Con nuestro nuevo programa informático podrá verse usted mismo después del tratamiento con antelación. ¿Qué tipo de lente te gustaría usar? Por favor elige el estilo de tu agrado.", colors);
             } else if (selection == 3) {
                 beauty = 3;
                 if (cm.getPlayer().getGender() == 0) {
@@ -102,32 +102,32 @@ function action(mode, type, selection) {
                 }
 
                 if (colors.length == 0) {
-                    cm.sendOk("You don't have any One-Time Cosmetic Lens to use.");
+                    cm.sendOk("No tienes ninguna lente cosmética de un solo uso para usar.");
                     cm.dispose();
                     return;
                 }
 
-                cm.sendStyle("What kind of lens would you like to wear? Please choose the style of your liking.", colors);
+                cm.sendStyle("¿Qué tipo de lente te gustaría usar? Por favor elige el estilo de tu agrado.", colors);
             }
         } else if (status == 2) {
             if (beauty == 1) {
                 if (cm.haveItem(5152012) == true) {
                     cm.gainItem(5152012, -1);
                     cm.setFace(colors[Math.floor(Math.random() * colors.length)]);
-                    cm.sendOk("Enjoy your new and improved cosmetic lenses!");
+                    cm.sendOk("¡Disfruta de tus lentes cosméticos nuevos y mejorados!");
                     cm.dispose();
                 } else {
-                    cm.sendOk("I'm sorry, but I don't think you have our cosmetic lens coupon with you right now. Without the coupon, I'm afraid I can't do it for you..");
+                    cm.sendOk("Lo siento, pero no creo que tengas nuestro cupón para lentes cosméticos contigo en este momento. Sin el cupón, me temo que no puedo hacerlo por ti.");
                     cm.dispose();
                 }
             } else if (beauty == 2) {
                 if (cm.haveItem(5152015) == true) {
                     cm.gainItem(5152015, -1);
                     cm.setFace(colors[selection]);
-                    cm.sendOk("Enjoy your new and improved cosmetic lenses!");
+                    cm.sendOk("¡Disfruta de tus lentes cosméticos nuevos y mejorados!");
                     cm.dispose();
                 } else {
-                    cm.sendOk("I'm sorry, but I don't think you have our cosmetic lens coupon with you right now. Without the coupon, I'm afraid I can't do it for you..");
+                    cm.sendOk("Lo siento, pero no creo que tengas nuestro cupón para lentes cosméticos contigo en este momento. Sin el cupón, me temo que no puedo hacerlo por ti.");
                     cm.dispose();
                 }
             } else if (beauty == 3) {
@@ -136,23 +136,23 @@ function action(mode, type, selection) {
                 if (cm.haveItem(5152100 + color)) {
                     cm.gainItem(5152100 + color, -1);
                     cm.setFace(colors[selection]);
-                    cm.sendOk("Enjoy your new and improved cosmetic lenses!");
+                    cm.sendOk("¡Disfruta de tus lentes cosméticos nuevos y mejorados!");
                 } else {
-                    cm.sendOk("I'm sorry, but I don't think you have our cosmetic lens coupon with you right now. Without the coupon, I'm afraid I can't do it for you..");
+                    cm.sendOk("Lo siento, pero no creo que tengas nuestro cupón para lentes cosméticos contigo en este momento. Sin el cupón, me temo que no puedo hacerlo por ti.");
                 }
             } else if (beauty == 0) {
                 if (selection == 0 && cm.getMeso() >= regprice) {
                     cm.gainMeso(-regprice);
                     cm.gainItem(5152012, 1);
-                    cm.sendOk("Enjoy!");
+                    cm.sendOk("¡Disfrutar!");
                     cm.dispose();
                 } else if (selection == 1 && cm.getMeso() >= vipprice) {
                     cm.gainMeso(-vipprice);
                     cm.gainItem(5152015, 1);
-                    cm.sendOk("Enjoy!");
+                    cm.sendOk("¡Disfrutar!");
                     cm.dispose();
                 } else {
-                    cm.sendOk("You don't have enough mesos to buy a coupon!");
+                    cm.sendOk("¡No tienes suficientes mesos para comprar un cupón!");
                 }
             }
         }

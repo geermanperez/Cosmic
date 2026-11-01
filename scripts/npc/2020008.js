@@ -28,14 +28,14 @@ actionx = {"Mental": false, "Physical": false};
 function start() {
     if (cm.isQuestStarted(6192)) {
         if (cm.getParty() == null) {
-            cm.sendOk("Form a party to start this instance.");
+            cm.sendOk("Formar un grupo para iniciar esta instancia.");
             cm.dispose();
             return;
         }
 
         var em = cm.getEventManager("ElnathPQ");
         if (em == null) {
-            cm.sendOk("The El Nath PQ has encountered an error.");
+            cm.sendOk("El PQ de El Nath ha encontrado un error.");
             cm.dispose();
             return;
         }
@@ -43,10 +43,10 @@ function start() {
         var eli = em.getEligibleParty(cm.getParty());
         if (eli.size() > 0) {
             if (!em.startInstance(cm.getParty(), cm.getPlayer().getMap(), 1)) {
-                cm.sendOk("Another party is already challenging this instance. Please try another channel, or wait for the current party to finish.");
+                cm.sendOk("Otro partido ya está impugnando esta instancia. Prueba con otro canal o espera a que termine la fiesta actual.");
             }
         } else {
-            cm.sendOk("You cannot start this instance yet, because either your party is not in the range size, some of your party members are not eligible to attempt it or they are not in this map. If you're having trouble finding party members, try Party Search.");
+            cm.sendOk("No puedes iniciar esta instancia todavía porque tu grupo no está dentro del tamaño del rango, algunos de los miembros de tu grupo no son elegibles para intentarlo o no están en este mapa. Si tienes problemas para encontrar miembros del grupo, prueba Party Search.");
         }
 
         cm.dispose();
@@ -62,7 +62,7 @@ function start() {
             return;
         }
 
-        cm.sendNext("Hi there.");
+        cm.sendNext("Hola.");
         cm.dispose();
         return;
     }
@@ -71,7 +71,7 @@ function start() {
     } else if (cm.haveItem(4031057)) {
         actionx["Physical"] = true;
     }
-    cm.sendSimple("Can I help you?#b" + (cm.getJobId() % 10 == 0 ? "\r\n#L0#I want to make the 3th job advancement." : "") + "\r\n#L1#Please allow me to do the Zakum Dungeon Quest.");
+    cm.sendSimple("¿Puedo ayudarte?#b" + (cm.getJobId() % 10 == 0 ? "\r\n#L0#I quiero realizar el tercer avance laboral." : "") + "\r\n#L1#Por favor, permítanme hacer Zakum Dungeon Quest.");
 }
 
 function action(mode, type, selection) {
@@ -80,20 +80,20 @@ function action(mode, type, selection) {
         status -= 2;
     } else if (mode != 1 || (status > 2 && !actionx["Mental"]) || status > 3) {
         if (mode == 0 && type == 1) {
-            cm.sendNext("Make up your mind.");
+            cm.sendNext("Decídete.");
         }
         cm.dispose();
         return;
     }
     if (actionx["Mental"]) {
         if (status == 0) {
-            cm.sendNext("Great job completing the mental part of the test. You have wisely answered all the questions correctly. I must say, I am quite impressed with the level of wisdom you have displayed there. Please hand me the necklace first, before we takeon the next step.");
+            cm.sendNext("Gran trabajo completando la parte mental del examen. Sabiamente has respondido correctamente a todas las preguntas. Debo decir que estoy bastante impresionado con el nivel de sabiduría que ha demostrado allí. Por favor, pásame el collar primero antes de dar el siguiente paso.");
         } else if (status == 1) {
-            cm.sendYesNo("Okay! Now, you'll be transformed into a much more powerful warrior through me. Before doing that, though, please make sure your SP has been thoroughly used, You'll need to use up at least all of SP's gained until level 70 to make the 3rd job advancement. Oh, and since you have already chosen your path of the occupation by the 2nd job adv., you won't have to choose again for the 3rd job adv. Do you want to do it right now?");
+            cm.sendYesNo("¡Bueno! Ahora, a través de mí, te transformarás en un guerrero mucho más poderoso. Sin embargo, antes de hacer eso, asegúrese de haber utilizado completamente su SP. Necesitará usar al menos todos los SP obtenidos hasta el nivel 70 para avanzar al tercer trabajo. Ah, y dado que ya has elegido tu camino de ocupación para el segundo puesto de trabajo, no tendrás que volver a elegir para el tercer puesto de trabajo. ¿Quieres hacerlo ahora mismo?");
         } else if (status == 2) {
             if (cm.getPlayer().getRemainingSp() > 0) {
                 if (cm.getPlayer().getRemainingSp() > (cm.getLevel() - 70) * 3) {
-                    cm.sendNext("Please, use all your SP before continuing.");
+                    cm.sendNext("Por favor, utiliza todos tus SP antes de continuar.");
                     cm.dispose();
                     return;
                 }
@@ -105,32 +105,32 @@ function action(mode, type, selection) {
             }
 
             if (Math.floor(cm.getJobId() / 10) == 11) {
-                cm.sendNext("You have just become the #bCrusader#k. A number of new attacking skills such as #bShout#k and #bCombo Attack#k are devastating, while #bArmor Crash#k will put a dent on the monsters' defensive abilities. It'll be best to concentrate on acquiring skills with the weapon you mastered during the days as a Fighter.");
+                cm.sendNext("Acabas de convertirte en el#bCrusader#k. Una serie de nuevas habilidades de ataque como#bShout#k y#bAtaque combinado#kson devastadores, mientras#bChoque de armadura#kafectará las habilidades defensivas de los monstruos. Lo mejor será concentrarse en adquirir habilidades con el arma que dominó durante sus días como luchador.");
             } else if (Math.floor(cm.getJobId() / 10) == 12) {
-                cm.sendNext("You have just become the #bWhite Knight#k. You'll be introduced to a new skill book featuring various new attacking skills as well as element-based attacks. It's recommended that the type of weapon complementary to the Page, whether it be a sword or a blunt weapon, should be continued as the White Knight. There's a skill called #bCharge#k, which adds an element of ice, fire and lightning to the weapon, making White Knight the only warrior that can perform element-based attacks. Charge up your weapon with an element that weakens the monster, and then apply massive damage with the #bCharged Blow#k. This will definitely make you a devastating force around here.");
+                cm.sendNext("Acabas de convertirte en el#bCaballero Blanco#k. Se te presentará un nuevo libro de habilidades que presenta varias habilidades de ataque nuevas, así como ataques basados ​​en elementos. Se recomienda que el tipo de arma complementaria al Paje, ya sea una espada o un arma contundente, continúe como el Caballero Blanco. Hay una habilidad llamada#bCharge#k, que añade un elemento de hielo, fuego y relámpagos al arma, convirtiendo a White Knight en el único guerrero que puede realizar ataques basados ​​en elementos. Carga tu arma con un elemento que debilite al monstruo y luego aplica un daño masivo con el#bGolpe cargado#k. Esto definitivamente te convertirá en una fuerza devastadora por aquí.");
             } else {
-                cm.sendNext("You're #bDragon Knight#k from here on out. You'll be introduced to a range of new attacking skills for spears and pole arms, and whatever weapon was chosen as the Spearman should be continued as the Dragon Knigth. Skills such as #bCrusher#k (maximum damage to one monster) and #bDragon Fury#k (damage to multiple monsters) are recommended as main attacking skills of choice, while a skill called #bDragon Roar#k will damage everything on screen with devasting force. The downside is the fact that the skill uses up over half of the available HP.");
+                cm.sendNext("Estás#bCaballero Dragón#kde aquí en adelante. Se te presentará una variedad de nuevas habilidades de ataque para lanzas y armas de asta, y cualquier arma elegida como Spearman debe continuar como Dragon Knigth. Habilidades como#bCrusher#k (daño máximo a un monstruo) y#bfuria del dragón#k(daño a múltiples monstruos) se recomiendan como principales habilidades de ataque de elección, mientras que una habilidad llamada#brugido del dragón#kDañará todo lo que aparece en la pantalla con una fuerza devastadora. La desventaja es el hecho de que la habilidad consume más de la mitad de los HP disponibles.");
             }
         } else if (status == 3) {
-            cm.sendNextPrev("I've also given you some SP and AP, which will help you get started. You have now become a powerful, powerful warrior, indeed. Remember, though, that the real world will be awaiting your arrival with even tougher obstacles to overcome. Once you feel like you cannot train yourself to reach a higher place, then, and only then, come see me. I'll be here waiting.");
+            cm.sendNextPrev("También te he proporcionado algunos SP y AP, que te ayudarán a empezar. Ahora te has convertido en un guerrero poderoso, muy poderoso. Sin embargo, recuerda que el mundo real estará esperando tu llegada con obstáculos aún más difíciles que superar. Una vez que sientas que no puedes entrenarte para alcanzar un lugar más alto, entonces, y sólo entonces, ven a verme. Estaré aquí esperando.");
         }
     } else if (actionx["Physical"]) {
         if (status == 0) {
-            cm.sendNext("Great job completing the physical part of the test. I knew you could do it. Now that you have passed the first half of the test, here's the second half. Please give me the necklace first.");
+            cm.sendNext("Gran trabajo completando la parte física de la prueba. Sabía que podías hacerlo. Ahora que has pasado la primera mitad del examen, aquí tienes la segunda mitad. Por favor, dame el collar primero.");
         } else if (status == 1) {
             if (cm.haveItem(4031057)) {
                 cm.gainItem(4031057, -1);
                 cm.getPlayer().setPartyQuestItemObtained("JBQ");
             }
-            cm.sendNextPrev("Here's the 2nd half of the test. This test will determine whether you are smart enough to take the next step towards greatness. There is a dark, snow-covered area called the Holy Ground at the snowfield in Ossyria, where even the monsters can't reach. On the center of the area lies a huge stone called the Holy Stone. You'll need to offer a special item as the sacrifice, then the Holy Stone will test your wisdom right there on the spot.");
+            cm.sendNextPrev("Aquí tenéis la segunda mitad de la prueba. Esta prueba determinará si eres lo suficientemente inteligente como para dar el siguiente paso hacia la grandeza. Hay un área oscura y cubierta de nieve llamada Tierra Santa en el campo nevado de Ossyria, donde ni siquiera los monstruos pueden llegar. En el centro del área se encuentra una enorme piedra llamada Piedra Sagrada. Tendrás que ofrecer un objeto especial como sacrificio, luego la Piedra Sagrada pondrá a prueba tu sabiduría allí mismo.");
         } else if (status == 2) {
-            cm.sendNextPrev("You'll need to answer each and every question given to you with honesty and conviction. If you correctly answer all the questions, then the Holy Stone will formally accept you and hand you #b#t4031058##k. Bring back the necklace, and I will help you to the next step forward. Good luck.");
+            cm.sendNextPrev("Deberá responder todas y cada una de las preguntas que le hagan con honestidad y convicción. Si respondes correctamente a todas las preguntas, entonces la Piedra Sagrada te aceptará formalmente y te entregará#b#t4031058##k. Devuélveme el collar y te ayudaré a dar el siguiente paso. Buena suerte.");
         }
     } else if (cm.getPlayer().gotPartyQuestItem("JB3") && selection == 0) {
-        cm.sendNext("Go, talk with #b#p1022000##k and bring me #b#t4031057##k.");
+        cm.sendNext("Ve, habla con#b#p1022000##ky tráeme#b#t4031057##k.");
         cm.dispose();
     } else if (cm.getPlayer().gotPartyQuestItem("JBQ") && selection == 0) {
-        cm.sendNext("Go, talk with #b#p2030006##k and bring me #b#t4031058##k.");
+        cm.sendNext("Ve, habla con#b#p2030006##ky tráeme#b#t4031058##k.");
         cm.dispose();
     } else {
         if (sel == undefined) {
@@ -139,17 +139,17 @@ function action(mode, type, selection) {
         if (sel == 0) {
             if (cm.getPlayer().getLevel() >= 70 && cm.getJobId() % 10 == 0) {
                 if (status == 0) {
-                    cm.sendYesNo("Welcome. I'm #b#p2020008##k, the chief of all warriors, in charge of bringing out the best in each and every warrior that needs my guidance. You seem like the kind of warrior that wants to make the leap forward, the one ready to take on the challenges of the 3th job advancement. But I've seen countless warriors eager to make the jump just like you, only to see them fail. What about you? Are you ready to be tested and make the 3th job advancement?");
+                    cm.sendYesNo("Bienvenido. Soy#b#p2020008##k, el jefe de todos los guerreros, encargado de sacar lo mejor de todos y cada uno de los guerreros que necesitan mi guía. Pareces el tipo de guerrero que quiere dar el salto adelante, el que está listo para asumir los desafíos del tercer ascenso laboral. Pero he visto innumerables guerreros deseosos de dar el salto como tú, sólo para verlos fracasar. ¿Qué pasa contigo? ¿Estás listo para hacerte la prueba y lograr el tercer avance laboral?");
                 } else if (status == 1) {
                     cm.getPlayer().setPartyQuestItemObtained("JB3");
-                    cm.sendNext("Good. You will be tested on two important aspects of the warrior: strength and wisdom. I'll now explain to you the physical half of the test. Remember #b#p1022000##k from Perion? Go see him, and he'll give you the details on the first half of the test. Please complete the mission, and get #b#t4031057##k from #p1022000#.");
+                    cm.sendNext("Bien. Serás puesto a prueba en dos aspectos importantes del guerrero: fuerza y ​​sabiduría. Ahora te explicaré la mitad física de la prueba. Recordar#b#p1022000##kde Perión? Ve a verlo y te dará los detalles de la primera mitad de la prueba. Por favor completa la misión y obtén#b#t4031057##kde#p1022000#.");
                 } else if (status == 2) {
-                    cm.sendNextPrev("The mental half of the test can only start after you pass the physical part of the test. #b#t4031057##k will be the proof that you have indeed passed the test. I'll let #b#p1022000##k in advance that you're making your way there, so get ready. It won't be easy, but I have the utmost faith in you. Good luck.");
+                    cm.sendNextPrev("La mitad mental de la prueba sólo puede comenzar después de pasar la parte física de la prueba.#b#t4031057##kserá la prueba de que efectivamente has pasado la prueba. dejaré#b#p1022000##kcon anticipación que vas a llegar allí, así que prepárate. No será fácil, pero tengo la máxima fe en ti. Buena suerte.");
                 }
             }
         } else {
             if (cm.getPlayer().getLevel() >= 50) {
-                cm.sendOk("The Chief's Residence Council grants you #bconcession#k to make part of the #rcounteroffensive team against Zakum#k. Good luck on your journey ahead.");
+                cm.sendOk("El Consejo de Residencia del Jefe te concede#bconcession#k hacer parte del#requipo de contraofensiva contra Zakum#k. Buena suerte en el viaje que tienes por delante.");
                 if (!(cm.isQuestStarted(100200) || cm.isQuestCompleted(100200))) {
                     cm.startQuest(100200);
                 }
@@ -158,7 +158,7 @@ function action(mode, type, selection) {
                     cm.completeQuest(100201);
                 }
             } else {
-                cm.sendOk("You're way too weak to make part of the #rcounteroffensive team against Zakum#k. Reach at least #blevel 50#k, then talk to me.");
+                cm.sendOk("Eres demasiado débil para formar parte del#requipo de contraofensiva contra Zakum#k. Alcanzar al menos#bnivel 50#k, entonces habla conmigo.");
             }
             cm.dispose();
         }

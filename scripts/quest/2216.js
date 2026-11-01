@@ -36,7 +36,7 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("I've just gathered an interesting information, #rDyle looks just like regular Ligators#k, but bigger.");
+            qm.sendNext("Acabo de recopilar una información interesante,#rDyle se parece a los Ligators normales#k, pero más grande.");
         } else if (status == 1) {
             qm.forceCompleteQuest();
             qm.gainExp(7000);

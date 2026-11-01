@@ -54,7 +54,7 @@ function action(mode, type, selection) {
         if (status == 0) {
             em = cm.getEventManager("LudiMazePQ");
             if (em == null) {
-                cm.sendOk("The Ludibrium Maze PQ has encountered an error.");
+                cm.sendOk("El Ludibrium Maze PQ ha encontrado un error.");
                 cm.dispose();
                 return;
             } else if (cm.isUsingOldPqNpcStyle()) {
@@ -62,33 +62,33 @@ function action(mode, type, selection) {
                 return;
             }
 
-            cm.sendSimple("#e#b<Party Quest: Ludibrium Maze>\r\n#k#n" + em.getProperty("party") + "\r\n\r\nThis is the entrance to the Ludibrium Maze. Enjoy!\r\n#b#L0#Enter the Lubidrium Maze#l\r\n#L1#I would like to " + (cm.getPlayer().isRecvPartySearchInviteEnabled() ? "disable" : "enable") + " Party Search.\r\n#L2#What is the Ludibrium Maze?");
+            cm.sendSimple("#e#b<Misión del grupo: Laberinto de juguetes>\r\n#k#n" + em.getProperty("fiesta") + "\r\n\r\nEsta es la entrada al Laberinto Ludibrium. ¡Disfrutar!\r\n#b#L0#Entra en el laberinto de Lubidrium#l\r\n#L1#Me gustaría" + (cm.getPlayer().isRecvPartySearchInviteEnabled() ? "desactivar" : "permitir") + "Party Search.\r\n#L2#¿Qué es el Laberinto de Ludibrium?");
         } else if (status == 1) {
             if (selection == 0) {
                 if (cm.getParty() == null) {
-                    cm.sendOk("Try taking on the Maze Quest with your party.");
+                    cm.sendOk("Intenta emprender Maze Quest con tu grupo.");
                     cm.dispose();
                 } else if (!cm.isLeader()) {
-                    cm.sendOk("If you DO decide to tackle it, please have your Party Leader notify me!");
+                    cm.sendOk("Si decides abordarlo, ¡pídele al líder de tu grupo que me lo notifique!");
                     cm.dispose();
                 } else {
                     var eli = em.getEligibleParty(cm.getParty());
                     if (eli.size() > 0) {
                         if (!em.startInstance(cm.getParty(), cm.getPlayer().getMap(), 1)) {
-                            cm.sendOk("Another party has already entered the #rParty Quest#k in this channel. Please try another channel, or wait for the current party to finish.");
+                            cm.sendOk("Otro partido ya ha entrado en el#rBúsqueda de fiesta#ken este canal. Prueba con otro canal o espera a que termine la fiesta actual.");
                         }
                     } else {
-                        cm.sendOk("Your party needs to consist of at least 3 members in order to tackle this maze.");
+                        cm.sendOk("Tu grupo debe estar formado por al menos 3 miembros para poder afrontar este laberinto.");
                     }
 
                     cm.dispose();
                 }
             } else if (selection == 1) {
                 var psState = cm.getPlayer().toggleRecvPartySearchInvite();
-                cm.sendOk("Your Party Search status is now: #b" + (psState ? "enabled" : "disabled") + "#k. Talk to me whenever you want to change it back.");
+                cm.sendOk("El estado de tu búsqueda de grupo es ahora: #b" + (psState ? "activado" : "desactivado") + "#k. Habla conmigo cuando quieras volver a cambiarlo.");
                 cm.dispose();
             } else {
-                cm.sendOk("#e#b<Party Quest: Ludibrium Maze>#k#n\r\nThis maze is available to all parties of 3 or more members, and all participants must be between Level 51~70.  You will be given 15 minutes to escape the maze.  At the center of the room, there will be a Warp Portal set up to transport you to a different room.  These portals will transport you to other rooms where you'll (hopefully) find the exit.  Pietri will be waiting at the exit, so all you need to do is talk to him, and he'll let you out.  Break all the boxes located in the room, and a monster inside the box will drop a coupon.  After escaping the maze, you will be awarded with EXP based on the coupons collected.  Additionally, if the leader possesses at least 30 coupons, then a special gift will be presented to the party.  If you cannot escape the maze within the allotted 15 minutes, you will receive 0 EXP for your time in the maze.  If you decide to log off while you're in the maze, you will be automatically kicked out of the maze.  Even if the members of the party leave in the middle of the quest, the remaining members will be able to continue on with the quest, except if they run out of the minimum amount of party members in the maze.  If you are in critical condition and unable to hunt down the monsters, you may avoid them to save yourself.  Your fighting spirit and wits will be tested!  Good luck!");
+                cm.sendOk("#e#b<Misión del grupo: Laberinto de juguetes>#k#n\r\nEste laberinto está disponible para todos los grupos de 3 o más miembros, y todos los participantes deben estar entre los niveles 51 y 70.  Tendrás 15 minutos para escapar del laberinto.  En el centro de la habitación, habrá un Portal Warp configurado para transportarte a una habitación diferente.  Estos portales te transportarán a otras habitaciones donde (con suerte) encontrarás la salida.  Pietri te estará esperando en la salida, así que todo lo que tienes que hacer es hablar con él y te dejará salir.  Rompe todas las cajas ubicadas en la habitación y un monstruo dentro de la caja dejará caer un cupón.  Después de escapar del laberinto, recibirás EXP según los cupones recolectados.  Además, si el líder posee al menos 30 cupones, entonces unSe presentará un regalo especial a la fiesta.  Si no puedes escapar del laberinto dentro de los 15 minutos asignados, recibirás 0 EXP por tu tiempo en el laberinto.  Si decides cerrar sesión mientras estás en el laberinto, serás expulsado automáticamente del laberinto.  Incluso si los miembros del grupo se van en medio de la misión, los miembros restantes podrán continuar con la misión, excepto si se quedan sin la cantidad mínima de miembros del grupo en el laberinto.  Si estás en estado crítico y no puedes cazar a los monstruos, puedes evitarlos para salvarte.  ¡Tu espíritu de lucha y tu ingenio serán puestos a prueba!  ¡Buena suerte!");
                 cm.dispose();
             }
         }

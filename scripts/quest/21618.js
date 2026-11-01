@@ -38,11 +38,11 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Oh, this befriended wolf of yours... I sense some hidden powers hidden behind his furs, you see. Wat'cha say, master, if I awaken it's hidden power?", 9);
+            qm.sendNext("Oh, este lobo tuyo con el que te has hecho amigo... Siento algunos poderes ocultos detrás de sus pieles, ¿sabes? ¿Qué dices, maestro, si despierto su poder oculto?", 9);
         } else if (status == 1) {
-            qm.sendNextPrev("Wait, can you do that?", 3);
+            qm.sendNextPrev("Espera, ¿puedes hacer eso?", 3);
         } else if (status == 2) {
-            qm.sendAcceptDecline("Astonished, huh? Does all that time frozen in the glacier hindered your senses as well? Why, of course! Tell me when you're ready!", 9);
+            qm.sendAcceptDecline("Asombrado, ¿eh? ¿Todo ese tiempo congelado en el glaciar también obstaculizó tus sentidos? ¡Por supuesto! ¡Dime cuando estés listo!", 9);
         } else {
             qm.forceStartQuest();
             qm.dispose();
@@ -67,12 +67,12 @@ function end(mode, type, selection) {
 
         if (status == 0) {
             if (!qm.haveItemWithId(1902017, false)) {
-                qm.sendNext("You will have to unequip the wolf first before going for the evolution.");
+                qm.sendNext("Primero tendrás que desequipar al lobo antes de continuar con la evolución.");
                 qm.dispose();
                 return;
             }
 
-            qm.sendNext("Step aside, behold the mighty prowess of Maha!!");
+            qm.sendNext("¡¡Hazte a un lado, contempla la poderosa destreza de Maha!!");
         } else if (status == 1) {
             qm.forceCompleteQuest();
 

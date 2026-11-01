@@ -90,7 +90,7 @@ function action(mode, type, selection) {
         var complete = true;
 
         if (cm.getMeso() < (cost * qty)) {
-            cm.sendOk("See, I need to specify my wages to support my career, that cannot be bypassed. I will gladly help you once you've got the money.");
+            cm.sendOk("Mira, necesito especificar mi salario para apoyar mi carrera, eso no se puede pasar por alto. Con mucho gusto te ayudaré una vez que tengas el dinero.");
             cm.dispose();
             return;
         } else {
@@ -105,7 +105,7 @@ function action(mode, type, selection) {
             }
         }
         if (!complete) {
-            cm.sendOk("You are lacking some items for the set you want to make. Please provide them so that we can assemble the game set.");
+            cm.sendOk("Te faltan algunos elementos para el set que quieres hacer. Proporciónelos para que podamos armar el juego.");
         } else {
             if (cm.canHold(item, qty)) {
                 if (mats instanceof Array) {
@@ -118,9 +118,9 @@ function action(mode, type, selection) {
                 cm.gainMeso(-(cost * qty));
 
                 cm.gainItem(item, qty);
-                cm.sendOk("There is your game set. Have fun!");
+                cm.sendOk("Ahí está tu juego. ¡Divertirse!");
             } else {
-                cm.sendOk("I can't make a set for you if there's no room in your ETC inventory for it. Please free a space first and then talk to me.");
+                cm.sendOk("No puedo hacer un juego para ti si no hay espacio para él en tu inventario de ETC. Por favor primero libera un espacio y luego habla conmigo.");
             }
         }
 

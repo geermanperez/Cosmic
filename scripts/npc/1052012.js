@@ -48,10 +48,10 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendYesNo("So, are you going to use the Internet Cafe? There is a fee to use the spaces there, that is #b5,000 mesos#k. Are you going to enter the Cafe?");
+            cm.sendYesNo("Entonces, ¿vas a utilizar el cibercafé? Hay una tarifa por utilizar los espacios allí, es decir.#b5.000 mesos#k. ¿Vas a entrar al Café?");
         } else if (status == 1) {
             if (cm.getMeso() < 5000) {
-                cm.sendOk("Oh, you don't have the money, right? Sorry, I can't let you in.");
+                cm.sendOk("Oh, no tienes el dinero, ¿verdad? Lo siento, no puedo dejarte entrar.");
             } else {
                 cm.gainMeso(-5000);
                 cm.warp(193000000, "out00");

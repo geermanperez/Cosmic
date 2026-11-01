@@ -29,6 +29,6 @@ function start() {
     cm.removeAll(4001015);
     cm.removeAll(4001016);
     cm.removeAll(4001018);
-    cm.sendOk("See you next time.");
+    cm.sendOk("Nos vemos la próxima vez.");
     cm.dispose();
 }

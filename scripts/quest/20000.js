@@ -39,11 +39,11 @@ function start(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            qm.sendNext("Ah, you've come... this is exhilarating. I am grateful for your decision to become a Cygnus Knight. I have been waiting a long time for someone like you. Someone that is courageous enough to face the Black Mage and not flinch...");
+            qm.sendNext("Ah, has venido... esto es estimulante. Estoy agradecido por su decisión de convertirse en Cygnus Knight. Llevo mucho tiempo esperando a alguien como tú. Alguien que sea lo suficientemente valiente como para enfrentarse al Mago Negro y no inmutarse...");
         } else if (status == 1) {
-            qm.sendNext("The battle against the evil nature of the Black Mage who wants to swallow up Maple World as a whole, the cunning nature of his disciples, and the physical battle against the crazy monsters will await you. There will also come a time where even you may turn against yourself into an enemy and torment you ...");
+            qm.sendNext("Te esperará la batalla contra la naturaleza malvada del Mago Negro que quiere tragarse a Maple World en su totalidad, la naturaleza astuta de sus discípulos y la batalla física contra los monstruos locos. También llegará un momento en el que incluso tú podrás volverte contra ti mismo y convertirte en un enemigo y atormentarte...");
         } else if (status == 2) {
-            qm.sendOk("But I won't worry about that. I am confident that you will be able to fight through all that and protect Maple World from the Black Mage. Of course, you'll have to become a bit stronger than you are right now, right?");
+            qm.sendOk("Pero no me preocuparé por eso. Estoy seguro de que podrás luchar contra todo eso y proteger Maple World del Black Mage. Por supuesto, tendrás que volverte un poco más fuerte de lo que eres ahora, ¿verdad?");
         } else if (status == 3) {
             qm.gainItem(1142065, 1); // Noblesse Medal * 1
             qm.gainExp(20); //gain 20 exp!!

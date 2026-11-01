@@ -16,7 +16,7 @@ function start() {
 
         cm.sendYesNo(sendStr);
     } else {
-        cm.sendOk("Behold, the distinguished brave heroes of Rien! Those stout hearts are who have been protecting our people since long ago, our valiant comrades.");
+        cm.sendOk("¡He aquí los distinguidos y valientes héroes de Rien! Esos corazones valientes son los que desde hace mucho protegen a nuestro pueblo, nuestros valientes camaradas.");
         cm.dispose();
     }
 }
@@ -33,7 +33,7 @@ function action(mode, type, selection) {
         if (spawnPnpc) {
             if (mode > 0) {
                 if (cm.getMeso() < spawnPnpcFee) {
-                    cm.sendOk("Sorry, you don't have enough mesos to purchase your place on the Hall of Fame.");
+                    cm.sendOk("Lo sentimos, no tienes suficientes mesos para comprar tu lugar en el Salón de la Fama.");
                     cm.dispose();
                     return;
                 }
@@ -41,10 +41,10 @@ function action(mode, type, selection) {
                 const PlayerNPC = Java.type('server.life.PlayerNPC');
                 const GameConstants = Java.type('constants.game.GameConstants');
                 if (PlayerNPC.spawnPlayerNPC(GameConstants.getHallOfFameMapid(cm.getJob()), cm.getPlayer())) {
-                    cm.sendOk("There you go! Hope you will like it.");
+                    cm.sendOk("¡Ahí tienes! Espero que te guste.");
                     cm.gainMeso(-spawnPnpcFee);
                 } else {
-                    cm.sendOk("Sorry, the Hall of Fame is currently full...");
+                    cm.sendOk("Lo sentimos, el Salón de la Fama está actualmente lleno...");
                 }
             }
 

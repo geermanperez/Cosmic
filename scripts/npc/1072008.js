@@ -28,20 +28,20 @@ function action(mode, type, selection) {
         if (status == 0) {
             if (cm.getMapId() == 108000502) {
                 if (!(cm.haveItem(4031856, 15))) {
-                    cm.sendSimple("You haven't brought me all the crystals yet. I'm looking forward for your progress, mate! \r\n#b#L1#I would like to leave#l");
+                    cm.sendSimple("Aún no me has traído todos los cristales. ¡Estoy esperando tu progreso, amigo!\r\n#b#L1#me gustaria irme#l");
                 } else {
                     status++;
-                    cm.sendNext("Wow, you have brought me 15 #b#t4031856##k! Congratulations. Let me warp you out now.");
+                    cm.sendNext("Vaya, me has traído 15#b#t4031856##k! Felicidades. Déjame avisarte ahora.");
                 }
             } else if (cm.getMapId() == 108000501) {
                 if (!(cm.haveItem(4031857, 15))) {
-                    cm.sendSimple("You haven't brought me all the crystals yet. I'm looking forward for your progress, mate! \r\n#b#L1#I would like to leave#l");
+                    cm.sendSimple("Aún no me has traído todos los cristales. ¡Estoy esperando tu progreso, amigo!\r\n#b#L1#me gustaria irme#l");
                 } else {
                     status++;
-                    cm.sendNext("Wow, you have brought me 15 #b#t4031857##k! Congratulations. Let me warp you out now.");
+                    cm.sendNext("Vaya, me has traído 15#b#t4031857##k! Felicidades. Déjame avisarte ahora.");
                 }
             } else {
-                cm.sendNext("Error. Please report this.");
+                cm.sendNext("Error. Por favor informe esto.");
                 cm.dispose();
             }
         } else if (status == 1) {   // thanks Lame for noticing players getting stuck in area in certain scenarios

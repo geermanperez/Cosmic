@@ -52,7 +52,7 @@ function action(mode, type, selection) {
 
         if (eim != null && eim.isEventCleared()) {
             if (!eim.giveEventReward(cm.getPlayer())) {
-                cm.sendNext("It seems you don't have a free slot in either your #rEquip#k, #rUse#k or #rEtc#k inventories. Please make some room first.");
+                cm.sendNext("Parece que no tienes un espacio libre en tus inventarios #rEquip#k, #rUse#k o #rEtc#k. Por favor, primero haz algo de espacio.");
             } else {
                 cm.warp(101030104);
             }

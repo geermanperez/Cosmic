@@ -38,13 +38,13 @@ function start(mode, type, selection) {
         if (status == 0) {
             em = qm.getEventManager("BalrogQuest");
             if (em == null) {
-                qm.sendOk("Sorry, but the BalrogQuest is closed.");
+                qm.sendOk("Lo sentimos, pero BalrogQuest está cerrado.");
                 return;
             }
 
             var em = qm.getEventManager("BalrogQuest");
             if (!em.startInstance(qm.getPlayer())) {
-                qm.sendOk("There is currently someone in this map, come back later.");
+                qm.sendOk("Actualmente hay alguien en este mapa, vuelve más tarde.");
             } else {
                 qm.forceStartQuest();
                 qm.dispose();

@@ -34,7 +34,7 @@ status = -1;
 oldSelection = -1;
 
 function start() {
-    cm.sendSimple("Hello, I am Shalon from Singapore Airport. I can assist you in getting you to Kerning City in no time. Do you want to go to Kerning City?\r\n#b#L0#I would like to buy a plane ticket to Kerning City\r\n#b#L1#Let me go in to the departure point.");
+    cm.sendSimple("Hola, soy Shalon del aeropuerto de Singapur. Puedo ayudarte a llegar a Kerning City en poco tiempo. ¿Quieres ir a la ciudad de Kerning?\r\n#b#L0#Me gustaría comprar un billete de avión a Kerning City.\r\n#b#L1#Déjame entrar al punto de partida.");
 }
 
 function action(mode, type, selection) {
@@ -46,9 +46,9 @@ function action(mode, type, selection) {
 
     if (status == 0) {
         if (selection == 0) {
-            cm.sendYesNo("The ticket will cost you 5,000 mesos. Will you purchase the ticket?");
+            cm.sendYesNo("El billete te costará 5.000 mesos. ¿Comprarás el billete?");
         } else if (selection == 1) {
-            cm.sendYesNo("Would you like to go in now? You will lose your ticket once you go in! Thank you for choosing Wizet Airline.");
+            cm.sendYesNo("¿Quieres entrar ahora? ¡Perderás tu boleto una vez que entres! Gracias por elegir Wizet Airline.");
         }
         oldSelection = selection;
     } else if (status == 1) {
@@ -57,14 +57,14 @@ function action(mode, type, selection) {
                 if (cm.getPlayer().canHold(4031732, 1)) {
                     cm.gainMeso(-5000);
                     cm.gainItem(4031732);
-                    cm.sendOk("Thank you for choosing Wizet Airline! Enjoy your flight!");
+                    cm.sendOk("¡Gracias por elegir Wizet Airline! ¡Disfruta de tu vuelo!");
                     cm.dispose();
                 } else {
-                    cm.sendOk("You don't have a free slot on your ETC inventory for the ticket, please make a room beforehand.");
+                    cm.sendOk("No tienes un espacio libre en tu inventario de ETC para el boleto, haz un espacio con anticipación.");
                     cm.dispose();
                 }
             } else {
-                cm.sendOk("You do not have enough mesos or you've already purchased a ticket.");
+                cm.sendOk("No tienes suficientes mesos o ya has comprado un billete.");
                 cm.dispose();
             }
         } else if (oldSelection == 1) {
@@ -74,7 +74,7 @@ function action(mode, type, selection) {
                     cm.gainItem(4031732, -1);
 
             } else {
-                cm.sendOk("You need a #b#t4031732##k to get on the plane!");
+                cm.sendOk("Necesitas un#b#t4031732##k¡para subir al avión!");
             }
         }
         cm.dispose();

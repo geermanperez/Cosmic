@@ -7,13 +7,13 @@ function start() {
 function action(mode, type, selection) {
     var eim = cm.getEventInstance();
     if (eim != null && eim.getIntProperty("glpq6") == 3) {
-        cm.sendOk("... Well played. You overtook the Twisted Masters. Pass through that gate to receive your prizes.");
+        cm.sendOk("... Bien jugado. Superaste a los Maestros Retorcidos. Pasa por esa puerta para recibir tus premios.");
         cm.dispose();
         return;
     }
 
     if (!cm.isEventLeader()) {
-        cm.sendNext("I wish for your leader to talk to me.");
+        cm.sendNext("Deseo que su líder hable conmigo.");
         cm.dispose();
         return;
     }
@@ -27,11 +27,11 @@ function action(mode, type, selection) {
     if (eim != null) {
         if (eim.getIntProperty("glpq6") == 0) {
             if (status == 0) {
-                cm.sendNext("Welcome to the Twisted Masters' Keep. I will be your host for this evening...");
+                cm.sendNext("Bienvenido al Torreón de los Maestros Retorcidos. Seré tu anfitrión esta noche...");
             } else if (status == 1) {
-                cm.sendNext("Tonight, we have a feast of a squad of Maplers.. ahaha...");
+                cm.sendNext("Esta noche, tenemos un festín de un escuadrón de Maplers... ajaja...");
             } else if (status == 2) {
-                cm.sendNext("Let our specially trained Master Guardians escort you!");
+                cm.sendNext("¡Deja que nuestros Maestros Guardianes especialmente capacitados te escolten!");
                 cm.mapMessage(6, "Engarde! Master Guardians approach!");
                 for (var i = 0; i < 10; i++) {
                     var mob = eim.getMonster(9400594);
@@ -49,9 +49,9 @@ function action(mode, type, selection) {
         } else if (eim.getIntProperty("glpq6") == 1) {
             if (cm.getMap().countMonsters() == 0) {
                 if (status == 0) {
-                    cm.sendOk("Eh. What is this? You've defeated them?");
+                    cm.sendOk("Eh. ¿Qué es esto? ¿Los has derrotado?");
                 } else if (status == 1) {
-                    cm.sendNext("Well, no matter! The Twisted Masters will be glad to welcome you.");
+                    cm.sendNext("Bueno, ¡no importa! Los Twisted Masters estarán encantados de darte la bienvenida.");
                     cm.mapMessage(6, "Twisted Masters approach!");
 
                     //Margana
@@ -74,12 +74,12 @@ function action(mode, type, selection) {
                     cm.dispose();
                 }
             } else {
-                cm.sendOk("Pay no attention to me. The Master Guardians will escort you!");
+                cm.sendOk("No me hagas caso. ¡Los Maestros Guardianes te escoltarán!");
                 cm.dispose();
             }
         } else if (eim.getIntProperty("glpq6") == 2) {
             if (cm.getMap().countMonsters() == 0) {
-                cm.sendOk("WHAT? Ugh... this can't be happening.");
+                cm.sendOk("¿QUÉ? Uf... esto no puede estar pasando.");
                 cm.mapMessage(5, "The portal to the next stage has opened!");
                 eim.setIntProperty("glpq6", 3);
 
@@ -89,11 +89,11 @@ function action(mode, type, selection) {
                 eim.clearPQ();
                 cm.dispose();
             } else {
-                cm.sendOk("Pay no attention to me. The Twisted Masters will escort you!");
+                cm.sendOk("No me hagas caso. ¡Los Maestros Retorcidos te acompañarán!");
                 cm.dispose();
             }
         } else {
-            cm.sendOk("... Well played. You overtook the Twisted Masters. Pass through that gate to receive your prizes.");
+            cm.sendOk("... Bien jugado. Superaste a los Maestros Retorcidos. Pasa por esa puerta para recibir tus premios.");
             cm.dispose();
         }
     } else {

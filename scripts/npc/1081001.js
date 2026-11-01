@@ -39,7 +39,7 @@ function start() {
     if (returnmap == -1) {
         returnmap = 104000000;
     }
-    cm.sendNext("So you want to leave #b#m110000000##k? If you want, I can take you back to #b#m" + returnmap + "##k.");
+    cm.sendNext("entonces quieres irte#b#m110000000##k? Si quieres, puedo llevarte de regreso a#b#m" + returnmap + "##k.");
 }
 
 function action(mode, type, selection) {
@@ -47,13 +47,13 @@ function action(mode, type, selection) {
         cm.dispose();
 
     } else if (mode == 0) {
-        cm.sendNext("You must have some business to take care of here. It's not a bad idea to take some rest at #m" + returnmap + "# Look at me; I love it here so much that I wound up living here. Hahaha anyway, talk to me when you feel like going back.");
+        cm.sendNext("Debes tener algunos asuntos que atender aquí. No es mala idea descansar un poco en #m" + returnmap + "# Mírame; Me encanta tanto estar aquí que terminé viviendo aquí. Jajaja en fin, háblame cuando tengas ganas de volver.");
         cm.dispose();
 
     } else if (mode == 1) {
         status++;
         if (status == 1) {
-            cm.sendYesNo("Are you sure you want to return to #b#m" + returnmap + "##k? Alright, we'll have to get going fast. Do you want to head back to #m" + returnmap + "# now?")
+            cm.sendYesNo("¿Estás seguro de que quieres volver a#b#m" + returnmap + "##k? Muy bien, tendremos que irnos rápido. ¿Quieres regresar a#m" + returnmap + "# ¿ahora?")
         } else {
             cm.getPlayer().getSavedLocation("FLORINA");
             cm.warp(returnmap);

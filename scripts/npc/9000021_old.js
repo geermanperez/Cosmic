@@ -10,7 +10,7 @@ var job;
 var koc = [];
 
 function start() {
-    cm.sendNext("Hey #e#h ##n, I'm the Aran & Cygnus Job Advancer.");
+    cm.sendNext("Ey#e#h ##n, Soy el Promotor de Trabajo de Aran & Cygnus.");
 }
 
 function action(m, t, s) {

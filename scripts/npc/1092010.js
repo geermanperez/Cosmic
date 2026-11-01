@@ -52,10 +52,10 @@ function action(mode, type, selection) {
 
         if (status == 0) {
             if (!cm.haveItem(4220153)) {
-                cm.sendOk("(Scratch scratch...)");
+                cm.sendOk("(Rasca, rasca...)");
                 cm.dispose();
             } else {
-                cm.sendYesNo("Hey, nice #bTreasure Map#k you have there? #rCan I keep it#k for the Nautilus crew, if you don't need it any longer?");
+                cm.sendYesNo("Oye, lindo#bMapa del tesoro#ktienes ahí?#r¿Puedo conservarlo?#kpara la tripulación del Nautilus, si ya no lo necesitas?");
             }
         } else if (status == 1) {
             cm.gainItem(4220153, -1);

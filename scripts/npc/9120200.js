@@ -22,7 +22,7 @@
 var status = 0;
 
 function start() {
-    cm.sendYesNo("Here you are, right in front of the hideout! What? You want to\r\nreturn to #m801000000#?");
+    cm.sendYesNo("¡Aquí estás, justo en frente del escondite! ¿Qué? ¿Quieres\r\nvolver a #m801000000#?");
 }
 
 function action(mode, type, selection) {
@@ -30,7 +30,7 @@ function action(mode, type, selection) {
         cm.dispose();
     } else {
         if (mode == 0) {
-            cm.sendOk("If you want to return to #m801000000#, then talk to me.");
+            cm.sendOk("Si quieres volver a #m801000000#, entonces habla conmigo.");
             cm.dispose();
         } else if (mode == 1) {
             status++;

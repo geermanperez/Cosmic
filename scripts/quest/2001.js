@@ -11,11 +11,11 @@ function end(mode, type, selection) {
     status++;
 
     if (status == 0) {
-        qm.sendNext("THIS is the deed to the land that my son lost! And you even brought all the necessary materials to build the house! Thank you so much ... my relatives can all move in and live in #m102000000#! As a sign of appreciation ...");
+        qm.sendNext("¡ESTA es la escritura de la tierra que perdió mi hijo! ¡Y hasta trajiste todos los materiales necesarios para construir la casa! Muchas gracias... ¡todos mis familiares pueden mudarse y vivir en #m102000000#! En señal de agradecimiento...");
     } else if (status == 1) {
         const InventoryType = Java.type('client.inventory.InventoryType');
         if (qm.getPlayer().getInventory(InventoryType.USE).getNumFreeSlot() < 1) {
-            qm.getPlayer().dropMessage(1, "USE inventory full.");
+            qm.getPlayer().dropMessage(1, "UTILIZAR el inventario lleno.");
             qm.dispose();
             return;
         }

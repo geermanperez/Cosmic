@@ -36,14 +36,14 @@ function start(mode, type, selection) { // missing script for questid found than
         }
 
         if (status == 0) {
-            qm.sendNext("#h0#... First of all, thank you for your great work. If it weren't you, I... I wouldn't be safe from the curse of Black Witch. Thank you so much.");
+            qm.sendNext("#h0#... Antes que nada, gracias por tu gran trabajo. Si no fueras tú, yo... no estaría a salvo de la maldición de Black Witch. Muchas gracias.");
         } else if (status == 1) {
-            qm.sendNextPrev("If nothing else, this chain of events makes one thing crystal clear, you have put in countless hours of hard work to better yourself and contribute to the Cygnus Knights.");
+            qm.sendNextPrev("Al menos, esta cadena de eventos deja una cosa muy clara: has dedicado innumerables horas de arduo trabajo para mejorar y contribuir a los Cygnus Knights.");
         } else if (status == 2) {
-            qm.sendAcceptDecline("To celebrate your hard work and accomplishments... I would like to award you a new title and renew my blessings onto you. Will you... accept this?");
+            qm.sendAcceptDecline("Para celebrar su arduo trabajo y sus logros... me gustaría otorgarle un nuevo título y renovarle mis bendiciones. ¿Aceptarás... esto?");
         } else if (status == 3) {
             if (!qm.canHold(1142069, 1)) {
-                qm.sendOk("Please, make a room available on your EQUIP inventory for the medal.");
+                qm.sendOk("Por favor, deja una habitación disponible en tu inventario EQUIP para la medalla.");
                 qm.dispose();
                 return;
             }
@@ -56,7 +56,7 @@ function start(mode, type, selection) { // missing script for questid found than
             qm.forceStartQuest();
             qm.forceCompleteQuest();
 
-            qm.sendOk("#h0#. For courageously battling the Black Mage, I will appoint you as the new Chief Knight of Cygnus Knights from this moment onwards. Please use your power and authority wisely to help protect the citizens of Maple World.");
+            qm.sendOk("#h0#. Por luchar valientemente contra el Mago Negro, te nombraré nuevo Caballero Jefe de los Caballeros Cygnus a partir de este momento. Utilice su poder y autoridad sabiamente para ayudar a proteger a los ciudadanos de Maple World.");
         } else if (status == 4) {
             qm.dispose();
         }

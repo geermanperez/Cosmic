@@ -43,10 +43,10 @@ function action(mode, type, selection) {
             cm.dispose();
         } else {
             if (cm.hasMerchant()) {
-                cm.sendOk("You have a Merchant open.");
+                cm.sendOk("Tienes un Comerciante abierto.");
                 cm.dispose();
             } else {
-                cm.sendOk("You don't have any items or mesos to be retrieved.");
+                cm.sendOk("No tienes ningún elemento o meso para recuperar.");
                 cm.dispose();
             }
         }

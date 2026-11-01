@@ -36,24 +36,24 @@ function start() {
 
         if (res == 0) {  // mesos
             var mgain = 500 * cm.getPlayer().getMesoRate();
-            cm.sendNext("Earned " + mgain + " mesos!");
+            cm.sendNext("Ganado" + mgain + "mesos!");
             cm.gainMeso(mgain);
         } else if (res == 1) {  // exp
             var egain = 500 * cm.getPlayer().getExpRate();
-            cm.sendNext("Earned " + egain + " exp!");
+            cm.sendNext("Ganado" + egain + "exp!");
             cm.gainExp(egain);
         } else if (res == 2) {  // letter
             var letter = 4001130;
             if (!cm.canHold(letter)) {
-                cm.sendOk("You got a letter, however it didn't fit on your inventory, so you put it back.");
+                cm.sendOk("Recibiste una carta, pero no cabía en tu inventario, así que la devolviste.");
                 cm.dispose();
                 return;
             }
 
             cm.gainItem(letter, 1);
-            cm.sendNext("You found a letter, strategically placed here as it seems.");
+            cm.sendNext("Encontraste una carta, al parecer colocada estratégicamente aquí.");
         } else if (res == 3) {  // pass
-            cm.sendNext("You found the trigger to the next stage.");
+            cm.sendNext("Encontraste el detonante para la siguiente etapa.");
 
             var eim = cm.getEventInstance();
             eim.showClearEffect();
@@ -63,7 +63,7 @@ function start() {
             cm.getMap().getReactorByName("d00").hitReactor(cm.getClient());
         }
     } else {
-        cm.sendNext("There is nothing here.");
+        cm.sendNext("No hay nada aquí.");
     }
 
     cm.dispose();

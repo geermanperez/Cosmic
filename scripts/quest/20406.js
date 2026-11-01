@@ -40,7 +40,7 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Is that so? All there was was a saying that #p1103000# set out to continue his journey? That can't be, there were further instructions for him to detail the progress of his mission until then. #rReturn to the cave#k and report again if it really has nothing more there.");
+            qm.sendNext("¿Es eso así? Todo lo que había era un dicho que#p1103000#¿Se propuso continuar su viaje? Eso no puede ser, había más instrucciones para que detallara el progreso de su misión hasta entonces.#rRegreso a la cueva#ke informar nuevamente si realmente no tiene nada más ahí.");
         } else if (status == 1) {
             qm.forceCompleteQuest();
             qm.dispose();

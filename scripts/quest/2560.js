@@ -10,14 +10,14 @@ function start(mode, type, selection) {
         status++;
     }
     if (status == 0) {
-        qm.sendNext("Ooook! Ook! Ook!");
+        qm.sendNext("¡Oooook! ¡Ok! ¡Ok!");
     } else if (status == 1) {
-        qm.sendNextPrev("Well, that hit the spot, but... I still don't understand what happened. Where's the ship? Hey, do you know what happened to me?", 2);
+        qm.sendNextPrev("Bueno, eso dio en el clavo, pero... todavía no entiendo qué pasó. ¿Dónde está el barco? Oye, ¿sabes lo que me pasó?", 2);
     } else if (status == 2) {
-        qm.sendAcceptDecline("Oook! (The monkey nods. Does he really know what's going on? Couldn't hurt to ask.)");
+        qm.sendAcceptDecline("¡Oook! (El mono asiente. ¿Sabe realmente lo que está pasando? No estaría de más preguntar.)");
     } else if (status == 3) {
         if (mode == 0) {//decline
-            qm.sendNext("Ook! Ook! (The monkey looks very dissatisfied.)");
+            qm.sendNext("¡Ok! ¡Ok! (El mono parece muy descontento.)");
         } else {
             qm.forceStartQuest();
             qm.dispose();

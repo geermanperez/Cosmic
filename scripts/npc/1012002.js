@@ -109,7 +109,7 @@ function action(mode, type, selection) {
         mats = matSet[selection];
         matQty = matQtySet[selection];
         cost = 0;
-        cm.sendGetNumber("So, you want me to make some #t" + item + "#s? In that case, how many do you want me to make?", 1, 1, 100)
+        cm.sendGetNumber("Entonces, ¿quieres que haga algo de #t?" + item + "¿#s? En ese caso ¿cuántos quieres que haga?", 1, 1, 100)
     } else if (status == 2) {
         if (selectedType != 4) {
             selectedItem = selection;
@@ -165,7 +165,7 @@ function action(mode, type, selection) {
         var complete = true;
 
         if (cm.getMeso() < (cost * qty)) {
-            cm.sendOk("Sorry, but this is how I make my living. No meso, no item.");
+            cm.sendOk("Lo siento, pero así es como me gano la vida. Sin meso, sin artículo.");
             cm.dispose();
             return;
         } else {
@@ -180,7 +180,7 @@ function action(mode, type, selection) {
             }
         }
         if (!complete) {
-            cm.sendOk("Surely you, of all people, would understand the value of having quality items? I can't do that without the items I require.");
+            cm.sendOk("Seguramente usted, más que nadie, entendería el valor de tener artículos de calidad. No puedo hacer eso sin los elementos que necesito.");
         } else {
             var recvItem = item, recvQty;
 
@@ -208,9 +208,9 @@ function action(mode, type, selection) {
                 cm.gainMeso(-(cost * qty));
 
                 cm.gainItem(recvItem, recvQty);
-                cm.sendOk("A perfect item, as usual. Come and see me if you need anything else.");
+                cm.sendOk("Un artículo perfecto, como siempre. Ven a verme si necesitas algo más.");
             } else {
-                cm.sendOk("Please make sure you have room in your inventory, and talk to me again.");
+                cm.sendOk("Por favor, asegúrese de tener espacio en su inventario y hable conmigo nuevamente.");
             }
         }
         cm.dispose();

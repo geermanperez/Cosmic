@@ -119,11 +119,11 @@ function action(mode, type, selection) {
         var pass = true;
 
         if (!cm.canHold(item)) {
-            cm.sendOk("Check your inventory for a free slot first.");
+            cm.sendOk("Primero verifique su inventario para ver si hay un espacio libre.");
             cm.dispose();
             return;
         } else if (cm.getMeso() < cost * qty) {
-            cm.sendNext("Check and make sure you have all the necessary items to make this. Also, make sure your Equips inventory has room. I can't give you the item if your inventory is full, you know.");
+            cm.sendNext("Verifique y asegúrese de tener todos los elementos necesarios para realizar esto. Además, asegúrese de que su inventario de Equips tenga espacio. No puedo darte el artículo si tu inventario está lleno, ¿sabes?");
             cm.dispose();
             return;
         } else {
@@ -169,7 +169,7 @@ function action(mode, type, selection) {
         }
 
         if (pass == false) {
-            cm.sendNext("Check and make sure you have all the necessary items to make this. Also, make sure your Equips inventory has room. I can't give you the item if your inventory is full, you know.");
+            cm.sendNext("Verifique y asegúrese de tener todos los elementos necesarios para realizar esto. Además, asegúrese de que su inventario de Equips tenga espacio. No puedo darte el artículo si tu inventario está lleno, ¿sabes?");
         } else {
             if (mats instanceof Array) {
                 for (var i = 0; i < mats.length; i++) {
@@ -189,7 +189,7 @@ function action(mode, type, selection) {
             } else {
                 cm.gainItem(item, qty);
             }
-            cm.sendOk("All done. If you need anything else... Well, I'm not going anywhere.");
+            cm.sendOk("Todo hecho. Si necesitas algo más... Bueno, no voy a ninguna parte.");
         }
         cm.dispose();
     }

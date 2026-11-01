@@ -16,7 +16,7 @@ function action(mode, type, selection) {
     }
 
     if (status == 0) {
-        cm.sendGetText("The door reacts to the entry pass inserted. #bPassword#k!");
+        cm.sendGetText("La puerta reacciona al pase de entrada insertado. #bPassword#k!");
     } else if (status == 1) {
         if (cm.getText() == cm.getQuestProgress(3360)) {
             cm.setQuestProgress(3360, 1);
@@ -24,7 +24,7 @@ function action(mode, type, selection) {
             cm.getPlayer().sendPacket(PacketCreator.playPortalSound());
             cm.warp(261030000, "sp_" + ((cm.getMapId() == 261010000) ? "jenu" : "alca"));
         } else {
-            cm.sendOk("#rWrong!");
+            cm.sendOk("#r¡Mal!");
         }
 
         cm.dispose();

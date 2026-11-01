@@ -61,9 +61,9 @@ function action(mode, type, selection) {
 
         if (!(cm.isQuestStarted(100200) || cm.isQuestCompleted(100200))) {   // thanks Vcoc for finding out a need of reapproval from the masters for Zakum expeditions
             if (cm.getPlayer().getLevel() >= 50) {  // thanks Z1peR for noticing not-so-clear unmet requirements message here.
-                cm.sendOk("Beware, for the power of olde has not been forgotten... If you seek to defeat #rZakum#k someday, earn the #bChief's Residence Council#k approval foremost and then #bface the trials#k, only then you will become eligible to fight.");
+                cm.sendOk("Cuidado, porque el poder de antaño no ha sido olvidado... Si buscas derrotar#rZakum#k algun dia, gane el#bConsejo de Residencia del Jefe#kaprobación primero y luego#benfrentar las pruebas#k, sólo entonces serás elegible para luchar.");
             } else {
-                cm.sendOk("Beware, for the power of olde has not been forgotten...");
+                cm.sendOk("Cuidado, porque el poder de antaño no ha sido olvidado...");
             }
 
             cm.dispose();
@@ -72,41 +72,41 @@ function action(mode, type, selection) {
 
         em = cm.getEventManager("ZakumPQ");
         if (em == null) {
-            cm.sendOk("The Zakum PQ has encountered an error.");
+            cm.sendOk("El Zakum PQ ha encontrado un error.");
             cm.dispose();
             return;
         }
 
         if (status == 0) {
-            cm.sendSimple("#e#b<Party Quest: Zakum Campaign>\r\n#k#n" + em.getProperty("party") + "\r\n\r\nBeware, for the power of olde has not been forgotten... #b\r\n#L0#Enter the Unknown Dead Mine (Stage 1)#l\r\n#L1#Face the Breath of Lava (Stage 2)#l\r\n#L2#Forging the Eyes of Fire (Stage 3)#l");
+            cm.sendSimple("#e#b<Misión del grupo: Campaña Zakum>\r\n#k#n" + em.getProperty("fiesta") + "\r\n\r\nCuidado, porque el poder de antaño no ha sido olvidado...#b\r\n#L0#Ingrese a la mina muerta desconocida (Etapa 1)#l\r\n#L1#Enfréntate al aliento de lava (Etapa 2)#l\r\n#L2#Forjando los ojos de fuego (Etapa 3)#l");
         } else if (status == 1) {
             if (selection == 0) {
                 if (cm.getParty() == null) {
-                    cm.sendOk("You can participate in the party quest only if you are in a party.");
+                    cm.sendOk("Puedes participar en la misión del grupo solo si estás en un grupo.");
                     cm.dispose();
                 } else if (!cm.isLeader()) {
-                    cm.sendOk("Your party leader must talk to me to start this party quest.");
+                    cm.sendOk("El líder de tu grupo debe hablar conmigo para comenzar esta búsqueda del grupo.");
                     cm.dispose();
                 } else {
                     var eli = em.getEligibleParty(cm.getParty());
                     if (eli.size() > 0) {
                         if (!em.startInstance(cm.getParty(), cm.getPlayer().getMap(), 1)) {
-                            cm.sendOk("Another party has already entered the #rParty Quest#k in this channel. Please try another channel, or wait for the current party to finish.");
+                            cm.sendOk("Otro partido ya ha entrado en el#rBúsqueda de fiesta#ken este canal. Prueba con otro canal o espera a que termine la fiesta actual.");
                         }
                     } else {
-                        cm.sendOk("You cannot start this party quest yet, because either your party is not in the range size, some of your party members are not eligible to attempt it or they are not in this map. If you're having trouble finding party members, try Party Search.");
+                        cm.sendOk("No puedes comenzar esta misión de grupo todavía porque tu grupo no está dentro del rango de tamaño, algunos de los miembros de tu grupo no son elegibles para intentarla o no están en este mapa. Si tienes problemas para encontrar miembros del grupo, prueba Party Search.");
                     }
 
                     cm.dispose();
                 }
             } else if (selection == 1) {
                 if (cm.haveItem(4031061) && !cm.haveItem(4031062)) {
-                    cm.sendYesNo("Would you like to attempt the #bBreath of Lava#k?  If you fail, there is a very real chance you will die.");
+                    cm.sendYesNo("¿Le gustaría intentar el#bAliento de lava#k?  Si fallas, existe una posibilidad muy real de que mueras.");
                 } else {
                     if (cm.haveItem(4031062)) {
-                        cm.sendNext("You've already got the #bBreath of Lava#k, you don't need to do this stage.");
+                        cm.sendNext("Ya tienes el#bAliento de lava#k, no es necesario realizar esta etapa.");
                     } else {
-                        cm.sendNext("Please complete the earlier trials first.");
+                        cm.sendNext("Primero complete las pruebas anteriores.");
                     }
 
                     cm.dispose();
@@ -114,7 +114,7 @@ function action(mode, type, selection) {
             } else {
                 if (cm.haveItem(4031061) && cm.haveItem(4031062)) {
                     if (!cm.haveItem(4000082, 30)) {
-                        cm.sendOk("You have completed the trials, however there's still the need of #b30 #t4000082##k to forge 5 #t4001017#.");
+                        cm.sendOk("Has completado las pruebas, sin embargo todavía existe la necesidad de#b30 #t4000082##kforjar 5#t4001017#.");
                     } else {
                         cm.completeQuest(100201);
                         cm.gainItem(4031061, -1);
@@ -122,12 +122,12 @@ function action(mode, type, selection) {
                         cm.gainItem(4000082, -30);
 
                         cm.gainItem(4001017, 5);
-                        cm.sendNext("You #rhave completed the trials#k, from now on having my approval to challenge Zakum.");
+                        cm.sendNext("Tú#rhan completado las pruebas#k, de ahora en adelante teniendo mi aprobación para desafiar a Zakum.");
                     }
 
                     cm.dispose();
                 } else {
-                    cm.sendOk("You lack some of the required items to forge the #b#t4001017##k.");
+                    cm.sendOk("Te faltan algunos de los elementos necesarios para forjar el#b#t4001017##k.");
                     cm.dispose();
                 }
             }

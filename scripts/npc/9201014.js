@@ -92,15 +92,15 @@ function action(mode, type, selection) {
                                 cm.gainItem(4031424, -1);
                                 cm.dispose();
                             } else {
-                                cm.sendOk("You don't have a free USE slot right now.");
+                                cm.sendOk("No tienes un espacio USE libre en este momento.");
                                 cm.dispose();
                             }
                         } else {
-                            cm.sendOk("You must be married to claim the prize for this box.");
+                            cm.sendOk("Debes estar casado para reclamar el premio de esta caja.");
                             cm.dispose();
                         }
                     } else {
-                        cm.sendOk("You don't have an Onyx Chest for Bride and Groom.");
+                        cm.sendOk("No tienes un cofre de ónix para los novios.");
                         cm.dispose();
                     }
                 } else if (selection == 1) {
@@ -112,17 +112,17 @@ function action(mode, type, selection) {
                             cm.gainItem(4031423, -1);
                             cm.dispose();
                         } else {
-                            cm.sendOk("You don't have a free USE slot right now.");
+                            cm.sendOk("No tienes un espacio USE libre en este momento.");
                             cm.dispose();
                         }
                     } else {
-                        cm.sendOk("You don't have an Onyx Chest.");
+                        cm.sendOk("No tienes un cofre de ónix.");
                         cm.dispose();
                     }
                 }
             }
         } else {
-            cm.sendOk("Hi there, welcome to Amoria's Wedding Gift Registry reserve. We redistribute and tender gifts for both wedding spouses and lucky ceremonial attenders.");
+            cm.sendOk("Hola, bienvenido a la reserva del Registro de regalos de boda de Amoria. Redistribuimos y entregamos obsequios tanto para los cónyuges de la boda como para los afortunados asistentes a la ceremonia.");
             cm.dispose();
         }
     }

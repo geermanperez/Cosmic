@@ -17,18 +17,18 @@ function action(mode, type, selection) {
 
 
     if (status == 0) {
-        cm.sendGetText("A suspicious voice pierces through the silence. #bPassword#k!");
+        cm.sendGetText("Una voz sospechosa atraviesa el silencio. #bPassword#k!");
     } else if (status == 1) {
         if (cm.getText() == "Open Sesame") {
             if (cm.isQuestCompleted(3925)) {
                 cm.warp(260010402, 1);
             } else {
-                cm.playerMessage(5, "Although you said the right answer, the door will not budge.");
+                cm.playerMessage(5, "Aunque dijiste la respuesta correcta, la puerta no se moverá.");
             }
 
             cm.dispose();
         } else {
-            cm.sendOk("#rWrong!");
+            cm.sendOk("#r¡Mal!");
         }
     } else if (status == 2) {
         cm.dispose();

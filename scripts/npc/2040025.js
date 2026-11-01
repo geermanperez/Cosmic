@@ -29,9 +29,9 @@ var map = 221024400;
 
 function start() {
     if (cm.haveItem(4001020)) {
-        cm.sendSimple("You can use #bEos Rock Scroll#k to activate #bSecond Eos Rock#k. Which of these rocks would you like to teleport to?#b\r\n#L0#First Eos Rock (100th Floor)#l\r\n#L1#Third Eos Rock (41st Floor)#l");
+        cm.sendSimple("puedes usar#bPergamino de roca de Eos#kactivar#bSegunda roca de Eos#k. ¿A cuál de estas rocas te gustaría teletransportarte?#b\r\n#L0#Primera Roca Eos (Piso 100)#l\r\n#L1#Tercera Roca Eos (Piso 41)#l");
     } else {
-        cm.sendOk("There's a rock that will enable you to teleport to #bFirst Eos Rock or Third Eos Rock#k, but it cannot be activated without the scroll.");
+        cm.sendOk("Hay una roca que te permitirá teletransportarte a#bPrimera Roca Eos o Tercera Roca Eos#k, pero no se puede activar sin el desplazamiento.");
         cm.dispose();
     }
 }
@@ -51,9 +51,9 @@ function action(mode, type, selection) {
         }
         if (status == 1) {
             if (selection == 0) {
-                cm.sendYesNo("You can use #bEos Rock Scroll#k to activate #bSecond Eos Rock#k. Will you teleport to #bFirst Eos Rock#k at the 100th Floor?");
+                cm.sendYesNo("puedes usar#bPergamino de roca de Eos#kactivar#bSegunda roca de Eos#k. ¿Te teletransportarás a#bPrimera roca Eos#ken el piso 100?");
             } else {
-                cm.sendYesNo("You can use #bEos Rock Scroll#k to activate #bSecond Eos Rock#k. Will you teleport to #bThird Eos Rock#k at the 41st Floor?");
+                cm.sendYesNo("puedes usar#bPergamino de roca de Eos#kactivar#bSegunda roca de Eos#k. ¿Te teletransportarás a#bTercera roca Eos#ken el piso 41?");
                 map = 221021700;
             }
         } else if (status == 2) {

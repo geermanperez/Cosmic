@@ -37,13 +37,13 @@ function start(mode, type, selection) {
     }
 
     if (status == 0) {
-        qm.sendNext("Wow, you have already reach Level 50, yet why are you still walking around like that? I mean, you've reached Level 50, but you are still walking around with your own feet. That's unusual behavior for a Knight like you.");
+        qm.sendNext("Vaya, ya has alcanzado el nivel 50, pero ¿por qué sigues caminando así? Quiero decir, has alcanzado el nivel 50, pero todavía estás caminando con tus propios pies. Ese es un comportamiento inusual para un Caballero como usted.");
     } else if (status == 1) {
-        qm.sendAcceptDecline("Well, I suppose it's up to you, but by doing that, you also risk marring the pride and honor of the Empress. This is why I am here to give you a helpful pointer. It's called #bMonster Riding#k. Of course you're interested in this, right?");
+        qm.sendAcceptDecline("Bueno, supongo que depende de ti, pero al hacerlo, también corres el riesgo de estropear el orgullo y el honor de la Emperatriz. Es por eso que estoy aquí para brindarle un consejo útil. se llama#bmontar monstruo#k. Por supuesto que estás interesado en esto, ¿verdad?");
     } else if (status == 2) {
         qm.forceStartQuest();
         qm.forceCompleteQuest();
-        qm.sendOk("There's a special mount that only the Cygnus Knights can enjoy. If you are interested, visit #bEreve#k. I will give you more information on it.");
+        qm.sendOk("Hay una montura especial que sólo los Caballeros Cygnus pueden disfrutar. Si está interesado, visite #bEreve#k. Te daré más información al respecto.");
     } else if (status == 3) {
         qm.dispose();
     }

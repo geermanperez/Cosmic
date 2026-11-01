@@ -19,14 +19,14 @@ function end(mode, type, selection) {
             if (qm.haveItem(4031092, 10)) {
                 const InventoryType = Java.type('client.inventory.InventoryType');
                 if (qm.getPlayer().getInventory(InventoryType.USE).getNumFreeSlot() >= 1) {
-                    qm.sendOk("Well done! You brought back all the #t4031092# that were missing. Here, take this scroll as a token of my gratitude...");
+                    qm.sendOk("¡Bien hecho! Recuperaste todos los #t4031092# que faltaban. Toma, toma este pergamino como muestra de mi gratitud...");
                 } else {
-                    qm.sendOk("Free a space on your USE inventory before receiving your prize.");
+                    qm.sendOk("Libera un espacio en tu inventario USE antes de recibir tu premio.");
                     qm.dispose();
 
                 }
             } else {
-                qm.sendOk("Please return me 10 #t4031092# that went missing on this room.");
+                qm.sendOk("Por favor, devuélveme 10 #t4031092# que desaparecieron en esta sala.");
                 qm.dispose();
 
             }

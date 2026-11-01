@@ -33,7 +33,7 @@ function start(mode, type, selection) {
     }
 
     if (status == 0) {
-        qm.sendNext("Do you remember the last song that the Spirit of Rock played? I can think of a few songs that he may be imitating, so listen carefully and tell me which song it is. #bYou only get one chance,#k so please choose wisely.");
+        qm.sendNext("¿Recuerdas la última canción que tocó Spirit of Rock? Se me ocurren algunas canciones que quizás esté imitando, así que escúchalas con atención y dime cuál es.#bSólo tienes una oportunidad#kAsí que elige sabiamente.");
         qm.forceStartQuest();
     } else if (status == 1) {
         qm.dispose();
@@ -57,35 +57,35 @@ function end(mode, type, selection) {
     // Currently, the best hypothesis is that one of the map scripts registers some form of "mob spawn" action/script that runs once the invisible mob spawns.
     // The script would randomly pick one of the 10 riffs and then register it with all chrs on the map (to later be used by this quest 2293) and play it.
     if (status == 0) {
-        qm.sendSimple("Here, I'll give you some samples. Please listen to them and choose one. Please listen carefully before making your choice.\r\n\
-            \t#b#L1# Listen to song No. 1#l \r\n\
-            \t#L2# Listen to Song No. 2#l \r\n\
-            \t#L3# Listen to Song No. 3#l \r\n\
+        qm.sendSimple("Aquí te daré algunas muestras. Por favor escúchalos y elige uno. Escuche atentamente antes de hacer su elección.\r\n\
+            \t#b#L1#Escuche la canción número 1.#l \r\n\
+            \t#L2#Escuche la canción número 2#l \r\n\
+            \t#L3#Escuche la canción número 3#l \r\n\
             \r\n\
-            \t#e#L4# Enter the correct song.#l");
+            \t#e#L4#Ingresa la canción correcta.#l");
     } else if (status == 1) {
         if (selection == 1) {
             qm.playSound("Party1/Failed");
-            qm.sendOk("Awkwardly familiar...");
+            qm.sendOk("Torpemente familiar...");
             status = -1;
         } else if (selection == 2) {
             qm.playSound("Coconut/Failed");
-            qm.sendOk("Was it this?");
+            qm.sendOk("¿Fue esto?");
             status = -1;
         } else if (selection == 3) {
             qm.playSound("quest2288/6");
-            qm.sendOk("You heard that?");
+            qm.sendOk("¿Escuchaste eso?");
             status = -1;
         } else if (selection == 4) {
-            qm.sendGetNumber("Now, please tell me the answer. You only get #bone chance#k, so please choose wisely. Please enter #b1, 2, or 3#k in the window below.\r\n", 1, 1, 3);
+            qm.sendGetNumber("Ahora por favor dime la respuesta. solo obtienes#buna oportunidad#k, así que elija sabiamente. Por favor ingresa#b1, 2 o 3#ken la ventana de abajo.\r\n", 1, 1, 3);
         }
     } else if (status == 2) {
         if (selection == 1) {
-            qm.sendOk("Obviously you don't enjoy music.");
+            qm.sendOk("Obviamente no te gusta la música.");
         } else if (selection == 2) {
-            qm.sendOk("I suppose you could get #b#eone#n#k more chance.");
+            qm.sendOk("Supongo que podrías conseguir#b#eone#norte#kmás posibilidades.");
         } else if (selection == 3) {
-            qm.sendOk("So that was the song he was playing... Well, it wasn't my song after all, but I'm glad I can know that now with certainty. Thank you so much.");
+            qm.sendOk("Así que esa era la canción que estaba tocando... Bueno, no era mi canción después de todo, pero me alegro de poder saberlo ahora con certeza. Muchas gracias.");
             qm.forceCompleteQuest();
             qm.gainExp(32500);
         } else {

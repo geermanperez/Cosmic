@@ -33,7 +33,7 @@ function action(mode, type, selection) {
             cm.dispose();
             return;
         } else if (mode == 0) {
-            cm.sendNext("OK. If you ever change your mind, please let me know.");
+            cm.sendNext("DE ACUERDO. Si alguna vez cambias de opinión, házmelo saber.");
             cm.dispose();
             return;
         }
@@ -52,21 +52,21 @@ function action(mode, type, selection) {
                 btwmsg = "#bMu Lung#k to #bOrbis#k";
             }
             if (cm.getPlayer().getMapId() == 251000000) {
-                cm.sendYesNo("Hello there. How's the traveling so far? I've been transporting other travelers like you to #b" + menu[3] + "#k in no time, and... are you interested? It's not as stable as the ship, so you'll have to hold on tight, but i can get there much faster than the ship. I'll take you there as long as you pay #b" + cost[2] + " mesos#k.");
+                cm.sendYesNo("Hola. ¿Cómo va el viaje hasta ahora? He estado transportando a otros viajeros como tú a #b" + menu[3] + "#ken poco tiempo, y... ¿estás interesado? No es tan estable como el barco, así que tendrás que agarrarte fuerte, pero puedo llegar mucho más rápido que el barco. Te llevaré allí siempre que pagues.#b" + cost[2] + "mesos#k.");
                 status++;
             } else if (cm.getPlayer().getMapId() == 250000100) {
-                cm.sendSimple("Hello there. How's the traveling so far? I understand that walking on two legs is much harder to cover ground compared to someone like me that can navigate the skies. I've been transporting other travelers like you to other regions in no time, and... are you interested? If so, then select the town you'd like yo head to.\r\n" + display);
+                cm.sendSimple("Hola. ¿Cómo va el viaje hasta ahora? Entiendo que caminar sobre dos piernas es mucho más difícil de cubrir en comparación con alguien como yo que puede navegar por los cielos. He estado transportando a otros viajeros como tú a otras regiones en poco tiempo, y... ¿estás interesado? Si es así, selecciona la ciudad a la que te gustaría dirigirte.\r\n" + display);
             } else {
-                cm.sendSimple("Hello there. How's the traveling so far? I've been transporting other travelers like you to other regions in no time, and... are you interested? If so, then select the town you'd like to head to.\r\n" + display);
+                cm.sendSimple("Hola. ¿Cómo va el viaje hasta ahora? He estado transportando a otros viajeros como tú a otras regiones en poco tiempo, y... ¿estás interesado? Si es así, seleccione la ciudad a la que desea dirigirse.\r\n" + display);
             }
         } else if (status == 1) {
             slct = selection;
-            cm.sendYesNo("Will you move to #b" + menu[selection] + "#k now? If you have #b" + cost[selection] + " mesos#k, I'll take you there right now.");
+            cm.sendYesNo("¿Te mudarás a #b?" + menu[selection] + "#k¿ahora? si tienes#b" + cost[selection] + "mesos#k, te llevaré allí ahora mismo.");
 
         } else if (status == 2) {
             if (slct == 2) {
                 if (cm.getMeso() < cost[2]) {
-                    cm.sendNext("Are you sure you have enough mesos?");
+                    cm.sendNext("¿Estás seguro de que tienes suficientes mesos?");
                     cm.dispose();
                 } else {
                     cm.gainMeso(-cost[2]);
@@ -75,7 +75,7 @@ function action(mode, type, selection) {
                 }
             } else {
                 if (cm.getMeso() < cost[slct]) {
-                    cm.sendNext("Are you sure you have enough mesos?");
+                    cm.sendNext("¿Estás seguro de que tienes suficientes mesos?");
                     cm.dispose();
                 } else {
                     if (cm.getPlayer().getMapId() == 251000000) {
@@ -85,7 +85,7 @@ function action(mode, type, selection) {
                     } else {
                         var em = cm.getEventManager("Hak");
                         if (!em.startInstance(cm.getPlayer())) {
-                            cm.sendOk("Uh... We are currently taking requests from too many maplers right now... Please try again in a bit.");
+                            cm.sendOk("Uh... Actualmente estamos aceptando solicitudes de demasiados maplers... Por favor, inténtalo de nuevo en un momento.");
                             cm.dispose();
                             return;
                         }

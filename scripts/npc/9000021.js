@@ -47,13 +47,13 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendNext("Hey, traveler! I am #p9000021#, and my job is to recruit travelers like you, who eagers for new challenges daily. Right now, my team is holding contests that thoroughly tests the mental and physical capabilities of adventurers like you.");
+            cm.sendNext("¡Oye, viajero! Soy #p9000021# y mi trabajo es reclutar viajeros como tú, que buscan nuevos desafíos cada día. En este momento, mi equipo está realizando concursos que ponen a prueba a fondo las capacidades físicas y mentales de aventureros como tú.");
         } else if (status == 1) {
-            cm.sendNext("These contests involve #bsequential boss fights#k, with some resting spots between some sections. These will require some strategy time and enough supplies at hand, as they are not common fights.");
+            cm.sendNext("Estos concursos implican#bpeleas secuenciales contra jefes#k, con algunos puntos de descanso entre algunos tramos. Estas requerirán algo de tiempo de estrategia y suficientes suministros a mano, ya que no son peleas comunes.");
         } else if (status == 2) {
-            cm.sendAcceptDecline("If you feel you are powerful enough, you can join others like you at where we are hosting the contests of power. ... So, what is your decision? Will you come to where the contests are being held right now?");
+            cm.sendAcceptDecline("Si crees que eres lo suficientemente poderoso, puedes unirte a otros como tú en el lugar donde organizamos las competencias de poder. ... Entonces, ¿cuál es tu decisión? ¿Vendrás a donde se están celebrando los concursos ahora mismo?");
         } else if (status == 3) {
-            cm.sendOk("Very well. Remember, you need a party of at least 3 players to participate. Good luck!");
+            cm.sendOk("Muy bien. Recuerda, necesitas un grupo de al menos 3 jugadores para participar. ¡Buena suerte!");
         } else if (status == 4) {
             cm.getPlayer().saveLocation("BOSSPQ");
             cm.warp(970030000, "out00");

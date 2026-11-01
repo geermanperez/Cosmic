@@ -24,11 +24,11 @@ var status = -1;
 
 function start(mode, type, selection) {
     if (mode == -1) {
-        qm.sendOk("Oh really. Do you need more time? I'm fully confident that you'll help me out before the Time Sphere is formed.");
+        qm.sendOk("Ah, de verdad. ¿Necesitas más tiempo? Estoy completamente seguro de que me ayudarás antes de que se forme la Esfera del Tiempo.");
         qm.dispose();
     } else {
         if (mode == 0 && type > 0) {
-            qm.sendOk("Oh really. Do you need more time? I'm fully confident that you'll help me out before the Time Sphere is formed.");
+            qm.sendOk("Ah, de verdad. ¿Necesitas más tiempo? Estoy completamente seguro de que me ayudarás antes de que se forme la Esfera del Tiempo.");
             qm.dispose();
             return;
         }
@@ -40,15 +40,15 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendYesNo("Only thing we have to do now ...is to make #o8500002# disappear forever... are you ready?");
+            qm.sendYesNo("Lo único que tenemos que hacer ahora... es hacer que #o8500002# desaparezca para siempre... ¿estás listo?");
         } else if (status == 1) {
-            qm.sendNext("I'll explain to you what you need to do from here on out. \r\nTo enter the power-generating room, you'll need to pass either #bForgotten Passage#k or the #bWarped Passage#k. Once you defeat whichever monster that is guarding the passage, you can obtain #b#t4031172:##k, which is needed to enter the power-generating room.");
+            qm.sendNext("Te explicaré lo que debes hacer de ahora en adelante.\r\nPara ingresar a la sala de generación de energía, deberá pasar#bPasaje olvidado#ko el#bPasaje deformado#k. Una vez que derrotes al monstruo que está protegiendo el pasaje, podrás obtener#b#t4031172:##k, que es necesario para ingresar a la sala de generación de energía.");
         } else if (status == 2) {
-            qm.sendNextPrev("Then enter the room through the door in the middle. It's going to be MUCH quieter than you imagined. The Time Sphere should be hidden in a state undetectable in our eyes... but if you seal up the crack in dimension, the #o8500002#, panicking because its exit route is sealed up, will make its appearance there.");
+            qm.sendNextPrev("Luego ingresa a la habitación por la puerta del medio. Va a ser MUCHO más silencioso de lo que imaginabas. La Esfera del Tiempo debería estar escondida en un estado indetectable a nuestros ojos... pero si sella la grieta en la dimensión, el #o8500002#, entrando en pánico porque su ruta de salida está sellada, hará su aparición allí.");
         } else if (status == 3) {
             if (!qm.haveItem(4031179, 1)) {
                 if (!qm.canHold(4031179, 1)) {
-                    qm.sendOk("Please have an #rETC slot available#k to start this quest.");
+                    qm.sendOk("Por favor tenga un#rRanura ETC disponible#kpara comenzar esta búsqueda.");
                     qm.dispose();
                     return;
                 }
@@ -56,7 +56,7 @@ function start(mode, type, selection) {
                 qm.gainItem(4031179, 1);
             }
 
-            qm.sendAcceptDecline("Drop the #b#t4031179:##k that I returned to you to seal up whatever crack you see that #o8500002# may have used to enter this dimension in the first place. Then it'll come out of the Time Sphere and show everyone its true appearance. Please, please kill it and then come back. \r\n\r\nCollect #r1 #t4031172:##k\r\nEliminate #r#o8500001##k");
+            qm.sendAcceptDecline("Suelta el#b#t4031179:##kque volví a ti para sellar cualquier grieta que veas#o8500002#puede haber utilizado para entrar en esta dimensión en primer lugar. Luego saldrá de la Esfera del Tiempo y mostrará a todos su verdadera apariencia. Por favor, mátalo y luego regresa.\r\n\r\nRecolectar#r1 #t4031172:##k\r\nEliminar#r#o8500001##k");
         } else if (status == 4) {
             qm.forceStartQuest();
             qm.dispose();

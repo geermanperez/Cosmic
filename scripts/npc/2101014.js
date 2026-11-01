@@ -36,7 +36,7 @@ function action(mode, type, selection) {
         }
         if (cm.getPlayer().getMapId() == 980010000) {
             if (cm.getLevel() > 30) {
-                cm.sendOk("You are already over #rlevel 30#k, therefore you can't participate in this instance anymore.");
+                cm.sendOk("ya terminaste#rnivel 30#k, por lo tanto ya no puedes participar en esta instancia.");
                 cm.dispose();
                 return;
             }
@@ -66,7 +66,7 @@ function action(mode, type, selection) {
                     toSnd += "#L2#Join Battle Arena (3)  Owner (" + expedicao2.getLeader().getName() + ")" + " Current Member: " + cm.getExpeditionMemberNames(exped2) + "\r\n";
                 }
                 if (toSnd === startSnd) {
-                    cm.sendOk("All the Battle Arena is currently occupied. I suggest you to come back later or change channels.");
+                    cm.sendOk("Todo el Battle Arena está actualmente ocupado. Te sugiero que vuelvas más tarde o cambies de canal.");
                     cm.dispose();
                 } else {
                     cm.sendSimple(toSnd);
@@ -82,15 +82,15 @@ function action(mode, type, selection) {
                 if (expedicao != null) {
                     enterArena(-1);
                 } else {
-                    cm.sendGetText("Up to how many partipants can join in this match? (2~5 people)");
+                    cm.sendGetText("¿Hasta cuántos participantes pueden unirse a este partido? (2~5 personas)");
                 }
             } else if (status == 2) {
                 var players = parseInt(cm.getText());   // AriantPQ option limit found thanks to NarutoFury (iMrSiN)
                 if (isNaN(players)) {
-                    cm.sendNext("Please enter a numeric limit value of allowed players in your instance.");
+                    cm.sendNext("Ingrese un valor límite numérico de jugadores permitidos en su instancia.");
                     status = 0;
                 } else if (players < 2) {
-                    cm.sendNext("The numeric limit value should not be less than 2 players.");
+                    cm.sendNext("El valor límite numérico no debe ser inferior a 2 jugadores.");
                     status = 0;
                 } else {
                     enterArena(players);
@@ -136,34 +136,34 @@ function enterArena(arenaPlayers) {
             var res = cm.createExpedition(exped, true, 0, arenaPlayers);
             if (res == 0) {
                 cm.warp(map, 0);
-                cm.getPlayer().dropMessage("Your arena was created successfully. Wait for people to join the battle.");
+                cm.getPlayer().dropMessage("Tu arena fue creada exitosamente. Espere a que la gente se una a la batalla.");
             } else if (res > 0) {
-                cm.sendOk("Sorry, you've already reached the quota of attempts for this expedition! Try again another day...");
+                cm.sendOk("Lo sentimos, ¡ya alcanzaste la cuota de intentos para esta expedición! Inténtalo de nuevo otro día...");
             } else {
-                cm.sendOk("An unexpected error has occurred when starting the expedition, please try again later.");
+                cm.sendOk("Se ha producido un error inesperado al iniciar la expedición, inténtalo de nuevo más tarde.");
             }
         } else {
-            cm.sendOk("An unexpected error has occurred when locating the expedition, please try again later.");
+            cm.sendOk("Se ha producido un error inesperado al localizar la expedición, inténtelo de nuevo más tarde.");
         }
 
         cm.dispose();
     } else {
         if (playerAlreadyInLobby(cm.getPlayer())) {
-            cm.sendOk("Sorry, you're already inside the lobby.");
+            cm.sendOk("Lo siento, ya estás dentro del vestíbulo.");
             cm.dispose();
             return;
         }
 
         var playerAdd = expedicao.addMemberInt(cm.getPlayer());
         if (playerAdd == 3) {
-            cm.sendOk("Sorry, the lobby is full now");
+            cm.sendOk("Lo sentimos, el vestíbulo está lleno ahora.");
             cm.dispose();
         } else {
             if (playerAdd == 0) {
                 cm.warp(map, 0);
                 cm.dispose();
             } else if (playerAdd == 2) {
-                cm.sendOk("Sorry, the leader do not allowed you to enter.");
+                cm.sendOk("Lo sentimos, el líder no te permitió entrar.");
                 cm.dispose();
             } else {
                 cm.sendOk("Error.");

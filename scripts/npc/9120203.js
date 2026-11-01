@@ -52,7 +52,7 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendNext("Ah, The Boss has been defeated. What a happy day this turns out to be! Congratulations, everyone. Follow this way back to town.");
+            cm.sendNext("Ah, El Jefe ha sido derrotado. ¡Qué día tan feliz resulta este! Felicitaciones a todos. Siga este camino de regreso a la ciudad.");
         } else if (status == 1) {
             cm.warp(801000000);
             cm.dispose();

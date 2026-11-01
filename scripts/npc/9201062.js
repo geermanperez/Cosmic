@@ -58,7 +58,7 @@ function action(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            cm.sendSimple("Hey, there~! I'm J.J.! I'm in charge of the cosmetic lenses here at NLC Shop! If you have a #b#t5152036##k, I can get you the best cosmetic lenses you have ever had! Now, what would you like to do?\r\n#L2#Cosmetic Lenses: #i5152036##t5152036##l\r\n#L3#One-time Cosmetic Lenses: #i5152107# (any color)#l");
+            cm.sendSimple("¡Oye, ahí~! ¡Soy J.J.! ¡Estoy a cargo de los lentes cosméticos aquí en NLC Shop! Si tienes un#b#t5152036##k, ¡Puedo conseguirte las mejores lentillas cosméticas que jamás hayas tenido! Ahora, ¿qué te gustaría hacer?\r\n#L2#Lentes cosméticas:#i5152036##t5152036##l\r\n#L3#Lentes cosméticas de una sola vez:#i5152107#(cualquier color)#l");
         } else if (status == 1) {
             if (selection == 2) {
                 if (cm.getPlayer().getGender() == 0) {
@@ -69,7 +69,7 @@ function action(mode, type, selection) {
                 }
                 colors = Array();
                 pushIfItemsExists(colors, [current + 100, current + 200, current + 300, current + 400, current + 500, current + 600, current + 700]);
-                cm.sendStyle("With our specialized machine, you can see yourself after the treatment in advance. What kind of lens would you like to wear? Choose the style of your liking.", colors);
+                cm.sendStyle("Con nuestra máquina especializada, podrá verse usted mismo después del tratamiento con antelación. ¿Qué tipo de lente te gustaría usar? Elige el estilo de tu agrado.", colors);
             } else if (selection == 3) {
                 beauty = 3;
                 if (cm.getPlayer().getGender() == 0) {
@@ -89,12 +89,12 @@ function action(mode, type, selection) {
                 }
 
                 if (colors.length == 0) {
-                    cm.sendOk("You don't have any One-Time Cosmetic Lens to use.");
+                    cm.sendOk("No tienes ninguna lente cosmética de un solo uso para usar.");
                     cm.dispose();
                     return;
                 }
 
-                cm.sendStyle("What kind of lens would you like to wear? Please choose the style of your liking.", colors);
+                cm.sendStyle("¿Qué tipo de lente te gustaría usar? Por favor elige el estilo de tu agrado.", colors);
             }
         } else if (status == 2) {
             cm.dispose();
@@ -102,9 +102,9 @@ function action(mode, type, selection) {
                 if (cm.haveItem(5152036) == true) {
                     cm.gainItem(5152036, -1);
                     cm.setFace(colors[selection]);
-                    cm.sendOk("Enjoy your new and improved cosmetic lenses!");
+                    cm.sendOk("¡Disfruta de tus lentes cosméticos nuevos y mejorados!");
                 } else {
-                    cm.sendOk("I'm sorry, but I don't think you have our cosmetic lens coupon with you right now. Without the coupon, I'm afraid I can't do it for you..");
+                    cm.sendOk("Lo siento, pero no creo que tengas nuestro cupón para lentes cosméticos contigo en este momento. Sin el cupón, me temo que no puedo hacerlo por ti.");
                 }
             } else if (beauty == 3) {
                 var color = (colors[selection] / 100) % 10 | 0;
@@ -112,9 +112,9 @@ function action(mode, type, selection) {
                 if (cm.haveItem(5152100 + color)) {
                     cm.gainItem(5152100 + color, -1);
                     cm.setFace(colors[selection]);
-                    cm.sendOk("Enjoy your new and improved cosmetic lenses!");
+                    cm.sendOk("¡Disfruta de tus lentes cosméticos nuevos y mejorados!");
                 } else {
-                    cm.sendOk("I'm sorry, but I don't think you have our cosmetic lens coupon with you right now. Without the coupon, I'm afraid I can't do it for you..");
+                    cm.sendOk("Lo siento, pero no creo que tengas nuestro cupón para lentes cosméticos contigo en este momento. Sin el cupón, me temo que no puedo hacerlo por ti.");
                 }
             }
         }

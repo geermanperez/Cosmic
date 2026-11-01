@@ -8,9 +8,9 @@ function start() {
     const GameConstants = Java.type('constants.game.GameConstants');
     if (cm.getPlayer().isCygnus() && GameConstants.getJobBranch(cm.getJob()) > 2) {
         cm.useItem(2022458);
-        cm.sendOk("Let me cast you my blessings, my Knight. Please protect the world of Maple....");
+        cm.sendOk("Déjame darte mis bendiciones, mi Caballero. Por favor proteja el mundo de Maple....");
     } else {
-        cm.sendOk("Don't stop training. Every ounce of your energy is required to protect the world of Maple....");
+        cm.sendOk("No dejes de entrenar. Se requiere cada gramo de tu energía para proteger el mundo de Maple....");
     }
 
     cm.dispose();

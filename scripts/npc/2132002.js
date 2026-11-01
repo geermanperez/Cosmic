@@ -3,6 +3,6 @@ function start() {
 }
 
 function action(mode, type, selection) {
-    cm.sendNext("The magic of this forest is amazing...");
+    cm.sendNext("La magia de este bosque es asombrosa...");
     cm.dispose();
 }

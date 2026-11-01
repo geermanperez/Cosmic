@@ -64,7 +64,7 @@ function action(mode, type, selection) {
             stimulator = false;
         }
         if (selectedType == 0) { // what is stim
-            cm.sendNext("A stimulator is a special potion that I can add into the process of creating certain items. It gives it stats as though it had dropped from a monster. However, it is possible to have no change, and it is also possible for the item to be below average. There's also a 10% chance of not getting any item when using a stimulator, so please choose wisely.")
+            cm.sendNext("Un estimulador es una poción especial que puedo agregar al proceso de creación de ciertos elementos. Le da estadísticas como si hubiera caído de un monstruo. Sin embargo, es posible que no haya cambios y también es posible que el artículo esté por debajo del promedio. También existe un 10% de posibilidades de no recibir ningún artículo al usar un estimulador, así que elige sabiamente.")
             cm.dispose();
         } else if (selectedType == 1) { //warrior shoe
             selStr = "Warrior shoes? Sure thing, which kind?#b";
@@ -161,11 +161,11 @@ function action(mode, type, selection) {
         var complete = true;
 
         if (!cm.canHold(item, 1)) {
-            cm.sendOk("Check your inventory for a free slot first.");
+            cm.sendOk("Primero verifique su inventario para ver si hay un espacio libre.");
             cm.dispose();
             return;
         } else if (cm.getMeso() < cost) {
-            cm.sendOk("Sorry, we only accept meso.");
+            cm.sendOk("Lo sentimos, sólo aceptamos meso.");
             cm.dispose();
             return;
         } else {
@@ -185,7 +185,7 @@ function action(mode, type, selection) {
             }
         }
         if (!complete) {
-            cm.sendOk("Sorry, but I have to have those items to get this exactly right. Perhaps next time.");
+            cm.sendOk("Lo siento, pero necesito tener esos elementos para hacerlo exactamente bien. Quizás la próxima vez.");
         } else {
             if (mats instanceof Array) {
                 for (var i = 0; i < mats.length; i++) {
@@ -200,13 +200,13 @@ function action(mode, type, selection) {
                 var deleted = Math.floor(Math.random() * 10);
                 if (deleted != 0) {
                     cm.gainItem(item, 1, true, true);
-                    cm.sendOk("There, the shoes are ready. Be careful, they're still hot.");
+                    cm.sendOk("Allí los zapatos están listos. Cuidado, todavía están calientes.");
                 } else {
-                    cm.sendOk("Eek! I think I accidently added too much stimulator and, well, the whole thing is unusable now... Sorry, but I can't offer a refund.");
+                    cm.sendOk("¡Eek! Creo que accidentalmente agregué demasiado estimulador y, bueno, todo ya no se puede utilizar... Lo siento, pero no puedo ofrecer un reembolso.");
                 }
             } else {
                 cm.gainItem(item, 1);
-                cm.sendOk("There, the shoes are ready. Be careful, they're still hot.");
+                cm.sendOk("Allí los zapatos están listos. Cuidado, todavía están calientes.");
             }
         }
         cm.dispose();

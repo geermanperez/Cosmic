@@ -63,23 +63,23 @@ function action(mode, type, selection) {
         } else if (status == 1) {
             selectedOption = selection;
             if (selectedOption == 0) {
-                cm.sendNext("Sharenian was a literate civilization from the past that had control over every area of the Victoria Island. The Temple of Golem, the Shrine in the deep part of the Dungeon, and other old architectural constructions where no one knows who built it are indeed made during the Sharenian times.");
+                cm.sendNext("Sharenian era una civilización alfabetizada del pasado que tenía control sobre todas las áreas de la Isla Victoria. El Templo de Golem, el Santuario en la parte profunda del Calabozo y otras antiguas construcciones arquitectónicas donde nadie sabe quién lo construyó, en realidad fueron hechas durante la época Sharenia.");
             } else if (selectedOption == 1) {
-                cm.sendNext("#t4001024# is a legendary jewel that brings eternal youth to the one that possesses it. Ironically, it seems like everyone that had #t4001024# ended up downtrodden, which should explain the downfall of Sharenian.");
+                cm.sendNext("#t4001024# es una joya legendaria que aporta la eterna juventud a quien la posee. Irónicamente, parece que todos los que tenían #t4001024# terminaron oprimidos, lo que debería explicar la caída de Sharenian.");
                 status = -1;
             } else if (selectedOption == 2) {
-                cm.sendNext("I've sent groups of explorers to Sharenian before, but none of them ever came back, which prompted us to start the Guild Quest. We've been waiting for guilds that are strong enough to take on tough challenges, guilds like yours.");
+                cm.sendNext("Envié grupos de exploradores a Sharenian antes, pero ninguno de ellos regresó, lo que nos impulsó a iniciar Guild Quest. Hemos estado esperando gremios que sean lo suficientemente fuertes como para afrontar desafíos difíciles, gremios como el tuyo.");
             } else if (selectedOption == 3) {
-                cm.sendOk("Really? If you have anything else to ask, please feel free to talk to me.");
+                cm.sendOk("¿En realidad? Si tienes algo más que preguntar, no dudes en hablar conmigo.");
                 cm.dispose();
             } else {
                 cm.dispose();
             }
         } else if (status == 2) { //should only be available for options 0 and 2
             if (selectedOption == 0) {
-                cm.sendNextPrev("The last king of Sharenian was a gentleman named Sharen III, and apparently he was a very wise and compassionate king. But one day, the whole kingdom collapsed, and there was no explanation made for it.");
+                cm.sendNextPrev("El último rey de Sharenian fue un caballero llamado Sharen III, y aparentemente era un rey muy sabio y compasivo. Pero un día, todo el reino se derrumbó y no se dio ninguna explicación al respecto.");
             } else if (selectedOption == 2) {
-                cm.sendNextPrev("The ultimate goal of this Guild Quest is to explore Sharenian and find #t4001024#. This is not a task where power solves everything. Teamwork is more important here.");
+                cm.sendNextPrev("El objetivo final de esta Guild Quest es explorar Sharenian y encontrar #t4001024#. Ésta no es una tarea en la que el poder lo solucione todo. El trabajo en equipo es más importante aquí.");
             } else {
                 cm.dispose();
             }

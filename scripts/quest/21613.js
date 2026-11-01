@@ -36,20 +36,20 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("We're a pack of wolves looking for our lost child. I hear you are taking care of our baby. We appreciate your kindness, but it's time to return our baby to us.", 9);
+            qm.sendNext("Somos una manada de lobos buscando a nuestro hijo perdido. He oído que estás cuidando de nuestro bebé. Apreciamos su amabilidad, pero es hora de devolvernos a nuestro bebé.", 9);
         } else if (status == 1) {
-            qm.sendNextPrev("Werewolf is my friend, I can't just hand over a friend.", 3);
+            qm.sendNextPrev("El hombre lobo es mi amigo, no puedo simplemente entregarle un amigo.", 3);
         } else if (status == 2) {
-            qm.sendAcceptDecline("We understand, but we won't leave without our pup. Tell you what, we'll test you to see if you are worthy of raising a wolf. #rGet ready to be tested by wolves.#k");
+            qm.sendAcceptDecline("Lo entendemos, pero no nos iremos sin nuestro cachorro. Te diré una cosa, te pondremos a prueba para ver si eres digno de criar un lobo.#rPrepárate para ser probado por los lobos.#k");
         } else if (status == 3) {
             var em = qm.getEventManager("Aran_3rdmount");
             if (em == null) {
-                qm.sendOk("Sorry, but the 3rd mount quest (Wolves) is closed.");
+                qm.sendOk("Lo sentimos, pero la misión de la tercera montura (Lobos) está cerrada.");
 
             } else {
                 var em = qm.getEventManager("Aran_3rdmount");
                 if (!em.startInstance(qm.getPlayer())) {
-                    qm.sendOk("There is currently someone in this map, come back later.");
+                    qm.sendOk("Actualmente hay alguien en este mapa, vuelve más tarde.");
                 } else {
                     qm.forceStartQuest();
                 }

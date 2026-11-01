@@ -46,7 +46,7 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendOk("Amateurs train on this map. Adepts train on the next. Professionals train on the last, where the boss will be awaiting.");
+            cm.sendOk("Los aficionados entrenan en este mapa. Los adeptos entrenan en el siguiente. Los profesionales entrenan en el último lugar, donde les espera el jefe.");
             cm.dispose();
         }
     }

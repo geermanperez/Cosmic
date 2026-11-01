@@ -46,25 +46,25 @@ function end(mode, type, selection) {
         if (status == 0) {
             var hourDay = qm.getHourOfDay();
             if (!(hourDay >= 17 && hourDay < 20)) {
-                qm.sendNext("(Hmm, I'm searching the trash can but can't find the #t4031894# JM was talking about, maybe it's not time yet...)");
+                qm.sendNext("(Hmm, estoy buscando en el bote de basura pero no puedo encontrar el #t4031894# del que hablaba JM, tal vez aún no sea el momento...)");
                 canComplete = false;
                 return;
             }
 
             if (qm.getMeso() < 2000) {
-                qm.sendNext("(Oh, I don't have the combined fee amount yet.)");
+                qm.sendNext("(Oh, todavía no tengo el monto de la tarifa combinada).");
                 canComplete = false;
                 return;
             }
 
             if (!qm.canHold(4031894, 1)) {
-                qm.sendNext("(Eh, I can't hold the #t4031894# right now, I need an ETC slot available.)");
+                qm.sendNext("(Eh, no puedo sostener el #t4031894# en este momento, necesito una ranura ETC disponible).");
                 canComplete = false;
                 return;
             }
 
             canComplete = true;
-            qm.sendNext("(Alright, now I will deposit the fee there and get the paper... That's it, yea, that's done.)");
+            qm.sendNext("(Muy bien, ahora depositaré la tarifa allí y conseguiré el papel... Eso es todo, sí, ya está).");
         } else if (status == 1) {
             if (canComplete) {
                 qm.gainMeso(-2000);

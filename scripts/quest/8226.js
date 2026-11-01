@@ -15,15 +15,15 @@ function start(mode, type, selection) {
         if (type == 1 && mode == 0) {
             status -= 2;
         } else {
-            qm.sendOk("Okay, then. See you around.");
+            qm.sendOk("Bien, entonces. Ya nos veremos.");
             qm.dispose();
             return;
         }
     }
     if (status == 0) {
-        qm.sendAcceptDecline("Now that you are part of our team, listen to what I have to say. We, Raven Clan of Ninjas, are hired to take care of many issues, and to do so each one works on different sectors of the continent, solving problems for our employers. I'm about to talk about your mission, are you ready?");
+        qm.sendAcceptDecline("Ahora que eres parte de nuestro equipo, escucha lo que tengo para decir. Nosotros, Raven Clan of Ninjas, estamos contratados para encargarnos de muchos asuntos, y para ello cada uno trabaja en diferentes sectores del continente, resolviendo problemas para nuestros empleadores. Estoy a punto de hablar sobre tu misión, ¿estás listo?");
     } else if (status == 1) {
-        qm.sendOk("Your next mission is: defeat the Elderwraiths that roam this forest. These are a tough bunch though, so stay alert. I need you to bring me 100 #t4032010# as proof of your duty.");
+        qm.sendOk("Tu próxima misión es: derrotar a los Elderwraiths que deambulan por este bosque. Sin embargo, son un grupo difícil, así que mantente alerta. Necesito que me traigas 100 #t4032010# como prueba de tu deber.");
         qm.forceStartQuest();
     } else if (status == 2) {
         qm.dispose();

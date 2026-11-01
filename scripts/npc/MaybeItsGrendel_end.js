@@ -17,9 +17,9 @@ function action(mode, type, selection) {
 
 
     if (status == 0) {
-        cm.sendNext("...a black shadowy figure came out and attacked you? How can this take place at #b#p1032001##k's house? This sounds like one big conspiracy here...");
+        cm.sendNext("...¿una figura negra y oscura salió y te atacó? ¿Cómo puede ocurrir esto en#b#p1032001##k¿La casa? Esto suena como una gran conspiración aquí...");
     } else if (status == 1) {
-        cm.sendNextPrev("I'll have to sort this all out in my mind. Talk to me in a bit.");
+        cm.sendNextPrev("Tendré que ordenar todo esto en mi mente. Hablame en un rato.");
     } else if (status == 2) {
         cm.dispose();
     }

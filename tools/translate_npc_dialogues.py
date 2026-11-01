@@ -24,7 +24,7 @@ from pathlib import Path
 
 STRING_RE = re.compile(r'(<string\s+name="([^"]+)"\s+value=")([^"]*)("\s*/>)')
 PROTECTED_RE = re.compile(
-    r"(#[A-Za-z](?:[^#\r\n]*?#)?|#[0-9]+#|%[A-Za-z0-9_]+%|\$\{[^}]+\}|\\[rn]|&(?:#[0-9]+|#x[0-9A-Fa-f]+|[A-Za-z]+);)"
+    r"(#(?:[A-Za-z]\d+|[A-Za-z]{2,}|\d+)#|#[A-Za-z]|%[A-Za-z0-9_]+%|\$\{[^}]+\}|\\.|&(?:#[0-9]+|#x[0-9A-Fa-f]+|[A-Za-z]+);)"
 )
 SKIP_FIELDS = {"name"}
 ENDPOINT = "https://clients5.google.com/translate_a/t"
@@ -34,7 +34,7 @@ def protect(text: str) -> tuple[str, dict[str, str]]:
     replacements: dict[str, str] = {}
 
     def replace(match: re.Match[str]) -> str:
-        key = f"ZXQPH{len(replacements):04d}QXZ"
+        key = f"\ue000{len(replacements)}\ue001"
         replacements[key] = match.group(0)
         return key
 
@@ -43,15 +43,32 @@ def protect(text: str) -> tuple[str, dict[str, str]]:
 
 def restore(text: str, replacements: dict[str, str]) -> str:
     for key, value in replacements.items():
+        if key not in text:
+            raise ValueError(f"Protected marker was altered by translation: {value!r}")
         text = text.replace(key, value)
-        text = text.replace(key.lower(), value)
     return text
 
 
-def request_translation(source: str, attempts: int = 6) -> str:
-    protected, replacements = protect(source)
+def request_plain_translation(source: str, attempts: int = 6) -> str:
+    if not source.strip() or not re.search(r"[A-Za-z\u00c0-\uffff]", source):
+        return source
+    if len(source) > 700:
+        chunks: list[str] = []
+        remaining = source
+        while len(remaining) > 700:
+            split_at = max(remaining.rfind(" ", 0, 700), remaining.rfind("\\n", 0, 700))
+            if split_at < 300:
+                split_at = 700
+            else:
+                split_at += 1
+            chunks.append(remaining[:split_at])
+            remaining = remaining[split_at:]
+        if remaining:
+            chunks.append(remaining)
+        return "".join(request_plain_translation(chunk, attempts) for chunk in chunks)
+
     query = urllib.parse.urlencode(
-        {"client": "dict-chrome-ex", "sl": "en", "tl": "es", "q": protected}
+        {"client": "dict-chrome-ex", "sl": "auto", "tl": "es", "q": source}
     )
     request = urllib.request.Request(
         f"{ENDPOINT}?{query}", headers={"User-Agent": "Mozilla/5.0"}
@@ -61,12 +78,25 @@ def request_translation(source: str, attempts: int = 6) -> str:
         try:
             with urllib.request.urlopen(request, timeout=30) as response:
                 payload = json.loads(response.read().decode("utf-8"))
-            translated = payload[0]
-            return restore(translated, replacements)
+            translated = payload[0][0] if isinstance(payload[0], list) else payload[0]
+            return translated
         except Exception as exc:  # Network throttling is expected on a bulk job.
             error = exc
             time.sleep(min(2**attempt, 20))
     raise RuntimeError(f"Translation failed after {attempts} attempts: {source[:80]!r}") from error
+
+
+def request_translation(source: str, attempts: int = 6) -> str:
+    parts = PROTECTED_RE.split(source)
+    translated: list[str] = []
+    for part in parts:
+        if not part:
+            continue
+        if PROTECTED_RE.fullmatch(part):
+            translated.append(part)
+        else:
+            translated.append(request_plain_translation(part, attempts))
+    return "".join(translated)
 
 
 class Cache:

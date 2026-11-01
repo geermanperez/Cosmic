@@ -5,9 +5,9 @@
 
 function start() {
     if (cm.getLevel() >= 100) {
-        cm.sendOk("Expeditions are frequently being held inside the Crimsonwood Keep by adventurers like you, where many people from many parties cooperate together, solving puzzles therein and taking down strong enemies, being able to get many prizes in the process. To find more info about this, go ahead inside the keep at the top-right room there.");
+        cm.sendOk("Con frecuencia, aventureros como tú realizan expediciones dentro de Crimsonwood Keep, donde muchas personas de muchos grupos cooperan, resolviendo acertijos y derrotando enemigos fuertes, pudiendo obtener muchos premios en el proceso. Para encontrar más información sobre esto, ingrese al torreón en la habitación superior derecha.");
     } else {
-        cm.sendOk("Inside the Keep, expeditions can be formed to attempt the Crimsonwood Keep PQ, which requires maplers from level 100 or more. It seems you are not suitable for attempting it yet, train some more if you want to attempt it.");
+        cm.sendOk("Dentro de Keep, se pueden formar expediciones para intentar el PQ de Crimsonwood Keep, que requiere arces de nivel 100 o más. Parece que aún no eres apto para intentarlo, entrena un poco más si quieres intentarlo.");
     }
     cm.dispose();
 }

@@ -40,7 +40,7 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendYesNo("#b#p2095000##k must be some way up this cliff, according to our latest reports... Or are you saying you want to #rleave here#k?");
+            cm.sendYesNo("#b#p2095000##kDebe haber algún lugar arriba de este acantilado, según nuestros últimos informes... ¿O estás diciendo que quieres#rvete de aquí#k?");
         } else if (status == 1) {
             cm.warp(120000104);
             cm.dispose();

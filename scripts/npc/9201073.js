@@ -4,6 +4,6 @@
  */
 
 function start() {
-    cm.sendOk("(This enigmatic tombstone keeps emmiting strange forces... Better look another way.)");
+    cm.sendOk("(Esta enigmática lápida sigue emitiendo fuerzas extrañas... Será mejor que mires hacia otro lado).");
     cm.dispose();
 }

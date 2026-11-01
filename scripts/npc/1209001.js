@@ -6,6 +6,6 @@ function start() {
 }
 
 function action(mode, type, selection) {
-    cm.sendOk("The #rBlack Mage#k's forces approaches here in an unstoppable pace... We have no other way than to flee this area now, leaving our home behind. Oh, the tragedy!");
+    cm.sendOk("El#rmago negro#kLas fuerzas se acercan aquí a un ritmo imparable... No tenemos otra forma que huir de esta zona ahora, dejando atrás nuestro hogar. ¡Ay, la tragedia!");
     cm.dispose();
 }

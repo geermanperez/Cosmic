@@ -49,7 +49,7 @@ function action(mode, type, selection) {
     } else {
         status++;
         if (status == 0) {
-            cm.sendSimple("I'm the head of this hair salon. If you have a #b#t5150001##k or a #b#t5151001##k allow me to take care of your hairdo. Please choose the one you want.\r\n#L1#Haircut: #i5150001##t5150001##l\r\n#L2#Dye your hair: #i5151001##t5151001##l");
+            cm.sendSimple("Soy el jefe de esta peluquería. Si tienes un#b#t5150001##ko un#b#t5151001##kdéjame cuidar de tu peinado. Elige el que quieras.\r\n#L1#Corte de pelo:#i5150001##t5150001##l\r\n#L2#Tiñe tu cabello:#i5151001##t5151001##l");
         } else if (status == 1) {
             if (selection == 1) {
                 beauty = 1;
@@ -64,7 +64,7 @@ function action(mode, type, selection) {
                         pushIfItemExists(hairnew, fhair_v[i] + parseInt(cm.getPlayer().getHair() % 10));
                     }
                 }
-                cm.sendStyle("I can totally change up your hairstyle and make it look so good. Why don't you change it up a bit? If you have #b#t5150001##k I'll change it for you. Choose the one to your liking~.", hairnew);
+                cm.sendStyle("Puedo cambiar totalmente tu peinado y hacerlo lucir tan bien. ¿Por qué no lo cambias un poco? si tienes#b#t5150001##kTe lo cambio. Elige el que más te guste~.", hairnew);
             } else if (selection == 2) {
                 beauty = 2;
                 haircolor = Array();
@@ -72,42 +72,42 @@ function action(mode, type, selection) {
                 for (var i = 0; i < 8; i++) {
                     pushIfItemExists(haircolor, current + i);
                 }
-                cm.sendStyle("I can totally change your haircolor and make it look so good. Why don't you change it up a bit? With #b#t51051001##k I'll change it for you. Choose the one to your liking.", haircolor);
+                cm.sendStyle("Puedo cambiar totalmente el color de tu cabello y hacerlo lucir tan bien. ¿Por qué no lo cambias un poco? Con#b#t51051001##kTe lo cambio. Elige el que más te guste.", haircolor);
             }
         } else if (status == 2) {
             cm.dispose();
             if (beauty == 1) {
                 if (cm.haveItem(5420002)) {  // thanks MedicOP for noticing uncoded functionality for Hair Membership coupons
                     cm.setHair(hairnew[selection]);
-                    cm.sendOk("Enjoy your new and improved hairstyle!");
+                    cm.sendOk("¡Disfruta de tu peinado nuevo y mejorado!");
                 } else if (cm.haveItem(5150001)) {
                     cm.gainItem(5150001, -1);
                     cm.setHair(hairnew[selection]);
-                    cm.sendOk("Enjoy your new and improved hairstyle!");
+                    cm.sendOk("¡Disfruta de tu peinado nuevo y mejorado!");
                 } else {
-                    cm.sendOk("Hmmm...it looks like you don't have our designated coupon...I'm afraid I can't give you a haircut without it. I'm sorry...");
+                    cm.sendOk("Hmmm... parece que no tienes nuestro cupón designado... Me temo que no puedo cortarte el pelo sin él. Lo lamento...");
                 }
             }
             if (beauty == 2) {
                 if (cm.haveItem(5151001)) {
                     cm.gainItem(5151001, -1);
                     cm.setHair(haircolor[selection]);
-                    cm.sendOk("Enjoy your new and improved haircolor!");
+                    cm.sendOk("¡Disfruta de tu nuevo y mejorado color de cabello!");
                 } else {
-                    cm.sendOk("Hmmm...it looks like you don't have our designated coupon...I'm afraid I can't dye your hair without it. I'm sorry...");
+                    cm.sendOk("Hmmm... parece que no tienes nuestro cupón designado... Me temo que no puedo teñirte el cabello sin él. Lo lamento...");
                 }
             }
             if (beauty == 0) {
                 if (selection == 0 && cm.getMeso() >= hairprice) {
                     cm.gainMeso(-hairprice);
                     cm.gainItem(5150001, 1);
-                    cm.sendOk("Enjoy!");
+                    cm.sendOk("¡Disfrutar!");
                 } else if (selection == 1 && cm.getMeso() >= haircolorprice) {
                     cm.gainMeso(-haircolorprice);
                     cm.gainItem(5151001, 1);
-                    cm.sendOk("Enjoy!");
+                    cm.sendOk("¡Disfrutar!");
                 } else {
-                    cm.sendOk("You don't have enough mesos to buy a coupon!");
+                    cm.sendOk("¡No tienes suficientes mesos para comprar un cupón!");
                 }
             }
         }

@@ -26,9 +26,9 @@ function start() {
     completed = cm.haveItem(4031508, 5) && cm.haveItem(4031507, 5);
 
     if (completed) {
-        cm.sendNext("Wow~ You have succeeded in collecting 5 of each #b#t4031508##k and #b#t4031507##k. Okay then, I will send you to Zoo. Please talk to me again when you get there.");
+        cm.sendNext("Wow~ Has logrado recolectar 5 de cada uno.#b#t4031508##ky#b#t4031507##k. Bien, entonces te enviaré al zoológico. Por favor, habla conmigo de nuevo cuando llegues.");
     } else {
-        cm.sendYesNo("You haven't completed the requirements. Are you sure you want to leave?");
+        cm.sendYesNo("No has completado los requisitos. ¿Estás seguro de que quieres irte?");
     }
 }
 
@@ -40,7 +40,7 @@ function action(mode, type, selection) {
     }
 
     if (status == 0) {
-        cm.sendOk("Well okay, I will send you back.");
+        cm.sendOk("Bueno, está bien, te enviaré de regreso.");
     } else {
         if (completed) {
             cm.getEventInstance().clearPQ();

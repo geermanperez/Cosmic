@@ -36,13 +36,13 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Long time no see! You've leveled up a lot since the last time we met. You must be training really hard. Always hard-working. I'm not surprised. It's exactly what a hero like you would do. I'm sure Lilin will be happy to hear about your progress.");
+            qm.sendNext("¡Mucho tiempo sin verlo! Has subido mucho de nivel desde la última vez que nos vimos. Debes estar entrenando muy duro. Siempre trabajador. No me sorprende. Es exactamente lo que haría un héroe como tú. Estoy seguro de que Lilin estará feliz de saber sobre tu progreso.");
         } else if (status == 1) {
-            qm.sendNextPrev("Anyway, enough small talk. I realized that it might be more effective to search for information in places outside Victoria Island as well, so I've begun investigating in Ossyria. I began with #bOrbis#k and immediately hit the jackpot.");
+            qm.sendNextPrev("De todos modos, basta de charlas triviales. Me di cuenta de que también podría ser más eficaz buscar información en lugares fuera de la isla Victoria, así que comencé a investigar en Ossiria. Comencé con #bOrbis#k e inmediatamente gané el premio mayor.");
         } else if (status == 2) {
-            qm.sendNextPrev("It seems like something strange is happening in Orbis in Ossyria. It's a bit different from when we were dealing with the puppeteer, but my instincts tell me it has to do with the Black Wings. Please head over to Orbis.");
+            qm.sendNextPrev("Parece que algo extraño está sucediendo en Orbis en Ossiria. Es un poco diferente de cuando estábamos lidiando con el titiritero, pero mis instintos me dicen que tiene que ver con los Black Wings. Dirígete a Orbis.");
         } else if (status == 3) {
-            qm.sendAcceptDecline("#bLisa the Fairy#k in Orbis should know a thing or two. Go see Lisa first, she knows someone that knows the whereabouts of the sealing stone. That person #rwill require a password from you#k, when requested use the #bThere's something strange going on in Orbis....#k keyword to talk to her. Understood?");
+            qm.sendAcceptDecline("#bLisa el hada#kEn Orbis deberíamos saber un par de cosas. Ve a ver a Lisa primero, ella conoce a alguien que sabe el paradero de la piedra selladora. esa persona#rle pedirá una contraseña#k, cuando se le solicite utilice el#bAlgo extraño está pasando en Orbis....#kpalabra clave para hablar con ella. ¿Comprendido?");
         } else if (status == 4) {
             qm.forceStartQuest();
             qm.dispose();

@@ -47,7 +47,7 @@ function end(mode, type, selection) {
         if (status == 0) {
             const InventoryType = Java.type('client.inventory.InventoryType');
             if (qm.getPlayer().getInventory(InventoryType.ETC).getNumFreeSlot() < 1) {
-                qm.sendOk("Make room on your ETC inventory first.");
+                qm.sendOk("Primero haga espacio en su inventario ETC.");
                 qm.dispose();
                 return;
             }
@@ -64,7 +64,7 @@ function end(mode, type, selection) {
                 qm.gainItem(4031927, 1);
             }
 
-            qm.sendOk("Now, go meet Alien Gray and use this undercover to read through their plans. If this fails, we will need to gather some materials once again.");
+            qm.sendOk("Ahora, ve a conocer a Alien Gray y usa este agente encubierto para leer sus planes. Si esto falla, necesitaremos reunir algunos materiales una vez más.");
             qm.forceCompleteQuest();
         } else if (status == 1) {
             qm.dispose();

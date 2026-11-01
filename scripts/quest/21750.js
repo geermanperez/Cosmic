@@ -36,7 +36,7 @@ function end(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Aran, you're finally back!!! How you've been doing? Where did you go for so long? We have so much to catch up...");
+            qm.sendNext("Aran, ¡¡¡por fin has vuelto!!! ¿Cómo has estado? ¿Adónde fuiste durante tanto tiempo? Tenemos mucho que ponernos al día...");
         } else if (status == 1) {
             qm.forceCompleteQuest();
             qm.dispose();

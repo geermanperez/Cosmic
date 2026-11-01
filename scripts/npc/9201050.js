@@ -47,10 +47,10 @@ function action(mode, type, selection) {
         }
         if (status == 0 && mode == 1) {
             if (cm.isQuestCompleted(4911)) {
-                cm.sendNext("Good job! You've solved all of my questions about NLC. Enjoy your trip!");
+                cm.sendNext("¡Buen trabajo! Has resuelto todas mis preguntas sobre NLC. ¡Disfruta tu viaje!");
                 cm.dispose();
             } else if (cm.isQuestCompleted(4900) || cm.isQuestStarted(4900)) {  // thanks imbee for pointing out the quiz leak
-                cm.sendNext("Hey, pay attention, I'm trying to quiz you on another question, fam!");
+                cm.sendNext("¡Oye, presta atención, estoy intentando interrogarte sobre otra pregunta, familia!");
                 cm.dispose();
             } else {
                 var selStr = "What up! Name's Icebyrd Slimm, mayor of New Leaf City! Happy to see you accepted my invite. So, what can I do for you?#b"
@@ -63,51 +63,51 @@ function action(mode, type, selection) {
         } else if (status == 1) {
             switch (selection) {
                 case 0:
-                    cm.sendNext("I've always dreamed of building a city. Not just any city, but one where everyone was welcome. I used to live in Kerning City, so I decided to see if I could create a city. As I went along in finding the means to do so, I encountered many people, some of whom I've come to regard as friends. Like Professor Foxwit-he's our resident genius; saved him from a group of man-eating plants. Jack Masque is an old hunting buddy from Amoria-almost too smooth of a talker for his own good. Lita and I are old friends from Kerning City-she's saved me a few times with that weapon of hers; so I figured she was a perfect choice for Town Sheriff. It took a bit of persuasion, but she came to believe her destiny lies here. About our resident explorer, Barricade came searching for something; he agreed to bring whatever he found to the museum. I'd heard stories about him and his brother when I was still in Kerning City. And Elpam...well, let's just say he's not from around here. At all. We've spoken before, and he seems to mean well, so I've allowed him to stay. I just realized that I've rambled quite a bit! What else would you like to know?");
+                    cm.sendNext("Siempre he soñado con construir una ciudad. No una ciudad cualquiera, sino una donde todos fueran bienvenidos. Solía ​​vivir en Kerning City, así que decidí ver si podía crear una ciudad. A medida que avanzaba en la búsqueda de los medios para hacerlo, me encontré con muchas personas, algunas de las cuales he llegado a considerar como amigos. Como el profesor Foxwit: es nuestro genio residente; lo salvó de un grupo de plantas devoradoras de hombres. Jack Masque es un viejo compañero de caza de Amoria, un conversador casi demasiado suave para su propio bien. Lita y yo somos viejos amigos de Kerning City; ella me salvó varias veces con esa arma suya; Así que pensé que era la elección perfecta para Sheriff de la ciudad. Fue necesario un poco de persuasión, pero llegó a creer que su destino está aquí. Acerca de nuestro explorador residente, Barricade vino buscando algo; accedió a llevar todo lo que encontrara al museo. Había oído historias sobre él y su hermano cuando todavía estaba en Kerning City. Y Elpam... bueno, digamos que no es de por aquí. En absoluto. Hemos hablado antes y parece tener buenas intenciones, así que le permití quedarse. ¡Me acabo de dar cuenta de que he divagado bastante! ¿Qué más te gustaría saber?");
                     status -= 2;
                     break;
                 case 1:
-                    cm.sendNext("A pretty spry guy for being 97. He's a time-traveller I ran into outside the city one day. Old guy had a bit of trouble with some jungle creatures-like they tried to eat him. In return for me saving him, he agreed to build a time museum. I get the feeling that he's come here for another reason, as he's mentioned more than a few times that New Leaf City has an interesting role to play in the future. Maybe you can find out a bit more...");
+                    cm.sendNext("Un tipo bastante vivaz para tener 97 años. Es un viajero en el tiempo con el que me encontré un día fuera de la ciudad. El viejo tuvo algunos problemas con algunas criaturas de la jungla, como si intentaran comérselo. A cambio de que lo salvara, accedió a construir un museo del tiempo. Tengo la sensación de que ha venido aquí por otra razón, ya que ha mencionado más de una vez que New Leaf City tiene un papel interesante que desempeñar en el futuro. Quizás puedas descubrir un poco más...");
                     status -= 2;
                     break;
                 case 2:
-                    cm.sendNext("Heh, I asked the same thing when I saw the Professor building them. They're warp points. Pressing Up will warp you to another location. I recommend getting the hang of them, they're our transport system.");
+                    cm.sendNext("Je, pregunté lo mismo cuando vi al profesor construyéndolos. Son puntos de deformación. Al presionar Arriba lo trasladará a otra ubicación. Recomiendo cogerles el truco, son nuestro sistema de transporte.");
                     status -= 2;
                     break;
                 case 3:
-                    cm.sendNext("The MesoGears are beneath Bigger Ben. It's a monster-infested section of Bigger Ben that Barricade discovered. It seems to reside in a separate section of the tower-quite strange if you ask me. I hear he needs a bit of help exploring it, you should see him. Be careful though, the Wolf Spiders in there are no joke.");
+                    cm.sendNext("Los MesoGears están debajo del Bigger Ben. Es una sección del Bigger Ben infestada de monstruos que descubrió Barricade. Parece residir en una sección separada de la torre, algo bastante extraño si me preguntas. He oído que necesita un poco de ayuda para explorarlo, deberías verlo. Pero ten cuidado, las arañas lobo que hay allí no son una broma.");
                     status -= 2;
                     break;
                 case 4:
-                    cm.sendNext("Ah...well. The Krakian Jungle is located on the outskirts of New Leaf City. Many new and powerful creatures roam those areas, so you'd better be prepared to fight if you head out there. It's at the right end of town. Rumors abound that the Jungle leads to a lost city, but we haven't found anything yet.");
+                    cm.sendNext("Ah... bueno. La Krakian Jungle está ubicada en las afueras de New Leaf City. Muchas criaturas nuevas y poderosas deambulan por esas áreas, por lo que será mejor que estés preparado para luchar si te diriges allí. Está en el extremo derecho de la ciudad. Abundan los rumores de que la Selva conduce a una ciudad perdida, pero aún no hemos encontrado nada.");
                     status -= 2;
                     break;
                 case 5:
-                    cm.sendNext("Well, when John found himself in the MesoGears portion of Bigger Ben, he stood on one and went to another location. However, he could only head back and forth-they don't cycle through like the Foxwit Door. Ancient tech for you.");
+                    cm.sendNext("Bueno, cuando John se encontró en la parte de MesoGears del Bigger Ben, se paró en uno y se dirigió a otro lugar. Sin embargo, sólo podía ir y venir; no circulan como la Puerta Foxwit. Tecnología antigua para ti.");
                     status -= 2;
                     break;
                 case 6:
-                    cm.sendNext("Well, you'll see them just about everywhere. They're areas under construction. The Red lights mean it's not finished, but the Green lights mean it's open. Check back often, we're always building!");
+                    cm.sendNext("Bueno, los verás en casi todas partes. Son áreas en construcción. Las luces rojas significan que no está terminado, pero las luces verdes significan que está abierto. Vuelve a consultar con frecuencia, ¡siempre estamos construyendo!");
                     status -= 2;
                     break;
                 case 7:
-                    cm.sendNext("Ah, Jack. You know those guys that are too cool for school? The ones who always seem to get away with everything? AND get the girl? Well, that's Jack, but without the girl. He thinks he blew his chance, and began wearing that mask to hide his true identity. My lips are sealed about who he is, but he's from Amoria. He might tell you a bit more if you ask him.");
+                    cm.sendNext("Ah, Jack. ¿Conoces a esos chicos que son demasiado geniales para la escuela? ¿Los que siempre parecen salirse con la suya? ¿Y la chica? Bueno, ese es Jack, pero sin la chica. Él cree que desperdició su oportunidad y comenzó a usar esa máscara para ocultar su verdadera identidad. Mis labios están sellados sobre quién es él, pero es de Amoria. Quizás te cuente un poco más si le preguntas.");
                     status -= 2;
                     break;
                 case 8:
-                    cm.sendNext("I've known Lita for a while, though we've just recently rekindled our friendship. I didn't see her for quite a bit, but I understand why. She trained for a very, very long time as a Thief. Matter of fact, that's how we first met! I was besieged by a group of wayward Mushrooms, and she jumped in to help. When it was time to pick a sheriff, it was a no-brainer. She's made a promise to help others in their training and protect the city, so if you're interested in a bit of civic duty, speak with her.");
+                    cm.sendNext("Conozco a Lita desde hace tiempo, aunque recientemente hemos reavivado nuestra amistad. No la vi por bastante tiempo, pero entiendo por qué. Se entrenó durante muchísimo tiempo como ladrona. De hecho, ¡así fue como nos conocimos! Fui asediado por un grupo de hongos descarriados y ella saltó para ayudar. Cuando llegó el momento de elegir un sheriff, fue una obviedad. Ella ha prometido ayudar a otros en su entrenamiento y proteger la ciudad, así que si estás interesado en un poco de deber cívico, habla con ella.");
                     status -= 2;
                     break;
                 case 9:
-                    cm.sendNext("Soon, my friend. Even though you can't see them, the city developers are hard at work. When they're ready, we'll open them. I know you're looking forward to it and so am I!");
+                    cm.sendNext("Pronto, amigo mío. Aunque no puedas verlos, los promotores de la ciudad están trabajando duro. Cuando estén listos, los abriremos. ¡Sé que lo estás esperando y yo también!");
                     status -= 2;
                     break;
                 case 10:
                     if (cm.getLevel() >= minlevel) {
-                        cm.sendNext("No problem. I'll give you something nice if you answer them correctly!");
+                        cm.sendNext("Ningún problema. ¡Te daré algo lindo si las respondes correctamente!");
                         cm.startQuest(4900);
                     } else {
-                        cm.sendNext("Eager, are we? How about you explore a bit more before I let you take the quiz?");
+                        cm.sendNext("¿Estamos ansiosos? ¿Qué tal si exploras un poco más antes de que te deje realizar el cuestionario?");
                     }
 
                     cm.dispose();

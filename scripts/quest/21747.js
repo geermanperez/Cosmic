@@ -36,9 +36,9 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendAcceptDecline("Who would have thought that the hero's successor would reappear after hundred of years...? Will you bring prosperity to Maple World or will you end its existence? I suppose it really doesn't matter. Alright, I'll tell you what I know about the Seal Stone of Mu Lung.");
+            qm.sendAcceptDecline("¿Quién hubiera pensado que el sucesor del héroe reaparecería después de cientos de años...? ¿Traerás prosperidad a Maple World o pondrás fin a su existencia? Supongo que realmente no importa. Muy bien, te diré lo que sé sobre la Piedra Sello de Mu Lung.");
         } else if (status == 1) {
-            qm.sendNext("The Seal Stone of Mu Lung is located at the Sealed Temple. You will find the entrance deep inside the Mu Lung Temple. You can enter the Sealed Temple if you find the pillar with the word 'Entrance' wtritten on it. The password is: #bActions speak better than words#k. Maybe you will find the Shadow Knight there, as he probably is waiting for me there. I think the Hero's sucessor is more able to face him than myself, so prepare yourself.");
+            qm.sendNext("La Piedra Sello de Mu Lung se encuentra en el Templo Sellado. Encontrarás la entrada en lo profundo del templo Mu Lung. Puedes ingresar al Templo Sellado si encuentras el pilar con la palabra \"Entrada\" escrita en él. La contraseña es:#bLas acciones hablan mejor que las palabras.#k. Tal vez encuentres al Caballero de las Sombras allí, ya que probablemente me esté esperando allí. Creo que el sucesor del héroe es más capaz de enfrentarlo que yo, así que prepárate.");
         } else {
             qm.forceStartQuest();
             qm.dispose();
@@ -62,9 +62,9 @@ function end(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("So you have defeated the Shadow Knight. I have never doubted of your handiwork, and you handled the task well.");
+            qm.sendNext("Entonces has derrotado al Caballero de las Sombras. Nunca he dudado de tu trabajo y manejaste bien la tarea.");
         } else if (status == 1) {
-            qm.sendNext("But yet, something made you unhappy. What could it be? ... No... Black Wings took away the Seal stone? I'm afraid nothing can be done anymore. I suggest you return to your group tactician, Tru is it?, and tell him about the situation now. Tell him about the loss here in Mu Lung. There's no time to lose, hurry!");
+            qm.sendNext("Pero aún así, algo te hizo infeliz. ¿Qué podría ser? ... No... ¿Alas Negras se llevó la piedra del Sello? Me temo que ya no se puede hacer nada. Te sugiero que regreses con el estratega de tu grupo, ¿verdad?, y le cuentes la situación ahora. Cuéntale sobre la pérdida aquí en Mu Lung. ¡No hay tiempo que perder, date prisa!");
         } else if (status == 2) {
             qm.gainExp(16000);
             qm.forceCompleteQuest();

@@ -22,7 +22,7 @@ function start() {
         }
         payment = true;
     }
-    cm.sendSimple("Ocean are all connected to each other. Place you can't reach by foot can easily reached oversea. How about taking #bDolphin Taxi#k with us today?\r\n" + menu);
+    cm.sendSimple("Los océanos están todos conectados entre sí. Los lugares a los que no se puede llegar a pie se pueden llegar fácilmente desde el extranjero. ¿Qué tal tomar#bTaxi de delfines#kcon nosotros hoy?\r\n" + menu);
 }
 
 function action(mode, type, selection) {
@@ -32,7 +32,7 @@ function action(mode, type, selection) {
         if (selection == 0) {
             if (payment) {
                 if (cm.getPlayer().getMeso() < 1000) {
-                    cm.sendOk("I don't think you have enough money...");
+                    cm.sendOk("No creo que tengas suficiente dinero...");
                     cm.dispose();
                 } else {
                     cm.gainMeso(-1000);
@@ -45,7 +45,7 @@ function action(mode, type, selection) {
             return;
         } else if (selection == 1) {
             if (cm.getPlayer().getMeso() < 10000) {
-                cm.sendOk("I don't think you have enough money...");
+                cm.sendOk("No creo que tengas suficiente dinero...");
                 cm.dispose();
                 return;
             } else {

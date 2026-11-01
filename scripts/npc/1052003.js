@@ -164,11 +164,11 @@ function action(mode, type, selection) {
             var complete = true;
 
             if (!cm.canHold(item, qty)) {
-                cm.sendOk("Check your inventory for a free slot first.");
+                cm.sendOk("Primero verifique su inventario para ver si hay un espacio libre.");
                 cm.dispose();
                 return;
             } else if (cm.getMeso() < cost * qty) {
-                cm.sendOk("Cash only, no credit.");
+                cm.sendOk("Sólo efectivo, sin crédito.");
                 cm.dispose();
                 return;
             } else {
@@ -184,7 +184,7 @@ function action(mode, type, selection) {
             }
 
             if (!complete) {
-                cm.sendOk("I cannot accept substitutes. If you don't have what I need, then I won't be able to help you.");
+                cm.sendOk("No puedo aceptar sustitutos. Si no tienes lo que necesito, entonces no podré ayudarte.");
             } else {
                 if (mats instanceof Array) {
                     for (var i = 0; i < mats.length; i++) {
@@ -195,7 +195,7 @@ function action(mode, type, selection) {
                 }
                 cm.gainMeso(-cost * qty);
                 cm.gainItem(item, qty);
-                cm.sendNext("Phew... I almost didn't think that would work for a second... Well, I hope you enjoy it, anyway.");
+                cm.sendNext("Uf... Casi no pensé que funcionaría por un segundo... Bueno, espero que lo disfrutes de todos modos.");
             }
             cm.dispose();
         }

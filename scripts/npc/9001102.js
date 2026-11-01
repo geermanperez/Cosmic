@@ -27,7 +27,7 @@ var selected = 0;
 
 function start() {
     if (cm.getPlayer().getMapId() == 100000000) {
-        cm.sendNext("There! Did you see that? You didn't? A UFO just passed... there!! Look, someone is getting dragged into the UFO... arrrrrrgh, it's Gaga! #rGaga just got kidnapped by a UFO!#k");
+        cm.sendNext("¡Allá! ¿Viste eso? ¿No lo hiciste? Acaba de pasar un OVNI... ¡¡allí!! Mira, alguien está siendo arrastrado hacia el OVNI... arrrrrrgh, ¡es Gaga!#r¡Gaga acaba de ser secuestrada por un OVNI!#k");
     }
 }
 
@@ -37,13 +37,13 @@ function action(m, t, s) {
         if (cm.getPlayer().getMapId() == 100000000) { // warper completed
             if (status == 1) {
                 if (cm.getPlayer().getLevel() >= 12) {
-                    cm.sendYesNo("What do we do now? It's just a rumor yet, but... I've heard that scary things happen to you if you get kidnapped by aliens... may be that's what happenning to Gaga right now! Please, please rescue Gaga! \r\n #bGaga may be a bit indetermined and clueless, but#k he has a really good heart. I can't let something terrible happen to him. Right! Grandpa from the moon might know how to rescue him! I will send you to the moon, so please go meet Grandpa and rescue Gaga!!!");
+                    cm.sendYesNo("¿Qué hacemos ahora? Es sólo un rumor todavía, pero... He oído que te suceden cosas aterradoras si eres secuestrado por extraterrestres... ¡puede ser que eso sea lo que le está pasando a Gaga ahora mismo! ¡Por favor, rescata a Gaga!\r\n #bGaga puede ser un poco indeterminada y despistada, pero#ktiene muy buen corazón. No puedo permitir que le pase algo terrible. ¡Bien! ¡El abuelo de la luna podría saber cómo rescatarlo! ¡¡¡Te enviaré a la luna, así que ve a encontrarte con el abuelo y rescata a Gaga!!!");
                 } else {
-                    cm.sendOk("Oh! It seems you don't reach the level requirements to save Gaga. Please come back when you are level 12 or higher.");
+                    cm.sendOk("¡Oh! Parece que no alcanzas el nivel requerido para salvar a Gaga. Vuelve cuando tengas el nivel 12 o superior.");
                 }
 
             } else if (status == 2) {
-                cm.sendNext("Thank you so much. Please rescue Gaga! Grandpa from the moon will help you.");
+                cm.sendNext("Muchas gracias. ¡Por favor rescata a Gaga! El abuelo de la luna te ayudará.");
             } else if (status == 3) {
                 cm.warp(922240200, 0);
                 cm.dispose();

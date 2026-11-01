@@ -25,7 +25,7 @@ var status = 0;
 var sel;
 
 function start() {
-    cm.sendSimple("What would you like to do?\r\n#b#L0#Create/Change your Guild Emblem#l#k");
+    cm.sendSimple("¿Qué te gustaría hacer?\r\n#b#L0#Crea/cambia el emblema de tu gremio#l#k");
 }
 
 function action(mode, type, selection) {
@@ -37,9 +37,9 @@ function action(mode, type, selection) {
             sel = selection;
             if (sel == 0) {
                 if (cm.getPlayer().getGuildRank() == 1) {
-                    cm.sendYesNo("Creating or changing Guild Emblem costs #b 5000000 mesos#k, are you sure you want to continue?");
+                    cm.sendYesNo("Crear o cambiar los costos del emblema del gremio#b5000000 mesos#k, ¿estás seguro de que quieres continuar?");
                 } else {
-                    cm.sendOk("You must be the Guild Leader to change the Emblem. Please tell your leader to speak with me.");
+                    cm.sendOk("Debes ser el líder del gremio para cambiar el emblema. Por favor dígale a su líder que hable conmigo.");
                 }
             }
         } else if (status == 2 && sel == 0) {

@@ -5,9 +5,9 @@
 
 function start() {
     if (cm.getQuestStatus(8224) == 2) {
-        cm.sendOk("Well met, fellow clan member. If you need anything we can be of help, try talking to one of our members.");
+        cm.sendOk("Bien conocido, compañero del clan. Si necesita algo en lo que podamos ser de ayuda, intente hablar con uno de nuestros miembros.");
     } else {
-        cm.sendOk("Hello there, stranger. We are the renowned Raven Claw clan of mercenaries, and I'm their leader.");
+        cm.sendOk("Hola, extraño. Somos el renombrado clan de mercenarios Raven Claw y yo soy su líder.");
     }
 
     cm.dispose();

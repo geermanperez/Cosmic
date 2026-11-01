@@ -96,30 +96,30 @@ function action(mode, type, selection) {
                 }
 
                 if (cm.isEventLeader()) {
-                    cm.sendOk("Your party completed such an astounding feat coming this far, #byou have defeated all the bosses#k, congratulations! Now I will be handing your reward as you are being transported out...");
+                    cm.sendOk("Su grupo completó una hazaña tan asombrosa al llegar tan lejos.#bhas derrotado a todos los jefes#k, felicidades! Ahora te entregaré tu recompensa mientras te transportan afuera...");
                 } else {
-                    cm.sendOk("For #bdefeating all bosses#k in this instance, congratulations! You will now receive a prize that matches your performance here as I warp you out.");
+                    cm.sendOk("Para#bderrotando a todos los jefes#ken este caso, ¡felicidades! Ahora recibirás un premio que coincida con tu desempeño aquí mientras te extraigo.");
                 }
             } else if (state == 2) {
                 if (cm.isEventLeader()) {
                     if (cm.getPlayer().getEventInstance().isEventTeamTogether()) {
-                        cm.sendYesNo("Is your party ready to proceed to the next stages? Walk through the portal if you think you're done, the time is now.. Now, do you guys REALLY want to proceed?");
+                        cm.sendYesNo("¿Está su grupo listo para pasar a las siguientes etapas? Caminen por el portal si creen que ya terminaron, ahora es el momento... Ahora, ¿realmente quieren continuar?");
                     } else {
-                        cm.sendOk("Please wait for your party to reassemble before proceeding.");
+                        cm.sendOk("Espere a que su grupo se vuelva a reunir antes de continuar.");
                         cm.dispose();
 
                     }
                 } else {
-                    cm.sendOk("Wait for your party leader to give me the signal to proceed. If you're not feeling too well and want to quit, walk through the portal and you will be transported out, and you will receive a prize for coming this far.");
+                    cm.sendOk("Espera a que el líder de tu partido me dé la señal para proceder. Si no te sientes muy bien y quieres dejar de fumar, atraviesa el portal, serás transportado y recibirás un premio por llegar hasta aquí.");
                     cm.dispose();
 
                 }
             } else if (state == 1) {
-                cm.sendYesNo("Do you wish to abandon this instance?");
+                cm.sendYesNo("¿Desea abandonar esta instancia?");
             } else {
                 em = cm.getEventManager("BossRushPQ");
                 if (em == null) {
-                    cm.sendOk("The Boss Rush PQ has encountered an error.");
+                    cm.sendOk("El Boss Rush PQ ha encontrado un error.");
                     cm.dispose();
                     return;
                 } else if (cm.isUsingOldPqNpcStyle()) {
@@ -127,12 +127,12 @@ function action(mode, type, selection) {
                     return;
                 }
 
-                cm.sendSimple("#e#b<Party Quest: Boss Rush>\r\n#k#n" + em.getProperty("party") + "\r\n\r\nAssemble a party of at least #b3 players#k. The party leader must talk to me to begin.#b\r\n#L0#I want to participate in the party quest.\r\n#L1#I would like to " + (cm.getPlayer().isRecvPartySearchInviteEnabled() ? "disable" : "enable") + " Party Search.\r\n#L2#I would like to hear more details.");
+                cm.sendSimple("#e#b<Misión del grupo: Ataque al jefe>\r\n#k#n" + em.getProperty("fiesta") + "\r\n\r\nReúna un grupo de al menos#b3 jugadores#k. El líder del partido debe hablar conmigo para comenzar.#b\r\n#L0#Quiero participar en la búsqueda del grupo.\r\n#L1#Me gustaría" + (cm.getPlayer().isRecvPartySearchInviteEnabled() ? "desactivar" : "permitir") + "Party Search.\r\n#L2#Me gustaría escuchar más detalles.");
             }
         } else if (status == 1) {
             if (state == 3) {
                 if (!cm.getPlayer().getEventInstance().giveEventReward(cm.getPlayer(), 6)) {
-                    cm.sendOk("Please arrange a slot in all tabs of your inventory beforehand.");
+                    cm.sendOk("Organice un espacio en todas las pestañas de su inventario de antemano.");
                     cm.dispose();
                     return;
                 }
@@ -151,10 +151,10 @@ function action(mode, type, selection) {
             } else {
                 if (selection == 0) {
                     if (cm.getParty() == null) {
-                        cm.sendOk("You can participate in the party quest only if you are in a party.");
+                        cm.sendOk("Puedes participar en la misión del grupo solo si estás en un grupo.");
                         cm.dispose();
                     } else if (!cm.isLeader()) {
-                        cm.sendOk("Your party leader must talk to me to start this party quest.");
+                        cm.sendOk("El líder de tu grupo debe hablar conmigo para comenzar esta búsqueda del grupo.");
                         cm.dispose();
                     } else {
                         var eli = em.getEligibleParty(cm.getParty());
@@ -167,20 +167,20 @@ function action(mode, type, selection) {
                             }
 
                             if (i == 8) {
-                                cm.sendOk("Another party has already entered the #rParty Quest#k in this channel. Please try another channel, or wait for the current party to finish.");
+                                cm.sendOk("Otro partido ya ha entrado en el#rBúsqueda de fiesta#ken este canal. Prueba con otro canal o espera a que termine la fiesta actual.");
                             }
                         } else {
-                            cm.sendOk("You cannot start this party quest yet, because either your party is not in the range size, some of your party members are not eligible to attempt it or they are not in this map. If you're having trouble finding party members, try Party Search.");
+                            cm.sendOk("No puedes comenzar esta misión de grupo todavía porque tu grupo no está dentro del rango de tamaño, algunos de los miembros de tu grupo no son elegibles para intentarla o no están en este mapa. Si tienes problemas para encontrar miembros del grupo, prueba Party Search.");
                         }
 
                         cm.dispose();
                     }
                 } else if (selection == 1) {
                     var psState = cm.getPlayer().toggleRecvPartySearchInvite();
-                    cm.sendOk("Your Party Search status is now: #b" + (psState ? "enabled" : "disabled") + "#k. Talk to me whenever you want to change it back.");
+                    cm.sendOk("El estado de tu búsqueda de grupo es ahora: #b" + (psState ? "activado" : "desactivado") + "#k. Habla conmigo cuando quieras volver a cambiarlo.");
                     cm.dispose();
                 } else {
-                    cm.sendOk("#e#b<Party Quest: Boss Rush>#k#n\r\nBrave adventurers from all over the places travel here to test their skills and abilities in combat against powerful MapleStory bosses. Assemble a party of #b3 to 6 players#k and work together to advance. REWARDS are given according to how far the party reaches, with extra prizes awarded at the end of the expedition.\r\n\r\nThis instance also supports #bmultiple lobbies for matchmaking several ranges of team levels#k at once.");
+                    cm.sendOk("#e#b<Misión del grupo: Ataque al jefe>#k#n\r\nValientes aventureros de todos los lugares viajan aquí para poner a prueba sus habilidades y destrezas en combate contra los poderosos jefes de MapleStory. Reúna un grupo de#b3 a 6 jugadores#ky trabajar juntos para avanzar. Las RECOMPENSAS se otorgan según lo lejos que llegue el grupo, y se otorgan premios adicionales al final de la expedición.\r\n\r\nEsta instancia también admite#bmúltiples lobbys para emparejamiento varios rangos de niveles de equipo#kinmediatamente.");
                     cm.dispose();
                 }
             }

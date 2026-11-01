@@ -36,7 +36,7 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("(As you peek into the shattered statue, you might have found a clue about what happened. Better talk to #rScadur#k about this.)");
+            qm.sendNext("(Al echar un vistazo a la estatua destrozada, es posible que haya encontrado una pista sobre lo que sucedió. Será mejor que hable con #rScadur#k sobre esto).");
             qm.forceCompleteQuest();
         } else if (status == 1) {
             qm.dispose();

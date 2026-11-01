@@ -15,15 +15,15 @@ function start(mode, type, selection) {
         if (type == 1 && mode == 0) {
             status -= 2;
         } else {
-            qm.sendOk("Okay, then. See you around.");
+            qm.sendOk("Bien, entonces. Ya nos veremos.");
             qm.dispose();
             return;
         }
     }
     if (status == 0) {
-        qm.sendAcceptDecline("Oh, Jack sent you here? Good timing, I'm planning alongside Jack and others to storm the Keep and retake it from the Twisted Masters what is ours by right. You seem ready to fight alongside us, right?");
+        qm.sendAcceptDecline("Oh, ¿Jack te envió aquí? Buen momento, estoy planeando junto con Jack y otros asaltar la Fortaleza y recuperar de manos de los Maestros Retorcidos lo que es nuestro por derecho. Pareces listo para luchar junto a nosotros, ¿verdad?");
     } else if (status == 1) {
-        qm.sendOk("Great! Your mission now is to rack down some numbers of their army and weaken their defenses by all effects. Defeat 75 of each: Windraider, Firebrand and Nightshadow, then return to me to report.");
+        qm.sendOk("¡Excelente! Tu misión ahora es reducir algunos números de su ejército y debilitar sus defensas por todos los efectos. Derrota a 75 de cada uno: Windraider, Firebrand y Nightshadow, luego regresa conmigo para informarme.");
         qm.forceStartQuest();
     } else if (status == 2) {
         qm.dispose();

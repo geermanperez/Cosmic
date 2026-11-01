@@ -48,15 +48,15 @@ function pushIfItemExists(array, itemid) {
 
 function start() {
     if (cm.getPlayer().gmLevel() < 1) {
-        cm.sendOk("Hey wassup?");
+        cm.sendOk("Oye, ¿qué pasa?");
         cm.dispose();
         return;
     }
 
     if (cm.getPlayer().isMale()) {
-        cm.sendSimple("Hey there, you can change your look for " + price + " mesos. What would you like to change?\r\n#L0#Skin#l\r\n#L1#Male Hair#l\r\n#L2#Hair Color#l\r\n#L3#Male Regular Eyes#l\r\n#L4#Eye Color#l");
+        cm.sendSimple("Hola, puedes cambiar tu look para" + price + "mesos. ¿Qué te gustaría cambiar?\r\n#L0#Piel#l\r\n#L1#Cabello Masculino#l\r\n#L2#Color de cabello#l\r\n#L3#Ojos masculinos regulares#l\r\n#L4#color de ojos#l");
     } else {
-        cm.sendSimple("Hey there, you can change your look for " + price + " mesos. What would you like to change?\r\n#L0#Skin#l\r\n#L5#Female Hair#l\r\n#L2#Hair Color#l\r\n#L6#Female Eyes#l\r\n#L4#Eye Color#l");
+        cm.sendSimple("Hola, puedes cambiar tu look para" + price + "mesos. ¿Qué te gustaría cambiar?\r\n#L0#Piel#l\r\n#L5#cabello femenino#l\r\n#L2#Color de cabello#l\r\n#L6#ojos femeninos#l\r\n#L4#color de ojos#l");
     }
 }
 
@@ -70,36 +70,36 @@ function action(mode, type, selection) {
         beauty = selection + 1;
         if (cm.getMeso() > price) {
             if (selection == 0) {
-                cm.sendStyle("Pick one?", skin);
+                cm.sendStyle("¿Elegir uno?", skin);
             } else if (selection == 1 || selection == 5) {
                 for each(var i
             in
                 selection == 1 ? hair : fhair
             )
                 pushIfItemExists(hairnew, i);
-                cm.sendStyle("Pick one?", hairnew);
+                cm.sendStyle("¿Elegir uno?", hairnew);
             } else if (selection == 2) {
                 var baseHair = parseInt(cm.getPlayer().getHair() / 10) * 10;
                 for (var k = 0; k < 8; k++) {
                     pushIfItemExists(haircolor, baseHair + k);
                 }
-                cm.sendStyle("Pick one?", haircolor);
+                cm.sendStyle("¿Elegir uno?", haircolor);
             } else if (selection == 3 || selection == 6) {
                 for each(var j
             in
                 selection == 3 ? face : fface
             )
                 pushIfItemExists(facenew, j);
-                cm.sendStyle("Pick one?", facenew);
+                cm.sendStyle("¿Elegir uno?", facenew);
             } else if (selection == 4) {
                 var baseFace = parseInt(cm.getPlayer().getFace() / 1000) * 1000 + parseInt(cm.getPlayer().getFace() % 100);
                 for (var i = 0; i < 9; i++) {
                     pushIfItemExists(colors, baseFace + (i * 100));
                 }
-                cm.sendStyle("Pick one?", colors);
+                cm.sendStyle("¿Elegir uno?", colors);
             }
         } else {
-            cm.sendNext("You don't have enough mesos. Sorry to say this, but without " + price + " mesos, you won't be able to change your look!");
+            cm.sendNext("No tienes suficientes mesos. Lamento decir esto, pero sin" + price + "mesos, ¡no podrás cambiar tu look!");
             cm.dispose();
         }
 

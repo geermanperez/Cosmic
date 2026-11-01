@@ -15,22 +15,22 @@ function start(mode, type, selection) {
         status++;
     } else {
         if (status == 2) {
-            qm.sendNext("Hmm, was that too much to ask? Is it because you don't know how to break Boxes? I'll tell you how if you accept my Quest. Let me know if you change your mind.");
+            qm.sendNext("Hmm, ¿era demasiado pedir? ¿Es porque no sabes romper cajas? Te diré cómo si aceptas mi Quest. Déjame saber si cambias de opinión.");
             qm.dispose();
             return;
         }
         status--;
     }
     if (status == 0) {
-        qm.sendNext("#b(*clang clang*)#k");
+        qm.sendNext("#b(*sonido metálico*)#k");
     } else if (status == 1) {
-        qm.sendNextPrev("Whoa! Hey! You scared me. I didn't know I had a visitor. You must be the Noblesse #p1102006# was talking about. Welcome! I'm #p1102007#, and my hobby is making #bChairs#k. I'm thinking about making you one as a welcome present.");
+        qm.sendNextPrev("¡Vaya! ¡Ey! Me asustaste. No sabía que tenía una visita. Debes ser el Noblesse del que hablaba #p1102006#. ¡Bienvenido! Soy #p1102007# y mi pasatiempo es fabricar #bChairs#k. Estoy pensando en hacerte uno como regalo de bienvenida.");
     } else if (status == 2) {
-        qm.sendNextPrev("But wait, I can't make you one because I don't have enough materials. Could you find me the materials I need? Around this area, you will find a lot of Boxes with items inside. Could you bring me back a #t4032267# and a #t4032268# found inside those Boxes?");
+        qm.sendNextPrev("Pero espera, no puedo hacerte uno porque no tengo suficientes materiales. ¿Podrías encontrarme los materiales que necesito? Alrededor de esta área encontrarás muchas cajas con artículos en su interior. ¿Podrías traerme un #t4032267# y un #t4032268# que se encuentran dentro de esas cajas?");
     } else if (status == 3) {
-        qm.sendNextPrev("Do you know how to get items from boxes? All you have to do is break the Boxes like you're attacking a monster. The difference is that you can attack monsters using your Skills, but you can #bonly use Regular Attacks to break Boxes#k.");
+        qm.sendNextPrev("¿Sabes cómo sacar artículos de las cajas? Todo lo que tienes que hacer es romper las Cajas como si estuvieras atacando a un monstruo. La diferencia es que puedes atacar monstruos usando tus habilidades, pero puedes#bSolo usa ataques regulares para romper cajas.#k.");
     } else if (status == 4) {
-        qm.sendAcceptDecline("Please bring me 1 #b#t4032267##k and 1 #b#t4032268##k found inside those Boxes. I'll make you an awesome Chair as soon as I have what I need. I'll wait here!");
+        qm.sendAcceptDecline("por favor tráeme 1#b#t4032267##ky 1#b#t4032268##kencontrado dentro de esas Cajas. Te haré una silla increíble tan pronto como tenga lo que necesito. ¡Esperaré aquí!");
     } else if (status == 5) {
         qm.forceStartQuest();
         qm.guideHint(9);
@@ -50,9 +50,9 @@ function end(mode, type, selection) {
         status--;
     }
     if (status == 0) {
-        qm.sendNext("Did you bring me a Building Stone and a Drape? Let's see. Ah, these are just what I need! They indeed are a #t4032267# and a #t4032268#! I'll make you a Chair right away.");
+        qm.sendNext("¿Me trajiste una piedra de construcción y una cortina? Vamos a ver. ¡Ah, esto es justo lo que necesito! ¡De hecho son un #t4032267# y un #t4032268#! Te haré una silla ahora mismo.");
     } else if (status == 1) {
-        qm.sendPrev("Here it is, a #t3010060#. What do you think? Nifty, huh? You can #bquickly recover your HP by sitting in this Chair#k. It will be stored in the #bSet-up#k window in your Inventory, so confirm that you've received the chair and head over to #b#p1102008##k. You'll see him if you keep following the arrow to the left. \r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0# \r\n#i3010060# 1 #t3010060# \r\n#fUI/UIWindow.img/QuestIcon/8/0# 95 exp");
+        qm.sendPrev("Aquí está, un#t3010060#. ¿Qué opinas? Genial, ¿eh? Puede#brecupera rápidamente tu HP sentándote en esta silla#k. Se almacenará en el#bConfiguración#kventana en su Inventario, así que confirme que ha recibido la silla y diríjase a#b#p1102008##k. Lo verás si sigues la flecha hacia la izquierda.\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0#\r\n#i3010060# 1 #t3010060# \r\n#fUI/UIWindow.img/QuestIcon/8/0# 95 exp.");
     } else if (status == 2) {
         qm.gainItem(4032267, -1);
         qm.gainItem(4032268, -1);

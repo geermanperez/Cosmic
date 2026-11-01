@@ -47,26 +47,26 @@ function action(mode, type, selection) {
         }
         if (status == 0 && mode == 1) {
             if (cm.haveItem(ticketId)) {
-                cm.sendYesNo("You may use the " + curMapName + " Gachapon. Would you like to use your Gachapon ticket?");
+                cm.sendYesNo("Puedes usar el" + curMapName + "Gachapón. ¿Quieres utilizar tu billete de Gachapón?");
             } else {
-                cm.sendSimple("Welcome to the " + curMapName + " Gachapon. How may I help you?\r\n\r\n#L0#What is Gachapon?#l\r\n#L1#Where can you buy Gachapon tickets?#l");
+                cm.sendSimple("Bienvenido a la" + curMapName + "Gachapón. ¿Cómo puedo ayudarte?\r\n\r\n#L0#¿Qué es Gachapón?#l\r\n#L1#¿Dónde se pueden comprar entradas para Gachapón?#l");
             }
         } else if (status == 1 && cm.haveItem(ticketId)) {
             if (cm.canHold(1302000) && cm.canHold(2000000) && cm.canHold(3010001) && cm.canHold(4000000)) { // One free slot in every inventory.
                 cm.gainItem(ticketId, -1);
                 cm.doGachapon();
             } else {
-                cm.sendOk("Please have at least one slot in your #rEQUIP, USE, SET-UP, #kand #rETC#k inventories free.");
+                cm.sendOk("Por favor tenga al menos una ranura en su#rEQUIPAR, USAR, CONFIGURAR,#ky#rETC#k inventarios libres.");
             }
             cm.dispose();
         } else if (status == 1) {
             if (selection == 0) {
-                cm.sendNext("Play Gachapon to earn rare scrolls, equipment, chairs, mastery books, and other cool items! All you need is a #bGachapon Ticket#k to be the winner of a random mix of items.");
+                cm.sendNext("¡Juega a Gachapon para ganar pergaminos, equipos, sillas, libros de dominio y otros artículos interesantes! Todo lo que necesitas es un#bBoleto Gachapón#kser el ganador de una combinación aleatoria de artículos.");
             } else {
-                cm.sendNext("Gachapon Tickets are available in the #rCash Shop#k and can be purchased using NX or Maple Points. Click on the red SHOP at the lower right hand corner of the screen to visit the #rCash Shop#k where you can purchase tickets.");
+                cm.sendNext("Los boletos para Gachapón están disponibles en el#rTienda de efectivo#ky se puede comprar usando NX o Maple Points. Haga clic en la TIENDA roja en la esquina inferior derecha de la pantalla para visitar el#rTienda de efectivo#kdonde puedes adquirir entradas.");
             }
         } else if (status == 2) {
-            cm.sendNextPrev("You'll find a variety of items from the " + curMapName + " Gachapon, but you'll most likely find items and scrolls related to " + curMapName + ".");
+            cm.sendNextPrev("Encontrarás una variedad de artículos del" + curMapName + "Gachapon, pero lo más probable es que encuentres objetos y pergaminos relacionados con" + curMapName + ".");
         } else {
             cm.dispose();
         }

@@ -28,7 +28,7 @@ var status = 0;
 
 function start() {
     status = -1;
-    cm.sendSimple("Man... It is hot!!!~ How can I help you?\r\n#L0##bLeave the event game.#l\r\n#L1#Buy the weapon (Wooden Club 1 meso)");
+    cm.sendSimple("Hombre... ¡¡¡Hace calor!!!~ ¿En qué puedo ayudarte?\r\n#L0##bDeja el juego del evento.#l\r\n#L1#Compra el arma (Wooden Club 1 meso)");
 }
 
 function action(mode, type, selection) {
@@ -45,10 +45,10 @@ function action(mode, type, selection) {
     }
     if (status == 0) {
         if (selection == 0) {
-            cm.sendYesNo("If you leave now, you can't participate in this event for the next 24 hours. Are you sure you want to leave?");
+            cm.sendYesNo("Si sales ahora, no podrás participar en este evento durante las próximas 24 horas. ¿Estás seguro de que quieres irte?");
         } else if (selection == 1) {
             if (cm.getMesos < 1 && !cm.canHold(1322005)) {
-                cm.sendOk("You don't have enough mesos or you don't have any space in your inventory.");
+                cm.sendOk("No tienes suficientes mesos o no tienes espacio en tu inventario.");
                 cm.dispose();
             } else {
                 cm.gainItem(1322005);

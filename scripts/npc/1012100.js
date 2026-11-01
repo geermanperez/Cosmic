@@ -47,28 +47,28 @@ function start() {
     } else {
         if (cm.getJobId() == 0) {
             actionx["1stJob"] = true;
-            cm.sendNext("So you decided to become a #rbowman#k? There are some standards to meet, y'know... #bYour level should be at least 10, with at least " + cm.getFirstJobStatRequirement(jobType) + "#k. Let's see.");   // thanks Vcoc for noticing a need to state and check requirements on first job adv starting message
+            cm.sendNext("¿Entonces decidiste convertirte en #rbowman#k? Hay algunos estándares que cumplir, ya sabes... #b Tu nivel debe ser al menos 10, con al menos" + cm.getFirstJobStatRequirement(jobType) + "#k. Vamos a ver.");   // thanks Vcoc for noticing a need to state and check requirements on first job adv starting message
         } else if (cm.getLevel() >= 30 && cm.getJobId() == 300) {
             actionx["2ndJob"] = true;
             if (cm.haveItem(4031012)) {
-                cm.sendNext("Haha...I knew you'd breeze through that test. I'll admit, you are a great bowman. I'll make you much stronger than you're right now. before that, however... you;ll need to choose one of two paths given to you. It'll be a difficult decision for you to make, but... if there's any question to ask, please do so.");
+                cm.sendNext("Jaja... Sabía que pasarías rápidamente esa prueba. Lo admito, eres un gran arquero. Te haré mucho más fuerte de lo que eres ahora. Antes de eso, sin embargo... tendrás que elegir uno de los dos caminos que se te presentan. Será una decisión difícil para usted, pero... si tiene alguna pregunta que hacer, hágala.");
             } else if (cm.haveItem(4031011)) {
-                cm.sendOk("Go and see the #b#p1072002##k.");
+                cm.sendOk("Ve y ve el#b#p1072002##k.");
                 cm.dispose();
             } else {
-                cm.sendYesNo("Hmmm... you have grown a lot since I last saw you. I don't see the weakling I saw before, and instead, look much more like a bowman now. Well, what do you think? Don't you want to get even more powerful than that? Pass a simple test and I'll do just that for you. Do you want to do it?");
+                cm.sendYesNo("Hmmm... has crecido mucho desde la última vez que te vi. No veo al debilucho que vi antes y, en cambio, ahora me parezco mucho más a un arquero. Bueno, ¿qué opinas? ¿No quieres ser aún más poderoso que eso? Pase una prueba sencilla y lo haré por usted. ¿Quieres hacerlo?");
             }
         } else if (actionx["3thJobI"] || (cm.getPlayer().gotPartyQuestItem("JB3") && cm.getLevel() >= 70 && cm.getJobId() % 10 == 0 && parseInt(cm.getJobId() / 100) == 3 && !cm.getPlayer().gotPartyQuestItem("JBP"))) {
             actionx["3thJobI"] = true;
-            cm.sendNext("There you are. A few days ago, #b#p2020010##k of Ossyria talked to me about you. I see that you are interested in making the leap to the amazing world of the third job advancement for archers. To achieve that goal, I will have to test your strength in order to see whether you are worthy of the advancement. There is an opening in the middle of a deep forest in Victoria Island, where it'll lead you to a secret passage. Once inside, you'll face a clone of myself. Your task is to defeat her and bring #b#t4031059##k back with you.");
+            cm.sendNext("Ahí estás. Hace unos días,#b#p2020010##kde Ossiria me habló de ti. Veo que estás interesado en dar el salto al asombroso mundo del tercer ascenso laboral para arqueros. Para lograr ese objetivo, tendré que probar tu fuerza para ver si eres digno de avanzar. Hay una abertura en medio de un bosque profundo en la isla Victoria, donde te llevará a un pasaje secreto. Una vez dentro, te enfrentarás a un clon mío. Tu tarea es derrotarla y traerla.#b#t4031059##kDe vuelta contigo.");
         } else if (cm.getPlayer().gotPartyQuestItem("JBP") && !cm.haveItem(4031059)) {
-            cm.sendNext("Please, bring me the #b#t4031059##k.");
+            cm.sendNext("Por favor, tráeme el#b#t4031059##k.");
             cm.dispose();
         } else if (cm.haveItem(4031059) && cm.getPlayer().gotPartyQuestItem("JBP")) {
             actionx["3thJobC"] = true;
-            cm.sendNext("Nice work. You have defeated my clone and brought #b#t4031059##k back safely. You have now proven yourself worthy of the 3rd job advancement from the physical standpoint. Now you should give this necklace to #b#p2020011##k in Ossyria to take on the second part of the test. Good luck. You'll need it.");
+            cm.sendNext("Buen trabajo. Has derrotado a mi clon y has traído#b#t4031059##kregresar con seguridad. Ahora ha demostrado que es digno del tercer ascenso laboral desde el punto de vista físico. Ahora deberías darle este collar a#b#p2020011##ken Ossiria para afrontar la segunda parte de la prueba. Buena suerte. Lo necesitarás.");
         } else {
-            cm.sendOk("You have chosen wisely.");
+            cm.sendOk("Has elegido sabiamente.");
             cm.dispose();
         }
     }
@@ -90,7 +90,7 @@ function action(mode, type, selection) {
         if (spawnPnpc) {
             if (mode > 0) {
                 if (cm.getMeso() < spawnPnpcFee) {
-                    cm.sendOk("Sorry, you don't have enough mesos to purchase your place on the Hall of Fame.");
+                    cm.sendOk("Lo sentimos, no tienes suficientes mesos para comprar tu lugar en el Salón de la Fama.");
                     cm.dispose();
                     return;
                 }
@@ -98,10 +98,10 @@ function action(mode, type, selection) {
                 const PlayerNPC = Java.type('server.life.PlayerNPC');
                 const GameConstants = Java.type('constants.game.GameConstants');
                 if (PlayerNPC.spawnPlayerNPC(GameConstants.getHallOfFameMapid(cm.getJob()), cm.getPlayer())) {
-                    cm.sendOk("There you go! Hope you will like it.");
+                    cm.sendOk("¡Ahí tienes! Espero que te guste.");
                     cm.gainMeso(-spawnPnpcFee);
                 } else {
-                    cm.sendOk("Sorry, the Hall of Fame is currently full...");
+                    cm.sendOk("Lo sentimos, el Salón de la Fama está actualmente lleno...");
                 }
             }
 
@@ -110,7 +110,7 @@ function action(mode, type, selection) {
         } else {
             if (mode != 1 || status == 7 && type != 1 || (actionx["1stJob"] && status == 4) || (cm.haveItem(4031008) && status == 2) || (actionx["3thJobI"] && status == 1)) {
                 if (mode == 0 && status == 2 && type == 1) {
-                    cm.sendOk("You know there is no other choice...");
+                    cm.sendOk("Sabes que no hay otra opción...");
                 }
                 if (!(mode == 0 && type != 1)) {
                     cm.dispose();
@@ -123,9 +123,9 @@ function action(mode, type, selection) {
     if (actionx["1stJob"]) {
         if (status == 0) {
             if (cm.getLevel() >= 10 && cm.canGetFirstJob(jobType)) {
-                cm.sendNextPrev("It is an important and final choice. You will not be able to turn back.");
+                cm.sendNextPrev("Es una elección importante y definitiva. No podrás dar marcha atrás.");
             } else {
-                cm.sendOk("Train a bit more until you reach the base requirements and I can show you the way of the #rBowman#k.");
+                cm.sendOk("Entrena un poco más hasta llegar a los requisitos básicos y podré mostrarte el camino del #rBowman#k.");
                 cm.dispose();
             }
         } else if (status == 1) {
@@ -136,24 +136,24 @@ function action(mode, type, selection) {
                     cm.gainItem(2060000, 1000);
                     cm.resetStats();
                 }
-                cm.sendNext("Alright, from here out, you are a part of us! You'll be living the life of a wanderer at ..., but just be patient as soon, you'll be living the high life. Alright, it ain't much, but I'll give you some of my abilities... HAAAHHH!!!");
+                cm.sendNext("Muy bien, de ahora en adelante, ¡eres parte de nosotros! Vivirás la vida de un vagabundo en..., pero ten paciencia ya que pronto vivirás una gran vida. Muy bien, no es mucho, pero te daré algunas de mis habilidades... ¡¡¡HAAAHHH!!!");
             } else {
-                cm.sendNext("Make some room in your inventory and talk back to me.");
+                cm.sendNext("Haz algo de espacio en tu inventario y habla conmigo.");
                 cm.dispose();
             }
         } else if (status == 2) {
-            cm.sendNextPrev("You've gotten much stronger now. Plus every single one of your inventories have added slots. A whole row, to be exact. Go see for it yourself. I just gave you a little bit of #bSP#k. When you open up the #bSkill#k menu on the lower left corner of the screen, there are skills you can learn by using SP's. One warning, though: You can't raise it all together all at once. There are also skills you can acquire only after having learned a couple of skills first.");
+            cm.sendNextPrev("Te has vuelto mucho más fuerte ahora. Además, cada uno de tus inventarios tiene espacios agregados. Una fila entera, para ser exactos. Ve a verlo tú mismo. Acabo de darte un poquito de #bSP#k. Cuando abres el menú #bSkill#k en la esquina inferior izquierda de la pantalla, hay habilidades que puedes aprender usando SP. Sin embargo, una advertencia: no se pueden plantear todos juntos a la vez. También hay habilidades que puedes adquirir sólo después de haber aprendido un par de habilidades primero.");
         } else if (status == 3) {
-            cm.sendNextPrev("Now a reminder. Once you have chosen, you cannot change up your mind and try to pick another path. Go now, and live as a proud Bowman.");
+            cm.sendNextPrev("Ahora un recordatorio. Una vez que hayas elegido, no podrás cambiar de opinión e intentar elegir otro camino. Ve ahora y vive como un orgulloso Bowman.");
         } else {
             cm.dispose();
         }
     } else if (actionx["2ndJob"]) {
         if (status == 0) {
             if (cm.haveItem(4031012)) {
-                cm.sendSimple("Alright, when you have made your decision, click on [I'll choose my occupation] at the bottom.#b\r\n#L0#Please explain to me what being the Hunter is all about.\r\n#L1#Please explain to me what being the Crossbowman is all about.\r\n#L3#I'll choose my occupation!");
+                cm.sendSimple("Muy bien, cuando hayas tomado tu decisión, haz clic en [Elegiré mi ocupación] en la parte inferior.#b\r\n#L0#Por favor explícame de qué se trata ser el Cazador.\r\n#L1#Por favor, explícame de qué se trata ser el ballestero.\r\n#L3#¡Elegiré mi ocupación!");
             } else {
-                cm.sendNext("Good decision. You look strong, but I need to see if you really are strong enough to pass the test, it's not a difficult test, so you'll do just fine. Here, take my letter first... make sure you don't lose it!");
+                cm.sendNext("Buena decisión. Te ves fuerte, pero necesito ver si realmente eres lo suficientemente fuerte como para pasar la prueba, no es una prueba difícil, así que lo harás bien. Toma, toma mi carta primero... ¡asegúrate de no perderla!");
                 if (!cm.isQuestStarted(100000)) {
                     cm.startQuest(100000);
                 }
@@ -164,43 +164,43 @@ function action(mode, type, selection) {
                     if (!cm.haveItem(4031010)) {
                         cm.gainItem(4031010, 1);
                     }
-                    cm.sendNextPrev("Please get this letter to #b#p1072002##k who's around #b#m106010000##k near Henesys. She is taking care of the job of an instructor in place of me. Give her the letter and she'll test you in place of me. Best of luck to you.");
+                    cm.sendNextPrev("Por favor envíe esta carta a#b#p1072002##kquien esta cerca#b#m106010000##kcerca de Henesys. Ella se está haciendo cargo del trabajo de instructora en mi lugar. Dale la carta y ella te pondrá a prueba en mi lugar. Mucha suerte para ti.");
                     cm.dispose();
                 } else {
-                    cm.sendNext("Please, make some space in your inventory.");
+                    cm.sendNext("Por favor, haga algo de espacio en su inventario.");
                     cm.dispose();
                 }
             } else {
                 if (selection < 3) {
                     if (selection == 0) {    //hunter
-                        cm.sendNext("Archers that master #rBows#k.\r\n\r\n#bHunters#k have a higher damage/minute output in early levels, with attacks having a faster pace but slightly weaker than Crossbowmans. #bHunters#k get #rArrow Bomb#k, a slightly weaker attack that can cause up to 6 enemies to get stunned.");
+                        cm.sendNext("Arqueros que dominan#rBows#k.\r\n\r\n#bHunters#k tienen una mayor producción de daño/minuto en los primeros niveles, con ataques que tienen un ritmo más rápido pero ligeramente más débiles que los ballesteros.#bHunters#k conseguir#rBomba de flecha#k, un ataque ligeramente más débil que puede aturdir hasta a 6 enemigos.");
                     } else if (selection == 1) {    //crossbowman
-                        cm.sendNext("Archers that master #rCrossbows#k.\r\n\r\n#bCrossbowmans'#k attack power grows higher the higher level you are, when compared to Hunters. #bCrossbowmans#k get #rIron Arrow#k, a stronger attack that does not home on enemies but can go through walls.");
+                        cm.sendNext("Arqueros que dominan#rCrossbows#k.\r\n\r\n#bBallesteros#kEl poder de ataque aumenta cuanto más alto sea tu nivel, en comparación con los cazadores.#bCrossbowmans#k conseguir#rFlecha de hierro#k, un ataque más fuerte que no ataca a los enemigos pero puede atravesar paredes.");
                     }
 
                     status -= 2;
                 } else {
-                    cm.sendSimple("Now... have you made up your mind? Please choose the job you'd like to select for your 2nd job advancement. #b\r\n#L0#Hunter\r\n#L1#Crossbowman");
+                    cm.sendSimple("Ahora… ¿has tomado una decisión? Elija el trabajo que desea seleccionar para su segundo ascenso laboral.#b\r\n#L0#Cazador\r\n#L1#ballestero");
                 }
             }
         } else if (status == 2) {
             job += selection * 10;
-            cm.sendYesNo("So you want to make the second job advancement as the " + (job == 310 ? "#bHunter#k" : "#bCrossbowman#k") + "? You know you won't be able to choose a different job for the 2nd job advancement once you make your desicion here, right?");
+            cm.sendYesNo("Entonces, ¿quieres lograr el segundo avance laboral como" + (job == 310 ? "#bHunter#k" : "#bCrossbowman#k") + "? Sabes que no podrás elegir un trabajo diferente para el segundo ascenso laboral una vez que tomes tu decisión aquí, ¿verdad?");
         } else if (status == 3) {
             if (cm.haveItem(4031012)) {
                 cm.gainItem(4031012, -1);
             }
 
-            cm.sendNext("Alright, you're the " + (job == 310 ? "#bHunter#k" : "#bCrossbowman#k") + " from here on out. " + (job == 310 ? "#bHunter#k" : "#bCrossbowman#k") + "s are the intelligent bunch with incredible vision, able to pierce the arrow through the heart of the monsters with ease... please train yourself each and everyday. I'll help you become even stronger than you already are.");
+            cm.sendNext("Muy bien, eres el" + (job == 310 ? "#bHunter#k" : "#bCrossbowman#k") + "de aquí en adelante." + (job == 310 ? "#bHunter#k" : "#bCrossbowman#k") + "Somos un grupo inteligente con una visión increíble, capaz de perforar la flecha a través del corazón de los monstruos con facilidad... por favor, entrena todos los días. Te ayudaré a ser aún más fuerte de lo que ya eres.");
             if (cm.getJobId() != job) {
                 cm.changeJobById(job);
             }
         } else if (status == 4) {
-            cm.sendNextPrev("I have just given you a book that gives you the list of skills you can acquire as a " + (job == 310 ? "hunter" : "crossbowman") + ". Also your etc inventory has expanded by adding another row to it. Your max HP and MP have increased, too. Go check and see for it yourself.");
+            cm.sendNextPrev("Acabo de darte un libro que te da la lista de habilidades que puedes adquirir como" + (job == 310 ? "cazador" : "ballestero") + ". Además, su inventario, etc. se ha ampliado al agregarle otra fila. Tu HP y MP máximos también han aumentado. Ve a comprobarlo y compruébalo tú mismo.");
         } else if (status == 5) {
-            cm.sendNextPrev("I have also given you a little bit of #bSP#k. Open the #bSkill Menu#k located at the bottomleft corner. you'll be able to boost up the newer acquired 2nd level skills. A word of warning, though. You can't boost them up all at once. Some of the skills are only available after you have learned other skills. Make sure yo remember that.");
+            cm.sendNextPrev("También te he dado un poquito de#bSP#k. Abre el#bMenú de habilidades#kubicado en la esquina inferior izquierda. Podrás mejorar las nuevas habilidades adquiridas de segundo nivel. Sin embargo, una palabra de advertencia. No puedes potenciarlos todos a la vez. Algunas de las habilidades sólo están disponibles después de haber aprendido otras habilidades. Asegúrate de recordar eso.");
         } else if (status == 6) {
-            cm.sendNextPrev((job == 310 ? "Hunter" : "Crossbowman") + " need to be strong. But remember that you can't abuse that power and use it on a weakling. Please use your enormous power the right way, because... for you to use that the right way, that is much harden than just getting stronger. Please find me after you have advanced much further. I'll be waiting for you.");
+            cm.sendNextPrev((job == 310 ? "Cazador" : "ballestero") + "hay que ser fuerte. Pero recuerda que no puedes abusar de ese poder y usarlo con un debilucho. Por favor, usa tu enorme poder de la manera correcta, porque... para que lo uses de la manera correcta, eso es mucho más difícil que simplemente hacerte más fuerte. Por favor, encuéntrame después de haber avanzado mucho más. Te estaré esperando.");
         }
     } else if (actionx["3thJobI"]) {
         if (status == 0) {
@@ -208,7 +208,7 @@ function action(mode, type, selection) {
                 cm.getPlayer().removePartyQuestItem("JB3");
                 cm.getPlayer().setPartyQuestItemObtained("JBP");
             }
-            cm.sendNextPrev("Since she is a clone of myself, you can expect a tough battle ahead. He uses a number of special attacking skills unlike any you have ever seen, and it is your task to successfully take him one on one. There is a time limit in the secret passage, so it is crucial that you defeat him within the time limit. I wish you the best of luck, and I hope you bring the #b#t4031059##k with you.");
+            cm.sendNextPrev("Como ella es un clon mío, puedes esperar una dura batalla por delante. Utiliza una serie de habilidades de ataque especiales como ninguna que hayas visto jamás, y tu tarea es enfrentarlo con éxito uno a uno. Hay un límite de tiempo en el pasaje secreto, por lo que es crucial que lo derrotes dentro del límite de tiempo. Te deseo la mejor de las suertes y espero que traigas la#b#t4031059##kcontigo.");
         }
     } else if (actionx["3thJobC"]) {
         cm.getPlayer().removePartyQuestItem("JBP");

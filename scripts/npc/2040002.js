@@ -35,13 +35,13 @@ function start() {
         em = cm.getEventManager("DollHouse");
 
         if (em.getProperty("noEntry") == "false") {
-            cm.sendNext("The pendulum is hidden inside a dollhouse that looks different than the others.");
+            cm.sendNext("El péndulo está escondido dentro de una casa de muñecas que se ve diferente a las demás.");
         } else {
-            cm.sendOk("Someone else is already searching the area. Please wait until the area is cleared.");
+            cm.sendOk("Alguien más ya está buscando en la zona. Espere hasta que se despeje el área.");
             cm.dispose();
         }
     } else {
-        cm.sendOk("We are not allowed to let the general public wander past this point.");
+        cm.sendOk("No se nos permite permitir que el público en general pase de este punto.");
         cm.dispose();
     }
 }
@@ -52,11 +52,11 @@ function action(mode, type, selection) {
     } else {
         status++;
         if (status == 1) {
-            cm.sendYesNo("Are you ready to enter the dollhouse map?");
+            cm.sendYesNo("¿Estás listo para ingresar al mapa de las casas de muñecas?");
         } else if (status == 2) {
             var em = cm.getEventManager("DollHouse");
             if (!em.startInstance(cm.getPlayer())) {
-                cm.sendOk("Hmm... The DollHouse is being challenged already, it seems. Try again later.");
+                cm.sendOk("Hmm... Parece que la Casa de Muñecas ya está siendo cuestionada. Vuelve a intentarlo más tarde.");
             }
 
             cm.dispose();

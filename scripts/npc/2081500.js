@@ -48,15 +48,15 @@ function action(mode, type, selection) {
 
         if (status == 0) {
             if (cm.getLevel() < 120 || Math.floor(cm.getJobId() / 100) != 5) {
-                cm.sendOk("Please don't bother me right now, I am trying to concentrate.");
+                cm.sendOk("Por favor, no me molestes ahora, estoy tratando de concentrarme.");
                 cm.dispose();
             } else if (!cm.isQuestCompleted(6944)) {
-                cm.sendOk("You have not yet passed my trials. I can not advance you until you do so.");
+                cm.sendOk("Aún no has pasado mis pruebas. No puedo adelantarte hasta que lo hagas.");
                 cm.dispose();
             } else if (cm.getJobId() % 100 % 10 != 2) {
-                cm.sendYesNo("You did a marvellous job passing my test. Are you ready to advance to your 4th job?");
+                cm.sendYesNo("Hiciste un trabajo maravilloso al aprobar mi examen. ¿Estás listo para avanzar a tu cuarto trabajo?");
             } else {
-                cm.sendSimple("If I must, I can teach you the art of your class.\r\n#b#L0#Teach me the skills of my class.#l");
+                cm.sendSimple("Si es necesario, puedo enseñarte el arte de tu clase.\r\n#b#L0#Enséñame las habilidades de mi clase.#l");
                 //cm.dispose();
             }
         } else if (status == 1) {
@@ -76,7 +76,7 @@ function action(mode, type, selection) {
                     }
                     cm.gainItem(2280003, 1);
                 } else {
-                    cm.sendOk("Please have one slot available on #bUSE#k inventory to receive a skill book.");
+                    cm.sendOk("Tenga un espacio disponible en el inventario #bUSE#k para recibir un libro de habilidades.");
                 }
             } else if (mode >= 1 && cm.getJobId() % 100 % 10 == 2) {
                 if (cm.getJobId() == 512) {
@@ -109,7 +109,7 @@ function action(mode, type, selection) {
                         cm.teachSkill(5221003, 0, 10, -1);
                     }
                 }
-                cm.sendOk("It is done. Leave me now.");
+                cm.sendOk("Está hecho. Déjame ahora.");
             }
 
             cm.dispose();

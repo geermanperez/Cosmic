@@ -6,7 +6,7 @@ function end(mode, type, selection) {
         qm.dispose();
     } else {
         if (status == 0) {
-            qm.sendNext("Take these #bMana Elixir Pills#k as a token of my gratitude.");
+            qm.sendNext("Toma estos#bPíldoras de elixir de maná#kcomo muestra de mi agradecimiento.");
         } else if (status == 1) {
             const InventoryType = Java.type('client.inventory.InventoryType');
             if (qm.getPlayer().getInventory(InventoryType.USE).getNumFreeSlot() >= 1) {
@@ -16,7 +16,7 @@ function end(mode, type, selection) {
                 qm.forceCompleteQuest();
                 qm.dispose();
             } else {
-                qm.sendNext("Hm? It looks like your inventory is full.");
+                qm.sendNext("¿Mmm? Parece que tu inventario está lleno.");
             }
         } else if (status == 2) {
             qm.dispose();

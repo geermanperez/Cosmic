@@ -10,14 +10,14 @@ function start(mode, type, selection) {
         status++;
     }
     if (status == 0) {
-        qm.sendAcceptDecline("It's strange. The chickens are acting funny. They used to hatch way more #t4032451#s. Do you think the Foxes have something to do with it? If so, we better hurry up and do something.");
+        qm.sendAcceptDecline("Es extraño. Las gallinas se están portando raro. Solían incubar muchos más #t4032451#. ¿Crees que los Zorros tienen algo que ver con esto? Si es así, será mejor que nos demos prisa y hagamos algo.");
     } else if (status == 1) {
         if (mode == 0) {//decline
-            qm.sendNext("Oh what... Are you scared of the #o9300385#es? Don't tell anyone you're related to me. That's shameful.");
+            qm.sendNext("Oh, qué... ¿Tienes miedo de los #o9300385#? No le digas a nadie que eres pariente mío. Eso es vergonzoso.");
             qm.dispose();
         } else {
             qm.forceStartQuest();
-            qm.sendNext("Right? Let us go and defeat those Foxes. Go on ahead and defeat #r10 #o9300385#es#k in #b#m100030103##k first. I'll follow you and take care of what's left behind. Now, hurry over to #m100030103#!");
+            qm.sendNext("¿Bien? Vayamos y derrotemos a esos Zorros. Sigue adelante y derrota#r10 #o9300385#es#ken#b#m100030103##kprimero. Te seguiré y me ocuparé de lo que quede atrás. Ahora, date prisa para#m100030103#!");
         }
     } else if (status == 2) {
         qm.sendImage("UI/tutorial/evan/10/0");
@@ -35,29 +35,29 @@ function end(mode, type, selection) {
         status++;
     }
     if (status == 0) {
-        qm.sendNext("Did you defeat the #o9300385#es?");
+        qm.sendNext("¿Derrotaste a los #o9300385#?");
     } else if (status == 1) {
-        qm.sendNextPrev("#bWhat happened to slaying the Foxes left behind?", 2);
+        qm.sendNextPrev("#b¿Qué pasó con matar a los Zorros que quedaron atrás?", 2);
     } else if (status == 2) {
-        qm.sendNextPrev("Oh, that? Haha. I did chase them, sort of, but I wanted to make sure that they catch up to you. I wouldn't want you eaten by a #o9300385# or anything. So I just let them be.");
+        qm.sendNextPrev("Ah, ¿eso? Ja ja. Los perseguí, más o menos, pero quería asegurarme de que te alcanzaran. No quisiera que te comiera un #o9300385# ni nada por el estilo. Así que simplemente los dejé en paz.");
     } else if (status == 3) {
-        qm.sendNextPrev("#bAre you sure you weren't just hiding because you were scared of the Foxes?", 2);
+        qm.sendNextPrev("#bA¿Estás seguro de que no te escondías simplemente porque tenías miedo de los Zorros?", 2);
     } else if (status == 4) {
-        qm.sendNextPrev("What? No way! Sheesh, I fear nothing!");
+        qm.sendNextPrev("¿Qué? ¡De ninguna manera! ¡Dios, no temo a nada!");
     } else if (status == 5) {
-        qm.sendNextPrev("#bWatch out! There's a #o9300385# right behind you!", 2);
+        qm.sendNextPrev("#b¡Cuidado! hay un#o9300385#justo detrás de ti!", 2);
     } else if (status == 6) {
-        qm.sendNextPrev("Eeeek! Mommy!");
+        qm.sendNextPrev("¡Eeeek! ¡Mami!");
     } else if (status == 7) {
         qm.sendNextPrev("#b...", 2);
     } else if (status == 8) {
         qm.sendNextPrev("...");
     } else if (status == 9) {
-        qm.sendNextPrev("You little brat! I'm your older brother. Don't you mess with me! Your brother has a weak heart, you know. Don't surprise me like that!");
+        qm.sendNextPrev("¡Pequeño mocoso! Soy tu hermano mayor. ¡No te metas conmigo! Tu hermano tiene un corazón débil, ¿sabes? ¡No me sorprendas así!");
     } else if (status == 10) {
-        qm.sendNextPrev("#b(This is why I don't want to call you Older Brother...)", 2);
+        qm.sendNextPrev("#b(Por eso no quiero llamarte Hermano mayor...)", 2);
     } else if (status == 11) {
-        qm.sendNextPrev("Hmph! Anyway, I'm glad you were able to defeat the #o9300385#es. As a reward, I'll give you something an adventurer gave me a long time ago. Here you are. \r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0# \r\n#i1372043# 1 #t1372043# \r\n#i2022621# 25 #t2022621# \r\n#i2022622# 25 #t2022622#s \r\n\r\n#fUI/UIWindow.img/QuestIcon/8/0# 910 exp");
+        qm.sendNextPrev("¡Mmm! De todos modos, me alegra que hayas podido derrotar al#o9300385#es. Como recompensa, te daré algo que un aventurero me regaló hace mucho tiempo. Aquí tiene.\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0#\r\n#i1372043# 1 #t1372043# \r\n#i2022621# 25 #t2022621# \r\n#i2022622# 25 #t2022622#s\r\n\r\n#fUI/UIWindow.img/QuestIcon/8/0# 910 exp.");
     } else if (status == 12) {
         if (!qm.isQuestCompleted(22008)) {
             qm.gainItem(1372043, true);
@@ -66,9 +66,9 @@ function end(mode, type, selection) {
             qm.forceCompleteQuest();
             qm.gainExp(910);
         }
-        qm.sendNextPrev("#bThis is a weapon that Magicians use. It's a Wand#k. You probably won't really need it, but it'll make you look important if you carry it around. Hahahahaha.");
+        qm.sendNextPrev("#bEsta es un arma que usan los magos. es una varita#k. Probablemente no lo necesites, pero te hará parecer importante si lo llevas contigo. Jajajajaja.");
     } else if (status == 13) {
-        qm.sendPrev("Anyway, the Foxes have increased, right? How weird is that? Why are they growing day by day? We should really look into it and get to the bottom of this.");
+        qm.sendPrev("En fin, los Zorros han aumentado, ¿no? ¿Qué tan raro es eso? ¿Por qué crecen día a día? Realmente deberíamos investigarlo y llegar al fondo del asunto.");
     } else if (status == 14) {
         qm.dispose();
     }

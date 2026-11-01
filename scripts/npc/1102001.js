@@ -40,7 +40,7 @@ function action(mode, type, selection) {
             status--;
         }
         if (status == 0 && mode == 1) {
-            cm.sendYesNo("Would you like to exit the drill hall?");
+            cm.sendYesNo("¿Le gustaría salir de la sala de ejercicios?");
         } else if (status == 1) {
             cm.warp(130020000, 0);
             cm.dispose();

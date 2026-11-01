@@ -36,9 +36,9 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("You want to use a Wolf as a mount, but you don't have a #bWolf saddle#k? Why, I have just the fine solution for you! Come here in #bEl Nath#k first, I shall teach you how to mount a wolf as an extra.");
+            qm.sendNext("Quieres usar un lobo como montura, pero no tienes#bSilla de lobo#k? ¡Tengo la mejor solución para ti! Ven aquí en#bEl Nath#kPrimero, te enseñaré cómo montar un lobo como extra.");
         } else if (status == 1) {
-            qm.sendNext("Once here, hunt for #r50 #t4000048##k then bring them to me.");
+            qm.sendNext("Una vez aquí, busca#r50 #t4000048##kEntonces tráemelos.");
         } else if (status == 2) {
             qm.forceStartQuest();
             qm.dispose();

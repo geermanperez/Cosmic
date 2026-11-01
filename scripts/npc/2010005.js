@@ -37,7 +37,7 @@ var check;
 var status = 0;
 
 function start() {
-    cm.sendSimple("Have you heard of the beach with a spectacular view of the ocean called #b#m110000000##k, located a little far from #m" + cm.getPlayer().getMapId() + "#? I can take you there right now for either #b" + pay + " mesos#k, or if you have #b#t" + ticket + "##k with you, in which case you'll be in for free.\r\n\r\n#L0##bI'll pay " + pay + " mesos.#k#l\r\n#L1##bI have #t" + ticket + "##k#l\r\n#L2##bWhat is #t" + ticket + "#?#k#l");
+    cm.sendSimple("¿Has oído hablar de la playa con una vista espectacular al océano llamada#b#m110000000##k, ubicado un poco lejos de#m" + cm.getPlayer().getMapId() + "#? Puedo llevarte allí ahora mismo para #b" + pay + "mesos#k, o si tienes#b#t" + ticket + "##kcontigo, en cuyo caso entrarás gratis.\r\n\r\n#L0##bvoy a pagar" + pay + "mesos.#k#l\r\n#L1##bTengo#t" + ticket + "##k#l\r\n#L2##bQué es#t" + ticket + "#?#k#l");
 }
 
 function action(mode, type, selection) {
@@ -45,7 +45,7 @@ function action(mode, type, selection) {
         cm.dispose();
     } else {
         if (mode == 0 && status == 1) {
-            cm.sendNext("You must have some business to take care of here. You must be tired from all that travelling and hunting. Go take some rest, and if you feel like changing your mind, then come talk to me.");
+            cm.sendNext("Debes tener algunos asuntos que atender aquí. Debes estar cansado de tanto viajar y cazar. Ve a descansar y si tienes ganas de cambiar de opinión, ven a hablar conmigo.");
             cm.dispose();
             return;
         }
@@ -62,15 +62,15 @@ function action(mode, type, selection) {
                 } else if (selection == 1) {
                     msg = "So you have #b#t" + ticket + "##k? You can always head over to #m110000000# with that.";
                 }
-                cm.sendYesNo(msg + " Okay!! Please beware that you may be running into some monsters around there though, so make sure not to get caught off-guard. Okay, would you like to head over to #m110000000# right now?");
+                cm.sendYesNo(msg + "¡¡Bueno!! Sin embargo, ten en cuenta que es posible que te encuentres con algunos monstruos por ahí, así que asegúrate de que no te pillen desprevenido. Bien, ¿te gustaría dirigirte a #m110000000# ahora mismo?");
             } else if (selection == 2) {
-                cm.sendNext("You must be curious about #b#t" + ticket + "##k. Yeah, I can see that. #t" + ticket + "# is an item where as long as you have in possession, you may make your way to #m110000000# for free. It's such a rare item that even we had to buy those, but unfortunately I lost mine a few weeks ago during a long weekend.");
+                cm.sendNext("Debes sentir curiosidad por#b#t" + ticket + "##k. Sí, puedo ver eso.#t" + ticket + "# es un artículo que, mientras lo tengas en posesión, podrás acceder a #m110000000# de forma gratuita. Es un artículo tan raro que incluso nosotros tuvimos que comprarlo, pero desafortunadamente perdí el mío hace unas semanas durante un fin de semana largo.");
                 status = 3;
             }
         } else if (status == 2) {
             if (check == 0) {
                 if (cm.getMeso() < pay) {
-                    cm.sendOk("I think you're lacking mesos. There are many ways to gather up some money, you know, like ... selling your armor ... defeating the monsters ... doing quests ... you know what I'm talking about.");
+                    cm.sendOk("Creo que te falta mesos. Hay muchas maneras de reunir algo de dinero, ya sabes, como... vender tu armadura... derrotar a los monstruos... hacer misiones... ya sabes de lo que estoy hablando.");
                     cm.dispose();
                 } else {
                     cm.gainMeso(-pay);
@@ -78,7 +78,7 @@ function action(mode, type, selection) {
                 }
             } else if (check == 1) {
                 if (!cm.haveItem(ticket)) {
-                    cm.sendOk("Hmmm, so where exactly is #b#t" + ticket + "##k?? Are you sure you have them? Please double-check.");
+                    cm.sendOk("Hmmm, ¿dónde está exactamente?#b#t" + ticket + "##k?? ¿Estás seguro de que los tienes? Por favor vuelva a verificar.");
                     cm.dispose();
                 } else {
                     access = true;
@@ -90,9 +90,9 @@ function action(mode, type, selection) {
                 cm.dispose();
             }
         } else if (status == 3) {
-            cm.sendNext("You must be curious about #b#t" + ticket + "##k. Yeah, I can see that. #t" + ticket + "# is an item where as long as you have in possession, you may make your way to #m110000000# for free. It's such a rare item that even we had to buy those, but unfortunately I lost mine a few weeks ago during a long weekend.");
+            cm.sendNext("Debes sentir curiosidad por#b#t" + ticket + "##k. Sí, puedo ver eso.#t" + ticket + "# es un artículo que, mientras lo tengas en posesión, podrás acceder a #m110000000# de forma gratuita. Es un artículo tan raro que incluso nosotros tuvimos que comprarlo, pero desafortunadamente perdí el mío hace unas semanas durante un fin de semana largo.");
         } else if (status == 4) {
-            cm.sendPrev("I came back without it, and it just feels awful not having it. Hopefully someone picked it up and put it somewhere safe. Anyway this is my story and who knows, you may be able to pick it up and put it to good use. If you have any questions, feel free to ask");
+            cm.sendPrev("Regresé sin él y se siente horrible no tenerlo. Ojalá alguien lo recogiera y lo guardara en algún lugar seguro. De todos modos, esta es mi historia y quién sabe, es posible que puedas retomarla y darle un buen uso. Si tienes alguna pregunta, no dudes en preguntar.");
         } else if (status == 5) {
             cm.dispose();
         }

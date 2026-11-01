@@ -27,7 +27,7 @@ var repeatablePrizes = [[4010000, 3], [4010001, 3], [4010002, 3], [4010003, 3], 
 function start() {
     if (cm.isQuestStarted(2052) && !cm.haveItem(4031025, 10)) {
         if (!cm.canHold(4031025, 10)) {
-            cm.sendNext("Check for a available slot on your ETC inventory.");
+            cm.sendNext("Busque un espacio disponible en su inventario de ETC.");
             cm.dispose();
             return;
         }
@@ -36,7 +36,7 @@ function start() {
     } else {
         const InventoryType = Java.type('client.inventory.InventoryType');
         if (cm.getPlayer().getInventory(InventoryType.ETC).getNumFreeSlot() < 1) {
-            cm.sendNext("Check for a available slot on your ETC inventory.");
+            cm.sendNext("Busque un espacio disponible en su inventario de ETC.");
             cm.dispose();
             return;
         }

@@ -6,26 +6,26 @@ function end(mode, type, selection) {
         status -= 2;
     } else if (mode != 1) {
         //if (mode == 0)
-        qm.sendNext("#b(You need to think about this for a second...)#k");
+        qm.sendNext("#b(Necesitas pensar en esto por un segundo...)#k");
         qm.dispose();
         return;
     }
 
     if (status == 0) {
-        qm.sendNext("Did you manage to slay #o9001013#? Hahaha... you're my master, indeed. Okay, now give me the Red Jade that you found there. I'll have to put it back on the body, and... wait, why aren't you saying a word? Don't tell me... that you didn't bring that back!");
+        qm.sendNext("¿Conseguiste matar a #o9001013#? Jajaja... eres mi maestro, de hecho. Bien, ahora dame el Jade Rojo que encontraste allí. Tendré que volver a ponérselo en el cuerpo y... espera, ¿por qué no dices una palabra? ¡No me digas... que no trajiste eso!");
     } else if (status == 1) {
-        qm.sendNextPrev("What?! You really didn't bring back the Red Jade? Why? Did you just completely forget it? Ahh... even with the curse of the Black Mage, and the amount of time that has passed and all, never did I think my master would turn out to be stupid...");
+        qm.sendNextPrev("¡¿Qué?! ¿De verdad no trajiste el Jade Rojo? ¿Por qué? ¿Lo olvidaste por completo? Ahh... incluso con la maldición del Mago Negro, y la cantidad de tiempo que ha pasado y todo, nunca pensé que mi maestro resultaría ser estúpido...");
     } else if (status == 2) {
-        qm.sendNextPrev("No, no, I can't let this put me in despair. This is when I should remain calm and in control, unlike my master...\r\noosah...");
+        qm.sendNextPrev("No, no, no puedo permitir que esto me desespere. Aquí es cuando debo mantener la calma y el control, a diferencia de mi maestro...\r\noosah...");
     } else if (status == 3) {
-        qm.sendNextPrev("Even if you go back there now, the thief probably made its way out of there. This means you'll have to make the Red Jade anew. You've made one before, so you do remember the materials required to make one, right? Now go...");
+        qm.sendNextPrev("Incluso si regresas allí ahora, el ladrón probablemente logró salir de allí. Esto significa que tendrás que hacer el Red Jade de nuevo. Has hecho uno antes, así que recuerdas los materiales necesarios para hacerlo, ¿verdad? Ahora ve...");
     } else if (status == 4) {
-        qm.sendNextPrev("\r\n\r\n\r\nTHIS GUY HAS DEFINITELY LOST ALL MEMORIES!");
+        qm.sendNextPrev("\r\n\r\n\r\n¡ESTE TIPO DEFINITIVAMENTE HA PERDIDO TODOS LOS RECUERDOS!");
     } else if (status == 5) {
-        qm.sendNextPrev("...No hope, no dreams... Nooooo!!");
+        qm.sendNextPrev("...Sin esperanza, sin sueños... ¡¡Nooooo!!");
     } else if (status == 6) {
         qm.completeQuest();
-        qm.sendNextPrev("#b(Maha is beginning to really get hysterical. I better leave right this minute. Maybe Lilin can do something about it.)", 2);
+        qm.sendNextPrev("#b(Maha está empezando a ponerse realmente histérica. Será mejor que me vaya ahora mismo. Tal vez Lilin pueda hacer algo al respecto).", 2);
     } else if (status == 7) {
         qm.dispose();
     }

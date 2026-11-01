@@ -38,18 +38,18 @@ function start(mode, type, selection) {
         if (mode == 1) {
             status++;
         } else {
-            qm.sendNext("Come on, hurry up. Get your pen and paper out if you're not that smart!");
+            qm.sendNext("Vamos, date prisa. ¡Saca tu lápiz y papel si no eres tan inteligente!");
             qm.dispose();
             return;
         }
 
         if (status == 0) {
-            qm.sendNext("Oh! Finally you have come! I'm glad you are here in time. I have the master key for you to open the secret passage! Hahahaha! Isn't it amazing? Say it amazing!");
+            qm.sendNext("¡Oh! ¡Por fin has llegado! Me alegra que estés aquí a tiempo. ¡Tengo la llave maestra para que abras el pasadizo secreto! ¡Jajajaja! ¿No es asombroso? ¡Dilo increíble!");
         } else if (status == 1) {
-            qm.sendAcceptDecline("All right, now, this key is very long and complex. I need you to memorize it very well. I won't say again, so you'd better write it down somewhere. Are you ready?");
+            qm.sendAcceptDecline("Muy bien, esta clave es muy larga y compleja. Necesito que lo memorices muy bien. No lo diré más, así que será mejor que lo escribas en alguna parte. ¿Estás listo?");
         } else if (status == 2) {
             pass = generateString();
-            qm.sendOk("The key code is #b" + pass + "#k. Got that? Put the key into the door of the secret passage, and you will be able to walk around the passage freely.");
+            qm.sendOk("El código clave es #b" + pass + "#k. ¿Entendiste eso? Introduce la llave en la puerta del pasaje secreto y podrás caminar libremente por el pasaje.");
         } else if (status == 3) {
             qm.forceStartQuest();
             qm.setQuestProgress(3360, pass);

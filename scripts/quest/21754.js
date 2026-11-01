@@ -37,12 +37,12 @@ function start(mode, type, selection) {
 
         if (status == 0) {
             if (!qm.canHold(4032328, 1)) {
-                qm.sendNext("Hm, I will need you to prepare a ETC slot for a letter I need to give you.");
+                qm.sendNext("Hm, necesitaré que prepares un espacio ETC para una carta que debo entregarte.");
                 qm.dispose();
                 return;
             }
 
-            qm.sendNext("Here, take this. Send it to #r#p1002104##k, it contains a relevant matter for protecting this world. Please comply to this request.");
+            qm.sendNext("Toma, toma esto. envíalo a#r#p1002104##k, contiene un asunto relevante para proteger este mundo. Por favor cumpla con esta solicitud.");
         } else if (status == 1) {
             qm.forceStartQuest();
 

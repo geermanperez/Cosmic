@@ -24,11 +24,11 @@ status = -1;
 var sel, sel2;
 
 function start() {
-    cm.sendOk("Hello, the Maple 7th Day Market is currently unavailable.");
+    cm.sendOk("Hola, el mercado del séptimo día de Maple no está disponible actualmente.");
     cm.dispose();
     return;
 
-    cm.sendSimple("Hello, the Maple 7th Day Market opens today.#b\r\n#L0#Move to Maple 7th Day Market map\r\n#L1#Listen for an explanation about the Maple 7th Day Market");
+    cm.sendSimple("Hola, el mercado del séptimo día de Maple abre hoy.#b\r\n#L0#Mover al mapa del Mercado del 7mo Día de Maple\r\n#L1#Escuche una explicación sobre el mercado del séptimo día de Maple.");
 }
 
 function action(mode, type, selection) {
@@ -50,9 +50,9 @@ function action(mode, type, selection) {
             sel = selection;
         }
         if (selection == 0) {
-            cm.sendNext("Okay, we will send you to the Maple 7th Day Market map.");
+            cm.sendNext("Bien, te enviaremos al mapa del mercado del séptimo día de Maple.");
         } else {
-            cm.sendSimple("What would you like to know about the Maple 7th Day Market?#b\r\n#L0#Where does the Maple 7th Day Market take place?\r\n#L1#What can you do at the Maple 7th Day Market?\r\n#L2#I do not have any questions.");
+            cm.sendSimple("¿Qué le gustaría saber sobre el mercado del séptimo día de Maple?#b\r\n#L0#¿Dónde se lleva a cabo el mercado del séptimo día de Maple?\r\n#L1#¿Qué puedes hacer en el mercado del séptimo día de Maple?\r\n#L2#No tengo ninguna pregunta.");
         }
     } else if (status == 1) {
         if (sel == 0) {
@@ -60,12 +60,12 @@ function action(mode, type, selection) {
             cm.warp(680100000 + parseInt(Math.random() * 3));
             cm.dispose();
         } else if (selection == 0) {
-            cm.sendNext("The Maple 7th Day Market opens only on Sundays. You can enter if you find me in any town, Henesys, New Leaf City, Leafre, Kerning City, Ludibrium, I'm just about everywhere!");
+            cm.sendNext("El mercado del séptimo día de Maple abre solo los domingos. Puedes entrar si me encuentras en cualquier pueblo, Henesys, New Leaf City, Leafre, Kerning City, Ludibrium, ¡estoy en casi todas partes!");
             status -= 2;
         } else if (selection == 1) {
-            cm.sendSimple("You can find rare goods that are hard to find elsewhere at the Maple 7th Day Market.#b\r\n#L0#Purchase Special Items\r\n#L1#Help the Poultry Farm Owner");
+            cm.sendSimple("Puede encontrar productos raros que son difíciles de encontrar en otros lugares en Maple 7th Day Market.#b\r\n#L0#Comprar artículos especiales\r\n#L1#Ayude al propietario de la granja avícola");
         } else {
-            cm.sendNext("I guess you don't have any question. Please keep us in your thoughts, and ask if you are curious about anything.");
+            cm.sendNext("Supongo que no tienes ninguna pregunta. Por favor, manténganos en sus pensamientos y pregúntenos si tiene curiosidad sobre algo.");
             cm.dispose();
         }
     } else if (status == 2) {
@@ -73,27 +73,27 @@ function action(mode, type, selection) {
             sel2 = selection;
         }
         if (sel2 == 0) {
-            cm.sendNext("You can find many items at the Maple 7th Day Market. The prices are subject to change, so you'd better get them when they're cheap!");
+            cm.sendNext("Puedes encontrar muchos artículos en el Maple 7th Day Market. Los precios están sujetos a cambios, ¡así que será mejor que los consigas cuando estén baratos!");
         } else {
-            cm.sendNext("Aside from the merchants, you can also find the lazy daughter of the poultry farm owner at the Maple 7th Day Market. Help Mimi and hatch her egg until it grows to be a chicken!");
+            cm.sendNext("Además de los comerciantes, también puedes encontrar a la hija perezosa del dueño de la granja avícola en el Maple 7th Day Market. ¡Ayuda a Mimi a incubar su huevo hasta que se convierta en una gallina!");
         }
     } else if (status == 3) {
         if (sel2 == 0) {
-            cm.sendNextPrev("The purchases made here can be sold back to the merchant intermediary, Abdula. He won't accept anything more than a week old, so make sure you re-sell by Saturday!");
+            cm.sendNextPrev("Las compras realizadas aquí se pueden vender al intermediario comercial, Abdula. No aceptará nada que tenga más de una semana, ¡así que asegúrese de revenderlo antes del sábado!");
         } else {
-            cm.sendNextPrev("Since she can't just trust anyone with the egg, she'll ask for deposit money. Pay her the deposit and take good care of the egg.");
+            cm.sendNextPrev("Como no puede confiarle el huevo a nadie, pedirá un depósito. Págale el depósito y cuida bien el huevo.");
         }
     } else if (status == 4) {
         if (sel2 == 0) {
-            cm.sendNextPrev("Abdula adjusts his reselling rates as well, so it would be wise to sell when you can make the most profit. The prices tend to fluctuate hourly, so remember to check often.");
+            cm.sendNextPrev("Abdula también ajusta sus tarifas de reventa, por lo que sería prudente vender cuando pueda obtener la mayor ganancia. Los precios tienden a fluctuar cada hora, así que recuerda consultar con frecuencia.");
         } else {
-            cm.sendNextPrev("If you manage to successfully grow the egg into a chicken and take it back to Mimi, Mimi will reward you. She may be lazy but she's not ungrateful.");
+            cm.sendNextPrev("Si logras convertir el huevo en gallina con éxito y se lo llevas a Mimi, Mimi te recompensará. Puede que sea vaga, pero no desagradecida.");
         }
     } else if (status == 5) {
         if (sel2 == 0) {
-            cm.sendNextPrev("Test your business wit by buying good at low prices in the Maple 7th Day Market and selling it to the merchant intermediary when its value goes up!");
+            cm.sendNextPrev("Pon a prueba tu ingenio comercial comprando productos a precios bajos en el mercado del séptimo día de Maple y vendiéndolos al comerciante intermediario cuando su valor suba.");
         } else {
-            cm.sendNextPrev("You can click on the egg to check on its growth. You have to be diligent with the egg since the EXP you gain and the egg will grow together.");
+            cm.sendNextPrev("Puedes hacer clic en el huevo para comprobar su crecimiento. Tienes que ser diligente con el huevo ya que la EXP que ganas y el huevo crecerán juntos.");
         }
     }
 }

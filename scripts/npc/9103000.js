@@ -55,17 +55,17 @@ function action(mode, type, selection) {
         if (status == 0) {
             if (cm.isEventLeader()) {
                 if (!cm.getEventInstance().isEventTeamTogether()) {
-                    cm.sendOk("One or more instance team members is missing, please wait for them to reach here first.");
+                    cm.sendOk("Faltan uno o más miembros del equipo de instancia. Espere a que lleguen aquí primero.");
                     cm.dispose();
                 } else if (cm.hasItem(4001106, 30)) {
                     qty = cm.getItemQuantity(4001106);
-                    cm.sendYesNo("Splendid! You have retrieved " + qty + " #t4001106# from this run, now your team will receive the fair amount of EXP from this action. Are you ready to get transported out?");
+                    cm.sendYesNo("¡Espléndido! has recuperado" + qty + "#t4001106# de esta ejecución, ahora tu equipo recibirá la cantidad justa de EXP de esta acción. ¿Estás listo para ser transportado?");
                 } else {
-                    cm.sendOk("Your party cannot finish this PQ yet, as you have not reached the minimum of 30 #t4001106#'s in hand yet.");
+                    cm.sendOk("Su grupo no puede terminar este PQ todavía, ya que aún no ha alcanzado el mínimo de 30 #t4001106# disponibles.");
                     cm.dispose();
                 }
             } else {
-                cm.sendOk("Let your party leader talk to me to end this quest.");
+                cm.sendOk("Deja que el líder de tu grupo hable conmigo para finalizar esta misión.");
                 cm.dispose();
             }
         } else if (status == 1) {

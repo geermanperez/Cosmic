@@ -33,20 +33,20 @@
 var status = 0;
 
 function start() {
-    cm.sendYesNo("The plane will be taking off soon, will you leave now? You will have to buy the plane ticket again to come in here.");
+    cm.sendYesNo("El avión despegará pronto, ¿te irás ahora? Tendrás que volver a comprar el billete de avión para venir aquí.");
 }
 
 function action(mode, type, selection) {
     if (mode != 1) {
         if (mode == 0) {
-            cm.sendOk("Please hold on for a sec, and plane will be taking off. Thanks for your patience.");
+            cm.sendOk("Espere un momento y el avión despegará. Gracias por tu paciencia.");
         }
         cm.dispose();
         return;
     }
     status++;
     if (status == 1) {
-        cm.sendNext("The ticket is not refundable, hope to see you again!");
+        cm.sendNext("El billete no es reembolsable, ¡esperamos verte de nuevo!");
     } else if (status == 2) {
         cm.warp(103000000);
         cm.dispose();

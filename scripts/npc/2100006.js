@@ -33,7 +33,7 @@ function action(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            cm.sendSimple("Hahaha... it takes a lot of style and flair for someone to pay attention to his or her hairsyle in a desert. Someone like you...If you have #bAriant hair style coupon(VIP)#k or #bAriant hair color coupon(VIP)#k, I'll give your hair a fresh new look. \r\n#L0#Haircut: #i5150027##t5150027##l\r\n#L1#Dye your hair: #i5151022##t5151022##l");
+            cm.sendSimple("Jajaja... se necesita mucho estilo y talento para que alguien preste atención a su peinado en un desierto. Alguien como tú...si tienes#bCupón de peinado Ariant (VIP)#ko#bCupón de color de cabello Ariant (VIP)#k, Le daré a tu cabello un aspecto nuevo y fresco.\r\n#L0#Corte de pelo:#i5150027##t5150027##l\r\n#L1#Tiñe tu cabello:#i5151022##t5151022##l");
         } else if (status == 1) {
             if (selection == 0) {
                 beauty = 1;
@@ -50,7 +50,7 @@ function action(mode, type, selection) {
                             % 10));
                     }
                 }
-                cm.sendStyle("Hahaha~all you need is #bAriant hair style coupon(VIP)#k to change up your hairstyle. Choose the new style, and let me do the rest.", hairnew);
+                cm.sendStyle("Jajaja ~ todo lo que necesitas es#bCupón de peinado Ariant (VIP)#kpara cambiar tu peinado. Elige el nuevo estilo y déjame hacer el resto.", hairnew);
             } else if (selection == 1) {
                 beauty = 2;
                 haircolor = Array();
@@ -59,7 +59,7 @@ function action(mode, type, selection) {
                 for (var i = 0; i < 8; i++) {
                     pushIfItemExists(haircolor, current + i);
                 }
-                cm.sendStyle("Every once in a while, it doesn't hurt to change up your hair color... it's fun. Allow me, the great Mazra, to dye your hair, so you just bring me #bAriant hair color coupon(VIP)#k, and choose your new hair color.", haircolor);
+                cm.sendStyle("De vez en cuando, no está de más cambiar el color de tu cabello... es divertido. Permíteme, el gran Mazra, teñir tu cabello, así que tráeme#bCupón de color de cabello Ariant (VIP)#ky elige tu nuevo color de cabello.", haircolor);
             }
         } else if (status == 2) {
             cm.dispose();
@@ -67,18 +67,18 @@ function action(mode, type, selection) {
                 if (cm.haveItem(5150027) == true) {
                     cm.gainItem(5150027, -1);
                     cm.setHair(hairnew[selection]);
-                    cm.sendOk("Enjoy your new and improved hairstyle!");
+                    cm.sendOk("¡Disfruta de tu peinado nuevo y mejorado!");
                 } else {
-                    cm.sendNext("I thought I told you, you need the coupon in order for me to work magic on your hair check again.");
+                    cm.sendNext("Creí haberte dicho que necesitas el cupón para que pueda hacer magia en tu cabello nuevamente.");
                 }
             }
             if (beauty == 2) {
                 if (cm.haveItem(5151022) == true) {
                     cm.gainItem(5151022, -1);
                     cm.setHair(haircolor[selection]);
-                    cm.sendOk("Enjoy your new and improved haircolor!");
+                    cm.sendOk("¡Disfruta de tu nuevo y mejorado color de cabello!");
                 } else {
-                    cm.sendNext("I thought I told you, you need the coupon in order for me to work magic on your hair check again.");
+                    cm.sendNext("Creí haberte dicho que necesitas el cupón para que pueda hacer magia en tu cabello nuevamente.");
                 }
             }
         }

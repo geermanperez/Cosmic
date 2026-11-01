@@ -28,7 +28,7 @@ function start() {
     if (cm.isQuestStarted(3367)) {
         var c = cm.getQuestProgressInt(3367, 30);
         if (c >= 30) {
-            cm.sendNext("(All files have been organized. Report the found files to Yulete.)", 2);
+            cm.sendNext("(Todos los archivos han sido organizados. Informe los archivos encontrados a Yulete).", 2);
             cm.dispose();
             return;
         }
@@ -40,7 +40,7 @@ function start() {
 
             if (book < 20) {
                 if (!cm.canHold(4031797, 1)) {
-                    cm.sendNext("(You found a report file, but since your ETC is full you choose to put the file in the place you've found.)");
+                    cm.sendNext("(Encontró un archivo de informe, pero como su ETC está lleno, elige colocar el archivo en el lugar que encontró).");
                     cm.dispose();
                     return;
                 } else {
@@ -49,7 +49,7 @@ function start() {
                 }
             }
 
-            cm.sendNext("(Organized file. #r" + (30 - c) + "#k left.)", 2);
+            cm.sendNext("(Archivo organizado. #r" + (30 - c) + "#k izquierda.)", 2);
 
             cm.setQuestProgress(3367, book, 1);
             cm.setQuestProgress(3367, 30, c);

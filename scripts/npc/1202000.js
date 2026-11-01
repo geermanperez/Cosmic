@@ -38,15 +38,15 @@ function action(mode, type, selection) {
         if (cm.getPlayer().getMapId() == 140090000) {
             if (!cm.containsAreaInfo(21019, "helper=clear")) {
                 if (status == 0) {
-                    cm.sendNext("You've finally awoken...!", 8);
+                    cm.sendNext("¡Finalmente has despertado...!", 8);
                 } else if (status == 1) {
-                    cm.sendNextPrev("And you are...?", 2);
+                    cm.sendNextPrev("¿Y tú eres...?", 2);
                 } else if (status == 2) {
-                    cm.sendNextPrev("The hero who fought against the Black Mage... I've been waiting for you to wake up!", 8);
+                    cm.sendNextPrev("El héroe que luchó contra el Mago Negro... ¡Estaba esperando que despertaras!", 8);
                 } else if (status == 3) {
-                    cm.sendNextPrev("Who... Who are you? And what are you talking about?", 2);
+                    cm.sendNextPrev("¿Quién... quién eres tú? ¿Y de qué estás hablando?", 2);
                 } else if (status == 4) {
-                    cm.sendNextPrev("And who am I...? I can't remember anything... Ouch, my head hurts!", 2);
+                    cm.sendNextPrev("¿Y quién soy yo...? No recuerdo nada... ¡Ay, me duele la cabeza!", 2);
                 } else if (status == 5) {
                     cm.showIntro("Effect/Direction1.img/aranTutorial/face");
                     cm.showIntro("Effect/Direction1.img/aranTutorial/ClickLilin");
@@ -55,19 +55,19 @@ function action(mode, type, selection) {
                 }
             } else {
                 if (status == 0) {
-                    cm.sendNextPrev("Are you alright?", 8);
+                    cm.sendNextPrev("¿Estás bien?", 8);
                 } else if (status == 1) {
-                    cm.sendNextPrev("I can't remember anything. Where am I? And who are you...?", 2);
+                    cm.sendNextPrev("No recuerdo nada. ¿Dónde estoy? ¿Y tú quién eres...?", 2);
                 } else if (status == 2) {
-                    cm.sendNextPrev("Stay calm. There is no need to panic. You can't remember anything because the curse of the Black Mage erased your memory. I'll tell you everything you need to know...step by step.", 8);
+                    cm.sendNextPrev("Mantén la calma. No hay necesidad de entrar en pánico. No puedes recordar nada porque la maldición del Mago Negro borró tu memoria. Te diré todo lo que necesitas saber...paso a paso.", 8);
                 } else if (status == 3) {
-                    cm.sendNextPrev("You're a hero who fought the Black Mage and saved Maple World hundreds of years ago. But at the very last moment, the curse of the Black Mage put you to sleep for a long, long time. That's when you lost all of your memories.", 8);
+                    cm.sendNextPrev("Eres un héroe que luchó contra el Mago Negro y salvó Maple World hace cientos de años. Pero en el último momento, la maldición del Mago Negro te hizo dormir durante mucho, mucho tiempo. Fue entonces cuando perdiste todos tus recuerdos.", 8);
                 } else if (status == 4) {
-                    cm.sendNextPrev("This island is called Rien, and it's where the Black Mage trapped you. Despite its name, this island is always covered in ice and snow because of the Black Mage's curse. You were found deep inside the Ice Cave.", 8);
+                    cm.sendNextPrev("Esta isla se llama Rien y es donde te atrapó el Mago Negro. A pesar de su nombre, esta isla siempre está cubierta de hielo y nieve debido a la maldición del Mago Negro. Te encontraron en lo profundo de la Cueva de Hielo.", 8);
                 } else if (status == 5) {
-                    cm.sendNextPrev("My name is Lilin and I belong to the clan of Rien. The Rien Clan has been waiting for a hero to return for a long time now, and we finally found you. You've finally returned!", 8);
+                    cm.sendNextPrev("Mi nombre es Lilin y pertenezco al clan de Rien. El Clan Rien ha estado esperando el regreso de un héroe durante mucho tiempo y finalmente te encontramos. ¡Finalmente has regresado!", 8);
                 } else if (status == 6) {
-                    cm.sendNextPrev("I've said too much. It's okay if you don't really understand everything I just told you. You'll get it eventually. For now, #byou should head to town#k. I'll stay by your side and help you until you get there.", 8);
+                    cm.sendNextPrev("He dicho demasiado. Está bien si realmente no entiendes todo lo que te acabo de decir. Al final lo conseguirás. Por ahora,#bdeberías ir a la ciudad#k. Me quedaré a tu lado y te ayudaré hasta que llegues allí.", 8);
                 } else if (status == 7) {
                     cm.spawnGuide();
                     cm.warp(140090100, 0);
@@ -76,19 +76,19 @@ function action(mode, type, selection) {
             }
         } else {
             if (status == 0) {
-                cm.sendSimple("Is there anything you're still curious about? If so, I'll try to explain it better. #b#l\r\n#L0#Who am I? #l #l\r\n#L1#Where am I? #l #l\r\n#L2#Who are you?#l#l\r\n#L3#Tell me what I have to do.#l #l\r\n#L4#Tell me about my Inventory.#l #l\r\n#L5#How do I advance my skills?#l #l\r\n#L6#I want to know how to equip items.#l #l\r\n#L7#How do I use quick slots? #l #l\r\n#L8#How can I open breakable containers?#l #l\r\n#L9#I want to sit in a chair but I forgot how.#l#k");
+                cm.sendSimple("¿Hay algo por lo que todavía tengas curiosidad? Si es así intentaré explicarlo mejor.#b#l\r\n#L0#¿Quién soy yo?#l #l\r\n#L1#¿Dónde estoy?#l #l\r\n#L2#¿Quién eres?#l#l\r\n#L3#Dime qué tengo que hacer.#l #l\r\n#L4#Cuéntame sobre mi inventario.#l #l\r\n#L5#¿Cómo avanzo mis habilidades?#l #l\r\n#L6#Quiero saber cómo equipar artículos.#l #l\r\n#L7#¿Cómo uso las ranuras rápidas?#l #l\r\n#L8#¿Cómo puedo abrir contenedores rompibles?#l #l\r\n#L9#Quiero sentarme en una silla pero olvidé cómo.#l#k");
             } else if (status == 1) {
                 if (selection == 0) {
-                    cm.sendNext("You are one of the heroes that saved Maple World from the Black Mage hundreds of years ago. You've lost your memory due to the curse of the Black Mage.");
+                    cm.sendNext("Eres uno de los héroes que salvó a Maple World del Black Mage hace cientos de años. Has perdido la memoria debido a la maldición del Mago Negro.");
                     cm.dispose();
                 } else if (selection == 1) {
-                    cm.sendNext("This island is called Rien, and this is where the Black Mage's curse put you to sleep. It's a small island covered in ice and snow, and the majority of the residents are Penguins.");
+                    cm.sendNext("Esta isla se llama Rien y aquí es donde la maldición del Mago Negro te hizo dormir. Es una pequeña isla cubierta de hielo y nieve, y la mayoría de sus residentes son pingüinos.");
                     cm.dispose();
                 } else if (selection == 2) {
-                    cm.sendNext("I'm Lilin, a clan member of Rien, and I've been waiting for your return as the prophecy foretold. I'll be your guide for now.");
+                    cm.sendNext("Soy Lilin, miembro del clan de Rien, y he estado esperando tu regreso como lo predijo la profecía. Seré tu guía por ahora.");
                     cm.dispose();
                 } else if (selection == 3) {
-                    cm.sendNext("Let's not waste any more time and just get to town. I'll give you the details when we get there.");
+                    cm.sendNext("No perdamos más tiempo y vámonos a la ciudad. Te daré los detalles cuando lleguemos allí.");
                     cm.dispose();
                 } else if (selection == 4) {
                     cm.guideHint(14);

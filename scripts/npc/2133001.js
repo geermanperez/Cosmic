@@ -46,9 +46,9 @@ function action(mode, type, selection) {
             } else if (mapid == 930000400) {
                 if (cm.haveItem(4001169, 20)) {
                     if (cm.isEventLeader()) {
-                        cm.sendNext("Oh you have brought them! We can now continue, shall we proceed?");
+                        cm.sendNext("¡Oh, los has traído! Ahora podemos continuar, ¿continuamos?");
                     } else {
-                        cm.sendOk("You have brought them, but you're not the leader! Please let the leader hand me the marbles...");
+                        cm.sendOk("¡Los has traído, pero no eres el líder! Por favor, deja que el líder me entregue las canicas...");
                         cm.dispose();
 
                     }
@@ -65,24 +65,24 @@ function action(mode, type, selection) {
                             if (!cm.haveItem(2270004)) {
                                 if (cm.canHold(2270004, 10)) {
                                     cm.gainItem(2270004, 10);
-                                    cm.sendOk("Take 10 #t2270004#. First, #rweaken the #o9300174##k and, once it gets low health, use the item I gave you to capture them.");
+                                    cm.sendOk("Toma 10#t2270004#. Primero,#rdebilitar el#o9300174##ky, una vez que tenga poca salud, usa el objeto que te di para capturarlos.");
                                     cm.dispose();
 
                                 } else {
-                                    cm.sendOk("Please make space on your USE inventory before receiving the purifiers!");
+                                    cm.sendOk("¡Haga espacio en su inventario USE antes de recibir los purificadores!");
                                     cm.dispose();
 
                                 }
                             } else {
-                                cm.sendYesNo(ellinStr + "\r\n\r\nIt may be you are #rwilling to quit#k? Please double-think it, maybe your partners are still trying this instance.");
+                                cm.sendYesNo(ellinStr + "\r\n\r\npuede ser que lo seas#rdispuesto a renunciar#k? Piénselo dos veces, tal vez sus socios todavía estén probando esta instancia.");
                             }
                         } else {
-                            cm.sendYesNo("You guys caught all the #o9300174#. Let the party leader hand all #b20 #t4001169##k to me to proceed." + "\r\n\r\nIt may be you are #rwilling to quit#k? Please double-think it, maybe your partners are still trying this instance.");
+                            cm.sendYesNo("Ustedes captaron todos los#o9300174#. Deja que el líder del partido entregue todo.#b20 #t4001169##ka mí para proceder." + "\r\n\r\npuede ser que lo seas#rdispuesto a renunciar#k? Piénselo dos veces, tal vez sus socios todavía estén probando esta instancia.");
                         }
                     }
                 }
             } else {
-                cm.sendYesNo(ellinStr + "\r\n\r\nIt may be you are #rwilling to quit#k? Please double-think it, maybe your partners are still trying this instance.");
+                cm.sendYesNo(ellinStr + "\r\n\r\npuede ser que lo seas#rdispuesto a renunciar#k? Piénselo dos veces, tal vez sus socios todavía estén probando esta instancia.");
             }
         } else if (status == 1) {
             if (mapid == 930000000) {

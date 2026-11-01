@@ -15,20 +15,20 @@ function start(mode, type, selection) {
         if (type == 1 && mode == 0) {
             status -= 2;
         } else {
-            qm.sendOk("Come on, the city really needs you cooperating on this one!");
+            qm.sendOk("¡Vamos, la ciudad realmente necesita que cooperes en esto!");
             qm.dispose();
             return;
         }
     }
     if (status == 0) {
-        qm.sendAcceptDecline("Hey buddy! Nice timing. There is this communique I've been able to swipe from the officials at the Keep, however it's information is encrypted. I have no use for this as it is like this. So, will you transport this to John and see if he can decode this?");
+        qm.sendAcceptDecline("¡Hola amigo! Buen momento. Hay un comunicado que pude obtener de los funcionarios de la Fortaleza, sin embargo, su información está encriptada. No tengo ningún uso para esto ya que es así. Entonces, ¿le transportarás esto a John y verás si puede decodificarlo?");
     } else if (status == 1) {
         if (qm.canHold(4032032, 1)) {
             qm.gainItem(4032032, 1);
-            qm.sendOk("Very well, I'm counting on you on this one.");
+            qm.sendOk("Muy bien, cuento contigo para esto.");
             qm.forceStartQuest();
         } else {
-            qm.sendOk("Hey. There's no slot on your ETC.");
+            qm.sendOk("Ey. No hay ningún espacio en su ETC.");
         }
     } else if (status == 2) {
         qm.dispose();
@@ -48,10 +48,10 @@ function end(mode, type, selection) {
     if (status == 0) {
         if (qm.haveItem(4032032, 1)) {
             qm.gainItem(4032032, -1);
-            qm.sendOk("Oh you brought a letter from the Keep?! Neat! Let me check if I can decode that right now.");
+            qm.sendOk("¡¿Trajiste una carta de la Fortaleza?! ¡Limpio! Déjame comprobar si puedo decodificar eso ahora mismo.");
             qm.forceCompleteQuest();
         } else {
-            qm.sendOk("You don't brought the coded letter Jack said? Come on, kid, we need that to decipher our enemies' next step!");
+            qm.sendOk("¿No trajiste la carta codificada que dijo Jack? ¡Vamos, chico, necesitamos eso para descifrar el siguiente paso de nuestros enemigos!");
         }
     } else if (status == 1) {
         qm.dispose();

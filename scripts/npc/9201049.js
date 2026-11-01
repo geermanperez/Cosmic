@@ -44,7 +44,7 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendOk("Hey there, did you enjoy the wedding? I will head you back to #bAmoria#k now.");
+            cm.sendOk("Hola, ¿disfrutaste la boda? Lo llevaré de regreso a #bAmoria#k ahora.");
         } else if (status == 1) {
             var eim = cm.getEventInstance();
             if (eim != null) {
@@ -53,9 +53,9 @@ function action(mode, type, selection) {
                 if (cm.canHold(boxId, 1)) {
                     cm.gainItem(boxId, 1);
                     cm.warp(680000000);
-                    cm.sendOk("You just received an Onyx Chest. Search for #b#p9201014##k, she is at the top of Amoria, she knows how to open these.");
+                    cm.sendOk("Acabas de recibir un cofre de ónix. Buscar#b#p9201014##k, ella está en la cima de Amoria, sabe cómo abrirlos.");
                 } else {
-                    cm.sendOk("Please make room on your ETC inventory to receive the Onyx Chest.");
+                    cm.sendOk("Haga espacio en su inventario de ETC para recibir el Cofre de ónix.");
                     cm.dispose();
                     return;
                 }

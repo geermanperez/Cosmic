@@ -35,7 +35,7 @@ function start() {
             return;
         }
 
-        cm.sendNext("Hi there.");
+        cm.sendNext("Hola.");
         cm.dispose();
         return;
     }
@@ -44,7 +44,7 @@ function start() {
     } else if (cm.haveItem(4031057)) {
         actionx["Physical"] = true;
     }
-    cm.sendSimple("Anything you want from me?#b" + (cm.getJobId() % 10 == 0 ? "\r\n#L0#I want to make the 3th job advancement." : "") + "\r\n#L1#Please allow me to do the Zakum Dungeon Quest.");
+    cm.sendSimple("¿Algo que quieras de mí?#b" + (cm.getJobId() % 10 == 0 ? "\r\n#L0#I quiero realizar el tercer avance laboral." : "") + "\r\n#L1#Por favor, permítanme hacer Zakum Dungeon Quest.");
 }
 
 function action(mode, type, selection) {
@@ -53,20 +53,20 @@ function action(mode, type, selection) {
         status -= 2;
     } else if (mode != 1 || (status > 2 && !actionx["Mental"]) || status > 3) {
         if (mode == 0 && type == 1) {
-            cm.sendNext("Make up your mind.");
+            cm.sendNext("Decídete.");
         }
         cm.dispose();
         return;
     }
     if (actionx["Mental"]) {
         if (status == 0) {
-            cm.sendNext("Great job completing the mental part of the test. You have wisely answered all the questions correctly. I must say, I am quite impressed with the level of wisdom you have displayed there. Please hand me the necklace first, before we takeon the next step.");
+            cm.sendNext("Gran trabajo completando la parte mental del examen. Sabiamente has respondido correctamente a todas las preguntas. Debo decir que estoy bastante impresionado con el nivel de sabiduría que ha demostrado allí. Por favor, pásame el collar primero antes de dar el siguiente paso.");
         } else if (status == 1) {
-            cm.sendYesNo("Okay! Now, you'll be transformed into a much more powerful adventurer through me. Before doing that, though, please make sure your SP has been thoroughly used, You'll need to use up at least all of SP's gained until level 70 to make the 3rd job advancement. Oh, and since you have already chosen your path of the occupation by the 2nd job adv., you won't have to choose again for the 3rd job adv. Do you want to do it right now?");
+            cm.sendYesNo("¡Bueno! Ahora, gracias a mí, te transformarás en un aventurero mucho más poderoso. Sin embargo, antes de hacer eso, asegúrese de haber utilizado completamente su SP. Necesitará usar al menos todos los SP obtenidos hasta el nivel 70 para avanzar al tercer trabajo. Ah, y dado que ya has elegido tu camino de ocupación para el segundo puesto de trabajo, no tendrás que volver a elegir para el tercer puesto de trabajo. ¿Quieres hacerlo ahora mismo?");
         } else if (status == 2) {
             if (cm.getPlayer().getRemainingSp() > 0) {
                 if (cm.getPlayer().getRemainingSp() > (cm.getLevel() - 70) * 3) {
-                    cm.sendNext("Please, use all your SP before continuing.");
+                    cm.sendNext("Por favor, utiliza todos tus SP antes de continuar.");
                     cm.dispose();
                     return;
                 }
@@ -78,32 +78,32 @@ function action(mode, type, selection) {
             }
 
             if (Math.floor(cm.getJobId() / 10) == 21) {
-                cm.sendNext("You're the #bMage of Fire and Poison#k from here on out. The new skill book features new and improved fire and poison based spells, and skills such as #bElement Amplification#k (improved element-based spells) and #bSpell Booster#k (improves the overall speed of your attacking spells) will enable you to attack the monsters quickly and effectively. Defensive spells such as #bPartial Resistance#k (allows you to become stronger against certain elemental-based attacks) and #bSeal#k (seals up the monster) will help negate the one weakness Mages possess: lack of HP.");
+                cm.sendNext("tu eres el#bMago de fuego y veneno#kde aquí en adelante. El nuevo libro de habilidades presenta hechizos nuevos y mejorados basados ​​en fuego y veneno, y habilidades como#bAmplificación de elementos#k(hechizos mejorados basados ​​en elementos) y#bRefuerzo de hechizos#k(mejora la velocidad general de tus hechizos de ataque) te permitirá atacar a los monstruos de forma rápida y eficaz. Hechizos defensivos como#bResistencia parcial#k(te permite volverte más fuerte contra ciertos ataques basados ​​en elementos) y#bSeal#k (sella al monstruo) ayudará a anular la única debilidad que poseen los magos: la falta de HP.");
             } else if (Math.floor(cm.getJobId() / 10) == 22) {
-                cm.sendNext("You're the #bMage of Ice and Lightning#k from here on out. The new skill book features new and improved ice and lightning based spells, and skills such as #bElement Amplification#k (improved element-based spells) and #bSpell Booster#k (improves the overall speed of your attacking spells) will enable you to attack the monsters quickly and effectively. Defensive spells such as #bPartial Resistance#k (allows you to become stronger against certain elemental-based attacks) and #bSeal#k (seals up the monster) will help negate the one weakness Mages possess: lack of HP.");
+                cm.sendNext("tu eres el#bMago de hielo y relámpagos#kde aquí en adelante. El nuevo libro de habilidades presenta hechizos nuevos y mejorados basados ​​en hielo y relámpagos, y habilidades como#bAmplificación de elementos#k(hechizos mejorados basados ​​en elementos) y#bRefuerzo de hechizos#k(mejora la velocidad general de tus hechizos de ataque) te permitirá atacar a los monstruos de forma rápida y efectiva. Hechizos defensivos como#bResistencia parcial#k(te permite volverte más fuerte contra ciertos ataques basados ​​en elementos) y#bSeal#k (sella al monstruo) ayudará a anular la única debilidad que poseen los magos: la falta de HP.");
             } else {
-                cm.sendNext("You're #bPriest#k from here on out. The new skill book features new and improved holy spells such as #bShining Ray#k and #bSummon Dragon#k, and skills such as #bMystic Door#k (creates a door for the exit to the nearest town) and #bHoly Symbol#k (improves the EXP gained) can be vital to the party play. Off-beat spells such as #bDoom#k (turn monsters into snails) separates Priests from other jobs as the most different of all.");
+                cm.sendNext("Estás#bPriest#k de aquí en adelante. El nuevo libro de habilidades presenta hechizos sagrados nuevos y mejorados, como#bRayo brillante#ky#bInvocar Dragón#ky habilidades como#bPuerta mística#k(crea una puerta para la salida al pueblo más cercano) y#bSímbolo Santo#k(mejora la EXP obtenida) puede ser vital para el juego en grupo. Hechizos fuera de lo común como#bDoom#k (convertir monstruos en caracoles) separa a los Sacerdotes de otros trabajos como el más diferente de todos.");
             }
         } else if (status == 3) {
-            cm.sendNextPrev("I've also given you some SP and AP, which will help you get started. You have now become a powerful, powerful warrior, indeed. Remember, though, that the real world will be awaiting your arrival with even tougher obstacles to overcome. Once you feel like you cannot train yourself to reach a higher place, then, and only then, come see me. I'll be here waiting.");
+            cm.sendNextPrev("También te he proporcionado algunos SP y AP, que te ayudarán a empezar. Ahora te has convertido en un guerrero poderoso, muy poderoso. Sin embargo, recuerda que el mundo real estará esperando tu llegada con obstáculos aún más difíciles que superar. Una vez que sientas que no puedes entrenarte para alcanzar un lugar más alto, entonces, y sólo entonces, ven a verme. Estaré aquí esperando.");
         }
     } else if (actionx["Physical"]) {
         if (status == 0) {
-            cm.sendNext("Great job completing the physical part of the test. I knew you could do it. Now that you have passed the first half of the test, here's the second half. Please give me the necklace first.");
+            cm.sendNext("Gran trabajo completando la parte física de la prueba. Sabía que podías hacerlo. Ahora que has pasado la primera mitad del examen, aquí tienes la segunda mitad. Por favor, dame el collar primero.");
         } else if (status == 1) {
             if (cm.haveItem(4031057)) {
                 cm.gainItem(4031057, -1);
                 cm.getPlayer().setPartyQuestItemObtained("JBQ");
             }
-            cm.sendNextPrev("Here's the 2nd half of the test. This test will determine whether you are smart enough to take the next step towards greatness. There is a dark, snow-covered area called the Holy Ground at the snowfield in Ossyria, where even the monsters can't reach. On the center of the area lies a huge stone called the Holy Stone. You'll need to offer a special item as the sacrifice, then the Holy Stone will test your wisdom right there on the spot.");
+            cm.sendNextPrev("Aquí tenéis la segunda mitad de la prueba. Esta prueba determinará si eres lo suficientemente inteligente como para dar el siguiente paso hacia la grandeza. Hay un área oscura y cubierta de nieve llamada Tierra Santa en el campo nevado de Ossyria, donde ni siquiera los monstruos pueden llegar. En el centro del área se encuentra una enorme piedra llamada Piedra Sagrada. Tendrás que ofrecer un objeto especial como sacrificio, luego la Piedra Sagrada pondrá a prueba tu sabiduría allí mismo.");
         } else if (status == 2) {
-            cm.sendNextPrev("You'll need to answer each and every question given to you with honesty and conviction. If you correctly answer all the questions, then the Holy Stone will formally accept you and hand you #b#t4031058##k. Bring back the necklace, and I will help you to the next step forward. Good luck.");
+            cm.sendNextPrev("Deberá responder todas y cada una de las preguntas que le hagan con honestidad y convicción. Si respondes correctamente a todas las preguntas, entonces la Piedra Sagrada te aceptará formalmente y te entregará#b#t4031058##k. Devuélveme el collar y te ayudaré a dar el siguiente paso. Buena suerte.");
         }
     } else if (cm.getPlayer().gotPartyQuestItem("JB3") && selection == 0) {
-        cm.sendNext("Go, talk with #b#p1032001##k and bring me #b#t4031057##k.");
+        cm.sendNext("Ve, habla con#b#p1032001##ky tráeme#b#t4031057##k.");
         cm.dispose();
     } else if (cm.getPlayer().gotPartyQuestItem("JBQ") && selection == 0) {
-        cm.sendNext("Go, talk with #b#p2030006##k and bring me #b#t4031058##k.");
+        cm.sendNext("Ve, habla con#b#p2030006##ky tráeme#b#t4031058##k.");
         cm.dispose();
     } else {
         if (sel == undefined) {
@@ -112,17 +112,17 @@ function action(mode, type, selection) {
         if (sel == 0) {
             if (cm.getPlayer().getLevel() >= 70 && cm.getJobId() % 10 == 0) {
                 if (status == 0) {
-                    cm.sendYesNo("Welcome. I'm #b#p2020009##k, the chief of all magicians, ready to share my street knowledge and hard knock life to those willing to listen. You seem ready to make the leap forward, the one ready to take on the challenges of the 3rd job advancement. Too many magicians have come and gone, unable to meet the standards of achieving the 3rd job advancement. What about you? Are you ready to be tested and make the 3th job advancement?");
+                    cm.sendYesNo("Bienvenido. Soy#b#p2020009##k, el jefe de todos los magos, listo para compartir mi conocimiento de la calle y mi dura vida con aquellos que estén dispuestos a escuchar. Pareces estar listo para dar el salto adelante, el que está listo para asumir los desafíos del tercer ascenso laboral. Demasiados magos han ido y venido, incapaces de cumplir con los estándares para lograr el tercer avance laboral. ¿Qué pasa contigo? ¿Estás listo para hacerte la prueba y lograr el tercer avance laboral?");
                 } else if (status == 1) {
                     cm.getPlayer().setPartyQuestItemObtained("JB3");
-                    cm.sendNext("Good. You will be tested on two important aspects of a magician: strength and wisdom. I'll now explain to you the physical half of the test. Remember #b#p1032001##k from Ellinia? Go see him, and he'll give you the details on the first half of the test. Please complete the mission, and get #b#t4031057##k from #p1032001#.");
+                    cm.sendNext("Bien. Se te pondrá a prueba en dos aspectos importantes de un mago: fuerza y ​​sabiduría. Ahora te explicaré la mitad física de la prueba. Recordar#b#p1032001##k¿De Ellinia? Ve a verlo y te dará los detalles de la primera mitad de la prueba. Por favor completa la misión y obtén#b#t4031057##kde#p1032001#.");
                 } else if (status == 2) {
-                    cm.sendNextPrev("The mental half of the test can only start after you pass the physical part of the test. #b#t4031057##k will be the proof that you have indeed passed the test. I'll let #b#p1032001##k in advance that you're making your way there, so get ready. It won't be easy, but I have the utmost faith in you. Good luck.");
+                    cm.sendNextPrev("La mitad mental de la prueba sólo puede comenzar después de pasar la parte física de la prueba.#b#t4031057##kserá la prueba de que efectivamente has pasado la prueba. dejaré#b#p1032001##kcon anticipación que vas a llegar allí, así que prepárate. No será fácil, pero tengo la máxima fe en ti. Buena suerte.");
                 }
             }
         } else {
             if (cm.getPlayer().getLevel() >= 50) {
-                cm.sendOk("The Chief's Residence Council grants you #bconcession#k to make part of the #rcounteroffensive team against Zakum#k. Good luck on your journey ahead.");
+                cm.sendOk("El Consejo de Residencia del Jefe te concede#bconcession#k hacer parte del#requipo de contraofensiva contra Zakum#k. Buena suerte en el viaje que tienes por delante.");
                 if (!(cm.isQuestStarted(100200) || cm.isQuestCompleted(100200))) {
                     cm.startQuest(100200);
                 }
@@ -131,7 +131,7 @@ function action(mode, type, selection) {
                     cm.completeQuest(100201);
                 }
             } else {
-                cm.sendOk("You're way too weak to make part of the #rcounteroffensive team against Zakum#k. Reach at least #blevel 50#k, then talk to me.");
+                cm.sendOk("Eres demasiado débil para formar parte del#requipo de contraofensiva contra Zakum#k. Alcanzar al menos#bnivel 50#k, entonces habla conmigo.");
             }
             cm.dispose();
         }

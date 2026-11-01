@@ -46,19 +46,19 @@ function end(mode, type, selection) {
         if (status == 0) {
             var hourDay = qm.getHourOfDay();
             if (!(hourDay >= 17 && hourDay < 20)) {
-                qm.sendNext("(Hmm, I'm searching the trash can but can't find the #t4031894# JM was talking about, maybe it's not time yet...)");
+                qm.sendNext("(Hmm, estoy buscando en el bote de basura pero no puedo encontrar el #t4031894# del que hablaba JM, tal vez aún no sea el momento...)");
                 canComplete = false;
                 return;
             }
 
             if (!qm.canHold(4031894, 1)) {
-                qm.sendNext("(Eh, I can't hold the #t4031894# right now, I need an ETC slot available.)");
+                qm.sendNext("(Eh, no puedo sostener el #t4031894# en este momento, necesito una ranura ETC disponible).");
                 canComplete = false;
                 return;
             }
 
             canComplete = true;
-            qm.sendNext("(Ah, there is a crumbled note here... Hm, it contains details about some scheme that is about to happen, that must be what #r#p1052002##k was talking about.)");
+            qm.sendNext("(Ah, hay una nota desmenuzada aquí... Hm, contiene detalles sobre algún plan que está a punto de suceder, eso debe ser lo que#r#p1052002##kestaba hablando.)");
         } else if (status == 1) {
             if (canComplete) {
                 qm.forceCompleteQuest();

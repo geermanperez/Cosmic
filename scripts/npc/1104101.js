@@ -43,12 +43,12 @@ function action(mode, type, selection) {
 
         if (status == 0) {
             if (Math.floor(cm.getJobId() / 100) != baseJob) {
-                cm.sendOk("Hello there, #h0#. Are you helping us finding the intruder? He is not in this area, I've already searched here.");
+                cm.sendOk("Hola, #h0#. ¿Nos estás ayudando a encontrar al intruso? No está en esta zona, ya he buscado aquí.");
                 cm.dispose();
                 return;
             }
 
-            cm.sendOk("Darn, you found me! Then, there's only one way out! Let's fight, like #rBlack Wings#k should!");
+            cm.sendOk("¡Maldita sea, me encontraste! ¡Entonces sólo hay una salida! luchemos, como#rAlas Negras#k¡debería!");
         } else if (status == 1) {
             var mapobj = cm.getMap();
             var npcpos = mapobj.getMapObject(cm.getNpcObjectId()).getPosition();

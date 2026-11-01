@@ -17,7 +17,7 @@ function start() {
 
 function action(mode, type, selection) {
     if (status == 0 && mode == 0) {
-        cm.sendNext("#b(I didn't touch this hidden item covered in grass)");
+        cm.sendNext("#b(No toqué este objeto oculto cubierto de hierba)");
         cm.dispose();
         return;
     }
@@ -29,17 +29,17 @@ function action(mode, type, selection) {
     if (status == 0) {
         if (cm.getQuestStatus(4646) == 1) {
             if (cm.haveItem(4031921)) {
-                cm.sendNext("#b(What's this... eww... a pet's poop was in there!)");
+                cm.sendNext("#b(¿Qué es esto... eww... ¡había caca de mascota allí!)");
                 cm.dispose();
             } else {
-                cm.sendYesNo("#b(I can see something covered in grass. Should I pull it out?)");
+                cm.sendYesNo("#b(Puedo ver algo cubierto de hierba. ¿Debo sacarlo?)");
             }
         } else {
-            cm.sendOk("#b(I couldn't find anything.)");
+            cm.sendOk("#b (No pude encontrar nada).");
             cm.dispose();
         }
     } else if (status == 1) {
-        cm.sendNext("I found the item that Pet Trainer Bartos hid... this note.");
+        cm.sendNext("Encontré el objeto que escondió el entrenador de mascotas Bartos... esta nota.");
         cm.gainItem(4031921, 1);
         cm.dispose();
     }

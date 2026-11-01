@@ -20,6 +20,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 function start() {
-    cm.sendNext("I miss my sister... She's always working at the palace as the servant and I only get to see her on Sundays. The King and Queen are so selfish.");
+    cm.sendNext("Extraño a mi hermana... Ella siempre trabaja en el palacio como sirvienta y solo puedo verla los domingos. El Rey y la Reina son muy egoístas.");
     cm.dispose();
 }

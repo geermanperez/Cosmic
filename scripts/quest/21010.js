@@ -29,7 +29,7 @@ function start(mode, type, selection) {
     status++;
     if (mode != 1) {
         if (type == 15 && mode == 0) {
-            qm.sendNext("Oh, no need to decline my offer. It's no big deal. It's just a potion. Well, let me know if you change your mind.");
+            qm.sendNext("Oh, no hay necesidad de rechazar mi oferta. No es gran cosa. Es sólo una poción. Bueno, avísame si cambias de opinión.");
             qm.dispose();
             return;
         }
@@ -37,13 +37,13 @@ function start(mode, type, selection) {
     }
 
     if (status == 0) {
-        qm.sendNext("Hm, what's a human doing on this island? Wait, it's #p1201000#. What are you doing here, #p1201000#? And who's that beside you? Is it someone you know, #p1201000#? What? The hero, you say?");
+        qm.sendNext("Hm, ¿qué hace un humano en esta isla? Espera, es #p1201000#. ¿Qué haces aquí, #p1201000#? ¿Y quién es ese que está a tu lado? ¿Es alguien que conoces, #p1201000#? ¿Qué? ¿El héroe, dices?");
     } else if (status == 1) {
         qm.sendNextPrev("     #i4001170#");//gms like
     } else if (status == 2) {
-        qm.sendNextPrev("Ah, this must be the hero you and your clan have been waiting for. Am I right, #p1201000#? Ah, I knew you weren't just accompanying an average passerby...");
+        qm.sendNextPrev("Ah, este debe ser el héroe que tú y tu clan estaban esperando. ¿Estoy en lo cierto, #p1201000#? Ah, sabía que no estabas simplemente acompañando a un transeúnte promedio...");
     } else if (status == 3) {
-        qm.sendAcceptDecline("Oh, but it seems our hero has become very weak since the Black Mage's curse. It's only makes sense, considering that the hero has been asleep for hundreds of years. #bHere, I'll give you a HP Recovery Potion.#k");//nexon probably forgot to remove the '.' before '#k', lol
+        qm.sendAcceptDecline("Oh, pero parece que nuestro héroe se ha debilitado mucho desde la maldición del Mago Negro. Tiene sentido, considerando que el héroe ha estado dormido durante cientos de años.#bToma, te daré una poción de recuperación de HP.#k");//nexon probably forgot to remove the '.' before '#k', lol
     } else if (status == 4) {
         if (qm.getPlayer().getHp() >= 50) {
             qm.getPlayer().updateHp(25);
@@ -52,9 +52,9 @@ function start(mode, type, selection) {
             qm.gainItem(2000022, 1);
             qm.forceStartQuest();
         }
-        qm.sendNext("Drink it first. Then we'll talk.", 9);
+        qm.sendNext("Bébelo primero. Entonces hablaremos.", 9);
     } else if (status == 5) {
-        qm.sendNextPrev("#b(How do I drink the potion? I don't remember..)", 3);
+        qm.sendNextPrev("#b(¿Cómo bebo la poción? No lo recuerdo...)", 3);
     } else if (status == 6) {
         qm.guideHint(14);
         qm.dispose();
@@ -73,13 +73,13 @@ function end(mode, type, selection) {
     }
     if (status == 0) {
         if (qm.c.getPlayer().getHp() < 50) {
-            qm.sendNext("You have't drank the potion yet.");
+            qm.sendNext("Aún no has bebido la poción.");
             qm.dispose();
         } else {
-            qm.sendNext("We've been digging and digging inside the Ice Cave in the hope of finding a hero, but I never thought I'd actually see the day... The prophecy was true! You were right, #p1201000#! Now that one of the legendary heroes has returned, we have no reason to fear the Black Mage!");
+            qm.sendNext("Hemos estado cavando y cavando dentro de la Cueva de Hielo con la esperanza de encontrar un héroe, pero nunca pensé que vería el día... ¡La profecía era cierta! ¡Tenías razón, #p1201000#! Ahora que uno de los héroes legendarios ha regresado, ¡no tenemos motivos para temer al Mago Negro!");
         }
     } else if (status == 1) {
-        qm.sendOk("Oh, I've kept you too long. I'm sorry, I got a little carried away. I'm sure the other Penguins feel the same way. I know you're busy, but could you #bstop and talk to the other Penguins#k on your way to town? They would be so honored.\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0# \r\n#i2000022# 5 #t2000022#\r\n#i2000023# 5 #t2000023#\r\n\r\n#fUI/UIWindow.img/QuestIcon/8/0# 16 exp");
+        qm.sendOk("Oh, te he retenido demasiado tiempo. Lo siento, me dejé llevar un poco. Estoy seguro de que los otros pingüinos sienten lo mismo. Sé que estás ocupado, pero ¿podrías#bpara y habla con los otros pingüinos#k¿de camino a la ciudad? Serían muy honrados.\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0#\r\n#i2000022# 5 #t2000022#\r\n#i2000023# 5 #t2000023#\r\n\r\n#fUI/UIWindow.img/QuestIcon/8/0# 16 exp.");
     } else if (status == 2) {
         if (qm.isQuestStarted(21010) && !qm.isQuestCompleted(21010)) {
             qm.gainExp(16);
@@ -88,9 +88,9 @@ function end(mode, type, selection) {
             qm.forceCompleteQuest();
         }
 
-        qm.sendNext("Oh, you've leveled up! You may have even received some skill points. In Maple World, you can acquire 3 skill points every time you level up. Press the #bK key #kto view the Skill window.", 9);
+        qm.sendNext("¡Oh, has subido de nivel! Es posible que incluso hayas recibido algunos puntos de habilidad. En Maple World, puedes adquirir 3 puntos de habilidad cada vez que subes de nivel. Presione el#btecla K#kpara ver la ventana de Habilidad.", 9);
     } else if (status == 3) {
-        qm.sendNextPrev("#b(Everyone's been so nice to me, but I just can't remember anything. Am I really a hero? I should check my skills and see. But how do I check them?)", 3);
+        qm.sendNextPrev("#b(Todos han sido muy amables conmigo, pero no puedo recordar nada. ¿Soy realmente un héroe? Debería comprobar mis habilidades y ver. Pero, ¿cómo puedo comprobarlas?)", 3);
     } else if (status == 4) {
         qm.guideHint(15);
         qm.dispose();

@@ -4,7 +4,7 @@ var status = 0;
 function start() {
     arena = cm.getPlayer().getAriantColiseum();
     if (arena == null) {
-        cm.sendOk("Hey, I did not see you on the field during the battle in the arena! What are you doing here?");
+        cm.sendOk("¡Oye, no te vi en el campo durante la batalla en la arena! ¿Qué estás haciendo aquí?");
         cm.dispose();
         return;
     }
@@ -28,21 +28,21 @@ function action(mode, type, selection) {
         }
         if (status == 0) {
             menuStr = generateSelectionMenu(["I would like to check my battle points! / I would like to exchange (1) Palm Tree Beach Chair", "I would like to know more about the points of the Battle Arena."]);
-            cm.sendSimple("Hello, what I can do for you?\r\n\r\n" + menuStr);
+            cm.sendSimple("Hola, ¿qué puedo hacer por ti?\r\n\r\n" + menuStr);
         } else if (status == 1) {
             if (selection == 0) {
                 apqpoints = cm.getPlayer().getAriantPoints();
                 if (apqpoints >= 100) {
-                    cm.sendNext("Wow, it looks like you got the #b100#k points ready to trade, let's trade?!");
+                    cm.sendNext("Vaya, parece que tienes los puntos #b100#k listos para intercambiar, ¡¿vamos a intercambiar?!");
                 } else if (apqpoints + arena.getAriantRewardTier(cm.getPlayer()) >= 100) {
-                    cm.sendOk("Your Battle Arena score: #b" + apqpoints + "#k points and you pratically already have that score! Talk to my wife, #p2101016# to get them and then re-chat with me!");
+                    cm.sendOk("Tu puntuación en Battle Arena: #b" + apqpoints + "#kpuntos y prácticamente ya tienes ese puntaje! hablar con mi esposa,#p2101016#para conseguirlos y luego volver a chatear conmigo!");
                     cm.dispose();
                 } else {
-                    cm.sendOk("Your Battle Arena score: #b" + apqpoints + "#k points. You need to surpass #b100 points#k so that I can give you the #bPalm Tree Beach Chair#k. Talk to me again when you have enough points.");
+                    cm.sendOk("Tu puntuación en Battle Arena: #b" + apqpoints + "#kagujas. necesitas superar#b100 puntos#kpara que pueda darte el#bSilla de playa de palmera#k. Hablame de nuevo cuando tengas suficientes puntos.");
                     cm.dispose();
                 }
             } else if (selection == 1) {
-                cm.sendOk("The main objective of the Battle Arena is to allow the player to accumulate points so that they can be traded honorably for the highest prize: the #bPalm Tree Beach Chair#k. Collect points during the battles and talk to me when it's time to get the prize. In each battle, the player is given the opportunity to score points based on the amount of jewelry that the player has at the end. But be careful! If your points distance from other players #ris too high#k, this will have been all for nothing and you will earn mere #r1 point#k only.");
+                cm.sendOk("El objetivo principal de Battle Arena es permitir al jugador acumular puntos para que puedan canjearse honorablemente por el premio más alto: el#bSilla de playa de palmera#k. Suma puntos durante las batallas y habla conmigo cuando llegue el momento de conseguir el premio. En cada batalla, el jugador tiene la oportunidad de ganar puntos según la cantidad de joyas que tenga al final. ¡Pero ten cuidado! Si tus puntos se alejan de otros jugadores#res demasiado alto#k, todo esto habrá sido en vano y ganarás mera#r1 punto#ksolo.");
                 cm.dispose();
             }
         } else if (status == 2) {

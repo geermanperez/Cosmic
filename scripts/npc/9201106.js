@@ -40,7 +40,7 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendOk("I came from far-away places looking for people powerful enough to join my expedition against the evil that lays waste on this land. Are you, by any chance, one of those people?");
+            cm.sendOk("Vine de lugares lejanos buscando gente lo suficientemente poderosa como para unirse a mi expedición contra el mal que arrasa esta tierra. ¿Es usted, por casualidad, una de esas personas?");
             cm.dispose();
         }
     }

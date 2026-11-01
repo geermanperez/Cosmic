@@ -10,29 +10,29 @@ function start(mode, type, selection) {
         status++;
     } else {
         if (status == 6) {
-            qm.sendNext("I know it takes an incredible amount of strength and will to outdo your instructor, but you weren't meant to let yourself wither away. You must move on to bigger and better things! You must do everything you can to embrace your heroic nature!");
+            qm.sendNext("Sé que se necesita una increíble cantidad de fuerza y ​​voluntad para superar a tu instructor, pero no estabas destinado a dejarte marchitar. ¡Debes pasar a cosas más grandes y mejores! ¡Debes hacer todo lo que puedas para abrazar tu naturaleza heroica!");
             qm.dispose();
             return;
         }
         status--;
     }
     if (status == 0) {
-        qm.sendNext("Your abilities are really beginning to take shape. I am surprised that an old man like me was able to help you. I'm tearing up just thinking about how happy it makes me to have been of assistance to you. *Sniff sniff*");
+        qm.sendNext("Tus habilidades realmente están comenzando a tomar forma. Me sorprende que un anciano como yo haya podido ayudarte. Estoy llorando sólo de pensar en lo feliz que me hace haberte ayudado. *Olfateo olfateo*");
     } else if (status == 1) {
-        qm.sendNextPrev("#b(You didn't even train that long with him... Why is he crying?)#k", 2);
+        qm.sendNextPrev("#b(Ni siquiera entrenaste tanto tiempo con él... ¿Por qué llora?)#k", 2);
     } else if (status == 2) {
-        qm.sendNextPrev("Alright, here's the third and the final stage of training. Your last opponent is... #r#o9300343#s#k! Do you know anything about #o1210100#s?");
+        qm.sendNextPrev("Muy bien, aquí está la tercera y última etapa del entrenamiento. Tu último oponente es...#r#o9300343#s#k! ¿Sabes algo sobre#o1210100#¿s?");
     } else if (status == 3) {
-        qm.sendNextPrev('Well, a little bit...', 2);
+        qm.sendNextPrev('Bueno, un poquito...', 2);
     } else if (status == 4) {
-        qm.sendNextPrev("They are natural warriors! They're born with a voracious appetite for food. They devour any food that's visible the moment they sweep by. Terrifying, isn't it?");
+        qm.sendNextPrev("¡Son guerreros naturales! Nacen con un apetito voraz por la comida. Devoran cualquier alimento que sea visible en el momento en que pasan. Aterrador, ¿no?");
     } else if (status == 5) {
-        qm.sendNextPrev("#b(Is that really true?)#k", 2);
+        qm.sendNextPrev("#b(¿Es eso realmente cierto?)#k", 2);
     } else if (status == 6) {
-        qm.sendAcceptDecline("Okay, now... #bEnter the Training Center again#k, defeat #r30#k #o9300343#s, and show me what you're made of! You'll have to exert all your energy to defeat them! Go, go, go! Rise above me!");
+        qm.sendAcceptDecline("Bien, ahora...#bIngresa nuevamente al Centro de Capacitación#k, fracaso#r30#k#o9300343#s, ¡y muéstrame de qué estás hecho! ¡Tendrás que emplear toda tu energía para derrotarlos! ¡Ve! Ve! Ve! ¡Levántate por encima de mí!");
     } else if (status == 7) {
         qm.forceStartQuest();
-        qm.sendOk("Now go and take on those monstrous #o9300343#s!");
+        qm.sendOk("¡Ahora ve y enfréntate a esos monstruosos #o9300343#!");
     } else if (status == 8) {
         qm.dispose();
     }
@@ -48,27 +48,27 @@ function end(mode, type, selection) {
         status++;
     } else {
         if (status == 2) {
-            qm.sendNext("Are you reluctant to leave your instructor? *Sniff sniff* I'm so moved, but you can't stop here. You are destined for bigger and better things!");
+            qm.sendNext("¿Eres reacio a dejar a tu instructor? *Sniff sniff* Estoy muy conmovido, pero no puedes detenerte aquí. ¡Estás destinado a cosas más grandes y mejores!");
             qm.dispose();
             return;
         }
         status--;
     }
     if (status == 0) {
-        qm.sendNext("Ah, you've come back after defeating all 30 #o9300343#s. I knew you had it in you... Even though you have no memories and few abilities, I could see that you were different! How? Because you're carrying around a Polearm, obviously!");
+        qm.sendNext("Ah, has regresado después de derrotar a los 30 #o9300343#. Sabía que lo tenías dentro... Aunque no tienes recuerdos y tienes pocas habilidades, ¡pude ver que eras diferente! ¿Cómo? ¡Porque llevas un arma de asta, obviamente!");
     } else if (status == 1) {
-        qm.sendNextPrev("#b(Is he pulling your leg?)#k'", 2);
+        qm.sendNextPrev("#b(¿Te está tomando el pelo?)#k'", 2);
     } else if (status == 2) {
-        qm.sendYesNo("I have nothing more to teach you, as you've surpassed my level of skill. Go now! Don't look back! This old man is happy to have served as your instructor.");
+        qm.sendYesNo("No tengo nada más que enseñarte, ya que has superado mi nivel de habilidad. ¡Vete ahora! ¡No mires atrás! Este anciano está feliz de haber sido su instructor.");
     } else if (status == 3) {
         if (qm.isQuestStarted(21703)) {
             qm.forceCompleteQuest();
             qm.teachSkill(21000000, qm.getPlayer().getSkillLevel(21000000), 10, -1);   // Combo Ability Skill
             qm.gainExp(2800);
         }
-        qm.sendNext("(You remembered the #bCombo Ability#k skill! You were skeptical of the training at first, since the old man suffers from Alzheimer's and all, but boy, was it effective!)", 2);
+        qm.sendNext("(Recordaste el#bHabilidad combinada#k¡habilidad! Al principio te mostraste escéptico sobre el entrenamiento, ya que el anciano sufre de Alzheimer y todo eso, pero ¡vaya, fue efectivo!)", 2);
     } else if (status == 4) {
-        qm.sendPrev("Now report back to #p1201000#. I know she'll be ecstatic when she sees the progress you've made!");
+        qm.sendPrev("Ahora informe a #p1201000#. ¡Sé que estará encantada cuando vea el progreso que has logrado!");
     } else if (status == 5) {
         qm.dispose();
     }

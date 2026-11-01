@@ -29,11 +29,11 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendYesNo("Amidst the throng of spider webs, there's a wall behind it that seems to have something written on it. Perhaps you should take a closer look at the wall?");
+            cm.sendYesNo("En medio de la multitud de telarañas, hay una pared detrás que parece tener algo escrito. ¿Quizás deberías mirar más de cerca la pared?");
         }
         else if (status == 1) {
             cm.setQuestProgress(3311, 5);
-            cm.sendOk("On a wall full of graffiti, there seems to be a phrase that really stands out above the rest. #bIt's in a form of a pendant...#k What does that mean?");
+            cm.sendOk("En una pared llena de graffitis, parece haber una frase que realmente destaca por encima del resto.#bTiene forma de colgante...#k¿Qué significa eso?");
         }
         else {
             cm.dispose();

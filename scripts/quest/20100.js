@@ -37,12 +37,12 @@ function start(mode, type, selection) {
         return;
     }
     if (status == 0) {
-        qm.sendAcceptDecline("Ahhh, you're back. I can see that you're at level 10 now. It looks like you're flashing a glimmer of hope towards becoming a Knight. The basic training has now ended, and it's time for you to make the decision.");
+        qm.sendAcceptDecline("Ahhh, has vuelto. Puedo ver que estás en el nivel 10 ahora. Parece que estás mostrando un rayo de esperanza para convertirte en Caballero. La formación básica ya ha finalizado y es hora de que tomes la decisión.");
     } else if (status == 1) {
         qm.forceStartQuest();
         qm.forceCompleteQuest();
 
-        qm.sendOk("Now look to the left. The leaders of the Knights will be waiting for you. There will be 5 paths for you to choose from. All you need to do is choose one of them. All 5 of them will lead you to the path of a Knight, so... I suggest you pay attention to what each path offers, and select the one you'd most like to take.");
+        qm.sendOk("Ahora mira a la izquierda. Los líderes de los Caballeros te estarán esperando. Habrá 5 caminos para que elijas. Todo lo que necesitas hacer es elegir uno de ellos. Los 5 te llevarán al camino de un Caballero, así que... te sugiero que prestes atención a lo que ofrece cada camino y selecciones el que más te gustaría tomar.");
     } else if (status == 2) {
         qm.dispose();
     }

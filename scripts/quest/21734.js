@@ -36,7 +36,7 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Hello there, Aran. We received a report that the Puppeteer, one of the members of the Black Wing, is currently based #bsomewhere on the deep forest of Sleepywood#k. Your mission is to enter the place and defeat him there, once for all.");
+            qm.sendNext("Hola Aran. Recibimos un informe de que el Titiritero, uno de los miembros del Ala Negra, se encuentra actualmente#ben algún lugar del profundo bosque de Sleepywood#k. Tu misión es entrar al lugar y derrotarlo allí, de una vez por todas.");
         } else {
             qm.forceStartQuest();
             qm.dispose();
@@ -60,11 +60,11 @@ function end(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("You made it, Aran! The Puppeteer now will not disturb the peace at Victoria Island any longer. Furthermore, now we could clearly investigate the doings of the Black Wing here, at Victoria.");
+            qm.sendNext("¡Lo lograste, Aran! El Titiritero ya no perturbará más la paz en la Isla Victoria. Además, ahora podríamos investigar claramente las acciones del Ala Negra aquí, en Victoria.");
         } else if (status == 1) {
-            qm.sendNext("They were after the #bcrystal seal of Victoria#k. These seals are what repels the Black Mage to further taking the continents into his grasp at once. Each continent has one, Victoria's now is safe and sound.");
+            qm.sendNext("Estaban detrás del#bsello de cristal de victoria#k. Estos sellos son lo que repele al Mago Negro a tomar los continentes a su alcance de una vez. Cada continente tiene uno, el de Victoria ahora está sano y salvo.");
         } else if (status == 2) {
-            qm.sendNext("For your bravery inputted on these series of missions, I will now reward you properly. Behold, the #rCombo Drain#k Skill: that let's you heal back a portion of damage dealt to the monsters.");
+            qm.sendNext("Por tu valentía aportada en esta serie de misiones, ahora te recompensaré adecuadamente. He aquí, el#rDrenaje combinado#kHabilidad: que te permite curar una parte del daño infligido a los monstruos.");
         } else if (status == 3) {
             qm.forceCompleteQuest();
 

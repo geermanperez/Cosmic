@@ -60,7 +60,7 @@ function action(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            cm.sendSimple("Hey, I'm Pata, and I am a renowned plastic surgeon and cosmetic lens expert here in Mu Lung. I believe your face and eyes are the most important features in your body, and with #b#t5152028##k or #b#t5152041##k, I can prescribe the right kind of facial care and cosmetic lenses for you. Now, what would you like to use?\r\n#L1#Plastic Surgery: #i5152028##t5152028##l\r\n#L2#Cosmetic Lenses: #i5152041##t5152041##l\r\n#L3#One-time Cosmetic Lenses: #i5152100# (any color)#l");
+            cm.sendSimple("Hola, soy Pata y soy un reconocido cirujano plástico y experto en lentes cosméticos aquí en Mu Lung. Creo que tu cara y tus ojos son las características más importantes de tu cuerpo, y con#b#t5152028##ko#b#t5152041##kPuedo recetarle el tipo adecuado de cuidado facial y lentes cosméticos. Ahora, ¿qué te gustaría usar?\r\n#L1#Cirugía plástica:#i5152028##t5152028##l\r\n#L2#Lentes cosméticas:#i5152041##t5152041##l\r\n#L3#Lentes cosméticas de una sola vez:#i5152100#(cualquier color)#l");
         } else if (status == 1) {
             if (selection == 1) {
                 beauty = 1;
@@ -79,7 +79,7 @@ function action(mode, type, selection) {
                                 % 100));
                     }
                 }
-                cm.sendStyle("I can totally transform your face into something new... how about giving us a try? For #b#t5152028##k, you can get the face of your liking...take your time in choosing the face of your preference.", facenew);
+                cm.sendStyle("Puedo transformar totalmente tu rostro en algo nuevo... ¿qué tal si nos das una oportunidad? Para#b#t5152028##k, podrás conseguir el rostro de tu agrado... tómate tu tiempo en elegir el rostro de tu preferencia.", facenew);
             } else if (selection == 2) {
                 beauty = 2;
                 if (cm.getPlayer().getGender() == 0) {
@@ -92,7 +92,7 @@ function action(mode, type, selection) {
                 }
                 colors = Array();
                 pushIfItemsExists(colors, [current, current + 100, current + 300, current + 500, current + 600, current + 700]);
-                cm.sendStyle("With our new computer program, you can see yourself after the treatment in advance. What kind of lens would you like to wear? Please choose the style of your liking.", colors);
+                cm.sendStyle("Con nuestro nuevo programa informático podrá verse usted mismo después del tratamiento con antelación. ¿Qué tipo de lente te gustaría usar? Por favor elige el estilo de tu agrado.", colors);
             } else if (selection == 3) {
                 beauty = 3;
                 if (cm.getPlayer().getGender() == 0) {
@@ -112,12 +112,12 @@ function action(mode, type, selection) {
                 }
 
                 if (colors.length == 0) {
-                    cm.sendOk("You don't have any One-Time Cosmetic Lens to use.");
+                    cm.sendOk("No tienes ninguna lente cosmética de un solo uso para usar.");
                     cm.dispose();
                     return;
                 }
 
-                cm.sendStyle("What kind of lens would you like to wear? Please choose the style of your liking.", colors);
+                cm.sendStyle("¿Qué tipo de lente te gustaría usar? Por favor elige el estilo de tu agrado.", colors);
             }
         } else if (status == 2) {
             cm.dispose();
@@ -125,17 +125,17 @@ function action(mode, type, selection) {
                 if (cm.haveItem(5152028)) {
                     cm.gainItem(5152028, -1);
                     cm.setFace(facenew[selection]);
-                    cm.sendOk("Enjoy your new and improved face!");
+                    cm.sendOk("¡Disfruta de tu cara nueva y mejorada!");
                 } else {
-                    cm.sendOk("I'm sorry, but I don't think you have our plastic surgery coupon with you right now. Without the coupon, I'm afraid I can't do it for you..");
+                    cm.sendOk("Lo siento, pero no creo que tengas nuestro cupón de cirugía plástica contigo en este momento. Sin el cupón, me temo que no puedo hacerlo por ti.");
                 }
             } else if (beauty == 2) {
                 if (cm.haveItem(5152041)) {
                     cm.gainItem(5152041, -1);
                     cm.setFace(colors[selection]);
-                    cm.sendOk("Enjoy your new and improved cosmetic lenses!");
+                    cm.sendOk("¡Disfruta de tus lentes cosméticos nuevos y mejorados!");
                 } else {
-                    cm.sendOk("I'm sorry, but I don't think you have our cosmetic lens coupon with you right now. Without the coupon, I'm afraid I can't do it for you..");
+                    cm.sendOk("Lo siento, pero no creo que tengas nuestro cupón para lentes cosméticos contigo en este momento. Sin el cupón, me temo que no puedo hacerlo por ti.");
                 }
             } else if (beauty == 3) {
                 var color = (colors[selection] / 100) % 10 | 0;
@@ -143,9 +143,9 @@ function action(mode, type, selection) {
                 if (cm.haveItem(5152100 + color)) {
                     cm.gainItem(5152100 + color, -1);
                     cm.setFace(colors[selection]);
-                    cm.sendOk("Enjoy your new and improved cosmetic lenses!");
+                    cm.sendOk("¡Disfruta de tus lentes cosméticos nuevos y mejorados!");
                 } else {
-                    cm.sendOk("I'm sorry, but I don't think you have our cosmetic lens coupon with you right now. Without the coupon, I'm afraid I can't do it for you..");
+                    cm.sendOk("Lo siento, pero no creo que tengas nuestro cupón para lentes cosméticos contigo en este momento. Sin el cupón, me temo que no puedo hacerlo por ti.");
                 }
             }
         }

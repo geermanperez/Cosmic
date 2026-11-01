@@ -22,20 +22,20 @@
 var status = -1;
 
 function start() {
-    cm.sendNext("Magicians are armed with flashy element-based spells and secondary magic that aids party as a whole. After the 2nd job adv., the elemental-based magic will provide ample amount of damage to enemies of opposite element.");
+    cm.sendNext("Los magos están armados con llamativos hechizos basados ​​en elementos y magia secundaria que ayuda al grupo en su conjunto. Después del avance del segundo trabajo, la magia basada en elementos proporcionará una gran cantidad de daño a los enemigos del elemento opuesto.");
 }
 
 function action(mode, type, selection) {
     status++;
     if (mode != 1) {
         if (mode == 0) {
-            cm.sendNext("If you wish to experience what it's like to be a Magician, come see me again.");
+            cm.sendNext("Si deseas experimentar lo que es ser un Mago, ven a verme nuevamente.");
         }
         cm.dispose();
         return;
     }
     if (status == 0) {
-        cm.sendYesNo("Would you like to experience what it's like to be a Magician?");
+        cm.sendYesNo("¿Te gustaría experimentar lo que es ser un Mago?");
     } else if (status == 1) {
         cm.lockUI();
         cm.warp(1020200, 0);

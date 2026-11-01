@@ -42,7 +42,7 @@ function action(mode, type, selection) {
     if (mode == -1) {
         cm.dispose();//ExitChat
     } else if (mode == 0) {
-        cm.sendOk("Wise choice. Who wouldn't want free mesos from the #bBonus Stage#k?");
+        cm.sendOk("Sabia elección. ¿Quién no querría mesos libres del#bEtapa de bonificación#k?");
         cm.dispose();//No
     } else {
         if (mode == 1) {
@@ -52,7 +52,7 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendYesNo("Would you like to leave the bonus stage?");
+            cm.sendYesNo("¿Le gustaría abandonar la etapa de bonificación?");
         } else {
             cm.warp(922011100, "st00");
             cm.dispose();

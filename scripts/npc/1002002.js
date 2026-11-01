@@ -27,7 +27,7 @@
 var status = 0;
 
 function start() {
-    cm.sendSimple("Have you heard of the beach with a spectacular view of the ocean called #bFlorina Beach#k, located near Lith Harbor? I can take you there right now for either #b1500 mesos#k, or if you have a #bVIP Ticket to Florina Beach#k with you, in which case you'll be there for free.\r\n\r\n#L0##b I'll pay 1500 mesos.#l\r\n#L1# I have a VIP Ticket to Florina Beach.#l\r\n#L2# What is a VIP Ticket to Florina Beach#k?#l");
+    cm.sendSimple("¿Has oído hablar de la playa con una vista espectacular al océano llamada#bPlaya Florina#k, ubicado cerca del puerto de Lith? Puedo llevarte allí ahora mismo para cualquiera de los dos.#b1500 mesos#k, o si tienes un#bEntrada VIP a la playa de Florina#kcontigo, en cuyo caso estarás allí gratis.\r\n\r\n#L0##bPagaré 1500 mesos.#l\r\n#L1#Tengo un boleto VIP para Florina Beach.#l\r\n#L2#¿Qué es una entrada VIP a Florina Beach?#k?#l");
 }
 
 function action(mode, type, selection) {
@@ -35,7 +35,7 @@ function action(mode, type, selection) {
     if (mode != 1) {
         if ((mode == 0 && type == 1) || mode == -1 || (mode == 0 && status == 1)) {
             if (type == 1) {
-                cm.sendNext("You must have some business to take care of here. You must be tired from all that traveling and hunting. Go take some rest, and if you feel like changing your mind, then come talk to me.");
+                cm.sendNext("Debes tener algunos asuntos que atender aquí. Debes estar cansado de tanto viajar y cazar. Ve a descansar y si tienes ganas de cambiar de opinión, ven a hablar conmigo.");
             }
             cm.dispose();
             return;
@@ -48,19 +48,19 @@ function action(mode, type, selection) {
     }
     if (status == 1) {
         if (selection == 1) {
-            cm.sendYesNo("So you have a #bVIP Ticket to Florina Beach#k? You can always head over to Florina Beach with that. Alright then, but just be aware that you may be running into some monsters there too. Okay, would you like to head over to Florina Beach right now?");
+            cm.sendYesNo("Entonces tienes un#bEntrada VIP a la playa de Florina#k? Siempre puedes dirigirte a Florina Beach con eso. Muy bien, pero ten en cuenta que es posible que también te encuentres con algunos monstruos allí. Bien, ¿te gustaría ir a Florina Beach ahora mismo?");
         } else if (selection == 2) {
-            cm.sendNext("You must be curious about a #bVIP Ticket to Florina Beach#k. Haha, that's very understandable. A VIP Ticket to Florina Beach is an item where as long as you have in possession, you may make your way to Florina Beach for free. It's such a rare item that even we had to buy those, but unfortunately I lost mine a few weeks ago during my precious summer break.");
+            cm.sendNext("Debes sentir curiosidad por un#bEntrada VIP a la playa de Florina#k. Jaja, eso es muy comprensible. Un boleto VIP para Florina Beach es un artículo que, mientras lo tengas en posesión, podrás llegar a Florina Beach de forma gratuita. Es un artículo tan raro que incluso nosotros tuvimos que comprarlo, pero desafortunadamente perdí el mío hace unas semanas durante mis preciosas vacaciones de verano.");
         }
     } else if (status == 2) {
         if (type != 1 && selection != 0) {
-            cm.sendNextPrev("I came back without it, and it just feels awful not having it. Hopefully someone picked it up and put it somewhere safe. Anyway, this is my story and who knows, you may be able to pick it up and put it to good use. If you have any questions, feel free to ask.");
+            cm.sendNextPrev("Regresé sin él y se siente horrible no tenerlo. Ojalá alguien lo recogiera y lo guardara en algún lugar seguro. De todos modos, esta es mi historia y quién sabe, es posible que puedas retomarla y darle un buen uso. Si tiene alguna pregunta, no dude en preguntar.");
             cm.dispose();
         } else {
             if (cm.getMeso() < 1500 && selection == 0) {
-                cm.sendNext("I think you're lacking mesos. There are many ways to gather up some money, you know, like... selling your armor... defeating monsters... doing quests... you know what I'm talking about.");
+                cm.sendNext("Creo que te falta mesos. Hay muchas maneras de reunir algo de dinero, ya sabes, como... vender tu armadura... derrotar monstruos... haciendo misiones... ya sabes de lo que estoy hablando.");
             } else if (!cm.haveItem(4031134) && selection != 0) {
-                cm.sendNext("Hmmm, so where exactly is your #bVIP Ticket to Florina\r\nBeach#k? Are you sure you have one? Please double-check.");
+                cm.sendNext("Hmmm, ¿dónde está exactamente tu#bEntrada VIP a Florina\r\nPlaya#k? ¿Estás seguro de que tienes uno? Por favor vuelva a verificar.");
             } else {
                 if (selection == 0) {
                     cm.gainMeso(-1500);

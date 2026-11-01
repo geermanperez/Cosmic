@@ -24,7 +24,7 @@ var status = 0;
 var sel;
 
 function start() {
-    cm.sendSimple("What would you like to do?\r\n#b#L0#Create a Guild#l\r\n#L1#Disband your Guild#l\r\n#L2#Increase your Guild's capacity#l#k");
+    cm.sendSimple("¿Qué te gustaría hacer?\r\n#b#L0#Crear un gremio#l\r\n#L1#Disuelve tu gremio#l\r\n#L2#Aumenta la capacidad de tu gremio#l#k");
 }
 
 function action(mode, type, selection) {
@@ -44,25 +44,25 @@ function action(mode, type, selection) {
             sel = selection;
             if (selection == 0) {
                 if (cm.getPlayer().getGuildId() > 0) {
-                    cm.sendOk("You may not create a new Guild while you are in one.");
+                    cm.sendOk("No puedes crear un nuevo gremio mientras estés en uno.");
                     cm.dispose();
                 } else {
-                    cm.sendYesNo("Creating a Guild costs #b 1500000 mesos#k, are you sure you want to continue?");
+                    cm.sendYesNo("Crear un gremio cuesta#b1500000 mesos#k, ¿estás seguro de que quieres continuar?");
                 }
             } else if (selection == 1) {
                 if (cm.getPlayer().getGuildId() < 1 || cm.getPlayer().getGuildRank() != 1) {
-                    cm.sendOk("You can only disband a Guild if you are the leader of that Guild.");
+                    cm.sendOk("Sólo puedes disolver un gremio si eres el líder de ese gremio.");
                     cm.dispose();
                 } else {
-                    cm.sendYesNo("Are you sure you want to disband your Guild? You will not be able to recover it afterward and all your GP will be gone.");
+                    cm.sendYesNo("¿Estás seguro de que quieres disolver tu gremio? No podrás recuperarlo después y todo tu médico de cabecera desaparecerá.");
                 }
             } else if (selection == 2) {
                 if (cm.getPlayer().getGuildId() < 1 || cm.getPlayer().getGuildRank() != 1) {
-                    cm.sendOk("You can only increase your Guild's capacity if you are the leader.");
+                    cm.sendOk("Sólo puedes aumentar la capacidad de tu gremio si eres el líder.");
                     cm.dispose();
                 } else {
                     var Guild = Java.type("net.server.guild.Guild");  // thanks Conrad for noticing an issue due to call on a static method here
-                    cm.sendYesNo("Increasing your Guild capacity by #b5#k costs #b " + Guild.getIncreaseGuildCost(cm.getPlayer().getGuild().getCapacity()) + " mesos#k, are you sure you want to continue?");
+                    cm.sendYesNo("Aumentar la capacidad de tu gremio en #b5#k cuesta #b" + Guild.getIncreaseGuildCost(cm.getPlayer().getGuild().getCapacity()) + "mesos#k, ¿estás seguro de que quieres continuar?");
                 }
             }
         } else if (status == 2) {

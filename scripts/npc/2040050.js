@@ -59,23 +59,23 @@ function action(mode, type, selection) {
         return;
     }
     if (mode == 0) {
-        cm.sendNext("Not enough materials, huh? No worries. Just come see me once you gather up the necessary items. There are numerous ways to obtain them, whether it be hunting or purchasing it from others, so keep going.");
+        cm.sendNext("No hay suficientes materiales, ¿eh? No hay problema. Sólo ven a verme una vez que hayas reunido los artículos necesarios. Hay numerosas formas de obtenerlos, ya sea cazándolos o comprándolos a otros, así que continúa.");
         cm.dispose();
     }
     if (mode == 1) {
         status++;
     }
     if (status == 0) {
-        cm.sendNext("Alright, mix up the frog's tongue with the squirrel's tooth and ... oh yeah! Forgot to put in the sparkling white powder!! Man, that could have been really bad ... Whoa!! How long have you been standing there? I maaaay have been a little carried away with my work ... hehe.");
+        cm.sendNext("Muy bien, mezcla la lengua de la rana con el diente de la ardilla y... ¡oh sí! ¡¡Olvidé poner el polvo blanco brillante!! Hombre, eso podría haber sido realmente malo... ¡¡Vaya!! ¿Cuánto tiempo llevas ahí parado? Quizás me he dejado llevar un poco por mi trabajo… jeje.");
     } else if (status == 1) {
-        cm.sendSimple("As you can see, I'm just a traveling alchemist. I may be in training, but I can still make a few things that you may need. Do you want to take a look?\r\n\r\n#L0##bMake Magic Rock#k#l\r\n#L1##bMake The Summoning Rock#k#l");
+        cm.sendSimple("Como puedes ver, solo soy un alquimista viajero. Puede que esté en formación, pero todavía puedo hacer algunas cosas que puedas necesitar. ¿Quieres echar un vistazo?\r\n\r\n#L0##bhacer roca mágica#k#l\r\n#L1##bhacer la roca de invocación#k#l");
     } else if (status == 2) {
         set = selection;
         makeitem = makeditem[set];
         for (i = 0; i < reqset[set].length; i++) {
             menu += "\r\n#L" + i + "##bMake it using #t" + reqset[set][i][0][0] + "# and #t" + reqset[set][i][1][0] + "##k#l";
         }
-        cm.sendSimple("Haha... #b#t" + makeitem + "##k is a mystical rock that only I can make. Many travelers seems to need this for most powerful skills that require more than just MP and HP. There are 5 ways to make #t" + makeitem + "#. Which way do you want to make it?" + menu);
+        cm.sendSimple("Ja ja...#b#t" + makeitem + "##kEs una roca mística que sólo yo puedo hacer. Muchos viajeros parecen necesitar esto para las habilidades más poderosas que requieren algo más que MP y HP. Hay 5 maneras de hacer#t" + makeitem + "#. ¿De qué manera quieres hacerlo?" + menu);
     } else if (status == 3) {
         set = reqset[set][selection];
         reqitem[0] = [set[0][0], set[0][1]];
@@ -86,7 +86,7 @@ function action(mode, type, selection) {
             menu += "\r\n#v" + reqitem[i][0] + "# #b" + reqitem[i][1] + " #t" + reqitem[i][0] + "#s#k";
         }
         menu += "\r\n#i4031138# #b" + cost + " mesos#k";
-        cm.sendYesNo("To make #b5 #t" + makeitem + "##k, I'll need the following items. Most of them can be obtained through hunting, so it won't be terriblt difficult for you to get them. What do you think? Do you want some?\r\n" + menu);
+        cm.sendYesNo("para hacer#b5 #t" + makeitem + "##k, necesitaré los siguientes elementos. La mayoría de ellos se pueden obtener mediante la caza, por lo que no te resultará muy difícil conseguirlos. ¿Qué opinas? ¿Quieres un poco?\r\n" + menu);
     } else if (status == 4) {
         for (i = 0; i < reqitem.length; i++) {
             if (!cm.haveItem(reqitem[i][0], reqitem[i][1])) {
@@ -94,9 +94,9 @@ function action(mode, type, selection) {
             }
         }
         if (access == false || !cm.canHold(makeitem) || cm.getMeso() < cost) {
-            cm.sendNext("Please check and see if you have all the items needed, or if your etc. inventory is full or not");
+            cm.sendNext("Verifique y vea si tiene todos los artículos necesarios, o si su inventario, etc., está lleno o no.");
         } else {
-            cm.sendOk("Here, take the 5 pieces of #b#t" + makeitem + "##k. Even I have to admit, this is a masterpiece. Alright, if you need my help down the road, by all means come back and talk to me!");
+            cm.sendOk("Toma, toma las 5 piezas de#b#t" + makeitem + "##k. Incluso tengo que admitir que esta es una obra maestra. Muy bien, si necesitas mi ayuda en el futuro, ¡vuelve y habla conmigo!");
             cm.gainItem(reqitem[0][0], -reqitem[0][1]);
             cm.gainItem(reqitem[1][0], -reqitem[1][1]);
             cm.gainItem(reqitem[2][0], -reqitem[2][1]);

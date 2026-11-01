@@ -31,13 +31,13 @@ function start(mode, type, selection) {
             qm.gainItem(2022337, 1);
             qm.gainMeso(-1000000);
 
-            //qm.sendOk("Nice doing business with you~~.");
+            //qm.sendOk("Es un placer hacer negocios contigo~~.");
             qm.startQuest(3514);
         } else {
-            qm.sendOk("Check out for a slot on your USE inventory first.");
+            qm.sendOk("Primero busque un espacio en su inventario USE.");
         }
     } else {
-        qm.sendOk("Oy, you don't have the money. I charge #r1,000,000 mesos#k for the emotion potion. No money, no deal.");
+        qm.sendOk("Oye, no tienes el dinero. yo cobro#r1.000.000 mesos#kpara la poción de emoción. Sin dinero no hay trato.");
     }
 
     qm.dispose();
@@ -61,20 +61,20 @@ function end(mode, type, selection) {
     if (status == 0) {
         if (!usedPotion(qm.getPlayer())) {
             if (qm.haveItem(2022337)) {
-                qm.sendOk("Are you scared to drink the potion? I can assure you it has only a minor #rside effect#k.");
+                qm.sendOk("¿Tienes miedo de beber la poción? Te puedo asegurar que tiene solo un menor.#refecto secundario#k.");
             } else {
                 if (qm.canHold(2022337)) {
                     qm.gainItem(2022337, 1);
-                    qm.sendOk("Lost it? Luckily for you I managed to recover it back. Take it.");
+                    qm.sendOk("¿Lo perdiste? Por suerte para ti logré recuperarlo. Tómalo.");
                 } else {
-                    qm.sendOk("Lost it? Luckily for you I managed to recover it back. Make a room to get it.");
+                    qm.sendOk("¿Lo perdiste? Por suerte para ti logré recuperarlo. Haz un espacio para conseguirlo.");
                 }
             }
 
             qm.dispose();
 
         } else {
-            qm.sendOk("It seems the potion worked and your emotions are no longer frozen. And, oh, my... You're ailing bad, #bpurge#k that out quickly.");
+            qm.sendOk("Parece que la poción funcionó y tus emociones ya no están congeladas. Y, oh Dios mío... Estás enfermo, #bpurge#k, dímelo rápido.");
         }
     } else if (status == 1) {
         qm.gainExp(891500);

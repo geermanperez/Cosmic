@@ -12,7 +12,7 @@ function action(mode, type, selection) {
     }
     status++;
     if (status == 0) {
-        cm.sendSimple("Hello, #h0#. I can exchange your Balrog Leathers.\r\n\r\n#r#L1#Redeem items#l#k");
+        cm.sendSimple("Hola,#h0#. Puedo cambiar tus cueros Balrog.\r\n\r\n#r#L1#Canjear artículos#l#k");
     } else if (status == 1) {
         var selStr = "Well, okay. These are what you can redeem...\r\n\r\n#b";
         for (var i = 0; i < itemids.length; i++) {
@@ -21,13 +21,13 @@ function action(mode, type, selection) {
         cm.sendSimple(selStr);
     } else if (status == 2) {
         if (!cm.canHold(itemids[selection], 1)) {
-            cm.sendOk("Please make room");
+            cm.sendOk("Por favor haz espacio");
         } else if (!cm.haveItemWithId(4001261)) {
-            cm.sendOk("You don't have enough leathers.");
+            cm.sendOk("No tienes suficientes cueros.");
         } else {
             cm.gainItem(4001261, -1);
             cm.gainItem(itemids[selection], 1);
-            cm.sendOk("Thank you for your redemption");
+            cm.sendOk("Gracias por tu redención");
         }
         cm.dispose();
     }

@@ -36,7 +36,7 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendAcceptDecline("I may have an idea of the whereabouts of Dr. De Lang. Are you ready to be transported to the area?");
+            qm.sendAcceptDecline("Quizás tenga una idea del paradero del Dr. De Lang. ¿Estás listo para ser transportado a la zona?");
         } else if (status == 1) {
             qm.forceStartQuest();
             qm.warp(926120200, 1);

@@ -10,21 +10,21 @@ function start(mode, type, selection) {
         status++;
     } else {
         if (status == 2) {
-            qm.sendNext("You still don't understand what's going on? I'll explain it to you again if you talk to me one more time.");
+            qm.sendNext("¿Aún no entiendes lo que está pasando? Te lo explicaré otra vez si me hablas una vez más.");
             qm.dispose();
             return;
         }
         status--;
     }
     if (status == 0) {
-        qm.sendNext("#t4032315#... #rThis puppet is making a strange noise#k. You can't hear it with your ears, of course, since it can only be heard by the #o1210102#s. I believe it's this noise that changed the personality of the #o1210102#s.");
+        qm.sendNext("#t4032315#... #rEsta marioneta hace un ruido extraño.#k. Por supuesto, no puedes oírlo con tus oídos, ya que sólo puede ser oído por el#o1210102#s. Creo que es este ruido el que cambió la personalidad del#o1210102#s.");
     } else if (status == 1) {
-        qm.sendAcceptDecline("The #o1210102#s that have been affected by the noise have turned cynical. They've started fighting the non-affected #o1210102#s, which has made all #o1210102#s prepare for combat. #bThe reason for all these changes in the #o1210102#s is this puppet#k! Do you understand?");
+        qm.sendAcceptDecline("El#o1210102#Los que se han visto afectados por el ruido se han vuelto cínicos. Han empezado a luchar contra los no afectados.#o1210102#s, que ha hecho que todos#o1210102#Prepárate para el combate.#bLa razón de todos estos cambios en el#o1210102#s es esta marioneta#k! ¿Lo entiendes?");
     } else if (status == 2) {
         qm.forceStartQuest();
-        qm.sendNext("I wonder what triggered this in the first place. There is no way this puppet was naturally created, which means someone planned this. I should keep an eye on the #o1210102#s.", 9);
+        qm.sendNext("Me pregunto qué desencadenó esto en primer lugar. No hay forma de que esta marioneta haya sido creada de forma natural, lo que significa que alguien planeó esto. Debería estar atento a los #o1210102#.", 9);
     } else if (status == 3) {
-        qm.sendPrev("#b(You were able to find out what caused the changes in the #o1210102#s. You should report to #p1002104# and deliver the information you've gathered.)#k", 2);
+        qm.sendPrev("#b(Pudiste descubrir qué causó los cambios en el#o1210102#s. Deberías informar a#p1002104#y entregue la información que ha recopilado.)#k", 2);
     } else if (status == 4) {
         qm.dispose();
     }

@@ -75,7 +75,7 @@ function action(mode, type, selection) {
         advance = true;
 
         if (status == 0) {
-            cm.sendNext("Hi there, how is it going? Since you're passing by Amoria, have you heard about the instance my brother Amos is hosting? It is the #bAmorian Challenge#k, an instance for everyone above level 40.\r\n\r\nThere, you may find the #i4031543# #i4031544# #i4031545# #bWish Tickets#k that can be brought here to redeem prizes.");
+            cm.sendNext("Hola, ¿cómo te va? Ya que estás de paso por Amoria, ¿has oído hablar de la instancia que organiza mi hermano Amos? es el#bDesafío amoriano#k, una instancia para todos los que estén por encima del nivel 40.\r\n\r\nAllí podrá encontrar el#i4031543# #i4031544# #i4031545# #bEntradas de deseo#kque se puede traer aquí para canjear premios.");
         } else if (status == 1) {
             var listStr = "";
             for (var i = 0; i < wishPrizes.length; i++) {
@@ -84,24 +84,24 @@ function action(mode, type, selection) {
                 listStr += "#l\r\n";
             }
 
-            cm.sendSimple("You currently have #b" + amntTicket + " #i" + slctTicket + "# #t" + slctTicket + "##k.\r\n\r\nPurchase a prize:\r\n\r\n" + listStr);
+            cm.sendSimple("Actualmente tienes #b" + amntTicket + " #i" + slctTicket + "# #t" + slctTicket + "##k.\r\n\r\nComprar un premio:\r\n\r\n" + listStr);
         } else if (status == 2) {
             sel = selection;
 
             if (amntTicket < wishPrizesCst[selection]) {
-                cm.sendPrev("You will need #b" + wishPrizesCst[selection] + " #t" + slctTicket + "##k to purchase that! If you want this, come back another time when you have all the tickets at hand.");
+                cm.sendPrev("Necesitará #b" + wishPrizesCst[selection] + " #t" + slctTicket + "##k para comprarlo! Si quieres esto, vuelve en otro momento cuando tengas todas las entradas a mano.");
                 advance = false;
             } else {
-                cm.sendYesNo("You have selected #b" + wishPrizesQty[selection] + " #z" + wishPrizes[selection] + "##k, that will require #b" + wishPrizesCst[selection] + " #t" + slctTicket + "##k. Will you purchase it?");
+                cm.sendYesNo("Has seleccionado #b" + wishPrizesQty[selection] + " #z" + wishPrizes[selection] + "##k, eso requerirá#b" + wishPrizesCst[selection] + " #t" + slctTicket + "##k. ¿Lo comprarás?");
             }
         } else {
             if (cm.canHold(wishPrizes[sel], wishPrizesQty[sel])) {
                 cm.gainItem(wishPrizes[sel], wishPrizesQty[sel]);
                 cm.gainItem(slctTicket, -wishPrizesCst[sel]);
 
-                cm.sendOk("There you go, have a good day!");
+                cm.sendOk("Ahí lo tienes, ¡que tengas un buen día!");
             } else {
-                cm.sendOk("Please have a slot available on your inventory before claiming the item.");
+                cm.sendOk("Tenga un espacio disponible en su inventario antes de reclamar el artículo.");
             }
 
             cm.dispose();

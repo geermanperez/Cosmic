@@ -27,6 +27,6 @@
 
 
 function start() {
-    cm.sendNext("I thought #rAriant#k was amazing, but Valvendale is just SUPERB! There are so many different landscapes and forms of life. Like #b#ethose weird slimes outside of town#n#k... those are just WEIRD!");
+    cm.sendNext("Pensé#rAriant#Fue increíble, ¡pero Valvendale es simplemente EXCELENTE! Hay tantos paisajes y formas de vida diferentes. Como#b#eesos extraños limos fuera de la ciudad#n#k... ¡esos son simplemente EXTRAÑOS!");
     cm.dispose();
 }

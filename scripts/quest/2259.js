@@ -36,7 +36,7 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Ok, meet me at #b#m260020700##k for your information. To reach there, follow #reast#k from here until you reach #rMagatia#k, I will be there. Now go.");
+            qm.sendNext("Ok, nos vemos en#b#m260020700##kpara tu información. Para llegar allí, siga#reast#k desde aquí hasta llegar#rMagatia#k, estaré allí. Ahora vete.");
         } else {
             qm.forceStartQuest();
             qm.dispose();
@@ -61,11 +61,11 @@ function end(mode, type, selection) {
 
         if (status == 0) {
             if (qm.getMapId() == 260020000) {
-                qm.sendNext("Eh you're still here? To reach #b#m260020700##k, follow #reast#k from here until you reach #rMagatia#k, I will be there. Now go.");
+                qm.sendNext("¿Eh todavía estás aquí? para alcanzar#b#m260020700##k, seguir#reast#k desde aquí hasta llegar#rMagatia#k, estaré allí. Ahora vete.");
                 return;
             }
 
-            qm.sendNext("Oh there you are. There're no Meerkat's nearby, so there probably is no eavesdropping around here. Very well, you must be fit to go to the #rMushroom Castle#k. Talk to me once you've got #blevel 30#k.");
+            qm.sendNext("Ah, ahí estás. No hay suricatas cerca, por lo que probablemente no haya escuchas por aquí. Muy bien, debes estar en forma para ir al#rCastillo de setas#k. Hablame una vez que tengas#bnivel 30#k.");
             qm.forceCompleteQuest();
         } else if (status == 1) {
             qm.dispose();

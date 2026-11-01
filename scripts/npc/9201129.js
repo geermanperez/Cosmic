@@ -17,13 +17,13 @@ function action(mode, type, selection) {
     if (status == 0) {
         if (cm.isQuestStarted(quest)) {
             if (cm.haveItem(questItem)) {
-                cm.sendYesNo("Would you like to move to #b#m" + map + "##k?");
+                cm.sendYesNo("¿Te gustaría mudarte a#b#m" + map + "##k?");
             } else {
-                cm.sendOk("The entrance is blocked by a force that can only be lifted by those holding an emblem.");
+                cm.sendOk("La entrada está bloqueada por una fuerza que sólo pueden levantar quienes portan un emblema.");
                 cm.dispose();
             }
         } else {
-            cm.sendOk("The entrance is blocked by a strange force.");
+            cm.sendOk("La entrada está bloqueada por una fuerza extraña.");
             cm.dispose();
         }
     } else {

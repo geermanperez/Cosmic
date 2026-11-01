@@ -28,7 +28,7 @@ function start(mode, type, selection) {
     status++;
     if (mode != 1) {
         if (type == 1 && mode == 0) {
-            qm.sendNext("I'm sure it will come in handy during your journey. Please, don't decline my offer.");
+            qm.sendNext("Estoy seguro de que te resultará útil durante tu viaje. Por favor, no rechaces mi oferta.");
             qm.dispose();
             return;
         } else {
@@ -38,12 +38,12 @@ function start(mode, type, selection) {
     }
 
     if (status == 0) {
-        qm.sendSimple("Ah, you're the hero. I've been dying to meet you. \r\n#b#L0#(Seems a bit shy...)#l");
+        qm.sendSimple("Ah, eres el héroe. Me muero por conocerte.\r\n#b#L0#(Parece un poco tímido...)#l");
     } else if (status == 1) {
-        qm.sendAcceptDecline("I have something I've been wanting to give you as a gift for a very long time... I know you're busy, especially since you're on your way to town, but will you accept my gift?");
+        qm.sendAcceptDecline("Tengo algo que he querido regalarte desde hace mucho tiempo... Sé que estás ocupado, especialmente porque estás de camino a la ciudad, pero ¿aceptarás mi regalo?");
     } else if (status == 2) {
         qm.forceStartQuest();
-        qm.sendNext("The parts of the gift have been packed inside a box nearby. Sorry to trouble you, but could you break the box and bring me a #b#t4032309##k and some #b#t4032310##k? I'll assemble them for you right away.", 9);
+        qm.sendNext("Las partes del regalo han sido empaquetadas dentro de una caja cercana. Lamento molestarte, pero ¿podrías romper la caja y traerme un#b#t4032309##ky algunos#b#t4032310##k? Los ensamblaré para ti de inmediato.", 9);
     } else if (status == 3) {
         qm.guideHint(18);
         qm.dispose();
@@ -54,7 +54,7 @@ function end(mode, type, selection) {
     status++;
     if (mode != 1) {
         if (type == 1 && mode == 0) {
-            qm.sendNext("What? You don't want the potion?");
+            qm.sendNext("¿Qué? ¿No quieres la poción?");
             qm.dispose();
             return;
         } else {
@@ -63,19 +63,19 @@ function end(mode, type, selection) {
         }
     }
     if (status == 0) {
-        qm.sendYesNo("Ah, you've brought all the components. Give me a few seconds to assemble them.. Like this.. And like that.. and...\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0#\r\n#v3010062# 1 #t3010062#\r\n\r\n#fUI/UIWindow.img/QuestIcon/8/0# 95 exp");
+        qm.sendYesNo("Ah, has traído todos los componentes. Dame unos segundos para armarlos.. Así.. Y así.. y…\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0#\r\n#v3010062# 1 #t3010062#\r\n\r\n#fUI/UIWindow.img/QuestIcon/8/0# 95 exp.");
     } else if (status == 1) {
         if (qm.isQuestCompleted(21013)) {
-            qm.dropMessage(1, "Unknown Error");
+            qm.dropMessage(1, "Error desconocido");
         }
         qm.forceCompleteQuest();
         qm.gainExp(95);
         qm.gainItem(4032309, -1);
         qm.gainItem(4032310, -1);
         qm.gainItem(3010062, 1);
-        qm.sendNext("Here, a fully-assembled chair, just for you! I've always wanted to give you a chair as a gift, because I know a hero can occasionally use some good rest. Tee hee.", 9);
+        qm.sendNext("Aquí tienes una silla completamente montada, ¡solo para ti! Siempre quise regalarte una silla, porque sé que a un héroe de vez en cuando le vendría bien un buen descanso. Je, je.", 9);
     } else if (status == 2) {
-        qm.sendNext("A hero is not invincible. A hero is human. I'm sure you will face challenges and even falter at times. But you are a hero because you have what it takes to overcome any obstacles you may encounter.", 9);
+        qm.sendNext("Un héroe no es invencible. Un héroe es humano. Estoy seguro de que enfrentarás desafíos e incluso flaquearás en ocasiones. Pero eres un héroe porque tienes lo necesario para superar cualquier obstáculo que puedas encontrar.", 9);
     } else if (status == 3) {
         qm.guideHint(19);
         qm.dispose();

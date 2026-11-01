@@ -30,7 +30,7 @@ var sel;
 function start() {
     status = -1;
     sel = -1;
-    cm.sendSimple("Now...ask me any questions you may have on traveling!!\r\n#L0##bHow do I move?#l\r\n#L1#How do I take down the monsters?#l\r\n#L2#How can I pick up an item?#l\r\n#L3#What happens when I die?#l\r\n#L4#When can I choose a job?#l\r\n#L5#Tell me more about this island!#l\r\n#L6#What should I do to become a Warrior?#l\r\n#L7#What should I do to become a Bowman?#l\r\n#L8#What should I do to become a Magician?#l\r\n#L9#What should I do to become a Thief?#l\r\n#L10#How do I raise the character stats? (S)#l\r\n#L11#How do I check the items that I just picked up?#l\r\n#L12#How do I put on an item?#l\r\n#L13#How do I check out the items that I'm wearing?#l\r\n#L14#What are skills? (K)#l\r\n#L15#How do I get to Victoria Island?#l\r\n#L16#What are mesos?#l#k");
+    cm.sendSimple("Ahora... ¡¡pregúntame cualquier duda que tengas sobre viajes!!\r\n#L0##b¿Cómo me muevo?#l\r\n#L1#¿Cómo puedo derrotar a los monstruos?#l\r\n#L2#¿Cómo puedo recoger un artículo?#l\r\n#L3#¿Qué pasa cuando muero?#l\r\n#L4#¿Cuándo puedo elegir un trabajo?#l\r\n#L5#¡Cuéntame más sobre esta isla!#l\r\n#L6#¿Qué debo hacer para convertirme en guerrero?#l\r\n#L7#¿Qué debo hacer para convertirme en Bowman?#l\r\n#L8#¿Qué debo hacer para convertirme en Mago?#l\r\n#L9#¿Qué debo hacer para convertirme en ladrón?#l\r\n#L10#¿Cómo subo las estadísticas del personaje? (S)#l\r\n#L11#¿Cómo reviso los artículos que acabo de recoger?#l\r\n#L12#¿Cómo me pongo un artículo?#l\r\n#L13#¿Cómo reviso las prendas que llevo puesta?#l\r\n#L14#¿Qué son las habilidades? (K)#l\r\n#L15#¿Cómo llego a la Isla Victoria?#l\r\n#L16#¿Qué son los mesos?#l#k");
 }
 
 function action(mode, type, selection) {
@@ -48,59 +48,59 @@ function action(mode, type, selection) {
             sel = selection;
         }
         if (sel == 0) {
-            cm.sendNext("Alright this is how you move. Use #bleft, right arrow#k to move around the flatland and slanted roads, and press #bAlt#k to jump. A select number of shoes improve your speed and jumping abilities.");
+            cm.sendNext("Muy bien, así es como te mueves. Usar#bflecha izquierda, derecha#kpara moverse por las llanuras y los caminos inclinados, y presione#bAlt#k saltar. Un número selecto de zapatos mejora tu velocidad y tus habilidades de salto.");
         } else if (sel == 1) {
-            cm.sendNext("Here's how to take down a monster. Every monster possesses an HP of its own and you'll take them down by attacking with either a weapon or through spells. Of course the stronger they are, the harder it is to take them down.");
+            cm.sendNext("Aquí se explica cómo acabar con un monstruo. Cada monstruo posee su propio HP y los derrotarás atacando con un arma o mediante hechizos. Por supuesto, cuanto más fuertes sean, más difícil será derrotarlos.");
         } else if (sel == 2) {
-            cm.sendNext("This is how you gather up an item. Once you take down a monster, an item will be dropped to the ground. When that happens, stand in front of the item and press #bZ#k or #b0 on the NumPad#k to acquire the item.");
+            cm.sendNext("Así es como recoges un objeto. Una vez que derribes a un monstruo, se dejará caer un objeto al suelo. Cuando eso suceda, párate frente al objeto y presiona#bZ#k o#b0 en el teclado numérico#kpara adquirir el artículo.");
         } else if (sel == 3) {
-            cm.sendNext("Curious to find out what happens when you die? You'll become a ghost when your HP reaches 0. There will be a tombstone in that place and you won't be able to move, although you still will be able to chat.");
+            cm.sendNext("¿Tienes curiosidad por saber qué sucede cuando mueres? Te convertirás en un fantasma cuando tu HP llegue a 0. Habrá una lápida en ese lugar y no podrás moverte, aunque sí podrás chatear.");
         } else if (sel == 4) {
-            cm.sendNext("When do you get to choose your job? Hahaha, take it easy, my friend. Each job has a requirement set for you to meet. Normally a level between 8 and 10 will do, so work hard.");
+            cm.sendNext("¿Cuándo puedes elegir tu trabajo? Jajaja, tómatelo con calma, amigo. Cada trabajo tiene un conjunto de requisitos que usted debe cumplir. Normalmente, un nivel entre 8 y 10 será suficiente, así que trabaja duro.");
         } else if (sel == 5) {
-            cm.sendNext("Want to know about this island? It's called Maple Island and it floats in the air. It's been floating in the sky for a while so the nasty monsters aren't really around. It's a very peaceful island, perfect for beginners!");
+            cm.sendNext("¿Quieres saber sobre esta isla? Se llama Maple Island y flota en el aire. Ha estado flotando en el cielo por un tiempo, por lo que los desagradables monstruos no están realmente por ahí. Es una isla muy tranquila, ¡perfecta para principiantes!");
         } else if (sel == 6) {
-            cm.sendNext("You want to become a #bWarrior#k? Hmmm, then I suggest you head over to Victoria Island. Head over to a warrior-town called #rPerion#k and see #bDances with Balrog#k. He'll teach you all about becoming a true warrior. Ohh, and one VERY important thing: You'll need to be at least level 10 in order to become a warrior!!");
+            cm.sendNext("Quieres convertirte en un#bWarrior#k? Hmmm, entonces te sugiero que te dirijas a la Isla Victoria. Dirígete a una ciudad guerrera llamada#rPerion#k y ver#bBaila con Balrog#k. Él te enseñará todo sobre cómo convertirte en un verdadero guerrero. Ah, y una cosa MUY importante: ¡¡necesitarás tener al menos el nivel 10 para convertirte en un guerrero!!");
         } else if (sel == 7) {
-            cm.sendNext("You want to become a #bBowman#k? You'll need to go to Victoria Island to make the job advancement. Head over to a bowman-town called #rHenesys#k and talk to the beautiful #bAthena Pierce#k and learn the in's and out's of being a bowman. Ohh, and one VERY important thing: You'll need to be at least level 10 in order to become a bowman!!");
+            cm.sendNext("Quieres convertirte en un#bBowman#k? Tendrás que ir a la isla Victoria para avanzar en el trabajo. Dirígete a un pueblo de arqueros llamado#rHenesys#k y hablar con la bella#batenea pierce#ky aprende los pros y los contras de ser un arquero. Ah, y una cosa MUY importante: ¡¡necesitarás tener al menos el nivel 10 para convertirte en arquero!!");
         } else if (sel == 8) {
-            cm.sendNext("You want to become a #bMagician#k? For you to do that, you'll have to head over to Victoria Island. Head over to a magician-town called #rEllinia#k, and at the very top lies the Magic Library. Inside, you'll meet the head of all wizards, #bGrendel the Really Old#k, who'll teach you everything about becoming a wizard.");
+            cm.sendNext("Quieres convertirte en un#bMagician#k? Para hacer eso, tendrás que dirigirte a la Isla Victoria. Dirígete a un pueblo mágico llamado#rEllinia#k, y en la parte superior se encuentra la Biblioteca Mágica. En el interior, encontrarás al jefe de todos los magos,#bGrendel el realmente viejo#k, quien te enseñará todo sobre cómo convertirte en mago.");
         } else if (sel == 9) {
-            cm.sendNext("You want to become a #bThief#k? In order to become one, you'll have to head over to Victoria Island. Head over to a thief-town called #rKerning City#k, and on the shadier side of town, you'll see a thief's hideaway. There, you'll meet #bDark Lord#k who'll teach you everything about being a thief. Ohh, and one VERY important thing: You'll need to be at least level 10 in order to become a thief!!");
+            cm.sendNext("Quieres convertirte en un#bThief#k? Para convertirte en uno, tendrás que dirigirte a la Isla Victoria. Dirígete a una ciudad de ladrones llamada#rCiudad de Kerning#k, y en el lado más sombrío de la ciudad, verás el escondite de un ladrón. Allí te encontrarás#bseñor oscuro#kquien te enseñará todo sobre ser un ladrón. Ah, y una cosa MUY importante: ¡¡necesitarás tener al menos el nivel 10 para convertirte en un ladrón!!");
         } else if (sel == 10) {
-            cm.sendNext("You want to know how to raise your character's ability stats? First press #bS#k to check out the ability window. Every time you level up, you'll be awarded 5 ability points aka AP's. Assign those AP's to the ability of your choice. It's that simple.");
+            cm.sendNext("¿Quieres saber cómo aumentar las estadísticas de habilidad de tu personaje? Primero presione #bS#k para ver la ventana de habilidades. Cada vez que subas de nivel, recibirás 5 puntos de habilidad, también conocidos como AP. Asigna esos AP a la habilidad que elijas. Es así de simple.");
         } else if (sel == 11) {
-            cm.sendNext("You want to know how to check out the items you've picked up, huh? When you defeat a monster, it'll drop an item on the ground, and you may press #bZ#k to pick up the item. That item will then be stored in your item inventory, and you can take a look at it by simply pressing #bI#k.");
+            cm.sendNext("Quieres saber cómo comprobar los artículos que has recogido, ¿eh? Cuando derrotas a un monstruo, dejará caer un objeto al suelo y podrás presionar #bZ#k para recogerlo. Ese artículo se almacenará en su inventario de artículos y podrá verlo simplemente presionando #bI#k.");
         } else if (sel == 12) {
-            cm.sendNext("You want to know how to wear the items, right? Press #bI#k to check out your item inventory. Place your mouse cursor on top of an item and double-click on it to put it on your character. If you find yourself unable to wear the item, chances are your character does not meet the level & stat requirements. You can also put on the item by opening the equipment inventory (#bE#k) and dragging the item into it. To take off an item, double-click on the item at the equipment inventory.");
+            cm.sendNext("Quieres saber cómo usar las prendas, ¿verdad? Presione #bI#k para revisar su inventario de artículos. Coloque el cursor del mouse encima de un elemento y haga doble clic en él para colocarlo en su personaje. Si no puedes usar el artículo, es probable que tu personaje no cumpla con los requisitos de nivel y estadísticas. También puedes ponerte el artículo abriendo el inventario de equipo (#bE#k) y arrastrándolo hacia él. Para quitar un artículo, haga doble clic en el artículo en el inventario de equipos.");
         } else if (sel == 13) {
-            cm.sendNext("You want to check on the equipped items, right? Press #bE#k to open the equipment inventory, where you'll see exactly what you are wearing right at the moment. To take off an item, double-click on the item. The item will then be sent to the item inventory.");
+            cm.sendNext("Quieres comprobar los elementos equipados, ¿verdad? Presione #bE#k para abrir el inventario de equipos, donde verá exactamente lo que está usando en este momento. Para quitar un artículo, haga doble clic en el artículo. Luego, el artículo se enviará al inventario de artículos.");
         } else if (sel == 14) {
-            cm.sendNext("The special 'abilities' you get after acquiring a job are called skills. You'll acquire skills that are specifically for that job. You're not at that stage yet, so you don't have any skills yet, but just remember that to check on your skills, press #bK#k to open the skill book. It'll help you down the road.");
+            cm.sendNext("Las \"habilidades\" especiales que se adquieren después de adquirir un trabajo se denominan habilidades. Adquirirás habilidades específicas para ese trabajo. Aún no estás en esa etapa, por lo que aún no tienes ninguna habilidad, pero recuerda que para verificar tus habilidades, presiona #bK#k para abrir el libro de habilidades. Te ayudará en el futuro.");
         } else if (sel == 15) {
-            cm.sendNext("How do you get to Victoria Island? On the east of this island there's a harbor called Southperry. There, you'll find a ship that flies in the air. In front of the ship stands the captain. Ask him about it.");
+            cm.sendNext("¿Cómo se llega a la Isla Victoria? Al este de esta isla hay un puerto llamado Southperry. Allí encontrarás un barco que vuela en el aire. Delante del barco se encuentra el capitán. Pregúntale al respecto.");
         } else if (sel == 16) {
-            cm.sendNext("It's the currency used in MapleStory. You may purchase items through mesos. To earn them, you may either defeat the monsters, sell items at the store, or complete quests...");
+            cm.sendNext("Es la moneda utilizada en MapleStory. Puedes comprar artículos a través de mesos. Para ganarlos, puedes derrotar a los monstruos, vender artículos en la tienda o completar misiones...");
         }
     } else if (status == 1) {
         if (sel == 0) {
-            cm.sendNextPrev("In order to attack the monsters, you'll need to be equipped with a weapon. When equipped, press #bCtrl#k to use the weapon. With the right timing, you'll be able to easily take down the monsters.");
+            cm.sendNextPrev("Para poder atacar a los monstruos, necesitarás estar equipado con un arma. Cuando esté equipado, presione #bCtrl#k para usar el arma. Si lo haces en el momento adecuado, podrás acabar con los monstruos fácilmente.");
         } else if (sel == 1) {
-            cm.sendNextPrev("Once you make the job advancement, you'll acquire different kinds of skills, and you can assign them to HotKeys for easier access. If it's an attacking skill, you don't need to press Ctrl to attack, just press the button assigned as a HotKey.");
+            cm.sendNextPrev("Una vez que avance en el trabajo, adquirirá diferentes tipos de habilidades y podrá asignarlas a teclas de acceso rápido para un acceso más fácil. Si se trata de una habilidad de ataque, no necesitas presionar Ctrl para atacar, simplemente presiona el botón asignado como tecla de acceso rápido.");
         } else if (sel == 2) {
-            cm.sendNextPrev("Remember, though, that if your item inventory is full, you won't be able to acquire more. So if you have an item you don't need, sell it so you can make something out of it. The inventory may expand once you make the job advancement.");
+            cm.sendNextPrev("Sin embargo, recuerda que si tu inventario de artículos está lleno, no podrás adquirir más. Entonces, si tienes un artículo que no necesitas, véndelo para poder hacer algo con él. El inventario puede expandirse una vez que usted avance en el trabajo.");
         } else if (sel == 3) {
-            cm.sendNextPrev("There isn't much to lose when you die if you are just a beginner. Once you have a job, however, it's a different story. You'll lose a portion of your EXP when you die, so make sure you avoid danger and death at all cost.");
+            cm.sendNextPrev("No hay mucho que perder cuando mueras si eres sólo un principiante. Sin embargo, una vez que tienes un trabajo, la historia es diferente. Perderás una parte de tu EXP cuando mueras, así que asegúrate de evitar el peligro y la muerte a toda costa.");
         } else if (sel == 4) {
-            cm.sendNextPrev("Level isn't the only thing that determines the advancement, though. You also need to boost up the levels of a particular ability based on the occupation. For example, to be a warrior, your STR has to be over 35, and so forth, you know what I'm saying? Make sure you boost up the abilities that has direct implications to your job.");
+            cm.sendNextPrev("Sin embargo, el nivel no es lo único que determina el avance. También necesitas aumentar los niveles de una habilidad particular según la ocupación. Por ejemplo, para ser un guerrero, tu FUE tiene que ser superior a 35, y así sucesivamente, ¿sabes a qué me refiero? Asegúrese de mejorar las habilidades que tengan implicaciones directas para su trabajo.");
         } else if (sel == 5) {
-            cm.sendNextPrev("But, if you want to be a powerful player, better not think about staying here for too long. You won't be able to get a job anyway. Underneath this island lies an enormous island called Victoria Island. That place is so much bigger than here, it's not even funny.");
+            cm.sendNextPrev("Pero, si quieres ser un jugador poderoso, mejor no pienses en quedarte aquí por mucho tiempo. De todos modos no podrás conseguir un trabajo. Debajo de esta isla se encuentra una enorme isla llamada Isla Victoria. Ese lugar es mucho más grande que aquí, ni siquiera tiene gracia.");
         } else if (sel == 8) {
-            cm.sendNextPrev("Oh by the way, unlike other jobs, to become a magician you only need to be at level 8. What comes with making the job advancement early also comes with the fact that it takes a lot to become a true powerful mage. Think long and carefully before choosing your path.");
+            cm.sendNextPrev("Ah, por cierto, a diferencia de otros trabajos, para convertirte en mago solo necesitas estar en el nivel 8. Lo que implica avanzar temprano en el trabajo también viene con el hecho de que se necesita mucho para convertirse en un verdadero mago poderoso. Piensa detenidamente antes de elegir tu camino.");
         } else if (sel == 10) {
-            cm.sendNextPrev("Place your mouse cursor on top of all abilities for a brief explanation. For example, STR for warriors, DEX for bowman, INT for magician, and LUK for thief. That itself isn't everything you need to know, so you'll need to think long and hard on how to emphasize your character's strengths through assigning the points.");
+            cm.sendNextPrev("Coloque el cursor del mouse encima de todas las habilidades para obtener una breve explicación. Por ejemplo, STR para guerreros, DEX para arquero, INT para mago y LUK para ladrón. Eso en sí no es todo lo que necesitas saber, por lo que tendrás que pensar detenidamente cómo enfatizar las fortalezas de tu personaje mediante la asignación de puntos.");
         } else if (sel == 15) {
-            cm.sendNextPrev("Oh yeah! One last piece of information before I go. If you are not sure where you are, always press #bW#k. The world map will pop up with the locator showing where you stand. You won't have to worry about getting lost with that.");
+            cm.sendNextPrev("¡Oh sí! Un último dato antes de irme. Si no está seguro de dónde se encuentra, presione siempre #bW#k. Aparecerá el mapa mundial con el localizador que muestra dónde se encuentra. No tendrás que preocuparte por perderte con eso.");
         } else {
             start();
         }

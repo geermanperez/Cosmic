@@ -45,21 +45,21 @@ function end(mode, type, selection) {
         if (status == 0) {
             oreArray = getOreArray();
             if (oreArray.length > 0) {
-                qm.sendSimple("Oh, looks like someone's ready to make a deal. You want to join Zenumist so badly, huh? I really don't understand you, but that's just fine. What will you give me in return?\r\n" + getOreString(oreArray));
+                qm.sendSimple("Oh, parece que alguien está listo para hacer un trato. Tienes tantas ganas de unirte a Zenumist, ¿eh? Realmente no te entiendo, pero está bien. ¿Qué me darás a cambio?\r\n" + getOreString(oreArray));
             } else {
-                qm.sendOk("What is this, you don't have the #rjewel ores#k with you. No ore, no deal.");    // script would loop undefinitely at completion, thanks IxianMace for noticing
+                qm.sendOk("¿Qué es esto? No tienes el#rminerales joya#kcontigo. Sin mineral, no hay trato.");    // script would loop undefinitely at completion, thanks IxianMace for noticing
                 qm.dispose();
 
             }
         } else if (status == 1) {
             if (!qm.haveItem(oreArray[selection], 2)) {     // thanks resinate for noticing a function missing here
-                qm.sendNext("What's this, you haven't got the #rjewel ores#k. No ores no deal!");
+                qm.sendNext("¿Qué es esto? No tienes el#rminerales joya#k. ¡Sin minerales no hay trato!");
                 qm.dispose();
                 return;
             }
 
             qm.gainItem(oreArray[selection], -2); // Take 2 ores
-            qm.sendNext("Then wait for awhile. I'll go and get the stuff to help you pass the test of Chief Zenumist.");
+            qm.sendNext("Entonces espera un rato. Iré a buscar lo que te ayudará a pasar el examen de Jefe Zenumista.");
             qm.forceCompleteQuest();
         } else if (status == 2) {
             qm.dispose();

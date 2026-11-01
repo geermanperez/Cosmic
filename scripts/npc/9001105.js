@@ -11,7 +11,7 @@ function action(mode, type, selection) {
     } else {
         if (mode == 0 && type > 0) {
             if (cm.getPlayer().getMapId() == 922240200) {
-                cm.sendOk("That's a shame, come back when your ready.");
+                cm.sendOk("Es una pena, vuelve cuando estés listo.");
             }
 
             cm.dispose();
@@ -25,9 +25,9 @@ function action(mode, type, selection) {
 
         if (status == 0) {
             if (cm.getMapId() == 922240200) {
-                cm.sendSimple("Did you have something to say...? #b\b\r\n#L0#I want to rescue Gaga.#l\r\n");    //#L1#I want to go to the Space Mine.#l
+                cm.sendSimple("¿Tenías algo que decir...?#b\b\r\n#L0#Quiero rescatar a Gaga.#l\r\n");    //#L1#I want to go to the Space Mine.#l
             } else if (cm.getMapId() >= 922240000 && cm.getMapId() <= 922240019) {
-                cm.sendYesNo("Don't worry if you fail. You'll have 3 chances. Do you still want to give up?");
+                cm.sendYesNo("No te preocupes si fallas. Tendrás 3 oportunidades. ¿Todavía quieres rendirte?");
             } else if (cm.getMapId() >= 922240100 && cm.getMapId() <= 922240119) {
                 var text = "You went through so much trouble to rescue Gaga, but it looks like we're back to square one. ";
                 var rgaga = cm.getPlayer().getEvents().get("rescueGaga");
@@ -45,24 +45,24 @@ function action(mode, type, selection) {
                 if (status == 1) {
                     if (selection == 0) {
                         selected = 1;
-                        cm.sendNext("Welcome! I heard what happened from Baby Moon Bunny I'm glad you came since I was Planning on requesting some help. Gaga is a friend of mine who has helped me before and often stops by to say hello. Unfortunately, he was kidnapped by aliens.");
+                        cm.sendNext("¡Bienvenido! Escuché lo que pasó de Baby Moon Bunny. Me alegra que hayas venido ya que estaba planeando solicitar ayuda. Gaga es una amiga mía que me ha ayudado antes y a menudo pasa a saludarme. Desafortunadamente, fue secuestrado por extraterrestres.");
                     } else {
                         selected = 2;
-                        cm.sendYesNo("At the Space Mine, you can find special ores called #bKrypto Crystals#k that contains the mysterious power of space. #bKrypto Crystals#l are usually emerald in color, but will turn brown if hit with the Spaceship's #bSpace Beam#k. Remember, in order to thwart this alien conspracy, #b10 Brown Krypto Crystal's and 10 Emerald Krypto Crystal's are needed. But since even #b1 Krypto Crystal#k can be of help, brign me as many as possible. Oh, and one more thing! The Space Mines are protected by the Space Mateons. They are extemely strong due to the power of the #Krypto Crystals#k, so don't try to defeat them. Simply concentrate on quickly collecting the crystals.");
+                        cm.sendYesNo("En la Mina Espacial, puedes encontrar minerales especiales llamados#bCriptocristales#kque contiene el misterioso poder del espacio.#bCriptocristales#lGeneralmente son de color esmeralda, pero se vuelven marrones si se golpean con la nave espacial.#bHaz espacial#k. Recuerde, para frustrar esta conspiración alienígena,#bSe necesitan 10 Krypto Crystal's marrones y 10 Krypto Crystal's esmeralda. Pero desde incluso#b1 criptocristal#kPuede ser de ayuda, tráeme tantos como sea posible. ¡Ah, y una cosa más! Las Minas Espaciales están protegidas por los Mateons Espaciales. Son extremadamente fuertes debido al poder del#Kcristales criptográficos#k, así que no intentes derrotarlos. Simplemente concéntrate en recolectar rápidamente los cristales.");
                     }
                 } else if (status == 2) {
                     if (selected == 1) {
-                        cm.sendYesNo("If we just leave Gaga with the aliens, something terrible will happen to him! I'll let you borrow a spaceship that the Moon Bunnies use for traveling so that you can rescue Gaga.#b Although he might appear a bit indecisive, slow, and immature at times#k, he's really a nice young man. Do you want to go rescue him now?");
+                        cm.sendYesNo("¡Si dejamos a Gaga con los extraterrestres, le sucederá algo terrible! Te dejaré prestada una nave espacial que los Moon Bunnies usan para viajar para que puedas rescatar a Gaga.#bAunque a veces puede parecer un poco indeciso, lento e inmaduro.#k, es realmente un joven agradable. ¿Quieres ir a rescatarlo ahora?");
                     } else if (selected == 2) {
-                        cm.sendOk("Not coded yet, f4.");
+                        cm.sendOk("Aún no codificado, f4.");
                         cm.dispose();
                     }
                 } else if (status == 3) {
                     var em = cm.getEventManager("RescueGaga");
                     if (em == null) {
-                        cm.sendOk("This event is currently unavailable.");
+                        cm.sendOk("Este evento no está disponible actualmente.");
                     } else if (!em.startInstance(cm.getPlayer())) {
-                        cm.sendOk("There is currently someone in this map, come back later.");
+                        cm.sendOk("Actualmente hay alguien en este mapa, vuelve más tarde.");
                     }
 
                     cm.dispose();

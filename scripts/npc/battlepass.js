@@ -80,12 +80,12 @@ function action(mode, type, selection) {
             var claimResult = cm.claimBattlePass();
             if (claimResult == 0) {
                 if (day == 30) {
-                    cm.sendOk("🏆 #b#e¡INCREÍBLE, #h #!#k#n\r\n\r\n¡Has reclamado la recompensa final del #eDía 30#n y has completado el Pase de Batalla!\r\nHas obtenido la recompensa final y el pase ha finalizado con éxito.\r\n¡Muchas felicidades y gracias por jugar en nuestro servidor!");
+                    cm.sendOk("🏆 #b#e¡INCREÍBLE,#h #!#k#n\r\n\r\n¡Has reclamado la recompensa final del#eDía 30#ny has completado el Pase de Batalla!\r\nHas obtenido la recompensa final y el pase ha finalizado con éxito.\r\n¡Muchas felicidades y gracias por jugar en nuestro servidor!");
                 } else {
-                    cm.sendOk("#b#e¡Felicidades, #h #!#k#n\r\n\r\nHas reclamado exitosamente tu recompensa del #eDía " + day + "#n.\r\n¡Mantén tu racha de conexión diaria para desbloquear los premios mayores!");
+                    cm.sendOk("#b#eSalud,#h #!#k#n\r\n\r\nHas reclamado exitosamente tu recompensa del#eDía" + day + "#n.\r\n¡Mantén tu racha de conexión diaria para desbloquear los premios mayores!");
                 }
             } else if (claimResult == 1) {
-                cm.sendOk("Ya has reclamado tu recompensa diaria el día de hoy.\r\nVuelve mañana (00:00 UTC) para el Día " + (day + 1) + ".");
+                cm.sendOk("Ya has reclamado tu recompensa diaria el día de hoy.\r\nVuelve mañana (00:00 UTC) para el Día" + (day + 1) + ".");
             } else if (claimResult == 2) {
                 cm.sendOk("#r#e[Espacio Insuficiente]#k#n\r\nTu inventario está lleno. Por favor libera al menos 2 espacios en tus pestañas de Use, Etc, Setup y Cash antes de reclamar.");
             } else if (claimResult == 3) {

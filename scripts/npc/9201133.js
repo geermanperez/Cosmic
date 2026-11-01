@@ -19,23 +19,23 @@ function action(mode, type, selection) {
         if (!inHuntingGround) {
             if (cm.isQuestStarted(quest)) {
                 if (!cm.getPlayer().haveItemEquipped(1003036)) {
-                    cm.sendOk("The path ahead has a weird stench... Equip the #rgas mask#k before entering.");
+                    cm.sendOk("El camino por delante tiene un olor extraño... Equipa el#rcareta antigás#kantes de entrar.");
                     cm.dispose();
                     return;
                 }
 
-                cm.sendYesNo("Would you like to move to #b#m" + map + "##k?");
+                cm.sendYesNo("¿Te gustaría mudarte a#b#m" + map + "##k?");
             } else {
-                cm.sendOk("The entrance is blocked by a strange force.");
+                cm.sendOk("La entrada está bloqueada por una fuerza extraña.");
                 cm.dispose();
             }
         } else {
             if (cm.getMapId() == 677000011) {
                 map = 677000012;
-                cm.sendYesNo("Would you like to move to #b#m" + map + "##k?");
+                cm.sendYesNo("¿Te gustaría mudarte a#b#m" + map + "##k?");
             } else {
                 map = 105050400;
-                cm.sendYesNo("Would you like to #bexit this place#k?");
+                cm.sendYesNo("Le gustaría#bsalir de este lugar#k?");
             }
         }
     } else {

@@ -20,7 +20,7 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendOk("Have you ever come to know about the card game based on MapleStory, the MapleStory iTCG?");
+            cm.sendOk("¿Alguna vez has conocido el juego de cartas basado en MapleStory, el MapleStory iTCG?");
             cm.dispose();
         }
     }

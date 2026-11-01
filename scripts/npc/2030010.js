@@ -33,12 +33,12 @@
 function start() {
     if (cm.getMapId() == 280030000) {
         if (!cm.getEventInstance().isEventCleared()) {
-            cm.sendYesNo("If you leave now, you'll have to start over. Are you sure you want to leave?");
+            cm.sendYesNo("Si te vas ahora, tendrás que empezar de nuevo. ¿Estás seguro de que quieres irte?");
         } else {
-            cm.sendYesNo("You guys finally overthrew Zakum, what a superb feat! Congratulations! Are you sure you want to leave now?");
+            cm.sendYesNo("Ustedes finalmente derrocaron a Zakum, ¡qué hazaña tan magnífica! ¡Felicidades! ¿Estás seguro de que quieres irte ahora?");
         }
     } else {
-        cm.sendYesNo("If you leave now, you'll have to start over. Are you sure you want to leave?");
+        cm.sendYesNo("Si te vas ahora, tendrás que empezar de nuevo. ¿Estás seguro de que quieres irte?");
     }
 }
 

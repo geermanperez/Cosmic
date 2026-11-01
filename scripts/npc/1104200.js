@@ -40,14 +40,14 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendNext("#b#p1104002##k... The black witch... Trapped me here... There's no time now, she's already on her way to #rattack Ereve#k!");
+            cm.sendNext("#b#p1104002##k... La bruja negra... Me atrapó aquí... No hay tiempo ahora, ya está en camino a#rataque ereve#k!");
         } else if (status == 1) {
-            cm.sendYesNo("Fellow Knight, you must reach to #rEreve#k right now, #rthe Empress is in danger#k!! Even in this condition, I can still Magic Warp you there. When you're ready talk to me. #bAre you ready to face Eleanor?#k");
+            cm.sendYesNo("Compañero Caballero, debes llegar a#rEreve#k ahora mismo,#rla emperatriz está en peligro#k!! Incluso en esta condición, todavía puedo transportarte mágicamente allí. Cuando estés listo habla conmigo.#b¿Estás listo para enfrentar a Eleanor?#k");
         } else if (status == 2) {
             if (cm.getWarpMap(913030000).countPlayers() == 0) {
                 cm.warp(913030000, 0);
             } else {
-                cm.sendOk("There's someone already challenging her. Please wait awhile.");
+                cm.sendOk("Hay alguien que ya la está desafiando. Espere un momento.");
             }
 
             cm.dispose();

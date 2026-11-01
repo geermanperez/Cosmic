@@ -10,12 +10,12 @@ function end(mode, type, selection) {
         status++;
     }
     if (status == 0) {
-        qm.sendNext("Oh, did you bring the #t4032451#? Here, give it to me. I'll give you the Incubator then.");
+        qm.sendNext("Oh, ¿trajiste el #t4032451#? Toma, dámelo. Entonces te daré la incubadora.");
     } else if (status == 1) {
-        qm.sendYesNo("Alright, here you go. I have no idea how you use it, but it's yours... \r\n\r\n#fUI/UIWindow.img/QuestIcon/8/0# 360 exp");
+        qm.sendYesNo("Muy bien, aquí tienes. No tengo idea de cómo lo usas, pero es tuyo...\r\n\r\n#fUI/UIWindow.img/QuestIcon/8/0# 360 exp.");
     } else if (status == 2) {
         if (mode == 0) {//decline
-            qm.sendNext("Hm? That's strange. The Incubator wasn't installed properly. Try again.");
+            qm.sendNext("¿Mmm? Eso es extraño. La incubadora no se instaló correctamente. Intentar otra vez.");
         } else {
             qm.gainItem(4032451, -1);
             qm.forceCompleteQuest();

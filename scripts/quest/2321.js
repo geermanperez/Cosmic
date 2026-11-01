@@ -16,16 +16,16 @@ function start(mode, type, selection) {
         if (type == 1 && mode == 0) {
             status -= 2;
         } else {
-            qm.sendOk("You don't seem to follow instructions well. Come see me when you are ready.");
+            qm.sendOk("Parece que no sigues bien las instrucciones. Ven a verme cuando estés listo.");
             qm.dispose();
             return;
         }
     }
     if (status == 0) {
-        qm.sendAcceptDecline("Now you'll be able to penetrate the spiny vine barrier of Mushroom Forest, but before that, #bMinister of Home Affairs#k wants to have a word with you. Please go see him immediately.");
+        qm.sendAcceptDecline("Ahora podrás atravesar la barrera de enredaderas espinosas del Bosque Champiñón, pero antes de eso,#bMinistro del Interior#kquiere hablar contigo. Por favor ve a verlo inmediatamente.");
     } else if (status == 1) {
         qm.forceStartQuest();
-        qm.sendOk("Good luck.");
+        qm.sendOk("Buena suerte.");
     } else if (status == 2) {
         qm.dispose();
     }
@@ -42,11 +42,11 @@ function end(mode, type, selection) {
         }
     }
     if (status == 0) {
-        qm.sendOk("I have been keeping up on your fabulour work. I am aware that you have successfully created the #bKiller Mushroom Spores#k, which penetrates through the unpenetrable barrier of the forest. Congratulations!");
+        qm.sendOk("He estado al tanto de tu fabuloso trabajo. Soy consciente de que ha creado correctamente el#bEsporas de hongos asesinos#k, que penetra a través de la barrera impenetrable del bosque. ¡Felicidades!");
     } else if (status == 1) {
         qm.forceCompleteQuest();
         qm.gainExp(2500);
-        qm.sendOk("The problem now is to figure out how to enter the castle.");
+        qm.sendOk("El problema ahora es descubrir cómo entrar al castillo.");
     } else if (status == 2) {
         qm.dispose();
     }

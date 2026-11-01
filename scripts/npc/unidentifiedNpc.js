@@ -1,3 +1,3 @@
 function start() {
-    cm.sendOk("NPC: " + cm.getNpc() + " is not found, please report this.");
+    cm.sendOk("PNJ:" + cm.getNpc() + "no se encuentra, por favor informe esto.");
 }

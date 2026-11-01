@@ -40,7 +40,7 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Not long ago, we received a distress signal of #bAdvanced Knight #p1103000##k, currently stationed somewhere in #rEl Nath#k. His Your job is to find him, first go talk to #b#p1101002##k and receive further instructions on your mission.");
+            qm.sendNext("No hace mucho recibimos una señal de socorro de#bCaballero avanzado#p1103000##k, actualmente estacionado en algún lugar de#rEl Nath#k. Su trabajo es encontrarlo, primero ve a hablar con#b#p1101002##ky reciba más instrucciones sobre su misión.");
         } else if (status == 1) {
             qm.forceCompleteQuest();
             qm.dispose();

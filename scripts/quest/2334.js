@@ -18,17 +18,17 @@ function start(mode, type, selection) {
 
     if (status == 0) {
         qm.forceStartQuest();
-        qm.sendNext("Thank you so much, #b#h ##k. You are the hero that has saved our empire from danger. I'm so grateful for what you've done. I dont know how to thank you. And please understand why I can't show you my face.");
+        qm.sendNext("Muchas gracias,#b#h ##k. Eres el héroe que ha salvado a nuestro imperio del peligro. Estoy muy agradecido por lo que has hecho. No sé cómo agradecerte. Y por favor entiende por qué no puedo mostrarte mi cara.");
     } else if (status == 1) {
-        qm.sendNextPrev("It's humiliating to say this, but ever since I was a baby, my family has kept my face veiled from the world. They feared of men falling hopelessly in love with me. I've grown so accustomed to it that I even shy away from women. I know, it's rude of me to have my back turned against the hero, but I'll need some time to muster my courage before I can greet you face to face.");
+        qm.sendNextPrev("Es humillante decir esto, pero desde que era un bebé, mi familia ha mantenido mi rostro oculto al mundo. Temían que los hombres se enamoraran perdidamente de mí. Me he acostumbrado tanto que incluso evito a las mujeres. Lo sé, es de mala educación de mi parte darle la espalda al héroe, pero necesitaré algo de tiempo para reunir coraje antes de poder saludarte cara a cara.");
     } else if (status == 2) {
-        qm.sendNextPrev("I see...\r\n#b(Wow, how pretty could she be?)", 2);
+        qm.sendNextPrev("Ya veo...\r\n#b(Wow, ¿qué tan bonita podría ser?)", 2);
     } else if (status == 3) {
-        qm.sendNextPrev("#b(What the--)", 2);
+        qm.sendNextPrev("#b(¿Qué diablos--)", 2);
     } else if (status == 4) {
-        qm.sendNextPrev("#b(Is that what's considered pretty in the world of mushrooms?!)", 2);
+        qm.sendNextPrev("#b(¡¿Eso es lo que se considera bonito en el mundo de las setas?!)", 2);
     } else if (status == 5) {
-        qm.sendNextPrev("I'm so shy, I'm blushing. Anyways, thank you, #b#h ##k.");
+        qm.sendNextPrev("Soy tan tímida que me estoy sonrojando. De todos modos, gracias,#b#h ##k.");
     } else if (status == 6) {
         qm.forceStartQuest();
         qm.gainExp(1000);

@@ -46,7 +46,7 @@ function action(mode, type, selection) {
     var mapId = cm.getPlayer().getMapId();
     if (mapId == 103000890) {
         if (status == 0) {
-            cm.sendNext("To return back to the city, follow this way.");
+            cm.sendNext("Para regresar a la ciudad siga este camino.");
         } else {
             cm.warp(103000000);
             cm.dispose();

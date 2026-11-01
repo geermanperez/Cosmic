@@ -78,7 +78,7 @@ function action(mode, type, selection) {
         cm.dispose();
         return;
     } else if (mode == 0) {
-        cm.sendNext("You know where to come if you need a ride!");
+        cm.sendNext("¡Ya sabes dónde venir si necesitas que te lleven!");
         cm.dispose();
         return;
     } else {
@@ -105,13 +105,13 @@ function action(mode, type, selection) {
         }
 
         if (travelCost > 0) {
-            cm.sendYesNo("Would you like to travel to #b#m" + travelMap + "##k? To head over to #b#m" + travelMap + "##k, it'll cost you #r" + cm.numberWithCommas(travelCost) + " mesos#k. Would you like to go right now?");
+            cm.sendYesNo("¿Te gustaría viajar a#b#m" + travelMap + "##k? para dirigirse a#b#m" + travelMap + "##k, te costará#r" + cm.numberWithCommas(travelCost) + "mesos#k. ¿Quieres ir ahora mismo?");
         } else {
-            cm.sendNext("Had a great time in #rMalaysia#k? I hope so, have a safe travel back!");
+            cm.sendNext("¿Lo pasaste muy bien en #rMalaysia#k? Eso espero, ¡que tengas un buen viaje de regreso!");
         }
     } else if (status == 2) {
         if (cm.getMeso() < travelCost) {
-            cm.sendNext("You do not seem to have enough mesos.");
+            cm.sendNext("Parece que no tienes suficientes mesos.");
         } else {
             if (travelCost > 0) {
                 cm.gainMeso(-travelCost);

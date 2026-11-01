@@ -40,7 +40,7 @@
     <string name="n1" value="No he podido afeitarme en meses... ahora me empieza a picar la barbilla como un loco."/>
     <string name="n2" value="La increíble sensación de navegar por la hermosa costa... ¡de eso se trata la vida!"/>
     <string name="d0" value="Escuché que #p1012101# está enfermo nuevamente. Triste..."/>
-    <string name="d1" value="Oh ~ ¡Entonces parece que has entregado #b#t4031006##k to #p1012101#...! Gracias. Ahora #p1012101# puede mejorar. ¿eh? #t4031004# Sigue siendo muy hermoso ~"/>
+    <string name="d1" value="Oh ~ ¡Entonces parece que has entregado #b#t4031006##k a #p1012101#...! Gracias. Ahora #p1012101# puede mejorar ahora. ¿eh? #t4031004# Sigue siendo muy hermoso ~"/>
   </imgdir>
   <imgdir name="1002002">
     <string name="name" value="Pason"/>
@@ -110,8 +110,8 @@
     <string name="n0" value="¿Has conocido a Athena Pierce, la que vigila y cuida nuestro pueblo?"/>
     <string name="n1" value="Si quieres convertirte en Bowman, ve a ver a Athena Pierce, que reside en la parte interior del parque."/>
     <string name="n2" value="Hmm... ¿Ronnie está bien? No puedo encontrarlo... Estaba pensando en prepararle un buen plato de Unagi."/>
-    <string name="d0" value="Este pueblo está formado por el grupo de arqueros. Si desea convertirse en Bowman, reúnase con #r#p1012100##k... She will help you. What? You don&apos;t know #r#p1012100##k. Ella salvó a nuestra ciudad hace mucho tiempo de los monstruos. Por supuesto, ahora es seguro. Ella es la heroína de nuestro pueblo."/>
-    <string name="d1" value="Oh... ¿Tú fuiste quien devolvió las cosas? ¿Entonces que hay de nuevo? Es #p1012102 doing fine? If you get to #m100000000# algún día, por favor saluda a #p1012102# de mi parte."/>
+    <string name="d0" value="Este pueblo está formado por el grupo de arqueros. Si quieres convertirte en Bowman, reúnete con #r#p1012100##k... Ella te ayudará. ¿Qué? ¿No sabes #r#p1012100##k? Ella salvó a nuestra ciudad hace mucho tiempo de los monstruos. Por supuesto, ahora es seguro. Ella es la heroína de nuestro pueblo."/>
+    <string name="d1" value="Oh... ¿Tú fuiste quien devolvió las cosas? ¿Entonces que hay de nuevo? ¿Está funcionando bien #p1012102? Si algún día llegas a #m100000000#, por favor saluda a #p1012102# de mi parte."/>
   </imgdir>
   <imgdir name="1011000">
     <string name="name" value="Karl"/>
@@ -565,7 +565,7 @@
     <string name="n0" value="zzz..."/>
     <string name="n1" value="... ... ... zzz..."/>
     <string name="n2" value="Este es el camino hacia el...dun...geon...zzzzzzzz...."/>
-    <string name="d0" value="Vale, ¿quién me acaba de despertar? Odio a cualquiera que me despierte de la siesta... ¿eh? ¿Qué estoy haciendo? ¿Qué crees que estoy haciendo? ¡¡Por supuesto que estoy vigilando la entrada!! Esta es la entrada al #bVictoria Island : Center Dungeon#k. Tienes que tener cuidado ahí dentro; Los monstruos a los que te has enfrentado ni siquiera se comparan con los que estás a punto de enfrentar aquí. Le sugiero que no entre allí a menos que pueda protegerse. ¡Bien, hora de la siesta!"/>
+    <string name="d0" value="Vale, ¿quién me acaba de despertar? Odio a cualquiera que me despierte de la siesta... ¿eh? ¿Qué estoy haciendo? ¿Qué crees que estoy haciendo? ¡¡Por supuesto que estoy vigilando la entrada!! Esta es la entrada a la #bIsla Victoria: Center Dungeon#k. Tienes que tener cuidado ahí dentro; Los monstruos a los que te has enfrentado ni siquiera se comparan con los que estás a punto de enfrentar aquí. Le sugiero que no entre allí a menos que pueda protegerse. ¡Bien, hora de la siesta!"/>
     <string name="d1" value="¡Oye, eres tú! ¿Me estoy quedando dormido otra vez? Bueno, el otro día me criticaron por hacer eso, así que he estado intentando NO hacerlo estos días. Es peligroso por aquí, así que tenga cuidado."/>
   </imgdir>
   <imgdir name="1040001">
@@ -573,8 +573,8 @@
     <string name="n0" value="zzz..."/>
     <string name="n1" value="... ... ... zzz..."/>
     <string name="n2" value="Este es el camino hacia...dun...geon...zz.zzzzzz...."/>
-    <string name="d0" value="El otro día encontré este documento antiguo que tenía algo sobre este elemento mítico. #b#t4021009##k and #b#t4003002##k seem like items that have something to do with the fairies at Ellinia. Maybe #t4001005# tiene que ver con los Golems que hacían los viejos magos. #b#t4001006##k me recuerda a un dragón en llamas..."/>
-    <string name="d1" value="El otro día encontré este documento antiguo que tenía algo sobre este elemento mítico. #b#t4021009##k and #b#t4003002##k seem like items that have something to do with the fairies at Ellinia. Maybe #t4001005# tiene que ver con los Golems que hacían los viejos magos. #b#t4001006##k me recuerda a un dragón en llamas..."/>
+    <string name="d0" value="El otro día encontré este documento antiguo que tenía algo sobre este elemento mítico. #b#t4021009##k y #b#t4003002##k parecen elementos que tienen algo que ver con las hadas de Ellinia. Quizás #t4001005# tenga que ver con los Golems que hicieron los viejos magos. #b#t4001006##k me recuerda a un dragón en llamas..."/>
+    <string name="d1" value="El otro día encontré este documento antiguo que tenía algo sobre este elemento mítico. #b#t4021009##k y #b#t4003002##k parecen elementos que tienen algo que ver con las hadas de Ellinia. Quizás #t4001005# tenga que ver con los Golems que hicieron los viejos magos. #b#t4001006##k me recuerda a un dragón en llamas..."/>
   </imgdir>
   <imgdir name="1040002">
     <string name="name" value="Fanzy"/>
@@ -1580,7 +1580,7 @@
     <string name="n1" value="No me gustan mucho los extraños. Sólo me preocupa la paz de este pueblo."/>
     <string name="n2" value="Tú... si eres fuerte y poderoso, ¿podrás encargarte de los monstruos de la ciudad?"/>
     <string name="d0" value="Una carta de #r#p2103##k debería llegar en cualquier momento. ¿Hay algo mal? Mmm..."/>
-    <string name="d1" value="¿Enviaste mi respuesta de manera segura a #r#p2103##k? Thanks~ so #r#p2103##k te dio un regalo? Jaja... Es uno de los mejores para hacer un sombrero...."/>
+    <string name="d1" value="¿Enviaste mi respuesta de manera segura a #r#p2103##k? Gracias ~ ¿entonces #r#p2103##k te dio un regalo? Jaja... Es uno de los mejores para hacer un sombrero...."/>
   </imgdir>
   <imgdir name="12100">
     <string name="name" value="Mai"/>
@@ -1770,7 +1770,7 @@
     <string name="n0" value="Oh no... necesito subir las cosas a bordo y despegar..."/>
     <string name="n1" value="¿Estás interesado, por casualidad, en intercambiar artículos conmigo?"/>
     <string name="d0" value="¿Cómo puedo ayudarte hoy?"/>
-    <string name="d1" value="¿Conseguiste el #b#t4031049##k to #b#p2020003##k? ¿Quiero algo? Bueno, no por ahora. Pero ven a hablar conmigo más tarde, ¿vale? Quizás tenga algo para ti para entonces."/>
+    <string name="d1" value="¿Obtuviste del #b#t4031049##k al #b#p2020003##k? ¿Quiero algo? Bueno, no por ahora. Pero ven a hablar conmigo más tarde, ¿vale? Quizás tenga algo para ti para entonces."/>
   </imgdir>
   <imgdir name="2010001">
     <string name="name" value="Mino the Owner"/>
@@ -1916,7 +1916,7 @@
     <string name="n0" value="Los humanos son tan descarados hoy en día... piden favores como si nada."/>
     <string name="n1" value="Vaya... definitivamente necesito una mano aquí. Será mejor que esté trabajando duro."/>
     <string name="d0" value="Últimamente los humanos han estado pidiendo favores como si nada. Si creen que las hadas aceptaremos todas sus demandas, ¡eso es MAL! De todos modos, ¿qué quieres de mí?"/>
-    <string name="d1" value="¿#b#t4031051##k le ayudó de alguna manera? En fin, esa asistente de Spiruna… ¿está bien? Si alguna vez la vuelves a ver, por favor salúdala de mi parte."/>
+    <string name="d1" value="¿Te ayudó #b#t4031051##k de alguna manera? En fin, esa asistente de Spiruna… ¿está bien? Si alguna vez la vuelves a ver, por favor salúdala de mi parte."/>
   </imgdir>
   <imgdir name="2012012">
     <string name="name" value="Lisa"/>
@@ -2196,7 +2196,7 @@
     <string name="n0" value="¿Dónde es esto? ¿Dónde está el sargento mayor Fox?"/>
     <string name="n1" value="Ahh... hace frío aquí... ¡¡pero no me pueden detener!!"/>
     <string name="d0" value="¡Hace tanto frío por aquí! Soy #b#p2030001##k, miembro del Pelotón Alfa. Tuvimos un accidente en pleno vuelo e hicimos un aterrizaje de emergencia aquí, pero no puedo encontrar a los demás. Aunque estoy bastante seguro de que todos están bien."/>
-    <string name="d1" value="¿Obtuviste #b#t4031049##k to #b#p2020003##k? ¿Necesito algo? Bueno, no por ahora. Pero ven a verme más tarde, ¿vale?"/>
+    <string name="d1" value="¿Obtuviste #b#t4031049##k a #b#p2020003##k? ¿Necesito algo? Bueno, no por ahora. Pero ven a verme más tarde, ¿vale?"/>
   </imgdir>
   <imgdir name="2030002">
     <string name="name" value="Corporal Easy"/>
@@ -2296,7 +2296,7 @@
     <string name="n0" value="No puedo dejar entrar a nadie ni a todos."/>
     <string name="n1" value="Mi trabajo es proteger este lugar."/>
     <string name="d0" value="Lo siento, pero no puedo permitir que nadie entre a este lugar. Hay un monstruo que ha invadido Ludibrium y actualmente se encuentra escondido en este lugar. Es muy peligroso aquí, así que te aconsejo que te vayas en este momento a menos que estés involucrado en esto. Ahora, si me disculpan..."/>
-    <string name="d1" value="¿Tú eres quien recogió el #b#t4031093##k for me. I am still eating those every now and then. Oh, by the way, have you talked to #b#p2040002##k, el tipo que está a mi lado?"/>
+    <string name="d1" value="Tú eres quien reunió el #b#t4031093##k para mí. Todavía los como de vez en cuando. Ah, por cierto, ¿has hablado con #b#p2040002##k, el chico que está a mi lado?"/>
   </imgdir>
   <imgdir name="2040002">
     <string name="name" value="Olson the Toy Soldier"/>
@@ -2310,77 +2310,77 @@
     <string name="n0" value="Este castillo posee muchas torres escondidas."/>
     <string name="n1" value="Intente guardar silencio una vez dentro."/>
     <string name="d0" value="Últimamente hemos estado experimentando la desaparición de piezas mecánicas aquí en la fábrica, y no tenemos idea de quién ha estado cometiendo este acto cobarde. La fábrica no puede funcionar si las piezas siguen desapareciendo."/>
-    <string name="d1" value="¿No eres tú quien me ayudó a encontrar el #b#t4031092##k perdido aquí en Toy Factory? Gracias a ti, este lugar funciona sin problemas estos días."/>
+    <string name="d1" value="¿No eres tú quien me ayudó a encontrar el #b#t4031092##k aquí en Toy Factory? Gracias a ti, este lugar funciona sin problemas estos días."/>
   </imgdir>
   <imgdir name="2040004">
     <string name="name" value="Roly-Poly 1"/>
     <string name="n0" value="Ludibrium es TAN enorme que nunca puedo tomarme un día libre aquí."/>
     <string name="n1" value="Hay tantos lugares que necesitan ser arreglados."/>
     <string name="d0" value="Solía ​​trabajar en la Fábrica de Juguetes dentro de la Torre del Reloj Ludibrium, pero me enviaron aquí para arreglar las partes destruidas de la Torre Eos. Sin embargo, el número de monstruos ha aumentado constantemente, lo que hace que este trabajo sea muy difícil para mí y para otros Roly-Poly."/>
-    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y le diste esas fotos a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
+    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y esas fotos le diste a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
   </imgdir>
   <imgdir name="2040005">
     <string name="name" value="Roly-Poly 2"/>
     <string name="n0" value="Suspiro... espero terminar pronto con el trabajo."/>
     <string name="n1" value="Arreglo y arreglo y arreglo y aún así, el trabajo nunca termina."/>
     <string name="d0" value="Solía ​​trabajar en la Fábrica de Juguetes dentro de la Torre del Reloj Ludibrium, pero me enviaron aquí para arreglar las partes destruidas de la Torre Eos. Sin embargo, el número de monstruos ha aumentado constantemente, lo que hace que este trabajo sea muy difícil para mí y para otros Roly-Poly."/>
-    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y le diste esas fotos a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
+    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y esas fotos le diste a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
   </imgdir>
   <imgdir name="2040006">
     <string name="name" value="Roly-Poly 3"/>
     <string name="n0" value="Estoy a cargo de arreglar las cosas aquí."/>
     <string name="n1" value="¡Es peligroso por aquí, así que mantente alejado de mí!"/>
     <string name="d0" value="Solía ​​trabajar en la Fábrica de Juguetes dentro de la Torre del Reloj Ludibrium, pero me enviaron aquí para arreglar las partes destruidas de la Torre Eos. Sin embargo, el número de monstruos ha aumentado constantemente, lo que hace que este trabajo sea muy difícil para mí y para otros Roly-Poly."/>
-    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y le diste esas fotos a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
+    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y esas fotos le diste a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
   </imgdir>
   <imgdir name="2040007">
     <string name="name" value="Roly-Poly 4"/>
     <string name="n0" value="Arreglarlo es difícil, pero vale la pena hacerlo."/>
     <string name="n1" value="Estoy seguro de que otros trabajadores también están trabajando duro, ¿verdad?"/>
     <string name="d0" value="Solía ​​trabajar en la Fábrica de Juguetes dentro de la Torre del Reloj Ludibrium, pero me enviaron aquí para arreglar las partes destruidas de la Torre Eos. Sin embargo, el número de monstruos ha aumentado constantemente, lo que hace que este trabajo sea muy difícil para mí y para otros Roly-Poly."/>
-    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y le diste esas fotos a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
+    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y esas fotos le diste a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
   </imgdir>
   <imgdir name="2040008">
     <string name="name" value="Roly-Poly 5"/>
     <string name="n0" value="¡Ey! ¡Es peligroso por ahí!"/>
     <string name="n1" value="Esto no es nada comparado con los días en que hacíamos las torres nosotros mismos."/>
     <string name="d0" value="Solía ​​trabajar en la Fábrica de Juguetes dentro de la Torre del Reloj Ludibrium, pero me enviaron aquí para arreglar las partes destruidas de la Torre Eos. Sin embargo, el número de monstruos ha aumentado constantemente, lo que hace que este trabajo sea muy difícil para mí y para otros Roly-Poly."/>
-    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y le diste esas fotos a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
+    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y esas fotos le diste a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
   </imgdir>
   <imgdir name="2040009">
     <string name="name" value="Roly-Poly 6"/>
     <string name="n0" value="Siempre he deseado trabajar en una torre enorme como ésta."/>
     <string name="n1" value="Si encuentras algún punto que necesite ser arreglado, házmelo saber, ¿vale?"/>
     <string name="d0" value="Solía ​​trabajar en la Fábrica de Juguetes dentro de la Torre del Reloj Ludibrium, pero me enviaron aquí para arreglar las partes destruidas de la Torre Eos. Sin embargo, el número de monstruos ha aumentado constantemente, lo que hace que este trabajo sea muy difícil para mí y para otros Roly-Poly."/>
-    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y le diste esas fotos a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
+    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y esas fotos le diste a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
   </imgdir>
   <imgdir name="2040010">
     <string name="name" value="Roly-Poly 7"/>
     <string name="n0" value="¿Mis ojos? Es sólo una enfermedad de los ojos."/>
     <string name="n1" value="Sería fantástico si mi viaje diario al trabajo no fuera tan largo."/>
     <string name="d0" value="Solía ​​trabajar en la Fábrica de Juguetes dentro de la Torre del Reloj Ludibrium, pero me enviaron aquí para arreglar las partes destruidas de la Torre Eos. Sin embargo, el número de monstruos ha aumentado constantemente, lo que hace que este trabajo sea muy difícil para mí y para otros Roly-Poly."/>
-    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y le diste esas fotos a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
+    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y esas fotos le diste a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
   </imgdir>
   <imgdir name="2040011">
     <string name="name" value="Roly-Poly 8"/>
     <string name="n0" value="Dios mío, estoy cansado. Creo que descansaré un segundo."/>
     <string name="n1" value="Me olvidé de desayunar, así que ahora tengo más hambre que nadie."/>
     <string name="d0" value="Solía ​​trabajar en la Fábrica de Juguetes dentro de la Torre del Reloj Ludibrium, pero me enviaron aquí para arreglar las partes destruidas de la Torre Eos. Sin embargo, el número de monstruos ha aumentado constantemente, lo que hace que este trabajo sea muy difícil para mí y para otros Roly-Poly."/>
-    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y le diste esas fotos a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
+    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y esas fotos le diste a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
   </imgdir>
   <imgdir name="2040012">
     <string name="name" value="Roly-Poly 9"/>
     <string name="n0" value="Puede que sea el trabajador más joven, ¡pero trabajo duro todos los días!"/>
     <string name="n1" value="Oh, ese lugar ha sido arreglado, así que está bien."/>
     <string name="d0" value="Solía ​​trabajar en la Fábrica de Juguetes dentro de la Torre del Reloj Ludibrium, pero me enviaron aquí para arreglar las partes destruidas de la Torre Eos. Sin embargo, el número de monstruos ha aumentado constantemente, lo que hace que este trabajo sea muy difícil para mí y para otros Roly-Poly."/>
-    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y le diste esas fotos a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
+    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y esas fotos le diste a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
   </imgdir>
   <imgdir name="2040013">
     <string name="name" value="Roly-Poly 10"/>
     <string name="n0" value="¿Estoy trabajando duro? ¿No te das cuenta con sólo mirar?"/>
     <string name="n1" value="¡¡Quiero terminar con esto e irme a casa...!!"/>
     <string name="d0" value="Solía ​​trabajar en la Fábrica de Juguetes dentro de la Torre del Reloj Ludibrium, pero me enviaron aquí para arreglar las partes destruidas de la Torre Eos. Sin embargo, el número de monstruos ha aumentado constantemente, lo que hace que este trabajo sea muy difícil para mí y para otros Roly-Poly."/>
-    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y le diste esas fotos a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
+    <string name="d1" value="Tú fuiste quien me tomó la foto el otro día. ¿Te has reunido con los 10 Roly Poly&apos;s? Y esas fotos le diste a #b#p2040015##k, ¿verdad? Creo que nuestro manager se sentirá aliviado después de ver esas fotos y se concentrará en su trabajo."/>
   </imgdir>
   <imgdir name="2040014">
     <string name="name" value="Chico"/>
@@ -2413,7 +2413,7 @@
     <string name="name" value="Black Mesoranger"/>
     <string name="n0" value="Pink Mesoranger SIEMPRE llega tarde... no podemos estar al 100% de nuestra fuerza a menos que los 5 estemos aquí."/>
     <string name="n1" value="¡Nada nos asusta cuando estamos los 5 aquí!"/>
-    <string name="d0" value="¡Hola! Soy #b#p2040018##k, a cargo de una misión para evitar que los alienígenas invadan este lugar. Parece que últimamente se han portado más mal. Es muy peligroso por aquí, así que te sugiero que vuelvas corriendo al Sector Omega por seguridad."/>
+    <string name="d0" value="¡Hola! Soy #b#p2040018##k, a cargo de una misión para evitar que los extraterrestres invadan este lugar. Parece que últimamente se han portado más mal. Es muy peligroso por aquí, así que te sugiero que vuelvas corriendo al Sector Omega por seguridad."/>
     <string name="d1" value="Tú eres quien me ayudó a deshacerme de #b#o4230116##k aquí en Coolan Field. Se siente bien encontrar a alguien como tú aquí en un lugar donde es común ver extraterrestres peligrosos. Todavía estoy investigando quién es el cerebro detrás de estos extraterrestres. Me enfrentaré a otro alienígena más, así que no es fácil..."/>
   </imgdir>
   <imgdir name="2040019">
@@ -2468,7 +2468,7 @@
     <string name="name" value="Grandpa Clock"/>
     <string name="n0" value="¿Qué puedo hacer por ti hoy? Es peligroso por aquí, así que te sugiero que te traslades a un lugar seguro cercano."/>
     <string name="n1" value="Estoy trabajando duro aquí."/>
-    <string name="d0" value="Soy #b#p2040029##k y me enviaron aquí para ver qué pasa con la Torre del Reloj Ludibrium, pero parece que no puedo encontrar ningún error en esto."/>
+    <string name="d0" value="Soy #b#p2040029##k y me han enviado aquí para ver qué le pasa a la Torre del Reloj Ludibrium, pero parece que no puedo encontrar ningún error en esto."/>
     <string name="d1" value="Debes haberle dicho a #b#p2040002##k que la Torre del Reloj ha sido reparada. Esperemos que ahora los soldados puedan confiar en el momento. Muchas gracias por tu arduo trabajo. Tendré que volver a trabajar ahora. Por favor, regresa a Ludibrium, ya que este lugar es demasiado peligroso para simplemente pasar el rato."/>
   </imgdir>
   <imgdir name="2040030">
@@ -2620,14 +2620,14 @@
     <string name="name" value="Marcel"/>
     <string name="n0" value="Asegúrate de no perderte dentro del castillo."/>
     <string name="n1" value="¡Bienvenidos a Ludibrium!"/>
-    <string name="d0" value="¡Hola! Soy #b#p2041004##k, encargado de la seguridad de Ludibrium. Últimamente ha habido algunas criaturas sucias ensuciando la Torre Eos, y no me gusta nada."/>
+    <string name="d0" value="¡Hola! Soy #b#p2041004##k, a cargo de la seguridad de Ludibrium. Últimamente ha habido algunas criaturas sucias ensuciando la Torre Eos, y no me gusta nada."/>
     <string name="d1" value="¡Ey! ¡Tú fuiste quien limpió la Torre Eos la última vez! ¿Cómo has estado? Me alegra mucho que el número de monstruos haya disminuido en general y que ya no sean tan salvajes como antes. Realmente aprecio todo su arduo trabajo. ¡Bueno, espero que tengas un gran día en Ludibrium!"/>
   </imgdir>
   <imgdir name="2041005">
     <string name="name" value="Nemi"/>
     <string name="n0" value="¡¡Hola!! ¿¿Cómo estás??"/>
     <string name="n1" value="¿No es hermoso hoy? Nada me gustaría más que ir a algún lado..."/>
-    <string name="d0" value="¡Hola! No creo haberte conocido antes... ¿has estado viajando? Soy #b#p2041005##k, resido aquí en Ludibrium y mi padre es el gerente de la Fábrica de Juguetes. Si tienes tiempo, deberías ir a ver ese lugar."/>
+    <string name="d0" value="¡Hola! No creo haberte conocido antes... ¿has estado viajando? Tengo #b#p2041005##k, resido aquí en Ludibrium y mi padre es el gerente de la Fábrica de Juguetes. Si tienes tiempo, deberías ir a ver ese lugar."/>
     <string name="d1" value="¡Hola~! Gracias a ti, mi papá recuperó el apetito. Él realmente lo disfruta. ¿Cómo puedo ayudarte hoy? ¡¡¡Oh, no!!! ¡No deberías entrar a este lugar con los zapatos puestos! ¡¡¡Acabo de limpiar este lugar, ya sabes!!! Si no tienes mucho más que hacer, ¡vuelve en otro momento!"/>
   </imgdir>
   <imgdir name="2041006">
@@ -2675,7 +2675,7 @@
     <string name="name" value="Pink Mesoranger"/>
     <string name="n0" value="Es muy difícil levantarse temprano cada mañana. Debería dejar de llegar tarde..."/>
     <string name="n1" value="Estoy más que feliz de protegerlos a todos, excepto por el hecho de que duermo demasiado..."/>
-    <string name="d0" value="Hola. Soy #b#p2041012##k del Sector Omega, actualmente en una misión secreta para evitar la invasión alienígena aquí. He estado muy ocupado estos días ocupándome de misiones importantes. Este lugar es muy peligroso, así que te sugiero que salgas de aquí y vayas a un lugar más seguro."/>
+    <string name="d0" value="Hola. Soy #b#p2041012##k del Sector Omega y actualmente estoy en una misión secreta para evitar la invasión alienígena aquí. He estado muy ocupado estos días ocupándome de misiones importantes. Este lugar es muy peligroso, así que te sugiero que salgas de aquí y vayas a un lugar más seguro."/>
     <string name="d1" value="Has vuelto ~ Me he levantado a tiempo estos días y nunca llego tarde a las misiones. También me alegra que la gente de arriba se dé cuenta. Todo es gracias a ti. Ahora tengo algo importante que hacer, así que discúlpenme~"/>
   </imgdir>
   <imgdir name="2041013">
@@ -2733,7 +2733,7 @@
   <imgdir name="2041020">
     <string name="name" value="Mac the Mechanic"/>
     <string name="n0" value="Estas máquinas deben cuidarse a diario..."/>
-    <string name="d0" value="Buen tiempo hoy. Soy #b#p2041020##k y trabajo aquí en Toy Factory. Me encargo de hacer planos de las máquinas de por aquí, además de arreglarlas si es necesario."/>
+    <string name="d0" value="Buen tiempo hoy. Soy #b#p2041020##k y trabajo aquí en la Fábrica de Juguetes. Me encargo de hacer planos de las máquinas de por aquí, además de arreglarlas si es necesario."/>
     <string name="d1" value="Has vuelto. He estado ocupado aquí trabajando gracias a los documentos que me conseguiste. Ah, y esta vez lo escondí en una caja fuerte por si acaso. Tengo que volver a trabajar ahora. ¡Ya nos veremos!"/>
   </imgdir>
   <imgdir name="2041021">
@@ -2892,21 +2892,21 @@
     <string name="n0" value="Tsk, Tsk... ¡Llegaré tarde si no me voy!"/>
     <string name="n1" value="¡¡¡Mientras esté aquí, este lugar es seguro!!!"/>
     <string name="d0" value="Suspiro... Esta es la primera vez que descanso en mucho tiempo. He estado despierto los últimos días en misiones. Los extraterrestres siempre hacen ruido después del anochecer... de todos modos, es el primer descanso que tengo en mucho tiempo, así que necesito disfrutar esto tanto como pueda. Pero claro, todavía debería estar alerta y en guardia..."/>
-    <string name="d1" value="Tú eres quien trajo #b#p2050001#&apos;s#k #b#t4031100##k aquí y me lo mostró. No puedo agradecerte lo suficiente por eso. ¿Cómo va el robot? No puedo esperar a que llegue el día en que tenga en mis manos ese robot. Ahora necesito terminar el entrenamiento, así que discúlpeme."/>
+    <string name="d1" value="Tú eres quien trajo los #b#p2050001# #k #b#t4031100##k aquí y me los mostraste. No puedo agradecerte lo suficiente por eso. ¿Cómo va el robot? No puedo esperar a que llegue el día en que tenga en mis manos ese robot. Ahora necesito terminar el entrenamiento, así que discúlpeme."/>
   </imgdir>
   <imgdir name="2050006">
     <string name="name" value="Hoony"/>
     <string name="n0" value="¿Dónde está Mirol?..."/>
     <string name="n1" value="Me estoy cansando de ir a misiones todos los días."/>
     <string name="d0" value="Soy #b#p2050006##k del Sector Omega y actualmente estoy en una misión secreta. Pareces un viajero y, aunque pareces estar de nuestro lado, no puedo divulgar ninguna información sobre esta misión."/>
-    <string name="d1" value="Tú eres quien trajo #b#p2050001#&apos;s#k #b#t4031100##k aquí y me lo mostró. No puedo agradecerte lo suficiente por eso. ¿Cómo va el robot? No puedo esperar a que llegue el día en que tenga en mis manos ese robot. Ahora necesito volver al trabajo..."/>
+    <string name="d1" value="Tú eres quien trajo los #b#p2050001# #k #b#t4031100##k aquí y me los mostraste. No puedo agradecerte lo suficiente por eso. ¿Cómo va el robot? No puedo esperar a que llegue el día en que tenga en mis manos ese robot. Ahora necesito volver al trabajo..."/>
   </imgdir>
   <imgdir name="2050007">
     <string name="name" value="Gunny"/>
     <string name="n0" value="Hoon siempre está lloriqueando"/>
     <string name="n1" value="Necesitamos mujeres piloto"/>
     <string name="d0" value="Soy #b#p2050007##k del Sector Omega y actualmente estoy en una misión secreta. Pareces un viajero y, aunque pareces estar de nuestro lado, no puedo divulgar ninguna información sobre esta misión."/>
-    <string name="d1" value="Tú eres quien trajo #b#p2050001#&apos;s#k #b#t4031100##k aquí y me lo mostró. No puedo agradecerte lo suficiente por eso. ¿Cómo va el robot? No puedo esperar a que llegue el día en que tenga en mis manos ese robot. Ahora necesito volver al trabajo..."/>
+    <string name="d1" value="Tú eres quien trajo los #b#p2050001# #k #b#t4031100##k aquí y me los mostraste. No puedo agradecerte lo suficiente por eso. ¿Cómo va el robot? No puedo esperar a que llegue el día en que tenga en mis manos ese robot. Ahora necesito volver al trabajo..."/>
   </imgdir>
   <imgdir name="2050008">
     <string name="name" value="General Maestro"/>
@@ -2924,8 +2924,8 @@
     <string name="name" value="Rice the Medic"/>
     <string name="n0" value="He estudiado mucho, pero todavía no tengo la experiencia laboral real."/>
     <string name="n1" value="La medicina roja debería curar la mayoría de las lesiones."/>
-    <string name="d0" value="Tenga cuidado con cada uno de sus actos aquí en el Sector Omega. ¿Le puedo ayudar en algo? Mi nombre es #b#p2050010##k y, como pueden ver, aquí atiendo a los heridos. Siempre estoy alerta aquí, en caso de que ataquen extraterrestres."/>
-    <string name="d1" value="Tenga cuidado con cada uno de sus actos aquí en el Sector Omega. ¿Le puedo ayudar en algo? Mi nombre es #b#p2050010##k y, como pueden ver, aquí atiendo a los heridos. Siempre estoy alerta aquí, en caso de que ataquen extraterrestres."/>
+    <string name="d0" value="Tenga cuidado con cada uno de sus actos aquí en el Sector Omega. ¿Le puedo ayudar en algo? Mi nombre es #b#p2050010##k y, como puedes ver, aquí cuido a los heridos. Siempre estoy alerta aquí, en caso de que ataquen extraterrestres."/>
+    <string name="d1" value="Tenga cuidado con cada uno de sus actos aquí en el Sector Omega. ¿Le puedo ayudar en algo? Mi nombre es #b#p2050010##k y, como puedes ver, aquí cuido a los heridos. Siempre estoy alerta aquí, en caso de que ataquen extraterrestres."/>
   </imgdir>
   <imgdir name="2050011">
     <string name="name" value="Kevin the Soldier"/>
@@ -2945,8 +2945,8 @@
     <string name="name" value="Porter"/>
     <string name="n0" value="Soy Porter, un investigador aquí en el Sector Omega."/>
     <string name="n1" value="Tengo tanto que investigar que ni siquiera tengo tiempo para dormir."/>
-    <string name="d0" value="Hola. Mi nombre es #b#p2050013##k, and I work here at the headquarters helping #b#p2050001##k y estamos desarrollando un nuevo robot. (olfatea) El nuevo robot está saliendo bien, pero llevo un tiempo sufriendo de frío. (olfatea) Ahora, si me disculpas, tendré que volver al trabajo. No me pueden pillar holgazaneando, ya sabes..."/>
-    <string name="d1" value="Hola. Mi nombre es #b#p2050013##k, and I work here at the headquarters helping #b#p2050001##k y estamos desarrollando un nuevo robot. (olfatea) El nuevo robot está saliendo bien, pero llevo un tiempo sufriendo de frío. (olfatea) Ahora, si me disculpas, tendré que volver al trabajo. No me pueden pillar holgazaneando, ya sabes..."/>
+    <string name="d0" value="Hola. Mi nombre es #b#p2050013##k y trabajo aquí en la sede ayudando a #b#p2050001##k a desarrollar un nuevo robot. (olfatea) El nuevo robot está saliendo bien, pero llevo un tiempo sufriendo de frío. (olfatea) Ahora, si me disculpas, tendré que volver al trabajo. No me pueden pillar holgazaneando, ya sabes..."/>
+    <string name="d1" value="Hola. Mi nombre es #b#p2050013##k y trabajo aquí en la sede ayudando a #b#p2050001##k a desarrollar un nuevo robot. (olfatea) El nuevo robot está saliendo bien, pero llevo un tiempo sufriendo de frío. (olfatea) Ahora, si me disculpas, tendré que volver al trabajo. No me pueden pillar holgazaneando, ya sabes..."/>
   </imgdir>
   <imgdir name="2050014">
     <string name="name" value="Meteorite 1"/>
@@ -3410,8 +3410,8 @@
     <string name="func" value="Entrenador de dragones retirado"/>
     <string name="s0" value="¿Qué? No puedo oírte. Hablar alto."/>
     <string name="s1" value="¿Soy el único Halfring que queda que sabe cómo transformarse en dragón?"/>
-    <string name="d0" value="¿No tienes curiosidad por saber qué hay más allá de ese cielo? Puede que los humanos y los elfos los hayan olvidado, pero nosotros, los Halfrings, no. Recordamos la aurora color esmeralda que rodea el templo. El #bTemple of Time#k se construye entre el momento y la eternidad."/>
-    <string name="d1" value="¿No tienes curiosidad por saber qué hay más allá de ese cielo? Puede que los humanos y los elfos los hayan olvidado, pero nosotros, los Halfrings, no. Recordamos la aurora color esmeralda que rodea el templo. El #bTemple of Time#k se construye entre el momento y la eternidad."/>
+    <string name="d0" value="¿No tienes curiosidad por saber qué hay más allá de ese cielo? Puede que los humanos y los elfos los hayan olvidado, pero nosotros, los Halfrings, no. Recordamos la aurora color esmeralda que rodea el templo. El #bTemplo del Tiempo#k se construye entre el momento y la eternidad."/>
+    <string name="d1" value="¿No tienes curiosidad por saber qué hay más allá de ese cielo? Puede que los humanos y los elfos los hayan olvidado, pero nosotros, los Halfrings, no. Recordamos la aurora color esmeralda que rodea el templo. El #bTemplo del Tiempo#k se construye entre el momento y la eternidad."/>
   </imgdir>
   <imgdir name="2083000">
     <string name="name" value="Encrypted Slate of the Squad"/>
@@ -3788,7 +3788,7 @@
     <string name="s2" value="¿Cómo va el viaje?"/>
     <string name="b0" value="Vaya... te ves nueva con esto."/>
     <string name="c0" value="Arrghh, mi piel hermosa..."/>
-    <string name="d0" value="Debes ser un nuevo viajero. Te daré algunas instrucciones que te serán muy útiles. Si desea hablar con nosotros, simplemente haga clic en nosotros. Puedes moverte presionando #bLeft and Right Arrows#k y saltar presionando #bAlt#k. Vamos ~ ¡Pruébalo! Además, en ocasiones tendrás que subir por una escalera o utilizar una cuerda para llegar al destino que deseas. Puede hacerlo presionando #bUp Arrow#k. Por favor tenga esto en cuenta."/>
+    <string name="d0" value="Debes ser un nuevo viajero. Te daré algunas instrucciones que te serán muy útiles. Si desea hablar con nosotros, simplemente haga clic en nosotros. Puedes moverte presionando #bFlechas izquierda y derecha#k y saltar presionando #bAlt#k. Vamos ~ ¡Pruébalo! Además, en ocasiones tendrás que subir por una escalera o utilizar una cuerda para llegar al destino que deseas. Puedes hacerlo presionando la #bflecha hacia arriba#k. Por favor tenga esto en cuenta."/>
     <string name="d1" value="Ahora puedo mirarme la cara con este espejo. Uf ~~ Todavía estoy bien."/>
   </imgdir>
   <imgdir name="2101000">

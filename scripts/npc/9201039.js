@@ -39,17 +39,17 @@ function pushIfItemExists(array, itemid) {
 
 function start() {
     if (cm.isQuestCompleted(8860) && !cm.haveItem(4031528)) {
-        cm.sendNext("I've already done your hair once as a trade-for-services, sport. You'll have to snag an EXP Hair coupon from the Cash Shop if you want to change it again!");
+        cm.sendNext("Ya te peiné una vez a cambio de servicios, deporte. ¡Tendrás que conseguir un cupón EXP Hair en Cash Shop si quieres cambiarlo nuevamente!");
         cm.dispose();
     } else {
-        cm.sendYesNo("Ready for an awesome hairdo? I think you are! Just say the word, and we'll get started!");
+        cm.sendYesNo("¿Listo para un peinado increíble? ¡Creo que lo eres! ¡Solo di la palabra y comenzaremos!");
     }
 }
 
 function action(mode, type, selection) {
     if (mode < 1) {  // disposing issue with stylishs found thanks to Vcoc
         if (type == 7) {
-            cm.sendNext("Ok, I'll give you a minute.");
+            cm.sendNext("Ok, te daré un minuto.");
         }
 
         cm.dispose();
@@ -66,15 +66,15 @@ function action(mode, type, selection) {
                 pushIfItemExists(hairnew, fhair_q[j]);
             }
         }
-        cm.sendNext("Here we go!");
+        cm.sendNext("¡Aquí vamos!");
     } else {
         if (cm.haveItem(4031528)) {
             cm.gainItem(4031528, -1);
             cm.setHair(hairnew[Math.floor(Math.random() * hairnew.length)]);
-            cm.sendNextPrev("Not bad, if I do say so myself! I knew those books I studied would come in handy...");
+            cm.sendNextPrev("¡No está mal, si lo digo yo mismo! Sabía que esos libros que estudié serían útiles...");
             cm.dispose();
         } else {
-            cm.sendNext("Hmmm...are you sure you have our designated free coupon? Sorry but no haircut without it.");
+            cm.sendNext("Hmmm... ¿estás seguro de que tienes nuestro cupón gratuito designado? Lo siento, pero no hay corte de pelo sin él.");
             cm.dispose();
         }
     }

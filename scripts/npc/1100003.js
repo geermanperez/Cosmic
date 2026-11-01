@@ -25,7 +25,7 @@ function action(mode, type, selection) {
             cm.dispose();
             return;
         } else if (mode == 0) {
-            cm.sendNext("If you're not interested, then oh well...");
+            cm.sendNext("Si no estás interesado, entonces bueno...");
             cm.dispose();
             return;
         }
@@ -35,10 +35,10 @@ function action(mode, type, selection) {
             for (var i = 0; i < menu.length; i++) {
                 display += "\r\n#L" + i + "##b Victoria Island (1000 mesos)#k";
             }
-            cm.sendSimple("Eh, Hello...again. Do you want to leave Ereve and go somewhere else? If so, you've come to the right place. I operate a ferry that goes from #bEreve#k to #bVictoria Island#k, I can take you to #bVictoria Island#k if you want... You'll have to pay a fee of #b1000#k Mesos.\r\n" + display);
+            cm.sendSimple("Eh, hola... otra vez. ¿Quieres dejar Ereve e ir a otro lugar? Si es así, has venido al lugar correcto. Opero un ferry que va desde#bEreve#k a#bIsla Victoria#k, puedo llevarte a#bIsla Victoria#ksi quieres... tendrás que pagar una tarifa de#b1000#k Mesos.\r\n" + display);
         } else if (status == 1) {
             if (cm.getMeso() < 1000) {
-                cm.sendNext("Hmm... Are you sure you have #b1000#k Mesos? Check your Inventory and make sure you have enough. You must pay the fee or I can't let you get on...");
+                cm.sendNext("Hmm... ¿Estás seguro de que tienes #b1000#k Mesos? Revisa tu inventario y asegúrate de tener suficiente. Debes pagar la tarifa o no puedo dejarte subir...");
                 cm.dispose();
             } else {
                 cm.gainMeso(-1000);

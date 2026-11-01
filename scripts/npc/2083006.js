@@ -9,7 +9,7 @@ var limit;
 
 function start() {
     if (!cm.isQuestCompleted(3718)) {
-        cm.sendOk("The time machine has not been activated yet.");
+        cm.sendOk("La máquina del tiempo aún no se ha activado.");
         cm.dispose();
         return;
     }
@@ -21,7 +21,7 @@ function start() {
     }
 
     if (limit == 0) {
-        cm.sendOk("Prove your valor against the #bGuardian Nex#k before unlocking next Neo City maps.");
+        cm.sendOk("Demuestra tu valor contra el#bGuardián Nex#kantes de desbloquear los próximos mapas de Neo City.");
         cm.dispose();
         return;
     }
@@ -77,7 +77,7 @@ function action(mode, type, selection) {
             if (mapid > 0) {
                 cm.warp(mapid, 1);
             } else {
-                cm.sendOk("Complete your mission first.");
+                cm.sendOk("Completa tu misión primero.");
             }
         }
     }

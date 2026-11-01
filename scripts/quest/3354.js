@@ -36,7 +36,7 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendAcceptDecline("I have a request for you. Can you ask #bMaed#k for a potion of my devise? Obviously, don't mention I have asked you that, that would be a problem. #bKeeny#k got an illness due to the contact with the Huroids, this have bothering me so much I couldn't give progress on my researches... Please #rbring her the potion#k, so that I could feel better and start making progress. I'm counting on you.");
+            qm.sendAcceptDecline("Tengo una solicitud para ti. ¿puedes preguntar?#bMaed#k por una poción de mi idea? Obviamente, no menciones que te pregunté eso, eso sería un problema.#bKeeny#Me enfermé debido al contacto con los Huroides, esto me ha molestado tanto que no pude avanzar en mis investigaciones... Por favor.#rtráele la poción#k, para poder sentirme mejor y empezar a progresar. Cuento contigo.");
         } else if (status == 1) {
             qm.forceStartQuest();
             qm.dispose();

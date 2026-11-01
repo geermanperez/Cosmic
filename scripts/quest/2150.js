@@ -16,7 +16,7 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("The tree has a scarf upon its branches, I tell you.");
+            qm.sendNext("El árbol tiene un pañuelo en sus ramas, os lo digo.");
             qm.forceCompleteQuest();
         } else if (status == 1) {
             qm.dispose();

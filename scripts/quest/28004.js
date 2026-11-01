@@ -42,9 +42,9 @@ function start(mode, type, selection) {
                 return;
             }
 
-            qm.sendNext("Okay... so here's our plan to defeat Scrooge and his dastardly plans. The Force of the Spirit I gave you is an item packed with mana. It's an item you'll definitely use at the map I am about to send you. In order to do that, you'll have to bring your party members with you as well. You should bring your party members here or form one right now!");
+            qm.sendNext("Bien... aquí está nuestro plan para derrotar a Scrooge y sus cobardes planes. La Fuerza del Espíritu que te di es un objeto lleno de maná. Es un elemento que definitivamente usarás en el mapa que estoy a punto de enviarte. Para hacer eso, también tendrás que traer a los miembros de tu grupo contigo. ¡Deberías traer a los miembros de tu grupo aquí o formar uno ahora mismo!");
         } else if (status == 1) {
-            qm.sendAcceptDecline("Would you like to move forward?");
+            qm.sendAcceptDecline("¿Quieres seguir adelante?");
         } else if (status == 2) {
             var level = qm.getPlayer().getLevel();
 

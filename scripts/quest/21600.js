@@ -36,12 +36,12 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Hey, Aran. You seem pretty strong, since that time from when you got freed from the glacier. Suitable enough to #bride a wolf#k, if you ask me.");
+            qm.sendNext("Hola, Aran. Pareces bastante fuerte, desde el momento en que te liberaste del glaciar. Lo suficientemente adecuado para#bmontar un lobo#k, si me preguntas.");
         } else if (status == 1) {
-            qm.sendAcceptDecline("Picked your interest, huh? Very well, first you must make your way to #bAqua#k, there is a person there who makes #rfood for wolf cubs#k. Bring one portion to me, and I shall deem you able to tame and take care of one. What do you say, will you try for it?");
+            qm.sendAcceptDecline("Elegiste tu interés, ¿eh? Muy bien, primero debes dirigirte a#bAqua#k, hay una persona ahí que hace#rcomida para cachorros de lobo#k. Tráeme una porción y consideraré que eres capaz de domesticar y cuidar una. ¿Qué dices? ¿Lo intentarás?");
         } else if (status == 2) {
             qm.forceStartQuest();
-            qm.sendNext("Alright. The one you must meet is #bNanuke#k, she is on top of a #rsnowy whale#k, somewhere in the ocean. Good luck!");
+            qm.sendNext("Está bien. El que debes conocer es#bNanuke#k, ella está encima de un#rballena nevada#k, en algún lugar del océano. ¡Buena suerte!");
         } else if (status == 3) {
             qm.dispose();
         }

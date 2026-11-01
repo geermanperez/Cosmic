@@ -38,14 +38,14 @@ function end(mode, type, selection) {
         }
         if (status == 0) {
             if (qm.getMeso() < 10000) {
-                qm.sendOk("Hey! I need #b10,000 mesos#k to do your pet's re-evolution!");
+                qm.sendOk("¡Ey! Necesito#b10.000 mesos#k¡Para hacer la reevolución de tu mascota!");
                 qm.dispose();
                 return;
             }
 
-            qm.sendYesNo("Alright then, let's do this again, shall we? As usual, it's going to be random, and I'm going to take away one of your Rock of Evolutions. \r\n\r #r#eReady?#n#k");
+            qm.sendYesNo("Muy bien, entonces hagamos esto de nuevo, ¿de acuerdo? Como siempre, será aleatorio y te quitaré una de tus Rocas de Evoluciones.\r\n\r #r#e¿Listo?#n#k");
         } else if (status == 1) {
-            qm.sendNextPrev("Then here we go...! #rHYAHH!#k");
+            qm.sendNextPrev("¡Entonces aquí vamos...!#r¡HYAHH!#k");
         } else if (status == 2) {
             var petidx = -1;
             var petItemid;
@@ -66,7 +66,7 @@ function end(mode, type, selection) {
             }
 
             if (petidx == -1) {
-                qm.sendOk("Something wrong, try again.");
+                qm.sendOk("Algo anda mal, inténtalo de nuevo.");
                 qm.dispose();
                 return;
             }
@@ -97,7 +97,7 @@ function end(mode, type, selection) {
             qm.evolvePet(petidx, after);
             qm.completeQuest();
 
-            qm.sendOk("Woo! It worked again! #rYou may find your new pet under your 'CASH' inventory.\r #kIt used to be a #b#i" + id + "##t" + id + "##k, and now it's \r a#b #i" + after + "##t" + after + "##k! \r\n Come back with 10,000 mesos and another Rock of Evolution if you don't like it!\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0#\r\n#v" + after + "# #t" + after + "#");
+            qm.sendOk("¡Cortejar! ¡Funcionó de nuevo!#rPuede encontrar su nueva mascota en su inventario 'EFECTIVO'.\r #kSolía ​​ser un#b#i" + id + "##t" + id + "##k, y ahora es\ra#b #i" + after + "##t" + after + "##k! \r\n¡Vuelve con 10.000 mesos y otra Roca de Evolución si no te gusta!\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0#\r\n#v" + after + "# #t" + after + "#");
         } else if (status == 3) {
             qm.dispose();
         }

@@ -10,28 +10,28 @@ function start(mode, type, selection) {
         status++;
     }
     if (status == 0) {
-        qm.sendNext("Did you sleep well, Evan?");
+        qm.sendNext("¿Dormiste bien, Evan?");
     } else if (status == 1) {
-        qm.sendNextPrev("#bYes, what about you, Mom?", 2);
+        qm.sendNextPrev("#bYSí, ¿y tú, mamá?", 2);
     } else if (status == 2) {
-        qm.sendNextPrev("I did as well, but you seem so tired. Are you sure you slept okay? Did the thunder and lightning last night keep you up?");
+        qm.sendNextPrev("Yo también lo hice, pero pareces muy cansado. ¿Estás seguro de que dormiste bien? ¿Los truenos y relámpagos de anoche te mantuvieron despierto?");
     } else if (status == 3) {
-        qm.sendNextPrev("#bOh, no. It's not that, Mom. I just had a strange dream last night.", 2);
+        qm.sendNextPrev("#bO Ah, no. No es eso, mamá. Anoche tuve un sueño extraño.", 2);
     } else if (status == 4) {
-        qm.sendNextPrev("A strange dream? What kind of strange dream?");
+        qm.sendNextPrev("¿Un sueño extraño? ¿Qué tipo de sueño extraño?");
     } else if (status == 5) {
-        qm.sendNextPrev("#bWell...", 2);
+        qm.sendNextPrev("#bBueno...", 2);
     } else if (status == 6) {
-        qm.sendNextPrev("#b(You explain that you met a dragon in your dream.)", 2);
+        qm.sendNextPrev("#b(Explicas que conociste a un dragón en tu sueño).", 2);
     } else if (status == 7) {
-        qm.sendAcceptDecline("Hahaha, a dragon? That's incredible. I'm glad he didn't swallow you whole! You should tell #p1013101# about your dream. I'm sure he'll enjoy it.");
+        qm.sendAcceptDecline("Jajaja, ¿un dragón? Eso es increíble. ¡Me alegro de que no te haya tragado entero! Deberías contarle a #p1013101# sobre tu sueño. Estoy seguro de que lo disfrutará.");
     } else if (status == 8) {
         if (mode == 0) {//decline
-            qm.sendNext("Hm? Don't you want to tell #p1013101#? You have to be nice to your brother, dear.");//guess
+            qm.sendNext("¿Mmm? ¿No quieres decírselo a #p1013101#? Tienes que ser amable con tu hermano, querido.");//guess
             qm.dispose();//get the message xd
         } else {//accept
             qm.forceStartQuest();
-            qm.sendNext("#b#p1013101##k went to the #b#m100030102##k to feed the Bull Dog. You'll see him right outside.");
+            qm.sendNext("#b#p1013101##kfue al#b#m100030102##kpara alimentar al Bull Dog. Lo verás justo afuera.");
         }
     } else if (status == 9) {
         qm.sendImage("UI/tutorial/evan/1/0");
@@ -49,9 +49,9 @@ function end(mode, type, selection) {
         status++;
     }
     if (status == 0) {
-        qm.sendNext("Hey, Evan. You up? What's with the dark circles under your eyes? Didn't sleep well? Huh? A strange dream? What was it about? Whoa? A dream about a dragon?");
+        qm.sendNext("Hola, Evan. ¿Estás despierto? ¿Qué pasa con los círculos oscuros debajo de tus ojos? ¿No dormiste bien? ¿Eh? ¿Un sueño extraño? ¿De qué se trataba? ¿Vaya? ¿Un sueño sobre un dragón?");
     } else if (status == 1) {
-        qm.sendNextPrev("Muahahahahaha, a dragon? Are you serious? I don't know how to interpret dreams, but that sounds like a good one! Did you see a dog in your dream, too? Hahaha! \r\n\r\n#fUI/UIWindow.img/QuestIcon/8/0# 20 exp");
+        qm.sendNextPrev("Muajajajajaja, ¿un dragón? ¿Hablas en serio? No sé cómo interpretar los sueños, ¡pero parece bueno! ¿También viste un perro en tu sueño? ¡Jajaja!\r\n\r\n#fUI/UIWindow.img/QuestIcon/8/0# 20 exp.");
     } else if (status == 2) {
         qm.forceCompleteQuest();
         qm.gainExp(20);

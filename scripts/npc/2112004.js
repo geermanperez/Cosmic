@@ -49,7 +49,7 @@ function action(mode, type, selection) {
 
         if (cm.getMapId() != 261000011) {
             if (status == 0) {
-                cm.sendYesNo("We must keep fighting to save Juliet, please keep your pace. If you are not feeling so well to continue, your companions and I will understand... So, are you going to retreat?");
+                cm.sendYesNo("Debemos seguir luchando para salvar a Juliet, por favor mantén el ritmo. Si no te sientes bien para continuar, tus compañeros y yo lo entenderemos... Entonces, ¿te vas a retirar?");
             } else if (status == 1) {
                 cm.warp(926100700, 0);
                 cm.dispose();
@@ -58,7 +58,7 @@ function action(mode, type, selection) {
             if (status == 0) {
                 em = cm.getEventManager("MagatiaPQ_Z");
                 if (em == null) {
-                    cm.sendOk("The Magatia PQ (Zenumist) has encountered an error.");
+                    cm.sendOk("El Magatia PQ (Zenumist) ha encontrado un error.");
                     cm.dispose();
                     return;
                 } else if (cm.isUsingOldPqNpcStyle()) {
@@ -66,33 +66,33 @@ function action(mode, type, selection) {
                     return;
                 }
 
-                cm.sendSimple("#e#b<Party Quest: Romeo and Juliet>\r\n#k#n" + em.getProperty("party") + "\r\n\r\nMy beloved Juliet has been kidnapped! Although she is Alcadno's, I can't stand by and just see her suffer just because of this foolish clash. I need you and your colleagues help to save her! Please, help us!! Please have your #bparty leader#k talk to me.#b\r\n#L0#I want to participate in the party quest.\r\n#L1#I would like to " + (cm.getPlayer().isRecvPartySearchInviteEnabled() ? "disable" : "enable") + " Party Search.\r\n#L2#I would like to hear more details.");
+                cm.sendSimple("#e#b<Misión del grupo: Romeo y Julieta>\r\n#k#n" + em.getProperty("fiesta") + "\r\n\r\n¡Mi amada Julieta ha sido secuestrada! Aunque ella es de Alcadno, no puedo quedarme quieto y verla sufrir sólo por este tonto choque. ¡Necesito que tú y tus colegas ayuden a salvarla! ¡¡Por favor ayúdanos!! Por favor tenga su#blíder del partido#kháblame.#b\r\n#L0#Quiero participar en la búsqueda del grupo.\r\n#L1#Me gustaría" + (cm.getPlayer().isRecvPartySearchInviteEnabled() ? "desactivar" : "permitir") + "Party Search.\r\n#L2#Me gustaría escuchar más detalles.");
             } else if (status == 1) {
                 if (selection == 0) {
                     if (cm.getParty() == null) {
-                        cm.sendOk("You can participate in the party quest only if you are in a party.");
+                        cm.sendOk("Puedes participar en la misión del grupo solo si estás en un grupo.");
                         cm.dispose();
                     } else if (!cm.isLeader()) {
-                        cm.sendOk("Your party leader must talk to me to start this party quest.");
+                        cm.sendOk("El líder de tu grupo debe hablar conmigo para comenzar esta búsqueda del grupo.");
                         cm.dispose();
                     } else {
                         var eli = em.getEligibleParty(cm.getParty());
                         if (eli.size() > 0) {
                             if (!em.startInstance(cm.getParty(), cm.getPlayer().getMap(), 1)) {
-                                cm.sendOk("Another party has already entered the #rParty Quest#k in this channel. Please try another channel, or wait for the current party to finish.");
+                                cm.sendOk("Otro partido ya ha entrado en el#rBúsqueda de fiesta#ken este canal. Prueba con otro canal o espera a que termine la fiesta actual.");
                             }
                         } else {
-                            cm.sendOk("You cannot start this party quest yet, because either your party is not in the range size, some of your party members are not eligible to attempt it or they are not in this map. If you're having trouble finding party members, try Party Search.");
+                            cm.sendOk("No puedes comenzar esta misión de grupo todavía porque tu grupo no está dentro del rango de tamaño, algunos de los miembros de tu grupo no son elegibles para intentarla o no están en este mapa. Si tienes problemas para encontrar miembros del grupo, prueba Party Search.");
                         }
 
                         cm.dispose();
                     }
                 } else if (selection == 1) {
                     var psState = cm.getPlayer().toggleRecvPartySearchInvite();
-                    cm.sendOk("Your Party Search status is now: #b" + (psState ? "enabled" : "disabled") + "#k. Talk to me whenever you want to change it back.");
+                    cm.sendOk("El estado de tu búsqueda de grupo es ahora: #b" + (psState ? "activado" : "desactivado") + "#k. Habla conmigo cuando quieras volver a cambiarlo.");
                     cm.dispose();
                 } else {
-                    cm.sendOk("#e#b<Party Quest: Romeo and Juliet>#k#n\r\nNot long ago, a scientist named Yulete has been banished from this town because of his researches of combined alchemies of Alcadno's and Zenumist's. Because of the immensurable amount of power coming from this combination, it is forbidden by law to study both. Yet, he ignored this law and got hands in both researches. As a result, he has been exiled.\r\nHe is now retaliating, already took my beloved one and his next target is me, as we are big pictures of Magatia, successors of both societies. But I'm not afraid. We must recover her at all costs!\r\n");
+                    cm.sendOk("#e#b<Misión del grupo: Romeo y Julieta>#k#n\r\nNo hace mucho, un científico llamado Yulete ha sido desterrado de este pueblo debido a sus investigaciones sobre las alquimias combinadas de Alcadno y Zenumist. Debido a la inmensurable cantidad de poder que surge de esta combinación, la ley prohíbe estudiar ambos. Sin embargo, ignoró esta ley y participó en ambas investigaciones. A consecuencia de ello, ha sido exiliado.\r\nAhora está tomando represalias, ya se llevó a mi amada y su próximo objetivo soy yo, ya que somos grandes cuadros de Magatia, sucesores de ambas sociedades. Pero no tengo miedo. ¡Debemos recuperarla a toda costa!\r\n");
                     cm.dispose();
                 }
             }

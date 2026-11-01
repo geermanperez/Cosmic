@@ -44,9 +44,9 @@ function end(mode, type, selection) {
                 qm.completeQuest();
                 qm.teachSkill(8, 1, 1, -1);
                 qm.gainItem(5460000, -1, false);
-                qm.sendOk("You got the Pet Snack! Thanks! You can use these to feed multiple pets at once!");
+                qm.sendOk("¡Tienes el snack para mascotas! ¡Gracias! ¡Puedes usarlos para alimentar a varias mascotas a la vez!");
             } else {
-                qm.sendOk("Get me the Pet Snack! It can be found in a very big shop....");
+                qm.sendOk("¡Consígueme el snack para mascotas! Se puede encontrar en una tienda muy grande....");
             }
         } else if (status == 1) {
             qm.dispose();

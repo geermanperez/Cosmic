@@ -154,18 +154,18 @@ function action(mode, type, selection) {
         var eim = cm.getPlayer().getEventInstance();
 
         if (eim.getProperty(stage.toString() + "stageclear") != null) {
-            cm.sendNext("The portal is already open, advance for the trials that awaits you there.");
+            cm.sendNext("El portal ya está abierto, avanzad por las pruebas que allí os esperan.");
         } else {
             if (eim.isEventLeader(cm.getPlayer())) {
                 var state = eim.getIntProperty("statusStg" + stage);
 
                 if (state == -1) {           // preamble
                     if (stage == 1) {
-                        cm.sendOk("Hi. Welcome to the #bstage " + stage + "#k of the Amorian Challenge. In this stage, talk to #p9201047#, he will pass to you further details of the mission. After shattering the Magik Mirror down there, return the shard to #p9201047# and come here to gain access to the next stage.");
+                        cm.sendOk("Hola. Bienvenido al escenario #b" + stage + "#kdel Desafío Amoriano. En esta etapa, habla con#p9201047#, te pasará más detalles de la misión. Después de romper el Espejo Magik allí abajo, devuelve el fragmento a#p9201047#y ven aquí para acceder a la siguiente etapa.");
                     } else if (stage == 2) {
-                        cm.sendOk("Hi. Welcome to the #bstage " + stage + "#k of the Amorian Challenge. In this stage, let 5 of your party members climb up the platforms in such a way to try for a combination to unlock the portal to the next level. When you feel ready, talk to me and I'll let you know the situation. However, be prepared, as in the case the portal does not get unlocked after a few tries, monsters will spawn.");
+                        cm.sendOk("Hola. Bienvenido al escenario #b" + stage + "#k del Desafío Amoriano. En esta etapa, deja que 5 de los miembros de tu grupo suban las plataformas de tal manera que prueben una combinación para desbloquear el portal al siguiente nivel. Cuando te sientas preparado, habla conmigo y te contaré la situación. Sin embargo, prepárate, ya que en caso de que el portal no se desbloquee después de algunos intentos, aparecerán monstruos.");
                     } else if (stage == 3) {
-                        cm.sendOk("Hi. Welcome to the #bstage " + stage + "#k of the Amorian Challenge. In this stage, let 5 of your party members climb up the platforms, one on each, in such a way to try for a combination to unlock the portal to the next level. When you feel ready, talk to me and I'll let you know the situation. Take hint: upon failing, count the number of slimes appearing on the scene, that will tell how many of you had their position right.");
+                        cm.sendOk("Hola. Bienvenido al escenario #b" + stage + "#k del Desafío Amoriano. En esta etapa, deja que 5 miembros de tu grupo suban a las plataformas, uno en cada una, de tal manera que intentes encontrar una combinación para desbloquear el portal al siguiente nivel. Cuando te sientas preparado, habla conmigo y te contaré la situación. Tome una pista: al fallar, cuente la cantidad de limos que aparecen en la escena, eso le dirá cuántos de ustedes tenían la posición correcta.");
                     }
 
                     var st = (autopass) ? 2 : 0;
@@ -183,7 +183,7 @@ function action(mode, type, selection) {
                         if (eim.getIntProperty("statusStg" + stage) == 1) {
                             clearStage(stage, eim, curMap);
                         } else {
-                            cm.sendOk("Talk with #p9201047# for more info on this stage.");
+                            cm.sendOk("Hable con #p9201047# para obtener más información sobre esta etapa.");
                         }
                     } else if (stage == 2 || stage == 3) {
                         if (map.countMonsters() == 0) {
@@ -259,10 +259,10 @@ function action(mode, type, selection) {
                                         eim.setIntProperty("missCount", miss);
 
                                         if (guessedRight == 6) { //6 unused slots on this stage
-                                            cm.sendNext("All ropes weigh differently. Think your next course of action, then try again.");
+                                            cm.sendNext("Todas las cuerdas pesan diferente. Piense en su próximo curso de acción y luego inténtelo de nuevo.");
                                             cm.mapMessage(5, "Amos: Hmm... All ropes weigh differently.");
                                         } else {
-                                            cm.sendNext("One rope weigh the same. Think your next course of action, then try again.");
+                                            cm.sendNext("Una cuerda pesa lo mismo. Piense en su próximo curso de acción y luego inténtelo de nuevo.");
                                             cm.mapMessage(5, "Amos: Hmm... One rope weigh the same.");
                                         }
                                     } else {
@@ -271,7 +271,7 @@ function action(mode, type, selection) {
                                         if (stage == 2) {
                                             eim.setProperty("stage2combo", "");
 
-                                            cm.sendNext("You have failed to discover the right combination, now it shall be reset. Start over again!");
+                                            cm.sendNext("No has podido descubrir la combinación correcta, ahora se restablecerá. ¡Empiece de nuevo!");
                                             cm.mapMessage(5, "Amos: You have failed to discover the right combination, now it shall be reset. Start over again!");
                                         }
                                     }
@@ -281,20 +281,20 @@ function action(mode, type, selection) {
                                 }
                             } else {
                                 if (stage == 2) {
-                                    cm.sendNext("It looks like you guys haven't found the ways of this trial yet. Think on an arrangement of 5 members on the platforms. Remember, exactly 5 are allowed to stand on the platforms, and if you move it may not count as an answer, so please keep that in mind. Keep going!");
+                                    cm.sendNext("Parece que ustedes aún no han encontrado la forma de realizar esta prueba. Piense en una disposición de 5 miembros en las plataformas. Recuerde, se permite que exactamente 5 se paren en las plataformas, y si se mueve, es posible que no cuente como respuesta, así que téngalo en cuenta. ¡Sigue adelante!");
                                 } else {
-                                    cm.sendNext("It looks like you guys haven't found the ways of this trial yet. Think on an arrangement of party members on different platforms. Remember, exactly 5 are allowed to stand on the platforms, and if you move it may not count as an answer, so please keep that in mind. Keep going!");
+                                    cm.sendNext("Parece que ustedes aún no han encontrado la forma de realizar esta prueba. Piense en una disposición de los miembros del partido en diferentes plataformas. Recuerde, se permite que exactamente 5 se paren en las plataformas, y si se mueve, es posible que no cuente como respuesta, así que téngalo en cuenta. ¡Sigue adelante!");
                                 }
 
                                 cm.dispose();
                             }
                         } else {
-                            cm.sendNext("Defeat all mobs before trying for a combination.");
+                            cm.sendNext("Derrota a todos los mobs antes de intentar formar una combinación.");
                         }
                     }
                 }
             } else {
-                cm.sendNext("Please tell your #bParty-Leader#k to come talk to me.");
+                cm.sendNext("Por favor dile a tu#bLíder del partido#kpara venir a hablar conmigo.");
             }
         }
 

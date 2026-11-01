@@ -31,7 +31,7 @@
 var status = -1;
 
 function start() {
-    cm.sendSimple("Hold up! Access to this area is limited due to remodeling. I can only allow people who meet certain conditions to enter here.#b\n\r\n#L0#I'm helping #eBlake#n right now.#l\r\n#L1#I'm a #rVIP#b at this shopping Center!#l");
+    cm.sendSimple("¡Sostener! El acceso a esta zona está limitado debido a remodelaciones. Solo puedo permitir la entrada aquí a personas que cumplan ciertas condiciones.#b\n\r\n#L0#estoy ayudando#eBlake#n ahora mismo.#l\r\n#L1#soy un#rVIP#b en este Centro Comercial!#l");
 }
 
 function action(mode, type, selection) {
@@ -49,22 +49,22 @@ function action(mode, type, selection) {
             if (cm.isQuestStarted(2286) || cm.isQuestStarted(2287) || cm.isQuestStarted(2288)) {
                 var em = cm.getEventManager("RockSpirit");
                 if (!em.startInstance(cm.getPlayer())) {
-                    cm.sendOk("Uh... It looks like the rooms ahead are a bit crowded right now. Please wait around here for a bit, ok?");
+                    cm.sendOk("Uh... Parece que las habitaciones de delante están un poco abarrotadas en este momento. Por favor espera un momento por aquí, ¿vale?");
                 }
                 cm.dispose();
                 return;
             } else {
-                cm.sendOk("I did not hear anything from Blake that you are assisting him.");
+                cm.sendOk("No escuché nada de Blake de que lo estás ayudando.");
             }
         } else {
             if (cm.isQuestCompleted(2290)) {
                 if (cm.getPlayer().getLevel() > 50) {
-                    cm.sendOk("The VIP area is available only for players #rlevel 50 or below#k.");
+                    cm.sendOk("El área VIP está disponible sólo para jugadores.#rnivel 50 o menos#k.");
                 } else {
-                    cm.sendOk("The VIP area only gets available after handing over #r#t4032521#s#k from the #b'Admission to the VIP Zone'#k quest.");
+                    cm.sendOk("El área VIP solo está disponible después de la entrega.#r#t4032521#s#kdesde#b'Admisión a la Zona VIP'#kbúsqueda.");
                 }
             } else {
-                cm.sendOk("#rVIP#k? Yeah that is funny #rMr. VIP#k, now get lost before I call security.");
+                cm.sendOk("#rVIP#k? si eso es gracioso#rSr. VIP#k, ahora piérdete antes de que llame a seguridad.");
             }
         }
         cm.dispose();

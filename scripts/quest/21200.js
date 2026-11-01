@@ -26,15 +26,15 @@ function start(mode, type, selection) {
     status++;
     if (mode != 1) {
         if (mode == 0 && type == 12) {
-            qm.sendNext("Come back again when you have took your desition wisely.");
+            qm.sendNext("Vuelve cuando hayas tomado sabiamente tu decisión.");
         }
         qm.dispose();
         return;
     }
     if (status == 0) {
-        qm.sendAcceptDecline("How is the training going? Wow, you've reached such a high level! That's amazing. I knew you would do just fine on Victoria Island... Oh, look at me. I'm wasting your time. I know you're busy, but you'll have to return to the island for a bit.");
+        qm.sendAcceptDecline("¿Cómo va el entrenamiento? ¡Vaya, has alcanzado un nivel tan alto! Eso es asombroso. Sabía que te iría bien en la Isla Victoria... Oh, mírame. Estoy perdiendo tu tiempo. Sé que estás ocupado, pero tendrás que regresar un rato a la isla.");
     } else if (status == 1) {
-        qm.sendOk("Your #b#p1201001##k in #b#m140000000##k is acting strange all of a sudden. According to the records, the Polearm acts this way when it is calling for its master. #bPerhaps it's calling for you#k. Please return to the island and check things out.");
+        qm.sendOk("Su#b#p1201001##ken#b#m140000000##kestá actuando extraño de repente. Según los registros, el arma de asta actúa de esta manera cuando llama a su maestro.#bQuizás te esté llamando#k. Por favor regresa a la isla y comprueba las cosas.");
     } else if (status == 2) {
         qm.startQuest();
         qm.dispose();
@@ -45,7 +45,7 @@ function end(mode, type, selection) {
     status++;
     if (mode != 1) {
         if (mode == 0 && type == 1) {
-            qm.sendNext("Hey! At least say you tried!");
+            qm.sendNext("¡Ey! ¡Al menos di que lo intentaste!");
         }
         qm.dispose();
         return;
@@ -54,31 +54,31 @@ function end(mode, type, selection) {
         qm.sendNext("Voom voom voom voom voom....");
     }//Giant Polearm
     else if (status == 1) {
-        qm.sendNextPrev("#b(The #p1201001# is producing an undulating echo. But who is that boy standing over there?)", 2);
+        qm.sendNextPrev("#b(El#p1201001#está produciendo un eco ondulante. ¿Pero quién es ese chico que está parado ahí?)", 2);
     } else if (status == 2) {
-        qm.sendNextPrev("#b(You've never seen him before. He doesn't look human.)", 2);
+        qm.sendNextPrev("#b(Nunca lo has visto antes. No parece humano).", 2);
     } else if (status == 3) {
-        qm.sendNextPrev("Yo, Aran! Do you not hear me? I said, do you not hear me! Ugh, how frustating!");
+        qm.sendNextPrev("¡Oye, Aran! ¿No me escuchas? Dije, ¡no me oyes! ¡Uf, qué frustrante!");
     } else if (status == 4) {
-        qm.sendNextPrev("#b(Hm? Who's voice was that? It sounds like an angry boy...)", 2);
+        qm.sendNextPrev("#b(¿Hm? ¿Quién era esa voz? Suena como la de un niño enojado...)", 2);
     } else if (status == 5) {
-        qm.sendNextPrev("Ugh, my only master had to end up trapped in ice for hundreds of years, abandoning me completely, and is now completely ignoring me.");
+        qm.sendNextPrev("Uf, mi único maestro tuvo que terminar atrapado en el hielo durante cientos de años, abandonándome por completo, y ahora me ignora por completo.");
     } else if (status == 6) {
-        qm.sendNextPrev("Who...are you?", 2);
+        qm.sendNextPrev("¿Quién eres?", 2);
     } else if (status == 7) {
-        qm.sendNextPrev("Aran? Do you hear me now? It's me! Don't you recognize me? I'm your weapon, #b#p1201002# the Polearm#k!");
+        qm.sendNextPrev("¿Arán? ¿Me oyes ahora? ¡Soy yo! ¿No me reconoces? Soy tu arma,#b#p1201002#el arma de asta#k!");
     } else if (status == 8) {
-        qm.sendNextPrev("#b(...#p1201002#? A #p1201001# can talk?)", 2);
+        qm.sendNextPrev("#b(...#p1201002#? A#p1201001#puede hablar?)", 2);
     } else if (status == 9) {
-        qm.sendNextPrev("What's with that suspicious look on your face? I know you've lost your memory, but did you forgot about me, too? How could you?!");
+        qm.sendNextPrev("¿Qué pasa con esa mirada sospechosa en tu cara? Sé que has perdido la memoria, pero ¿también te olvidaste de mí? ¡¿Cómo pudiste?!");
     } else if (status == 10) {
-        qm.sendNextPrev("I'm so sorry, but I can't remember a thing.", 2);
+        qm.sendNextPrev("Lo siento mucho, pero no recuerdo nada.", 2);
     } else if (status == 11) {
-        qm.sendYesNo("Sorry doesn't cut it! Do you know how lonely and bored I was for hundreds of years? I don't care what it takes! Remember me! Remember me now!");
+        qm.sendYesNo("¡Lo siento, no es suficiente! ¿Sabes lo solo y aburrido que estuve durante cientos de años? ¡No me importa lo que haga falta! ¡Acuérdate de mí! ¡Recuérdame ahora!");
     } else if (status == 12) {
         qm.completeQuest();
-        qm.sendNext("#b(The voice that claims to be #p1201002# the #p1201001# is yelling in frustration. You don't think this conversation is going anywhere. You better go talk to #p1201000# first.)", 2);
-        //qm.sendNoExit("#b(The voice that claims to be #p1201002# the #p1201001# is yelling in frustration. You don't think this conversation is going anywhere. You better go talk to #p1201000# first.)", true);
+        qm.sendNext("#b(La voz que dice ser#p1201002#el#p1201001#está gritando de frustración. No crees que esta conversación vaya a ninguna parte. Será mejor que vayas a hablar con#p1201000#primero.)", 2);
+        //qm.sendNoExit("#b(La voz que dice ser#p1201002#el#p1201001#está gritando de frustración. No crees que esta conversación vaya a ninguna parte. Será mejor que vayas a hablar con#p1201000#primero.)", true);
     } else if (status == 13) {
         //qm.showVideo("Maha");
         qm.dispose();

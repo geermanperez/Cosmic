@@ -64,13 +64,13 @@ function action(mode, type, selection) {
                 }
             }
             if (counter == 99) {
-                cm.sendOk("#b#h ##k has not returned a single storybook yet.");
+                cm.sendOk("#b#h ##kAún no ha devuelto ni un solo libro de cuentos.");
                 cm.dispose();
             } else {
-                cm.sendNext("Let's see.. #b#h ##k have returned a total of #b" + counter + "#k books. The list of returned books is as follows:" + books);
+                cm.sendNext("Vamos a ver..#b#h ##khan devuelto un total de#b" + counter + "Libros #k. La lista de libros devueltos es la siguiente:" + books);
             }
         } else if (status == 1) {
-            cm.sendNextPrev("The library is settling down now thanks chiefly to you, #b#h ##k's immense help. If the story gets mixed up once again, then I'll be counting on you to fix it once more.");
+            cm.sendNextPrev("La biblioteca se está asentando ahora principalmente gracias a ti,#b#h ##kEs una inmensa ayuda. Si la historia se confunde una vez más, contaré contigo para arreglarla una vez más.");
         } else if (status == 2) {
             cm.dispose();
         }

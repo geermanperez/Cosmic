@@ -76,7 +76,7 @@ function start() {
 
 function action(mode, type, selection) {
     if (mode <= 0) {
-        cm.sendOk("Hmmm...it shouldn't be a bad deal for you. Come see me at the right time and you may get a much better item to be offered. Anyway, let me know if you have a change of mind.");
+        cm.sendOk("Hmmm... no debería ser un mal negocio para ti. Ven a verme en el momento adecuado y es posible que te ofrezcamos un artículo mucho mejor. De todos modos, avíseme si cambia de opinión.");
         cm.dispose();
         return;
     }
@@ -84,14 +84,14 @@ function action(mode, type, selection) {
     status++;
     if (status == 0) { // first interaction with NPC
         if (cm.getQuestStatus(8225) != 2) {
-            cm.sendNext("Hey, I'm not a bandit, ok?");
+            cm.sendNext("Oye, no soy un bandido, ¿vale?");
             cm.dispose();
             return;
         }
 
-        cm.sendNext("Hey, got a little bit of time? Well, my job is to collect items here and sell them elsewhere, but these days the monsters have become much more hostile so it have been difficult to get good items... What do you think? Do you want to do some business with me?");
+        cm.sendNext("Oye, ¿tienes un poco de tiempo? Bueno, mi trabajo es recolectar artículos aquí y venderlos en otros lugares, pero estos días los monstruos se han vuelto mucho más hostiles por lo que ha sido difícil conseguir buenos artículos... ¿Qué opinas? ¿Quieres hacer algún negocio conmigo?");
     } else if (status == 1) {
-        cm.sendYesNo("The deal is simple. You get me something I need, I get you something you need. The problem is, I deal with a whole bunch of people, so the items I have to offer may change every time you see me. What do you think? Still want to do it?");
+        cm.sendYesNo("El trato es sencillo. Tú me consigues algo que necesito, yo te consigo algo que necesitas. El problema es que trato con un montón de personas, por lo que los artículos que tengo para ofrecer pueden cambiar cada vez que me ves. ¿Qué opinas? ¿Aún quieres hacerlo?");
     } else if (status == 2) {
         var eQuestChoice = makeChoices(eQuestChoices);
         cm.sendSimple(eQuestChoice);
@@ -105,24 +105,24 @@ function action(mode, type, selection) {
             qnt = 25;
         }
 
-        cm.sendYesNo("Let's see, you want to trade your #b" + qnt + " #t" + requiredItem + "##k with my stuff, right? Before trading make sure you have an empty slot available on your use or etc. inventory. Now, do you want to trade with me?");
+        cm.sendYesNo("A ver, quieres cambiar tu #b" + qnt + " #t" + requiredItem + "##k con mis cosas, ¿no? Antes de operar, asegúrese de tener un espacio vacío disponible en su inventario de uso o etc. Ahora, ¿quieres comerciar conmigo?");
     } else if (status == 4) {
         itemSet = (Math.floor(Math.random() * eQuestPrizes[lastSelection].length));
         reward = eQuestPrizes[lastSelection];
         prizeItem = reward[itemSet][0];
         prizeQuantity = reward[itemSet][1];
         if (!cm.haveItem(requiredItem, qnt)) {
-            cm.sendOk("Hmmm... are you sure you have #b" + qnt + " #t" + requiredItem + "##k? If so, then please check and see if your item inventory is full or not.");
+            cm.sendOk("Hmmm... ¿estás seguro de que tienes #b?" + qnt + " #t" + requiredItem + "##k? Si es así, verifique si su inventario de artículos está lleno o no.");
         } else if (prizeItem == 0) {
             cm.gainItem(requiredItem, -qnt);
             cm.gainMeso(prizeQuantity);
-            cm.sendOk("For your #b" + qnt + " #t" + requiredItem + "##k, here's #b" + prizeQuantity + " mesos#k. What do you think? Did you like the items I gave you in return? I plan on being here for awhile, so if you gather up more items, I'm always open for a trade...");
+            cm.sendOk("Para tu #b" + qnt + " #t" + requiredItem + "##k, aquí está#b" + prizeQuantity + "mesos#k. ¿Qué opinas? ¿Te gustaron los artículos que te di a cambio? Planeo estar aquí por un tiempo, así que si reúnes más artículos, siempre estaré abierto a un intercambio...");
         } else if (!cm.canHold(prizeItem)) {
-            cm.sendOk("Your use and etc. inventory seems to be full. You need the free spaces to trade with me! Make room, and then find me.");
+            cm.sendOk("Su inventario de uso, etc. parece estar lleno. ¡Necesitas espacios libres para comerciar conmigo! Haz espacio y luego encuéntrame.");
         } else {
             cm.gainItem(requiredItem, -qnt);
             cm.gainItem(prizeItem, prizeQuantity);
-            cm.sendOk("For your #b" + qnt + " #t" + requiredItem + "##k, here's my #b" + prizeQuantity + " #t" + prizeItem + "##k. What do you think? Did you like the items I gave you in return? I plan on being here for awhile, so if you gather up more items, I'm always open for a trade...");
+            cm.sendOk("Para tu #b" + qnt + " #t" + requiredItem + "##k, aquí está mi#b" + prizeQuantity + " #t" + prizeItem + "##k. ¿Qué opinas? ¿Te gustaron los artículos que te di a cambio? Planeo estar aquí por un tiempo, así que si reúnes más artículos, siempre estaré abierto a un intercambio...");
         }
         cm.dispose();
     }

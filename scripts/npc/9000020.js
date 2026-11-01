@@ -78,12 +78,12 @@ function action(mode, type, selection) {
 
     if (travelStatus != -1) {
         if (status == 0) {
-            cm.sendSimple("How's the traveling? Are you enjoying it?#b\r\n#L0#Yes, I'm done with traveling. Can I go back to #m" + cm.getPlayer().peekSavedLocation("WORLDTOUR") + "#?\r\n#L1#No, I'd like to continue exploring this place.");
+            cm.sendSimple("¿Cómo va el viaje? ¿Lo estás disfrutando?#b\r\n#L0#Sí, ya terminé de viajar. ¿Puedo volver a#m" + cm.getPlayer().peekSavedLocation("GIRA MUNDIAL") + "#?\r\n#L1#No, me gustaría seguir explorando este lugar.");
         } else if (status == 1) {
             if (selection == 0) {
-                cm.sendNext("Alright. I'll take you back to where you were before the visit to Japan. If you ever feel like traveling again down the road, please let me know!");
+                cm.sendNext("Está bien. Te llevaré de regreso a donde estabas antes de la visita a Japón. Si alguna vez tienes ganas de viajar de nuevo por la carretera, ¡házmelo saber!");
             } else if (selection == 1) {
-                cm.sendOk("OK. If you ever change your mind, please let me know.");
+                cm.sendOk("DE ACUERDO. Si alguna vez cambias de opinión, házmelo saber.");
                 cm.dispose();
             }
         } else if (status == 2) {
@@ -98,14 +98,14 @@ function action(mode, type, selection) {
     } else {
         if (status == 0) {
             travelType = getTravelType(cm.getPlayer().getMapId());
-            cm.sendNext("If you're tired of the monotonous daily life, how about getting out for a change? there's nothing quite like soaking up a new culture, learning something new by the minute! It's time for you to get out and travel. We, at the Maple Travel Agency recommend you going on a #bWorld Tour#k! Are you worried about the travel expense? You shouldn't be! We, the #bMaple Travel Agency#k, have carefully come up with a plan to let you travel for ONLY #b" + cm.numberWithCommas(travelFee[travelType]) + " mesos#k!");
+            cm.sendNext("Si estás cansado de la monótona vida diaria, ¿qué tal si sales para variar? ¡No hay nada como empaparse de una nueva cultura y aprender algo nuevo minuto a minuto! Es hora de que salgas y viajes. Nosotros en la Agencia de Viajes Maple te recomendamos realizar un#bGira mundial#k! ¿Estás preocupado por los gastos de viaje? ¡No deberías estarlo! Nosotros, los#bAgencia de Viajes Arce#k, hemos ideado cuidadosamente un plan que le permitirá viajar SOLO por#b" + cm.numberWithCommas(travelFee[travelType]) + "mesos#k!");
         } else if (status == 1) {
-            cm.sendSimple("We currently offer this place for you traveling pleasure: #b" + travelPlace[travelType] + "#k. " + travelAgent[travelType] + "'ll be there serving you as the travel guide. Rest assured, the number of destinations will be increase over time. Now, would you like to head over to the " + travelPlaceShort[travelType] + "?#b\r\n#L0#Yes, take me to " + travelPlaceShort[travelType] + " (" + travelPlaceCountry[travelType] + ")");
+            cm.sendSimple("Actualmente ofrecemos este lugar para su placer de viajar: #b" + travelPlace[travelType] + "#k. " + travelAgent[travelType] + "Estaré allí sirviéndote como guía de viaje. Tenga la seguridad de que el número de destinos aumentará con el tiempo. Ahora, ¿te gustaría dirigirte al" + travelPlaceShort[travelType] + "?#b\r\n#L0#Sí, llévame a" + travelPlaceShort[travelType] + " (" + travelPlaceCountry[travelType] + ")");
         } else if (status == 2) {
-            cm.sendNext("Would you like to travel to #b" + travelPlace[travelType] + "#k? " + travelDescription[travelType]);
+            cm.sendNext("¿Te gustaría viajar a #b?" + travelPlace[travelType] + "#k? " + travelDescription[travelType]);
         } else if (status == 3) {
             if (cm.getMeso() < travelFee[travelType]) {
-                cm.sendNext("You don't have enough mesos to take the travel.");
+                cm.sendNext("No tienes suficientes mesos para realizar el viaje.");
                 cm.dispose();
                 return;
             }

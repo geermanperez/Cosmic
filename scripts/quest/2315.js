@@ -16,16 +16,16 @@ function start(mode, type, selection) {
         if (type == 1 && mode == 0) {
             status -= 2;
         } else {
-            qm.sendOk("Please do not forget our plea for help.");
+            qm.sendOk("Por favor, no olvide nuestra petición de ayuda.");
             qm.dispose();
             return;
         }
     }
     if (status == 0) {
-        qm.sendAcceptDecline("A powerful barrier of magic, huh? Then what should we do...? If we can't find a way to break that barrier, then we can't save the princess. If it's impossible to physically break through, as you mentioned, then how about requesting help from our #bMinister of Magic#k?");
+        qm.sendAcceptDecline("Una poderosa barrera mágica, ¿eh? Entonces ¿qué debemos hacer...? Si no podemos encontrar una manera de romper esa barrera, entonces no podremos salvar a la princesa. Si es imposible atravesarlo físicamente, como mencionaste, entonces ¿qué tal si solicitas ayuda a nuestro#bMinistro de Magia#k?");
     } else if (status == 1) {
         qm.forceStartQuest();
-        qm.sendOk("Please go see him immediately. The #bMinister of Magic#k may seem a bit on the edge, but he's very knowledgeable, and I'm sure he'll know what to do.");
+        qm.sendOk("Por favor ve a verlo inmediatamente. El#bMinistro de Magia#kPuede parecer un poco al límite, pero tiene mucho conocimiento y estoy seguro de que sabrá qué hacer.");
     } else if (status == 2) {
         qm.dispose();
     }
@@ -42,11 +42,11 @@ function end(mode, type, selection) {
         }
     }
     if (status == 0) {
-        qm.sendOk("What? You investigated the barrier at the Mushroom Forest?");
+        qm.sendOk("¿Qué? ¿Investigaste la barrera en el Bosque de Hongos?");
     } else if (status == 1) {
         qm.forceCompleteQuest();
         qm.gainExp(4000);
-        qm.sendOk("Hmmm...this is interesting. It's a barrier set up by someone with a powerful force of magic, which means there's no way we can manually break through it.");
+        qm.sendOk("Mmmm... esto es interesante. Es una barrera creada por alguien con una poderosa fuerza mágica, lo que significa que no hay manera de que podamos atravesarla manualmente.");
     } else if (status == 2) {
         qm.dispose();
     }

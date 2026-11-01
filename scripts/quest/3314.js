@@ -43,7 +43,7 @@ function end(mode, type, selection) {
         if (status == 0) {
             if (isPillUsed(qm.getPlayer())) {
                 if (qm.canHoldAll([2050004, 2022224], [10, 20])) {
-                    qm.sendNext("You did take my experiments. Hmm, so THAT is the result of it, hehehehe... Ok, take that as compensation will you? And oh, you can #rspew that#k right away (#bright-click on the pill icon at the top-right corner of the screen#k), no worries.");
+                    qm.sendNext("Tomaste mis experimentos. Hmm, entonces ESE es el resultado, jejejeje... Ok, toma eso como compensación, ¿quieres? Y oh, puedes#rvomita eso#kde inmediato (#bhaga clic derecho en el ícono de la píldora en la esquina superior derecha de la pantalla#k), no hay problema.");
 
                     qm.gainExp(12500);
                     qm.gainItem(2050004, 10);
@@ -53,10 +53,10 @@ function end(mode, type, selection) {
 
                     qm.forceCompleteQuest();
                 } else {
-                    qm.sendNext("Huh, your inventory is full. Free some spaces on your USE first.");
+                    qm.sendNext("Eh, tu inventario está lleno. Libera algunos espacios en tu USE primero.");
                 }
             } else {
-                qm.sendNext("You seem pretty normal, don't you? I can't detect any possible effect from my experiment on you. Go take the pill I asked you to take and show me the effects, will you?");
+                qm.sendNext("Pareces bastante normal, ¿no? No puedo detectar ningún efecto posible de mi experimento contigo. Ve a tomar la pastilla que te pedí y muéstrame los efectos, ¿quieres?");
             }
         } else if (status == 1) {
             qm.dispose();

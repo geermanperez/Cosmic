@@ -28,9 +28,9 @@
 
 function start() {
     if (cm.haveItem(4001020)) {
-        cm.sendYesNo("You can use #bEos Rock Scroll#k to activate #bFirst Eos Rock#k. Will you teleport to #bSecond Eos Rock#k at the 71st floor?");
+        cm.sendYesNo("puedes usar#bPergamino de roca de Eos#kactivar#bPrimera roca Eos#k. ¿Te teletransportarás a#bSegunda roca de Eos#ken el piso 71?");
     } else {
-        cm.sendOk("There's a rock that will enable you to teleport to #bSecond Eos Rock#k, but it cannot be activated without the scroll.");
+        cm.sendOk("Hay una roca que te permitirá teletransportarte a#bSegunda roca de Eos#k, pero no se puede activar sin el desplazamiento.");
         cm.dispose();
     }
 }

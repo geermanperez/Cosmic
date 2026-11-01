@@ -38,7 +38,7 @@ function start() {
 
 function action(mode, type, selection) {
     if (mode == -1 || mode == 0) {
-        cm.sendOk("Goodbye then.");
+        cm.sendOk("Adiós entonces.");
         cm.dispose();
         return;
     } else if (mode == 1) {
@@ -68,26 +68,26 @@ function action(mode, type, selection) {
 
             if (cm.haveItem(4000313) && isMarrying) {
                 if (eim.getIntProperty("weddingStage") == 3) {
-                    cm.sendOk("Congratulations on your wedding. Please talk to #b#p9201007##k to start the afterparty.");
+                    cm.sendOk("Felicitaciones por su boda. Por favor habla con#b#p9201007##kpara comenzar la fiesta posterior.");
                     cm.dispose();
                 } else if (hasEngagement) {
                     if (!cm.createMarriageWishlist()) {
-                        cm.sendOk("You have already sent your wishlist...");
+                        cm.sendOk("Ya has enviado tu lista de deseos...");
                     }
                     cm.dispose();
                 } else {
-                    cm.sendOk("You do not have the required item to continue through this wedding. Unfortunately, it's over...");
+                    cm.sendOk("No tienes el artículo necesario para continuar con esta boda. Desafortunadamente, se acabó...");
                 }
             } else {
                 if (eim.getIntProperty("weddingStage") == 3) {
                     if (!isMarrying) {
-                        cm.sendYesNo("The couple #rhas just married#k, and soon #bthey will start the afterparty#k. You should wait here for them. Are you really ready to #rquit this wedding#k and return to #bAmoria#k?");
+                        cm.sendYesNo("la pareja#rse acaba de casar#k, etcétera#bempezarán la fiesta posterior#k. Deberías esperarlos aquí. ¿Estás realmente listo para#rdejar esta boda#ky volver a#bAmoria#k?");
                     } else {
-                        cm.sendOk("Congratulations on your wedding. Please talk to #b#p9201007##k to start the afterparty.");
+                        cm.sendOk("Felicitaciones por su boda. Por favor habla con#b#p9201007##kpara comenzar la fiesta posterior.");
                         cm.dispose();
                     }
                 } else {
-                    cm.sendYesNo("Are you sure you want to #rquit this wedding#k and return to #bAmoria#k?");
+                    cm.sendYesNo("¿Estás seguro de que quieres#rdejar esta boda#ky volver a#bAmoria#k?");
                 }
             }
             break;

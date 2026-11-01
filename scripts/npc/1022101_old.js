@@ -62,7 +62,7 @@ function action(mode, type, selection) {
         }
         if (status == 0 && mode == 1) {
             if (cm.getPlayer().getLevel() < 20) {
-                cm.sendOk("Hello, I am the Vote Point exchanger for #rMapleSolaxia#k!\r\n\r\nI am sorry, but I can only exchange Vote Points for players #blevel 20 or over#k.");
+                cm.sendOk("Hola, soy el intercambiador de puntos de voto para#rMapleSolaxia#¡k!\r\n\r\nLo siento, pero sólo puedo intercambiar puntos de voto por jugadores.#bnivel 20 o superior#k.");
                 cm.dispose();
                 return;
             }
@@ -80,7 +80,7 @@ function action(mode, type, selection) {
 
             if (selection > 0) {
                 if (!cm.haveItem(itemToUse) && vp == 0) {
-                    cm.sendOk("I'm sorry, but you don't have any #t" + itemToUse + " or Vote Points.");
+                    cm.sendOk("Lo siento, pero no tienes ningún #t" + itemToUse + "o Puntos de Voto.");
                     cm.dispose();
                     return;
                 }
@@ -89,26 +89,26 @@ function action(mode, type, selection) {
             if (selection == 0) {
                 // Exchange VP for leaves
                 if (vp <= 0) {
-                    cm.sendOk("I'm sorry, but you don't have any Vote Points to exchange!");
+                    cm.sendOk("Lo siento, ¡pero no tienes puntos de voto para intercambiar!");
                     cm.dispose();
                     return;
                 }
-                cm.sendYesNo("Would you like to exchange " + vp + " Vote Point" + (vp > 0 ? "s" : "") + " for " + vp + " #t" + itemToUse + "# " + (vp > 0 ? "s" : "") + "?");
+                cm.sendYesNo("¿Quieres intercambiar?" + vp + "Punto de votación" + (vp > 0 ? "s" : "") + "para" + vp + " #t" + itemToUse + "# " + (vp > 0 ? "s" : "") + "?");
             } else if (selection == 1) {
                 // Exchange 1 Leaf for Cash
-                cm.sendYesNo("Would you like to exchange 1 #t" + itemToUse + "# for " + nxAmount + " NX Cash?");
+                cm.sendYesNo("¿Quieres intercambiar 1 #t?" + itemToUse + "# para" + nxAmount + "¿NX efectivo?");
             } else if (selection == 2) {
                 // Exchange 1 Leaf for Chair
-                cm.sendYesNo("Would you like to exchange 1 #t" + itemToUse + "# for " + chairAmount + " Random Chair" + (chairAmount > 1 ? "s" : "") + "?");
+                cm.sendYesNo("¿Quieres intercambiar 1 #t?" + itemToUse + "# para" + chairAmount + "Silla aleatoria" + (chairAmount > 1 ? "s" : "") + "?");
             } else if (selection == 3) {
                 // Exchange 1 Leaf for Maple Weapons
-                cm.sendYesNo("Would you like to exchange 1 #t" + itemToUse + "# for " + weaponAmount + " Random Maple Weapons?");
+                cm.sendYesNo("¿Quieres intercambiar 1 #t?" + itemToUse + "# para" + weaponAmount + "¿Armas de arce aleatorias?");
             } else if (selection == 4) {
                 // Exchange 1 Leaf for Apples/Cheese
-                cm.sendYesNo("Would you like to exchange 1 #t" + itemToUse + "# for " + buffAmount + " #t" + buff1ID + "# and #t" + buff2ID + "#?");
+                cm.sendYesNo("¿Quieres intercambiar 1 #t?" + itemToUse + "# para" + buffAmount + " #t" + buff1ID + "# y #t" + buff2ID + "#?");
             } else if (selection == 5) {
                 // Echange 1 Leaf for Merchant
-                cm.sendYesNo("Would you like to exchange 1 #t" + itemToUse + "# for a " + hiredMerchantLength + " Day Hired Merchant?");
+                cm.sendYesNo("¿Quieres intercambiar 1 #t?" + itemToUse + "# para un" + hiredMerchantLength + "¿Comerciante contratado por el día?");
             } else {
                 cm.dispose();
             }
@@ -122,7 +122,7 @@ function action(mode, type, selection) {
             if (choice == 0) {
                 // VP Exchange
                 if (!cm.canHold(itemToUse)) {
-                    cm.sendOk("It looks like you don't have enough space in your #rETC#k inventory to hold the #t" + itemToUse + "#" + (vp > 0 ? "s" : "") + ".");
+                    cm.sendOk("Parece que no tienes suficiente espacio en tu inventario de #rETC#k para guardar el #t." + itemToUse + "#" + (vp > 0 ? "s" : "") + ".");
                     cm.dispose();
                     return;
                 }
@@ -140,7 +140,7 @@ function action(mode, type, selection) {
 
                 cm.getPlayer().getCashShop().gainCash(1, nxAmount);
                 const PacketCreator = Java.type('tools.PacketCreator');
-                cm.getPlayer().sendPacket(PacketCreator.earnTitleMessage("You have earned " + nxAmount + " NX"));
+                cm.getPlayer().sendPacket(PacketCreator.earnTitleMessage("te has ganado" + nxAmount + "NX"));
                 cm.logLeaf(nxAmount + " NX");
                 cm.dispose();
             } else if (choice == 2) {
@@ -162,7 +162,7 @@ function action(mode, type, selection) {
                     cm.logLeaf("Chair ID: " + chairStr);
                     cm.dispose();
                 } else {
-                    cm.sendOk("Please make sure you have enough space to hold the items!");
+                    cm.sendOk("¡Asegúrese de tener suficiente espacio para guardar los artículos!");
                 }
             } else if (choice == 3) {
                 if (!cm.getPlayer().getInventory(InventoryType.EQUIP).isFull(weaponAmount)) {
@@ -183,7 +183,7 @@ function action(mode, type, selection) {
                     cm.logLeaf("Maple Weapon IDs: " + weaponStr);
                     cm.dispose();
                 } else {
-                    cm.sendOk("Please make sure you have enough space to hold the items!");
+                    cm.sendOk("¡Asegúrese de tener suficiente espacio para guardar los artículos!");
                 }
             } else if (choice == 4) {
                 if (!cm.getPlayer().getInventory(InventoryType.USE).isFull(2)) {
@@ -193,7 +193,7 @@ function action(mode, type, selection) {
                     cm.logLeaf(buffAmount + " cheeses and apples");
                     cm.dispose();
                 } else {
-                    cm.sendOk("Please make sure you have enough space to hold the items!");
+                    cm.sendOk("¡Asegúrese de tener suficiente espacio para guardar los artículos!");
                 }
             } else if (choice == 5) {
                 if (!cm.haveItem(5030000, 1)) {
@@ -209,10 +209,10 @@ function action(mode, type, selection) {
                         cm.logLeaf(hiredMerchantLength + " day hired merchant");
                         cm.dispose();
                     } else {
-                        cm.sendOk("Please make sure you have enough space to hold these items!");
+                        cm.sendOk("¡Asegúrese de tener suficiente espacio para guardar estos artículos!");
                     }
                 } else {
-                    cm.sendOk("I can't give you a merchant if you already have one!");
+                    cm.sendOk("¡No puedo darte un comerciante si ya tienes uno!");
                 }
             }
         } else {

@@ -45,7 +45,7 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendOk("A document roll on the ground.");
+            cm.sendOk("Un documento rueda por el suelo.");
             cm.dispose();
         }
     }

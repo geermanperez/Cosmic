@@ -39,15 +39,15 @@ function end(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("I am to teach you about the fundamentals of Alchemy.");
+            qm.sendNext("Debo enseñarte sobre los fundamentos de la Alquimia.");
         } else if (status == 1) {
-            qm.sendNextPrev("While science is good to take a look on the thoughtful side of the elements that compounds the items, it alone is not nearly enough to devise an item.");
+            qm.sendNextPrev("Si bien la ciencia es buena para observar el lado reflexivo de los elementos que componen los artículos, por sí sola no es suficiente para diseñar un artículo.");
         } else if (status == 2) {
-            qm.sendNextPrev("In fact, to be able to 'tell the pieces' to become a whole, how should it be done? The rustic ways of the blacksmithing winds up dumbing down some latent potentials of the items.");
+            qm.sendNextPrev("De hecho, para poder 'contar las piezas' hasta convertirse en un todo, ¿cómo se debe hacer? Los métodos rústicos de la herrería acaban embruteciendo algunas potencialidades latentes de los objetos.");
         } else if (status == 3) {
-            qm.sendNextPrev("Alchemy can be employed for this task. Cleanly and swiftly, #rit merges the parts that forms an item with almost no drawbacks#k, making out the most of the process with almost no scrapover, if done right. It takes a while to master it, but once it is done, everything will run out neatly.");
+            qm.sendNextPrev("Se puede emplear la alquimia para esta tarea. Limpia y rápidamente,#rfusiona las partes que forman un artículo casi sin inconvenientes#k, aprovechando al máximo el proceso casi sin desperdicios, si se hace correctamente. Se necesita un tiempo para dominarlo, pero una vez hecho, todo saldrá perfectamente.");
         } else if (status == 4) {
-            qm.sendNextPrev("And remember this: the maxima of #bExchange#k, the area of the fundamentals of Alchemy where the total amount of the material does not change, is that no item can be created from nothing. Understood?");
+            qm.sendNextPrev("Y recuerda esto: el máximo de #bExchange#k, el área de los fundamentos de la Alquimia donde la cantidad total del material no cambia, es que ningún objeto puede crearse de la nada. ¿Comprendido?");
         } else if (status == 5) {
             qm.gainMeso(-10000);
 

@@ -36,7 +36,7 @@ function end(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("So, have you defeated the giant? Oh, a Black Wing agent undercover? And he GOT THE SEAL STONE OF ORBIS?! Oh, no. That's horrible! We need to develop countermeasures as soon as possible! Tell the informant on Lith about the situation.");
+            qm.sendNext("Entonces, ¿has derrotado al gigante? Oh, ¿un agente encubierto de Black Wing? ¡¿Y CONSIGUIÓ LA PIEDRA DEL SELLO DE ORBIS?! Oh, no. ¡Eso es horrible! ¡Necesitamos desarrollar contramedidas lo antes posible! Cuéntale al informante de Lith sobre la situación.");
         } else if (status == 1) {
             qm.forceCompleteQuest();
             qm.gainExp(29500);

@@ -25,7 +25,7 @@
 */
 
 function start() {
-    cm.sendYesNo("Do you want to go to the Extra Frosty Snow Zone ?#l");
+    cm.sendYesNo("¿Quieres ir a la zona de nieve extra helada?#l");
 }
 
 function action(mode, type, selection) {

@@ -42,12 +42,12 @@ function action(mode, type, selection) {
             status--;
         }
         if (status == 0 && mode == 1) {
-            cm.sendNext("Congratulations on sealing the dimensional crack! For all of your hard work, I have a gift for you! Here take this prize.");
+            cm.sendNext("¡Felicitaciones por sellar la grieta dimensional! ¡Por todo tu arduo trabajo, tengo un regalo para ti! Toma este premio.");
         } else if (status == 1) {
             var eim = cm.getEventInstance();
 
             if (!eim.giveEventReward(cm.getPlayer())) {
-                cm.sendNext("It seems you don't have a free slot in either your #rEquip#k, #rUse#k or #rEtc#k inventories. Please make some room and try again.");
+                cm.sendNext("Parece que no tienes un espacio libre en tus inventarios #rEquip#k, #rUse#k o #rEtc#k. Por favor, haz espacio e inténtalo de nuevo.");
             } else {
                 cm.warp(221024500);
             }

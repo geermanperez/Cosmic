@@ -36,9 +36,9 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("So we have lost #btwo seal stones#k so far, from the neighboring areas of #rOrbis#k and #rMu Lung#k... Things are starting to get out of control, it seems.");
+            qm.sendNext("Entonces hemos perdido#bdos piedras de sello#khasta el momento, de las zonas vecinas de#rOrbis#k y#rMu-pulmón#k... Parece que las cosas están empezando a salirse de control.");
         } else if (status == 1) {
-            qm.sendNext("Aran, your next objective will be to use the #btime gate to Ellin#k again. This time you will be retrieving the long lost #rSeal Stone of Ellin Forest#k. According to informations our network have gathered, #b#p2131002##k of that time have a clue about that gem, #rfind her#k. Please be successful on this task, our world is relying on you more than ever!");
+            qm.sendNext("Aran, tu próximo objetivo será utilizar el#bpuerta del tiempo a Ellin#kde nuevo. Esta vez recuperarás lo perdido hace mucho tiempo.#rPiedra de sello del bosque de Ellin#k. Según la información que nuestra red ha recopilado,#b#p2131002##kde esa época tienes una pista sobre esa joya,#rencontrarla#k. ¡Tenga éxito en esta tarea, nuestro mundo depende de usted más que nunca!");
         } else if (status == 2) {
             qm.forceCompleteQuest();
             qm.gainExp(500);

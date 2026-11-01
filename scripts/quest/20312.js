@@ -32,7 +32,7 @@ function start(mode, type, selection) {
         qm.dispose();
     } else {
         if (status == 1 && mode == 0) {
-            qm.sendNext("Come back when you are ready.");
+            qm.sendNext("Vuelve cuando estés listo.");
             qm.dispose();
             return;
         }
@@ -42,22 +42,22 @@ function start(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            qm.sendNext("The jewel you brought back from the Master of Disguise is Shinsoo's Teardrop. It is the crystalization of Shinsoo's powers. If the Black Mage gets his hands on this, then this spells doom for all of us.");
+            qm.sendNext("La joya que trajiste del Maestro del Disfraz es la Lágrima de Shinsoo. Es la cristalización de los poderes de Shinsoo. Si el Mago Negro pone sus manos en esto, significará la perdición para todos nosotros.");
         } else if (status == 1) {
-            qm.sendYesNo("As a token of her appreciation for your effort in preventing potentially serious matter, the Empress has decided to present you with a new title. Are you ready to accept it?");
+            qm.sendYesNo("Como muestra de su agradecimiento por su esfuerzo para prevenir asuntos potencialmente graves, la Emperatriz ha decidido presentarle un nuevo título. ¿Estás listo para aceptarlo?");
         } else if (status == 2) {
             nPSP = (qm.getPlayer().getLevel() - 70) * 3;
             if (qm.getPlayer().getRemainingSp() > nPSP) {
-                qm.sendNext("You still have way too much #bSP#k with you. You can't earn a new title like that, I strongly urge you to use more SP on your 1st and 2nd level skills.");
+                qm.sendNext("Todavía tienes demasiado #bSP#k contigo. No puedes ganar un título nuevo así, te recomiendo encarecidamente que uses más SP en tus habilidades de primer y segundo nivel.");
             } else {
                 if (!qm.canHold(1142068)) {
-                    qm.sendNext("If you wish to receive the medal befitting the title, you may want to make some room in your equipment inventory.");
+                    qm.sendNext("Si deseas recibir la medalla acorde al título, quizás quieras hacer algo de espacio en tu inventario de equipo.");
                 } else {
                     qm.completeQuest();
                     qm.gainItem(1142068, 1);
                     const Job = Java.type('client.Job');
                     qm.getPlayer().changeJob(Job.BLAZEWIZARD3);
-                    qm.sendOk("#h #, as of this moment, you are an Advanced Knight. From this moment on, you will train yourself with fervor as you will lead your group of Knights for the safety of this world. That fervor will provide you with plenty of courage.");
+                    qm.sendOk("#h#, a partir de este momento, eres un Caballero Avanzado. A partir de este momento, te entrenarás con fervor mientras liderarás a tu grupo de Caballeros por la seguridad de este mundo. Ese fervor te dará mucho coraje.");
                 }
             }
         } else if (status == 3) {

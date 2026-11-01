@@ -4,10 +4,10 @@
 function start() {
     switch (cm.getPlayer().getMapId()) {
         case 610030500:
-            cm.sendOk("As every Thief knows, the best attack is the one you never see coming. So, to best illustrate this, you'll be in a chamber with platforms and ledges that you can only get to with Haste, as well as All-Seeing Eyes that your dagger or claw must close--permanently. After all the All-Seeing Eyes have been eliminated, get ti the Thief Statue and lay claim to the Primal Claw! Good luck!");
+            cm.sendOk("Como todo ladrón sabe, el mejor ataque es el que nunca ves venir. Entonces, para ilustrar mejor esto, estarás en una cámara con plataformas y repisas a las que solo podrás acceder con Prisa, así como Ojos que todo lo ven que tu daga o garra deben cerrar, de forma permanente. Después de que todos los ojos que todo lo ven hayan sido eliminados, ¡consigue la estatua del ladrón y reclama la garra primordial! ¡Buena suerte!");
             break;
         case 610030000:
-            cm.sendOk("Once known as the 'Prince of Shadows', Grandmaster Ryo possessed supreme speed and power with short-ranged daggers and longer chain-like Claw. A part-time member of the Bosshunters, he was reowned for unparalleled ability to blend into the very night itself. His legend grew during a battle with Crimson Balrog, where he moved so swiftly that Balrog's attacks only caught air. Ryo also performed occasional 'retrievals' for those less fortunate than himself.");
+            cm.sendOk("Una vez conocido como el \"Príncipe de las Sombras\", el Gran Maestro Ryo poseía una velocidad y un poder supremos con dagas de corto alcance y una garra en forma de cadena más larga. Miembro a tiempo parcial de los Bosshunters, era famoso por su capacidad incomparable para mezclarse con la noche misma. Su leyenda creció durante una batalla con Crimson Balrog, donde se movía tan rápido que los ataques de Balrog sólo tomaban aire. Ryo también realizó \"recuperaciones\" ocasionales para aquellos menos afortunados que él.");
             break;
         case 610030530:
             if (cm.isAllReactorState(6108004, 1)) {
@@ -18,18 +18,18 @@ function start() {
                 if ((stgStatus >> jobNiche) % 2 == 0) {
                     if (cm.canHold(4001256, 1)) {
                         cm.gainItem(4001256, 1);
-                        cm.sendOk("Good job.");
+                        cm.sendOk("Buen trabajo.");
 
                         stgStatus += (1 << jobNiche);
                         eim.setIntProperty("glpq5_room", stgStatus);
                     } else {
-                        cm.sendOk("Make room on your ETC inventory first.");
+                        cm.sendOk("Primero haga espacio en su inventario ETC.");
                     }
                 } else {
-                    cm.sendOk("The weapon inside this room has already been retrieved.");
+                    cm.sendOk("El arma dentro de esta habitación ya ha sido recuperada.");
                 }
             } else {
-                cm.sendOk("Go now, destroy all of the watchful eyes with your mobility skills, fellow Thief. Report back to me when you are done.");
+                cm.sendOk("Ve ahora, destruye todos los ojos vigilantes con tus habilidades de movilidad, compañero ladrón. Infórmame cuando hayas terminado.");
             }
             break;
     }

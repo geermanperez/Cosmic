@@ -20,9 +20,9 @@ function action(mode, type, selection) {
 
         if (status == 0) {
             if (!cm.haveItem(4001163) || !cm.isEventLeader()) {
-                cm.sendYesNo("Let your party leader show me the Purple Stone of Magic from here.\r\n\r\nOr maybe you want to #rleave this forest#k? Leaving now means to abandon your partners here, take that in mind.");
+                cm.sendYesNo("Deja que el líder de tu grupo me muestre la Piedra Púrpura de la Magia desde aquí.\r\n\r\nO tal vez quieras#rdeja este bosque#k? Irse ahora significa abandonar a tus socios aquí, tenlo en cuenta.");
             } else {
-                cm.sendNext("Great, you have the Purple Stone of Magic. I shall show you guys #bthe path leading to the Stone Altar#k. Come this way.");
+                cm.sendNext("Genial, tienes la Piedra Púrpura de la Magia. Les mostraré chicos#bel camino que conduce al Altar de Piedra#k. Ven por aquí.");
             }
         } else if (status == 1) {
             if (!cm.haveItem(4001163)) {

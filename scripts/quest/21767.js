@@ -12,11 +12,11 @@ function start(mode, type, selection) {
 
         canStart = qm.canHold(4032423, 1);
         if (!canStart) {
-            qm.sendNext("Please open a slot in your ETC inventory first.");
+            qm.sendNext("Primero abra un espacio en su inventario de ETC.");
             return;
         }
 
-        qm.sendNext("#bHm, there's a medicinal substance in the box. What could this be? You better take this to John and ask him what it is.#k");
+        qm.sendNext("#bHm, hay una sustancia medicinal en la caja. ¿Qué podría ser esto? Será mejor que le lleves esto a John y le preguntes qué es.#k");
     } else if (status == 1) {
         if (canStart) {
             qm.gainItem(4032423, 1);

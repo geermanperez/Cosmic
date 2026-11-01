@@ -41,7 +41,7 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendYesNo("We have a beautiful christmas tree.\r\nDo you want to see/decorate it?");
+            cm.sendYesNo("Tenemos un hermoso árbol de navidad.\r\n¿Quieres verlo/decorarlo?");
         } else if (status == 1) {
             cm.warp(209000003);
             cm.dispose();

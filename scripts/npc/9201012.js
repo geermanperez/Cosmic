@@ -97,7 +97,7 @@ function action(mode, type, selection) {
                 }
                 cm.sendSimple(text);
             } else {
-                cm.sendOk("Hi there, folks. Even thought of having a wedding held on Amoria? When the talk is about wedding, everyone firstly thinks about Amoria, there is no miss to it. Our chapel here is renowned around the Maple world for offering the best wedding services for maplers!");
+                cm.sendOk("Hola amigos. ¿Incluso pensaste en celebrar una boda en Amoria? Cuando se habla de boda, todo el mundo piensa primero en Amoria, no se lo puede perder. ¡Nuestra capilla aquí es reconocida en todo el mundo Maple por ofrecer los mejores servicios de bodas para arces!");
                 cm.dispose();
             }
         } else if (status == 1) {
@@ -109,36 +109,36 @@ function action(mode, type, selection) {
                     var partner = cserv.getPlayerStorage().getCharacterById(cm.getPlayer().getPartnerId());
                     if (!(partner == null || !cm.getMap().equals(partner.getMap()))) {
                         if (!cm.canHold(4000313)) {
-                            cm.sendOk("Please have a free ETC slot available to get the #b#t4000313##k.");
+                            cm.sendOk("Tenga disponible un espacio ETC gratuito para obtener el#b#t4000313##k.");
                             cm.dispose();
                             return;
                         } else if (!partner.canHold(4000313)) {
-                            cm.sendOk("Please let your partner know they must have a free ETC slot available to get the #b#t4000313##k.");
+                            cm.sendOk("Informe a su socio que debe tener un espacio ETC gratuito disponible para obtener el#b#t4000313##k.");
                             cm.dispose();
                             return;
                         } else if (!isSuitedForWedding(cm.getPlayer(), false)) {
-                            cm.sendOk("Please purchase fashionable #rwedding clothes#k for the wedding, quickly! It's time to shine, baby~!");
+                            cm.sendOk("Por favor compre a la moda#rropa de boda#kpara la boda, ¡rápido! ¡Es hora de brillar, cariño~!");
                             cm.dispose();
                             return;
                         } else if (!isSuitedForWedding(partner, false)) {
-                            cm.sendOk("Your partner must know they must have fashionable #rwedding clothes#k for the wedding. It's time to shine, baby~!");
+                            cm.sendOk("Tu pareja debe saber que debe tener moda.#rropa de boda#kpara la boda. ¡Es hora de brillar, cariño~!");
                             cm.dispose();
                             return;
                         }
 
-                        cm.sendOk("Alright! The couple appeared here stylish as ever. Let's go folks, let's rock 'n' roll!!!");
+                        cm.sendOk("¡Está bien! La pareja apareció aquí tan elegante como siempre. ¡¡¡Vamos amigos, a rockear!!!");
                     } else {
-                        cm.sendOk("Aww, your partner is elsewhere... Both must be here for the wedding, else it's going to be sooooo lame.");
+                        cm.sendOk("Aww, tu pareja está en otra parte... Ambos deben estar aquí para la boda, de lo contrario será muy aburrido.");
                         cm.dispose();
                     }
                 } else {
                     var placeTime = cserv.getWeddingReservationTimeLeft(wid);
 
-                    cm.sendOk("Yo. Your wedding is set to happen at the #r" + placeTime + "#k, get a decent apparel don't be late will you?");
+                    cm.sendOk("Yo. Su boda se llevará a cabo en el #r" + placeTime + "#k, consigue una ropa decente, no llegues tarde, ¿verdad?");
                     cm.dispose();
                 }
             } else {
-                cm.sendOk("Aawww, I'm sorry but there are no reservations made for you at this channel for the time being.");
+                cm.sendOk("Aawww, lo siento pero no hay reservas hechas para ti en este canal por el momento.");
                 cm.dispose();
             }
         } else if (status == 2) {
@@ -161,23 +161,23 @@ function action(mode, type, selection) {
 
                                 eim.registerPlayer(partner);
                             } else {
-                                cm.sendOk("An unexpected error happened when locating the wedding event. Please try again later.");
+                                cm.sendOk("Ocurrió un error inesperado al localizar el evento de la boda. Inténtelo de nuevo más tarde.");
                             }
 
                             cm.dispose();
                         } else {
-                            cm.sendOk("An unexpected error happened before the wedding preparations. Please try again later.");
+                            cm.sendOk("Ocurrió un error inesperado antes de los preparativos de la boda. Inténtelo de nuevo más tarde.");
                             cm.dispose();
                         }
                     } else {
-                        cm.sendOk("An unexpected error happened before the wedding preparations. Please try again later.");
+                        cm.sendOk("Ocurrió un error inesperado antes de los preparativos de la boda. Inténtelo de nuevo más tarde.");
                         cm.dispose();
                     }
                 } else {    // partner already decided to start
                     cm.dispose();
                 }
             } else {
-                cm.sendOk("Aww, it seems your partner is elsewhere... Both must be here for the wedding, else it's going to be sooooo lame.");
+                cm.sendOk("Aww, parece que tu pareja está en otra parte... Ambos deben estar aquí para la boda, de lo contrario será muy aburrido.");
                 cm.dispose();
             }
         }

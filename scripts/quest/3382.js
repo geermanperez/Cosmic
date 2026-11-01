@@ -51,9 +51,9 @@ function end(mode, type, selection) {
                     qm.gainItem(4001160, -25);
                     qm.gainItem(1122010, 1);
 
-                    qm.sendOk("Thank you for retrieving the marbles. Accept this pendant as a token of my appreciation.");
+                    qm.sendOk("Gracias por recuperar las canicas. Acepta este colgante como muestra de mi agradecimiento.");
                 } else {
-                    qm.sendNext("Free a slot on your EQUIP tab before claiming a prize.");
+                    qm.sendNext("Libera un espacio en tu pestaña EQUIPAR antes de reclamar un premio.");
                     return;
                 }
             } else if (qm.haveItem(4001159, 10) && qm.haveItem(4001160, 10)) {
@@ -62,13 +62,13 @@ function end(mode, type, selection) {
                     qm.gainItem(4001160, -10);
                     qm.gainItem(2041212, 1);
 
-                    qm.sendOk("Thank you for retrieving the marbles. This rock, that I am giving to you, can be used to improve the stats on the #b#t1122010##k. Take it as a token of my appreciation and use it wisely.");
+                    qm.sendOk("Gracias por recuperar las canicas. Esta roca que te doy puede usarse para mejorar las estadísticas del#b#t1122010##k. Tómalo como muestra de mi agradecimiento y úsalo sabiamente.");
                 } else {
-                    qm.sendNext("Free a slot on your USE tab before claiming a prize.");
+                    qm.sendNext("Libere un espacio en su pestaña USE antes de reclamar un premio.");
                     return;
                 }
             } else {
-                qm.sendNext("I need at least #b10 of both #t4001159# and #t4001160##k to reward you appropriately. If you happen to come with #b25 of these#k instead, I can reward you with a valuable gear. Fare well.");
+                qm.sendNext("necesito al menos#b10 de ambos#t4001159#y#t4001160##kpara recompensarte adecuadamente. Si vienes con#b25 de estos#ken cambio, puedo recompensarte con un equipo valioso. Despedida.");
                 return;
             }
 

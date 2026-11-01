@@ -27,12 +27,12 @@ var rolled = 0;
 
 function start(mode, type, selection) {
     if (!cm.isQuestStarted(2186)) {
-        cm.sendOk("Just a pile of boxes, nothing special...");
+        cm.sendOk("Sólo un montón de cajas, nada especial...");
         cm.dispose();
         return;
     }
 
-    cm.sendNext("Do you want to obtain a glasses?");
+    cm.sendNext("¿Quieres conseguir unas gafas?");
 }
 
 function action(mode, type, selection) {
@@ -47,7 +47,7 @@ function action(mode, type, selection) {
             cm.gainItem(4031855, 1);
         }
     } else {
-        cm.sendOk("You #balready have#k the glasses that was here!");
+        cm.sendOk("Tú#bya tengo#k¡Los vasos que había aquí!");
     }
 
     cm.dispose();

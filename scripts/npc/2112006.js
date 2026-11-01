@@ -55,8 +55,8 @@ function action(mode, type, selection) {
                     cm.gainItem(4001131, -1);
                     eim.setIntProperty("npcShocked", 1);
 
-                    cm.sendNext("Oh? You got a letter for me? On times like this, what should it be... Gasp! Something big is going on, guys. Rally yourselves, from now on things will be harder than ever!");
-                    eim.dropMessage(6, "Romeo seemed very much in shock after reading Juliet's Letter.");
+                    cm.sendNext("¿Oh? ¿Tienes una carta para mí? En momentos como este, ¿qué debería ser? ¡Jadeo! Algo grande está pasando, muchachos. ¡Reúnanse, a partir de ahora las cosas serán más difíciles que nunca!");
+                    eim.dropMessage(6, "Romeo parecía muy conmocionado después de leer la Carta de Julieta.");
 
                     cm.dispose();
 
@@ -64,10 +64,10 @@ function action(mode, type, selection) {
                     var door = cm.getMap().getReactorByName("rnj3_out3");
 
                     if (door.getState() == 0) {
-                        cm.sendNext("Let me open the door for you.");
+                        cm.sendNext("Déjame abrirte la puerta.");
                         door.hitReactor(cm.getClient());
                     } else {
-                        cm.sendNext("Please hurry, Juliet is in trouble.");
+                        cm.sendNext("Por favor, date prisa, Juliet está en problemas.");
                     }
 
                     cm.dispose();
@@ -76,7 +76,7 @@ function action(mode, type, selection) {
                     if (cm.isEventLeader()) {
                         cm.gainItem(4001134, -1);
                         cm.gainItem(4001135, -1);
-                        cm.sendNext("Great! You got both Alcadno and Zenumist files at hand. Now we can proceed.");
+                        cm.sendNext("¡Excelente! Tienes a mano los archivos de Alcadno y Zenumist. Ahora podemos continuar.");
 
                         eim.showClearEffect();
                         eim.giveEventPlayersStageReward(4);
@@ -85,13 +85,13 @@ function action(mode, type, selection) {
                         cm.getMap().killAllMonsters();
                         cm.getMap().getReactorByName("rnj3_out3").hitReactor(cm.getClient());
                     } else {
-                        cm.sendOk("Please let your leader pass the files to me.");
+                        cm.sendOk("Por favor, deja que tu líder me pase los archivos.");
                     }
 
                     cm.dispose();
 
                 } else {
-                    cm.sendYesNo("We must keep fighting to save Juliet, please keep your pace. If you are not feeling so well to continue, your companions and I will understand... So, are you going to retreat?");
+                    cm.sendYesNo("Debemos seguir luchando para salvar a Juliet, por favor mantén el ritmo. Si no te sientes bien para continuar, tus compañeros y yo lo entenderemos... Entonces, ¿te vas a retirar?");
                 }
             } else {
                 cm.warp(926100700, 0);
@@ -100,13 +100,13 @@ function action(mode, type, selection) {
         } else {
             if (status == 0) {
                 if (eim.getIntProperty("escortFail") == 0) {
-                    cm.sendNext("Finally, Juliet is safe! Thanks to your efforts, we could save her from the clutches of Yulete, who will now be judged for his rebellion against Magatia. From now on, as he will start rehabilitation, we will keep an eye on his endeavours, making sure he will cause no more troubles on the future.");
+                    cm.sendNext("¡Finalmente Julieta está a salvo! Gracias a tus esfuerzos pudimos salvarla de las garras de Yulete, quien ahora será juzgado por su rebelión contra Magatia. De ahora en adelante, cuando comience su rehabilitación, estaremos atentos a sus esfuerzos para asegurarnos de que no cause más problemas en el futuro.");
                 } else {
-                    cm.sendNext("Juliet is safe now, although the battle took it's toll on her... Thanks to your efforts, we could save her from the clutches of Yulete, who will now be judged for his rebellion against Magatia. Thank you.");
+                    cm.sendNext("Juliet ahora está a salvo, aunque la batalla le pasó factura... Gracias a tus esfuerzos, pudimos salvarla de las garras de Yulete, quien ahora será juzgado por su rebelión contra Magatia. Gracias.");
                     status = 2;
                 }
             } else if (status == 1) {
-                cm.sendNext("Now, please receive this gift as an act of acceptation for our gratitude.");
+                cm.sendNext("Ahora, reciba este regalo como acto de aceptación de nuestro agradecimiento.");
             } else if (status == 2) {
                 if (cm.canHold(4001159)) {
                     cm.gainItem(4001159, 1);
@@ -117,7 +117,7 @@ function action(mode, type, selection) {
                         cm.warp(926100500, 0);
                     }
                 } else {
-                    cm.sendOk("Make sure you have a space on your ETC inventory.");
+                    cm.sendOk("Asegúrate de tener un espacio en tu inventario de ETC.");
                 }
 
                 cm.dispose();

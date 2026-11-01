@@ -40,9 +40,9 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("There's a note on the wall: 'The source of the curse still goes missing, but a strange device, that I suppose has been used by #rthem#k was found here.'", 3);
+            qm.sendNext("Hay una nota en la pared: \"La fuente de la maldición aún sigue desaparecida, pero aquí se encontró un dispositivo extraño, que supongo que fue utilizado por #rthem#k\".", 3);
         } else if (status == 1) {
-            qm.sendNextPrev("'The machine was sent to #rEreve#k for avaliation, I'll now set out to continue my mission. Let the Empress bless me on my journey.'", 3);
+            qm.sendNextPrev("'La máquina fue enviada a #rEreve#k para su evaluación, ahora me dispondré a continuar mi misión. Que la Emperatriz me bendiga en mi viaje.", 3);
         } else if (status == 2) {
             qm.forceCompleteQuest();
             qm.dispose();

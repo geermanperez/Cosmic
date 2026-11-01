@@ -45,16 +45,16 @@ function start() {
 
     if (cm.getMapId() == 680000200) {
         if (eim.getIntProperty("weddingStage") == 0) {
-            cm.sendNext("The guests are gathering here right now. Please wait awhile, the ceremony will start soon enough.");
+            cm.sendNext("Los invitados se están reuniendo aquí ahora mismo. Espere un poco, la ceremonia comenzará pronto.");
         } else {
             cm.warp(680000210, "sp");
-            cm.sendNext("Pick your seat over here and good show!");
+            cm.sendNext("¡Elige tu asiento aquí y buen espectáculo!");
         }
 
         cm.dispose();
     } else {
         if (cm.getPlayer().getId() != eim.getIntProperty("groomId") && cm.getPlayer().getId() != eim.getIntProperty("brideId")) {
-            cm.sendNext("Sorry, only the marrying couple should be talking to me right now.");
+            cm.sendNext("Lo siento, sólo la pareja que se casa debería estar hablando conmigo en este momento.");
             cm.dispose();
             return;
         }
@@ -82,7 +82,7 @@ function start() {
 
 function action(mode, type, selection) {
     if (mode == -1 || mode == 0) {
-        cm.sendOk("Goodbye then.");
+        cm.sendOk("Adiós entonces.");
         cm.dispose();
         return;
     } else if (mode == 1) {
@@ -95,7 +95,7 @@ function action(mode, type, selection) {
         var hasGoldenLeaf = cm.haveItem(4000313);
 
         if (hasGoldenLeaf && hasEngage) {
-            cm.sendOk("You can't leave yet! You need to click Pelvis Bebop and get his word before I can let you leave.");
+            cm.sendOk("¡No puedes irte todavía! Debes hacer clic en Pelvis Bebop y obtener su palabra antes de que pueda dejarte ir.");
             cm.dispose();
         } else if (hasGoldenLeaf && hasRing) {
             var choice = Array("Go to the Afterparty", "What should I be doing");
@@ -105,7 +105,7 @@ function action(mode, type, selection) {
             }
             cm.sendSimple(msg);
         } else {
-            cm.sendNext("You don't seem to have a Gold Maple Leaf, engagement ring, or wedding ring. You must not belong here, so I will take you to Amoria.");
+            cm.sendNext("No parece tener una hoja de arce dorada, un anillo de compromiso o un anillo de bodas. No debes pertenecer aquí, así que te llevaré a Amoria.");
             selection = 20; // Random.
         }
     } else if (status == 1) {
@@ -120,13 +120,13 @@ function action(mode, type, selection) {
             case 0:
                 if (eim.getIntProperty("isPremium") == 1) {
                     eim.warpEventTeam(680000300);
-                    cm.sendOk("Enjoy! Cherish your Photos Forever!");
+                    cm.sendOk("¡Disfrutar! ¡Aprecia tus fotos para siempre!");
                     if (cmPartner != null) {
                         cmPartner.npcTalk(cm.getNpc(), "Enjoy! Cherish your Photos Forever!");
                     }
                 } else {    // skip the party-time (premium only)
                     eim.warpEventTeam(680000500);
-                    cm.sendOk("Congratulations for the newly-wed! I will escort you to the exit.");
+                    cm.sendOk("¡Felicitaciones por los recién casados! Te acompañaré hasta la salida.");
                     if (cmPartner != null) {
                         cmPartner.npcTalk(cm.getNpc(), "Congratulations for the newly-wed! I will escort you to the exit.");
                     }
@@ -136,7 +136,7 @@ function action(mode, type, selection) {
                 break;
 
             case 1:
-                cm.sendOk("The superstars must receive the word of Pelvis Bebop to be united. When you are ready you can click me to go to the Afterparty.");
+                cm.sendOk("Las superestrellas deben recibir la palabra de Pelvis Bebop para estar unidas. Cuando estés listo, puedes hacer clic en mí para ir al Afterparty.");
                 cm.dispose();
                 break;
 

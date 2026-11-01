@@ -40,12 +40,12 @@ function end(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Bothering me again? What's it?");
+            qm.sendNext("¿Me molestas otra vez? ¿Qué es?");
         } else if (status == 1) {
             if (qm.haveItem(4031980, 1)) {
-                qm.sendNext("You crafted a #b#t4031980##k?! How comes, how did you do it?? ... Well, that can't be helped, I guess. The student surpassed the teacher! Youth sure do wonders to one's perception capabilities.\r\n\r\nYou are now ready to take the last step on mastering the Maker skill, contemplate it at it's finest form!");
+                qm.sendNext("Creaste un#b#t4031980##k?! ¿Cómo es que cómo lo hiciste? ... Bueno, supongo que eso no se puede evitar. ¡El alumno superó al maestro! La juventud sin duda hace maravillas con las capacidades de percepción.\r\n\r\nAhora estás listo para dar el último paso para dominar la habilidad Maker, ¡contémplala en su máxima expresión!");
             } else {
-                qm.sendNext("... Please step aside, I can't finish this work if I'm being distracted at every moment.");
+                qm.sendNext("... Por favor hazte a un lado, no puedo terminar este trabajo si me distraen a cada momento.");
                 qm.dispose();
 
             }

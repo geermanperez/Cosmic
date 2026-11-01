@@ -80,7 +80,7 @@ function action(mode, type, selection) {
 
         if (status == 0) {
             hasCoin = cm.haveItem(coinId);
-            cm.sendNext("This is the vending machine of the Internet Cafe. Place your erasers or #t" + coinId + "# earned throughout the quests to redeem a prize. You can place #bany amount of erasers#k, however take note that placing #rdifferent erasers#k and #rbigger shots of any of them#k will improve the reward possibilities!");
+            cm.sendNext("Esta es la máquina expendedora del cibercafé. Coloca tus borradores o #t" + coinId + "# ganado a lo largo de las misiones para canjear un premio. puedes colocar#bcualquier cantidad de borradores#k, sin embargo tenga en cuenta que colocar#rdiferentes borradores#ky#rtomas más grandes de cualquiera de ellos#kmejorará las posibilidades de recompensa!");
         } else if (status == 1) {
             var sendStr;
             currentTier = getRewardTier();
@@ -107,12 +107,12 @@ function action(mode, type, selection) {
                 listStr += "#l\r\n";
             }
 
-            cm.sendSimple(sendStr + "\r\n\r\n" + listStr + "#r#L" + getRewardIndex(hasCoin) + "#Retrieve a prize!#l#k\r\n");
+            cm.sendSimple(sendStr + "\r\n\r\n" + listStr + "#r#L" + getRewardIndex(hasCoin) + "#Rpreciado recuperar!#l#k\r\n");
 
         } else if (status == 2) {
             if (selection == getRewardIndex(hasCoin)) {
                 if (currentTier < 0) {
-                    cm.sendPrev("You have set no erasers. Insert at least one to claim a prize.");
+                    cm.sendPrev("No has configurado borradores. Inserta al menos uno para reclamar un premio.");
                     advance = false;
                 } else {
                     givePrize();
@@ -130,9 +130,9 @@ function action(mode, type, selection) {
                 curItemSel = selection;
 
                 if (curItemQty > 0) {
-                    cm.sendGetText("How many of #b#t" + tickSel + "##k do you want to insert on the machine? (#r" + curItemQty + "#k available)#k");
+                    cm.sendGetText("cuantos de#b#t" + tickSel + "##k¿Quieres insertar en la máquina? (#r" + curItemQty + "#kdisponible)#k");
                 } else {
-                    cm.sendPrev("You have got #rnone#k of #b#t" + tickSel + "##k to insert on the machine. Click '#rBack#k' to return to the main interface.");
+                    cm.sendPrev("tienes#rnone#k de#b#t" + tickSel + "##kpara insertar en la máquina. Haga clic en '#rBack#k' para volver a la interfaz principal.");
                     advance = false;
                 }
             }
@@ -146,7 +146,7 @@ function action(mode, type, selection) {
                 }
 
                 if (placedQty > curItemQty) {
-                    cm.sendPrev("You cannot insert the given amount of erasers (#r" + curItemQty + "#k available). Click '#rBack#k' to return to the main interface.");
+                    cm.sendPrev("No puede insertar la cantidad indicada de borradores (#r" + curItemQty + "#kdisponible). Haga clic en '#rBack#k' para volver a la interfaz principal.");
                     advance = false;
                 } else {
                     if (curItemSel < tickets.length) {
@@ -155,11 +155,11 @@ function action(mode, type, selection) {
                         coins = placedQty;
                     }
 
-                    cm.sendPrev("Operation succeeded. Click '#rBack#k' to return to the main interface.");
+                    cm.sendPrev("La operación tuvo éxito. Haga clic en '#rBack#k' para regresar a la interfaz principal.");
                     advance = false;
                 }
             } catch (err) {
-                cm.sendPrev("You must enter a positive number of erasers to insert. Click '#rBack#k' to return to the main interface.");
+                cm.sendPrev("Debe ingresar un número positivo de borradores para insertar. Haga clic en '#rBack#k' para regresar a la interfaz principal.");
                 advance = false;
             }
 
@@ -238,7 +238,7 @@ function givePrize() {
     }
 
     if (!hasRewardSlot(lvTarget, lvQty)) {
-        cm.sendOk("Check for an available space on your inventory before retrieving a prize.");
+        cm.sendOk("Verifique si hay espacio disponible en su inventario antes de recuperar un premio.");
     } else {
         var rnd = Math.floor(Math.random() * lvTarget.length);
 

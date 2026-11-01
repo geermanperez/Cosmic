@@ -26,6 +26,6 @@
 */
 
 function start() {
-    cm.sendOk("Hey hey!!! Find the Treasure Scroll! I lost the map\r\nsomewhere and I can't leave without it.");
+    cm.sendOk("¡¡¡Oye, oye!!! ¡Encuentra el pergamino del tesoro! Perdí el mapa\r\n en algún lugar y no puedo irme sin él.");
     cm.dispose();
 }

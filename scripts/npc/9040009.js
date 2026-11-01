@@ -53,7 +53,7 @@ function action(mode, type, selection) {
             cm.warp(990001100);
         } else {
             if (eim.getProperty("stage1clear") == "true") {
-                cm.sendOk("Excellent work. You may proceed to the next stage.");
+                cm.sendOk("Excelente trabajo. Puede pasar a la siguiente etapa.");
                 cm.dispose();
                 return;
             }
@@ -69,9 +69,9 @@ function action(mode, type, selection) {
                         }
 
                         if (stage == 1) {
-                            cm.sendOk("In this challenge, I shall show a pattern on the statues around me. When I give the word, repeat the pattern to me to proceed.");
+                            cm.sendOk("En este desafío, mostraré un patrón en las estatuas que me rodean. Cuando dé la palabra, repíteme el patrón para proceder.");
                         } else {
-                            cm.sendOk("I shall now present a more difficult puzzle for you. Good luck.");
+                            cm.sendOk("Ahora les presentaré un rompecabezas más difícil. Buena suerte.");
                         }
                     } else if (eim.getProperty("stage1status") === "active") {
                         stage = parseInt(eim.getProperty("stage1phase"));
@@ -82,23 +82,23 @@ function action(mode, type, selection) {
                                 clearStage(1, eim);
                                 cm.getGuild().gainGP(15);
 
-                                cm.sendOk("Excellent work. You may proceed to the next stage.");
+                                cm.sendOk("Excelente trabajo. Puede pasar a la siguiente etapa.");
                             } else {
-                                cm.sendOk("Very good. You still have more to complete, however. Talk to me again when you're ready.");
+                                cm.sendOk("Muy bien. Sin embargo, todavía tienes más por completar. Hablame de nuevo cuando estés listo.");
                                 eim.setProperty("stage1phase", stage + 1);
                                 cm.mapMessage(5, "You have completed part " + stage + " of the Gatekeeper Test.");
                             }
 
                         } else {
                             eim.showWrongEffect();
-                            cm.sendOk("You have failed this test.");
+                            cm.sendOk("Has fallado esta prueba.");
                             cm.mapMessage(5, "You have failed the Gatekeeper Test.");
                             eim.setProperty("stage1phase", "1");
                         }
                         eim.setProperty("stage1status", "waiting");
                         cm.dispose();
                     } else {
-                        cm.sendOk("The statues are working on the pattern. Please wait.");
+                        cm.sendOk("Las estatuas están trabajando en el patrón. Espere por favor.");
                         cm.dispose();
                     }
                 } else if (status == 1) {
@@ -114,7 +114,7 @@ function action(mode, type, selection) {
                     cm.dispose();
                 }
             } else {
-                cm.sendOk("I need the leader of this instance to speak with me, nobody else.");
+                cm.sendOk("Necesito que el líder de esta instancia hable conmigo, nadie más.");
                 cm.dispose();
             }
         }

@@ -209,11 +209,11 @@ function action(mode, type, selection) {
         }
 
         if (!cm.canHold(recvItem, recvQty)) {
-            cm.sendOk("Check your inventory for a free slot first.");
+            cm.sendOk("Primero verifique su inventario para ver si hay un espacio libre.");
             cm.dispose();
             return;
         } else if (cm.getMeso() < cost * qty) {
-            cm.sendOk("I'm afraid you cannot afford my services.");
+            cm.sendOk("Me temo que no puede pagar mis servicios.");
             cm.dispose();
             return;
         } else {
@@ -229,7 +229,7 @@ function action(mode, type, selection) {
         }
 
         if (!complete) {
-            cm.sendOk("What are you trying to pull? I can't make anything unless you bring me what I ask for.");
+            cm.sendOk("¿Qué estás tratando de sacar? No puedo hacer nada a menos que me traigas lo que te pido.");
         } else {
             if (mats instanceof Array) {
                 for (var i = 0; i < mats.length; i++) {
@@ -243,7 +243,7 @@ function action(mode, type, selection) {
             }
 
             cm.gainItem(recvItem, recvQty);
-            cm.sendOk("All done. If you need anything else... Well, I'm not going anywhere.");
+            cm.sendOk("Todo hecho. Si necesitas algo más... Bueno, no voy a ninguna parte.");
         }
         cm.dispose();
     }

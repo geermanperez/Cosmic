@@ -15,18 +15,18 @@ function start(mode, type, selection) {
         status++;
     } else {
         if (status == 2) {
-            qm.sendNext("Regular Attacks are basic skills that are easy to use. It is important to remember that real hunting is done using your Skills. I suggest you reconsider.");
+            qm.sendNext("Los ataques regulares son habilidades básicas que son fáciles de usar. Es importante recordar que la caza real se realiza utilizando tus habilidades. Te sugiero que lo reconsideres.");
             qm.dispose();
             return;
         }
         status--;
     }
     if (status == 0) {
-        qm.sendNext("I've been waiting for you, #h0#. My name is #p1102006# and I'm the third brother you are going to meet. So, you've learned about using Regular Attacks, correct? Well, next you'll be learning about your #bSkills#k, which you will find very helpful in Maple World.");
+        qm.sendNext("Te estaba esperando, #h0#. Mi nombre es #p1102006# y soy el tercer hermano que conocerás. Entonces ya aprendiste a usar ataques regulares, ¿correcto? Bueno, a continuación aprenderás sobre tu #bSkills#k, que encontrarás muy útil en Maple World.");
     } else if (status == 1) {
-        qm.sendNextPrev("You earn Skill Points every time you level up, which means you probably have a few saved up already. Press the #bK key#k to see your skills. Invest your Skill Points in the skill you wish to strengthen and don't forget to #bplace the skill in a Quick Slot for easy use#k.");
+        qm.sendNextPrev("Obtienes puntos de habilidad cada vez que subes de nivel, lo que significa que probablemente ya tengas algunos ahorrados. Presione el#btecla K#kpara ver tus habilidades. Invierte tus puntos de habilidad en la habilidad que deseas fortalecer y no olvides#bColoque la habilidad en una ranura rápida para facilitar su uso.#k.");
     } else if (status == 2) {
-        qm.sendAcceptDecline("Time to practice before you forget. You will find a lot of #o100121#s in this area. Why don't you hunt #r3 #o100121#s#k using your #bThree Snails#b skill and bring me 1 #b#t4000483##k as proof? I'll wait for you here.");
+        qm.sendAcceptDecline("Es hora de practicar antes de que lo olvides. Encontrarás muchos#o100121#s en esta área. ¿Por qué no cazas?#r3 #o100121#s#kusando tu#btres caracoles#bhabilidad y tráeme 1#b#t4000483##kcomo prueba? Te espero aquí.");
     } else if (status == 3) {
         qm.forceStartQuest();
         qm.guideHint(8);
@@ -46,7 +46,7 @@ function end(mode, type, selection) {
         status--;
     }
     if (status == 0) {
-        qm.sendNext("You've successfully defeated the #o100121#s and brought me a #t4000483#. That's very impressive! #bYou earn 3 Skill Points every time you level up, after you officially become a knight, that is. Keep following the arrow to the left, and you'll meet #b#p1102007##k, who will guide you through the next step.\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0# \r\n#fUI/UIWindow.img/QuestIcon/8/0# 40 exp");
+        qm.sendNext("Has derrotado exitosamente al#o100121#s y me trajo un#t4000483#. ¡Eso es muy impresionante!#bObtienes 3 puntos de habilidad cada vez que subes de nivel, es decir, después de convertirte oficialmente en caballero. Sigue la flecha hacia la izquierda y te encontrarás#b#p1102007##k, quien lo guiará en el siguiente paso.\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0#\r\n#fUI/UIWindow.img/QuestIcon/8/0# 40 exp.");
     } else if (status == 1) {
         qm.gainItem(4000483, -1);
         qm.forceCompleteQuest();

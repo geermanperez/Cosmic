@@ -57,13 +57,13 @@ function action(mode, type, selection) {
         var eim = cm.getPlayer().getEventInstance();
 
         if (eim.getProperty(stage.toString() + "stageclear") != null) {
-            cm.sendNext("Hurry, goto the next stage, the portal is open!");
+            cm.sendNext("¡Date prisa, pasa a la siguiente etapa, el portal está abierto!");
         } else {
             if (eim.isEventLeader(cm.getPlayer())) {
                 var state = eim.getIntProperty("statusStg" + stage);
 
                 if (state == -1) {           // preamble
-                    cm.sendOk("Hi. Welcome to the #bBOSS stage#k. Kill the Ratz on that platform to reveal the Alishar, and defeat him!");
+                    cm.sendOk("Hola. Bienvenido a la#betapa jefe#k. ¡Mata al Ratz en esa plataforma para revelar a Alishar y derrotarlo!");
                     eim.setProperty("statusStg" + stage, 0);
                 } else {                      // check stage completion
                     if (cm.haveItem(4001023, 1)) {
@@ -79,11 +79,11 @@ function action(mode, type, selection) {
 
                         eim.clearPQ();
                     } else {
-                        cm.sendNext("Please defeat Alishar and bring me his #b#t4001023#.#k");
+                        cm.sendNext("Por favor derrota a Alishar y tráeme su#b#t4001023#.#k");
                     }
                 }
             } else {
-                cm.sendNext("Please tell your #bParty-Leader#k to come talk to me.");
+                cm.sendNext("Por favor dile a tu#bLíder del partido#kpara venir a hablar conmigo.");
             }
         }
 

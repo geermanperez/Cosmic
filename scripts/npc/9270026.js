@@ -44,7 +44,7 @@ function pushIfItemsExists(array, itemidList) {
 }
 
 function start() {
-    cm.sendSimple("Hi, there! I'm Sixx, in charge of Da Yan Jing Lens Shop here at CBD! With #b#t5152039##k or #b#t5152040##k, you can let us take care of the rest and have the kind of beautiful look you've always craved! Remember, the first thing everyone notices about you are the eyes, and we can help you find the cosmetic lens that most fits you! Now, what would you like to use?\r\n#L1#Cosmetic Lenses: #i5152039##t5152039##l\r\n#L2#Cosmetic Lenses: #i5152040##t5152040##l\r\n#L3#One-time Cosmetic Lenses: #i5152107# (any color)#l");
+    cm.sendSimple("¡Hola! ¡Soy Sixx, a cargo de la tienda de lentes Da Yan Jing aquí en CBD! Con#b#t5152039##ko#b#t5152040##k¡Puedes dejar que nosotros nos encarguemos del resto y tener el tipo de apariencia hermosa que siempre has deseado! Recuerda, lo primero que todos notan de ti son tus ojos, ¡y podemos ayudarte a encontrar las lentillas cosméticas que mejor se adapten a ti! Ahora, ¿qué te gustaría usar?\r\n#L1#Lentes cosméticas:#i5152039##t5152039##l\r\n#L2#Lentes cosméticas:#i5152040##t5152040##l\r\n#L3#Lentes cosméticas de una sola vez:#i5152107#(cualquier color)#l");
 }
 
 function action(mode, type, selection) {
@@ -56,12 +56,12 @@ function action(mode, type, selection) {
             if (selection == 1) {
                 beauty = 1;
                 var current = cm.getPlayer().getFace() % 100 + 20000 + cm.getPlayer().getGender() * 1000;
-                cm.sendYesNo("If you use the regular coupon, you'll be awarded a random pair of cosmetic lenses. Are you going to use a #b#t5152039##k and really make the change to your eyes?");
+                cm.sendYesNo("Si utiliza el cupón normal, se le otorgará un par de lentes cosméticos al azar. ¿Vas a utilizar un#b#t5152039##ky realmente hacer el cambio en tus ojos?");
             } else if (selection == 2) {
                 beauty = 2;
                 var current = cm.getPlayer().getFace() % 100 + 20000 + cm.getPlayer().getGender() * 1000;
                 pushIfItemsExists(colors, [current + 200, current + 300, current + 400, current + 700]);
-                cm.sendStyle("With our specialized machine, you can see yourself after the treatment in advance. What kind of lens would you like to wear? Choose the style of your liking.", colors);
+                cm.sendStyle("Con nuestra máquina especializada, podrá verse usted mismo después del tratamiento con antelación. ¿Qué tipo de lente te gustaría usar? Elige el estilo de tu agrado.", colors);
             } else if (selection == 3) {
                 beauty = 3;
                 if (cm.getPlayer().getGender() == 0) {
@@ -81,29 +81,29 @@ function action(mode, type, selection) {
                 }
 
                 if (colors.length == 0) {
-                    cm.sendOk("You don't have any One-Time Cosmetic Lens to use.");
+                    cm.sendOk("No tienes ninguna lente cosmética de un solo uso para usar.");
                     cm.dispose();
                     return;
                 }
 
-                cm.sendStyle("What kind of lens would you like to wear? Please choose the style of your liking.", colors);
+                cm.sendStyle("¿Qué tipo de lente te gustaría usar? Por favor elige el estilo de tu agrado.", colors);
             }
         } else if (status == 2) {
             if (beauty == 1) {
                 if (cm.haveItem(5152039)) {
                     cm.gainItem(5152039, -1);
                     cm.setFace(Math.floor(Math.random() * 8) * 100 + current);
-                    cm.sendOk("Enjoy your new and improved cosmetic lenses!");
+                    cm.sendOk("¡Disfruta de tus lentes cosméticos nuevos y mejorados!");
                 } else {
-                    cm.sendOk("I'm sorry, but I don't think you have our cosmetic lens coupon with you right now. Without the coupon, I'm afraid I can't do it for you..");
+                    cm.sendOk("Lo siento, pero no creo que tengas nuestro cupón para lentes cosméticos contigo en este momento. Sin el cupón, me temo que no puedo hacerlo por ti.");
                 }
             } else if (beauty == 2) {
                 if (cm.haveItem(5152040)) {
                     cm.gainItem(5152040, -1);
                     cm.setFace(colors[selection]);
-                    cm.sendOk("Enjoy your new and improved cosmetic lenses!");
+                    cm.sendOk("¡Disfruta de tus lentes cosméticos nuevos y mejorados!");
                 } else {
-                    cm.sendOk("I'm sorry, but I don't think you have our cosmetic lens coupon with you right now. Without the coupon, I'm afraid I can't do it for you..");
+                    cm.sendOk("Lo siento, pero no creo que tengas nuestro cupón para lentes cosméticos contigo en este momento. Sin el cupón, me temo que no puedo hacerlo por ti.");
                 }
             } else if (beauty == 3) {
                 var color = (colors[selection] / 100) % 10 | 0;
@@ -111,9 +111,9 @@ function action(mode, type, selection) {
                 if (cm.haveItem(5152100 + color)) {
                     cm.gainItem(5152100 + color, -1);
                     cm.setFace(colors[selection]);
-                    cm.sendOk("Enjoy your new and improved cosmetic lenses!");
+                    cm.sendOk("¡Disfruta de tus lentes cosméticos nuevos y mejorados!");
                 } else {
-                    cm.sendOk("I'm sorry, but I don't think you have our cosmetic lens coupon with you right now. Without the coupon, I'm afraid I can't do it for you..");
+                    cm.sendOk("Lo siento, pero no creo que tengas nuestro cupón para lentes cosméticos contigo en este momento. Sin el cupón, me temo que no puedo hacerlo por ti.");
                 }
             }
             cm.dispose();

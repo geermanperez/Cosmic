@@ -16,16 +16,16 @@ function start(mode, type, selection) {
         if (type == 1 && mode == 0) {
             status -= 2;
         } else {
-            qm.sendOk("Breaking through the barrier will require the Poison Mushroom Cap. Talk to me when you change your mind.");
+            qm.sendOk("Romper la barrera requerirá la gorra de hongo venenoso. Háblame cuando cambies de opinión.");
             qm.dispose();
             return;
         }
     }
     if (status == 0) {
-        qm.sendAcceptDecline("Ah! If I am not mistaken, I saw the #bKiller Mushroom Spores#k way back when I was a kid in a book. Now I remember... it's made out of extracts of powerful poisons from Poison Mushrooms, which means you'll need some Poison Mushroom Caps. If you can get me those, I think I'll be able to make it.");
+        qm.sendAcceptDecline("¡Ah! Si no me equivoco, vi el#bEsporas de hongos asesinos#kHace mucho tiempo, cuando era niño en un libro. Ahora lo recuerdo... está hecho de extractos de poderosos venenos de hongos venenosos, lo que significa que necesitarás algunas cápsulas de hongos venenosos. Si puedes conseguirlos, creo que podré hacerlo.");
     } else if (status == 1) {
         qm.forceStartQuest();
-        qm.sendOk("Please defeat #bPoison Mushrooms#k and bring back #b100 Poison Mushroom Caps#k in return.");
+        qm.sendOk("Por favor derrota#bHongos Venenosos#ky traer de vuelta#b100 cápsulas de hongos venenosos#ken cambio.");
     } else if (status == 2) {
         qm.dispose();
     }
@@ -42,9 +42,9 @@ function end(mode, type, selection) {
         }
     }
     if (status == 0) {
-        qm.sendOk("Have you gathered up the 100 Poison Mushroom Caps like I asked you to get?");
+        qm.sendOk("¿Has reunido las 100 cápsulas de hongos venenosos que te pedí?");
     } else if (status == 1) {
-        qm.sendOk("I am amazed that you were able to gather up these 100 Poison Mushroom Caps, which is considered a difficult feat. I think I'll be able to make #bKiller Mushroom Spores#k our of these.");
+        qm.sendOk("Me sorprende que hayas podido reunir estas 100 cápsulas de hongos venenosos, lo cual se considera una hazaña difícil. Creo que podré hacer#bEsporas de hongos asesinos#knuestro de estos.");
     } else if (status == 2) {
         qm.forceCompleteQuest();
         qm.gainExp(13500);

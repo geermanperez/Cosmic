@@ -17,9 +17,9 @@ function start(mode, type, selection) {
 
 
     if (status == 0) {
-        qm.sendAcceptDecline("Please help me!");
+        qm.sendAcceptDecline("¡Por favor, ayúdame!");
     } else if (status == 1) {
-        qm.sendNext("The #bPrime Minister#k is the one who plotted all this! Oh no! Here he comes...");
+        qm.sendNext("El#bPrimer ministro#k¡Es quien planeó todo esto! ¡Oh, no! Aquí viene...");
     } else if (status == 2) {
         qm.forceStartQuest();
         qm.dispose();
@@ -38,7 +38,7 @@ function end(mode, type, selection) {
 
 
     if (status == 0) {
-        qm.sendNext("Hurray! #b#h ##k you defeated the #bPrime Minister#k.");
+        qm.sendNext("¡Viva!#b#h ##kderrotaste al#bPrimer ministro#k.");
     } else if (status == 1) {
         qm.gainExp(15000);
         qm.forceCompleteQuest();

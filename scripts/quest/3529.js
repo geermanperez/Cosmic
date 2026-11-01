@@ -36,7 +36,7 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendOk("You have regained your memories, talk to #b#p2140001##k to get the pass.");
+            qm.sendOk("Has recuperado tus recuerdos, habla con#b#p2140001##kpara conseguir el pase.");
             qm.setQuestProgress(3507, 7081, 1);
             qm.forceCompleteQuest();
         } else if (status == 1) {

@@ -25,7 +25,7 @@ function action(mode, type, selection) {
             cm.dispose();
             return;
         } else if (mode == 0) {
-            cm.sendNext("OK. If you ever change your mind, please let me know.");
+            cm.sendNext("DE ACUERDO. Si alguna vez cambias de opinión, házmelo saber.");
             cm.dispose();
             return;
         }
@@ -35,11 +35,11 @@ function action(mode, type, selection) {
             for (var i = 0; i < menu.length; i++) {
                 display += "\r\n#L" + i + "##b Lith Harbor (800 mesos)#k";
             }
-            cm.sendSimple("Are you trying to leave Rien? Board this ship and I'll take you from #bRien#k to #bLith Harbor#k and back. for a #bfee of 800#k Mesos. Would you like to head over to Lith Harbor now? It'll take about a minute to get there.\r\n" + display);
+            cm.sendSimple("¿Estás intentando dejar Rien? Sube a este barco y te llevaré desde#bRien#k a#bPuerto Lith#ky de vuelta. por un#btarifa de 800#kMesos. ¿Te gustaría dirigirte a Lith Harbor ahora? Tardará aproximadamente un minuto en llegar.\r\n" + display);
 
         } else if (status == 1) {
             if (cm.getMeso() < 800) {
-                cm.sendNext("Hmm... Are you sure you have #b800#k Mesos? Check your Inventory and make sure you have enough. You must pay the fee or I can't let you get on...");
+                cm.sendNext("Hmm... ¿Estás seguro de que tienes #b800#k Mesos? Revisa tu inventario y asegúrate de tener suficiente. Debes pagar la tarifa o no puedo dejarte subir...");
                 cm.dispose();
             } else {
                 cm.gainMeso(-800);

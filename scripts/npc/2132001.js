@@ -3,6 +3,6 @@ function start() {
 }
 
 function action(mode, type, selection) {
-    cm.sendNext("Call me Dark Lord. I will give thieves a place in society... watch in a few years!");
+    cm.sendNext("Llámame Señor Oscuro. Les daré a los ladrones un lugar en la sociedad... ¡mirad dentro de unos años!");
     cm.dispose();
 }

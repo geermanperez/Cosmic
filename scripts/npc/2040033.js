@@ -32,9 +32,9 @@
 
 function start() {
     if (cm.haveItem(4031128)) {
-        cm.sendNext("Eh, that's my brother's letter! Probably scolding me for thinking I'm not working and stuff...Eh? Ahhh...you followed my brother's advice and trained your pet and got up here, huh? Nice!! Since you worked hard to get here, I'll boost your intimacy level with your pet.");
+        cm.sendNext("¡Eh, esa es la carta de mi hermano! Probablemente regañándome por pensar que no estoy trabajando y esas cosas... ¿Eh? Ahhh...seguiste el consejo de mi hermano, entrenaste a tu mascota y llegaste hasta aquí, ¿eh? ¡¡Lindo!! Ya que trabajaste duro para llegar hasta aquí, aumentaré tu nivel de intimidad con tu mascota.");
     } else {
-        cm.sendOk("My brother told me to take care of the pet obstacle course, but ... since I'm so far away from him, I can't help but wanting to goof around ...hehe, since I don't see him in sight, might as well just chill for a few minutes.");
+        cm.sendOk("Mi hermano me dijo que me encargara de la carrera de obstáculos para mascotas, pero... como estoy tan lejos de él, no puedo evitar querer hacer el tonto... jeje, como no lo veo a la vista, mejor simplemente relajarme unos minutos.");
         cm.dispose();
     }
 }
@@ -42,11 +42,11 @@ function start() {
 function action(mode, type, selection) {
     if (mode < 1) {
     } else if (cm.getPlayer().getNoPets() == 0) {
-        cm.sendNextPrev("Hmmm ... did you really get here with your pet? These obstacles are for pets. What are you here for without it?? Get outta here!");
+        cm.sendNextPrev("Hmmm... ¿realmente llegaste hasta aquí con tu mascota? Estos obstáculos son para mascotas. ¿Para qué estás aquí sin él? ¡Fuera de aquí!");
     } else {
         cm.gainItem(4031128, -1);
         cm.gainTameness(4);
-        cm.sendNextPrev("What do you think? Don't you think you have gotten much closer with your pet? If you have time, train your pet again on this obstacle course...of course, with my brother's permission.");
+        cm.sendNextPrev("¿Qué opinas? ¿No crees que te has acercado mucho más a tu mascota? Si tienes tiempo, vuelve a entrenar a tu mascota en esta carrera de obstáculos... claro, con el permiso de mi hermano.");
     }
     cm.dispose();
 }

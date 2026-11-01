@@ -50,7 +50,7 @@ function action(mode, type, selection) {
                 cm.gainItem(ticketId, -1);
                 cm.doGachapon();
             } else {
-                cm.sendOk("Please have at least one slot in your #rEQUIP, USE, SET-UP, #kand #rETC#k inventories free.");
+                cm.sendOk("Por favor tenga al menos una ranura en su#rEQUIPAR, USAR, CONFIGURAR,#ky#rETC#k inventarios libres.");
             }
         } else {
             cm.dispose();

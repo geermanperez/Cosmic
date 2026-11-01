@@ -11,11 +11,11 @@ function end(mode, type, selection) {
     status++;
 
     if (status == 0) {
-        qm.sendNext("What the? Are you telling me you've already taken out 150 #o4230120#s? And these ... yes, these really are 120 #t4000122#s. I was wondering how you were going to complete this mission all by yourself, but you took care of it just fine. Alright, here ... this is a very important item for me, but please take it.");
+        qm.sendNext("¿Qué? ¿Me estás diciendo que ya has sacado 150 #o4230120#? Y estos... sí, estos realmente son 120 #t4000122#. Me preguntaba cómo ibas a completar esta misión tú solo, pero lo hiciste muy bien. Muy bien, toma... este es un artículo muy importante para mí, pero por favor tómalo.");
     } else if (status == 1) {
         const InventoryType = Java.type('client.inventory.InventoryType');
         if (qm.getPlayer().getInventory(InventoryType.EQUIP).getNumFreeSlot() < 1) {
-            qm.sendOk("Please free a EQUIP inventory slot to receive the reward.");
+            qm.sendOk("Libere un espacio de inventario EQUIP para recibir la recompensa.");
             qm.dispose();
             return;
         }
@@ -44,7 +44,7 @@ function end(mode, type, selection) {
         qm.gainItem(item, 1);
         qm.gainItem(4000122, -120);
         qm.gainExp(6100);
-        qm.sendOk("Thank you so much for fulfilling your missions as one of the Mesorangers. I've told the Sector about your successful story, and the Sector seems to be very pleased with you, too. Hopefully you'll keep working with us. Bye~");
+        qm.sendOk("Muchas gracias por cumplir tus misiones como uno de los Mesorangers. Le he contado al Sector tu exitosa historia y el Sector parece estar muy satisfecho contigo también. Ojalá sigas trabajando con nosotros. Adiós~");
     } else if (status == 3) {
         qm.dispose();
     }

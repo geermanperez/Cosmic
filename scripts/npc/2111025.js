@@ -46,7 +46,7 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendAcceptDecline("You can operate the automated security system using the control unit. Would you like to deactivate the automated security system?");
+            cm.sendAcceptDecline("Puede operar el sistema de seguridad automatizado utilizando la unidad de control. ¿Le gustaría desactivar el sistema de seguridad automatizado?");
             return;
         } else if (status == 1) {
             cm.weakenAreaBoss(7090000, "The automated security system has been deactivated. The intruder alarm will shut down.");

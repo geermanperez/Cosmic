@@ -31,10 +31,10 @@ function action(mode, type, selection) {
         if (status == 0) {
             if (cm.getParty() == null) {
                 status = 10;
-                cm.sendOk("You need to create a party before you can participate in Monster Carnival!");
+                cm.sendOk("¡Necesitas crear un grupo antes de poder participar en Monster Carnival!");
             } else if (!cm.isLeader()) {
                 status = 10;
-                cm.sendOk("If you want to start the battle, let the #bleader#k come and speak to me.");
+                cm.sendOk("Si quieres comenzar la batalla, deja que el #bleader#k venga y hable conmigo.");
             } else {
                 var leaderMapid = cm.getMapId();
                 var party = cm.getParty().getMembers();
@@ -53,16 +53,16 @@ function action(mode, type, selection) {
 
                 if (party >= 1) {
                     status = 10;
-                    cm.sendOk("You do not have enough people in your party. You need a party with #b" + cpqMinAmt + "#k - #r" + cpqMaxAmt + "#k members and they should be on the map with you.");
+                    cm.sendOk("No tienes suficientes personas en tu grupo. Necesitas una fiesta con #b" + cpqMinAmt + "#k - #r" + cpqMaxAmt + "Miembros #k y deberían estar en el mapa contigo.");
                 } else if (lvlOk != inMap) {
                     status = 10;
-                    cm.sendOk("Make sure everyone in your party is among the correct levels (" + cpqMinLvl + "~" + cpqMaxLvl + ")!");
+                    cm.sendOk("Asegúrate de que todos los miembros de tu grupo estén en los niveles correctos (" + cpqMinLvl + "~" + cpqMaxLvl + ")!");
                 } else if (isOutMap > 0) {
                     status = 10;
-                    cm.sendOk("There are some of the party members that is not on the map!");
+                    cm.sendOk("¡Hay algunos miembros del grupo que no están en el mapa!");
                 } else {
                     if (!cm.sendCPQMapLists2()) {
-                        cm.sendOk("All Monster Carnival fields are currently in use! Try again later.");
+                        cm.sendOk("¡Todos los campos de Monster Carnival están actualmente en uso! Vuelve a intentarlo más tarde.");
                         cm.dispose();
                     }
                 }
@@ -73,16 +73,16 @@ function action(mode, type, selection) {
                     cm.challengeParty2(selection);
                     cm.dispose();
                 } else {
-                    cm.sendOk("The room is currently full.");
+                    cm.sendOk("Actualmente la sala está llena.");
                     cm.dispose();
                 }
             } else {
                 var party = cm.getParty().getMembers();
                 const YamlConfig = Java.type('config.YamlConfig');
                 if ((selection === 0 || selection === 1) && party.size() < (YamlConfig.config.server.USE_ENABLE_SOLO_EXPEDITIONS ? 1 : 2)) {
-                    cm.sendOk("You need at least 2 players to participate in the battle!");
+                    cm.sendOk("¡Necesitas al menos 2 jugadores para participar en la batalla!");
                 } else if ((selection === 2) && party.size() < (YamlConfig.config.server.USE_ENABLE_SOLO_EXPEDITIONS ? 1 : 3)) {
-                    cm.sendOk("You need at least 3 players to participate in the battle!");
+                    cm.sendOk("¡Necesitas al menos 3 jugadores para participar en la batalla!");
                 } else {
                     cm.cpqLobby2(selection);
                 }

@@ -29,13 +29,13 @@ function start() {
     if (cm.getPlayer().gotPartyQuestItem("JBQ") && !cm.haveItem(4031058)) {
         if (cm.haveItem(4005004)) {
             if (!cm.canHold(4031058)) {
-                cm.sendNext("Have a free ETC slot available before accepting this trial.");
+                cm.sendNext("Tenga disponible un espacio ETC gratuito antes de aceptar esta prueba.");
             } else {
-                cm.sendNext("Alright... I'll be testing out your wisdom here. Answer all the questions correctly, and you will pass the test BUT, if you even lie to me once, then you'll have to start over again ok, here we go.");
+                cm.sendNext("Muy bien... Estaré poniendo a prueba tu sabiduría aquí. Responde todas las preguntas correctamente y aprobarás el examen PERO, si me mientes siquiera una vez, tendrás que empezar de nuevo, bien, allá vamos.");
                 return;
             }
         } else {
-            cm.sendNext("Bring me a #b#t4005004##k to proceed with the questions.");
+            cm.sendNext("Tráeme un#b#t4005004##kpara continuar con las preguntas.");
         }
     }
     cm.dispose();
@@ -52,7 +52,7 @@ function action(mode, type, selection) {
     }
     if (status > 0) {
         if (selection != ans[rand]) {
-            cm.sendNext("You have failed the question.");
+            cm.sendNext("Has fallado la pregunta.");
             cm.dispose();
             return;
         }
@@ -61,10 +61,10 @@ function action(mode, type, selection) {
         rand = parseInt(Math.random() * quest.length);
     }
     if (status <= 4) {
-        cm.sendSimple("Here's the " + (status + 1) + (status == 0 ? "st" : status == 1 ? "nd" : status == 2 ? "rd" : "th") + " question. " + quest[rand]);
+        cm.sendSimple("Aquí está el" + (status + 1) + (status == 0 ? "calle" : status == 1 ? "Dakota del Norte" : status == 2 ? "tercero" : "th") + "pregunta." + quest[rand]);
         quest[rand] = "";
     } else {
-        cm.sendOk("Alright. All your answers have been proven as the truth. Your wisdom has been proven.\r\nTake this necklace and go back.");
+        cm.sendOk("Está bien. Se ha demostrado que todas sus respuestas son verdad. Tu sabiduría ha sido probada.\r\nToma este collar y regresa.");
         cm.gainItem(4031058, 1);
         cm.dispose();
     }

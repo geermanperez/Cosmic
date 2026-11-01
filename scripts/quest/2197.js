@@ -16,7 +16,7 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Oh, you already have monster book. Good luck on your journey~!");
+            qm.sendNext("Oh, ya tienes el libro de monstruos. ¡Buena suerte en tu viaje~!");
         } else if (status == 1) {
             qm.forceCompleteQuest();
             qm.dispose();
@@ -40,7 +40,7 @@ function end(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Oh, you already have monster book. Good luck on your journey~!");
+            qm.sendNext("Oh, ya tienes el libro de monstruos. ¡Buena suerte en tu viaje~!");
         } else if (status == 1) {
             qm.forceCompleteQuest();
             qm.dispose();

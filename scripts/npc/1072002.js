@@ -47,26 +47,26 @@ function action(mode, type, selection) {
 
         if (status == 0) {
             if (cm.isQuestCompleted(100001)) {
-                cm.sendOk("You're truly a hero!");
+                cm.sendOk("¡Eres realmente un héroe!");
                 cm.dispose();
             } else if (cm.isQuestCompleted(100000)) {
-                cm.sendNext("Alright I'll let you in! Defeat the monsters inside, collect 30 Dark Marbles, then strike up a conversation with a colleague of mine inside. He'll give you #bThe Proof of a Hero#k, the proof that you've passed the test. Best of luck to you.");
+                cm.sendNext("¡Muy bien, te dejaré entrar! Derrota a los monstruos que están dentro, recoge 30 canicas oscuras y luego entabla una conversación con un colega mío que está dentro. el te dara#bLa prueba de un héroe#k, la prueba de que has pasado la prueba. Mucha suerte para ti.");
                 status = 3;
             } else if (cm.isQuestStarted(100000)) {
-                cm.sendNext("Oh, isn't this a letter from #bAthena#k?");
+                cm.sendNext("Oh, ¿no es esta una carta de #bAthena#k?");
             } else {
-                cm.sendOk("I can show you the way once your ready for it.");
+                cm.sendOk("Puedo mostrarte el camino una vez que estés listo para ello.");
                 cm.dispose();
             }
         } else if (status == 1) {
-            cm.sendNextPrev("So you want to prove your skills? Very well...");
+            cm.sendNextPrev("¿Quieres demostrar tus habilidades? Muy bien...");
         } else if (status == 2) {
-            cm.sendAcceptDecline("I will give you a chance if you're ready.");
+            cm.sendAcceptDecline("Te daré una oportunidad si estás listo.");
         } else if (status == 3) {
             cm.completeQuest(100000);
             cm.startQuest(100001);
             cm.gainItem(4031010, -1);
-            cm.sendOk("You will have to collect me #b30 #t4031013##k. Good luck.")
+            cm.sendOk("tendrás que recogerme#b30 #t4031013##k. Buena suerte.")
         } else if (status == 4) {
             cm.warp(108000100, 0);
             cm.dispose();

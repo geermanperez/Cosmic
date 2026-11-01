@@ -63,27 +63,27 @@ function action(mode, type, selection) {
         var eim = cm.getPlayer().getEventInstance();
 
         if (eim.getProperty(stage.toString() + "stageclear") != null) {
-            cm.sendNext("Hurry, goto the next stage, the portal is open!");
+            cm.sendNext("¡Date prisa, pasa a la siguiente etapa, el portal está abierto!");
         } else {
             if (eim.isEventLeader(cm.getPlayer())) {
                 var state = eim.getIntProperty("statusStg" + stage);
 
                 if (state == -1) {           // preamble
-                    cm.sendOk("Hi. Welcome to the #bstage " + stage + "#k. Collect 15 #t4001022#'s scattered across the map, then talk to me.");
+                    cm.sendOk("Hola. Bienvenido al escenario #b" + stage + "#k. Recoge 15#t4001022#está disperso por el mapa, entonces habla conmigo.");
                     eim.setProperty("statusStg" + stage, 0);
                 } else {       // check stage completion
                     if (cm.haveItem(4001022, 15)) {
-                        cm.sendOk("Good job! You have collected all 15 #b#t4001022#'s.#k");
+                        cm.sendOk("¡Buen trabajo! Has recogido los 15#b#t4001022#'s.#k");
                         cm.gainItem(4001022, -15);
 
                         eim.setProperty("statusStg" + stage, 1);
                         clearStage(stage, eim, curMap);
                     } else {
-                        cm.sendNext("Sorry you don't have all 15 #b#t4001022#'s.#k");
+                        cm.sendNext("Lo siento, no tienes los 15.#b#t4001022#'s.#k");
                     }
                 }
             } else {
-                cm.sendNext("Please tell your #bParty-Leader#k to come talk to me.");
+                cm.sendNext("Por favor dile a tu#bLíder del partido#kpara venir a hablar conmigo.");
             }
         }
 

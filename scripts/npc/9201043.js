@@ -28,7 +28,7 @@ var status = 0;
 var MySelection = -1;
 
 function start() {
-    cm.sendSimple("My name is Amos the Strong. What would you like to do?\r\n#b#L0#Enter the Amorian Challenge!!#l\r\n#L1#Trade 10 Keys for a Ticket!#l\r\n#k");
+    cm.sendSimple("Mi nombre es Amós el Fuerte. ¿Qué te gustaría hacer?\r\n#b#L0#¡¡Entra en el Desafío Amoriano!!#l\r\n#L1#¡Cambia 10 llaves por un boleto!#l\r\n#k");
 }
 
 function action(mode, type, selection) {
@@ -36,7 +36,7 @@ function action(mode, type, selection) {
         cm.dispose();
     } else {
         if (status >= 0 && mode == 0) {
-            cm.sendOk("Ok come back when you're ready.");
+            cm.sendOk("Ok, regresa cuando estés listo.");
             cm.dispose();
             return;
         }
@@ -47,21 +47,21 @@ function action(mode, type, selection) {
         }
         if (status == 1 && selection == 0) {
             if (cm.haveItem(4031592, 1)) {
-                cm.sendYesNo("So you would like to enter the #bEntrance#k?");
+                cm.sendYesNo("¿Entonces le gustaría ingresar el #bEntrance#k?");
                 MySelection = selection;
             } else {
-                cm.sendOk("You must have an Entrance Ticket to enter.");
+                cm.sendOk("Debes tener un boleto de entrada para ingresar.");
                 cm.dispose();
             }
         } else if (status == 1 && selection == 1) {
             if (cm.haveItem(4031592)) {
-                cm.sendOk("You already have an Entrance Ticket!");
+                cm.sendOk("¡Ya tienes tu Ticket de Entrada!");
                 cm.dispose();
             } else if (cm.haveItem(4031593, 10)) {
-                cm.sendYesNo("So you would like a Ticket?");
+                cm.sendYesNo("Entonces, ¿quieres un boleto?");
                 MySelection = selection;
             } else {
-                cm.sendOk("Please get me 10 Keys first!");
+                cm.sendOk("¡Por favor, consígueme 10 llaves primero!");
                 cm.dispose();
             }
         } else if (status == 2 && MySelection == 0) {

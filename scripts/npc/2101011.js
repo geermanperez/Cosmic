@@ -26,6 +26,6 @@
  */
 
 function start() {
-    cm.sendNext("The light and dark always coexist...");
+    cm.sendNext("La luz y la oscuridad siempre coexisten...");
     cm.dispose();
 }

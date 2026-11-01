@@ -3,6 +3,6 @@ function start() {
 }
 
 function action(mode, type, selection) {
-    cm.sendNext("Being young doesn't mean I'm any different from those guys. I'll show them!");
+    cm.sendNext("Ser joven no significa que sea diferente de esos tipos. ¡Se los mostraré!");
     cm.dispose();
 }

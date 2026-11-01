@@ -55,21 +55,21 @@ function action(mode, type, selection) {
 
                     if (cm.isEventLeader()) {
                         if (cm.haveItem(4001007, couponsNeeded)) {
-                            cm.sendNext("Your team collected all the needed coupons, good work!");
+                            cm.sendNext("Su equipo recopiló todos los cupones necesarios, ¡buen trabajo!");
                             cm.gainItem(4001007, couponsNeeded);
                             eim.clearPQ();
 
                             cm.dispose();
 
                         } else {
-                            cm.sendYesNo("Your team must collect #r" + couponsNeeded + "#k coupons to complete this instance. Talk to me when you have the right amount in hands... Or you want to #bquit now#k? Note that if you quit now #ryour team will be forced to quit#k as well.");
+                            cm.sendYesNo("Tu equipo debe recolectar #r" + couponsNeeded + "#kcupones para completar esta instancia. Háblame cuando tengas la cantidad adecuada en tus manos... O quieras#bdejar de fumar ahora#k? Tenga en cuenta que si sale ahora#rtu equipo se verá obligado a renunciar#ktambién.");
                         }
                     } else {
-                        cm.sendYesNo("Your team must collect #r" + couponsNeeded + "#k coupons to complete this instance. Let your leader talk to me with the right amount in hands... Or you want to #bquit now#k? Note that if you quit now your team #rmay become undermanned#k to further continue this instance.");
+                        cm.sendYesNo("Tu equipo debe recolectar #r" + couponsNeeded + "#kcupones para completar esta instancia. Deja que tu líder me hable con la cantidad adecuada en tus manos... ¿O quieres#bdejar de fumar ahora#k? Tenga en cuenta que si abandona ahora su equipo#rpuede quedar sin personal#kpara continuar con esta instancia.");
                     }
                 } else {
                     if (!eim.giveEventReward(cm.getPlayer())) {
-                        cm.sendOk("Please make a room on your ETC inventory to receive the prize.");
+                        cm.sendOk("Haga un espacio en su inventario de ETC para recibir el premio.");
                         cm.dispose();
                     } else {
                         cm.warp(193000000);
@@ -94,7 +94,7 @@ function action(mode, type, selection) {
 
                 em = cm.getEventManager("CafePQ_" + pqArea);
                 if (em == null) {
-                    cm.sendOk("The CafePQ_" + pqArea + "has encountered an error.");
+                    cm.sendOk("El CaféPQ_" + pqArea + "ha encontrado un error.");
                     cm.dispose();
                     return;
                 } else if (cm.isUsingOldPqNpcStyle()) {
@@ -103,33 +103,33 @@ function action(mode, type, selection) {
                     return;
                 }
 
-                cm.sendSimple("#e#b<Party Quest: Premium Road - " + levels[selection] + ">\r\n#k#n" + em.getProperty("party") + "\r\n\r\nThe #p1052014# operates differently than the common ones. They do not use mesos or gachapon tickets, rather #rERASERS#k, that can be obtained by completing the missions held on the Premium Road. To go there, you must find partners and attend to a Party Quest. When teamed up and ready, have your #bparty leader#k talk to me.#b\r\n#L0#I want to participate in the party quest.\r\n#L1#I would like to " + (cm.getPlayer().isRecvPartySearchInviteEnabled() ? "disable" : "enable") + " Party Search.\r\n#L2#I would like to hear more details.");
+                cm.sendSimple("#e#b<Misión del grupo: Carretera Premium -" + levels[selection] + ">\r\n#k#n" + em.getProperty("fiesta") + "\r\n\r\nEl#p1052014#opera de manera diferente a los comunes. No usan billetes mesos ni gachapon, sino#rERASERS#k, que se puede obtener completando las misiones realizadas en Premium Road. Para ir allí, debes encontrar socios y asistir a una Party Quest. Cuando esté formado y listo, tenga su#blíder del partido#kháblame.#b\r\n#L0#Quiero participar en la búsqueda del grupo.\r\n#L1#Me gustaría" + (cm.getPlayer().isRecvPartySearchInviteEnabled() ? "desactivar" : "permitir") + "Party Search.\r\n#L2#Me gustaría escuchar más detalles.");
             } else if (status == 2) {
                 if (selection == 0) {
                     if (cm.getParty() == null) {
-                        cm.sendOk("You can participate in the party quest only if you are in a party.");
+                        cm.sendOk("Puedes participar en la misión del grupo solo si estás en un grupo.");
                         cm.dispose();
                     } else if (!cm.isLeader()) {
-                        cm.sendOk("Your party leader must talk to me to start this party quest.");
+                        cm.sendOk("El líder de tu grupo debe hablar conmigo para comenzar esta búsqueda del grupo.");
                         cm.dispose();
                     } else {
                         var eli = em.getEligibleParty(cm.getParty());
                         if (eli.size() > 0) {
                             if (!em.startInstance(cm.getParty(), cm.getPlayer().getMap(), 1)) {
-                                cm.sendOk("Another party has already entered the #rParty Quest#k in this channel. Please try another channel, or wait for the current party to finish.");
+                                cm.sendOk("Otro partido ya ha entrado en el#rBúsqueda de fiesta#ken este canal. Prueba con otro canal o espera a que termine la fiesta actual.");
                             }
                         } else {
-                            cm.sendOk("You cannot start this party quest yet, because either your party is not in the range size, some of your party members are not eligible to attempt it or they are not in this map. If you're having trouble finding party members, try Party Search.");
+                            cm.sendOk("No puedes comenzar esta misión de grupo todavía porque tu grupo no está dentro del rango de tamaño, algunos de los miembros de tu grupo no son elegibles para intentarla o no están en este mapa. Si tienes problemas para encontrar miembros del grupo, prueba Party Search.");
                         }
 
                         cm.dispose();
                     }
                 } else if (selection == 1) {
                     var psState = cm.getPlayer().toggleRecvPartySearchInvite();
-                    cm.sendOk("Your Party Search status is now: #b" + (psState ? "enabled" : "disabled") + "#k. Talk to me whenever you want to change it back.");
+                    cm.sendOk("El estado de tu búsqueda de grupo es ahora: #b" + (psState ? "activado" : "desactivado") + "#k. Habla conmigo cuando quieras volver a cambiarlo.");
                     cm.dispose();
                 } else {
-                    cm.sendOk("#e#b<Party Quest: Premium Road>#k#n\r\nOn the maps ahead, you will face many common-leveled mobs to face on. Grind all the required coupons from them and give it to me. All members will then receive a eraser, corresponding with the level faced. Insert on the machine #bmany of the same eraser or multiple different ones#k to have a better chance on greater prizes.");
+                    cm.sendOk("#e#b<Misión del grupo: Carretera Premium>#k#n\r\nEn los mapas siguientes, te enfrentarás a muchos mobs de niveles comunes. Muele todos los cupones requeridos y dámelos. Luego, todos los miembros recibirán un borrador, correspondiente al nivel al que se enfrentan. Insertar en la máquina#bmuchos del mismo borrador o varios diferentes#kpara tener más posibilidades de obtener mayores premios.");
                     cm.dispose();
                 }
             }

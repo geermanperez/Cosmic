@@ -35,19 +35,19 @@
 var price = 300;
 
 function start() {
-    cm.sendYesNo("Would you like to enter the bathhouse? That'll be " + price + " mesos for you.");
+    cm.sendYesNo("¿Quieres entrar a la casa de baños? eso sera" + price + "mesos para ti.");
 }
 
 function action(mode, type, selection) {
     if (mode < 1) {
         if (mode == 0) {
-            cm.sendOk("Please come back some other time.");
+            cm.sendOk("Por favor, vuelve en otro momento.");
         }
         cm.dispose();
         return;
     }
     if (cm.getMeso() < price) {
-        cm.sendOk("Please check and see if you have " + price + " mesos to enter this place.");
+        cm.sendOk("Por favor verifique y vea si tiene" + price + "mesos para entrar a este lugar.");
     } else {
         cm.gainMeso(-price);
         cm.warp(801000100 + 100 * cm.getPlayer().getGender(), "out00");

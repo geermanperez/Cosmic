@@ -67,32 +67,32 @@ function action(mode, type, selection) {
         if (status == 0) {
             em = cm.getEventManager("GuildQuest");
             if (em == null) {
-                cm.sendOk("The Guild Quest has encountered an error.");
+                cm.sendOk("El Guild Quest ha encontrado un error.");
                 cm.dispose();
                 return;
             }
 
-            cm.sendSimple("#e#b<Guild Quest: Sharenian Ruins>\r\n#k#n" + em.getProperty("party") + "\r\n\r\nThe path to Sharenian starts here. What would you like to do? #b\r\n#L0#Register your guild for Guild Quest#l\r\n#L1#Join your guild's Guild Quest#l\r\n#L2#I would like to hear more details.#l");
+            cm.sendSimple("#e#b<Misión del gremio: Ruinas Sharenianas>\r\n#k#n" + em.getProperty("fiesta") + "\r\n\r\nEl camino hacia lo shareniano comienza aquí. ¿Qué te gustaría hacer?#b\r\n#L0#Registra tu gremio para Guild Quest#l\r\n#L1#Únete a la Guild Quest de tu gremio#l\r\n#L2#Me gustaría escuchar más detalles.#l");
         } else if (status == 1) {
             sel = selection;
             if (selection == 0) {
                 if (!cm.isGuildLeader()) {
-                    cm.sendOk("Your guild master/jr.master must talk to me to register the guild for the guild quest.");
+                    cm.sendOk("Tu maestro de gremio/master jr debe hablar conmigo para registrar el gremio para la misión del gremio.");
                     cm.dispose();
                 } else {
                     if (em.isQueueFull()) {
-                        cm.sendOk("The queue on this channel is already full. Please be patient and try again after a while, or try on another channel.");
+                        cm.sendOk("La cola en este canal ya está llena. Tenga paciencia y vuelva a intentarlo después de un tiempo, o inténtelo en otro canal.");
                         cm.dispose();
                     } else {
                         var qsize = em.getQueueSize();
-                        cm.sendYesNo(((qsize > 0) ? "There is currently #r" + qsize + "#k guilds queued on. " : "") + "Do you wish for your guild to join this queue?");
+                        cm.sendYesNo(((qsize > 0) ? "Actualmente hay #r" + qsize + "Los gremios #k hicieron cola." : "") + "¿Quieres que tu gremio se una a esta cola?");
                     }
                 }
             } else if (selection == 1) {
                 if (cm.getPlayer().getGuildId() > 0) {
                     var eim = findLobby(cm.getPlayer().getGuildId());
                     if (eim == null) {
-                        cm.sendOk("Your guild is not currently on strategy time on this channel. Check again if your guild is currently planning a Guild Quest or, if so, the channel they are allotted on.");
+                        cm.sendOk("Tu gremio no se encuentra actualmente en tiempo de estrategia en este canal. Comprueba nuevamente si tu gremio está planeando una misión de gremio o, de ser así, el canal en el que están asignadas.");
                     } else {
                         if (cm.isLeader()) {
                             em.getEligibleParty(cm.getParty());
@@ -102,7 +102,7 @@ function action(mode, type, selection) {
                         }
                     }
                 } else {
-                    cm.sendOk("You can't participate in the guild quest if you don't pertain on a guild yourself!");
+                    cm.sendOk("¡No puedes participar en la misión del gremio si no perteneces a ningún gremio!");
                 }
 
                 cm.dispose();
@@ -115,18 +115,18 @@ function action(mode, type, selection) {
                 reqStr += "     - 1 team member who is a #rlong ranged attacker#k like Bowman, Assassin, or Gunslinger.\r\n";
                 reqStr += "     - 1 team member with #rgood jumping skills#k like Assassin with maxed Flash Jump or Gunslinger with Wings.\r\n";
 
-                cm.sendOk("#e#b<Guild Quest: Sharenian Ruins>#k#n\r\n Team up with your guild members in an auspicious attempt to recover the Rubian from the skeleton's grasp, with teamwork overcoming many puzzles and challenges awaiting inside the Sharenian tombs. Great rewards can be obtained upon the instance completion, and Guild Points can be racked up for your Guild." + reqStr);
+                cm.sendOk("#e#b<Misión del gremio: Ruinas Sharenianas>#k#n\r\nÚnete a los miembros de tu gremio en un intento auspicioso de recuperar al Rubian de las garras del esqueleto, y el trabajo en equipo superará muchos acertijos y desafíos que te esperan dentro de las tumbas sharenianas. Se pueden obtener grandes recompensas al completar la instancia y se pueden acumular puntos de gremio para tu gremio." + reqStr);
                 cm.dispose();
             }
         } else if (status == 2) {
             if (sel == 0) {
                 var entry = em.addGuildToQueue(cm.getPlayer().getGuildId(), cm.getPlayer().getId());
                 if (entry > 0) {
-                    cm.sendOk("Your guild has been registered successfully. A message will pop on your chat keeping your guild aware about the registration status.\r\n\r\nNow, #rimportant#k: as the leader of this instance, #ryou must already be present on this channel#k the right moment your guild is called for the strategy time. #bThe missubmission of this action will void#k your guild registration as a whole, and the next guild will be called immediately. Must be noted also that if you, leader of this instance, become absent from the end of the strategy time to any point on the duration of the instance, it will render the mission interrupted, and your guild will be moved out instantly, moving again the queue.");
+                    cm.sendOk("Tu gremio se ha registrado exitosamente. Aparecerá un mensaje en tu chat para mantener a tu gremio informado sobre el estado del registro.\r\n\r\nAhora,#rimportant#k: como líder de esta instancia,#rya debes estar presente en este canal#kel momento adecuado en el que se llama a tu gremio para el momento de la estrategia.#bLa presentación incorrecta de esta acción anulará#ksu registro de gremio en su totalidad, y el siguiente gremio será llamado inmediatamente. Debe tenerse en cuenta también que si usted, líder de esta instancia, se ausenta desde el final del tiempo de estrategia hasta cualquier punto de la duración de la instancia, la misión se interrumpirá y su gremio será retirado instantáneamente, moviendo nuevamente la cola.");
                 } else if (entry == 0) {
-                    cm.sendOk("The queue on this channel is already full. Please be patient and try again after a while, or try on another channel.");
+                    cm.sendOk("La cola en este canal ya está llena. Tenga paciencia y vuelva a intentarlo después de un tiempo, o inténtelo en otro canal.");
                 } else {
-                    cm.sendOk("Your guild is already queued on a channel. Please wait for your guild's turn.");
+                    cm.sendOk("Tu gremio ya está en cola en un canal. Espere el turno de su gremio.");
                 }
             }
 

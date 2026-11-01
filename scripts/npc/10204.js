@@ -22,20 +22,20 @@
 var status = -1;
 
 function start() {
-    cm.sendNext("Pirates are blessed with outstanding dexterity and power, utilizing their guns for long-range attacks while using their power on melee combat situations. Gunslingers use elemental-based bullets for added damage, while Infighters transform to a different being for maximum effect.");
+    cm.sendNext("Los piratas están bendecidos con una destreza y un poder excepcionales, y utilizan sus armas para ataques de largo alcance mientras usan su poder en situaciones de combate cuerpo a cuerpo. Los pistoleros usan balas elementales para causar daño adicional, mientras que los Infighters se transforman en un ser diferente para lograr el máximo efecto.");
 }
 
 function action(mode, type, selection) {
     status++;
     if (mode != 1) {
         if (mode == 0) {
-            cm.sendNext("If you wish to experience what it's like to be a Pirate, come see me again.");
+            cm.sendNext("Si deseas experimentar lo que es ser un pirata, ven a verme nuevamente.");
         }
         cm.dispose();
         return;
     }
     if (status == 0) {
-        cm.sendYesNo("Would you like to experience what it's like to be a Pirate?");
+        cm.sendYesNo("¿Te gustaría experimentar lo que es ser un pirata?");
     } else if (status == 1) {
         cm.lockUI();
         cm.warp(1020500, 0);

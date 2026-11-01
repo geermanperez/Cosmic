@@ -15,15 +15,15 @@ function start(mode, type, selection) {
         if (type == 1 && mode == 0) {
             status -= 2;
         } else {
-            qm.sendOk("Okay, then. See you around.");
+            qm.sendOk("Bien, entonces. Ya nos veremos.");
             qm.dispose();
             return;
         }
     }
     if (status == 0) {
-        qm.sendAcceptDecline("It's about time! We need to make you a way to travel safely to the summit of the Crimsonwood Valley, or else all we've been doing was for naught. You have to lay hands on the #b#t3992039##k. Are you ready to go?");
+        qm.sendAcceptDecline("¡Ya era hora! Necesitamos crearte una manera de viajar con seguridad a la cima del Valle Crimsonwood, o todo lo que hemos estado haciendo será en vano. Tienes que ponerle las manos encima#b#t3992039##k. ¿Estás listo para partir?");
     } else if (status == 1) {
-        qm.sendOk("Okay, I need you to have these items on hand first: #b10 #t4010006##k, #b4 #t4032005##k and #b1 #t4004000##k. Go!");
+        qm.sendOk("Bien, primero necesito que tengas estos artículos a mano:#b10 #t4010006##k, #b4 #t4032005##ky#b1 #t4004000##k. ¡Ir!");
         qm.forceStartQuest();
     } else if (status == 2) {
         qm.dispose();

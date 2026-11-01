@@ -10,23 +10,23 @@ function start(mode, type, selection) {
         status++;
     } else {
         if (status == 2) {
-            qm.sendNext("What? I don't think there are any suspects besides that kid. Please think again.");
+            qm.sendNext("¿Qué? No creo que haya ningún sospechoso además de ese niño. Por favor piénselo de nuevo.");
             qm.dispose();
             return;
         }
         status--;
     }
     if (status == 0) {
-        qm.sendNext("What did #p1032112# say?", 8);
+        qm.sendNext("¿Qué dijo #p1032112#?", 8);
     } else if (status == 1) {
-        qm.sendNextPrev("#b(You tell her what #p1032112# observed.)#k", 2);
+        qm.sendNextPrev("#b(Le dices lo que#p1032112#observado.)#k", 2);
     } else if (status == 2) {
-        qm.sendAcceptDecline("A kid with a puppet? That seems very suspicious. I am sure that kid is the reason the Green Mushrooms have suddenly turned violent.");
+        qm.sendAcceptDecline("¿Un niño con una marioneta? Eso parece muy sospechoso. Estoy seguro de que ese niño es la razón por la que los Hongos Verdes de repente se han vuelto violentos.");
     } else if (status == 3) {
         qm.forceStartQuest();
-        qm.sendNext("How dare this kid wreak havoc in the South Forest. Who knows how long it will take to restore the forest... I'll have to devote most of my time cleaning up the mess.", 2);
+        qm.sendNext("¿Cómo se atreve este niño a causar estragos en el Bosque del Sur? Quién sabe cuánto tiempo llevará restaurar el bosque... Tendré que dedicar la mayor parte de mi tiempo a limpiar el desorden.", 2);
     } else if (status == 4) {
-        qm.sendPrev("#b(You were able to find out what caused the changes in the Green Mushrooms. You should report #p1002104# and deliver the information you've collected.)#k", 2);
+        qm.sendPrev("#b(Pudiste descubrir qué causó los cambios en los Hongos Verdes. Debes informar#p1002104#y entregar la información que ha recopilado.)#k", 2);
     } else if (status == 5) {
         qm.dispose();
     }

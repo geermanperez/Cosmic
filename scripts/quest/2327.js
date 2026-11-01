@@ -20,9 +20,9 @@ function start(mode, type, selection) {
     }
 
     if (status == 0) {
-        qm.sendNext("Hey! Thank you for bringing me a #b#t4001317##k.");
+        qm.sendNext("¡Ey! Gracias por traerme un#b#t4001317##k.");
     } else if (status == 1) {
-        qm.sendNextPrev("I plan to escape from here wearing the #b#t4001317##k. Give me a minute to put it on. Talk to you soon...");
+        qm.sendNextPrev("Planeo escapar de aquí usando el#b#t4001317##k. Dame un minuto para ponérmelo. Hablamos pronto...");
     } else if (status == 2) {
         qm.forceStartQuest();
         qm.dispose();

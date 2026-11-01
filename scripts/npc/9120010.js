@@ -51,7 +51,7 @@ function action(mode, type, selection) {
         cm.dispose();
     } else {
         if (mode == 0 && status == 0) {
-            cm.sendOk("Really? Let me know if you ever change your mind.");
+            cm.sendOk("¿En realidad? Déjame saber si alguna vez cambias de opinión.");
             cm.dispose();
             return;
         }
@@ -63,7 +63,7 @@ function action(mode, type, selection) {
             status++;
         }
         if (status == 0) {
-            cm.sendYesNo("If you're looking for someone that can pinpoint the characteristics of various items, you're looking at one right now. I'm currently looking for something. Would you like to hear my story?");
+            cm.sendYesNo("Si está buscando a alguien que pueda identificar las características de varios elementos, está buscando uno ahora mismo. Actualmente estoy buscando algo. ¿Te gustaría escuchar mi historia?");
         } else if (status == 1) {
             var eQuestChoice = makeChoices(eQuestChoices);
             cm.sendSimple(eQuestChoice);
@@ -74,13 +74,13 @@ function action(mode, type, selection) {
             prizeItem = reward[itemSet][0];
             prizeQuantity = reward[itemSet][1];
             if (!cm.canHold(prizeItem)) {
-                cm.sendNext("I can't give you the reward if your equip, use, or etc. inventory is full. Please go take a look right now.");
+                cm.sendNext("No puedo darte la recompensa si tu inventario de equipo, uso, etc. está lleno. Por favor, eche un vistazo ahora mismo.");
             } else if (cm.hasItem(requiredItem, 100)) {   // check they have >= 100 in Inventory
                 cm.gainItem(requiredItem, -100);
                 cm.gainItem(prizeItem, prizeQuantity);
-                cm.sendOk("Hmmm ... if not for this minor scratch ... sigh. I'm afraid I can only deem this a standard-quality item. Well, here's \r\n#t" + prizeItem + "# for you.");
+                cm.sendOk("Hmmm... si no fuera por este pequeño rasguño... suspiro. Me temo que sólo puedo considerarlo un artículo de calidad estándar. Bueno, aquí está \r\n#t" + prizeItem + "# para ti.");
             } else {
-                cm.sendOk("Hey, what do you think you're doing? Go lie to someone that DOESN'T know what he's talking about. Not me!");
+                cm.sendOk("Oye, ¿qué crees que estás haciendo? Vaya a mentirle a alguien que NO sabe de lo que está hablando. ¡Yo no!");
             }
             cm.dispose();
         }

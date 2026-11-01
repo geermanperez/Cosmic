@@ -29,25 +29,25 @@
 
 function start() {
     if (cm.isQuestCompleted(6002)) {
-        cm.sendOk("Thanks for saving the pork.");
+        cm.sendOk("Gracias por salvar el cerdo.");
     } else if (cm.isQuestStarted(6002)) {
         if (cm.haveItem(4031507, 5) && cm.haveItem(4031508, 5)) {
-            cm.sendOk("Thanks for saving the pork.");
+            cm.sendOk("Gracias por salvar el cerdo.");
         } else {
             var em = cm.getEventManager("3rdJob_mount");
             if (em == null) {
-                cm.sendOk("Sorry, but 3rd job advancement (mount) is closed.");
+                cm.sendOk("Lo sentimos, pero el tercer ascenso laboral (montaje) está cerrado.");
             } else {
                 if (em.startInstance(cm.getPlayer())) {
                     cm.removeAll(4031507);
                     cm.removeAll(4031508);
                 } else {
-                    cm.sendOk("There is currently someone in this map, come back later.");
+                    cm.sendOk("Actualmente hay alguien en este mapa, vuelve más tarde.");
                 }
             }
         }
     } else {
-        cm.sendOk("Only few adventurers, from a selected public, are eligible to protect the Watch Hog.");
+        cm.sendOk("Sólo unos pocos aventureros, de un público seleccionado, son elegibles para proteger Watch Hog.");
     }
 
     cm.dispose();

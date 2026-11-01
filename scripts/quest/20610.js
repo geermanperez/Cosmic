@@ -8,10 +8,10 @@ function start(mode, type, selection) {
     status++;
 
     if (status == 0) {
-        qm.sendAcceptDecline("Have you been mastering your skills? I am sure you've mastered all your skills, which means... it's time for you to learn a #bnew skill#k, right?");
+        qm.sendAcceptDecline("¿Has estado dominando tus habilidades? Estoy seguro de que dominas todas tus habilidades, lo que significa... que es hora de que aprendas un#bnueva habilidad#k, ¿bien?");
     } else if (status == 1) {
         if (mode == 0) {
-            qm.sendOk("Well, what you're doing right now doesn't make you look like someone that's humble. You just look complacent by doing that, and that's never a good thing.");
+            qm.sendOk("Bueno, lo que estás haciendo ahora no te hace parecer alguien humilde. Simplemente pareces complaciente al hacer eso, y eso nunca es algo bueno.");
         } else {
             qm.forceStartQuest();
             qm.dispose();

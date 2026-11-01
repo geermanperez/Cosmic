@@ -36,7 +36,7 @@ function start() {
 function action(mode, type, selection) {
     if (mode < 1) {  // disposing issue with stylishs found thanks to Vcoc
         if (type == 7) {
-            cm.sendNext("I see...take your time, see if you really want it. Let me know when you make up your mind.");
+            cm.sendNext("Ya veo... tómate tu tiempo, mira si realmente lo quieres. Avísame cuando te decidas.");
         }
 
         cm.dispose();
@@ -48,7 +48,7 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendSimple("Hi, I'm the face surgery assistant doctor from around here. With a #b#t5152029##k or a #b#t5152048##k, I can make it kick in just nice, trust me. Ah, don't forget, what comes next after the operation will be random! Then, what are you going for?\r\n#L1#Plastic Surgery: #i5152029##t5152029##l\r\n#L2#Cosmetic Lens: #i5152048##t5152048##l");
+            cm.sendSimple("Hola, soy el médico asistente de cirugía facial de por aquí. con un#b#t5152029##ko un#b#t5152048##kPuedo hacer que funcione muy bien, créeme. ¡Ah, no lo olvides, lo que viene después de la operación será aleatorio! Entonces, ¿a qué vas?\r\n#L1#Cirugía plástica:#i5152029##t5152029##l\r\n#L2#Lente cosmética:#i5152048##t5152048##l");
         } else if (status == 1) {
             if (selection == 1) {
                 beauty = 0;
@@ -68,7 +68,7 @@ function action(mode, type, selection) {
                                 % 100));
                     }
                 }
-                cm.sendYesNo("If you use the regular coupon, your face may transform into a random new look...do you still want to do it using #b#t5152029##k?");
+                cm.sendYesNo("Si usas el cupón regular, tu rostro puede transformarse en una nueva apariencia aleatoria... ¿todavía quieres hacerlo usando#b#t5152029##k?");
             } else if (selection == 2) {
                 beauty = 1;
                 if (cm.getPlayer().getGender() == 0) {
@@ -81,7 +81,7 @@ function action(mode, type, selection) {
                 }
                 colors = Array();
                 pushIfItemsExists(colors, [current, current + 100, current + 300, current + 600, current + 700]);
-                cm.sendYesNo("If you use the regular coupon, you'll be awarded a random pair of cosmetic lenses. Are you going to use a #b#t5152048##k and really make the change to your eyes?");
+                cm.sendYesNo("Si utiliza el cupón normal, se le otorgará un par de lentes cosméticos al azar. ¿Vas a utilizar un#b#t5152048##ky realmente hacer el cambio en tus ojos?");
             }
         } else if (status == 2) {
             cm.dispose();
@@ -90,17 +90,17 @@ function action(mode, type, selection) {
                 if (cm.haveItem(5152029) == true) {
                     cm.gainItem(5152029, -1);
                     cm.setFace(facenew[Math.floor(Math.random() * facenew.length)]);
-                    cm.sendOk("Enjoy your new and improved face!");
+                    cm.sendOk("¡Disfruta de tu cara nueva y mejorada!");
                 } else {
-                    cm.sendNext("Um ... it looks like you don't have the coupon specifically for this place...sorry to say this, but without the coupon, there's no plastic surgery for you.");
+                    cm.sendNext("Um... parece que no tienes el cupón específicamente para este lugar... lamento decirte esto, pero sin el cupón, no hay cirugía plástica para ti.");
                 }
             } else if (beauty == 1) {
                 if (cm.haveItem(5152048)) {
                     cm.gainItem(5152048, -1);
                     cm.setFace(colors[Math.floor(Math.random() * colors.length)]);
-                    cm.sendOk("Enjoy your new and improved cosmetic lenses!");
+                    cm.sendOk("¡Disfruta de tus lentes cosméticos nuevos y mejorados!");
                 } else {
-                    cm.sendOk("Hmm ... it looks like you don't have the coupon specifically for this place. Sorry to say this, but without the coupon, there's no plastic surgery for you...");
+                    cm.sendOk("Hmm... parece que no tienes el cupón específico para este lugar. Lamento decirte esto, pero sin el cupón, no hay cirugía plástica para ti...");
                 }
             }
         }

@@ -44,10 +44,10 @@ function action(mode, type, selection) {
         if (status == 0) {
             if (cm.haveItem(4031013, 30)) {
                 completed = true;
-                cm.sendNext("Ohhhhh.. you collected all 30 Dark Marbles!! It should have been difficult.. just incredible! Alright. You've passed the test and for that, I'll reward you #bThe Proof of a Hero#k. Take that and go back to Ellinia.");
+                cm.sendNext("Ohhhhh... ¡¡recogiste las 30 canicas oscuras!! Debería haber sido difícil... ¡simplemente increíble! Está bien. Has pasado la prueba y por ello te recompensaré.#bLa prueba de un héroe#k. Toma eso y regresa con Ellinia.");
             } else {
                 completed = false;
-                cm.sendSimple("You will have to collect me #b30 #t4031013##k. Good luck. \r\n#b#L1#I would like to leave#l");
+                cm.sendSimple("tendrás que recogerme#b30 #t4031013##k. Buena suerte.\r\n#b#L1#me gustaria irme#l");
             }
         } else if (status == 1) {
             if (completed) {

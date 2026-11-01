@@ -41,14 +41,14 @@ function action(mode, type, selection) {
 
         if (status == 0) {
             if (!cm.isEventLeader()) {
-                cm.sendNext("Please let your party leader talk to me for further instructions to proceed to the next stage.");
+                cm.sendNext("Por favor, permita que el líder de su partido hable conmigo para obtener más instrucciones para pasar a la siguiente etapa.");
                 cm.dispose();
                 return;
             }
 
             var eim = cm.getEventInstance();
             if (eim.getIntProperty("statusStg1") == 1) {
-                cm.sendNext("Go through this tunnel for the boss battle.");
+                cm.sendNext("Pasa por este túnel para la batalla del jefe.");
             } else {
                 if (cm.haveItem(4032118, 15)) {
                     cm.gainItem(4032118, -15);
@@ -57,9 +57,9 @@ function action(mode, type, selection) {
                     eim.showClearEffect();
                     eim.giveEventPlayersStageReward(1);
 
-                    cm.sendNext("You got the letters, great! Now, you can proceed to the room MV is through this tunnel. Be prepared!");
+                    cm.sendNext("Tienes las letras, ¡genial! Ahora, puede proceder a la habitación donde se encuentra MV a través de este túnel. ¡Estar listo!");
                 } else {
-                    cm.sendNext("Please hand me #r15 secret letters#k.");
+                    cm.sendNext("por favor dame#r15 cartas secretas#k.");
                 }
             }
 

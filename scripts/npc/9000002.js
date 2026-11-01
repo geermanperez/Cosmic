@@ -38,18 +38,18 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendNext("Bam bam bam bam!! You have won the game from the \r\n#bEVENT#k. Congratulations on making it this far!");
+            cm.sendNext("Bam bam bam bam!! Has ganado el juego del \r\n#bEVENT#k. ¡Felicitaciones por llegar hasta aquí!");
         } else if (status == 1) {
-            cm.sendNext("You'll be awarded the #bScroll of Secrets#k as the winning prize. On the scroll, it has secret information written in ancient characters.");
+            cm.sendNext("Se te otorgará el#bPergamino de los secretos#kcomo premio ganador. En el pergamino tiene información secreta escrita en caracteres antiguos.");
         } else if (status == 2) {
-            cm.sendNext("The Scroll of Secrets can be deciphered by #rChun Ji#k or \r\n#rGeanie#k at Ludibrium. Bring it with you and something good's bound to happen.");
+            cm.sendNext("El Pergamino de los Secretos puede ser descifrado por#rChun Ji#ko\r\n#rGeanie#k en Ludibrium. Tráelo contigo y algo bueno seguramente sucederá.");
         } else if (status == 3) {
             if (cm.canHold(4031019)) {
                 cm.gainItem(4031019);
                 cm.warp(cm.getPlayer().getSavedLocation("EVENT"));
                 cm.dispose();
             } else {
-                cm.sendNext("I think your Etc window is full. Please make room, then talk to me.");
+                cm.sendNext("Creo que tu ventana Etc está llena. Por favor, haz espacio y luego habla conmigo.");
             }
         } else if (status == 4) {
             cm.dispose();

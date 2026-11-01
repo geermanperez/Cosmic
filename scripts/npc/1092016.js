@@ -27,10 +27,10 @@
 
 function start() {
     if (cm.isQuestStarted(2166)) {
-        cm.sendNext("It's a beautiful, shiny rock. I can feel the mysterious power surrounding it.");
+        cm.sendNext("Es una roca hermosa y brillante. Puedo sentir el misterioso poder que lo rodea.");
         cm.completeQuest(2166);
     } else {
-        cm.sendNext("I touched the shiny rock with my hand, and I felt a mysterious power flowing into my body.");
+        cm.sendNext("Toqué la roca brillante con la mano y sentí un poder misterioso fluir por mi cuerpo.");
     }
     cm.dispose();
 }

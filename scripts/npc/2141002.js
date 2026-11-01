@@ -28,7 +28,7 @@ function action(mode, type, selection) {
         var eim = cm.getEventInstance();
         if (!eim.isEventCleared()) {
             if (status == 0) {
-                cm.sendYesNo("Do you want to get out now?");
+                cm.sendYesNo("¿Quieres salir ahora?");
             } else if (status == 1) {
                 cm.warp(270050000, 0);
                 cm.dispose();
@@ -36,12 +36,12 @@ function action(mode, type, selection) {
 
         } else {
             if (status == 0) {
-                cm.sendYesNo("Pink Bean has been defeated! You guys sure are true heroes of this land! In no time, Temple of Time will shine again as bright as ever, all thanks to your efforts! Hooray to our heroes!! Are you ready to go now?");
+                cm.sendYesNo("¡Había Rosa ha sido derrotada! ¡Seguro que sois verdaderos héroes de esta tierra! En poco tiempo, el Templo del Tiempo volverá a brillar más que nunca, ¡todo gracias a tus esfuerzos! ¡¡Hurra por nuestros héroes!! ¿Estás listo para partir ahora?");
             } else if (status == 1) {
                 if (eim.giveEventReward(cm.getPlayer(), 1)) {
                     cm.warp(270050000);
                 } else {
-                    cm.sendOk("You cannot receive an instance prize without having an empty room in your EQUIP, USE, SET-UP and ETC inventory.");
+                    cm.sendOk("No puedes recibir un premio de instancia sin tener una habitación vacía en tu inventario de EQUIPAMIENTO, USO, CONFIGURACIÓN y ETC.");
                 }
 
                 cm.dispose();

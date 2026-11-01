@@ -5,6 +5,6 @@
 */
 
 function start() {
-    cm.sendOk("My name is #p2131002#... As you can see, I am a fairy. People tell me I do not act fairy-like, but... I like making things out of metal objects. Shhh, don't tell this to anyone, but I also like MMA.");
+    cm.sendOk("Mi nombre es #p2131002#... Como puedes ver, soy un hada. La gente me dice que no actúo como un hada, pero... me gusta hacer cosas con objetos metálicos. Shhh, no le digas esto a nadie, pero a mí también me gustan las MMA.");
     cm.dispose();
 }

@@ -63,21 +63,21 @@ function action(mode, type, selection) {
                     var rnd = Math.floor(Math.random() * 3);
                     cm.gainItem(baseId + rnd);
 
-                    cm.sendNext("Bravo! You are the first to claim the prize for fetching 35 #t4031597#. Take this cape as merit for your feat.");
+                    cm.sendNext("¡Bravo! Eres el primero en reclamar el premio por obtener 35 #t4031597#. Toma esta capa como mérito por tu hazaña.");
                     cm.gainItem(4031597, -35);
                     cm.gainExp(4000 * cm.getPlayer().getExpRate());
                 } else if (eim.getIntProperty("marriedGroup") == 0) {
-                    cm.sendNext("Check if you have a slot available before talking about receiving prizes!");
+                    cm.sendNext("¡Comprueba si tienes un espacio disponible antes de hablar de recibir premios!");
                 } else {
-                    cm.sendNext("35 #t4031597#. Nicely done, too bad someone took the prize first. Hurry up to get the last moments of the bonus stage!");
+                    cm.sendNext("35 #t4031597#. Bien hecho, lástima que alguien se llevara el premio primero. ¡Date prisa para disfrutar de los últimos momentos de la etapa de bonificación!");
                     cm.gainItem(4031597, -35);
                     cm.gainExp(4000 * cm.getPlayer().getExpRate());
                 }
             } else {
-                cm.sendNext("To claim a prize here, get to me 35 #t4031597# from the mobs spawned from the boxes. Only the #rfirst player can claim the big prize#k, although others can still claim an EXP boost from this feat. Alternatively, one can choose to #bskip this bonus stage#k and go for the usual one by passing #bthrough the portals#k.");
+                cm.sendNext("Para reclamar un premio aquí, comunícate conmigo 35#t4031597#de las turbas generadas a partir de las cajas. Sólo el#rEl primer jugador puede reclamar el gran premio.#k, aunque otros aún pueden reclamar un aumento de EXP gracias a esta hazaña. Alternativamente, uno puede optar por#bsalta esta etapa de bonificación#ky ve por el de siempre pasando#ba través de los portales#k.");
             }
         } else {
-            cm.sendNext("Hurry up to get the last moments of the bonus stage!");
+            cm.sendNext("¡Date prisa para disfrutar de los últimos momentos de la etapa de bonificación!");
         }
 
         cm.dispose();

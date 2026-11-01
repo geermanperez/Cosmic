@@ -40,9 +40,9 @@ function start(mode, type, selection) {
 
             if (mount != null && mount.getLevel() >= 3) {
                 qm.forceCompleteQuest();
-                qm.sendNext("Alright, I'll get you started in how to train Mimio, the next step for Mimianas. When you're ready, talk to me again.");
+                qm.sendNext("Muy bien, te enseñaré cómo entrenar a Mimio, el siguiente paso para Mimianas. Cuando estés listo, habla conmigo de nuevo.");
             } else {
-                qm.sendNext("It looks like your Mimiana haven't reached #rlevel 3#k yet. Please train it a bit more before trying to advance it.");
+                qm.sendNext("Parece que tu Mimiana no ha llegado#rnivel 3#ktodavía. Entrénelo un poco más antes de intentar avanzar.");
             }
         } else if (status == 1) {
             qm.dispose();

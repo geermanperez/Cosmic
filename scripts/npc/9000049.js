@@ -56,11 +56,11 @@ function action(mode, type, selection) {
                 if (stage == 3) {
                     event = "HARD";
                 }
-                cm.sendSimple("Hello GM.\r\nThe event is currently: #r" + event + "#k\r\nWhat would you like to do?\r\n#b#L0#Enter the event#l\r\n#L1#Close the event#l\r\n#L2#Set the event to EASY#l\r\n#L3#Set the event to MEDIUM#l\r\n#L4#Set the event to HARD#l");
+                cm.sendSimple("Hola GM.\r\nEl evento es actualmente: #r" + event + "#k\r\n¿Qué te gustaría hacer?\r\n#b#L0#Ingresa al evento#l\r\n#L1#Cerrar el evento#l\r\n#L2#Configura el evento como FÁCIL#l\r\n#L3#Establecer el evento en MEDIO#l\r\n#L4#Establecer el evento en DIFÍCIL#l");
             } else {
                 var stage = cm.getClient().getChannelServer().getStoredVar(9000049);
                 if (stage == 0) {
-                    cm.sendOk("It looks like the Tower isn't unlocked yet. Please wait for a GM to unlock it!");
+                    cm.sendOk("Parece que la Torre aún no está desbloqueada. ¡Espera a que un GM lo desbloquee!");
                 } else {
                     cm.warp(980040000 + stage * 1000, 0);
                 }
@@ -70,7 +70,7 @@ function action(mode, type, selection) {
             if (selection == 0) {
                 var stage = cm.getClient().getChannelServer().getStoredVar(9000049);
                 if (stage == 0) {
-                    cm.sendOk("It looks like the Tower isn't unlocked yet. Please wait for a GM to unlock it!");
+                    cm.sendOk("Parece que la Torre aún no está desbloqueada. ¡Espera a que un GM lo desbloquee!");
                 } else {
                     cm.warp(980040000 + stage * 1000, 0);
                 }

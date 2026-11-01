@@ -46,7 +46,7 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendAcceptDecline("This is a small lamp with a switch. Would you like to turn it on?");
+            cm.sendAcceptDecline("Esta es una pequeña lámpara con un interruptor. ¿Quieres encenderlo?");
             return;
         } else if (status == 1) {
             cm.weakenAreaBoss(5090000, "You have turned the lamp on. Shade's strength will rapidly weaken due to the light.");

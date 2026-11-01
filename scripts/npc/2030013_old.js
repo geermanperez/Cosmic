@@ -54,32 +54,32 @@ function action(mode, type, selection) {
         if (status == 0) {
             if ((cm.getPlayer().getLevel() < minLevel)) {
                 cm.warp(211042300);
-                cm.sendOk("Please come back when you're prepared for the battle. You should not be here yet.");
+                cm.sendOk("Por favor regresa cuando estés preparado para la batalla. No deberías estar aquí todavía.");
                 cm.dispose();
                 return;
             }
-            cm.sendSimple("The battle to defeat Zakum begins here. What would you like to do? #b\r\n#L0#Start a new Zakum Battle#l\r\n#L1#Join your group's Zakum Battle#l");
+            cm.sendSimple("La batalla para derrotar a Zakum comienza aquí. ¿Qué te gustaría hacer?#b\r\n#L0#Comienza una nueva batalla de Zakum#l\r\n#L1#Únete a la batalla Zakum de tu grupo#l");
         } else if (status == 1) {
             state = selection;
             if (selection == 0) {
-                cm.sendGetText("In order to start the Zakum Battle, you need to choose a name for your instance.  This is the password that lets your members join, so tell it to everybody who wants to participate in the battle.");
+                cm.sendGetText("Para comenzar la Batalla de Zakum, debes elegir un nombre para tu instancia.  Esta es la contraseña que permite a tus miembros unirse, así que dísela a todos los que quieran participar en la batalla.");
             } else if (selection == 1) {
-                cm.sendGetText("In order to join a Zakum Battle, you need to enter the password.  If you don't know what it is, please ask the person leading the battle.");
+                cm.sendGetText("Para unirte a una batalla de Zakum, debes ingresar la contraseña.  Si no sabes qué es, pregúntale a la persona que lidera la batalla.");
             }
 
         } else if (status == 2) {
             var em = cm.getEventManager("ZakumBattle");
             var passwd = cm.getText();
             if (em == null) {
-                cm.sendOk("This trial is currently under construction.");
+                cm.sendOk("Este ensayo se encuentra actualmente en construcción.");
             } else {
                 if (state == 0) { // Leader
                     if (getEimForString(em, passwd) != null) {
-                        cm.sendOk("You may not use that password.");
+                        cm.sendOk("No puede utilizar esa contraseña.");
                     } else { // start Zakum Battle
                         //var em = cm.getEventManager("Zakum" + passwd);
                         if (!em.startInstance(cm.getPlayer())) {
-                            cm.sendOk("A party is already registered in this instance.");
+                            cm.sendOk("En este caso ya hay un partido registrado.");
                         }
 
                         cm.dispose();
@@ -89,16 +89,16 @@ function action(mode, type, selection) {
                 if (state == 1) { // Member
                     var eim = getEimForString(em, passwd);
                     if (eim == null) {
-                        cm.sendOk("There is currently no battle registered under that name.");
+                        cm.sendOk("Actualmente no hay ninguna batalla registrada con ese nombre.");
                     } else {
                         if (eim.getProperty("canEnter").toLowerCase() == "true") {
                             if (eim.getPlayers().size() < maxPlayers) {
                                 eim.registerPlayer(cm.getPlayer());
                             } else {
-                                cm.sendOk("I'm sorry, but that battle is currently full.  Please wait to join another one.");
+                                cm.sendOk("Lo siento, pero esa batalla está actualmente llena.  Espere para unirse a otro.");
                             }
                         } else {
-                            cm.sendOk("I'm sorry, but that battle is currently in progress.  Please return later.");
+                            cm.sendOk("Lo siento, pero esa batalla está actualmente en curso.  Por favor regrese más tarde.");
                         }
                     }
                 }

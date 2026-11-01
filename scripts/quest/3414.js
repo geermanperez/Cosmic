@@ -11,11 +11,11 @@ function end(mode, type, selection) {
     status++;
 
     if (status == 0) {
-        qm.sendNext("Whoa... this is it!!! With this sample, the studies that are taking place in Omega Sector will be reinvigorated with results! I am also at a loss for words for finding someone that is more talented than me at hunting. I'll have to get back on track! Anyway, for your job well done, I'll have to reward you accordingly.");
+        qm.sendNext("¡¡¡Vaya... esto es!!! ¡Con esta muestra los estudios que se están realizando en el Sector Omega se revitalizarán con resultados! También me quedo sin palabras para encontrar a alguien que tenga más talento que yo para cazar. ¡Tendré que volver a la normalidad! De todos modos, por tu trabajo bien hecho, tendré que recompensarte en consecuencia.");
     } else if (status == 1) {
         const InventoryType = Java.type('client.inventory.InventoryType');
         if (qm.getPlayer().getInventory(InventoryType.USE).getNumFreeSlot() < 1) {
-            qm.getPlayer().dropMessage(1, "USE inventory full.");
+            qm.getPlayer().dropMessage(1, "UTILIZAR el inventario lleno.");
             qm.dispose();
             return;
         }

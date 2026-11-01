@@ -25,10 +25,10 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendYesNo("Ahead awaits the Master himself. Are you ready to face him?");
+            cm.sendYesNo("Delante espera el propio Maestro. ¿Estás listo para enfrentarlo?");
         } else {
             if (cm.getClient().getChannelServer().getMapFactory().getMap(925020010).getCharacters().size() > 0) {
-                cm.sendOk("Someone is already challenging the Master. Try again later.");
+                cm.sendOk("Alguien ya está desafiando al Maestro. Vuelve a intentarlo más tarde.");
             } else {
                 const LifeFactory = Java.type('server.life.LifeFactory');
                 const Point = Java.type('java.awt.Point');

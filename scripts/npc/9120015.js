@@ -32,7 +32,7 @@
 var status = 0;
 
 function start() {
-    cm.sendSimple("What do you want from me?\r #L0##bGather up some information on the hideout.#l\r\n#L1#Take me to the hideout#l\r\n#L2#Nothing#l#k");
+    cm.sendSimple("¿Qué quieres de mí?\r #L0##bReúne información sobre el escondite.#l\r\n#L1#Llévame al escondite#l\r\n#L2#Nada#l#k");
 }
 
 function action(mode, type, selection) {
@@ -42,12 +42,12 @@ function action(mode, type, selection) {
         status++;
         if (status == 1) {
             if (selection == 0) {
-                cm.sendNext("I can take you to the hideout, but the place is infested with thugs looking for trouble. You'll need to be both incredibly strong and brave to enter the premise. At the hideaway, you'll find the Boss that controls all the other bosses around this area. It's easy to get to the hideout, but the room on the top floor of the place can only be entered ONCE a day. The Boss's Room is not a place to mess around. I suggest you don't stay there for too long; you'll need to swiftly take care of the business once inside. The boss himself is a difficult foe, but you'll run into some incredibly powerful enemies on you way to meeting the boss! It ain't going to be easy.");
+                cm.sendNext("Puedo llevarte al escondite, pero el lugar está infestado de matones que buscan problemas. Tendrás que ser increíblemente fuerte y valiente para entrar en la premisa. En el escondite, encontrarás al jefe que controla a todos los demás jefes de esta área. Es fácil llegar al escondite, pero solo se puede ingresar a la habitación en el último piso del lugar UNA VEZ al día. La Sala del Jefe no es un lugar para perder el tiempo. Te sugiero que no te quedes allí por mucho tiempo; Tendrás que encargarte rápidamente del negocio una vez dentro. El jefe en sí es un enemigo difícil, ¡pero te encontrarás con enemigos increíblemente poderosos en tu camino hacia el jefe! No será fácil.");
                 cm.dispose();
             } else if (selection == 1) {
-                cm.sendNext("Oh, the brave one. I've been awaiting your arrival. If these\r\nthugs are left unchecked, there's no telling what going to\r\nhappen in this neighborhood. Before that happens, I hope\r\nyou take care of all them and beat the boss, who resides\r\non the 5th floor. You'll need to be on alert at all times, since\r\nthe boss is too tough for even wisemen to handle.\r\nLooking at your eyes, however, I can see that eye of the\r\ntiger, the eyes that tell me you can do this. Let's go!");
+                cm.sendNext("Ay, el valiente. He estado esperando tu llegada. Si estos matones \r\n no se controlan, no se sabe qué va a pasar en este vecindario. Antes de que eso suceda, espero que \r\n te ocupes de todos ellos y venzas al jefe, que reside \r\n en el quinto piso. Tendrás que estar alerta en todo momento, ya que \r\n el jefe es demasiado difícil de manejar incluso para los sabios. \r\n Sin embargo, al mirarte a los ojos, puedo ver ese ojo del tigre \r\n, los ojos que me dicen que puedes hacer esto. ¡Vamos!");
             } else {
-                cm.sendOk("I'm a busy person! Leave me alone if that's all you need!");
+                cm.sendOk("¡Soy una persona ocupada! ¡Déjame en paz si eso es todo lo que necesitas!");
                 cm.dispose();
             }
         } else {

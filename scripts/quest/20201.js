@@ -31,7 +31,7 @@ function end(mode, type, selection) {
         qm.dispose();
     } else {
         if (status == 0 && mode == 0) {
-            qm.sendNext("I guess you are not ready to tackle on the responsibilities of an official knight.");
+            qm.sendNext("Supongo que no estás preparado para asumir las responsabilidades de un caballero oficial.");
             qm.dispose();
             return;
         }
@@ -41,15 +41,15 @@ function end(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            qm.sendYesNo("So you brought all of #t4032096#... Okay, I believe that your are now qualified to become an official knight. Do you want to become one?");
+            qm.sendYesNo("Entonces trajiste todo #t4032096#... Bien, creo que ahora estás calificado para convertirte en un caballero oficial. ¿Quieres convertirte en uno?");
         } else if (status == 1) {
             if (qm.getPlayer().getJob().getId() == 1100 && qm.getPlayer().getRemainingSp() > ((qm.getPlayer().getLevel() - 30) * 3)) {
-                qm.sendNext("You have too much #bSP#k with you. Use some more on the 1st-level skill.");
+                qm.sendNext("Tienes demasiado #bSP#k contigo. Usa un poco más en la habilidad de primer nivel.");
                 qm.dispose();
             } else {
                 if (qm.getPlayer().getJob().getId() != 1110) {
                     if (!qm.canHold(1142067)) {
-                        qm.sendNext("If you wish to receive the medal befitting the title, you may want to make some room in your equipment inventory.");
+                        qm.sendNext("Si deseas recibir la medalla acorde al título, quizás quieras hacer algo de espacio en tu inventario de equipo.");
                         qm.dispose();
                         return;
                     }
@@ -59,12 +59,12 @@ function end(mode, type, selection) {
                     qm.getPlayer().changeJob(Job.DAWNWARRIOR2);
                     qm.completeQuest();
                 }
-                qm.sendNext("You are a Knight-in-Training no more. You are now an official knight of the Cygnus Knights.");
+                qm.sendNext("Ya no eres un caballero en entrenamiento. Ahora eres un caballero oficial de los Cygnus Knights.");
             }
         } else if (status == 2) {
-            qm.sendNextPrev("I have given you some #bSP#k. I have also given you a number of skills for a Dawn Warrior that's only available to knights, so I want you to work on it and hopefully cultivate it as much as your soul.");
+            qm.sendNextPrev("Te he dado algunos #bSP#k. También te he dado una serie de habilidades para un Guerrero del Alba que sólo están disponibles para los caballeros, así que quiero que trabajes en ello y, con suerte, lo cultives tanto como tu alma.");
         } else if (status == 3) {
-            qm.sendPrev("Now that you are officially a Cygnus Knight, act like one so you will keep the Empress's name up high.");
+            qm.sendPrev("Ahora que eres oficialmente un Caballero Cygnus, actúa como tal para mantener en alto el nombre de la Emperatriz.");
         } else if (status == 4) {
             qm.dispose();
         }

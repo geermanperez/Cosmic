@@ -10,17 +10,17 @@ function start(mode, type, selection) {
         status++;
     }
     if (status == 0) {
-        qm.sendNext("Did you feed #p1013102#? You should have some breakfast now then, Evan. Today's breakfast is a #t2022620#. I've brought it with me. Hee hee. I was going to eat it myself if you didn't agree to feed #p1013102#.");
+        qm.sendNext("¿Le diste de comer a #p1013102#? Entonces deberías desayunar algo ahora, Evan. El desayuno de hoy es un #t2022620#. Lo he traído conmigo. Je, je. Me lo iba a comer yo mismo si no aceptabas alimentarlo con #p1013102#.");
     } else if (status == 1) {
-        qm.sendAcceptDecline("Here, I'll give you this #bSandwich#k, so #bgo talk to mom when you finish eating#k. She says she has something to tell you.");
+        qm.sendAcceptDecline("Toma, te daré esto.#bSandwich#k, entonces#bve a hablar con mamá cuando termines de comer#k. Ella dice que tiene algo que decirte.");
     } else if (status == 2) {
         if (mode == 0) {//decline
-            qm.sendNext("Oh, what? Aren't you going to have breakfast? Breakfast is the most important meal of the day! Talk to me again if you change your mind. If you don't, I'm going to eat it myself.");
+            qm.sendNext("Ah, ¿qué? ¿No vas a desayunar? ¡El desayuno es la comida más importante del día! Hablame de nuevo si cambias de opinión. Si no lo haces, me lo comeré yo mismo.");
             qm.dispose();
         } else {
             qm.gainItem(2022620, true);
             qm.forceStartQuest();
-            qm.sendNext("#b(Mom has something to say? Eat your #t2022620# and head back inside the house.)#k");
+            qm.sendNext("#b(¿Mamá tiene algo que decir? Cómete tu#t2022620#y regresa al interior de la casa.)#k");
         }
     } else if (status == 3) {
         qm.sendImage("UI/tutorial/evan/3/0");
@@ -38,7 +38,7 @@ function end(mode, type, selection) {
         status++;
     }
     if (status == 0) {
-        qm.sendNext("Did you eat your breakfast, Evan? Then, will you do me a favor?  \r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0# \r\n#i1003028# 1 #t1003028#  \r\n#i2022621# 5 #t2022621#s \r\n#i2022622# 5 #t2022622# \r\n#fUI/UIWindow.img/QuestIcon/8/0# 60 exp");
+        qm.sendNext("¿Desayunaste, Evan? Entonces, ¿me harás un favor?\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0#\r\n#i1003028# 1 #t1003028#  \r\n#i2022621# 5 #t2022621#s\r\n#i2022622# 5 #t2022622# \r\n#fUI/UIWindow.img/QuestIcon/8/0# 60 exp.");
     } else if (status == 1) {
         qm.forceCompleteQuest();
         qm.gainItem(1003028, 1, true);

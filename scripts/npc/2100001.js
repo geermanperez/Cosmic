@@ -21,7 +21,7 @@ function start() {
 
 function action(mode, type, selection) {
     if (mode <= 0 && status == 0) {
-        cm.sendNext("If you aren't in a hurry, then please come back in a bit. As you can see, there's so much work going on right now that I can't possibly give them to you on time.");
+        cm.sendNext("Si no tienes prisa, vuelve en un momento. Como puede ver, hay tanto trabajo en marcha en este momento que no puedo entregárselos a tiempo.");
         cm.dispose();
         return;
     }
@@ -36,7 +36,7 @@ function action(mode, type, selection) {
     }
 
     if (status == 0) {
-        cm.sendYesNo("Are you here to refine the ores of a mineral or a jewel? It doesn't matter how many ores you have, if you don't have them refined by a master like me, then they won't see the light of day. What do you think, do you want to refine them right now?");
+        cm.sendYesNo("¿Estás aquí para refinar los minerales de un mineral o una joya? No importa cuántos minerales tengas, si no los refina un maestro como yo, entonces no verán la luz del día. ¿Qué opinas, quieres perfeccionarlos ahora mismo?");
     }
     if (status == 1 && mode == 1) {
         var selStr = "I like your attitude! Let's just take care of this right now. What kind of ores would you like to refine? #b";
@@ -155,9 +155,9 @@ function action(mode, type, selection) {
         }
 
         if (!cm.canHold(recvItem, recvQty)) {
-            cm.sendOk("I'm afraid you are short in inventory slots for this.");
+            cm.sendOk("Me temo que te faltan espacios en el inventario para esto.");
         } else if (cm.getMeso() < cost * qty) {
-            cm.sendOk("I'm afraid you cannot afford my services.");
+            cm.sendOk("Me temo que no puede pagar mis servicios.");
         } else {
             if (mats instanceof Array) {
                 for (var i = 0; complete && i < mats.length; i++) {
@@ -179,7 +179,7 @@ function action(mode, type, selection) {
             }
 
             if (!complete) {
-                cm.sendOk("Please check and see if you have all the necessary items with you. If so, then please check your etc. inventory and see if you have an empty space.");
+                cm.sendOk("Por favor verifique y vea si tiene todos los elementos necesarios con usted. Si es así, verifique su inventario, etc. y vea si tiene un espacio vacío.");
             } else {
                 if (mats instanceof Array) {
                     for (var i = 0; i < mats.length; i++) {
@@ -194,7 +194,7 @@ function action(mode, type, selection) {
                 }
 
                 cm.gainItem(recvItem, recvQty);
-                cm.sendOk("There, finished. What do you think, a piece of art, isn't it? Well, if you need anything else, you know where to find me.");
+                cm.sendOk("Ahí, terminado. ¿Qué te parece? Una obra de arte, ¿no? Bueno, si necesitas algo más, ya sabes dónde encontrarme.");
             }
         }
 

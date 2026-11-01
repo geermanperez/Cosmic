@@ -15,7 +15,7 @@ function clearStage(stage, eim) {
 
 function start() {
     if (cm.getPlayer().getMap().getReactorByName("watergate").getState() > 0) {
-        cm.sendOk("Excellent work. You may proceed to the next stage.");
+        cm.sendOk("Excelente trabajo. Puede pasar a la siguiente etapa.");
         cm.dispose();
         return;
     }
@@ -29,9 +29,9 @@ function start() {
             if (currentCombo == null || currentCombo === "reset") {
                 var newCombo = makeCombo();
                 eim.setProperty("stage3combo", newCombo);
-                //cm.playerMessage("Debug: " + newCombo);
+                //cm.playerMessage("Depurar:" + newCombo);
                 eim.setProperty("stage3attempt", "1");
-                cm.sendOk("This fountain guards the secret passage to the throne room. Offer items in the area to the vassals to proceed. The vassals shall tell you whether your offerings are accepted, and if not, which vassals are displeased. You have seven attempts. Good luck.");
+                cm.sendOk("Esta fuente guarda el pasaje secreto al salón del trono. Ofrezca artículos en el área a los vasallos para continuar. Los vasallos te dirán si tus ofrendas son aceptadas y, en caso contrario, qué vasallos están disgustados. Tienes siete intentos. Buena suerte.");
             } else {
                 var attempt = parseInt(eim.getProperty("stage3attempt"));
                 var combo = parseInt(currentCombo);
@@ -43,7 +43,7 @@ function start() {
                         cm.getGuild().gainGP(25);
 
                         removeGroundItems();
-                        cm.sendOk("Excellent work. You may proceed to the next stage.");
+                        cm.sendOk("Excelente trabajo. Puede pasar a la siguiente etapa.");
                     } else {
                         if (attempt < 7) {
                             var comboItems = [0, 0, 0, 0];
@@ -72,7 +72,7 @@ function start() {
                             incorrect = 4 - correct - unknown;
 
                             var string = "";
-                            //cm.playerMessage("Results - Correct: " + results[0] + " | Incorrect: " + results[1] + " | Unknown: " + results[2]);
+                            //cm.playerMessage("Resultados - Correcto:" + results[0] + "| Incorrecto:" + results[1] + "| Desconocido:" + results[2]);
                             if (correct != 0) {
                                 if (correct == 1) {
                                     string += "1 vassal is pleased with their offering.\r\n";
@@ -120,7 +120,7 @@ function start() {
                         } else {
                             //reset the combo and mass spawn monsters
                             eim.setProperty("stage3combo", "reset");
-                            cm.sendOk("You have failed the test. Please compose yourselves and try again later.");
+                            cm.sendOk("No pasaste la prueba. Por favor recompónganse y vuelvan a intentarlo más tarde.");
 
                             for (var i = 0; i < 6; i++) {
                                 //keep getting new monsters, lest we spawn the same monster five times o.o!
@@ -132,11 +132,11 @@ function start() {
                         eim.showWrongEffect();
                     }
                 } else {
-                    cm.sendOk("Please make sure your attempt is properly set in front of the vassals and talk to me again.");
+                    cm.sendOk("Por favor, asegúrese de que su intento esté correctamente presentado frente a los vasallos y hable conmigo nuevamente.");
                 }
             }
         } else {
-            cm.sendOk("Please have your leader speak to me.");
+            cm.sendOk("Por favor, haz que tu líder hable conmigo.");
         }
     }
 

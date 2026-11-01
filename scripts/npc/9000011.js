@@ -30,15 +30,15 @@ function action(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            cm.sendNext("Hey, I'm #p" + cm.getNpc() + "#k, if you're not busy and all ... then can I hang out with you? I heard there are people gathering up around here for an #revent#k but I don't want to go there by myself ... Well, do you want to go check it out with me?");
+            cm.sendNext("Hola, soy #p" + cm.getNpc() + "#k, si no estás ocupado y todo... entonces ¿puedo salir contigo? He oído que hay gente reunida por aquí para una#revent#k pero no quiero ir solo... Bueno, ¿quieres ir a comprobarlo conmigo?");
         } else if (status == 1) {
-            cm.sendSimple("Huh? What kind of an event? Well, that's...\r\n#L0##e1.#n#b What kind of an event is it?#k#l\r\n#L1##e2.#n#b Explain the event game to me.#k#l\r\n#L2##e3.#n#b Alright, let's go!#k#l\r\n#L3##e4.#n#bPlease exchance Certificate of straight Win to reward item.#k#l");
+            cm.sendSimple("¿Eh? ¿Qué tipo de evento? Bueno, eso es...\r\n#L0##e1.#n#b¿Qué tipo de evento es?#k#l\r\n#L1##e2.#n#bExplícame el juego del evento.#k#l\r\n#L2##e3.#n#b¡Muy bien, vámonos!#k#l\r\n#L3##e4.#n#bCambie el certificado de ganancia directa por un artículo de recompensa.#k#l");
         } else if (status == 2) {
             if (selection == 0) {
-                cm.sendNext("All this month, MapleStory Global is celebrating its 3rd anniversary! The GM's will be holding surprise GM Events throughout the event, so stay on your toes and make sure to participate in at least one of the events for great prizes!");
+                cm.sendNext("¡Todo este mes, MapleStory Global celebra su tercer aniversario! Los GM llevarán a cabo eventos sorpresa para GM durante todo el evento, ¡así que mantente alerta y asegúrate de participar en al menos uno de los eventos para obtener grandes premios!");
                 cm.dispose();
             } else if (selection == 1) {
-                cm.sendSimple("There are many games for this event. It will help you a lot to know how to play the game before you play it. Choose the one you want to know more of! #b\r\n#L0# Ola Ola#l\r\n#L1# MapleStory Maple Physical Fitness Test#l\r\n#L2# Snow Ball#l\r\n#L3# Coconut Harvest#l\r\n#L4# OX Quiz#l\r\n#L5# Treasure Hunt#l#k");
+                cm.sendSimple("Hay muchos juegos para este evento. Te ayudará mucho saber cómo jugar antes de jugarlo. ¡Elige el que quieras saber más!#b\r\n#L0#vivir la vida#l\r\n#L1#Prueba de aptitud física MapleStory Maple#l\r\n#L2#bola de nieve#l\r\n#L3#Cosecha de coco#l\r\n#L4#Prueba de buey#l\r\n#L5#Búsqueda del tesoro#l#k");
             } else if (selection == 2) {
                 var marr = cm.getQuestRecord(100295);
                 if (marr.getCustomData() == null) {
@@ -46,16 +46,16 @@ function action(mode, type, selection) {
                 }
                 var dat = parseInt(marr.getCustomData());
                 if (dat + 3600000 >= cm.getCurrentTime()) {
-                    cm.sendNext("You've entered the event already in the past hour.");
+                    cm.sendNext("Ya ingresaste al evento en la última hora.");
                 } else if (!cm.canHold(4031019)) {
-                    cm.sendNext("Save up some space in your inventory.");
+                    cm.sendNext("Ahorre algo de espacio en su inventario.");
                 } else if (cm.getChannelServer().getEvent() > -1 && !cm.haveItem(4031019)) {
                     cm.getPlayer().saveLocation("EVENT");
                     cm.getPlayer().setChalkboard(null);
                     marr.setCustomData("" + cm.getCurrentTime());
                     cm.warp(cm.getChannelServer().getEvent(), cm.getChannelServer().getEvent() == 109080000 || cm.getChannelServer().getEvent() == 109080010 ? 0 : "join00");
                 } else {
-                    cm.sendNext("Either the event has not been started, you already have the #bScroll of Secrets#k, or you have already participated in this event within the last 24 hours. Please try again later!");
+                    cm.sendNext("O el evento no se ha iniciado, ya tienes el#bPergamino de los secretos#k, o ya has participado en este evento en las últimas 24 horas. ¡Inténtelo de nuevo más tarde!");
                 }
                 cm.dispose();
             } else if (selection == 3) {
@@ -68,22 +68,22 @@ function action(mode, type, selection) {
             }
         } else if (status == 3) {
             if (selection == 0) {
-                cm.sendNext("#b[Ola Ola]#k is a game where participants climb ladders to reach the top. Climb your way up and move to the next level by choosing the correct portal out of the numerous portals available. \r\n\r\nThe game consists of three levels, and the time limit is #b6 MINUTES#k. During [Ola Ola], you #bwon't be able to jump, teleport, haste, or boost your speed using potions or items#k. There are also trick portals that'll lead you to a strange place, so please be aware of those.");
+                cm.sendNext("#b[Vive la vida]#kEs un juego donde los participantes suben escaleras para llegar a la cima. Sube y pasa al siguiente nivel eligiendo el portal correcto entre los numerosos portales disponibles.\r\n\r\nEl juego consta de tres niveles y el límite de tiempo es#b6 MINUTOS#k. Durante [Ola Ola], tú#bNo podrás saltar, teletransportarte, acelerar ni aumentar tu velocidad usando pociones u objetos.#k. También hay portales de trucos que te llevarán a un lugar extraño, así que ten cuidado con ellos.");
                 cm.dispose();
             } else if (selection == 1) {
-                cm.sendNext("#b[MapleStory Physical Fitness Test] is a race through an obstacle course#k much like the Forest of Patience. You can win it by overcoming various obstacles and reach the final destination within the time limit. \r\n\r\nThe game consists of four levels, and the time limit is #b15 MINUTES#k. During [MapleStory Physical Fitness Test], you won't be able to use teleport or haste.");
+                cm.sendNext("#b[Prueba de aptitud física de MapleStory] es una carrera a través de una carrera de obstáculos#kmuy parecido al Bosque de la Paciencia. Puedes ganarlo superando varios obstáculos y llegar al destino final dentro del límite de tiempo.\r\n\r\nEl juego consta de cuatro niveles y el límite de tiempo es#b15 MINUTOS#k. Durante la [Prueba de aptitud física de MapleStory], no podrás usar el teletransporte ni la prisa.");
                 cm.dispose();
             } else if (selection == 2) {
-                cm.sendNext("#b[Snowball]#k consists of two teams, Maple Team and Story Team, and the two teams duke it out to see #bwhich team rolled the snowball farther and bigger in a limited time#k. If the game cannot be decided within the time period, then the team that rolled the snowball farther wins. \r\n\r\nTo roll up the snow, attack it by pressing #bCtrl#k. All long-ranged attacks and skill-based attacks will not work here, #bonly the close-range attacks will work#k. \r\n\r\nIf a character touches the snowball, he/she'll be sent back to the starting point. Attack the snowman in front of the starting point to prevent the opposing team from rolling the snow forward. This is where a well-planned strategy works, as the team will decide whether to attack the snowball or the snowman.");
+                cm.sendNext("#b[Bola de nieve]#kconsta de dos equipos, Maple Team y Story Team, y los dos equipos se enfrentan para ver#b¿Qué equipo hizo rodar la bola de nieve más lejos y más grande en un tiempo limitado?#k. Si el juego no se puede decidir dentro del período de tiempo, entonces gana el equipo que hizo rodar la bola de nieve más lejos.\r\n\r\nPara enrollar la nieve, atácala presionando#bCtrl#k. Todos los ataques de largo alcance y los ataques basados ​​en habilidades no funcionarán aquí.#bSólo los ataques de corto alcance funcionarán.#k. \r\n\r\nSi un personaje toca la bola de nieve, será enviado de regreso al punto de partida. Ataca al muñeco de nieve frente al punto de partida para evitar que el equipo contrario haga rodar la nieve hacia adelante. Aquí es donde funciona una estrategia bien planificada, ya que el equipo decidirá si atacar a la bola de nieve o al muñeco de nieve.");
                 cm.dispose();
             } else if (selection == 3) {
-                cm.sendNext("#b[Coconut Harvest]#k consists of two teams, Maple Team and Story Team, and the two teams duke it out to see #bwhich team gathers up the most coconuts#k. The time limit is #b5 MINUTES#k. If the game ends in a tie, an additional 2 minutes will be awarded to determine the winner. If, for some reason, the score stays tied, then the game will end in a draw. \r\n\r\nAll long-range attacks and skill-based attacks will not work here, #bonly the close-range attacks will work#k. If you don't have a weapon for the close-range attacks, you can purchase them through an NPC within the event map. No matter the level of character, the weapon, or skills, all damages applied will be the same.\r\n\r\nBeware of the obstacles and traps within the map. If the character dies during the game, the character will be eliminated from the game. The player who strikes last before the coconut drops wins. Only the coconuts that hit the ground counts, which means the ones that do not fall off the tree, or the occasional explosion of the coconuts WILL NOT COUNT. There's also a hidden portal at one of the shells at the bottom of the map, so use that wisely!");
+                cm.sendNext("#b[Cosecha de coco]#kconsta de dos equipos, Maple Team y Story Team, y los dos equipos se enfrentan para ver#b¿Qué equipo recoge más cocos?#k. El límite de tiempo es#b5 MINUTOS#k. Si el juego termina en empate, se concederán 2 minutos adicionales para determinar el ganador. Si por alguna razón el marcador sigue empatado, el juego terminará en empate.\r\n\r\nTodos los ataques de largo alcance y los ataques basados ​​en habilidades no funcionarán aquí.#bSólo los ataques de corto alcance funcionarán.#k. Si no tienes un arma para los ataques a corta distancia, puedes comprarla a través de un NPC dentro del mapa del evento. No importa el nivel del personaje, el arma o las habilidades, todos los daños aplicados serán los mismos.\r\n\r\nCuidado con los obstáculos y trampas dentro del mapa. Si el personaje muere durante el juego, será eliminado del juego. Gana el jugador que golpee el último antes de que caiga el coco. Sólo cuentan los cocos que golpean el suelo, lo que significa que los que no se caen del árbol, o la explosión ocasional de los cocos NO CONTARÁ. También hay un portal oculto en uno de los caparazones en la parte inferior del mapa, ¡así que úsalo sabiamente!");
                 cm.dispose();
             } else if (selection == 4) {
-                cm.sendNext("#b[OX Quiz]#k is a game of MapleStory smarts through X's and O's. Once you join the game, turn on the minimap by pressing #bM#k to see where the X and O are. A total of #r10 questions#k will be given, and the character that answers them all correctly wins the game. \r\n\r\nOnce the question is given, use the ladder to enter the area where the correct answer may be, be it X or O. If the character does not choose an answer or is hanging on the ladder past the time limit, the character will be eliminated. Please hold your position until [CORRECT] is off the screen before moving on. To prevent cheating of any kind, all types of chatting will be turned off during the OX Quiz.");
+                cm.sendNext("#b[Prueba de BUEY]#kes un juego de inteligencia de MapleStory a través de X y O. Una vez que te unas al juego, enciende el minimapa presionando#bM#k para ver dónde están la X y la O. Un total de#r10 preguntas#kSe darán, y el personaje que las responda todas correctamente gana el juego.\r\n\r\nUna vez dada la pregunta, usa la escalera para ingresar al área donde puede estar la respuesta correcta, ya sea X u O. Si el personaje no elige una respuesta o queda colgado de la escalera más allá del límite de tiempo, el personaje será eliminado. Mantenga su posición hasta que [CORRECTO] desaparezca de la pantalla antes de continuar. Para evitar trampas de cualquier tipo, todos los tipos de chat se desactivarán durante el OX Quiz.");
                 cm.dispose();
             } else if (selection == 5) {
-                cm.sendNext("#b[Treasure Hunt]#k is a game in which your goal is to find the #btreasure scrolls#k that are hidden all over the map #rin 10 minutes#k. There will be a number of mysterious treasure chests hidden away, and once you break them apart, many items will surface from the chest. Your job is to pick out the treasure scroll from those items. \r\nTreasure chests can be destroyed using #bregular attacks#k, and once you have the treasure scroll in possession, you can trade it for the Scroll of Secrets through an NPC that's in charge of trading items. The trading NPC can be found on the Treasure Hunt map, but you can also trade your scroll through #bVikin#k of Lith Harbor.\r\n\r\nThis game has its share of hidden portals and hidden teleporting spots. To use them, press the #bup arrow#k at a certain spot, and you'll be teleported to a different place. Try jumping around, for you may also run into hidden stairs or ropes. There will also be a treasure chest that'll take you to a hidden spot, and a hidden chest that can only be found through the hidden portal, so try looking around.\r\n\r\nDuring the game of Treasure Hunt, all attack skills will be #rdisabled#k, so please break the treasure chest with the regular attack.");
+                cm.sendNext("#b[Búsqueda del tesoro]#kes un juego en el que tu objetivo es encontrar el#brollos del tesoro#kque están escondidos por todo el mapa#ren 10 minutos#k. Habrá una serie de cofres del tesoro misteriosos escondidos y, una vez que los rompas, muchos elementos emergerán del cofre. Tu trabajo es seleccionar el pergamino del tesoro entre esos elementos.\r\nLos cofres del tesoro se pueden destruir usando#bataques regulares#k, y una vez que tengas el pergamino del tesoro en posesión, puedes cambiarlo por el Pergamino de los Secretos a través de un NPC que está a cargo del intercambio de artículos. El NPC comercial se puede encontrar en el mapa de Treasure Hunt, pero también puedes intercambiar tu pergamino.#bVikin#k de Lith Harbor.\r\n\r\nEste juego tiene su parte de portales ocultos y puntos de teletransportación ocultos. Para usarlos, presione el#bflecha arriba#ken un lugar determinado y serás teletransportado a un lugar diferente. Intenta saltar, ya que también puedes toparte con escaleras o cuerdas ocultas. También habrá un cofre del tesoro que te llevará a un lugar escondido y un cofre oculto que solo se puede encontrar a través del portal oculto, así que intenta mirar a tu alrededor.\r\n\r\nDurante el juego de Treasure Hunt, todas las habilidades de ataque serán#rdisabled#k, así que rompe el cofre del tesoro con el ataque normal.");
                 cm.dispose();
             }
         } else if (status == 10) {
@@ -130,9 +130,9 @@ function action(mode, type, selection) {
             }
             var rand = Math.floor(Math.random() * pri.length);
             if (!cm.haveItem(ite, quan)) {
-                cm.sendOk("You need #b" + quan + " #t" + ite + "##k to exchange it with item.");
+                cm.sendOk("Necesitas #b" + quan + " #t" + ite + "##k para cambiarlo por el artículo.");
             } else if (cm.getInventory(1).getNextFreeSlot() <= -1 || cm.getInventory(2).getNextFreeSlot() <= -1 || cm.getInventory(3).getNextFreeSlot() <= -1 || cm.getInventory(4).getNextFreeSlot() <= -1) {
-                cm.sendOk("You need space for this item.");
+                cm.sendOk("Necesitas espacio para este artículo.");
             } else {
                 cm.gainItem(pri[rand], 1);
                 cm.gainItem(ite, -quan);

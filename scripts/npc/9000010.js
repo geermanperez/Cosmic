@@ -21,7 +21,7 @@
 */
 
 function start() {
-    cm.sendNext("I'm sorry but I'm afraid you didn't win the event. Try it again some other time. You can return to where you were through me.");
+    cm.sendNext("Lo siento pero me temo que no ganaste el evento. Inténtalo de nuevo en otro momento. Puedes volver a donde estabas a través de mí.");
 }
 
 function action(mode, type, selection) {

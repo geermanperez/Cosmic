@@ -22,7 +22,7 @@ var status;
 
 function start() {
     if (cm.isQuestStarted(3311)) {
-        cm.sendOk("The diary of Dr. De Lang. A lot of formulas and pompous scientific texts can be found all way through the pages.", 2);
+        cm.sendOk("El diario del Dr. De Lang. A lo largo de sus páginas se pueden encontrar muchas fórmulas y pomposos textos científicos.", 2);
     }
     cm.dispose();
 }

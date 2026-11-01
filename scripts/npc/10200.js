@@ -22,20 +22,20 @@
 var status = -1;
 
 function start() {
-    cm.sendNext("Bowmen are blessed with dexterity and power, taking charge of long-distance attacks, providing support for those at the front line of the battle. Very adept at using landscape as part of the arsenal.");
+    cm.sendNext("Los arqueros están bendecidos con destreza y poder, se hacen cargo de ataques de larga distancia y brindan apoyo a aquellos que están en la primera línea de la batalla. Muy experto en utilizar el paisaje como parte del arsenal.");
 }
 
 function action(mode, type, selection) {
     status++;
     if (mode != 1) {
         if (mode == 0) {
-            cm.sendNext("If you wish to experience what it's like to be a Bowman, come see me again.");
+            cm.sendNext("Si deseas experimentar lo que es ser un Bowman, ven a verme nuevamente.");
         }
         cm.dispose();
         return;
     }
     if (status == 0) {
-        cm.sendYesNo("Would you like to experience what it's like to be a Bowman?");
+        cm.sendYesNo("¿Te gustaría experimentar lo que es ser un Bowman?");
     } else if (status == 1) {
         cm.lockUI();
         cm.warp(1020300, 0);

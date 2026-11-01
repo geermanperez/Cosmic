@@ -20,6 +20,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 function start() {
-    cm.sendOk("\"I fought the Rubian and I lost, and now I am imprisoned in the very gate that blocks my path, my body desecrated. However, my old clothing has holy power within. If you can return the clothing to my body, I should be able to open the gate. Please hurry! \r\n- Sharen III \r\n\r\nP.S. I know this is rather picky of me, but can you please return the clothes to my body #bbottom to top#k? Thank you for your services.\"");
+    cm.sendOk("\"Luché contra el Rubian y perdí, y ahora estoy aprisionado en la misma puerta que bloquea mi camino, mi cuerpo profanado. Sin embargo, mi ropa vieja tiene poder sagrado en su interior. Si puedes devolver la ropa a mi cuerpo, debería poder abrir la puerta. ¡Por favor, date prisa!\r\n- Compartir III\r\n\r\nPD Sé que esto es bastante exigente de mi parte, pero ¿podrías devolverme la ropa a mi cuerpo?#bde abajo hacia arriba#k? Gracias por sus servicios.\"");
     cm.dispose();
 }

@@ -43,7 +43,7 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendOk("Hi, I am Andy, the time traveler from a not so distant future. I have come to avert the creation of machines by the greedy people of this time. They went berserk on my time and consumed everything to dust. I must stop it at any cost!");
+            cm.sendOk("Hola, soy Andy, el viajero en el tiempo de un futuro no muy lejano. He venido para evitar la creación de máquinas por parte de la gente codiciosa de esta época. Se volvieron locos durante mi tiempo y consumieron todo hasta convertirlo en polvo. ¡Debo detenerlo a cualquier precio!");
             cm.dispose();
         }
     }

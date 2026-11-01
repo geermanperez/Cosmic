@@ -37,15 +37,15 @@ function start(mode, type, selection) {
 
         if (status == 0) {
             if (qm.haveItem(2430014, 1)) {
-                qm.sendNext("It looks like you already have one #b#t2430014##k on your inventory.");
+                qm.sendNext("Parece que ya tienes uno#b#t2430014##ken su inventario.");
                 status = 1;
                 return;
             }
 
-            qm.sendNext("You've used the #b#t2430014##k? Oh well, good thing I have a spare one right here.");
+            qm.sendNext("Has usado el#b#t2430014##k? Bueno, menos mal que tengo uno de repuesto aquí mismo.");
         } else if (status == 1) {
             if (!qm.canHold(2430014, 1)) {
-                qm.sendNext("Please make a USE slot available to get it, alright?");
+                qm.sendNext("Por favor, haga disponible un espacio USE para obtenerlo, ¿de acuerdo?");
             } else {
                 qm.gainItem(2430014, 1);
                 qm.forceCompleteQuest();

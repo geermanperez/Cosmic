@@ -59,7 +59,7 @@ function action(mode, type, selection) {
     switch (status) {
         case 0:
             if (cm.getMapId() == 680000300) {
-                cm.sendYesNo("Are you sure you want to #rquit the stage#k and head back to #bAmoria#k? You will be #rskipping the bonus stages#k that way.");
+                cm.sendYesNo("¿Estás seguro de que quieres#rabandonar el escenario#ky regresar a#bAmoria#k? Usted será#rsaltándose las etapas de bonificación#kde esa manera.");
             } else {
                 var hasEngagement = false;
                 for (var x = 4031357; x <= 4031364; x++) {
@@ -71,26 +71,26 @@ function action(mode, type, selection) {
 
                 if (cm.haveItem(4000313) && isMarrying) {
                     if (eim.getIntProperty("weddingStage") == 3) {
-                        cm.sendOk("You guys totally rocked the stage!!! Go go, talk to #b#p9201007##k to start the afterparty.");
+                        cm.sendOk("¡¡¡Ustedes sacudieron totalmente el escenario!!! Ve, ve, habla con#b#p9201007##kpara comenzar la fiesta posterior.");
                         cm.dispose();
                     } else if (hasEngagement) {
                         if (!cm.createMarriageWishlist()) {
-                            cm.sendOk("You have already sent your wishlist...");
+                            cm.sendOk("Ya has enviado tu lista de deseos...");
                         }
                         cm.dispose();
                     } else {
-                        cm.sendOk("Oh, hey, where are the credentials for the this so-lauded party? Oh man, we can't continue at this rate now... Sorry, the party is over.");
+                        cm.sendOk("Oh, oye, ¿dónde están las credenciales de este partido tan elogiado? Oh hombre, no podemos continuar a este ritmo ahora... Lo siento, se acabó la fiesta.");
                     }
                 } else {
                     if (eim.getIntProperty("weddingStage") == 3) {
                         if (!isMarrying) {
-                            cm.sendYesNo("You guys didn't miss them right? Our superstars #rworked so good together#k, and soon #bthey will start the afterparty#k. Are you really going to #rdrop out of the show#k and return to #bAmoria#k?");
+                            cm.sendYesNo("¿Ustedes no los extrañaron, verdad? Nuestras superestrellas#rtrabajaron muy bien juntos#k, etcétera#bempezarán la fiesta posterior#k. ¿Realmente vas a#rabandonar el programa#ky volver a#bAmoria#k?");
                         } else {
-                            cm.sendOk("You guys totally rocked the stage!!! Go go, talk to #b#p9201007##k to start the afterparty.");
+                            cm.sendOk("¡¡¡Ustedes sacudieron totalmente el escenario!!! Ve, ve, habla con#b#p9201007##kpara comenzar la fiesta posterior.");
                             cm.dispose();
                         }
                     } else {
-                        cm.sendYesNo("Are you sure you want to #rquit the stage#k and head to #bAmoria#k? You will be #rskipping the bonus stages#k, fam.");
+                        cm.sendYesNo("¿Estás seguro de que quieres#rabandonar el escenario#ky dirígete a#bAmoria#k? Usted será#rsaltándose las etapas de bonificación#k, familia.");
                     }
                 }
             }

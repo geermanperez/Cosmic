@@ -3,10 +3,10 @@
 
 function start() {
     if (cm.getPlayer().getMapId() == 610030500) {
-        cm.sendOk("As a powerful Elite Mage, Ridly knew the value of intelligence, the hallmark quality of a wizard. Thus, the Mage Chamber is a twisting maze of devious conception--the Teleport skill is the only skill you can use inside to get around, and Magic Claw is the only skill that will break the statues. You must also kill numerous monsters within. After you solve the maze and defeat all the foes within it, deduce which Mage Statue hides the Staff of First Magic and break it open to claim it! Good luck!");
+        cm.sendOk("Como poderoso mago de élite, Ridly conocía el valor de la inteligencia, la cualidad distintiva de un mago. Por lo tanto, la Cámara de Magos es un laberinto retorcido de concepción tortuosa: la habilidad Teletransporte es la única habilidad que puedes usar dentro para moverte, y Garra Mágica es la única habilidad que romperá las estatuas. También debes matar a numerosos monstruos que se encuentran dentro. Después de resolver el laberinto y derrotar a todos los enemigos dentro de él, deduce qué estatua de mago esconde el Bastón de la Primera Magia y ábrelo para reclamarlo. ¡Buena suerte!");
         cm.dispose();
     } else if (cm.getPlayer().getMap().getId() == 610030000) {
-        cm.sendOk("A name forever remembered, Rafael was an exceptionally skilled sorcerer, and the foremost master of mental magic powers, telekinesis and telepathy. In addition to that, he was one of the 'Elite Mages' who mastered all the elements. He was last seen looking for the 'Temple of the Elementals' to turn the tide against the invading Krakian Army...");
+        cm.sendOk("Un nombre siempre recordado, Rafael era un hechicero excepcionalmente hábil y el principal maestro de los poderes mágicos mentales, la telequinesis y la telepatía. Además de eso, era uno de los 'Magos de Élite' que dominaba todos los elementos. Fue visto por última vez buscando el 'Templo de los Elementales' para cambiar el rumbo contra el ejército invasor Krakian...");
         cm.dispose();
     } else if (cm.getPlayer().getMapId() == 610030521) {
         if (cm.getPlayer().getMap().countMonsters() == 0) {
@@ -17,25 +17,25 @@ function start() {
             if ((stgStatus >> jobNiche) % 2 == 0) {
                 if (cm.canHold(4001257, 1)) {
                     cm.gainItem(4001257, 1);
-                    cm.sendOk("Good job.");
+                    cm.sendOk("Buen trabajo.");
 
                     stgStatus += (1 << jobNiche);
                     eim.setIntProperty("glpq5_room", stgStatus);
                 } else {
-                    cm.sendOk("Make room on your ETC inventory first.");
+                    cm.sendOk("Primero haga espacio en su inventario ETC.");
                 }
             } else {
-                cm.sendOk("The weapon inside this room has already been retrieved.");
+                cm.sendOk("El arma dentro de esta habitación ya ha sido recuperada.");
             }
         } else {
-            cm.sendOk("Eliminate all monsters.");
+            cm.sendOk("Elimina todos los monstruos.");
         }
         cm.dispose();
     } /* else if (cm.getPlayer().getMapId() == 610030522) {
                 if (cm.getPlayer().getMap().countMonsters() == 0) {
                         cm.warp(610030522,0);
                 } else {
-                        cm.sendOk("Eliminate all monsters.");
+                        cm.sendOk("Elimina todos los monstruos.");
                 }
                 cm.dispose();
         }

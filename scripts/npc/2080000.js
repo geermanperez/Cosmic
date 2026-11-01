@@ -66,7 +66,7 @@ function action(mode, type, selection) {
             stimulator = false;
         }
         if (selectedType == 0) { //What's a stim?
-            cm.sendNext("A stimulator is a special potion that I can add into the process of creating certain items. It gives it stats as though it had dropped from a monster. However, it is possible to have no change, and it is also possible for the item to be below average. There's also a 10% chance of not getting any item when using a stimulator, so please choose wisely.")
+            cm.sendNext("Un estimulador es una poción especial que puedo agregar al proceso de creación de ciertos elementos. Le da estadísticas como si hubiera caído de un monstruo. Sin embargo, es posible que no haya cambios y también es posible que el artículo esté por debajo del promedio. También existe un 10% de posibilidades de no recibir ningún artículo al usar un estimulador, así que elige sabiamente.")
             cm.dispose();
         } else if (selectedType == 1) { //warrior weapon
             var selStr = "Very well, then which Warrior weapon shall receive a dragon's power?#b";
@@ -184,11 +184,11 @@ function action(mode, type, selection) {
         var complete = true;
 
         if (!cm.canHold(item, 1)) {
-            cm.sendOk("Check your inventory for a free slot first.");
+            cm.sendOk("Primero verifique su inventario para ver si hay un espacio libre.");
             cm.dispose();
             return;
         } else if (cm.getMeso() < cost) {
-            cm.sendOk("My fee is for the good of all of Leafre. If you cannot pay it, then begone.");
+            cm.sendOk("Mi tarifa es por el bien de todo Leafre. Si no puedes pagarlo, entonces vete.");
             cm.dispose();
             return;
         } else {
@@ -208,7 +208,7 @@ function action(mode, type, selection) {
             }
         }
         if (!complete) {
-            cm.sendOk("I'm afraid that without the correct items, the dragon's essence would... not make for a very reliable weapon. Please bring the correct items next time.");
+            cm.sendOk("Me temo que sin los elementos correctos, la esencia del dragón... no sería un arma muy confiable. Por favor traiga los artículos correctos la próxima vez.");
         } else {
             if (mats instanceof Array) {
                 for (var i = 0; i < mats.length; i++) {
@@ -223,13 +223,13 @@ function action(mode, type, selection) {
                 var deleted = Math.floor(Math.random() * 10);
                 if (deleted != 0) {
                     cm.gainItem(item, 1, true, true);
-                    cm.sendOk("The process is complete. Treat your weapon well, lest you bring the wrath of the dragons upon you.");
+                    cm.sendOk("El proceso está completo. Trata bien tu arma, no sea que traigas sobre ti la ira de los dragones.");
                 } else {
-                    cm.sendOk("Unfortunately, the dragon's essence has... conflicted with your weapon. My apologies for your loss.");
+                    cm.sendOk("Desafortunadamente, la esencia del dragón ha... entrado en conflicto con tu arma. Mis disculpas por tu pérdida.");
                 }
             } else {//just give basic item
                 cm.gainItem(item, 1);
-                cm.sendOk("The process is complete. Treat your weapon well, lest you bring the wrath of the dragons upon you.");
+                cm.sendOk("El proceso está completo. Trata bien tu arma, no sea que traigas sobre ti la ira de los dragones.");
             }
         }
         cm.dispose();

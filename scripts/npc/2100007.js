@@ -22,17 +22,17 @@ function action(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            cm.sendNext("Hohoh~ welcome welcome. Welcome to Ariant Skin Care. You have stepped into a renowned Skin Care shop that even the Queen herself frequents this place. If you have #bAriant skin care coupon#k with you, we'll take care of the rest. How about letting work on your skin today?");
+            cm.sendNext("Hohoh ~ bienvenido, bienvenido. Bienvenido a Ariant Skin Care. Has entrado en una reconocida tienda de cuidado de la piel que incluso la propia Reina frecuenta este lugar. si tienes#bCupón para el cuidado de la piel de Ariant#kcontigo, nosotros nos encargamos del resto. ¿Qué tal dejar actuar en tu piel hoy?");
         } else if (status == 1) {
-            cm.sendStyle("With our specialized machine, you can see yourself after the treatment in advance. What kind of skin-treatment would you like to do? Choose the style of your liking...", skin);
+            cm.sendStyle("Con nuestra máquina especializada, podrá verse usted mismo después del tratamiento con antelación. ¿Qué tipo de tratamiento para la piel te gustaría hacer? Elige el estilo de tu agrado...", skin);
         } else if (status == 2) {
             cm.dispose();
             if (cm.haveItem(5153007) == true) {
                 cm.gainItem(5153007, -1);
                 cm.setSkin(skin[selection]);
-                cm.sendOk("Enjoy your new and improved skin!");
+                cm.sendOk("¡Disfruta de tu piel nueva y mejorada!");
             } else {
-                cm.sendNext("Hmmm... I don't think you have our Skin Care coupon with you. Without it, I can't give you the treatment");
+                cm.sendNext("Hmmm... No creo que tengas nuestro cupón de cuidado de la piel contigo. Sin él no puedo darte el tratamiento.");
             }
         }
     }

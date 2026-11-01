@@ -36,9 +36,9 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Aran, I've discovered some disturbing news... You said you've come from the eastern forest section, right? We traced and studied the magic being used to support the portal over there. It turns out that's of a #rtemporal#k-type. The garments you're using... They were never seen around before. That must mean, #ryou must have come from the future#k.");
+            qm.sendNext("Aran, he descubierto algunas noticias inquietantes... Dijiste que venías de la sección del bosque oriental, ¿verdad? Rastreamos y estudiamos la magia que se utiliza para sostener el portal allí. Resulta que es de un#rtemporal#tipo k. Las prendas que estás usando... nunca antes se habían visto por ahí. Eso debe significar,#rdebes haber venido del futuro#k.");
         } else if (status == 1) {
-            qm.sendNext("Now about the problem: the Seal Stone that seems to have been missing in your timeline... It is a powerful artifact, that prevents the army of the #rBlack Mage#k from laying siege on our world. If that stone goes away, nothing more can prevent him. As this is a matter of great importance, find the #rself of mine#k from the future. I'm actually a #rfairy#k with a great life expectancy, I must be alive even on your timeline. Got it, #rfetch the me from the future#k!");
+            qm.sendNext("Ahora sobre el problema: la Piedra Sello que parece haber faltado en tu línea de tiempo... Es un artefacto poderoso, que impide que el ejército de los#rmago negro#kde sitiar nuestro mundo. Si esa piedra desaparece, nada más podrá impedirlo. Como se trata de un asunto de gran importancia, busque la#ryo mío#kdel futuro. en realidad soy un#rfairy#k con una gran esperanza de vida, debo estar vivo incluso en tu línea de tiempo. Entiendo,#rTráeme del futuro#k!");
         } else if (status == 2) {
             qm.forceStartQuest();
             qm.dispose();

@@ -9,6 +9,6 @@
  **/
 
 function start() {
-    cm.sendOk("Ahhhh, this is so boring... The whale is controlling the ship so i'm left with nothing to do but look up and stare at the clouds.");
+    cm.sendOk("Ahhhh, esto es tan aburrido... La ballena controla el barco así que no me queda nada que hacer más que mirar hacia arriba y mirar las nubes.");
     cm.dispose()
 }

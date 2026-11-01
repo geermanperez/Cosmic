@@ -29,7 +29,7 @@ function action(mode, type, selection) {
     if (mode == 1) {
         status++;
     } else {
-        cm.sendOk("Oh, talk to me when you have decided what you want from me. I am very busy right now.");
+        cm.sendOk("Oh, háblame cuando hayas decidido lo que quieres de mí. Estoy muy ocupado ahora mismo.");
         cm.dispose();
         return;
     }
@@ -39,12 +39,12 @@ function action(mode, type, selection) {
             //player lost his book, help him complete quest anyways
 
             if (cm.canHold(4031554)) {
-                cm.sendOk("Oh, the boy wanted you to bring him a #t4031554#? No problem, I was on his debt anyway. Now, tell him I am repaying the debt, OK?");
+                cm.sendOk("Oh, ¿el chico quería que le trajeras un #t4031554#? No hay problema, yo estaba en deuda con él de todos modos. Ahora dile que estoy pagando la deuda, ¿vale?");
                 cm.gainItem(4031554, 1);
                 cm.dispose();
                 return;
             } else {
-                cm.sendOk("Oh, the boy wanted you to bring him a #t4031554#? Make room at your ETC inventory first.");
+                cm.sendOk("Oh, ¿el chico quería que le trajeras un #t4031554#? Primero haga espacio en su inventario ETC.");
                 cm.dispose();
                 return;
             }
@@ -66,7 +66,7 @@ function action(mode, type, selection) {
             matQtyMeso = [0, 0, 910, 950, 1940, 600, 700, 1000];
 
             if (!cm.haveItem(4161030)) {
-                cm.sendNext("If you want to make a medicine, you must study the Book on Herbal Medicine first. Nothing is more dangerous than practicing a medicine without proper knowledge.");
+                cm.sendNext("Si quieres hacer un medicamento, primero debes estudiar el Libro sobre medicina herbaria. Nada es más peligroso que practicar una medicina sin los conocimientos adecuados.");
                 cm.dispose();
                 return;
             }
@@ -104,7 +104,7 @@ function action(mode, type, selection) {
         cm.sendSimple(selStr);
     } else if (status == 2) {
         selectedItem = selection;
-        cm.sendGetText("How many #b#t" + itemSet[selectedItem] + "##k do you want to make?");
+        cm.sendGetText("Cuántos#b#t" + itemSet[selectedItem] + "##k ¿quieres hacer?");
     } else if (status == 3) {
         if (selectedType == 0) { //Medicines
             var text = cm.getText();
@@ -185,7 +185,7 @@ function action(mode, type, selection) {
             }
 
             if (!complete || !cm.canHold(item, makeQty)) {
-                cm.sendOk("Please make sure you are neither lacking ingredients or lacking space in your use inventory.");
+                cm.sendOk("Asegúrese de que no le falten ingredientes ni espacio en su inventario de uso.");
             } else {
                 if (mats instanceof Array) {
                     for (var i = 0; i < mats.length; i++) {
@@ -222,7 +222,7 @@ function action(mode, type, selection) {
             }
 
             if (!complete || !cm.canHold(item, 1)) {
-                cm.sendOk("Please make sure you are neither lacking ingredients or lacking space in your use inventory.");
+                cm.sendOk("Asegúrese de que no le falten ingredientes ni espacio en su inventario de uso.");
             } else {
                 if (mats instanceof Array) {
                     for (var i = 0; i < mats.length; i++) {
@@ -244,7 +244,7 @@ function action(mode, type, selection) {
             }
 
             if (!complete) {
-                cm.sendOk("Please make sure you are neither lacking ingredients or lacking space in your etc inventory.");
+                cm.sendOk("Asegúrese de que no le falten ingredientes ni espacio en su inventario, etc.");
                 cm.dispose();
                 return;
             }
@@ -258,7 +258,7 @@ function action(mode, type, selection) {
             }
 
             if (!cm.canHold(4001124, reward)) {
-                cm.sendOk("Please make sure you are neither lacking ingredients or lacking space in your etc inventory.");
+                cm.sendOk("Asegúrese de que no le falten ingredientes ni espacio en su inventario, etc.");
             } else {
                 cm.gainItem(item, -100);
                 cm.gainItem(4001124, reward);

@@ -27,7 +27,7 @@
 var status = -1;
 
 function start() {
-    cm.sendNext("This is the town called #bAmherst#k, located at the northeast part of the Maple Island. You know that Maple Island is for beginners, right? I'm glad there are only weak monsters around this place.");
+    cm.sendNext("Este es el pueblo llamado #bAmherst#k, ubicado en la parte noreste de la Isla Maple. Sabes que Maple Island es para principiantes, ¿verdad? Me alegro de que sólo haya monstruos débiles en este lugar.");
 }
 
 function action(mode, type, selection) {
@@ -43,9 +43,9 @@ function action(mode, type, selection) {
         }
     } else {
         if (status == 1) {
-            cm.sendNextPrev("If you want to get stronger, then go to #bSouthperry#k where there's a harbor. Ride on the gigantic ship and head to the place called #bVictoria Island#k. It's incomparable in size compared to this tiny island.");
+            cm.sendNextPrev("Si quieres hacerte más fuerte, entonces ve a#bSouthperry#k donde hay un puerto. Viaja en el barco gigantesco y dirígete al lugar llamado#bIsla Victoria#k. Tiene un tamaño incomparable en comparación con esta pequeña isla.");
         } else if (status == 2) {
-            cm.sendPrev("At the Victoria Island, you can choose your job. Is it called #bPerion#k...? I heard there's a bare, desolate town where warriors live. A highland...what kind of a place would that be?");
+            cm.sendPrev("En la Isla Victoria puedes elegir tu trabajo. ¿Se llama #bPerion#k...? Escuché que hay un pueblo desnudo y desolado donde viven guerreros. Una montaña... ¿qué clase de lugar sería ese?");
         } else if (status == 3) {
             cm.dispose();
         }

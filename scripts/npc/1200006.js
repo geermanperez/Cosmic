@@ -9,6 +9,6 @@
  **/
 
 function start() {
-    cm.sendOk("The current is serene, wich means we may arive in lith harbor earlier than expected.");
+    cm.sendOk("La corriente es serena, lo que significa que es posible que lleguemos a Puerto Lith antes de lo esperado.");
     cm.dispose();
 }

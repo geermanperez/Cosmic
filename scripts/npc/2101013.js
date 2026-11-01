@@ -15,7 +15,7 @@ function action(mode, type, selection) {
         cm.dispose();
     } else {
         if (mode == 0) {
-            cm.sendNext("Aye...are you scared of speed or heights? You can't trust my flying skills? Trust me, I've worked out all the kinks!");
+            cm.sendNext("Sí... ¿tienes miedo de la velocidad o de las alturas? ¿No puedes confiar en mis habilidades de vuelo? Créame, ¡he resuelto todos los problemas!");
             cm.dispose();
             return;
         }
@@ -25,17 +25,17 @@ function action(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            cm.sendNext("I don't know how you found out about this, but you came to the right place! For those that wandered around Nihal Desert and are getting homesick, I am offering a flight straight to Victorial Island, non-stop! Don't worry about the flying ship--it's only fallen once or twice! Don't you feel claustrophobic being in a long flight on that small ship?");
+            cm.sendNext("¡No sé cómo te enteraste de esto, pero viniste al lugar correcto! Para aquellos que deambularon por el desierto de Nihal y sienten nostalgia, les ofrezco un vuelo directo a Victorial Island, ¡sin escalas! No te preocupes por el barco volador: ¡sólo ha caído una o dos veces! ¿No te sientes claustrofóbico al estar en un largo vuelo en ese pequeño barco?");
         } else if (status == 1) {
-            cm.sendYesNo("Please remember two things. One, this line is actually for overseas shipping, so #rI cannot gurantee exactly which town you'll land#k. Two, since I am putting you in this special flight, it'll be a bit expensive. The service charge is #e#b10,000 mesos#n#k. There's a flight thats about to take off. Are you interested in this direct flight?");
+            cm.sendYesNo("Por favor recuerda dos cosas. Primero, esta línea es en realidad para envíos al extranjero, así que#rNo puedo garantizar exactamente en qué ciudad aterrizarás.#k. Segundo, como te pondré en este vuelo especial, será un poco caro. El cargo por servicio es#e#b10.000 mesos#n#k. Hay un vuelo que está a punto de despegar. ¿Estás interesado en este vuelo directo?");
         } else if (status == 2) {
-            cm.sendNext("Okay, ready to takeoff~");
+            cm.sendNext("Bien, listo para despegar ~");
         } else if (status == 3) {
             if (cm.getMeso() >= 10000) {
                 cm.gainMeso(-10000);
                 cm.warp(towns[Math.floor(Math.random() * towns.length)]);
             } else {
-                cm.sendNextPrev("Hey, are you short on cash? I told you you'll need #b10,000#k mesos to get on this.");
+                cm.sendNextPrev("Oye, ¿te falta efectivo? Te dije que necesitarás#b10,000#kmesos para seguir con esto.");
                 cm.dispose();
             }
         }

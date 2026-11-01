@@ -30,14 +30,14 @@ function action(mode, type, selection) {
             }
 
             if (!cm.haveItem(4031793, 1)) {
-                cm.sendOk("Umm... Hey... Would you help me find a #bsoft and shiny silver fur#k that I lost on the woods? I need it, I need it, I need it sooooo much!");
+                cm.sendOk("Umm... Oye... ¿Me ayudarías a encontrar un#bpelaje plateado suave y brillante#kque perdí en el bosque? ¡Lo necesito, lo necesito, lo necesito muchísimo!");
                 cm.dispose();
                 return;
             }
 
-            cm.sendYesNo("Hey... Umm... Would you help me find a #bsoft and shiny silver fur#k that I lost on the woods? I need it, I need it, I need it sooooo much! ... Oh you found it!!! Will you give it to me?");
+            cm.sendYesNo("Oye... Umm... ¿Me ayudarías a encontrar un#bpelaje plateado suave y brillante#kque perdí en el bosque? ¡Lo necesito, lo necesito, lo necesito muchísimo! ... ¡¡¡Oh, lo encontraste !!! ¿Me lo darás?");
         } else if (status == 1) {
-            cm.sendNext("Teehehee~ That's your reward for taking it from me, serves you well.");
+            cm.sendNext("Teehehee ~ Esa es tu recompensa por quitármelo, te sirve de mucho.");
             cm.gainItem(4031793, -1);
             cm.gainFame(-5);
             cm.setQuestProgress(23647, 1, 1);

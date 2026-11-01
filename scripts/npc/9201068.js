@@ -11,7 +11,7 @@ function start() {
         hasTicket = true;
     }
     if (!hasTicket) {
-        cm.sendOk("It seems you don't have a ticket! You can buy one from Bell.");
+        cm.sendOk("¡Parece que no tienes billete! Puedes comprar uno en Bell.");
         cm.dispose();
     } else {
         cm.sendSimple(text);
@@ -22,7 +22,7 @@ function action(mode, type, selection) {
     status++;
     if (mode != 1) {
         if (mode == 0) {
-            cm.sendNext("You must have some business to take care of here, right?");
+            cm.sendNext("Debes tener algunos asuntos que atender aquí, ¿verdad?");
         }
         cm.dispose();
         return;
@@ -30,7 +30,7 @@ function action(mode, type, selection) {
     if (status == 0) {
         if (selection == 0) {
 
-                cm.sendYesNo("It looks like there's plenty of room for this ride. Please have your ticket ready so I can let you in. You will arrive immediately. What do you think? Do you wants to get on this ride?");
+                cm.sendYesNo("Parece que hay mucho espacio para este viaje. Por favor tenga su boleto listo para que pueda dejarle entrar. Llegará inmediatamente. ¿Qué opinas? ¿Quieres subirte a este paseo?");
 
         }
         oldSelection = selection;
@@ -41,7 +41,7 @@ function action(mode, type, selection) {
                 cm.warp(103000100, 0);
 
         } else {
-            cm.sendNext("Sorry, you need a ticket to enter!");
+            cm.sendNext("Lo sentimos, ¡necesitas un boleto para ingresar!");
         }
 
         cm.dispose();

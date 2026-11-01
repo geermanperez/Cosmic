@@ -40,7 +40,7 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendOk("For those capable of great feats and bearers of an unwavering resolve, the #bfinal destination#k lies ahead past the gate. The Machine Room accepts only #rone party at a time#k, so make sure your party is ready when crossing the gate.");
+            cm.sendOk("Para aquellos capaces de grandes hazañas y portadores de una determinación inquebrantable, el#bDestino final#kse encuentra más allá de la puerta. La Sala de Máquinas sólo acepta#runa fiesta a la vez#k, así que asegúrese de que su grupo esté listo cuando cruce la puerta.");
             cm.dispose();
         }
     }

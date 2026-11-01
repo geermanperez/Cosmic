@@ -36,7 +36,7 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Aran, Lith have been caught off guard. We are under attack! Get here ASAP.");
+            qm.sendNext("Aran, Lith han sido tomados por sorpresa. ¡Estamos bajo ataque! Llegue aquí lo antes posible.");
         } else {
             qm.forceStartQuest();
             qm.dispose();
@@ -60,9 +60,9 @@ function end(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Aran, thank you very much! Somehow the Puppeteer managed to bypass the security of Lith Harbor. He was trying to seek revenge because of the other day. Luckily, you came by. Nicely done!");
+            qm.sendNext("Aran, muchas gracias! De alguna manera, el Titiritero logró eludir la seguridad de Lith Harbor. Estaba tratando de vengarse por lo del otro día. Por suerte viniste. ¡Bien hecho!");
         } else if (status == 1) {
-            qm.sendNext("I will teach you the #rPolearm Mastery#k skill, to reward your actions here. You will be able to improve your accuracy and the overall mastery of your polearm arts.");
+            qm.sendNext("te enseñaré el#rDominio del arma de asta#khabilidad, para recompensar tus acciones aquí. Podrás mejorar tu precisión y el dominio general de tus artes con armas de asta.");
         } else if (status == 2) {
             qm.gainExp(8000);
             qm.teachSkill(21100000, 0, 20, -1); // polearm mastery

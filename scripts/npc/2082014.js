@@ -41,7 +41,7 @@ function action(mode, type, selection) {
 
         if (status == 0) {
             if (cm.isQuestStarted(3749)) {
-                cm.sendOk("We've already located the enemy's ultimate weapon! Follow along the ship's bow area ahead and you will find my sister #b#p2082013##k. Report to her for futher instructions on the mission.");
+                cm.sendOk("¡Ya hemos localizado el arma definitiva del enemigo! Sigue por la zona de proa del barco y encontrarás a mi hermana.#b#p2082013##k. Informe a ella para obtener más instrucciones sobre la misión.");
             } else {
                 cm.sendDefault();
             }

@@ -27,15 +27,15 @@ function action(mode, type, selection) {
             if (!cm.hasItem(4032142)) {
                 if (cm.canHold(4032142)) {
                     cm.gainItem(4032142, 1);
-                    cm.sendOk("You bottled up some of the clear tree sap.  #i4032142#");
+                    cm.sendOk("Embotellaste un poco de la savia clara del árbol.  #i4032142#");
                 } else {
-                    cm.sendOk("Make sure you have a free spot in your ETC inventory.");
+                    cm.sendOk("Asegúrate de tener un lugar libre en tu inventario de ETC.");
                 }
             } else {
-                cm.sendOk("A never ending flow of sap is coming from this small tree stump.");
+                cm.sendOk("Un flujo interminable de savia sale de este pequeño tocón de árbol.");
             }
         } else {
-            cm.sendOk("A never ending flow of sap is coming from this small tree stump.");
+            cm.sendOk("Un flujo interminable de savia sale de este pequeño tocón de árbol.");
         }
     } else if (status == 1) {
         cm.dispose();

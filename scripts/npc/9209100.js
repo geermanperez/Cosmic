@@ -29,9 +29,9 @@ function action(mode, type, selection) {
 
         if (status == 0) {
             if (playerNearby(cm.getPlayer().getPosition(), cm.getMap().getPortal("chimney01").getPosition())) {
-                cm.sendOk("Hey, hey~~ Please don't go sneaking into someone else's house without permission, you don't want to get a naughty remark on Santa's list this year, do you?");
+                cm.sendOk("Oye, oye~~ Por favor, no entres a escondidas en la casa de otra persona sin permiso, no querrás recibir un comentario travieso en la lista de Santa este año, ¿verdad?");
             } else {
-                cm.sendOk("Hohoho~~ have you a Great Year full of health, realization and happiness!");
+                cm.sendOk("Hohoho~~ ¡Que tengas un gran año lleno de salud, realización y felicidad!");
             }
         } else {
             cm.dispose();

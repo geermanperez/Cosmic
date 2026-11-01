@@ -176,11 +176,11 @@ function action(mode, type, selection) {
         var complete = true;
 
         if (!cm.canHold(item, qty)) {
-            cm.sendOk("Check your inventory for a free slot first.");
+            cm.sendOk("Primero verifique su inventario para ver si hay un espacio libre.");
             cm.dispose();
             return;
         } else if (cm.getMeso() < cost * qty) {
-            cm.sendOk("I'm afraid you cannot afford my services.");
+            cm.sendOk("Me temo que no puede pagar mis servicios.");
             cm.dispose();
             return;
         } else {
@@ -195,7 +195,7 @@ function action(mode, type, selection) {
             }
         }
         if (!complete) {
-            cm.sendOk("I'm afraid you're missing something for the item you want. See you another time, yes?");
+            cm.sendOk("Me temo que te falta algo para el artículo que deseas. Nos vemos en otro momento, ¿sí?");
         } else {
             if (mats instanceof Array) {
                 for (var i = 0; i < mats.length; i++) {
@@ -206,7 +206,7 @@ function action(mode, type, selection) {
             }
             cm.gainMeso(-cost * qty);
             cm.gainItem(item, qty);
-            cm.sendOk("There, finished. What do you think, a piece of art, isn't it? Well, if you need anything else, you nkow where to find me.");
+            cm.sendOk("Ahí, terminado. ¿Qué te parece? Una obra de arte, ¿no? Bueno, si necesitas algo más, ya sabes dónde encontrarme.");
         }
         cm.dispose();
     }

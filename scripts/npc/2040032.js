@@ -30,19 +30,19 @@
  **/
 
 function start() {
-    cm.sendYesNo("This is the road where you can go take a walk with your pet. You can walk around with it, or you can train your pet to go through obstacles here. If you aren't too close with your pet yet, that may present a problem and he will not follow your command as much... So, what do you think? Wanna train your pet?");
+    cm.sendYesNo("Este es el camino donde podrás salir a pasear con tu mascota. Puedes caminar con él o entrenar a tu mascota para que atraviese obstáculos aquí. Si aún no eres demasiado cercano a tu mascota, eso puede presentar un problema y él no seguirá tanto tus órdenes... Entonces, ¿qué opinas? ¿Quieres entrenar a tu mascota?");
 }
 
 function action(mode, type, selection) {
     if (mode == -1) {
     } else if (mode == 0) {
-        cm.sendNext("Hmmm ... too busy to do it right now? If you feel like doing it, though, come back and find me.");
+        cm.sendNext("Hmmm... ¿demasiado ocupado para hacerlo ahora? Pero si tienes ganas de hacerlo, vuelve y búscame.");
     } else if (mode == 1) {
         if (cm.haveItem(4031128)) {
-            cm.sendNext("Get that letter, jump over obstacles with your pet, and take that letter to my brother Trainer Frod. Give him the letter and something good is going to happen to your pet.");
+            cm.sendNext("Consigue esa carta, salta obstáculos con tu mascota y llévale esa carta a mi hermano, el entrenador Frod. Entrégale la carta y algo bueno le pasará a tu mascota.");
         } else {
             cm.gainItem(4031128, 1);
-            cm.sendOk("Ok, here's the letter. He wouldn't know I sent you if you just went there straight, so go through the obstacles with your pet, go to the very top, and then talk to Trainer Frod to give him the letter. It won't be hard if you pay attention to your pet while going through obstacles. Good luck!");
+            cm.sendOk("Ok, aquí está la carta. Él no sabría que te envié si fueras allí directamente, así que atraviesa los obstáculos con tu mascota, ve a la cima y luego habla con el entrenador Frod para darle la carta. No será difícil si prestas atención a tu mascota mientras atraviesas obstáculos. ¡Buena suerte!");
         }
     }
     cm.dispose();

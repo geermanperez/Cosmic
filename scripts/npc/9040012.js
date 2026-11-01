@@ -26,6 +26,6 @@
  */
 
 function start() {
-    cm.sendOk("The plaque translates as follows: \r\n\"The knights of Sharenian are proud warriors. Their Longinus Spears are both formidable weapons and the key to the castle's defense: By removing them from their platforms at the highest points of this hall, they block off the entrance from invaders.\"\r\n\r\nSomething seems to be etched in English on the side, barely readable: \r\n\"evil stole spears, chained up behind obstacles. return to top of towers. large spear, grab from higher up.\"\r\n...Obviously whoever figured it out didn't have much time to live. Poor guy.");
+    cm.sendOk("La placa se traduce de la siguiente manera: \r\n\" Los caballeros de Sharenian son guerreros orgullosos. Sus Longinus Spears son armas formidables y la clave para la defensa del castillo: al sacarlas de sus plataformas en los puntos más altos de esta sala, bloquean la entrada de los invasores.\"\r\n\r\nAlgo parece estar grabado en inglés en el costado, apenas legible: \r\n\"evil robó lanzas, encadenado detrás de obstáculos. volver a la cima de las torres. lanza grande, agarra desde más arriba.\"\r\n...Obviamente quien lo descubrió no tuvo mucho tiempo de vida. Pobre chico.");
     cm.dispose();
 }

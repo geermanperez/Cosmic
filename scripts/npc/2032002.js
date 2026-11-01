@@ -53,37 +53,37 @@ function action(mode, type, selection) {
 
         if (status == 0) {
             if (!eim.isEventCleared()) {
-                cm.sendSimple("...#b\r\n#L0#What am I supposed to do here?#l\r\n#L1#I brought items!#l\r\n#L2#I want to get out!#l");
+                cm.sendSimple("...#b\r\n#L0#¿Qué se supone que debo hacer aquí?#l\r\n#L1#¡Traje artículos!#l\r\n#L2#¡Quiero salir!#l");
             } else {
-                cm.sendNext("You completed this ordeal, now receive your prize.");
+                cm.sendNext("Completaste esta terrible experiencia, ahora recibe tu premio.");
             }
         } else if (status == 1) {
             if (!eim.isEventCleared()) {
                 selectedType = selection;
                 if (selection == 0) {
-                    cm.sendNext("To reveal the power of Zakum, you'll have to recreate its core. Hidden somewhere in this dungeon is a #b\"Fire Ore\"#k which is one of the necessary materials for that core. Find it, and bring it to me.\r\n\r\nOh, and could you do me a favour? There's also a number of #bPaper Documents#k lying under rocks around here. If you can get 30 of them, I can reward you for your efforts.");
+                    cm.sendNext("Para revelar el poder de Zakum, tendrás que recrear su núcleo. Escondido en algún lugar de esta mazmorra hay un#b\"Mineral de fuego\"#kque es uno de los materiales necesarios para ese núcleo. Encuéntralo y tráemelo.\r\n\r\nAh y ¿podrías hacerme un favor? También hay una serie de#bDocumentos en papel#kyaciendo debajo de las rocas por aquí. Si puedes conseguir 30 de ellos, puedo recompensarte por tus esfuerzos.");
                     cm.dispose();
 
                 } else if (selection == 1) {
                     if (!cm.isEventLeader()) {
-                        cm.sendNext("Please let your leader bring the materials to me to complete this ordeal.");
+                        cm.sendNext("Por favor, deja que tu líder me traiga los materiales para completar esta terrible experiencia.");
                         cm.dispose();
                         return;
                     }
 
                     if (!cm.haveItem(4001018)) { //fire ore
-                        cm.sendNext("Please bring the #bFire Ore#k with you.");
+                        cm.sendNext("Por favor trae el#bMineral de fuego#kcontigo.");
                         cm.dispose();
                     } else {
                         gotAllDocs = cm.haveItem(4001015, 30);
                         if (!gotAllDocs) { //documents
-                            cm.sendYesNo("So, you brought the fire ore with you? In that case, I can give to you and to each member of your party a piece of it, that should be more than enough to make the core of Zakum. Make sure your whole party has room in their inventory before proceeding.");
+                            cm.sendYesNo("Entonces, ¿trajiste el mineral de fuego contigo? En ese caso, puedo darte a ti y a cada miembro de tu grupo una parte, eso debería ser más que suficiente para formar el núcleo de Zakum. Asegúrese de que todo su grupo tenga espacio en su inventario antes de continuar.");
                         } else {
-                            cm.sendYesNo("So, you brought the fire ore and the documents with you? In that case, I can give to you and to each member of your party a piece of it, that should be more than enough to make the core of Zakum. As well, since you #rbrought the documents#k with you, I can also provide you a special item which will #bbring you to the mine's entrance at any time#k. Make sure your whole party has room in their inventory before proceeding.");
+                            cm.sendYesNo("Entonces, ¿trajiste el mineral de fuego y los documentos? En ese caso, puedo darte a ti y a cada miembro de tu grupo una parte, eso debería ser más que suficiente para formar el núcleo de Zakum. Además, ya que usted#rtrajo los documentos#kcontigo, también puedo proporcionarte un artículo especial que#bllevarte a la entrada de la mina en cualquier momento#k. Asegúrese de que todo su grupo tenga espacio en su inventario antes de continuar.");
                         }
                     }
                 } else if (selection == 2) {
-                    cm.sendYesNo("Are you sure you want to exit? If you're the party leader, your party will also be removed from the mines.");
+                    cm.sendYesNo("¿Estás seguro de que quieres salir? Si eres el líder del partido, tu partido también será eliminado de las minas.");
                 }
             } else {
                 if (eim.getProperty("gotDocuments") == 1) {
@@ -94,10 +94,10 @@ function action(mode, type, selection) {
 
                             eim.gridInsert(cm.getPlayer(), 1);
                         } else {
-                            cm.sendOk("Make sure you have room in your inventory before proceeding.");
+                            cm.sendOk("Asegúrese de tener espacio en su inventario antes de continuar.");
                         }
                     } else {
-                        cm.sendOk("You have already received your share. You can now exit the mines through the portal over there.");
+                        cm.sendOk("Ya has recibido tu parte. Ahora puedes salir de las minas a través del portal de allí.");
                     }
                 } else {
                     if (eim.gridCheck(cm.getPlayer()) == -1) {
@@ -106,10 +106,10 @@ function action(mode, type, selection) {
 
                             eim.gridInsert(cm.getPlayer(), 1);
                         } else {
-                            cm.sendOk("Make sure you have room in your inventory before proceeding.");
+                            cm.sendOk("Asegúrese de tener espacio en su inventario antes de continuar.");
                         }
                     } else {
-                        cm.sendOk("You have already received your share. You can now exit the mines through the portal over there.");
+                        cm.sendOk("Ya has recibido tu parte. Ahora puedes salir de las minas a través del portal de allí.");
                     }
                 }
 

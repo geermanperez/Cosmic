@@ -47,7 +47,7 @@ function action(mode, type, selection) {
     var mapId = cm.getPlayer().getMapId();
     if (mapId == 922010000) {
         if (status == 0) {
-            cm.sendNext("To return back to the recruitment map, follow this way.");
+            cm.sendNext("Para volver al mapa de reclutamiento, siga este camino.");
         } else {
             cm.warp(221024500);
             cm.dispose();

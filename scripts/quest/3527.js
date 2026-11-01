@@ -44,7 +44,7 @@ function start(mode, type, selection) {
             qm.startQuest();
             qm.setQuestProgress(3507, 7081, 1);
             qm.completeQuest();
-            qm.sendOk("You have regained your memories, talk to #b#p2140001##k to get the pass.");
+            qm.sendOk("Has recuperado tus recuerdos, habla con#b#p2140001##kpara conseguir el pase.");
         } else if (status == 1) {
             qm.dispose();
         }

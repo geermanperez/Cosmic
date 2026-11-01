@@ -38,12 +38,12 @@ function action(mode, type, selection) {
         status++;
         if (cm.getPlayer().getMap().getId() == 910010100) { //Clear map
             if (status == 0) {
-                cm.sendNext("Hello, there! I'm Tommy. There's a Pig Town nearby where we're standing. The pigs there are rowdy and uncontrollable to the point where they have stolen numerous weapons from travelers. They were kicked out from their towns, and are currently hiding out at the Pig Town.");
+                cm.sendNext("¡Hola! Soy Tommy. Hay un Pueblo Cerdo cerca de donde estamos. Los cerdos son alborotadores e incontrolables hasta el punto de robar numerosas armas a los viajeros. Fueron expulsados ​​de sus pueblos y actualmente se esconden en Pig Town.");
             } else if (status == 1) {
                 if (cm.isEventLeader()) {
-                    cm.sendYesNo("What do you think about making your way there with your party members and teach those rowdy pigs a lesson?");
+                    cm.sendYesNo("¿Qué te parece acerca de llegar allí con los miembros de tu grupo y darles una lección a esos cerdos alborotadores?");
                 } else {
-                    cm.sendOk("Interessed? Tell your party leader to talk to me to head there!");
+                    cm.sendOk("¿Interesado? ¡Dile al líder de tu partido que hable conmigo para ir allí!");
                     cm.dispose();
 
                 }
@@ -56,7 +56,7 @@ function action(mode, type, selection) {
             }
         } else if (cm.getPlayer().getMap().getId() == 910010200) { //Bonus map
             if (status == 0) {
-                cm.sendYesNo("Would you like to exit the bonus now?");
+                cm.sendYesNo("¿Le gustaría cancelar el bono ahora?");
             } else {
                 cm.warp(910010400);
                 cm.dispose();
@@ -64,7 +64,7 @@ function action(mode, type, selection) {
             }
         } else if (cm.getPlayer().getMap().getId() == 910010300) { //Exit map
             if (status == 0) {
-                cm.sendOk("You will now be warped out, thank you for helping us!");
+                cm.sendOk("Ahora quedarás eliminado, ¡gracias por ayudarnos!");
             } else {
                 cm.warp(100000200);
                 cm.dispose();

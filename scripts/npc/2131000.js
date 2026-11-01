@@ -5,6 +5,6 @@
 */
 
 function start() {
-    cm.sendOk("It is been a while since we left Ossyria to avoid the Black Magician. If not for the world tree, I do not know where we would have been. I have been trying to establish myself here, but that is not easy. I wonder how things are like back home.");
+    cm.sendOk("Ha pasado un tiempo desde que dejamos Ossyria para evitar al Mago Negro. Si no fuera por el árbol del mundo, no sé dónde habríamos estado. He estado intentando establecerme aquí, pero no es fácil. Me pregunto cómo serán las cosas en casa.");
     cm.dispose();
 }

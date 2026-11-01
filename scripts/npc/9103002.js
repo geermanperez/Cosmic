@@ -47,12 +47,12 @@ function action(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            cm.sendYesNo("Your party gave a stellar effort and gathered up at least 30 coupons. For that, I have a present for each and every one of you. After receiving the present, you will be sent back to Ludibrium. Now, would you like to receive the present right now?");
+            cm.sendYesNo("Su grupo hizo un esfuerzo estelar y reunió al menos 30 cupones. Para eso tengo un regalo para todos y cada uno de ustedes. Después de recibir el regalo, serás enviado de regreso a Ludibrium. Ahora bien, ¿te gustaría recibir el regalo ahora mismo?");
         } else if (status == 1) {
             var eim = cm.getEventInstance();
 
             if (!eim.giveEventReward(cm.getPlayer())) {
-                cm.sendNext("It seems you don't have a free slot in either your #rEquip#k, #rUse#k or #rEtc#k inventories. Please make some room and try again.");
+                cm.sendNext("Parece que no tienes un espacio libre en tus inventarios #rEquip#k, #rUse#k o #rEtc#k. Por favor, haz espacio e inténtalo de nuevo.");
             } else {
                 cm.warp(809050017);
             }

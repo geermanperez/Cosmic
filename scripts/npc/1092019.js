@@ -62,7 +62,7 @@ function action(mode, type, selection) {
 
         if (status == 0) {    // missing script for skill test found thanks to Jade™
             if (!cm.isQuestStarted(6400)) {
-                cm.sendOk("Who are you talking to me? If you're just bored, go bother somebody else.");
+                cm.sendOk("¿A quién me estás hablando? Si simplemente estás aburrido, molesta a alguien más.");
                 cm.dispose();
             } else {
                 seagullProgress = cm.getQuestProgressInt(6400, 1);
@@ -71,46 +71,46 @@ function action(mode, type, selection) {
                     seagullIdx = Math.floor(Math.random() * seagullQuestion.length);
 
                     // string visibility thanks to ProXAIMeRx & Glvelturall
-                    cm.sendNext("Ok then! I'll give you the first question now! You better be ready because this one's a hard one. Even the seagulls here think this one's pretty tough. It's a pretty difficult problem.");
+                    cm.sendNext("¡Bien entonces! ¡Te daré la primera pregunta ahora! Será mejor que estés preparado porque éste es difícil. Incluso las gaviotas de aquí piensan que esto es bastante difícil. Es un problema bastante difícil.");
                 } else if (seagullProgress == 1) {
-                    cm.sendNext("Now~ Let's go onto the next question. This one is really difficult. I am going to have Bart help me on this one. You know Bart, right?");
+                    cm.sendNext("Ahora ~ pasemos a la siguiente pregunta. Éste es realmente difícil. Voy a hacer que Bart me ayude con esto. Conoces a Bart, ¿verdad?");
                 } else {
-                    cm.sendNext("Ohhhh! Now that was impressive! I considered my test quite difficult, and for you to pass that... you are indeed an integral member of the Pirate family, and a friend of seagulls. We are now bonded by the mutual friendship that will last a lifetime! And, most of all, friends are there to help you out when you are in dire straits. If you are in a state of emergency, call us seagulls.");
+                    cm.sendNext("¡Ohhh! ¡Eso fue impresionante! Consideré que mi prueba era bastante difícil, y para que la pases... eres de hecho un miembro integral de la familia Pirata y amigo de las gaviotas. ¡Ahora estamos unidos por una amistad mutua que durará toda la vida! Y, sobre todo, los amigos están ahí para ayudarte cuando estés en una situación desesperada. Si estás en estado de emergencia, llámanos gaviotas.");
                 }
             }
         } else if (status == 1) {
             if (seagullProgress == 0) {
                 cm.sendGetText(seagullQuestion[seagullIdx]);
             } else if (seagullProgress == 1) {
-                cm.sendNextPrev("I'm going to send you to an empty room in The Nautilus. You will see 9 Barts there. Hahaha~ Are they twins? No, no, certainly not. I've used a bit of magic for this test of will.");
+                cm.sendNextPrev("Te enviaré a una habitación vacía en The Nautilus. Verás 9 Barts allí. Jajaja~ ¿Son gemelos? No, no, ciertamente no. He usado un poco de magia para esta prueba de voluntad.");
             } else {
-                cm.sendNextPrev("Notify us using the skill Air Strike, and we will be there to help you out, because that's what friends are for.\r\n\r\n  #s5221003#    #b#q5221003##k");
+                cm.sendNextPrev("Notifícanos usando la habilidad Air Strike y estaremos allí para ayudarte, porque para eso están los amigos.\r\n\r\n  #s5221003#    #b#q5221003##k");
             }
         } else if (status == 2) {
             if (seagullIdx > -1) {
                 var answer = cm.getText();
                 if (answer == seagullAnswer[seagullIdx]) {
-                    cm.sendNext("What! I can't believe how incredibly smart you are! Incredible! In the seagull world, that kind of intellingence would give you a Ph.D. and then some. You're really amazing... I can't believe it... I simply can't believe it!");
+                    cm.sendNext("¡Qué! ¡No puedo creer lo increíblemente inteligente que eres! ¡Increíble! En el mundo de las gaviotas, ese tipo de inteligencia te daría un doctorado. y algo más. Eres realmente increíble... No puedo creerlo... ¡Simplemente no puedo creerlo!");
                     cm.setQuestProgress(6400, 1, 1);
                     cm.dispose();
                 } else {
-                    cm.sendOk("Hmm, that's not quite how I recall it. Try again!");
+                    cm.sendOk("Hmm, no es así como lo recuerdo. ¡Intentar otra vez!");
                     cm.dispose();
                 }
             } else if (seagullProgress != 2) {
-                cm.sendNextPrev("Anyway, only one of 9 Barts is the real Bart. You know that Pirates are known for the strength of their friendships and camaraderie with their fellow pirates. If you're a true pirate, you should be able to find your own mate with ease. Alright then, I'll send you to the room where Bart is.");
+                cm.sendNextPrev("De todos modos, sólo uno de los 9 Barts es el verdadero Bart. Sabes que los piratas son conocidos por la fuerza de sus amistades y camaradería con sus compañeros piratas. Si eres un verdadero pirata, deberías poder encontrar a tu propia pareja con facilidad. Muy bien, entonces te enviaré a la habitación donde está Bart.");
             } else {
                 //cm.gainExp(1000000);
                 //cm.teachSkill(5221003, 0, 10, -1);
                 //cm.forceCompleteQuest(6400);
 
-                cm.sendNextPrev("You have met all my challenges, and passed! Good job!");
+                cm.sendNextPrev("¡Has superado todos mis desafíos y los has superado! ¡Buen trabajo!");
                 cm.dispose();
             }
         } else if (status == 3) {
             var em = cm.getEventManager("4jaerial");
             if (!em.startInstance(cm.getPlayer())) {
-                cm.sendOk("Another player is already challenging the test in this channel. Please try another channel, or wait for the current player to finish.");
+                cm.sendOk("Otro jugador ya está desafiando la prueba en este canal. Pruebe con otro canal o espere a que finalice el reproductor actual.");
             }
 
             cm.dispose();

@@ -40,10 +40,10 @@ function start() {
 
                 eim.clearPQ();
             } else {
-                cm.sendOk("This is your final challenge. Defeat the evil lurking within the Rubian and return it to me. That is all.");
+                cm.sendOk("Este es tu desafío final. Derrota al mal que acecha dentro del Rubian y devuélvemelo. Eso es todo.");
             }
         } else {
-            cm.sendOk("This is your final challenge. Defeat the evil lurking within the Rubian and let your instance leader return it to me. That is all.");
+            cm.sendOk("Este es tu desafío final. Derrota al mal que acecha dentro del Rubian y deja que el líder de tu instancia me lo devuelva. Eso es todo.");
         }
     } else {
         cm.warp(990001100);

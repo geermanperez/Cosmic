@@ -16,16 +16,16 @@ function start(mode, type, selection) {
         if (type == 1 && mode == 0) {
             status -= 2;
         } else {
-            qm.sendOk("I understand it's not an easy task, but I can't make #bKiller Mushroom Spores#k without them. Please reconsider.");
+            qm.sendOk("Entiendo que no es una tarea fácil, pero no puedo lograrlo.#bEsporas de hongos asesinos#ksin ellos. Por favor reconsidere.");
             qm.dispose();
             return;
         }
     }
     if (status == 0) {
-        qm.sendAcceptDecline("Hmmm... I looked into the making of the Spores while you were gathering up the Poison Mushroom Caps, and realised that we'll need more materials for it. I want you to gather up one more set of items. Can you do it?");
+        qm.sendAcceptDecline("Hmmm... Investigué cómo se fabricaban las esporas mientras recogías las cápsulas de hongos venenosos y me di cuenta de que necesitaremos más materiales para ello. Quiero que recojas un conjunto más de artículos. ¿Puedes hacerlo?");
     } else if (status == 1) {
         qm.forceStartQuest();
-        qm.sendOk("Okay, I want you to defeat the Regenade Spores and bring back #b50 Mutated Spores#k in return.");
+        qm.sendOk("Bien, quiero que derrotes a las Regenade Spores y traigas de vuelta#b50 esporas mutadas#ken cambio.");
     } else if (status == 2) {
         qm.dispose();
     }
@@ -42,17 +42,17 @@ function end(mode, type, selection) {
         }
     }
     if (status == 0) {
-        qm.sendOk("Did you gather up all the necessary ingredients for it?")
+        qm.sendOk("¿Reuniste todos los ingredientes necesarios para ello?")
     } else if (status == 1) {
         if (!qm.haveItem(4000499, 50)) {
-            qm.sendOk("Please gather all the ingredients first.");
+            qm.sendOk("Primero reúna todos los ingredientes.");
             status = 2;
             return;
         }
 
-        qm.sendNext("These should be enough for me to make the #bKiller Mushroom Spores.#k Please hold on for a bit.");
+        qm.sendNext("Estos deberían ser suficientes para mí para hacer el#bEsporas de hongos asesinos.#kPor favor espera un momento.");
     } else if (status == 2) {
-        qm.sendOk("Okay, here are the Killer Mushroom Spores. Hopefully this will be enough for you to save our princess and help regain our kingdom. Good luck!");
+        qm.sendOk("Bien, aquí están las esporas del hongo asesino. Con suerte, esto será suficiente para que salves a nuestra princesa y ayudes a recuperar nuestro reino. ¡Buena suerte!");
     } else if (status == 3) {
         qm.forceCompleteQuest();
         qm.gainExp(11500);

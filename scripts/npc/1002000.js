@@ -7,7 +7,7 @@ var selectedMap = -1;
 var town = false;
 
 function start() {
-    cm.sendNext("Do you wanna head over to some other town? With a little money involved, I can make it happen. It's a tad expensive, but I run a special 90% discount for beginners.");
+    cm.sendNext("¿Quieres ir a otra ciudad? Con un poco de dinero de por medio, puedo hacerlo realidad. Es un poco caro, pero tengo un descuento especial del 90% para principiantes.");
 }
 
 function action(mode, type, selection) {
@@ -15,7 +15,7 @@ function action(mode, type, selection) {
     if (mode != 1) {
         if ((mode == 0 && !town) || mode == -1) {
             if (type == 1 && mode != -1) {
-                cm.sendNext("There's a lot to see in this town, too. Let me know if you want to go somewhere else.");
+                cm.sendNext("También hay mucho que ver en esta ciudad. Déjame saber si quieres ir a otro lugar.");
             }
             cm.dispose();
             return;
@@ -30,7 +30,7 @@ function action(mode, type, selection) {
 
     }
     if (status == 1) {
-        cm.sendSimple("It's understandable that you may be confused about this place if this is your first time around. If you got any questions about this place, fire away.\r\n#L0##bWhat kind of towns are here in Victoria Island?#l\r\n#L1#Please take me somewhere else.#k#l");
+        cm.sendSimple("Es comprensible que te sientas confundido acerca de este lugar si es tu primera vez. Si tienes alguna pregunta sobre este lugar, dispara.\r\n#L0##b¿Qué tipo de pueblos hay aquí en la isla Victoria?#l\r\n#L1#Por favor llévame a otro lugar.#k#l");
     } else if (status == 2) {
         if (selection == 0) {
             town = true;
@@ -57,10 +57,10 @@ function action(mode, type, selection) {
         }
     } else if (status == 3) {
         selectedMap = selection;
-        cm.sendYesNo("I guess you don't need to be here. Do you really want to move to #b#m" + maps[selection] + "##k? Well it'll cost you #b" + (cost[selection] / (cm.getJobId() == 0 ? 10 : 1)) + " mesos#k. What do you think?");
+        cm.sendYesNo("Supongo que no necesitas estar aquí. ¿Realmente quieres mudarte a#b#m" + maps[selection] + "##k? Bueno, te costará#b" + (cost[selection] / (cm.getJobId() == 0 ? 10 : 1)) + "mesos#k. ¿Qué opinas?");
     } else if (status == 4) {
         if (cm.getMeso() < (cost[selectedMap] / (cm.getJobId() == 0 ? 10 : 1))) {
-            cm.sendNext("You don't have enough mesos. With your abilities, you should have more than that!");
+            cm.sendNext("No tienes suficientes mesos. ¡Con tus habilidades, deberías tener más que eso!");
         } else {
             cm.gainMeso(-(cost[selectedMap] / (cm.getJobId() == 0 ? 10 : 1)));
             cm.warp(maps[selectedMap]);

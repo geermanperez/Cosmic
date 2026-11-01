@@ -56,14 +56,14 @@ function action(mode, type, selection) {
         var eim = cm.getPlayer().getEventInstance();
 
         if (eim.getProperty("stage4clear") != null && eim.getProperty("stage4clear") === "true") {
-            cm.sendOk("After what I thought would be an immortal sleep, I have finally found someone that will save Sharenian. I can truly rest in peace now.");
+            cm.sendOk("Después de lo que pensé que sería un sueño inmortal, finalmente encontré a alguien que salvará a Sharenian. Realmente puedo descansar en paz ahora.");
             cm.dispose();
             return;
         }
 
         if (status == 0) {
             if (cm.isEventLeader()) {
-                cm.sendNext("After what I thought would be an immortal sleep, I have finally found someone that will save Sharenian. This old man will now pave the way for you to finish the quest.");
+                cm.sendNext("Después de lo que pensé que sería un sueño inmortal, finalmente encontré a alguien que salvará a Sharenian. Este anciano ahora allanará el camino para que termines la misión.");
 
                 clearStage(4, eim);
                 cm.getGuild().gainGP(30);
@@ -71,7 +71,7 @@ function action(mode, type, selection) {
 
                 cm.dispose();
             } else {
-                cm.sendOk("I need the leader of your party to speak with me, nobody else.");
+                cm.sendOk("Necesito que el líder de tu partido hable conmigo, nadie más.");
                 cm.dispose();
             }
         }

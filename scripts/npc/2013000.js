@@ -51,7 +51,7 @@ function action(mode, type, selection) {
             if (status == 0) {
                 em = cm.getEventManager("OrbisPQ");
                 if (em == null) {
-                    cm.sendOk("The Orbis PQ has encountered an error.");
+                    cm.sendOk("El Orbis PQ ha encontrado un error.");
                     cm.dispose();
                     return;
                 } else if (cm.isUsingOldPqNpcStyle()) {
@@ -59,36 +59,36 @@ function action(mode, type, selection) {
                     return;
                 }
 
-                cm.sendSimple("#e#b<Party Quest: Tower of Goddess>\r\n#k#n" + em.getProperty("party") + "\r\n\r\nWould you like to assemble or join a team to solve the puzzles of the #bTower of Goddess#k? Have your #bparty leader#k talk to me or make yourself a party.#b\r\n#L0#I want to participate in the party quest.\r\n#L1#I would like to " + (cm.getPlayer().isRecvPartySearchInviteEnabled() ? "disable" : "enable") + " Party Search.\r\n#L2#I would like to hear more details.\r\n#L3#I would like to reclaim a prize.");
+                cm.sendSimple("#e#b<Misión del grupo: Torre de la Diosa>\r\n#k#n" + em.getProperty("fiesta") + "\r\n\r\n¿Te gustaría formar o unirte a un equipo para resolver los acertijos del#bTorre de la Diosa#k? ten tu#blíder del partido#khablame o hazte una fiesta.#b\r\n#L0#Quiero participar en la búsqueda del grupo.\r\n#L1#Me gustaría" + (cm.getPlayer().isRecvPartySearchInviteEnabled() ? "desactivar" : "permitir") + "Búsqueda de fiesta.\r\n#L2#Me gustaría escuchar más detalles.\r\n#L3#Me gustaría reclamar un premio.");
             } else if (status == 1) {
                 if (selection == 0) {
                     if (cm.getParty() == null) {
-                        cm.sendOk("You can participate in the party quest only if you are in a party.");
+                        cm.sendOk("Puedes participar en la misión del grupo solo si estás en un grupo.");
                         cm.dispose();
                     } else if (!cm.isLeader()) {
-                        cm.sendOk("Your party leader must talk to me to start this party quest.");
+                        cm.sendOk("El líder de tu grupo debe hablar conmigo para comenzar esta búsqueda del grupo.");
                         cm.dispose();
                     } else {
                         var eli = em.getEligibleParty(cm.getParty());
                         if (eli.size() > 0) {
                             if (!em.startInstance(cm.getParty(), cm.getPlayer().getMap(), 1)) {
-                                cm.sendOk("Another party has already entered the #rParty Quest#k in this channel. Please try another channel, or wait for the current party to finish.");
+                                cm.sendOk("Otro partido ya ha entrado en el#rBúsqueda de fiesta#ken este canal. Prueba con otro canal o espera a que termine la fiesta actual.");
                             }
                         } else {
-                            cm.sendOk("You cannot start this party quest yet, because either your party is not in the range size, some of your party members are not eligible to attempt it or they are not in this map. If you're having trouble finding party members, try Party Search.");
+                            cm.sendOk("No puedes comenzar esta misión de grupo todavía porque tu grupo no está dentro del rango de tamaño, algunos de los miembros de tu grupo no son elegibles para intentarla o no están en este mapa. Si tienes problemas para encontrar miembros del grupo, prueba Party Search.");
                         }
 
                         cm.dispose();
                     }
                 } else if (selection == 1) {
                     var psState = cm.getPlayer().toggleRecvPartySearchInvite();
-                    cm.sendOk("Your Party Search status is now: #b" + (psState ? "enabled" : "disabled") + "#k. Talk to me whenever you want to change it back.");
+                    cm.sendOk("El estado de tu búsqueda de grupo es ahora: #b" + (psState ? "activado" : "desactivado") + "#k. Habla conmigo cuando quieras volver a cambiarlo.");
                     cm.dispose();
                 } else if (selection == 2) {
-                    cm.sendOk("#e#b<Party Quest: Tower of Goddess>#k#n\r\nOur goddess has been missing since some time ago, rumor has it She has been seen last time inside the Tower of Goddess. Furthermore, our sanctuary has been seized by the overwhelming forces of the pixies, those beings that are recently wandering at the outskirts of Orbis. Their leader, Papa Pixie, currently holds the throne and may know Her whereabouts, so we urge to find a composition of brave heroes to charge into and claim back our sanctuary and rescue Her. If your team is able to be a composite of every job niche available (Warrior, Magician, Bowman, Thief and Pirate), you guys will receive my blessings to aid you in battle. Will you aid us?\r\n");
+                    cm.sendOk("#e#b<Misión del grupo: Torre de la Diosa>#k#n\r\nNuestra diosa ha estado desaparecida desde hace algún tiempo, se rumorea que fue vista por última vez dentro de la Torre de la Diosa. Además, nuestro santuario ha sido tomado por las fuerzas abrumadoras de los duendes, esos seres que recientemente deambulan por las afueras de Orbis. Su líder, Papa Pixie, actualmente ocupa el trono y puede saber su paradero, por lo que instamos a encontrar una composición de héroes valientes para cargar y reclamar nuestro santuario y rescatarla. Si su equipo puede ser una combinación de todos los nichos de trabajo disponibles (guerrero, mago, arquero, ladrón y pirata), recibirán mis bendiciones para ayudarlos en la batalla. ¿Nos ayudarás?\r\n");
                     cm.dispose();
                 } else {
-                    cm.sendSimple("So, what prize do you want to obtain?\r\n#b#L0#Give me Goddess Wristband.\r\n");
+                    cm.sendSimple("Entonces, ¿qué premio quieres obtener?\r\n#b#L0#Dame la pulsera de la Diosa.\r\n");
                 }
             } else if (status == 2) {
                 if (selection == 0) {
@@ -97,14 +97,14 @@ function action(mode, type, selection) {
                         cm.gainItem(4001158, -10);
                         cm.dispose();
                     } else {
-                        cm.sendOk("You either have Goddess Wristband already or you do not have 10 #t4001158#.");
+                        cm.sendOk("O ya tienes la Pulsera de la Diosa o no tienes 10 #t4001158#.");
                         cm.dispose();
                     }
                 }
             }
         } else {
             if (status == 0) {
-                cm.sendYesNo("Are you going to drop out from this rescue mission?");
+                cm.sendYesNo("¿Vas a abandonar esta misión de rescate?");
             } else if (status == 1) {
                 cm.warp(920011200);
                 cm.dispose();

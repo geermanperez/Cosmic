@@ -24,7 +24,7 @@ var selected = -1;
 var party = 0;
 
 function start() {
-    cm.sendOk("The PyramidPQ is currently unavailable.");
+    cm.sendOk("El PyramidPQ no está disponible actualmente.");
     cm.dispose();
 }
 
@@ -58,17 +58,17 @@ function action(mode, type, selection) {
                 selected = selection;
             }
             if (selection == 0 || selected == 0) {
-                cm.sendNext("This is the pyramid of Nett, the god of chaos and revenge. For a long time, it was buried deep in the desert, but Nett has ordered it to rise above ground. If you are unafraid of chaos and possible death, you may challenge Pharaoh Yeti, who lies asleep inside the Pyramid. Whatever the outcome, the choice is yours to make.");
+                cm.sendNext("Esta es la pirámide de Nett, el dios del caos y la venganza. Durante mucho tiempo estuvo enterrado en lo profundo del desierto, pero Nett ordenó que se elevara a la superficie. Si no tienes miedo al caos y a la posible muerte, puedes desafiar al faraón Yeti, que yace dormido dentro de la pirámide. Cualquiera que sea el resultado, la elección es suya.");
             } else if (selection == 1) {
-                cm.sendSimple("You fools who know no fear of Nett's wrath, it is now time to choose your destiny! \r\n\r\n#b#L0# Enter alone.#l\r\n#L1# Enter with a party of 2 or more.#l");
+                cm.sendSimple("¡Necios que no conocen el miedo a la ira de Nett, ahora es el momento de elegir su destino!\r\n\r\n#b#L0#Entra solo.#l\r\n#L1#Ingrese con un grupo de 2 o más.#l");
             } else if (selection == 2) {
                 cm.openUI(0x16);
                 cm.showInfoText("Use the Party Search (Hotkey O) window to search for a party to join anytime and anywhere!");
                 cm.dispose();
             } else if (selection == 3) {
-                cm.sendSimple("What gem have you brought?\r\n\r\n#L0##i4001322# #t4001322##l\r\n#L1##i4001323# #t4001323##l\r\n#L2##i4001324# #t4001324##l\r\n#L3##i4001325# #t4001325##l");
+                cm.sendSimple("¿Qué joya has traído?\r\n\r\n#L0##i4001322# #t4001322##l\r\n#L1##i4001323# #t4001323##l\r\n#L2##i4001324# #t4001324##l\r\n#L3##i4001325# #t4001325##l");
             } else if (selection == 4) {
-                cm.sendNext("Inside Pharaoh Yeti's Tomb, you can acquire a #e#b#t2022613##k#n by proving yourself capable of defeating the #bPharaoh Jr. Yeti#k, the Pharaoh's clone. Inside that box lies a very special treasure. It is the #e#b#t1132012##k#n.\r\n#i1132012:# #t1132012#\r\n\r\n And if you are somehow able to survive Hell Mode, you will receive the #e#b#t1132013##k#n.\r\n\r\n#i1132013:# #t1132013#\r\n\r\n Though, of course, Nett won't allow that to happen.");
+                cm.sendNext("Dentro de la Tumba del Faraón Yeti, puedes adquirir un#e#b#t2022613##k#ndemostrando que eres capaz de derrotar al#bFaraón Jr. Yeti#k, el clon del faraón. Dentro de esa caja se encuentra un tesoro muy especial. es el#e#b#t1132012##k#n.\r\n#i1132012:# #t1132012#\r\n\r\nY si de alguna manera eres capaz de sobrevivir al Modo Infierno, recibirás el#e#b#t1132013##k#n.\r\n\r\n#i1132013:# #t1132013#\r\n\r\nAunque, por supuesto, Nett no permitirá que eso suceda.");
             } else if (selection == 5) {
                 var progress = cm.getQuestProgressInt(29932);
                 if (progress >= 50000) {
@@ -80,10 +80,10 @@ function action(mode, type, selection) {
             }
         } else if (status == 1) {
             if (selected == 0) {
-                cm.sendNextPrev("Once you enter the Pyramid, you will be faced with the wrath of Nett. Since you don't look too sharp, I will offer you some advice and rules to follow. Remember them well.#b\r\n\r\n1. Be careful that your #e#rAct Gauge#b#n does not decrease. The only way to maintain your Gauge level is to battle the monsters without stopping.\r\n2. Those who are unable will pay dearly. Be careful to not cause any #rMiss#b.\r\n3. Be wary of the Pharaoh Jr. Yeti with the #v04032424# mark. Make the mistake of attacking him and you will regret it.\r\n4. Be wise about using the skill that is given to you for Kill accomplishments.");
+                cm.sendNextPrev("Una vez que ingreses a la Pirámide, te enfrentarás a la ira de Nett. Como no pareces demasiado elegante, te ofreceré algunos consejos y reglas a seguir. Recuérdalos bien.#b\r\n\r\n1. Tenga cuidado de que su#e#rIndicador de acto#b#nno disminuye. La única forma de mantener tu nivel de calibre es luchar contra los monstruos sin parar.\r\n2. Quienes no puedan, lo pagarán caro. Tenga cuidado de no causar ningún#rMiss#b.\r\n3. Tenga cuidado con el Faraón Jr. Yeti con el#v04032424#marca. Comete el error de atacarlo y te arrepentirás.\r\n4. Sea prudente al utilizar la habilidad que se le otorga para los logros de Matar.");
             } else if (selected == 1) {
                 party = selection;
-                cm.sendSimple("You who lack fear of death's cruelty, make your decision!\r\n#L0##i3994115##l#L1##i3994116##l#L2##i3994117##l#L3##i3994118##l");
+                cm.sendSimple("¡Tú que no tienes miedo a la crueldad de la muerte, toma tu decisión!\r\n#L0##i3994115##l#L1##i3994116##l#L2##i3994117##l#L3##i3994118##l");
             } else if (selected == 3) {
                 if (selection == 0) {
                     if (cm.haveItem(4001322)) {
@@ -102,7 +102,7 @@ function action(mode, type, selection) {
                         return;
                     }
                 }
-                cm.sendOk("You'll need a gem to enter Pharaoh Yeti's Tomb. Are you sure you have one?");
+                cm.sendOk("Necesitarás una gema para entrar a la tumba del faraón Yeti. ¿Estás seguro de que tienes uno?");
                 cm.dispose();
             } else if (selected == 5) {
             } else {
@@ -110,19 +110,19 @@ function action(mode, type, selection) {
             }
         } else if (status == 2) {
             if (selected == 0) {
-                cm.sendNextPrev("Those who are able to withstand Nett's wrath will be honored, but those who fail will face destruction. This is all the advice I can give you. The rest is in your hands.");
+                cm.sendNextPrev("Aquellos que sean capaces de resistir la ira de Nett serán honrados, pero aquellos que fracasen se enfrentarán a la destrucción. Este es todo el consejo que puedo darte. El resto está en tus manos.");
             } else if (selected == 1) {
                 var mode = "EASY";
                 //Finish this
                 var pqparty = cm.getPlayer().getParty();
                 if (party == 1) {
                     if (pqparty == null) {
-                        cm.sendOk("Create a fucking party faggot.");//BE NICE
+                        cm.sendOk("Crea un puto maricón de fiesta.");//BE NICE
                         cm.dispose();
                         return;
                     } else {
                         if (pqparty.getMembers().size() < 2) {
-                            cm.sendOk("Get more members...");
+                            cm.sendOk("Consigue más miembros...");
                             cm.dispose();
                             return;
                         } else {
@@ -137,7 +137,7 @@ function action(mode, type, selection) {
                                 }
                             }
                             if (i < 2) {
-                                cm.sendOk("Make sure that 2 or more party members are in your map.");
+                                cm.sendOk("Asegúrate de que 2 o más miembros del grupo estén en tu mapa.");
                                 cm.dispose();
                                 return;
                             }
@@ -146,12 +146,12 @@ function action(mode, type, selection) {
                 }
 
                 if (cm.getPlayer().getLevel() < 40) {
-                    cm.sendOk("You must be Lv. 40+ to enter this PQ.");
+                    cm.sendOk("Debes ser Lv. 40+ para ingresar a este PQ.");
                     cm.dispose();
                     return;
                 }
                 if (selection < 3 && cm.getPlayer().getLevel() > 60) {
-                    cm.sendOk("Only Hell mode is avaible for players that are over Lv. 60.");
+                    cm.sendOk("Solo el modo Infierno está disponible para jugadores que superan el nivel Lv. 60.");
                     cm.dispose();
                     return;
                 }
@@ -164,7 +164,7 @@ function action(mode, type, selection) {
                 }
 
                 if (!cm.createPyramid(mode, party == 1)) {
-                    cm.sendOk("All rooms are full for this mode, please try it again later or on another channel ):");
+                    cm.sendOk("Todas las salas están llenas para este modo, inténtelo nuevamente más tarde o en otro canal):");
                 }
                 cm.dispose();
             }
@@ -177,7 +177,7 @@ function action(mode, type, selection) {
                 cm.dispose();
             }//:(
             else if (selection == 1) {
-                cm.sendNext("I will give you Pharaoh Yeti's Gem. You will be able to enter Pharaoh Yeti's Tomb anytime with this Gem. Check to see if you have at least 1 empty slot in your Etc window.");
+                cm.sendNext("Te daré la gema del faraón Yeti. Podrás ingresar a la Tumba del Faraón Yeti en cualquier momento con esta gema. Verifique si tiene al menos 1 espacio vacío en su ventana Etc.");
             }
 
         } else if (status == 1) {

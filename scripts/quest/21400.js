@@ -6,16 +6,16 @@ function start(mode, type, selection) {
         status -= 2;
     } else if (mode != 1) {
         //if (mode == 0)
-        qm.sendNext("#b(You need to think about this for a second...)#k");
+        qm.sendNext("#b(Necesitas pensar en esto por un segundo...)#k");
         qm.dispose();
         return;
     }
 
     if (status == 0) {
-        qm.sendAcceptDecline("How is the training going? I know you're busy, but please come to #bRien#k immediately. The #bMaha#k has started to act weird again... But its even weirder now. It's different from before. It's... darker than usual.");
+        qm.sendAcceptDecline("¿Cómo va el entrenamiento? Sé que estás ocupado, pero ven a #bRien#k inmediatamente. El #bMaha#k ha empezado a actuar de forma extraña otra vez... Pero ahora es aún más extraño. Es diferente a antes. Es... más oscuro de lo habitual.");
     } else if (status == 1) {
         qm.startQuest();
-        qm.sendOk("I have a bad feeling about this. Please come back here. I've never seen or herd Maha like this, but I can sense the suffering its going through. #bOnly you, the master of Maha, can do something about it!");
+        qm.sendOk("Tengo un mal presentimiento sobre esto. Por favor vuelve aquí. Nunca había visto ni pastoreado a Maha de esta manera, pero puedo sentir el sufrimiento por el que está pasando. #bO ¡Solo tú, el maestro de Maha, puedes hacer algo al respecto!");
     } else if (status == 2) {
         qm.dispose();
     }

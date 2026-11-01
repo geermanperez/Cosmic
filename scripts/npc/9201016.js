@@ -53,7 +53,7 @@ function action(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            cm.sendSimple("I'm Salon Seamus. If you have #b#t5150019##k or #b#t5151016##k by any chance, then how about letting me change your hairdo?\r\n#L1#Haircut: #i5150019##t5150019##l\r\n#L2#Dye your hair: #i5151016##t5151016##l");
+            cm.sendSimple("Soy Salón Seamus. si tienes#b#t5150019##ko#b#t5151016##kPor casualidad, ¿qué tal si me dejas cambiarte el peinado?\r\n#L1#Corte de pelo:#i5150019##t5150019##l\r\n#L2#Tiñe tu cabello:#i5151016##t5151016##l");
         } else if (status == 1) {
             if (selection == 1) {
                 beauty = 1;
@@ -70,7 +70,7 @@ function action(mode, type, selection) {
                             % 10));
                     }
                 }
-                cm.sendYesNo("If you use the EXP coupon your hair will change RANDOMLY with a chance to obtain a new experimental style that even you didn't think was possible. Are you going to use #b#t5150019##k and really change your hairstyle?");
+                cm.sendYesNo("Si usas el cupón EXP tu cabello cambiará ALEATORIAMENTE con la posibilidad de obtener un nuevo estilo experimental que ni siquiera tú creías posible. ¿Vas a utilizar#b#t5150019##ky realmente cambiar tu peinado?");
             } else if (selection == 2) {
                 beauty = 2;
                 haircolor = Array();
@@ -79,7 +79,7 @@ function action(mode, type, selection) {
                 for (var i = 0; i < 8; i++) {
                     pushIfItemExists(haircolor, current + i);
                 }
-                cm.sendYesNo("If you use a regular coupon your hair will change RANDOMLY. Do you still want to use #b#t5150016##k and change it up?");
+                cm.sendYesNo("Si usas un cupón regular tu cabello cambiará ALEATORIAMENTE. ¿Todavía quieres usar#b#t5150016##ky cambiarlo?");
             }
         } else if (status == 2) {
             cm.dispose();
@@ -87,31 +87,31 @@ function action(mode, type, selection) {
                 if (cm.haveItem(5150019) == true) {
                     cm.gainItem(5150019, -1);
                     cm.setHair(hairnew[Math.floor(Math.random() * hairnew.length)]);
-                    cm.sendOk("Enjoy your new and improved hairstyle!");
+                    cm.sendOk("¡Disfruta de tu peinado nuevo y mejorado!");
                 } else {
-                    cm.sendOk("Hmmm...it looks like you don't have our designated coupon...I'm afraid I can't give you a haircut without it. I'm sorry...");
+                    cm.sendOk("Hmmm... parece que no tienes nuestro cupón designado... Me temo que no puedo cortarte el pelo sin él. Lo lamento...");
                 }
             }
             if (beauty == 2) {
                 if (cm.haveItem(5151016) == true) {
                     cm.gainItem(5151016, -1);
                     cm.setHair(haircolor[Math.floor(Math.random() * haircolor.length)]);
-                    cm.sendOk("Enjoy your new and improved haircolor!");
+                    cm.sendOk("¡Disfruta de tu nuevo y mejorado color de cabello!");
                 } else {
-                    cm.sendOk("Hmmm...it looks like you don't have our designated coupon...I'm afraid I can't dye your hair without it. I'm sorry...");
+                    cm.sendOk("Hmmm... parece que no tienes nuestro cupón designado... Me temo que no puedo teñirte el cabello sin él. Lo lamento...");
                 }
             }
             if (beauty == 0) {
                 if (selection == 0 && cm.getMeso() >= hairprice) {
                     cm.gainMeso(-hairprice);
                     cm.gainItem(5150019, 1);
-                    cm.sendOk("Enjoy!");
+                    cm.sendOk("¡Disfrutar!");
                 } else if (selection == 1 && cm.getMeso() >= haircolorprice) {
                     cm.gainMeso(-haircolorprice);
                     cm.gainItem(5151016, 1);
-                    cm.sendOk("Enjoy!");
+                    cm.sendOk("¡Disfrutar!");
                 } else {
-                    cm.sendOk("You don't have enough mesos to buy a coupon!");
+                    cm.sendOk("¡No tienes suficientes mesos para comprar un cupón!");
                 }
             }
         }

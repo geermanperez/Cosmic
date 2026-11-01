@@ -25,7 +25,7 @@ function action(mode, type, selection) {
             cm.dispose();
             return;
         } else if (mode == 0) {
-            cm.sendNext("OK. If you ever change your mind, please let me know.");
+            cm.sendNext("DE ACUERDO. Si alguna vez cambias de opinión, házmelo saber.");
             cm.dispose();
             return;
         }
@@ -35,11 +35,11 @@ function action(mode, type, selection) {
             for (var i = 0; i < menu.length; i++) {
                 display += "\r\n#L" + i + "##b Rien (800 mesos)#k";
             }
-            cm.sendSimple("Are you thinking about leaving Victoria Island and heading to our town? If you board this ship, I can take you from #bLith Harbor#k to #bRien#k and back. But you must pay a #bfee of 800#k Mesos. Would you like to go to Rien? It'll take about a minute to get there.\r\n" + display);
+            cm.sendSimple("¿Estás pensando en dejar la Isla Victoria y dirigirte a nuestro pueblo? Si abordas este barco, puedo llevarte desde#bPuerto Lith#ka#bRien#k y de vuelta. Pero debes pagar un#btarifa de 800#kMesos. ¿Te gustaría ir a Rien? Tardará aproximadamente un minuto en llegar.\r\n" + display);
 
         } else if (status == 1) {
             if (cm.getMeso() < 800) {
-                cm.sendNext("Hmm... Are you sure you have #b800#k Mesos? Check your Inventory and make sure you have enough. You must pay the fee or I can't let you get on...");
+                cm.sendNext("Hmm... ¿Estás seguro de que tienes #b800#k Mesos? Revisa tu inventario y asegúrate de tener suficiente. Debes pagar la tarifa o no puedo dejarte subir...");
                 cm.dispose();
             } else {
                 cm.gainMeso(-800);

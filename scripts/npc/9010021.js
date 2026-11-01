@@ -25,6 +25,6 @@
     @author wejrox
 */
 function start() {
-    cm.sendOk("... I came from distant planes to assist the fight against the #rBlack Magician#k. Right now I search my master, have you seen him?");
+    cm.sendOk("...Vine desde aviones lejanos para ayudar en la lucha contra el#rmago negro#k. Ahora mismo busco a mi amo, ¿lo has visto?");
     cm.dispose();
 }

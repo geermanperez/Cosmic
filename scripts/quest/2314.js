@@ -16,20 +16,20 @@ function start(mode, type, selection) {
         if (type == 1 && mode == 0) {
             status -= 2;
         } else {
-            qm.sendNext("Please do not lose faith in our Kingdom of Mushroom.");
+            qm.sendNext("Por favor, no pierdas la fe en nuestro Reino Champiñón.");
             qm.dispose();
             return;
         }
     }
     if (status == 0) {
-        qm.sendAcceptDecline("In order to rescue the princess, you must first navigate the Mushroom Forest. King Pepe set up a powerful barrier forbidding anyone from entering the castle. Please investigate this matter for us.");
+        qm.sendAcceptDecline("Para rescatar a la princesa, primero debes navegar por el Bosque de Hongos. El rey Pepe levantó una poderosa barrera que prohibía a cualquiera entrar al castillo. Por favor investigue este asunto por nosotros.");
     } else if (status == 1) {
-        qm.sendNext("You'll run into the barrier at the Mushroom Forest by heading east of where you are standing right now. Please be careful. I hear that the area is infested with crazy, fear-inducing monsters.");
+        qm.sendNext("Te toparás con la barrera en el Bosque de Hongos dirigiéndote al este de donde estás parado ahora. Por favor tenga cuidado. He oído que la zona está infestada de monstruos locos que inducen miedo.");
     } else if (status == 2) {
         //qm.forceStartQuest();
         //qm.forceStartQuest(2314,"1");
         qm.gainExp(8300);
-        qm.sendOk("I see, so it was indeed not a regular barrier by any means. Great work there. If not for you help, we wouldn't have had a clue as to what that was all about.");
+        qm.sendOk("Ya veo, entonces de hecho no era una barrera regular de ninguna manera. Gran trabajo allí. Si no fuera por su ayuda, no hubiéramos tenido ni idea de de qué se trataba.");
         qm.forceCompleteQuest();
     } else if (status == 3) {
         qm.dispose();
@@ -47,11 +47,11 @@ function end(mode, type, selection) {
         }
     }
     if (status == 0) {
-        qm.sendOk("I see that you have thoroughly investigated the barrier at the Mushroom Forest. What was it like?");
+        qm.sendOk("Veo que has investigado a fondo la barrera en el Bosque de Hongos. ¿Cómo fue?");
     } else if (status == 1) {
         qm.forceCompleteQuest();
         qm.gainExp(8300);
-        qm.sendOk("I see, so it was indeed not a regular barrier by any means. Great work there. If not for you help, we wouldn't have had a clue as to what that was all about.");
+        qm.sendOk("Ya veo, entonces de hecho no era una barrera regular de ninguna manera. Gran trabajo allí. Si no fuera por su ayuda, no hubiéramos tenido ni idea de de qué se trataba.");
     } else if (status == 2) {
         qm.dispose();
     }

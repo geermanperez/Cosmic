@@ -29,12 +29,12 @@
 var status = 0;
 
 function start() {
-    cm.sendYesNo("Do you wish to leave the boat?");
+    cm.sendYesNo("¿Quieres abandonar el barco?");
 }
 
 function action(mode, type, selection) {
     if (mode == 0 && status == 1) {
-        cm.sendOk("Good choice");
+        cm.sendOk("buena eleccion");
         cm.dispose();
     }
     if (mode > 0) {
@@ -44,7 +44,7 @@ function action(mode, type, selection) {
     }
 
     if (status == 1) {
-        cm.sendNext("Alright, see you next time. Take care.");
+        cm.sendNext("Muy bien, nos vemos la próxima vez. Cuidarse.");
     } else if (status == 2) {
         cm.warp(200000111, 0);// back to Orbis jetty
         cm.dispose();

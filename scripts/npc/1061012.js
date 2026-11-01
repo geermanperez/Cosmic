@@ -8,32 +8,32 @@ function start() {
     if (cm.getQuestStatus(6107) == 1 || cm.getQuestStatus(6108) == 1) {
         var ret = checkJob();
         if (ret == -1) {
-            cm.sendOk("Please form a party and talk to me again.");
+            cm.sendOk("Por favor, forma un grupo y habla conmigo de nuevo.");
         } else if (ret == 0) {
-            cm.sendOk("Please make sure that your party is a size of 2.");
+            cm.sendOk("Asegúrate de que tu grupo sea del tamaño de 2.");
         } else if (ret == 1) {
-            cm.sendOk("One of your party member's job is not eligible for entering the other world.");
+            cm.sendOk("El trabajo de uno de los miembros de tu grupo no es elegible para ingresar al otro mundo.");
         } else if (ret == 2) {
-            cm.sendOk("One of your party member's level is not eligible for entering the other world.");
+            cm.sendOk("Uno de los miembros del nivel de tu grupo no es elegible para ingresar al otro mundo.");
         } else {
             var em = cm.getEventManager("s4aWorld");
             if (em == null) {
-                cm.sendOk("You're not allowed to enter with unknown reason. Try again.");
+                cm.sendOk("No se le permite ingresar sin motivo desconocido. Intentar otra vez.");
             } else if (em.getProperty("started") === "true") {
-                cm.sendOk("Someone else is already attempting to defeat the Jr.Balrog in another world.");
+                cm.sendOk("Alguien más ya está intentando derrotar al Jr.Balrog en otro mundo.");
             } else {
                 var eli = em.getEligibleParty(cm.getParty());
                 if (eli.size() > 0) {
                     if (!em.startInstance(cm.getParty(), cm.getPlayer().getMap(), 1)) {
-                        cm.sendOk("A party in your name is already registered in this instance.");
+                        cm.sendOk("En este caso ya hay un partido a su nombre registrado.");
                     }
                 } else {
-                    cm.sendOk("You cannot start this party quest yet, because either your party is not in the range size, some of your party members are not eligible to attempt it or they are not in this map. If you're having trouble finding party members, try Party Search.");
+                    cm.sendOk("No puedes comenzar esta misión de grupo todavía porque tu grupo no está dentro del rango de tamaño, algunos de los miembros de tu grupo no son elegibles para intentarla o no están en este mapa. Si tienes problemas para encontrar miembros del grupo, prueba Party Search.");
                 }
             }
         }
     } else {
-        cm.sendOk("You're not allowed to enter the other world with unknown reason.");
+        cm.sendOk("No se te permite entrar al otro mundo sin motivo desconocido.");
     }
 
     cm.dispose();

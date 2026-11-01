@@ -16,16 +16,16 @@ function start(mode, type, selection) {
         if (type == 1 && mode == 0) {
             status -= 2;
         } else {
-            qm.sendOk("Hmmm... you must be unsure of your combat skills. We'll be here waiting for you, so come see us when you're ready.");
+            qm.sendOk("Hmmm... debes estar inseguro de tus habilidades de combate. Estaremos aquí esperándote, así que ven a vernos cuando estés listo.");
             qm.dispose();
             return;
         }
     }
     if (status == 0) {
-        qm.sendAcceptDecline("We need your help, noble explorer. Our kingdom is currently facing a big threat, and we are in desperate need of a courageous explorer willing to fight for us, and that's how you ended up here. Please understand, though, that since we need place our faith in you, we'll have to test your skills first before we can stand firmly behind you. Will it be okay for you to do this for us?");
+        qm.sendAcceptDecline("Necesitamos tu ayuda, noble explorador. Nuestro reino se enfrenta actualmente a una gran amenaza y necesitamos desesperadamente un explorador valiente dispuesto a luchar por nosotros, y así es como terminaste aquí. Sin embargo, comprenda que, dado que necesitamos depositar nuestra fe en usted, primero tendremos que probar sus habilidades antes de poder respaldarlo firmemente. ¿Estará bien que hagas esto por nosotros?");
     } else if (status == 1) {
         qm.forceStartQuest();
-        qm.sendOk("Keep moving forward, and you'll see #bRenegade Spores#k, the Spores that turned their backs on the Kingdom of Mushroom. We'd appreciate it if you can teach them a lesson or two, and bring back #b50 Mutated Spores#k in return.");
+        qm.sendOk("Sigue adelante y verás#bEsporas renegadas#k, las Esporas que le dieron la espalda al Reino Champiñón. Le agradeceríamos que pudiera enseñarles una o dos lecciones y traerlas de vuelta.#b50 esporas mutadas#ken cambio.");
     } else if (status == 2) {
         qm.dispose();
     }
@@ -42,12 +42,12 @@ function end(mode, type, selection) {
         }
     }
     if (status == 0) {
-        qm.sendOk("Did you teach those Renegade Spores a lesson?");
+        qm.sendOk("¿Les diste una lección a esas esporas renegadas?");
     } else if (status == 1) {
         qm.forceCompleteQuest();
         qm.gainExp(11500);
         qm.gainItem(4000499, -50);
-        qm.sendOk("That was amazing. I apologize for doubting your abilities. Please save our Kingdom of Mushroom from this crisis!");
+        qm.sendOk("Eso fue asombroso. Pido disculpas por dudar de tus habilidades. ¡Por favor salve nuestro Reino Champiñón de esta crisis!");
     } else if (status == 2) {
         qm.dispose();
     }

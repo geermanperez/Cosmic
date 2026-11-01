@@ -25,6 +25,6 @@
  */
 
 function start() {
-    cm.sendOk("Welcome to the Cathedral.\r\n\r\n#bCouples#k wanting to marry on the Cathedral should first #barrange a reservation#k with #r#p9201005##k. When the arranged time comes #bboth#k must show up here, on the same channel from the reservation, and start the ceremony (there is a 10-minutes fault policy to this) by talking to #r#p9201002##k. Once arranged, both can #bdistribute tickets#k to friends or acquainteds to become the guests for the marriage.\r\n\r\nThe ceremony will start accepting #bguests#k after the groom and the bride has entered the building. Show the #b#t4000313##k to #r#p9201005##k to access the inner rooms. No one without a ticket is allowed to enter the stage!");
+    cm.sendOk("Bienvenidos a la Catedral.\r\n\r\n#bCouples#k querer casarse en la Catedral debe primero#borganizar una reserva#kcon#r#p9201005##k. Cuando llegue el momento acordado#bboth#k debe presentarse aquí, en el mismo canal de la reserva, y comenzar la ceremonia (hay una política de falta de 10 minutos para esto) hablando con#r#p9201002##k. Una vez arreglados, ambos pueden#bdistribuir boletos#ka amigos o conocidos para que se conviertan en invitados al matrimonio.\r\n\r\nLa ceremonia comenzará a aceptar.#bguests#k después de que el novio y la novia hayan entrado al edificio. mostrar el#b#t4000313##ka#r#p9201005##kpara acceder a las habitaciones interiores. ¡Nadie sin entrada puede subir al escenario!");
     cm.dispose();
 }

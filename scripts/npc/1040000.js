@@ -43,12 +43,12 @@ function action(mode, type, selection) {
             if (cm.isQuestStarted(28177) && !cm.haveItem(4032479)) {
                 if (cm.canHold(4032479)) {
                     cm.gainItem(4032479, 1);
-                    cm.sendOk("Huh, are you looking for me? Chief Stan sent you here, right? But hey, I am not the suspect you seek. If I have some proof? Here, take this and return it to #b#p1012003##k.");
+                    cm.sendOk("¿Eh, me estás buscando? El jefe Stan te envió aquí, ¿verdad? Pero bueno, no soy el sospechoso que buscas. ¿Si tengo alguna prueba? Toma, toma esto y devuélvelo a#b#p1012003##k.");
                 } else {
-                    cm.sendOk("Hey, make a slot available before talking to me.");
+                    cm.sendOk("Oye, deja un espacio disponible antes de hablar conmigo.");
                 }
             } else {
-                cm.sendOk("Zzzzzz...");
+                cm.sendOk("Zzzzz...");
             }
 
             cm.dispose();

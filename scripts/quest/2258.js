@@ -36,9 +36,9 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendAcceptDecline("Meerkats spreads rumors like wildfire... By blackmailing me and my cab service, they are taking costumers away from me day after day... Hey, tell no one about this, if you clean some #rMeerkats#k from my way, I'll tell you an info about the #rMushroom Castle#k. What do you say?");
+            qm.sendAcceptDecline("Las suricatas esparcen rumores como la pólvora... Al chantajearme a mí y a mi servicio de taxi, me están quitando clientes día tras día... Oye, no le cuentes a nadie sobre esto, si limpias un poco#rMeerkats#k desde mi camino te cuento una info sobre el#rCastillo de setas#k. ¿Qué dices?");
         } else if (status == 1) {
-            qm.sendNext("Great, they you have #r5 minutes#k to kill #b40 Meerkats#k within this time. Good luck!");
+            qm.sendNext("Genial, tienes#r5 minutos#kmatar#b40 suricatas#kdentro de este tiempo. ¡Buena suerte!");
         } else if (status == 2) {
             qm.forceStartQuest();
             qm.dispose();
@@ -62,7 +62,7 @@ function end(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("You did it! ... Hey, #rMeerkats#k around here may listen to our conversation. I'm not going to talk about THAT right now.");
+            qm.sendNext("¡Lo hiciste! ... Oye, #rMeerkats#k por aquí puede escuchar nuestra conversación. No voy a hablar de ESO ahora.");
         } else if (status == 1) {
             qm.forceCompleteQuest();
             qm.dispose();

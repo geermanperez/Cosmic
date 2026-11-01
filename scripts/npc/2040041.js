@@ -29,6 +29,6 @@
 */
 
 function start() {
-    cm.sendOk("Try to find the right combination of numbers to reach the top.");
+    cm.sendOk("Intenta encontrar la combinación correcta de números para llegar a la cima.");
     cm.dispose();
 }

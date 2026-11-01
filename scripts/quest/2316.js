@@ -16,16 +16,16 @@ function start(mode, type, selection) {
         if (type == 1 && mode == 0) {
             status -= 2;
         } else {
-            qm.sendOk("Why did you even ask if you were going to say no to this?#");
+            qm.sendOk("¿Por qué preguntaste si ibas a decir que no a esto?");
             qm.dispose();
             return;
         }
     }
     if (status == 0) {
-        qm.sendAcceptDecline("I think i've heard of a potion that breaks these kinds of barriers. I think it's called #bKiller Mushroom Spores#k? Hmmm... outside, you'll find the Mushroom Scholar #bScarrs#k waiting outside. #bScarrs#k is an expert on mushrooms, so go talk to him.");
+        qm.sendAcceptDecline("Creo que he oído hablar de una poción que rompe este tipo de barreras. creo que se llama#bEsporas de hongos asesinos#k? Hmmm... afuera, encontrarás al Mushroom Scholar.#bScarrs#k esperando afuera.#bScarrs#k es un experto en setas, así que ve a hablar con él.");
     } else if (status == 1) {
         qm.forceStartQuest();
-        qm.sendOk("I am confident #kScarrs#k will do everything to help you.");
+        qm.sendOk("Estoy seguro de que #kScarrs#k hará todo lo posible para ayudarle.");
     } else if (status == 2) {
         qm.dispose();
     }
@@ -42,11 +42,11 @@ function end(mode, type, selection) {
         }
     }
     if (status == 0) {
-        qm.sendOk("Ah, so you're the explorer people were talking about. I'm #bScarrs, the Royal Mushroom Scholar#k representing the Kingdom of Mushroom. So you need some #kKiller Mushroom Spores#k?");
+        qm.sendOk("Ah, entonces eres el explorador del que hablaba la gente. Soy#bScarrs, el erudito real de los hongos#kRepresentando al Reino de los Hongos. Entonces necesitas algo#kEsporas de hongos asesinos#k?");
     } else if (status == 1) {
         qm.forceCompleteQuest();
         qm.gainExp(4200);
-        qm.sendOk("#kKiller Mushroom Spores#k... I think i've heard of them before...");
+        qm.sendOk("#kEsporas de hongos asesinos#k... Creo que he oído hablar de ellos antes...");
     } else if (status == 2) {
         qm.dispose();
     }

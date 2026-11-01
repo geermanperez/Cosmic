@@ -24,7 +24,7 @@ function action(mode, type, selection) {
             cm.dispose();
             return;
         } else if (mode == 0) {
-            cm.sendNext("OK. If you ever change your mind, please let me know.");
+            cm.sendNext("DE ACUERDO. Si alguna vez cambias de opinión, házmelo saber.");
             cm.dispose();
             return;
         }
@@ -34,11 +34,11 @@ function action(mode, type, selection) {
             for (var i = 0; i < menu.length; i++) {
                 display += "\r\n#L" + i + "##b Orbis (1000 mesos)#k";
             }
-            cm.sendSimple("Hmm... The winds are favorable. Are you thinking of leaving ereve and going somwhere else? This ferry sails to Orbis on the Ossyria Continent, Have you taking care of everything you needed to in Ereve? If you happen to be headed toward #bOrbis#k i can take you there. What do you day? Are you going to go to Orbis?\r\n" + display);
+            cm.sendSimple("Hmm... Los vientos son favorables. ¿Estás pensando en dejar aquí e ir a algún otro lugar? Este ferry navega a Orbis en el continente de Ossiria. ¿Te has ocupado de todo lo necesario en Ereve? Si te diriges hacia #bOrbis#k, puedo llevarte allí. ¿Qué haces el día? ¿Vas a ir a Orbis?\r\n" + display);
 
         } else if (status == 1) {
             if (cm.getMeso() < 1000) {
-                cm.sendNext("Hmm... Are you sure you have #b1000#k Mesos? Check your Inventory and make sure you have enough. You must pay the fee or I can't let you get on...");
+                cm.sendNext("Hmm... ¿Estás seguro de que tienes #b1000#k Mesos? Revisa tu inventario y asegúrate de tener suficiente. Debes pagar la tarifa o no puedo dejarte subir...");
                 cm.dispose();
             } else {
                 cm.gainMeso(-1000);

@@ -35,7 +35,7 @@ function action(mode, type, selection) {
         cm.dispose();
     } else {
         if (mode == 0 && type > 0) {
-            cm.sendNext("Hmm, please think this over. It's not cheap, but you will NOT be disappointed with our premier service!");
+            cm.sendNext("Mmmm, por favor piénsalo bien. ¡No es barato, pero NO te decepcionarás con nuestro servicio de primer nivel!");
             cm.dispose();
             return;
         }
@@ -52,12 +52,12 @@ function action(mode, type, selection) {
                     break;
                 }
             }
-            cm.sendNext("Hello there! This taxi will take you to dangerous places in Ossyria faster than an arrow! We go from #m" + inMap[location] + "# to #b#m" + toMap[location] + "##k on this Ossyria Continent! It'll cost you #b" + cost[location] + " meso#k. I know it's a bit expensive, but it's well worth passing all the dangerous areas!");
+            cm.sendNext("¡Hola! ¡Este taxi te llevará a lugares peligrosos de Ossiria más rápido que una flecha! Pasamos de #m" + inMap[location] + "# a#b#m" + toMap[location] + "##k¡En este continente de Ossiria! te costará#b" + cost[location] + "meso#k. Sé que es un poco caro, ¡pero vale la pena pasar por todas las zonas peligrosas!");
         } else if (status == 1) {
-            cm.sendYesNo("Would you like to pay #b" + cost[location] + " mesos#k to travel to the #b#m" + toMap[location] + "##k?");
+            cm.sendYesNo("¿Quieres pagar #b?" + cost[location] + "mesos#kviajar a la#b#m" + toMap[location] + "##k?");
         } else if (status == 2) {
             if (cm.getMeso() < cost[location]) {
-                cm.sendNext("You don't seem to have enough mesos. I am terribly sorry, but I cannot help you unless you pay up. Bring in the mesos by hunting more and come back when you have enough.");
+                cm.sendNext("No pareces tener suficientes mesos. Lo siento muchísimo, pero no puedo ayudarte a menos que pagues. Trae los mesos cazando más y regresa cuando tengas suficientes.");
             } else {
                 cm.warp(toMap[location], location != 1 ? 0 : 1);
                 cm.gainMeso(-cost[location]);

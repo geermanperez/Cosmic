@@ -36,10 +36,10 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Aran, ever since the Puppeteer's ambush on me, I've been thinking it is dangerous to have the #b#t4032323##k around here by myself. So, I need you to deliver the gem to #r#p1201000##k, in Rien, she will know what to do with it.");
+            qm.sendNext("Aran, desde la emboscada del Titiritero, he estado pensando que es peligroso tener la#b#t4032323##kpor aquí solo. Entonces, necesito que le entregues la gema a#r#p1201000##k, en Rien, ella sabrá qué hacer con él.");
         } else if (status == 1) {
             if (!qm.canHold(4032323, 1)) {
-                qm.sendNext("Please free a slot on your ETC inventory before receiving the item.");
+                qm.sendNext("Libere un espacio en su inventario ETC antes de recibir el artículo.");
                 qm.dispose();
                 return;
             }
@@ -70,7 +70,7 @@ function end(mode, type, selection) {
 
         if (status == 0) {
             if (qm.haveItem(4032323, 1)) {
-                qm.sendNext("#r#p1002104##k sent the #b#t4032323##k here for safety? Thank goodness, indeed here the gem will be safer than anywhere on Victoria Island. Thank you, #b#h0##k.");
+                qm.sendNext("#r#p1002104##kenvió el#b#t4032323##kaquí por seguridad? Gracias a Dios, de hecho aquí la joya estará más segura que en cualquier otro lugar de la Isla Victoria. Gracias,#b#h0##k.");
             } else {
                 qm.dispose();
             }

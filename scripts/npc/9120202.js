@@ -48,20 +48,20 @@ function action(mode, type, selection) {
         var eim = cm.getEventInstance();
         if (!eim.isEventCleared()) {
             if (status == 0) {
-                cm.sendYesNo("If you leave now, you won't be able to return. Are you sure you want to leave?");
+                cm.sendYesNo("Si te vas ahora, no podrás regresar. ¿Estás seguro de que quieres irte?");
             } else if (status == 1) {
                 cm.warp(801040004, 1);
                 cm.dispose();
             }
         } else {
             if (status == 0) {
-                cm.sendNext("You guys did it, great job! Now our city is free from the tyranny of their mobs! As representative of the city, please accept this as a prize for your efforts, as I get you back to town.");
+                cm.sendNext("¡Lo lograron, gran trabajo! ¡Ahora nuestra ciudad está libre de la tiranía de sus turbas! Como representante de la ciudad, acepte esto como premio por sus esfuerzos mientras lo llevo de regreso a la ciudad.");
             }
 
             if (status == 1) {
                 var eim = cm.getEventInstance();
                 if (!eim.giveEventReward(cm.getPlayer())) {
-                    cm.sendNext("Please make room on your inventory first...");
+                    cm.sendNext("Por favor, primero haga espacio en su inventario...");
                 } else {
                     cm.warp(801040101);
                 }

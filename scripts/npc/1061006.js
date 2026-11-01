@@ -26,7 +26,7 @@ var maps = Array(105040310, 105040312, 105040314);
 var selectedMap = -1;
 
 function start() {
-    cm.sendNext("You feel a mysterious force surrounding this statue.");
+    cm.sendNext("Sientes una fuerza misteriosa que rodea esta estatua.");
     if (cm.isQuestStarted(2054) || cm.isQuestCompleted(2054)) {
         zones = 3;
     } else if (cm.isQuestStarted(2053) || cm.isQuestCompleted(2053)) {
@@ -43,7 +43,7 @@ function action(mode, type, selection) {
         cm.dispose();
     } else {
         if (status >= 2 && mode == 0) {
-            cm.sendOk("Alright, see you next time.");
+            cm.sendOk("Muy bien, nos vemos la próxima vez.");
             cm.dispose();
             return;
         }

@@ -16,13 +16,13 @@ function end(mode, type, selection) {
     }
 
     if (status == 0) {
-        qm.sendNext("I... I am scared... Please... please help me...");
+        qm.sendNext("Yo... tengo miedo... Por favor... por favor ayúdenme...");
     } else if (status == 1) {
-        qm.sendNextPrev("Don't be afriad, #b#p1300005##k sent me here.", 2);
+        qm.sendNextPrev("No tengas miedo,#b#p1300005##kme envió aquí.", 2);
     } else if (status == 2) {
         qm.forceCompleteQuest();
         qm.gainExp(6000);
-        qm.sendOk("What? My brother sent you here? Ahhh... I am safe now. Thank you so much...");
+        qm.sendOk("¿Qué? ¿Mi hermano te envió aquí? Ahhh... ya estoy a salvo. Muchas gracias...");
     } else if (status == 3) {
         qm.dispose();
     }

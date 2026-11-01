@@ -36,7 +36,7 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Hey did you see how strange #rLakelis#k has been acting these days? We should see what's going on aabout her, her actions have been so weird lately...");
+            qm.sendNext("Oye, ¿viste lo extraño que ha estado actuando #rLakelis#k estos días? Deberíamos ver qué está pasando con ella, sus acciones han sido tan raras últimamente...");
         } else if (status == 1) {
             qm.forceCompleteQuest();
             qm.gainExp(7000);

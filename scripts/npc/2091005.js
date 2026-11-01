@@ -37,7 +37,7 @@ var dojoWarp = 0;
 
 function start() {
     if (disabled) {
-        cm.sendOk("My master has requested that the dojo be #rclosed#k at this time so I can't let you in.");
+        cm.sendOk("Mi maestro ha solicitado que el dojo sea #rclosed#k en este momento así que no puedo dejarte entrar.");
         cm.dispose();
         return;
     }
@@ -77,12 +77,12 @@ function action(mode, type, selection) {
                 cm.sendSimple(text);
             } else if (cm.getPlayer().getLevel() >= 25) {
                 if (cm.getPlayer().getMap().getId() == 925020001) {
-                    cm.sendSimple("My master is the strongest person in Mu Lung, and you want to challenge him? Fine, but you'll regret it later.\r\n\r\n#b#L0#I want to challenge him alone.#l\r\n#L1#I want to challenge him with a party.#l\r\n\r\n#L2#I want to receive a belt.#l\r\n#L3#I want to reset my training points.#l\r\n#L4#I want to receive a medal.#l\r\n#L5#What is a Mu Lung Dojo?#l");
+                    cm.sendSimple("Mi maestro es la persona más fuerte de Mu Lung y ¿quieres desafiarlo? Bien, pero te arrepentirás más tarde.\r\n\r\n#b#L0#Quiero desafiarlo solo.#l\r\n#L1#Quiero desafiarlo con una fiesta.#l\r\n\r\n#L2#Quiero recibir un cinturón.#l\r\n#L3#Quiero restablecer mis puntos de entrenamiento.#l\r\n#L4#Quiero recibir una medalla.#l\r\n#L5#¿Qué es un Dojo Mu Lung?#l");
                 } else {
-                    cm.sendYesNo("What, you're giving up? You just need to get to the next level! Do you really want to quit and leave?");
+                    cm.sendYesNo("¿Qué, te estás rindiendo? ¡Solo necesitas pasar al siguiente nivel! ¿Realmente quieres renunciar e irte?");
                 }
             } else {
-                cm.sendOk("Hey! Are you mocking my master? Who do you think you are to challenge him? This is a joke! You should at least be level #b25#k.");
+                cm.sendOk("¡Ey! ¿Te estás burlando de mi maestro? ¿Quién crees que eres para desafiarlo? ¡Esto es una broma! Al menos deberías tener el nivel #b25#k.");
                 cm.dispose();
 
             }
@@ -95,10 +95,10 @@ function action(mode, type, selection) {
                     if (selectedMenu == 0) { //I want to challenge him alone.
                         if (!cm.getPlayer().hasEntered("dojang_Msg") && !cm.getPlayer().getFinishedDojoTutorial()) { //kind of hackish...
                             if (status == 1) {
-                                cm.sendYesNo("Hey there! You! This is your first time, huh? Well, my master doesn't just meet with anyone. He's a busy man. And judging by your looks, I don't think he'd bother. Ha! But, today's your lucky day... I tell you what, if you can defeat me, I'll allow you to see my Master. So what do you say?");
+                                cm.sendYesNo("¡Hola! ¡Tú! Esta es tu primera vez, ¿eh? Bueno, mi maestro no se reúne con cualquiera. Es un hombre ocupado. Y a juzgar por tu apariencia, no creo que se moleste. ¡Ja! Pero hoy es tu día de suerte... Te digo una cosa, si puedes derrotarme, te permitiré ver a mi Maestro. Entonces, ¿qué dices?");
                             } else if (status == 2) {
                                 if (mode == 0) {
-                                    cm.sendNext("Haha! Who are you trying to impress with a heart like that?\r\nGo back home where you belong!");
+                                    cm.sendNext("¡Ja ja! ¿A quién intentas impresionar con un corazón como ese?\r\n¡Vuelve a casa, donde perteneces!");
                                     cm.dispose();
 
                                 } else {
@@ -106,9 +106,9 @@ function action(mode, type, selection) {
 
                                     if (avDojo < 0) {
                                         if (avDojo == -1) {
-                                            cm.sendOk("All Dojo's are being used already. Wait for awhile before trying again.");
+                                            cm.sendOk("Todos los Dojos ya se están utilizando. Espere un momento antes de volver a intentarlo.");
                                         } else {
-                                            cm.sendOk("Either your party is already using the Dojo or your party's allotted time on the Dojo has not expired yet. Wait for them to finish to enter.");
+                                            cm.sendOk("O tu grupo ya está usando el Dojo o el tiempo asignado a tu grupo en el Dojo aún no ha expirado. Espera a que terminen para entrar.");
                                         }
                                     } else {
                                         cm.getClient().getChannelServer().getMapFactory().getMap(925020010 + avDojo).resetMapObjects();
@@ -126,15 +126,15 @@ function action(mode, type, selection) {
                             cm.getPlayer().setDojoStage(0);
 
                             var stageWarp = ((dojoWarp / 6) | 0) * 5;
-                            cm.sendYesNo("The last time you took the challenge by yourself, you went up to round #b" + stageWarp + "#k. I can take you there right now. Do you want to go there? (Select #rNo#k to erase this record.)");
+                            cm.sendYesNo("La última vez que aceptaste el desafío tú solo, subiste a la ronda #b." + stageWarp + "#k. Puedo llevarte allí ahora mismo. ¿Quieres ir allí? (Seleccionar#rNo#k para borrar este registro.)");
                         } else {
                             var avDojo = cm.getClient().getChannelServer().ingressDojo(false, dojoWarp);
 
                             if (avDojo < 0) {
                                 if (avDojo == -1) {
-                                    cm.sendOk("All Dojo's are being used already. Wait for awhile before trying again.");
+                                    cm.sendOk("Todos los Dojos ya se están utilizando. Espere un momento antes de volver a intentarlo.");
                                 } else {
-                                    cm.sendOk("Either your party is already using the Dojo or your party's allotted time on the Dojo has not expired yet. Wait for them to finish to enter.");
+                                    cm.sendOk("O tu grupo ya está usando el Dojo o el tiempo asignado a tu grupo en el Dojo aún no ha expirado. Espera a que terminen para entrar.");
                                 }
 
                                 cm.getPlayer().setDojoStage(dojoWarp);
@@ -152,23 +152,23 @@ function action(mode, type, selection) {
                     } else if (selectedMenu == 1) { //I want to challenge him with a party.
                         var party = cm.getPlayer().getParty();
                         if (party == null) {
-                            cm.sendNext("Where do you think you're going? You're not even the party leader! Go tell your party leader to talk to me.");
+                            cm.sendNext("¿Adónde crees que vas? ¡Ni siquiera eres el líder del partido! Ve y dile al líder de tu partido que hable conmigo.");
                             cm.dispose();
                             return;
                         }
 
                         if (party.getLeader().getId() != cm.getPlayer().getId()) {
-                            cm.sendNext("Where do you think you're going? You're not even the party leader! Go tell your party leader to talk to me.");
+                            cm.sendNext("¿Adónde crees que vas? ¡Ni siquiera eres el líder del partido! Ve y dile al líder de tu partido que hable conmigo.");
                             cm.dispose();
 
                         }
 
                             //else if (party.getMembers().size() == 1) {
-                            //    cm.sendNext("You're going to take on the challenge as a one-man party?");
+                            //    cm.sendNext("¿Van a asumir el desafío como un solo hombre?");
                         //}
 
                         else if (!isBetween(party, 30)) {
-                            cm.sendNext("Your partys level ranges are too broad to enter. Please make sure all of your party members are within #r30 levels#k of each other.");
+                            cm.sendNext("Los rangos de nivel de tu grupo son demasiado amplios para ingresar. Por favor, asegúrese de que todos los miembros de su grupo estén dentro#r30 niveles#kel uno del otro.");
                             cm.dispose();
 
                         } else {
@@ -176,9 +176,9 @@ function action(mode, type, selection) {
 
                             if (avDojo < 0) {
                                 if (avDojo == -1) {
-                                    cm.sendOk("All Dojo's are being used already. Wait for awhile before trying again.");
+                                    cm.sendOk("Todos los Dojos ya se están utilizando. Espere un momento antes de volver a intentarlo.");
                                 } else {
-                                    cm.sendOk("Either your party is already using the Dojo or your party's allotted time on the Dojo has not expired yet. Wait for them to finish to enter.");
+                                    cm.sendOk("O tu grupo ya está usando el Dojo o el tiempo asignado a tu grupo en el Dojo aún no ha expirado. Espera a que terminen para entrar.");
                                 }
                             } else {
                                 cm.getClient().getChannelServer().resetDojoMap(925030100 + avDojo);
@@ -193,7 +193,7 @@ function action(mode, type, selection) {
 
                     } else if (selectedMenu == 2) { //I want to receive a belt.
                         if (!cm.canHold(belts[0])) {
-                            cm.sendNext("Make room in your EQUIP inventory before trying to claim a belt!");
+                            cm.sendNext("¡Haz espacio en tu inventario EQUIP antes de intentar reclamar un cinturón!");
                             cm.dispose();
                             return;
                         }
@@ -230,7 +230,7 @@ function action(mode, type, selection) {
                                     }
                                     cm.gainItem(belt, 1);
                                     cm.getPlayer().setDojoPoints(cm.getPlayer().getDojoPoints() - points);
-                                    cm.sendNext("There is the #i" + belt + "# #b#t" + belt + "##k. You have proven your valor to ascend on the Dojo ranks. Well done!");
+                                    cm.sendNext("Ahí está el #i" + belt + "# #b#t" + belt + "##k. Has demostrado tu valor para ascender en los rangos del Dojo. ¡Bien hecho!");
                                 } else {
                                     sendBeltRequirements(belt, oldbelt, haveOldbelt, level, points);
                                 }
@@ -243,32 +243,32 @@ function action(mode, type, selection) {
                         }
                     } else if (selectedMenu == 3) { //I want to reset my training points.
                         if (status == 1) {
-                            cm.sendYesNo("You do know that if you reset your training points, it returns to 0, right? Although, that's not always a bad thing. If you can start earning training points again after you reset, you can receive the belts once more. Do you want to reset your training points now?");
+                            cm.sendYesNo("Sabes que si reinicias tus puntos de entrenamiento, vuelve a 0, ¿verdad? Aunque eso no siempre es malo. Si puedes comenzar a ganar puntos de entrenamiento nuevamente después de reiniciar, podrás recibir los cinturones una vez más. ¿Quieres restablecer tus puntos de entrenamiento ahora?");
                         } else if (status == 2) {
                             if (mode == 0) {
-                                cm.sendNext("Do you need to gather yourself or something? Come back after you take a deep breath.");
+                                cm.sendNext("¿Necesitas reunirte o algo así? Vuelve después de respirar profundamente.");
                             } else {
                                 cm.getPlayer().setDojoPoints(0);
-                                cm.sendNext("There! All your training points have been reset. Think of it as a new beginning and train hard!");
+                                cm.sendNext("¡Allá! Todos tus puntos de entrenamiento se han reiniciado. ¡Piensa en ello como un nuevo comienzo y entrena duro!");
                             }
                             cm.dispose();
 
                         }
                     } else if (selectedMenu == 4) { //I want to receive a medal.
                         if (status == 1 && cm.getPlayer().getVanquisherStage() <= 0) {
-                            cm.sendYesNo("You haven't attempted the medal yet? If you defeat one type of monster in Mu Lung Dojo #b100 times#k you can receive a title called #b#t" + (1142033 + cm.getPlayer().getVanquisherStage()) + "##k. It looks like you haven't even earned the #b#t" + (1142033 + cm.getPlayer().getVanquisherStage()) + "##k... Do you want to try out for the #b#t" + (1142033 + cm.getPlayer().getVanquisherStage()) + "##k?");
+                            cm.sendYesNo("¿Aún no has intentado la medalla? Si derrotas a un tipo de monstruo en Mu Lung Dojo#b100 veces#kpuedes recibir un título llamado#b#t" + (1142033 + cm.getPlayer().getVanquisherStage()) + "##k. Parece que ni siquiera te has ganado el#b#t" + (1142033 + cm.getPlayer().getVanquisherStage()) + "##k... ¿Quieres probar para el#b#t" + (1142033 + cm.getPlayer().getVanquisherStage()) + "##k?");
                         } else if (status == 2 || cm.getPlayer().getVanquisherStage() > 0) {
                             if (mode == 0) {
-                                cm.sendNext("If you don't want to, that's fine.");
+                                cm.sendNext("Si no quieres, está bien.");
                             } else {
                                 if (cm.getPlayer().getDojoStage() > 37) {
-                                    cm.sendNext("You have completed all medals challenges.");
+                                    cm.sendNext("Has completado todos los desafíos de medallas.");
                                 } else if (cm.getPlayer().getVanquisherKills() < 100 && cm.getPlayer().getVanquisherStage() > 0) {
-                                    cm.sendNext("You still need #b" + (100 - cm.getPlayer().getVanquisherKills()) + "#k in order to obtain the #b#t" + (1142032 + cm.getPlayer().getVanquisherStage()) + "##k. Please try a little harder. As a reminder, only the mosnters that have been summoned by our Master in Mu Lung Dojo are considered. Oh, and make sure you're not hunting the monsters and exiting!#r If you don't go to the next level after defeating the monster, it doesn't count as a win#k.");
+                                    cm.sendNext("Aún necesitas #b" + (100 - cm.getPlayer().getVanquisherKills()) + "#kpara poder obtener el#b#t" + (1142032 + cm.getPlayer().getVanquisherStage()) + "##k. Por favor, esfuérzate un poco más. Como recordatorio, sólo se consideran los monstruos que han sido convocados por nuestro Maestro en Mu Lung Dojo. ¡Ah, y asegúrate de no cazar monstruos y salir!#rSi no pasas al siguiente nivel después de derrotar al monstruo, no cuenta como victoria.#k.");
                                 } else if (cm.getPlayer().getVanquisherStage() <= 0) {
                                     cm.getPlayer().setVanquisherStage(1);
                                 } else {
-                                    cm.sendNext("You have obtained #b#t" + (1142032 + cm.getPlayer().getVanquisherStage()) + "##k.");
+                                    cm.sendNext("has obtenido#b#t" + (1142032 + cm.getPlayer().getVanquisherStage()) + "##k.");
                                     cm.gainItem(1142033 + cm.getPlayer().getVanquisherStage(), 1);
                                     cm.getPlayer().setVanquisherStage(cm.c.getPlayer().getVanquisherStage() + 1);
                                     cm.getPlayer().setVanquisherKills(0);
@@ -282,7 +282,7 @@ function action(mode, type, selection) {
 
                         }
                     } else if (selectedMenu == 5) { //What is a Mu Lung Dojo?
-                        cm.sendNext("Our master is the strongest person in Mu Lung. The place he built is called the Mu Lung Dojo, a building that is #r38 stories#k tall! You can train yourself as you go up each level. Of course, it'll be hard for someone at your level to reach the top.");
+                        cm.sendNext("Nuestro maestro es la persona más fuerte de Mu Lung. El lugar que construyó se llama Mu Lung Dojo, un edificio que es#r38 historias#k¡alto! Puedes entrenarte a medida que subes en cada nivel. Por supuesto, será difícil que alguien de tu nivel llegue a la cima.");
                         cm.dispose();
 
                     }
@@ -303,13 +303,13 @@ function action(mode, type, selection) {
                     if (avDojo < 0) {
                         if (hasParty) {
                             if (!cm.isPartyLeader()) {
-                                cm.sendOk("You are not the leader! Call your party leader to talk to me if you wish to continue.");
+                                cm.sendOk("¡Tú no eres el líder! Llama al líder de tu partido para hablar conmigo si deseas continuar.");
                                 cm.dispose();
                                 return;
                             }
 
                             if (!isBetween(cm.getParty(), 35)) {
-                                cm.sendOk("Your partys level ranges are too broad to enter. Please make sure all of your party members are within #r35 levels#k of each other.");
+                                cm.sendOk("Los rangos de nivel de tu grupo son demasiado amplios para ingresar. Por favor, asegúrese de que todos los miembros de su grupo estén dentro#r35 niveles#kel uno del otro.");
                                 cm.dispose();
                                 return;
                             }
@@ -321,9 +321,9 @@ function action(mode, type, selection) {
 
                     if (avDojo < 0) {
                         if (avDojo == -1) {
-                            cm.sendOk("All Dojo's are being used already. Wait for awhile before trying again.");
+                            cm.sendOk("Todos los Dojos ya se están utilizando. Espere un momento antes de volver a intentarlo.");
                         } else {
-                            cm.sendOk("Your party already registered for the dojo. Wait for the end of the registration time to enter again.");
+                            cm.sendOk("Tu grupo ya se registró en el dojo. Espere a que finalice el tiempo de registro para volver a ingresar.");
                         }
                     } else {
                         var baseStg = hasParty ? 925030000 : 925020000;
@@ -348,7 +348,7 @@ function action(mode, type, selection) {
 
                 } else if (selectedMenu == 1) { //I want to leave
                     if (status == 1) {
-                        cm.sendYesNo("So, you're giving up? You're really going to leave?");
+                        cm.sendYesNo("¿Entonces te estás rindiendo? ¿De verdad te vas a ir?");
                     } else {
                         if (mode == 1) {
                             cm.warp(925020002, "st00");
@@ -358,14 +358,14 @@ function action(mode, type, selection) {
                     }
                 } else if (selectedMenu == 2) { //I want to record my score up to this point
                     if (status == 1) {
-                        cm.sendYesNo("If you record your score, you can start where you left off the next time. Isn't that convenient? Do you want to record your current score?");
+                        cm.sendYesNo("Si registra su puntuación, podrá comenzar donde lo dejó la próxima vez. ¿No es eso conveniente? ¿Quieres registrar tu puntuación actual?");
                     } else {
                         if (mode == 0) {
-                            cm.sendNext("You think you can go even higher? Good luck!");
+                            cm.sendNext("¿Crees que puedes llegar aún más alto? ¡Buena suerte!");
                         } else if (cm.getPlayer().getDojoStage() == Math.floor(cm.getMapId() / 100) % 100) {
-                            cm.sendOk("Your score have already been recorded. Next time you get to challenge the Dojo, you'll be able to come back to this point.");
+                            cm.sendOk("Tu puntuación ya ha sido registrada. La próxima vez que desafíes al Dojo, podrás volver a este punto.");
                         } else {
-                            cm.sendNext("I recorded your score. If you tell me the next time you go up, you'll be able to start where you left off. Note that you will have your #rrecord erased#k if you choose to #bcontinue challenging the Dojo#k, so choose carefully.");
+                            cm.sendNext("Grabé tu puntuación. Si me dices que la próxima vez que subas podrás empezar donde lo dejaste. Tenga en cuenta que tendrá su#rregistro borrado#ksi eliges#bContinuar desafiando el Dojo.#k, así que elige con cuidado.");
                             cm.getPlayer().setDojoStage(Math.floor(cm.getMapId() / 100) % 100);
                         }
                         cm.dispose();
@@ -374,7 +374,7 @@ function action(mode, type, selection) {
                 }
             } else {
                 if (mode == 0) {
-                    cm.sendNext("Stop changing your mind! Soon, you'll be crying, begging me to go back.");
+                    cm.sendNext("¡Deja de cambiar de opinión! Pronto estarás llorando, rogándome que regrese.");
                 } else if (mode == 1) {
                     var dojoMapId = cm.getPlayer().getMap().getId();
 
@@ -396,7 +396,7 @@ function sendBeltRequirements(belt, oldbelt, haveOldbelt, level, points) {
     var beltLeftStr = (!haveOldbelt) ? " you must have the needed belt unequipped and available in your EQP inventory" : "";
     var conjStr = (pointsLeftStr.length > 0 && beltLeftStr.length > 0) ? " and" : "";
 
-    cm.sendNext("In order to receive #i" + belt + "# #b#t" + belt + "##k," + beltReqStr + " you have to be at least over level #b" + level + "#k and you need to have earned at least #b" + points + " training points#k.\r\n\r\nIf you want to obtain this belt," + beltLeftStr + conjStr + pointsLeftStr + ".");
+    cm.sendNext("Para recibir #i" + belt + "# #b#t" + belt + "##k," + beltReqStr + "tienes que estar al menos por encima del nivel #b" + level + "#ky necesitas haber ganado al menos#b" + points + "puntos de entrenamiento#k.\r\n\r\nSi quieres obtener este cinturón," + beltLeftStr + conjStr + pointsLeftStr + ".");
 }
 
 function isRestingSpot(id) {

@@ -38,7 +38,7 @@ function pushIfItemExists(array, itemid) {
 }
 
 function start() {
-    cm.sendSimple("Welcome to the Quick-Hand Hair-Salon!. Do you, by any chance, have #b#t5150033##k or #b#t5151028##k? If so, how about letting me take care of your hair? Please what you want to do with it.\r\n#L1#Haircut: #i5150033##t5150033##l\r\n#L2#Dye your hair: #i5151028##t5151028##l");
+    cm.sendSimple("¡Bienvenidos a la Peluquería Quick-Hand!. ¿Tiene usted, por casualidad,#b#t5150033##ko#b#t5151028##k? Si es así, ¿qué tal si me dejas cuidar tu cabello? Por favor que quieres hacer con el.\r\n#L1#Corte de pelo:#i5150033##t5150033##l\r\n#L2#Tiñe tu cabello:#i5151028##t5151028##l");
 }
 
 function action(mode, type, selection) {
@@ -58,7 +58,7 @@ function action(mode, type, selection) {
                     pushIfItemExists(hairnew, fhair_v[i] + parseInt(cm.getPlayer().getHair() % 10));
                 }
             }
-            cm.sendStyle("I can completely change the look of your hair. Aren't you ready for a change? With #b#t5150033##k, I'll take care of the rest for you. Choose the style of your liking!", hairnew);
+            cm.sendStyle("Puedo cambiar completamente el aspecto de tu cabello. ¿No estás listo para un cambio? Con#b#t5150033##k, Yo me encargaré del resto por ti. ¡Elige el estilo de tu agrado!", hairnew);
         } else if (selection == 2) {
             beauty = 2;
             haircolor = Array();
@@ -66,24 +66,24 @@ function action(mode, type, selection) {
             for (var i = 0; i < 8; i++) {
                 pushIfItemExists(haircolor, current + i);
             }
-            cm.sendStyle("I can completely change the look of your hair. Aren't you ready for a change? With #b#t5151028##k, I'll take care of the rest. Choose the color of your liking!", haircolor);
+            cm.sendStyle("Puedo cambiar completamente el aspecto de tu cabello. ¿No estás listo para un cambio? Con#b#t5151028##k, yo me encargo del resto. ¡Elige el color de tu agrado!", haircolor);
         } else if (status == 2) {
             if (beauty == 1) {
                 if (cm.haveItem(5150033)) {
                     cm.gainItem(5150033, -1);
                     cm.setHair(hairnew[selection]);
-                    cm.sendOk("Enjoy your new and improved hairstyle!");
+                    cm.sendOk("¡Disfruta de tu peinado nuevo y mejorado!");
                 } else {
-                    cm.sendOk("Hmmm...it looks like you don't have our designated coupon...I'm afraid I can't give you a haircut without it. I'm sorry.");
+                    cm.sendOk("Hmmm... parece que no tienes nuestro cupón designado... Me temo que no puedo cortarte el pelo sin él. Lo lamento.");
                 }
             }
             if (beauty == 2) {
                 if (cm.haveItem(5151028)) {
                     cm.gainItem(5151028, -1);
                     cm.setHair(haircolor[selection]);
-                    cm.sendOk("Enjoy your new and improved haircolor!");
+                    cm.sendOk("¡Disfruta de tu nuevo y mejorado color de cabello!");
                 } else {
-                    cm.sendOk("Hmmm...it looks like you don't have our designated coupon...I'm afraid I can't dye your hair without it. I'm sorry.");
+                    cm.sendOk("Hmmm... parece que no tienes nuestro cupón designado... Me temo que no puedo teñirte el cabello sin él. Lo lamento.");
                 }
             }
             cm.dispose();

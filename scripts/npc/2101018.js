@@ -31,7 +31,7 @@ status = -1;
 
 function start() {
     if ((cm.getPlayer().getLevel() < 19 || cm.getPlayer().getLevel() > 30) && !cm.getPlayer().isGM()) {
-        cm.sendNext("You're not between level 20 and 30. Sorry, you may not participate.");
+        cm.sendNext("No estás entre el nivel 20 y 30. Lo sentimos, no puedes participar.");
         cm.dispose();
         return;
     }
@@ -54,12 +54,12 @@ function action(mode, type, selection) {
         }
     }
     if (status == 0) {
-        cm.sendNext("I have prepared a huge festival here at Ariant for the great fighters of MapleStory. It's called #bThe Ariant Coliseum Challenge#k.");
+        cm.sendNext("He preparado un gran festival aquí en Ariant para los grandes luchadores de MapleStory. se llama#bEl desafío del Coliseo Ariant#k.");
     } else if (status == 1) {
-        cm.sendNextPrev("The Ariant Coliseum Challenge is a competition that matches the skills of monster combat against others. In this competition, your object isn't to hunt the monster;  rather, you need to #beliminate a set amount of HP from the monster, followed by absorbing it with a jewel#k. #bThe fighter that ends up with the most jewels will win the competition.#k");
+        cm.sendNextPrev("El Ariant Coliseum Challenge es una competencia que combina las habilidades de combate de monstruos contra otros. En esta competición, tu objetivo no es cazar al monstruo;  más bien, necesitas#beliminar una cantidad determinada de HP del monstruo y luego absorberlo con una joya#k. #bEl luchador que acabe con más joyas ganará la competición.#k");
     } else if (status == 2) {
-        cm.sendSimple("If you are a strong and brave warrior from #bPerion#k, training under Dances With Balrogs, then are you interested in participating in The Ariant Coliseum Challenge?!\r\n#b#L0# I'd love to participate in this great competition.#l");
+        cm.sendSimple("Si eres un guerrero fuerte y valiente de#bPerion#k, entrenando en Dances With Balrogs, entonces ¿estás interesado en participar en The Ariant Coliseum Challenge?\r\n#b#L0#Me encantaría participar en esta gran competencia.#l");
     } else if (status == 3) {
-        cm.sendNext("Okay, now I'll send you to the battle arena. I'd like to see you emerge victorious!");
+        cm.sendNext("Bien, ahora te enviaré al campo de batalla. ¡Me gustaría verte salir victorioso!");
     }
 }

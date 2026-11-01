@@ -19,11 +19,11 @@ function action(mode, type, selection) {
     }
     if (status == 0) {
         if (cm.getLevel() >= 20) {
-            cm.sendOk("This training ground is available only for those under level 20.");
+            cm.sendOk("Este campo de entrenamiento está disponible solo para aquellos menores de nivel 20.");
             cm.dispose();
 
         } else if (cm.isQuestActive(22515) || cm.isQuestActive(22516) || cm.isQuestActive(22517) || cm.isQuestActive(22518)) {
-            cm.sendYesNo("Would you like to enter the special Training Center?");
+            cm.sendYesNo("¿Quieres entrar en el Centro de Formación especial?");
             status = 1;
         } else {
             var selStr = "Would you like to go into the Training Center?";
@@ -37,7 +37,7 @@ function action(mode, type, selection) {
         if (selection < 0 || selection >= num) {
             cm.dispose();
         } else if (cm.getPlayerCount(map + selection) >= maxp) {
-            cm.sendNext("This training center is full.");
+            cm.sendNext("Este centro de formación está lleno.");
             status = -1;
         } else {
             cm.warp(map + selection, 0);

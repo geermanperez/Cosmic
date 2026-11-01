@@ -25,7 +25,7 @@ function action(mode, type, selection) {
             cm.dispose();
             return;
         } else if (mode == 0) {
-            cm.sendNext("OK. If you ever change your mind, please let me know.");
+            cm.sendNext("DE ACUERDO. Si alguna vez cambias de opinión, házmelo saber.");
             cm.dispose();
             return;
         }
@@ -35,11 +35,11 @@ function action(mode, type, selection) {
             for (var i = 0; i < menu.length; i++) {
                 display += "\r\n#L" + i + "##b Ereve (1000 mesos)#k";
             }
-            cm.sendSimple("This ship will head towards #bEreve#k, an island where you'll find crimson leaves soaking up the sun, the gentle breeze that glides past the stream, and the Empress of Maple Cygnus. If you're interested in joining the Cygnus Knights, Then you should definitly pay a visit here. Are you interested in visiting Ereve?, The Trip will cost you #b1000#k Mesos\r\n" + display);
+            cm.sendSimple("Este barco se dirigirá hacia #bEreve#k, una isla donde encontrarás hojas carmesí tomando el sol, la suave brisa que se desliza entre el arroyo y la Emperatriz del Arce Cygnus. Si estás interesado en unirte a Cygnus Knights, definitivamente deberías visitar aquí. ¿Estás interesado en visitar Ereve?, El Viaje te costará #b1000#k Mesos\r\n" + display);
 
         } else if (status == 1) {
             if (cm.getMeso() < 1000) {
-                cm.sendNext("Hmm... Are you sure you have #b1000#k Mesos? Check your Inventory and make sure you have enough. You must pay the fee or I can't let you get on...");
+                cm.sendNext("Hmm... ¿Estás seguro de que tienes #b1000#k Mesos? Revisa tu inventario y asegúrate de tener suficiente. Debes pagar la tarifa o no puedo dejarte subir...");
                 cm.dispose();
             } else {
                 cm.gainMeso(-1000);

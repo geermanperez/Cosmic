@@ -92,13 +92,13 @@ function action(mode, type, selection) {
         var eim = cm.getPlayer().getEventInstance();
 
         if (eim.getProperty(stage.toString() + "stageclear") != null) {
-            cm.sendNext("Hurry, goto the next stage, the portal is open!");
+            cm.sendNext("¡Date prisa, pasa a la siguiente etapa, el portal está abierto!");
         } else {
             if (eim.isEventLeader(cm.getPlayer())) {
                 var state = eim.getIntProperty("statusStg" + stage);
 
                 if (state == -1) {           // preamble
-                    cm.sendOk("Hi. Welcome to the #bstage " + stage + "#k. In this stage, line up 5 member of your party above those boxes in order to form the right combination to unlock the next stage. Only one player should stay above a box desired to pertain the combination.");
+                    cm.sendOk("Hola. Bienvenido al escenario #b" + stage + "#k. En esta etapa, alinea a 5 miembros de tu grupo encima de esas casillas para formar la combinación correcta para desbloquear la siguiente etapa. Sólo un jugador debe permanecer encima de una casilla deseada para pertenecer a la combinación.");
 
                     var st = (debug) ? 2 : 0;
                     eim.setProperty("statusStg" + stage, st);
@@ -149,12 +149,12 @@ function action(mode, type, selection) {
                             cm.dispose();
                         }
                     } else {
-                        cm.sendNext("It looks like you haven't found the 5 boxes just yet. Please think of a different combination of boxes. Only 5 are allowed to stand on boxes, and if you move it may not count as an answer, so please keep that in mind. Keep going!");
+                        cm.sendNext("Parece que todavía no has encontrado las 5 cajas. Piense en una combinación diferente de cajas. Solo 5 pueden pararse en las casillas y, si te mueves, es posible que no cuente como respuesta, así que tenlo en cuenta. ¡Sigue adelante!");
                         cm.dispose();
                     }
                 }
             } else {
-                cm.sendNext("Please tell your #bParty-Leader#k to come talk to me.");
+                cm.sendNext("Por favor dile a tu#bLíder del partido#kpara venir a hablar conmigo.");
             }
         }
 

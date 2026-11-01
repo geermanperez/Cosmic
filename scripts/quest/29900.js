@@ -41,14 +41,14 @@ function end(mode, type, selection) {
         qm.dispose();
     } else {
         if (status == 0) {
-            qm.sendNext("Congratulations on earning your honorable #b<Beginner Adventurer>#k title. I wish you the best of luck in your future endeavors! Keep up the good work.\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0#\r\n #v1142107:# #t1142107# 1");
+            qm.sendNext("Felicitaciones por ganar su honorable#b<Aventurero principiante>#ktítulo. ¡Te deseo la mejor de las suertes en tus proyectos futuros! Sigan con el buen trabajo.\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0#\r\n #v1142107:# #t1142107# 1");
         } else if (status == 1) {
             if (qm.canHold(1142107)) {
                 qm.gainItem(1142107);
                 qm.forceCompleteQuest();
                 qm.dispose();
             } else {
-                qm.sendNext("Please make room in your inventory");//NOT GMS LIKE
+                qm.sendNext("Por favor haz espacio en tu inventario");//NOT GMS LIKE
             }
         } else if (status == 2) {
             qm.dispose();

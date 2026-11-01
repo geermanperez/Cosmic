@@ -68,18 +68,18 @@ function action(mode, type, selection) {
                 var state = eim.getIntProperty("yuleteTalked");
 
                 if (state == -1) {
-                    cm.sendOk("Heh, it seems you guys have company. Have fun with them, as I politely request my leave.");
+                    cm.sendOk("Je, parece que ustedes tienen compañía. Diviértete con ellos, mientras solicito cortésmente mi permiso.");
 
                 } else if (playersTooClose()) {
-                    cm.sendOk("Oh, hello there. I have been #bmonitoring your moves#k since you guys entered this perimeter. Quite the feat reaching here, I commend all of you. Now, now, look at the time, I've got an appointment right now, I'm afraid I will need to request my leave. But worry not, my #raccessors#k will deal with all of you. Now, if you permit me, I'm leaving now.");
+                    cm.sendOk("Ah, hola. Estuve#bmonitoreando tus movimientos#kdesde que entraron a este perímetro. Toda una hazaña llegar hasta aquí, los felicito a todos. Ahora, ahora, mira la hora, tengo una cita ahora mismo, me temo que tendré que pedir mi baja. Pero no te preocupes, mi#raccessors#k se ocupará de todos ustedes. Ahora, si me lo permites, me voy ahora.");
 
                     eim.setIntProperty("yuleteTalked", -1);
                 } else if (eim.getIntProperty("npcShocked") == 0) {
-                    cm.sendOk("Ho~ Aren't you quite the sneaky one? Well, it matters not. I have been #bmonitoring your moves#k since you guys entered this perimeter. Quite the feat reaching here, I commend all of you. Now, now, look at the time, I've got an appointment right now, I'm afraid I will need to request my leave. But worry not, my #raccessors#k will deal with all of you. Now, if you permit me, I'm leaving now.");
+                    cm.sendOk("Ho~ ¿No eres bastante astuto? Bueno, no importa. Estuve#bmonitoreando tus movimientos#kdesde que entraron a este perímetro. Toda una hazaña llegar hasta aquí, los felicito a todos. Ahora, ahora, mira la hora, tengo una cita ahora mismo, me temo que tendré que pedir mi baja. Pero no te preocupes, mi#raccessors#k se ocupará de todos ustedes. Ahora, si me lo permites, me voy ahora.");
 
                     eim.setIntProperty("yuleteTalked", -1);
                 } else {
-                    cm.sendOk("... Hah! What, wh-- How did you get here?! I though I had sealed all paths here! No matter, this situation will be resolved soon. Guys: DEPLOY the #rmaster weapon#k!! You! Yes, you. Don't you think this ends here, look back at your companions, they need some help! I'll be retreating for now.");
+                    cm.sendOk("... ¡Ja! ¿Qué, qué...? ¡¿Cómo llegaste aquí?! ¡Pensé que había sellado todos los caminos aquí! No importa, esta situación se resolverá pronto. Chicos: IMPLEMENTAR el#rarma maestra#k!! ¡Tú! Sí, tú. ¿No crees que esto termina aquí? Mira a tus compañeros, ¡necesitan ayuda! Me retiraré por ahora.");
 
                     eim.setIntProperty("yuleteTalked", 1);
                 }
@@ -89,17 +89,17 @@ function action(mode, type, selection) {
         } else {
             if (status == 0) {
                 if (eim.isEventCleared()) {
-                    cm.sendOk("Nooooo... I have been beated? But how? Everything I did was for the sake of the development of a greater alchemy! You can't jail me, I did what everybody standing in a place like mine would do! But no, they simply decided to damp up the progress of the science JUST BECAUSE it was deemed dangerous??? Oh, come on!");
+                    cm.sendOk("Nooooo… ¿me han golpeado? ¿Pero cómo? ¡Todo lo que hice fue por el desarrollo de una alquimia mayor! ¡No puedes encarcelarme, hice lo que haría cualquiera que estuviera en un lugar como el mío! Pero no, ¿simplemente decidieron frenar el progreso de la ciencia SÓLO PORQUE se consideraba peligrosa? ¡Vamos, vamos!");
                 } else {
                     var state = eim.getIntProperty("yuletePassed");
 
                     const LifeFactory = Java.type('server.life.LifeFactory');
                     const Point = Java.type('java.awt.Point');
                     if (state == -1) {
-                        cm.sendOk("Behold! The pinnacle of Magatia's alchemy studies! Hahahahahahaha...");
+                        cm.sendOk("¡Mirad! ¡El pináculo de los estudios de alquimia de Magatia! Jajajajajajaja...");
                     } else if (state == 0) {
-                        cm.sendOk("You guys are such a pain, geez. Very well, I present you my newest weapon, brought by the finest alchemy, #rFrankenroid#k.");
-                        eim.dropMessage(5, "Yulete: I present you my newest weapon, brought by the finest alchemy, Frankenroid!");
+                        cm.sendOk("Ustedes son un dolor, caray. Muy bien, les presento mi arma más nueva, traída por la mejor alquimia, #rFrankenroid#k.");
+                        eim.dropMessage(5, "Yulete: ¡Te presento mi arma más nueva, traída por el mejor alquimista, Frankenroid!");
 
                         var mapobj = eim.getMapInstance(926100401);
                         var bossobj = LifeFactory.getMonster(9300139);
@@ -110,8 +110,8 @@ function action(mode, type, selection) {
                         eim.setIntProperty("statusStg7", 1);
                         eim.setIntProperty("yuletePassed", -1);
                     } else {
-                        cm.sendOk("You guys are such a pain, geez. Very well, I present you my newest weapon, brought by the finest combined alchemy of Alcadno's and Zenumist's, those that the boring people of Magatia societies have banned to bring along, the #rmighty Frankenroid#k!");
-                        eim.dropMessage(5, "Yulete: I present you my newest weapon, brought by the finest combined alchemy of Alcadno's and Zenumist's, those that the boring people of Magatia societies have banned to bring along, the mighty Frankenroid!!");
+                        cm.sendOk("Ustedes son un dolor, caray. Muy bien, les presento mi arma más nueva, traída por la más fina alquimia combinada de Alcadno y Zenumist, esas que la gente aburrida de las sociedades de Magatia ha prohibido traer, los#rpoderoso frankenroide#k!");
+                        eim.dropMessage(5, "Yulete: Les presento mi arma más nueva, traída por la mejor alquimia combinada de Alcadno y Zenumist, esas que la gente aburrida de las sociedades de Magatia ha prohibido traer, ¡¡el poderoso Frankenroid!!");
 
                         var mapobj = eim.getMapInstance(926100401);
                         var bossobj = LifeFactory.getMonster(9300140);

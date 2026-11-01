@@ -36,7 +36,7 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Hey, did you notice already, it looks like some awful stench is emanating from the sewers... Ewww");
+            qm.sendNext("Oye, ¿ya te diste cuenta? Parece que un hedor horrible emana de las alcantarillas... Ewww");
         } else if (status == 1) {
             qm.forceCompleteQuest();
             qm.gainExp(7000);

@@ -21,11 +21,11 @@ function action(mode, type, selection) {
 
         if (status == 0) {
             if (cm.getEventInstance().isEventCleared()) {
-                cm.sendOk("Wow! You defeated the balrog.");
+                cm.sendOk("¡Guau! Derrotaste al balrog.");
             } else if (cm.getPlayer().getMap().getCharacters().size() > 1) {
-                cm.sendYesNo("Are you really going to leave this battle and leave your fellow travelers to die?");
+                cm.sendYesNo("¿Realmente vas a abandonar esta batalla y dejar morir a tus compañeros de viaje?");
             } else {
-                cm.sendYesNo("If you're a coward, you will leave.");
+                cm.sendYesNo("Si eres un cobarde, te irás.");
             }
         } else if (status == 1) {
             if (cm.getEventInstance().isEventCleared()) {

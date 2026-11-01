@@ -76,21 +76,21 @@ function action(mode, type, selection) {
                 questionStr.push("I wanna remove my old wedding ring...");
             }
 
-            cm.sendSimple("Hello, welcome to #bAmoria#k, a beautiful land where maplers can find love and, if inspired enough, even marry. Do you have any questions about Amoria? Talk it to me.#b\r\n\r\n" + generateSelectionMenu(questionStr));
+            cm.sendSimple("Hola, bienvenido a #bAmoria#k, una hermosa tierra donde los arces pueden encontrar el amor y, si están lo suficientemente inspirados, incluso casarse. ¿Tienes alguna pregunta sobre Amoría? Háblamelo.#b\r\n\r\n" + generateSelectionMenu(questionStr));
         } else if (status == 1) {
             switch (selection) {
                 case 0:
-                    cm.sendOk("The #bengagement process#k is as straightforward as it can be. Starting from a prequest from the #bring maker, #p9201000##k, gather #b#t4031367#'s#k thoughout the Maple world.\r\n\r\nCompleting it, you will be able to craft an engagement ring. With one in hands, declare yourself to someone you become fond of, and hope that person feels the same way.");
+                    cm.sendOk("El#bproceso de participación#kes tan sencillo como puede ser. A partir de una petición del#bfabricante de anillos,#p9201000##k, recolectar#b#t4031367#'s#ken todo el mundo Maple.\r\n\r\nAl completarlo, podrás crear un anillo de compromiso. Con uno en las manos, declara tu valía ante alguien a quien te encariñes y espera que esa persona sienta lo mismo.");
                     cm.dispose();
                     break;
 
                 case 1:
-                    cm.sendOk("For the #bmarriage process#k you must be already engaged. The loving couple must choose a venue they want to hold their marriage. Amoria offers two: the #rCathedral#k and the #rChapel#k.\r\nThen, one of the partners must buy a #bWedding Ticket#k, available through the Cash Shop, and book their ceremony with the Wedding Assistant. Each partner will receive #rguest tickets#k to be distributed to their acquaintances.");
+                    cm.sendOk("Para el#bproceso de matrimonio#kya debes estar comprometido. La pareja de enamorados debe elegir el lugar en el que quieren celebrar su matrimonio. Amoria ofrece dos: el#rCathedral#k y el#rChapel#k.\r\nEntonces, uno de los socios debe comprar un#bBoleto de boda#k, disponible a través de Cash Shop, y reserve su ceremonia con el asistente de bodas. Cada socio recibirá#rentradas para invitados#kpara ser distribuido a sus conocidos.");
                     cm.dispose();
                     break;
 
                 case 2:
-                    cm.sendOk("Unfortunately the love of long may fizzle someday. Well, I hope that's not the case for any loving couple that once married, is marrying today or is going to do so tomorrow. But, if that ever happens, I myself will be at service to make a safe divorce, by the fee of #r" + divorceFee + "#k mesos.");
+                    cm.sendOk("Lamentablemente, el amor de hace mucho tiempo puede esfumarse algún día. Bueno, espero que ese no sea el caso de cualquier pareja amorosa que alguna vez se casó, se casará hoy o lo hará mañana. Pero, si eso alguna vez sucede, yo mismo estaré a su disposición para realizar un divorcio seguro, por la tarifa de #r." + divorceFee + "#k mesos.");
                     cm.dispose();
                     break;
 
@@ -100,28 +100,28 @@ function action(mode, type, selection) {
                         var itemid = getWeddingRingItemId(cm.getPlayer());
 
                         if (itemid != null) {
-                            cm.sendOk("There you go, I've removed your old wedding ring.");
+                            cm.sendOk("Ahí lo tienes, te he quitado tu antiguo anillo de bodas.");
                             cm.gainItem(itemid, -1);
                         } else if (hasEquippedWeddingRing(cm.getPlayer())) {
-                            cm.sendOk("If you want your old wedding ring removed, please unequip it before talking to me.");
+                            cm.sendOk("Si quieres que te quiten tu antiguo anillo de bodas, quítalo antes de hablar conmigo.");
                         } else {
-                            cm.sendOk("You're not married to require a divorce from it.");
+                            cm.sendOk("No estás casado como para requerir el divorcio.");
                         }
 
                         cm.dispose();
                         return;
                     }
 
-                    cm.sendYesNo("So, you want to divorce from your partner? Be sure, this process #bcannot be rollbacked#k by any means, it's supposed to be an ultimatum from which your ring will be destroyed as consequence. That said, do you #rreally want to divorce#k?");
+                    cm.sendYesNo("Entonces, ¿quieres divorciarte de tu pareja? Asegúrate de que este proceso#bno se puede revertir#kDe cualquier manera, se supone que es un ultimátum del cual tu anillo será destruido como consecuencia. Dicho esto, ¿tú#rrealmente quiero divorciarme#k?");
                     break;
             }
         } else if (status == 2) {
             if (cm.getMeso() < divorceFee) {
-                cm.sendOk("You don't have the required amount of #r" + divorceFee + " mesos#k for the divorce fee.");
+                cm.sendOk("No tienes la cantidad requerida de #r" + divorceFee + "mesos#k para los honorarios del divorcio.");
                 cm.dispose();
                 return;
             } else if (ringObj.equipped()) {
-                cm.sendOk("Please unequip your ring before trying to divorce.");
+                cm.sendOk("Por favor, quítese el anillo antes de intentar divorciarse.");
                 cm.dispose();
                 return;
             }
@@ -131,7 +131,7 @@ function action(mode, type, selection) {
             RingActionHandler.breakMarriageRing(cm.getPlayer(), ringObj.getItemId());
             cm.gainItem(ringObj.getItemId(), -1);
 
-            cm.sendOk("You have divorced from your partner.");
+            cm.sendOk("Te has divorciado de tu pareja.");
             cm.dispose();
         }
     }

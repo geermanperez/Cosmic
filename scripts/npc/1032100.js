@@ -46,7 +46,7 @@ function action(mode, type, selection) {
             cm.dispose();
             return;
         } else if (status == 2 && mode == 0) {
-            cm.sendNext("It's not easy making " + item + ". Please get the materials ready.");
+            cm.sendNext("No es fácil hacer" + item + ". Por favor prepare los materiales.");
             cm.dispose();
             return;
         }
@@ -57,24 +57,24 @@ function action(mode, type, selection) {
         }
         if (status == 0) {
             if (cm.getLevel() >= 40) {
-                cm.sendNext("Yeah... I am the master alchemist of the fairies. But the fairies are not supposed to be in contact with a human being for a long period of time... A strong person like you will be fine, though. If you get me the materials, I'll make you a special item.");
+                cm.sendNext("Sí... soy el maestro alquimista de las hadas. Pero se supone que las hadas no deben estar en contacto con un ser humano durante un largo período de tiempo... Sin embargo, una persona fuerte como tú estará bien. Si me consigues los materiales, te haré un artículo especial.");
             } else {
-                cm.sendOk("I can make rare, valuable items but unfortunately I can't make it to a stranger like you.");
+                cm.sendOk("Puedo hacer artículos raros y valiosos, pero desafortunadamente no puedo entregárselos a un extraño como tú.");
                 cm.dispose();
             }
         } else if (status == 1) {
-            cm.sendSimple("What do you want to make?#b\r\n#L0#Moon Rock#l\r\n#L1#Star Rock#l\r\n#L2#Black Feather#l");
+            cm.sendSimple("¿Qué quieres hacer?#b\r\n#L0#Roca lunar#l\r\n#L1#Roca estrella#l\r\n#L2#Pluma negra#l");
         } else if (status == 2) {
             selected = selection;
             if (selection == 0) {
                 item = "Moon Rock";
-                cm.sendYesNo("So you want to make a Moon Rock? To do that you need to refine one of each of these: #bBronze Plate#k, #bSteel Plate#k,\r\n#bMithril Plate#k, #bAdamantium Plate#k, #bSilver Plate#k, #bOrihalcon Plate#k and #bGold Plate#k. Throw in 10,000 mesos and I'll make it for you.");
+                cm.sendYesNo("¿Entonces quieres hacer una Roca Lunar? Para hacer eso necesitas refinar uno de cada uno de estos:#bPlaca de bronce#k, #bPlaca de acero#k,\r\n#bPlaca de mitril#k, #bPlaca de Adamantium#k, #bPlaca de plata#k, #bPlaca de Orihalcón#ky#bPlaca de oro#k. Añade 10.000 mesos y te lo haré.");
             } else if (selection == 1) {
                 item = "Star Rock";
-                cm.sendYesNo("So you want to make a Star Rock? To do that you need to refine one of each of these: #bGarnet#k, #bAmethyst#k, #bAquaMarine#k, #bEmerald#k, #bOpal#k, #bSapphire#k, #bTopaz#k, #bDiamond#k and #bBlack Crystal#k. Throw in 15,000 mesos and I'll make it for you.");
+                cm.sendYesNo("¿Entonces quieres hacer una Star Rock? Para hacer eso necesitas refinar uno de cada uno de estos:#bGarnet#k,#bAmethyst#k,#bAquaMarine#k,#bEmerald#k,#bOpal#k,#bSapphire#k,#bTopaz#k,#bDiamond#k y#bCristal negro#k. Añade 15.000 mesos y te lo hago.");
             } else if (selection == 2) {
                 item = "Black Feather";
-                cm.sendYesNo("So you want to make a Black Feather? To do that you need #b1 Flaming Feather#k, #b1 Moon Rock#k and #b1 Black Crystal#k. Throw in 30,000 mesos and I'll make it for you. Oh yeah, this piece of feather is a very special item, so if you drop it by any chance, it'll disappear, as well as you won't be able to give it away to someone else.");
+                cm.sendYesNo("¿Entonces quieres hacer una Pluma Negra? Para hacer eso necesitas#b1 pluma llameante#k, #b1 roca lunar#ky#b1 cristal negro#k. Añade 30.000 mesos y te lo haré. Oh, sí, este trozo de pluma es un objeto muy especial, por lo que si por casualidad lo dejas caer, desaparecerá y no podrás regalárselo a nadie más.");
             }
         } else if (status == 3) {
             if (selected == 0) {
@@ -84,9 +84,9 @@ function action(mode, type, selection) {
                         cm.gainItem(i, -1);
                     }
                     cm.gainItem(4011007, 1);
-                    cm.sendNext("Ok here, take " + item + ". It's well-made, probably because I'm using good materials. If you need my help down the road, feel free to come back.");
+                    cm.sendNext("Ok aquí, toma" + item + ". Está bien hecho, probablemente porque estoy usando buenos materiales. Si necesitas mi ayuda en el futuro, no dudes en volver.");
                 } else {
-                    cm.sendNext("Are you sure you have enough mesos? Please check and see if you have the refined #bBronze Plate#k, #bSteel Plate#k,\r\n#bMithril Plate#k, #bAdamantium Plate#k, #bSilver Plate#k, #bOrihalcon Plate#k and #bGold Plate#k, one of each.");
+                    cm.sendNext("¿Estás seguro de que tienes suficientes mesos? Por favor verifique y vea si tiene el refinado#bPlaca de bronce#k, #bPlaca de acero#k,\r\n#bPlaca de mitril#k, #bPlaca de Adamantium#k, #bPlaca de plata#k, #bPlaca de Orihalcón#ky#bPlaca de oro#k, uno de cada uno.");
                 }
             } else if (selected == 1) {
                 if (cm.haveItem(4021000) && cm.haveItem(4021001) && cm.haveItem(4021002) && cm.haveItem(4021003) && cm.haveItem(4021004) && cm.haveItem(4021005) && cm.haveItem(4021006) && cm.haveItem(4021007) && cm.haveItem(4021008) && cm.getMeso() >= 15000) {
@@ -95,9 +95,9 @@ function action(mode, type, selection) {
                         cm.gainItem(j, -1);
                     }
                     cm.gainItem(4021009, 1);
-                    cm.sendNext("Ok here, take " + item + ". It's well-made, probably because I'm using good materials. If you need my help down the road, feel free to come back.");
+                    cm.sendNext("Ok aquí, toma" + item + ". Está bien hecho, probablemente porque estoy usando buenos materiales. Si necesitas mi ayuda en el futuro, no dudes en volver.");
                 } else {
-                    cm.sendNext("Are you sure you have enough mesos? Please check and see if you have the refined #bGarnet#k, #bAmethyst#k, #bAquaMarine#k, #bEmerald#k, #bOpal#k, #bSapphire#k, #bTopaz#k, #bDiamond#k and #bBlack Crystal#k, one of each.");
+                    cm.sendNext("¿Estás seguro de que tienes suficientes mesos? Por favor verifique y vea si tiene el refinado#bGarnet#k,#bAmethyst#k,#bAquaMarine#k,#bEmerald#k,#bOpal#k,#bSapphire#k,#bTopaz#k,#bDiamond#k y#bCristal negro#k, uno de cada uno.");
                 }
             } else if (selected == 2) {
                 if (cm.haveItem(4001006) && cm.haveItem(4011007) && cm.haveItem(4021008) && cm.getMeso() >= 30000) {
@@ -106,9 +106,9 @@ function action(mode, type, selection) {
                         cm.gainItem(k, -1);
                     }
                     cm.gainItem(4031042, 1);
-                    cm.sendNext("Ok here, take " + item + ". It's well-made, probably because I'm using good materials. If you need my help down the road, feel free to come back.");
+                    cm.sendNext("Ok aquí, toma" + item + ". Está bien hecho, probablemente porque estoy usando buenos materiales. Si necesitas mi ayuda en el futuro, no dudes en volver.");
                 } else {
-                    cm.sendNext("Are you sure you have enough mesos? Please check and see if you have the refined #bGarnet#k, #bAmethyst#k, #bAquaMarine#k, #bEmerald#k, #bOpal#k, #bSapphire#k, #bTopaz#k, #bDiamond#k and #bBlack Crystal#k, one of each.");
+                    cm.sendNext("¿Estás seguro de que tienes suficientes mesos? Por favor verifique y vea si tiene el refinado#bGarnet#k,#bAmethyst#k,#bAquaMarine#k,#bEmerald#k,#bOpal#k,#bSapphire#k,#bTopaz#k,#bDiamond#k y#bCristal negro#k, uno de cada uno.");
                 }
             }
             cm.dispose();

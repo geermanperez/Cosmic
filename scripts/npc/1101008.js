@@ -17,10 +17,10 @@ function action(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            cm.sendSimple("Wait! You'll figure the stuff out by the time you reach Lv. 10 anyway, but if you absolutely want to prepare beforehand, you may view the following information.\r\n\r\n Tell me, what would you like to know?\r\n#b#L0#About you#l\r\n#L1#Mini Map#l\r\n#L2#Quest Window#l\r\n#L3#Inventory#l\r\n#L4#Regular Attack Hunting#l\r\n#L5#How to Pick Up Items#l\r\n#L6#How to Equip Items#l\r\n#L7#Skill Window#l\r\n#L8#How to Use Quick Slots#l\r\n#L9#How to Break Boxes#l\r\n#L10#How to Sit in a Chair#l\r\n#L11#World Map#l\r\n#L12#Quest Notifications#l\r\n#L13#Enhancing Stats#l\r\n#L14#Who are the Cygnus Knights?#l");
+            cm.sendSimple("¡Esperar! Descubrirás todo cuando llegues al nivel Lv. 10 de todos modos, pero si absolutamente deseas prepararte de antemano, puedes ver la siguiente información.\r\n\r\nCuéntame, ¿qué te gustaría saber?\r\n#b#L0#Acerca de ti#l\r\n#L1#Minimapa#l\r\n#L2#Ventana de misión#l\r\n#L3#Inventario#l\r\n#L4#Caza de ataque regular#l\r\n#L5#Cómo recoger artículos#l\r\n#L6#Cómo equipar artículos#l\r\n#L7#Ventana de habilidades#l\r\n#L8#Cómo utilizar las tragamonedas rápidas#l\r\n#L9#Cómo romper cajas#l\r\n#L10#Cómo sentarse en una silla#l\r\n#L11#Mapa mundial#l\r\n#L12#Notificaciones de misiones#l\r\n#L13#Mejora de estadísticas#l\r\n#L14#¿Quiénes son los Caballeros Cygnus?#l");
         } else if (status == 1) {
             if (selection == 0) {
-                cm.sendNext("I serve under Shinsoo, the guardian of Empress Cygnus. My master, Shinsoo, has ordered me to guide everyone who comes to Maple World to join Cygnus Knights. I will be assisting and following you around until you become a Knight or reach Lv. 11. Please let me know if you have any questions.");
+                cm.sendNext("Sirvo bajo las órdenes de Shinsoo, el guardián de la emperatriz Cygnus. Mi maestro, Shinsoo, me ha ordenado guiar a todos los que vienen a Maple World para unirse a Cygnus Knights. Te ayudaré y seguiré hasta que te conviertas en Caballero o alcances el nivel Lv. 11. Por favor, hágamelo saber si tiene alguna pregunta.");
             } else if (selection == 1) {
                 cm.guideHint(1);
                 cm.dispose();
@@ -61,11 +61,11 @@ function action(mode, type, selection) {
                 cm.guideHint(13);
                 cm.dispose();
             } else if (selection == 14) {
-                cm.sendOk("The Black Mage is trying to revive and conquer our peaceful Maple World. As a response to this threat, Empress Cygnus has formed a knighthood, now known as Cygnus Knights. You can become a Knight when you reach Lv. 10.");
+                cm.sendOk("El Mago Negro está tratando de revivir y conquistar nuestro pacífico Maple World. Como respuesta a esta amenaza, la emperatriz Cygnus ha formado una caballería, ahora conocida como Cygnus Knights. Puedes convertirte en Caballero cuando alcances el nivel. 10.");
                 cm.dispose();
             }
         } else if (status == 2) {
-            cm.sendNextPrev("There is no need for you to check this info now. These are basics that you'll pick up as you play. You can always ask me questions that come up after you've reached Lv. 10, so just relax.");
+            cm.sendNextPrev("No es necesario que verifiques esta información ahora. Estos son conceptos básicos que aprenderás mientras juegas. Siempre puedes hacerme las preguntas que surjan después de haber alcanzado el nivel Lv. 10, así que relájate.");
             cm.dispose();
         }
     }

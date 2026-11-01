@@ -65,10 +65,10 @@ function start() {
 
         var em = cm.getEventManager("3rdJob_" + js);
         if (em == null) {
-            cm.sendOk("Sorry, but 3rd job advancement (" + js + ") is closed.");
+            cm.sendOk("Lo siento, pero tercer avance laboral (" + js + ") está cerrado.");
         } else {
             if (!em.startInstance(cm.getPlayer())) {
-                cm.sendOk("Someone else is already challenging the clone. Please wait until the area is cleared.");
+                cm.sendOk("Alguien más ya está desafiando al clon. Espere hasta que se despeje el área.");
             }
 
             cm.dispose();

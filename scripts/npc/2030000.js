@@ -38,7 +38,7 @@ function start() {
         return;
     }
 
-    cm.sendNext("Hey, you look like you want to go farther and deeper past this place. Over there, though, you'll find yourself surrounded by aggressive, dangerous monsters, so even if you feel that you're ready to go, please be careful. Long ago, a few brave men from our town went in wanting to eliminate anyone threatening the town, but never came back out...");
+    cm.sendNext("Oye, parece que quieres ir más y más allá de este lugar. Allí, sin embargo, te encontrarás rodeado de monstruos agresivos y peligrosos, así que incluso si sientes que estás listo para partir, ten cuidado. Hace mucho tiempo, unos cuantos hombres valientes de nuestro pueblo entraron queriendo eliminar a cualquiera que amenazara el pueblo, pero nunca regresaron...");
 }
 
 function action(mode, type, selection) {
@@ -46,7 +46,7 @@ function action(mode, type, selection) {
         cm.dispose();
     } else {
         if (status == 1 && mode == 0 && cm.getLevel() > 49) {
-            cm.sendNext("Even if your level's high it's hard to actually go in there, but if you ever change your mind, please find me. After all, my job is to protect this place.");
+            cm.sendNext("Incluso si tu nivel es alto, es difícil entrar allí, pero si alguna vez cambias de opinión, encuéntrame. Después de todo, mi trabajo es proteger este lugar.");
             cm.dispose();
             return;
         }
@@ -57,9 +57,9 @@ function action(mode, type, selection) {
         }
         if (status == 1) {
             if (cm.getLevel() > 49) {
-                cm.sendYesNo("If you are thinking of going in, I suggest you change your mind. But if you really want to go in... I'm only letting in the ones that are strong enough to stay alive in there. I do not wish to see anyone else die. Let's see... Hmmm...! You look pretty strong. All right, do you want to go in?");
+                cm.sendYesNo("Si estás pensando en entrar, te sugiero que cambies de opinión. Pero si realmente quieres entrar... sólo dejaré entrar a los que son lo suficientemente fuertes como para mantenerse con vida allí. No deseo ver morir a nadie más. A ver... ¡Mmmm...! Te ves bastante fuerte. Muy bien, ¿quieres entrar?");
             } else {
-                cm.sendPrev("If you are thinking of going in, I suggest you change your mind. But if you really want to go in... I'm only letting in the ones that are strong enough to stay alive in there. I do not wish to see anyone else die. Let's see... Hmmm... You haven't reached Level 50 yet. I can't let you in, then, so forget it.");
+                cm.sendPrev("Si estás pensando en entrar, te sugiero que cambies de opinión. Pero si realmente quieres entrar... sólo dejaré entrar a los que son lo suficientemente fuertes como para mantenerse con vida allí. No deseo ver morir a nadie más. Veamos... Hmmm... Aún no has alcanzado el nivel 50. Entonces no puedo dejarte entrar, así que olvídalo.");
             }
         } else if (status == 2) {
             if (cm.getLevel() >= 50) {

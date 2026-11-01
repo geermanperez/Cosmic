@@ -29,9 +29,9 @@ status = -1;
 
 function start() {
     if (cm.getPlayer().getMapId() == 100000000) {
-        cm.sendYesNo("I can take you to the Amoria Village. Are you ready to go?");
+        cm.sendYesNo("Puedo llevarte a Amoria Village. ¿Estás listo para partir?");
     } else {
-        cm.sendYesNo("I can take you back to Henesys. Are you ready to go?");
+        cm.sendYesNo("Puedo llevarte de regreso a Henesys. ¿Estás listo para partir?");
     }
 }
 
@@ -39,13 +39,13 @@ function action(mode, type, selection) {
     status++;
     if (mode != 1) {
         if (mode == 0) {
-            cm.sendOk("Ok, feel free to hang around until you're ready to go!");
+            cm.sendOk("Ok, ¡siéntete libre de quedarte hasta que estés listo para partir!");
         }
         cm.dispose();
         return;
     }
     if (status == 0) {
-        cm.sendNext("I hope you had a great time! See you around!");
+        cm.sendNext("Espero que lo hayas pasado genial! ¡Ya nos veremos!");
     } else if (status == 1) {
         if (cm.getPlayer().getMapId() == 100000000) {
             cm.warp(680000000, 0);

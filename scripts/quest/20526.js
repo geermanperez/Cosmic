@@ -40,14 +40,14 @@ function start(mode, type, selection) {
     }
 
     if (status == 0) {
-        qm.sendNext("You lost your Mimiana?! Geez, you have to be zealous for them, as they are a gift of the Empress to us! You have to be teached once again: The riding for Knights are a bit different from the rides available for regular folks. The takes place through a creature that is of the Mimi race that can be found on this island; they are called #bMimianas#k. Instead of riding monsters, the Knights ride Mimiana. There's one thing that you should never, ever forget.");
+        qm.sendNext("¡¿Perdiste a tu Mimiana?! ¡Caray, tienes que tener celo por ellos, ya que son un regalo de la Emperatriz para nosotros! Tienes que aprender una vez más: las atracciones para los Caballeros son un poco diferentes de las atracciones disponibles para la gente normal. Esto se lleva a cabo a través de una criatura que es de la raza Mimi que se puede encontrar en esta isla; se llaman #bMimianas#k. En lugar de montar monstruos, los Caballeros montan a Mimiana. Hay una cosa que nunca jamás debes olvidar.");
     } else if (status == 1) {
-        qm.sendNextPrev("Dont't think of this as just a form of mount or transportation. These mounts can be your friend, your comrade, your colleague... all of the above. Even a friend close enough to entrust your life! That's why the Knights of Ereve actually grow their own mounts.");
+        qm.sendNextPrev("No pienses en esto simplemente como una forma de montura o transporte. Estas monturas pueden ser tu amigo, tu camarada, tu colega… todo lo anterior. ¡Incluso un amigo lo suficientemente cercano como para confiarle tu vida! Es por eso que los Caballeros de Ereve cultivan sus propias monturas.");
     } else if (status == 2) {
-        qm.sendAcceptDecline("Now, here's a Mimiana egg. Are you ready to raise a Mimiana and have it as your traveling companion for the rest of its life?");
+        qm.sendAcceptDecline("Ahora, aquí tienes un huevo de Mimiana. ¿Estás listo para criar una Mimiana y tenerla como tu compañera de viaje por el resto de su vida?");
     } else if (status == 3) {
         if (!qm.haveItem(4220137) && !qm.canHold(4220137)) {
-            qm.sendOk("Make up a room on your ETC tab so I can give you the Mimiana egg.");
+            qm.sendOk("Crea una habitación en tu pestaña ETC para que pueda darte el huevo de Mimiana.");
             qm.dispose();
             return;
         }
@@ -57,7 +57,7 @@ function start(mode, type, selection) {
         if (!qm.haveItem(4220137)) {
             qm.gainItem(4220137);
         }
-        qm.sendOk("Mimiana's egg can be raised by #bsharing your daily experiences with it#k. Once Mimiana fully grows up, please come see me. One more thing, I talked with #p2060005# beforehand and retrieved the #b#t4032117##k for you. The price to charge remains the same: #r10,000,000 mesos#k.");
+        qm.sendOk("El huevo de Mimiana puede ser criado por#bcompartiendo tus experiencias diarias con él#k. Una vez que Mimiana crezca por completo, ven a verme. Una cosa más, hablé con#p2060005#de antemano y recuperó el#b#t4032117##kpara ti. El precio a cobrar sigue siendo el mismo:#r10.000.000 mesos#k.");
     } else if (status == 4) {
         qm.dispose();
     }
@@ -71,15 +71,15 @@ function end(mode, type, selection) {
 
     status++;
     if (status == 0) {
-        qm.sendNext("Hey there! How's Mimiana's egg?");
+        qm.sendNext("¡Hola! ¿Cómo está el huevo de Mimiana?");
     } else if (status == 1) {   //pretty sure there would need to have an egg EXP condition... Whatever.
         if (!qm.haveItem(4220137)) {
-            qm.sendOk("I see, you lost your egg... You need to be more careful when raising a baby Mimiana!");
+            qm.sendOk("Ya veo, perdiste tu óvulo... ¡Debes tener más cuidado al criar a una bebé Mimiana!");
             qm.dispose();
             return;
         }
         if (!qm.canHold(1902005)) {
-            qm.sendOk("Please, make a space on your EQUIP tab for your Mimiana!");
+            qm.sendOk("¡Por favor, haz un espacio en tu pestaña EQUIPAR para tu Mimiana!");
             qm.dispose();
             return;
         }
@@ -88,7 +88,7 @@ function end(mode, type, selection) {
         qm.gainItem(1902005, 1);
         qm.gainItem(4220137, -1);
         qm.gainMeso(-10000000);
-        qm.sendOk("Okay, you now may mount Mimiana again. Take good care of it this time.");
+        qm.sendOk("Bien, ahora puedes volver a montar a Mimiana. Cuídalo bien esta vez.");
     } else if (status == 2) {
         qm.dispose();
     }

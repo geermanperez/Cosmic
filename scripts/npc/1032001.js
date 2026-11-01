@@ -48,28 +48,28 @@ function start() {
     } else {
         if (cm.getJobId() == 0) {
             actionx["1stJob"] = true;
-            cm.sendNext("Want to be a #rmagician#k? There are some standards to meet. because we can't just accept EVERYONE in... #bYour level should be at least 8#k, with getting " + cm.getFirstJobStatRequirement(jobType) + " as your top priority. Let's see.");   // thanks Vcoc for noticing a need to state and check requirements on first job adv starting message
+            cm.sendNext("¿Quieres ser un#rmagician#k? Hay algunos estándares que cumplir. porque no podemos simplemente aceptar a TODOS en...#bTu nivel debe ser al menos 8.#k, con conseguir" + cm.getFirstJobStatRequirement(jobType) + "como su máxima prioridad. Vamos a ver.");   // thanks Vcoc for noticing a need to state and check requirements on first job adv starting message
         } else if (cm.getLevel() >= 30 && cm.getJobId() == 200) {
             actionx["2ndJob"] = true;
             if (cm.haveItem(4031012)) {
-                cm.sendNext("I see you have done well. I will allow you to take the next step on your long road.");
+                cm.sendNext("Veo que lo has hecho bien. Te permitiré dar el siguiente paso en tu largo camino.");
             } else if (cm.haveItem(4031009)) {
-                cm.sendOk("Go and see the #b#p1072001##k.");
+                cm.sendOk("Ve y ve el#b#p1072001##k.");
                 cm.dispose();
             } else {
-                cm.sendNext("The progress you have made is astonishing.");
+                cm.sendNext("El progreso que has logrado es asombroso.");
             }
         } else if (actionx["3thJobI"] || (cm.getPlayer().gotPartyQuestItem("JB3") && cm.getLevel() >= 70 && cm.getJobId() % 10 == 0 && parseInt(cm.getJobId() / 100) == 2 && !cm.getPlayer().gotPartyQuestItem("JBP"))) {
             actionx["3thJobI"] = true;
-            cm.sendNext("There you are. A few days ago, #b#p2020009##k of Ossyria talked to me about you. I see that you are interested in making the leap to the enlightened of the third job advancement for magicians. To archieve that goal, I will have to test your strength in order to see whether you are worthy of the advancement. There is an opening in the middle of a deep forest of evil in Victoria Island, where it'll lead you to a secret passage. Once inside, you'll face a clone of myself. Your task is to defeat him and bring #b#t4031059##k back with you.");
+            cm.sendNext("Ahí estás. Hace unos días,#b#p2020009##kde Ossiria me habló de ti. Veo que estás interesado en dar el salto a los iluminados del tercer ascenso laboral para magos. Para lograr ese objetivo, tendré que poner a prueba tu fuerza para ver si eres digno de avanzar. Hay una abertura en medio de un profundo bosque del mal en la isla Victoria, donde te llevará a un pasadizo secreto. Una vez dentro, te enfrentarás a un clon mío. Tu tarea es derrotarlo y traer#b#t4031059##kDe vuelta contigo.");
         } else if (cm.getPlayer().gotPartyQuestItem("JBP") && !cm.haveItem(4031059)) {
-            cm.sendNext("Please, bring me the #b#t4031059##k from my clone. You can find him inside a hole in space which is deep in a forest of evil.");
+            cm.sendNext("Por favor, tráeme el#b#t4031059##kde mi clon. Puedes encontrarlo dentro de un agujero en el espacio que se encuentra en lo profundo de un bosque del mal.");
             cm.dispose();
         } else if (cm.haveItem(4031059) && cm.getPlayer().gotPartyQuestItem("JBP")) {
             actionx["3thJobC"] = true;
-            cm.sendNext("Nice work. You have defeated my clone and brought #b#t4031059##k back safely. You have now proven yourself worthy of the 3rd job advancement from the physical standpoint. Now you should give this necklace to #b#p2020011##k in Ossyria to take on the second part of the test. Good luck. You'll need it.");
+            cm.sendNext("Buen trabajo. Has derrotado a mi clon y has traído#b#t4031059##kregresar con seguridad. Ahora ha demostrado que es digno del tercer ascenso laboral desde el punto de vista físico. Ahora deberías darle este collar a#b#p2020011##ken Ossiria para afrontar la segunda parte de la prueba. Buena suerte. Lo necesitarás.");
         } else {
-            cm.sendOk("You have chosen wisely.");
+            cm.sendOk("Has elegido sabiamente.");
             cm.dispose();
         }
     }
@@ -91,7 +91,7 @@ function action(mode, type, selection) {
         if (spawnPnpc) {
             if (mode > 0) {
                 if (cm.getMeso() < spawnPnpcFee) {
-                    cm.sendOk("Sorry, you don't have enough mesos to purchase your place on the Hall of Fame.");
+                    cm.sendOk("Lo sentimos, no tienes suficientes mesos para comprar tu lugar en el Salón de la Fama.");
                     cm.dispose();
                     return;
                 }
@@ -99,10 +99,10 @@ function action(mode, type, selection) {
                 const PlayerNPC = Java.type('server.life.PlayerNPC');
                 const GameConstants = Java.type('constants.game.GameConstants');
                 if (PlayerNPC.spawnPlayerNPC(GameConstants.getHallOfFameMapid(cm.getJob()), cm.getPlayer())) {
-                    cm.sendOk("There you go! Hope you will like it.");
+                    cm.sendOk("¡Ahí tienes! Espero que te guste.");
                     cm.gainMeso(-spawnPnpcFee);
                 } else {
-                    cm.sendOk("Sorry, the Hall of Fame is currently full...");
+                    cm.sendOk("Lo sentimos, el Salón de la Fama está actualmente lleno...");
                 }
             }
 
@@ -111,7 +111,7 @@ function action(mode, type, selection) {
         } else {
             if (mode != 1 || status == 7 || (actionx["1stJob"] && status == 4) || (cm.haveItem(4031008) && status == 2) || (actionx["3thJobI"] && status == 1)) {
                 if (mode == 0 && status == 2 && type == 1) {
-                    cm.sendOk("You know there is no other choice...");
+                    cm.sendOk("Sabes que no hay otra opción...");
                 }
                 if (!(mode == 0 && type == 0)) {
                     cm.dispose();
@@ -124,9 +124,9 @@ function action(mode, type, selection) {
     if (actionx["1stJob"]) {
         if (status == 0) {
             if (cm.getLevel() >= 8 && cm.canGetFirstJob(jobType)) {
-                cm.sendYesNo("Oh...! You look like someone that can definitely be a part of us... all you need is a little sinister mind, and... yeah... so, what do you think? Wanna be the Magician?");
+                cm.sendYesNo("Oh...! Pareces alguien que definitivamente puede ser parte de nosotros... todo lo que necesitas es una pequeña mente siniestra, y... sí... entonces, ¿qué piensas? ¿Quieres ser el mago?");
             } else {
-                cm.sendOk("Train a bit more until you reach the base requirements and I can show you the way of the #rMagician#k.");
+                cm.sendOk("Entrena un poco más hasta llegar a los requisitos básicos y podré mostrarte el camino del #rMagician#k.");
                 cm.dispose();
             }
         } else if (status == 1) {
@@ -136,28 +136,28 @@ function action(mode, type, selection) {
                     cm.gainItem(1372043, 1);
                     cm.resetStats();
                 }
-                cm.sendNext("Alright, from here out, you are a part of us! You'll be living the life of a wanderer at ..., but just be patient as soon, you'll be living the high life. Alright, it ain't much, but I'll give you some of my abilities... HAAAHHH!!!");
+                cm.sendNext("Muy bien, de ahora en adelante, ¡eres parte de nosotros! Vivirás la vida de un vagabundo en..., pero ten paciencia ya que pronto vivirás una gran vida. Muy bien, no es mucho, pero te daré algunas de mis habilidades... ¡¡¡HAAAHHH!!!");
             } else {
-                cm.sendNext("Make some room in your inventory and talk back to me.");
+                cm.sendNext("Haz algo de espacio en tu inventario y habla conmigo.");
                 cm.dispose();
             }
         } else if (status == 2) {
-            cm.sendNextPrev("You've gotten much stronger now. Plus every single one of your inventories have added slots. A whole row, to be exact. Go see for it yourself. I just gave you a little bit of #bSP#k. When you open up the #bSkill#k menu on the lower left corner of the screen, there are skills you can learn by using SP's. One warning, though: You can't raise it all together all at once. There are also skills you can acquire only after having learned a couple of skills first.");
+            cm.sendNextPrev("Te has vuelto mucho más fuerte ahora. Además, cada uno de tus inventarios tiene espacios agregados. Una fila entera, para ser exactos. Ve a verlo tú mismo. Acabo de darte un poquito de #bSP#k. Cuando abres el menú #bSkill#k en la esquina inferior izquierda de la pantalla, hay habilidades que puedes aprender usando SP. Sin embargo, una advertencia: no se pueden plantear todos juntos a la vez. También hay habilidades que puedes adquirir sólo después de haber aprendido un par de habilidades primero.");
         } else if (status == 3) {
-            cm.sendNextPrev("But remember, skills aren't everything. Your stats should support your skills as a Magician, also. Magicians use INT as their main stat, and LUK as their secondary stat. If raising stats is difficult, just use #bAuto-Assign#k");
+            cm.sendNextPrev("Pero recuerde, las habilidades no lo son todo. Tus estadísticas también deberían respaldar tus habilidades como mago. Los magos usan INT como estadística principal y LUK como estadística secundaria. Si aumentar las estadísticas es difícil, simplemente use#bAsignación automática#k");
         } else if (status == 4) {
-            cm.sendNextPrev("Now, one more word of warning to you. If you fail in battle from this point on, you will lose a portion of your total EXP. Be extra mindful of this, since you have less HP than most.");
+            cm.sendNextPrev("Ahora, una palabra más de advertencia para usted. Si fallas en la batalla a partir de este momento, perderás una parte de tu EXP total. Ten mucho cuidado con esto, ya que tienes menos HP que la mayoría.");
         } else if (status == 5) {
-            cm.sendNextPrev("This is all I can teach you. Good luck on your journey, young Magician.");
+            cm.sendNextPrev("Esto es todo lo que puedo enseñarte. Buena suerte en tu viaje, joven mago.");
         } else {
             cm.dispose();
         }
     } else if (actionx["2ndJob"]) {
         if (status == 0) {
             if (cm.haveItem(4031012)) {
-                cm.sendSimple("Alright, when you have made your decision, click on [I'll choose my occupation] at the bottom.#b\r\n#L0#Please explain to me what being the Wizard (Fire / Poison) is all about.\r\n#L1#Please explain to me what being the Wizard (Ice / Lighting) is all about.\r\n#L2#Please explain to me what being the Cleric is all about.\r\n#L3#I'll choose my occupation!");
+                cm.sendSimple("Muy bien, cuando hayas tomado tu decisión, haz clic en [Elegiré mi ocupación] en la parte inferior.#b\r\n#L0#Por favor explícame de qué se trata ser el Mago (Fuego/Veneno).\r\n#L1#Por favor explícame de qué se trata ser el Mago (Hielo/Iluminación).\r\n#L2#Por favor explícame de qué se trata ser Clérigo.\r\n#L3#¡Elegiré mi ocupación!");
             } else {
-                cm.sendNext("Good decision. You look strong, but I need to see if you really are strong enough to pass the test, it's not a difficult test, so you'll do just fine. Here, take my letter first... make sure you don't lose it!");
+                cm.sendNext("Buena decisión. Te ves fuerte, pero necesito ver si realmente eres lo suficientemente fuerte como para pasar la prueba, no es una prueba difícil, así que lo harás bien. Toma, toma mi carta primero... ¡asegúrate de no perderla!");
                 if (!cm.isQuestStarted(100006)) {
                     cm.startQuest(100006);
                 }
@@ -168,24 +168,24 @@ function action(mode, type, selection) {
                     if (!cm.haveItem(4031009)) {
                         cm.gainItem(4031009, 1);
                     }
-                    cm.sendNextPrev("Please get this letter to #b#p1072001##k who's around #b#m101020000##k near Ellinia. He is taking care of the job of an instructor in place of me. Give him the letter and he'll test you in place of me. Best of luck to you.");
+                    cm.sendNextPrev("Por favor envíe esta carta a#b#p1072001##kquien esta cerca#b#m101020000##kcerca de Ellinia. Él se está haciendo cargo del trabajo de instructor en mi lugar. Dale la carta y él te pondrá a prueba en mi lugar. Mucha suerte para ti.");
                 } else {
-                    cm.sendNext("Please, make some space in your inventory.");
+                    cm.sendNext("Por favor, haga algo de espacio en su inventario.");
                     cm.dispose();
                 }
             } else {
                 if (selection < 3) {
                     if (selection == 0) {
-                        cm.sendNext("Magicians that master #rFire/Poison-based magic#k.\r\n\r\n#bWizards#k are a active class that deal magical, elemental damage. These abilities grants them a significant advantage against enemies weak to their element. With their skills #rMeditation#k and #rSlow#k, #bWizards#k can increase their magic attack and reduce the opponent's mobility. #bFire/Poison Wizards#k contains a powerful flame arrow attack and poison attack.");    //f/p mage
+                        cm.sendNext("Magos que dominan#rMagia basada en fuego/veneno#k.\r\n\r\n#bWizards#k son una clase activa que causa daño mágico y elemental. Estas habilidades les otorgan una ventaja significativa contra enemigos débiles a su elemento. con sus habilidades#rMeditation#k y#rSlow#k,#bWizards#k puede aumentar su ataque mágico y reducir la movilidad del oponente.#bMagos de fuego/veneno#kContiene un poderoso ataque de flecha de fuego y un ataque de veneno.");    //f/p mage
                     } else if (selection == 1) {
-                        cm.sendNext("Magicians that master #rIce/Lightning-based magic#k.\r\n\r\n#bWizards#k are a active class that deal magical, elemental damage. These abilities grants them a significant advantage against enemies weak to their element. With their skills #rMeditation#k and #rSlow#k, #bWizards#k can increase their magic attack and reduce the opponent's mobility. #bIce/Lightning Wizards#k have a freezing ice attack and a striking lightning attack.");    //i/l mage
+                        cm.sendNext("Magos que dominan#rMagia basada en hielo/relámpago#k.\r\n\r\n#bWizards#k son una clase activa que causa daño mágico y elemental. Estas habilidades les otorgan una ventaja significativa contra enemigos débiles a su elemento. con sus habilidades#rMeditation#k y#rSlow#k,#bWizards#k puede aumentar su ataque mágico y reducir la movilidad del oponente.#bMagos de Hielo/Relámpago#ktener un ataque de hielo helado y un ataque de rayo llamativo.");    //i/l mage
                     } else {
-                        cm.sendNext("Magicians that master #rHoly magic#k.\r\n\r\n#bClerics#k are a powerful supportive class, bound to be accepted into any Party. That's because the have the power to #rHeal#k themselves and others in their party. Using #rBless#k, #bClerics#k can buff the attributes and reduce the amount of damage taken. This class is on worth going for if you find it hard to survive. #bClerics#k are especially effective against undead monsters.");    //cleric
+                        cm.sendNext("Magos que dominan#rSanta magia#k.\r\n\r\n#bClerics#Somos una clase poderosa y solidaria, obligada a ser aceptada en cualquier partido. Eso es porque tienen el poder de#rHeal#k ellos mismos y otros en su partido. Usando#rBless#k,#bClerics#k puede mejorar los atributos y reducir la cantidad de daño recibido. Vale la pena asistir a esta clase si te resulta difícil sobrevivir.#bClerics#k son especialmente efectivos contra monstruos no-muertos.");    //cleric
                     }
 
                     status -= 2;
                 } else {
-                    cm.sendSimple("Now... have you made up your mind? Please choose the job you'd like to select for your 2nd job advancement. #b\r\n#L0#Wizard (Fire / Poison)\r\n#L1#Wizard (Ice / Lighting)\r\n#L2#Cleric");
+                    cm.sendSimple("Ahora… ¿has tomado una decisión? Elija el trabajo que desea seleccionar para su segundo ascenso laboral.#b\r\n#L0#Mago (Fuego / Veneno)\r\n#L1#Asistente (Hielo / Iluminación)\r\n#L2#Clérigo");
                 }
             }
         } else if (status == 2) {
@@ -194,22 +194,22 @@ function action(mode, type, selection) {
                 return;
             }
             job += selection * 10;
-            cm.sendYesNo("So you want to make the second job advancement as the " + (job == 210 ? "#bWizard (Fire / Poison)#k" : job == 220 ? "#bWizard (Ice / Lighting)#k" : "#bCleric#k") + "? You know you won't be able to choose a different job for the 2nd job advancement once you make your desicion here, right?");
+            cm.sendYesNo("Entonces, ¿quieres lograr el segundo avance laboral como" + (job == 210 ? "#bMago (Fuego / Veneno)#k" : job == 220 ? "#bAsistente (Hielo / Iluminación)#k" : "#bCleric#k") + "? Sabes que no podrás elegir un trabajo diferente para el segundo ascenso laboral una vez que tomes tu decisión aquí, ¿verdad?");
         } else if (status == 3) {
             if (cm.haveItem(4031012)) {
                 cm.gainItem(4031012, -1);
             }
             cm.completeQuest(100008);
-            cm.sendNext("Alright, you're the " + (job == 210 ? "#bWizard (Fire / Poison)#k" : job == 220 ? "#bWizard (Ice / Lighting)#k" : "#bCleric#k") + " from here on out. Mages and wizards are the intelligent bunch with incredible magical prowess, able to pierce the mind and the psychological structure of the monsters with ease... please train yourself each and everyday. I'll help you become even stronger than you already are.");
+            cm.sendNext("Muy bien, eres el" + (job == 210 ? "#bMago (Fuego / Veneno)#k" : job == 220 ? "#bAsistente (Hielo / Iluminación)#k" : "#bCleric#k") + "de aquí en adelante. Los magos y hechiceros son un grupo inteligente con increíbles habilidades mágicas, capaces de perforar la mente y la estructura psicológica de los monstruos con facilidad... por favor, entrénate todos los días. Te ayudaré a ser aún más fuerte de lo que ya eres.");
             if (cm.getJobId() != job) {
                 cm.changeJobById(job);
             }
         } else if (status == 4) {
-            cm.sendNextPrev("I have just given you a book that gives you the list of skills you can acquire as a " + (job == 210 ? "#bWizard (Fire / Poison)#k" : job == 220 ? "#bWizard (Ice / Lighting)#k" : "#bCleric#k") + ". Also your etc inventory has expanded by adding another row to it. Your max HP and MP have increased, too. Go check and see for it yourself.");
+            cm.sendNextPrev("Acabo de darte un libro que te da la lista de habilidades que puedes adquirir como" + (job == 210 ? "#bMago (Fuego / Veneno)#k" : job == 220 ? "#bAsistente (Hielo / Iluminación)#k" : "#bCleric#k") + ". Además, su inventario, etc. se ha ampliado al agregarle otra fila. Tu HP y MP máximos también han aumentado. Ve a comprobarlo y compruébalo tú mismo.");
         } else if (status == 5) {
-            cm.sendNextPrev("I have also given you a little bit of #bSP#k. Open the #bSkill Menu#k located at the bottomleft corner. you'll be able to boost up the newer acquired 2nd level skills. A word of warning, though. You can't boost them up all at once. Some of the skills are only available after you have learned other skills. Make sure you remember that.");
+            cm.sendNextPrev("También te he dado un poquito de#bSP#k. Abre el#bMenú de habilidades#kubicado en la esquina inferior izquierda. Podrás mejorar las nuevas habilidades adquiridas de segundo nivel. Sin embargo, una palabra de advertencia. No puedes potenciarlos todos a la vez. Algunas de las habilidades sólo están disponibles después de haber aprendido otras habilidades. Asegúrate de recordar eso.");
         } else if (status == 6) {
-            cm.sendNextPrev((job == 210 ? "Wizard (Fire / Poison)" : job == 220 ? "Wizard (Ice / Lighting)" : "Cleric") + " need to be strong. But remember that you can't abuse that power and use it on a weakling. Please use your enormous power the right way, because... for you to use that the right way, that is much harden than just getting stronger. Please find me after you have advanced much further. I'll be waiting for you.");
+            cm.sendNextPrev((job == 210 ? "Mago (Fuego / Veneno)" : job == 220 ? "Asistente (Hielo / Iluminación)" : "Clérigo") + "hay que ser fuerte. Pero recuerda que no puedes abusar de ese poder y usarlo con un debilucho. Por favor, usa tu enorme poder de la manera correcta, porque... para que lo uses de la manera correcta, eso es mucho más difícil que simplemente hacerte más fuerte. Por favor, encuéntrame después de haber avanzado mucho más. Te estaré esperando.");
         }
     } else if (actionx["3thJobI"]) {
         if (status == 0) {
@@ -218,7 +218,7 @@ function action(mode, type, selection) {
                 cm.getPlayer().removePartyQuestItem("JB3");
                 cm.getPlayer().setPartyQuestItemObtained("JBP");
             }
-            cm.sendNextPrev("Since he is a clone of myself, you can expect a tough battle ahead. He uses a number of special attacking skills unlike any you have ever seen, and it is your task to successfully take him one on one. There is a time limit in the secret passage, so it is crucial that you defeat him within the time limit. I wish you the best of luck, and I hope you bring the #b#t4031059##k with you.");
+            cm.sendNextPrev("Como es un clon mío, puedes esperar una dura batalla por delante. Utiliza una serie de habilidades de ataque especiales como ninguna que hayas visto jamás, y tu tarea es enfrentarlo con éxito uno a uno. Hay un límite de tiempo en el pasaje secreto, por lo que es crucial que lo derrotes dentro del límite de tiempo. Te deseo la mejor de las suertes y espero que traigas la#b#t4031059##kcontigo.");
         }
     } else if (actionx["3thJobC"]) {
         cm.getPlayer().removePartyQuestItem("JBP");

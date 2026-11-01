@@ -23,15 +23,15 @@ var status = 0;
 
 function start() {
     if (cm.getMapId() != 680000401) {
-        cm.sendSimple("Hello, where would you like to go?\r\n#b" + ((cm.getMapId() != 680000400) ? "#L0#Untamed Hearts Hunting Ground#l\r\n" : "") + ((cm.getMapId() == 680000400) ? "#L1#I have 7 keys. Bring me to smash boxes#l\r\n" : "") + "#L2#Please warp me out.#l#k");
+        cm.sendSimple("Hola, ¿a dónde te gustaría ir?\r\n#b" + ((cm.getMapId() != 680000400) ? "#L0#UTema de Caza de Corazones Indomables#l\r\n" : "") + ((cm.getMapId() == 680000400) ? "#L1#I tiene 7 llaves. Tráeme a smash boxes#l\r\n" : "") + "#L2#Por favor, avísame.#l#k");
     } else {
-        cm.sendSimple("Hello, do you want to go back now? Returning here again will cost you #rother 7 keys#k.\r\n#b#L2#Please warp me back to the training grounds.#l#k");
+        cm.sendSimple("Hola, ¿quieres volver ahora? Volver aquí de nuevo te costará#rotras 7 llaves#k.\r\n#b#L2#Por favor, envíame de regreso a los campos de entrenamiento.#l#k");
     }
 }
 
 function action(mode, type, selection) {
     if (mode < 1) {
-        cm.sendOk("Goodbye then.");
+        cm.sendOk("Adiós entonces.");
         cm.dispose();
         return;
     }
@@ -43,7 +43,7 @@ function action(mode, type, selection) {
     if (status == 1) {
         if (selection < 1) {
             if (!cm.haveItem(4000313, 1)) {
-                cm.sendOk("It seems like you lost your #b#t4000313##k. I'm sorry, but I can't let you proceed to the hunting grounds without that.");
+                cm.sendOk("Parece que perdiste tu#b#t4000313##k. Lo siento, pero no puedo dejar que vayas a los terrenos de caza sin eso.");
                 cm.dispose();
                 return;
             }
@@ -54,12 +54,12 @@ function action(mode, type, selection) {
                 cm.gainItem(4031217, -7);
                 cm.warp(680000401, 0);
             } else {
-                cm.sendOk("It seems like you don't have 7 Keys. Kill the cakes and candles in the Untamed Heart Hunting Ground to get keys.");
+                cm.sendOk("Parece que no tienes 7 llaves. Mata los pasteles y las velas en Untamed Heart Hunting Ground para conseguir las llaves.");
             }
         } else if (selection > 1) {
             if (cm.getMapId() != 680000401) {
                 cm.warp(680000500, 0);
-                cm.sendOk("Goodbye. I hope you enjoyed the wedding!");
+                cm.sendOk("Adiós. ¡Espero que hayas disfrutado de la boda!");
             } else {
                 cm.warp(680000400, 0);
             }

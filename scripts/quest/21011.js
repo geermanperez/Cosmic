@@ -28,7 +28,7 @@ function start(mode, type, selection) {
     status++;
     if (mode != 1) {
         if (type == 1 && mode == 0) {
-            qm.sendOk("Ah, okay. I understand. Heroes are very busy. *Sniff...* If you ever get any free time, though...");
+            qm.sendOk("Ah, está bien. Entiendo. Los héroes están muy ocupados. *Sniff...* Pero si alguna vez tienes tiempo libre...");
             qm.dispose();
             return;
         } else {
@@ -38,16 +38,16 @@ function start(mode, type, selection) {
     }
 
     if (status == 0) {
-        qm.sendNext("Wait, are you... No way.... Are you the hero that #p1201000# has been talking about all this time?! #p1201000#! Don't just nod... Tell me! Is this the hero you've been waiting for?! ")
+        qm.sendNext("Espera, ¿eres... De ninguna manera... ¿Eres el héroe del que #p1201000# ha estado hablando todo este tiempo? #p1201000#! No te limites a asentir... ¡Dime! ¿Es este el héroe que estabas esperando?")
     } else if (status == 1) {
         qm.sendNextPrev("   #i4001171#");
     } else if (status == 2) {
-        qm.sendNextPrev("I'm sorry. I'm just so overcome with emotions... *Sniff sniff* My goodness, I'm starting to tear up. You must be so happy, #p1201000#.");
+        qm.sendNextPrev("Lo lamento. Estoy tan abrumada por las emociones... *Sniff sniff* Dios mío, estoy empezando a llorar. Debes estar muy feliz, #p1201000#.");
     } else if (status == 3) {
-        qm.sendAcceptDecline("Wait a minute... You're not carrying any weapons. From what I've heard, each of the heroes had a special weapon. Oh, you must have lost it during the battle against the Black Mage.");
+        qm.sendAcceptDecline("Espera un minuto... No llevas ningún arma. Por lo que he oído, cada uno de los héroes tenía un arma especial. Oh, debes haberlo perdido durante la batalla contra el Mago Negro.");
     } else if (status == 4) {
         qm.forceStartQuest();
-        qm.sendOk("My brother #bPuir #kis just down the street, and he's been dying to meet you! I know you're busy, but could you please stop by and say hello to Puir? Please...");
+        qm.sendOk("mi hermano#bpur#kEstá justo al final de la calle y se muere por conocerte. Sé que estás ocupado, pero ¿podrías pasar a saludar a Puir? Por favor...");
     } else if (status == 5) {
         qm.dispose();
     }
@@ -57,7 +57,7 @@ function end(mode, type, selection) {
     status++;
     if (mode != 1) {
         if (type == 1 && mode == 0) {
-            qm.sendNext("*sniff sniff* Isn't this sword good enough for you, just for now? I'd be so honored...");
+            qm.sendNext("*sniff sniff* ¿No es esta espada lo suficientemente buena para ti, sólo por ahora? Sería un gran honor...");
             qm.dispose();
         } else {
             qm.dispose();
@@ -65,25 +65,25 @@ function end(mode, type, selection) {
         }
     }
     if (status == 0) {
-        qm.sendNext("Wait, are you... No way... Are you the hero that Lilin has been talking about all this time?! Lilin! Don't just nod... Tell me! Is this the hero you've been waiting for?!");
+        qm.sendNext("Espera, ¿eres... De ninguna manera... ¿Eres el héroe del que Lilin ha estado hablando todo este tiempo? ¡Lilín! No te limites a asentir... ¡Dime! ¿Es este el héroe que estabas esperando?");
     } else if (status == 1) {
         qm.sendNextPrev("#i4001171#");
     } else if (status == 2) {
-        qm.sendNextPrev("I'm sorry. I'm just so overcome with emotions... *Sniff sniff* My goodness, I'm starting to tear up. You must be so happy, Lilin.");
+        qm.sendNextPrev("Lo lamento. Estoy tan abrumada por las emociones... *Sniff sniff* Dios mío, estoy empezando a llorar. Debes estar muy feliz, Lilin.");
     } else if (status == 3) {
-        qm.sendNextPrev("Wait a minute... You're not carrying any weapons. From what I've hear, each of the heroes had a special weapon. Oh, you must have lost it during the battle against the Black Mage.");
+        qm.sendNextPrev("Espera un minuto... No llevas ningún arma. Por lo que he oído, cada uno de los héroes tenía un arma especial. Oh, debes haberlo perdido durante la batalla contra el Mago Negro.");
     } else if (status == 4) {
-        qm.sendYesNo("This isn't good enough to replace your weapon, but #bcarry this sword with you for now#k. It's my gift to you. A hero can't be walking around empty-handed.\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0#\r\n#v1302000# 1 #t1302000#\r\n\r\n#fUI/UIWindow.img/QuestIcon/8/0# 35 exp");
+        qm.sendYesNo("Esto no es suficiente para reemplazar tu arma, pero#blleva esta espada contigo por ahora#k. Es mi regalo para ti. Un héroe no puede andar por ahí con las manos vacías.\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0#\r\n#v1302000# 1 #t1302000#\r\n\r\n#fUI/UIWindow.img/QuestIcon/8/0# 35 exp.");
     } else if (status == 5) {
         if (qm.isQuestCompleted(21011)) {
-            qm.dropMessage(1, "Unknown Error");
+            qm.dropMessage(1, "Error desconocido");
         } else if (qm.canHold(1302000)) {
             qm.gainItem(1302000, 1);
             qm.gainExp(35);
             qm.forceCompleteQuest();
-            qm.sendNext("#b(Your skills are nowhere close to being hero-like... But a sword? Have you ever even held a sword in your lifetime? You can't remember... How do you even equip it?)", 3);
+            qm.sendNext("#b(Tus habilidades no están ni cerca de ser las de un héroe... ¿Pero una espada? ¿Alguna vez has empuñado una espada en tu vida? No puedes recordar... ¿Cómo la equipas?)", 3);
         } else {
-            qm.dropMessage(1, "Your inventory is full");
+            qm.dropMessage(1, "Tu inventario está lleno");
         }
     } else if (status == 6) {
         qm.guideHint(16);

@@ -47,7 +47,7 @@ function action(mode, type, selection) {
             if (cm.getMapId() != 925010400) {
                 em = cm.getEventManager("DelliBattle");
                 if (em == null) {
-                    cm.sendOk("The Delli Battle has encountered an error.");
+                    cm.sendOk("La Delli Battle ha encontrado un error.");
                     cm.dispose();
                     return;
                 } else if (cm.isUsingOldPqNpcStyle()) {
@@ -55,37 +55,37 @@ function action(mode, type, selection) {
                     return;
                 }
 
-                cm.sendSimple("#e#b<Party Quest: Save Delli>\r\n#k#n" + em.getProperty("party") + "\r\n\r\nAh, #r#p1095000##k sent you here? Is she worried about me? ... I'm terribly sorry to hear that, but I can't really go back just yet, some monsters are under the Black Mage's influence, and it's up to me to liberate them! ... It seems you're not going to accept that either, huh? Would you like to collaborate with party members to help me? If so, please have your #bparty leader#k talk to me.#b\r\n#L0#I want to participate in the party quest.\r\n#L1#I would like to " + (cm.getPlayer().isRecvPartySearchInviteEnabled() ? "disable" : "enable") + " Party Search.\r\n#L2#I would like to hear more details.");
+                cm.sendSimple("#e#b<Misión del grupo: Salvar a Delli>\r\n#k#n" + em.getProperty("fiesta") + "\r\n\r\nAh,#r#p1095000##kte envió aquí? ¿Está preocupada por mí? ... Lamento mucho escuchar eso, pero no puedo regresar todavía, algunos monstruos están bajo la influencia del Mago Negro, ¡y depende de mí liberarlos! ... Parece que tampoco vas a aceptar eso, ¿eh? ¿Te gustaría colaborar con los miembros del grupo para ayudarme? Si es así, tenga su#blíder del partido#kháblame.#b\r\n#L0#Quiero participar en la búsqueda del grupo.\r\n#L1#Me gustaría" + (cm.getPlayer().isRecvPartySearchInviteEnabled() ? "desactivar" : "permitir") + "Party Search.\r\n#L2#Me gustaría escuchar más detalles.");
             } else {
-                cm.sendYesNo("The mission succeeded, thanks for escorting me! I can lead you to #b#m120000104##k, are you ready?");
+                cm.sendYesNo("La misión fue exitosa, ¡gracias por acompañarme! puedo llevarte a#b#m120000104##k, ¿estás listo?");
             }
         } else if (status == 1) {
             if (cm.getMapId() != 925010400) {
                 if (selection == 0) {
                     if (cm.getParty() == null) {
-                        cm.sendOk("You can participate in the party quest only if you are in a party.");
+                        cm.sendOk("Puedes participar en la misión del grupo solo si estás en un grupo.");
                         cm.dispose();
                     } else if (!cm.isLeader()) {
-                        cm.sendOk("Your party leader must talk to me to start this party quest.");
+                        cm.sendOk("El líder de tu grupo debe hablar conmigo para comenzar esta búsqueda del grupo.");
                         cm.dispose();
                     } else {
                         var eli = em.getEligibleParty(cm.getParty());
                         if (eli.size() > 0) {
                             if (!em.startInstance(cm.getParty(), cm.getPlayer().getMap(), 1)) {
-                                cm.sendOk("Another party has already entered the #rParty Quest#k in this channel. Please try another channel, or wait for the current party to finish.");
+                                cm.sendOk("Otro partido ya ha entrado en el#rBúsqueda de fiesta#ken este canal. Prueba con otro canal o espera a que termine la fiesta actual.");
                             }
                         } else {
-                            cm.sendOk("You cannot start this party quest yet, because either your party is not in the range size, some of your party members are not eligible to attempt it or they are not in this map. If you're having trouble finding party members, try Party Search.");
+                            cm.sendOk("No puedes comenzar esta misión de grupo todavía porque tu grupo no está dentro del rango de tamaño, algunos de los miembros de tu grupo no son elegibles para intentarla o no están en este mapa. Si tienes problemas para encontrar miembros del grupo, prueba Party Search.");
                         }
 
                         cm.dispose();
                     }
                 } else if (selection == 1) {
                     var psState = cm.getPlayer().toggleRecvPartySearchInvite();
-                    cm.sendOk("Your Party Search status is now: #b" + (psState ? "enabled" : "disabled") + "#k. Talk to me whenever you want to change it back.");
+                    cm.sendOk("El estado de tu búsqueda de grupo es ahora: #b" + (psState ? "activado" : "desactivado") + "#k. Habla conmigo cuando quieras volver a cambiarlo.");
                     cm.dispose();
                 } else {
-                    cm.sendOk("#e#b<Party Quest: Save Delli>#k#n\r\n A ambush is under way! I must stand on the field for around 6 minutes to complete the liberation, please protect me during that time so that my mission is completed.");
+                    cm.sendOk("#e#b<Misión del grupo: Salvar a Delli>#k#n\r\n¡Se está preparando una emboscada! Debo permanecer en el campo durante unos 6 minutos para completar la liberación, por favor protéjanme durante ese tiempo para que mi misión se complete.");
                     cm.dispose();
                 }
             } else {

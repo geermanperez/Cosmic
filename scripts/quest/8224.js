@@ -15,15 +15,15 @@ function start(mode, type, selection) {
         if (type == 1 && mode == 0) {
             status -= 2;
         } else {
-            qm.sendOk("Okay, then. See you around.");
+            qm.sendOk("Bien, entonces. Ya nos veremos.");
             qm.dispose();
             return;
         }
     }
     if (status == 0) {
-        qm.sendAcceptDecline("Hey traveler, come here! I am Taggrin, leader of the Raven Ninja Clan. We are mercenaries currently under the payload of the New Leaf City county. Our job here is to hunt down those creatures that have been lurking around here these days. Are you interested to make a little errand for us? Of course, the pay off will be advantageous for both parties.");
+        qm.sendAcceptDecline("¡Oye viajero, ven aquí! Soy Taggrin, líder del Clan Ninja Cuervo. Actualmente somos mercenarios bajo la carga útil del condado de New Leaf City. Nuestro trabajo aquí es cazar a esas criaturas que han estado acechando por aquí estos días. ¿Estás interesado en hacernos un pequeño recado? Por supuesto, la recompensa será ventajosa para ambas partes.");
     } else if (status == 1) {
-        qm.sendOk("Ok. I need you to hunt down #bthose fake trees#k in the forest, and collect 50 of their drops as proof that you made your part on this.");
+        qm.sendOk("De acuerdo. Necesito que caces#besos árboles falsos#ken el bosque y recoge 50 de sus gotas como prueba de que hiciste tu parte en esto.");
         qm.forceStartQuest();
     } else if (status == 2) {
         qm.dispose();

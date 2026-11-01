@@ -36,7 +36,7 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Okay, you should not return to #bTru#k for further details on your next steps. ... Oh wait!! I remembered something. See the #rMysterious Statue#k over there? That statue has it's origins unknwown, and there's something scribbled onto it that resembles something big, it probably is the password for the cave? #rGet the password there#k, it may help you on your journey.");
+            qm.sendNext("Está bien, no deberías volver a#bTru#k para obtener más detalles sobre sus próximos pasos. ... ¡¡Oh espera!! Recordé algo. Ver el#rEstatua misteriosa#k¿allí? Se desconoce el origen de esa estatua y hay algo garabateado en ella que parece algo grande, ¿probablemente sea la contraseña de la cueva?#rObtenga la contraseña allí#k, puede ayudarte en tu viaje.");
         } else if (status == 1) {
             qm.forceStartQuest();
             qm.dispose();

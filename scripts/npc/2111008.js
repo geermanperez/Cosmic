@@ -30,6 +30,6 @@
 */
 
 function start() {
-    cm.sendOk("Make it clear of your position! Are you Zenumist or Alcadno?");
+    cm.sendOk("¡Deja en claro tu posición! ¿Eres zenumista o alcadno?");
     cm.dispose();
 }

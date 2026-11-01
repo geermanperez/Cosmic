@@ -33,21 +33,21 @@
 var status = 0;
 
 function start() {
-    cm.sendNext("This device is connected to outside.");
+    cm.sendNext("Este dispositivo está conectado al exterior.");
 }
 
 function action(mode, type, selection) {
     if (mode == -1) {
         cm.dispose();
     } else if (mode == 0) {
-        cm.sendOk("Alright, see you next time.");
+        cm.sendOk("Muy bien, nos vemos la próxima vez.");
         cm.dispose();
     } else {
         status++;
         if (status == 1) {
-            cm.sendNextPrev("Are you going to give up and leave this place?")
+            cm.sendNextPrev("¿Vas a rendirte y dejar este lugar?")
         } else if (status == 2) {
-            cm.sendYesNo("You'll have to start from scratch the next time you come in...");
+            cm.sendYesNo("Tendrás que empezar de cero la próxima vez que vengas...");
         } else if (status == 3) {
             cm.warp(103000100, 0);
             cm.dispose();

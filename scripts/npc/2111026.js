@@ -46,7 +46,7 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendAcceptDecline("This Magic Pentagram is incomplete. Would you like to finish off the drawing of the Magic Pentagram?");
+            cm.sendAcceptDecline("Este Pentagrama Mágico está incompleto. ¿Te gustaría rematar el dibujo del Pentagrama Mágico?");
             return;
         } else if (status == 1) {
             cm.weakenAreaBoss(8090000, "The Magic Pentagram has been completed. The spell to eliminate Deet and Roi has been summoned.");

@@ -20,6 +20,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 function start() {
-    cm.sendOk("Hey adventurer! Keep it a secret, ok? We are currently manufacturing the so-called #b#t2049100##k, under Just-in-time marketing strategy. You needed? We're here. So, we act in two fronts: talk to me if you want a good bunch of these. It will be a #bQuest#k-esque procediment, however I will need plenty of #bhard-to-get gadgets#k from you. I will require a #r3 days#k break after the completion to start working for you again.\r\nTalk to my partner here, and he will JIT #bsynthetize#k these scrolls for you, requiring a bunch of #blow-cost items#k, #ranytime anywhere#k.");
+    cm.sendOk("Hola aventurero! Mantenlo en secreto, ¿vale? Actualmente estamos fabricando los llamados#b#t2049100##k, en Estrategia de marketing justo a tiempo. ¿Necesitabas? Estamos aquí. Entonces actuamos en dos frentes: háblame si quieres un buen montón de estos. será un#bQuest#procedimiento k-esque, sin embargo, necesitaré un montón de#baparatos difíciles de conseguir#kde ti. voy a requerir un#r3 dias#kdescanso después de la finalización para comenzar a trabajar para usted nuevamente.\r\nHabla con mi compañero aquí y él hará JIT.#bsynthetize#k estos pergaminos para usted, que requieren un montón de#bartículos de bajo costo#k, #ren cualquier momento en cualquier lugar#k.");
     cm.dispose();
 }

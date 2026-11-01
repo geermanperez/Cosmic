@@ -151,35 +151,35 @@ function action(mode, type, selection) {
                 var wstg = eim.getIntProperty("weddingStage");
 
                 if (wstg == 2) {
-                    cm.sendYesNo("Awhoooooooooosh~, the guests have proclaimed their love to y'all. The time has come baby~, #rshould I make you Husband and Wife#k?");
+                    cm.sendYesNo("Awhooooooooosh~, los invitados les han proclamado su amor a todos. Ha llegado el momento cariño ~,#r¿Debería haceros marido y mujer?#k?");
                     state = 1;
                 } else if (wstg == 1) {
-                    cm.sendOk("W-whoah wait a bit alright? Your guests are currently giving their love to y'all. Let's shake this place up, baby~~.");
+                    cm.sendOk("W-espera un poco, ¿vale? Tus invitados actualmente os están dando todo su cariño. Vamos a sacudir este lugar, cariño~~.");
                     cm.dispose();
                 } else {
-                    cm.sendOk("Wheeeeeeeeeeeeeew! Our festival here is now complete, give a sweet talk to #b#p9201009##k, she will lead you and your folks to the afterparty. Cheers for your love!");
+                    cm.sendOk("¡Waaaaaaaaaaa! Nuestro festival aquí ya está completo, dale una dulce charla a#b#p9201009##k, ella te llevará a ti y a tus padres a la fiesta posterior. ¡Salud por tu amor!");
                     cm.dispose();
                 }
             } else {
                 var wstg = eim.getIntProperty("weddingStage");
                 if (wstg == 1) {
                     if (eim.gridCheck(cm.getPlayer()) != -1) {
-                        cm.sendOk("Everyone let's shake this place up! Let's rock 'n' roll!!");
+                        cm.sendOk("¡Todos vamos a sacudir este lugar! ¡¡Vamos a rockear!!");
                         cm.dispose();
                     } else {
                         if (eim.getIntProperty("guestBlessings") == 1) {
-                            cm.sendYesNo("Will you manifest your love to the superstars here present?");
+                            cm.sendYesNo("¿Manifiestarás tu amor a las superestrellas aquí presentes?");
                             state = 0;
                         } else {
-                            cm.sendOk("Our superstars are gathered down here. Everyone, let's give them some nice, nicey party~!");
+                            cm.sendOk("Nuestras superestrellas están reunidas aquí. ¡Todos, démosles una linda fiesta~!");
                             cm.dispose();
                         }
                     }
                 } else if (wstg == 3) {
-                    cm.sendOk("Whooooooo-hoo! The couple's love now are like one super big shiny heart right now! And it shall go on ever after this festival. Please #rget ready for the afterparty#k, baby~. Follow the married couple's lead!");
+                    cm.sendOk("¡Woooooo-hoo! ¡El amor de la pareja ahora es como un corazón súper grande y brillante ahora mismo! Y continuará para siempre después de este festival. Por favor#rprepárate para la fiesta posterior#k, cariño ~. ¡Sigue el ejemplo de la pareja casada!");
                     cm.dispose();
                 } else {
-                    cm.sendOk("It's now guys... Stay with your eyes and ears keened up! They are about to smooch it all over the place!!!");
+                    cm.sendOk("Ya es hora chicos... ¡Quédense con la vista y el oído atentos! ¡¡¡Están a punto de besarlo por todos lados!!!");
                     cm.dispose();
                 }
             }
@@ -202,7 +202,7 @@ function action(mode, type, selection) {
                     target.getMap().broadcastMessage(target, PacketCreator.showForeignEffect(target.getId(), 9), false);
                 }
 
-                cm.sendOk("Way to go, my friend! Your LOVE has been added to theirs, now in one bigger heart-shaped sentiment that will remain lively in our hearts forever! Who-hoo~!");
+                cm.sendOk("¡Así se hace, amigo mío! ¡Tu AMOR se ha agregado al de ellos, ahora en un sentimiento más grande en forma de corazón que permanecerá vivo en nuestros corazones para siempre! ¡Quien-hoo~!");
                 cm.dispose();
             } else {            // couple wants to complete the wedding
                 var wstg = eim.getIntProperty("weddingStage");
@@ -210,7 +210,7 @@ function action(mode, type, selection) {
                 if (wstg == 2) {
                     var pid = cm.getPlayer().getPartnerId();
                     if (pid <= 0) {
-                        cm.sendOk("Huh~.... Wait wait, did you just break that thing you had right now?? Oh my, what happened?");
+                        cm.sendOk("Huh~.... Espera, espera, ¿acabas de romper esa cosa que tenías ahora? Dios mío, ¿qué pasó?");
                         cm.dispose();
                         return;
                     }
@@ -225,7 +225,7 @@ function action(mode, type, selection) {
                                 var pid = eim.getIntProperty("confirmedVows");
                                 if (pid != -1) {
                                     if (pid == player.getId()) {
-                                        cm.sendOk("You have already confirmed your vows. All that is left is for your partner to confirm now.");
+                                        cm.sendOk("Ya has confirmado tus votos. Todo lo que queda es que tu pareja lo confirme ahora.");
                                     } else {
                                         eim.setIntProperty("weddingStage", 3);
                                         var cmPartner = partner.getAbstractPlayerInteraction();
@@ -249,56 +249,56 @@ function action(mode, type, selection) {
 
                                         giveCoupleBlessings(eim, player, partner);
 
-                                        cm.getMap().dropMessage(6, "Wayne: I'll call it out right now, and it shall go on: you guys are the key of the other's lock, a lace of a pendant. That's it, snog yourselves!");
+                                        cm.getMap().dropMessage(6, "Wayne: Lo diré ahora mismo y continuará: ustedes son la llave de la cerradura del otro, un cordón de colgante. Eso es todo, ¡besaos!");
                                         eim.schedule("showMarriedMsg", 2 * 1000);
                                     }
                                 } else {
                                     eim.setIntProperty("confirmedVows", player.getId());
-                                    cm.getMap().dropMessage(6, "Wedding Assistant: " + player.getName() + " has confirmed vows! Alright, one step away to make it official. Tighten your seatbelts!");
+                                    cm.getMap().dropMessage(6, "Asistente de bodas:" + player.getName() + "ha confirmado votos! Muy bien, a un paso de hacerlo oficial. ¡Apriétense los cinturones!");
                                 }
 
                                 break;
 
                             case -1:
-                                cm.sendOk("Well, it seems you no longer have the ring/ring box you guys exchanged at the engagement. Awww man~");
+                                cm.sendOk("Bueno, parece que ya no tienes la caja de anillos que intercambiaron en el compromiso. Awww hombre ~");
                                 break;
 
                             case -2:
-                                cm.sendOk("Well, it seems your partner no longer has the ring/ring box you guys exchanged at the engagement. Awww man~");
+                                cm.sendOk("Bueno, parece que tu pareja ya no tiene la caja de anillos que intercambiaron en el compromiso. Awww hombre ~");
                                 break;
 
                             case -3:
-                                cm.sendOk("Well, it seems you don't have the #r#t4000313##k given at the entrance... Please find it, baby~");
+                                cm.sendOk("Bueno, parece que no tienes la#r#t4000313##kdado en la entrada... Por favor, encuéntralo, cariño~");
                                 break;
 
                             case -4:
-                                cm.sendOk("Aww I know that shucks, but the fashionable wedding clothes does a essential part here. Please wear it before talking to me.");
+                                cm.sendOk("Oh, ya sé que es una mierda, pero la ropa de boda de moda juega un papel esencial aquí. Por favor úsalo antes de hablar conmigo.");
                                 break;
 
                             case 1:
-                                cm.sendOk("Please make an EQUIP slot available to get the marriage ring, will you?");
+                                cm.sendOk("Por favor, deja disponible un espacio EQUIP para conseguir el anillo de matrimonio, ¿quieres?");
                                 break;
 
                             case 2:
-                                cm.sendOk("Please let your partner know to make an EQUIP slot available to get the marriage ring, will you?");
+                                cm.sendOk("Por favor, infórmaselo a tu pareja para que ponga a disposición un espacio EQUIP para obtener el anillo de matrimonio, ¿quieres?");
                                 break;
 
                             case 3:
-                                cm.sendOk("Well, it seems your partner don't have the #r#t4000313##k given at the entrance... Please find it, I can't call the finally without it.");
+                                cm.sendOk("Bueno, parece que tu pareja no tiene la#r#t4000313##kdado en la entrada... Por favor, encuéntrelo, no puedo llamar al finalmente sin él.");
                                 break;
 
                             case 4:
-                                cm.sendOk("Aww I know that shucks, but it seems your partner is not using the fashionable wedding clothes. Please tell them to wear it before talking to me.");
+                                cm.sendOk("Oh, ya sé que es una mierda, pero parece que tu pareja no está usando la ropa de boda de moda. Por favor diles que se lo pongan antes de hablar conmigo.");
                                 break;
                         }
 
                         cm.dispose();
                     } else {
-                        cm.sendOk("Oof, is that it that your partner is not here, right now? ... Oh noes, I'm afraid I can't call the finally if your partner is not here.");
+                        cm.sendOk("Uf, ¿es que tu pareja no está aquí ahora mismo? ... Oh no, me temo que no puedo llamar al final si tu pareja no está aquí.");
                         cm.dispose();
                     }
                 } else {
-                    cm.sendOk("Wheeeeeeeeeeeeew~ You are now #bofficially one couple#k, and a brilliant one. Your moves fitted in outstandingly, congratulations!");
+                    cm.sendOk("Wheeeeeeeeeeeew ~ Ahora estás#boficialmente una pareja#k, y brillante. Tus movimientos encajaron de maravilla, ¡felicidades!");
                     cm.dispose();
                 }
             }

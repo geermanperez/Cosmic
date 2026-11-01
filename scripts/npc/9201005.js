@@ -120,7 +120,7 @@ function action(mode, type, selection) {
             } else if (status == 1) {
                 switch (selection) {
                     case 0:
-                        cm.sendOk("Firstly you need to be #bengaged#k to someone. #p9201000# makes the engagement ring. Once attained the engagement status, purchase a #b#t" + weddingEntryTicketCommon + "##k.\r\nShow me your engagement ring and a wedding ticket, and I will book a reservation for you along with #r15 Wedding Tickets#k. Use them to invite your guests into the wedding. They need 1 each to enter.");
+                        cm.sendOk("Primero necesitas ser#bengaged#k a alguien.#p9201000#hace el anillo de compromiso. Una vez alcanzado el estado de compromiso, compre un#b#t" + weddingEntryTicketCommon + "##k.\r\nMuéstrame tu anillo de compromiso y un boleto de boda, y haré una reserva para ti junto con#r15 entradas de boda#k. Utilízalos para invitar a tus invitados a la boda. Necesitan 1 cada uno para entrar.");
                         cm.dispose();
                         break;
 
@@ -133,35 +133,35 @@ function action(mode, type, selection) {
                             if (weddingId > 0) {
                                 if (cserv.isWeddingReserved(weddingId)) {    // registration check
                                     var placeTime = cserv.getWeddingReservationTimeLeft(weddingId);
-                                    cm.sendOk("Your wedding is set to start at the #r" + placeTime + "#k. Get formally dressed and don't be late!");
+                                    cm.sendOk("Su boda comenzará en el #r" + placeTime + "#k. ¡Vístete formalmente y no llegues tarde!");
                                 } else {
                                     var partner = wserv.getPlayerStorage().getCharacterById(cm.getPlayer().getPartnerId());
                                     if (partner == null) {
-                                        cm.sendOk("Your partner seems to be offline right now... Make sure to get both gathered here when the time comes!");
+                                        cm.sendOk("Tu pareja parece estar desconectada en este momento... ¡Asegúrate de reunir a ambos aquí cuando llegue el momento!");
                                         cm.dispose();
                                         return;
                                     }
 
                                     if (hasWeddingRing(cm.getPlayer()) || hasWeddingRing(partner)) {
-                                        cm.sendOk("Either you or your partner already has a marriage ring.");
+                                        cm.sendOk("O usted o su pareja ya tienen un anillo de matrimonio.");
                                         cm.dispose();
                                         return;
                                     }
 
                                     if (!cm.getMap().equals(partner.getMap())) {
-                                        cm.sendOk("Please let your partner come here as well to register the reservation.");
+                                        cm.sendOk("Por favor, deja que tu pareja venga aquí también para registrar la reserva.");
                                         cm.dispose();
                                         return;
                                     }
 
                                     if (!cm.canHold(weddingSendTicket, 15) || !partner.canHold(weddingSendTicket, 15)) {
-                                        cm.sendOk("Either you or your partner doesn't have a free ETC slot for the Wedding tickets! Please make some room before trying to register a reservation.");
+                                        cm.sendOk("¡O usted o su pareja no tienen un espacio ETC gratuito para los boletos de boda! Por favor haga algo de espacio antes de intentar registrar una reserva.");
                                         cm.dispose();
                                         return;
                                     }
 
                                     if (!cm.getUnclaimedMarriageGifts().isEmpty() || !partner.getAbstractPlayerInteraction().getUnclaimedMarriageGifts().isEmpty()) {
-                                        cm.sendOk("Eerhm... I'm sorry, something doesn't seem right according to the Amoria's Wedding Gift Registry reserve. Please check in the situation with #b#p9201014##k.");
+                                        cm.sendOk("Eerhm... Lo siento, algo no parece correcto según la reserva del Registro de regalos de boda de Amoria. Por favor verifique la situación con#b#p9201014##k.");
                                         cm.dispose();
                                         return;
                                     }
@@ -185,32 +185,32 @@ function action(mode, type, selection) {
                                             var placeTime = cserv.getWeddingReservationTimeLeft(weddingId);
 
                                             var wedType = weddingType ? "Premium" : "Regular";
-                                            cm.sendOk("You both have received 15 Wedding Tickets, to be given to your guests. #bDouble-click the ticket#k to send it to someone. Invitations can only be sent #rbefore the wedding start time#k. Your #b" + wedType + " wedding#k is set to start at the #r" + placeTime + "#k. Get formally dressed and don't be late!");
+                                            cm.sendOk("Ambos habéis recibido 15 entradas de boda para entregárselas a vuestros invitados.#bHaga doble clic en el billete#kpara enviárselo a alguien. Las invitaciones sólo se pueden enviar#rantes de la hora de inicio de la boda#k. Su#b" + wedType + "boda#kestá programado para comenzar en el#r" + placeTime + "#k. ¡Vístete formalmente y no llegues tarde!");
 
-                                            player.dropMessage(6, "Wedding Assistant: You both have received 15 Wedding Tickets. Invitations can only be sent before the wedding start time. Your " + wedType + " wedding is set to start at the " + placeTime + ". Get dressed and don't be late!");
-                                            partner.dropMessage(6, "Wedding Assistant: You both have received 15 Wedding Tickets. Invitations can only be sent before the wedding start time. Your " + wedType + " wedding is set to start at the " + placeTime + ". Get dressed and don't be late!");
+                                            player.dropMessage(6, "Asistente de bodas: Ambos habéis recibido 15 entradas de boda. Las invitaciones sólo se pueden enviar antes de la hora de inicio de la boda. Su" + wedType + "La boda está programada para comenzar en el" + placeTime + ". ¡Vístete y no llegues tarde!");
+                                            partner.dropMessage(6, "Asistente de bodas: Ambos habéis recibido 15 entradas de boda. Las invitaciones sólo se pueden enviar antes de la hora de inicio de la boda. Su" + wedType + "La boda está programada para comenzar en el" + placeTime + ". ¡Vístete y no llegues tarde!");
 
                                             if (!hasSuitForWedding(player)) {
-                                                player.dropMessage(5, "Wedding Assistant: Please purchase a wedding garment before showing up for the ceremony. One can be bought at the Wedding Shop left-most Amoria.");
+                                                player.dropMessage(5, "Asistente de bodas: compre un vestido de boda antes de presentarse a la ceremonia. Se puede comprar uno en la tienda de bodas situada más a la izquierda de Amoria.");
                                             }
 
                                             if (!hasSuitForWedding(partner)) {
-                                                partner.dropMessage(5, "Wedding Assistant: Please purchase a wedding garment before showing up for the ceremony. One can be bought at the Wedding Shop left-most Amoria.");
+                                                partner.dropMessage(5, "Asistente de bodas: compre un vestido de boda antes de presentarse a la ceremonia. Se puede comprar uno en la tienda de bodas situada más a la izquierda de Amoria.");
                                             }
                                         } else {
-                                            cm.sendOk("Your wedding reservation must have been processed recently. Please try again later.");
+                                            cm.sendOk("Su reserva de boda debe haber sido procesada recientemente. Inténtelo de nuevo más tarde.");
                                         }
                                     } else {
-                                        cm.sendOk("Please have a #b#t" + weddingEntryTicketCommon + "##k available on your CASH inventory before trying to register a reservation.");
+                                        cm.sendOk("Por favor tenga un#b#t" + weddingEntryTicketCommon + "##k disponible en su inventario de EFECTIVO antes de intentar registrar una reserva.");
                                     }
                                 }
                             } else {
-                                cm.sendOk("Wedding reservation encountered an error, try again later.");
+                                cm.sendOk("Se produjo un error en la reserva de boda. Vuelve a intentarlo más tarde.");
                             }
 
                             cm.dispose();
                         } else {
-                            cm.sendOk("You do not have an engagement ring.");
+                            cm.sendOk("No tienes un anillo de compromiso.");
                             cm.dispose();
                         }
                         break;
@@ -224,21 +224,21 @@ function action(mode, type, selection) {
                                 if (cserv.isOngoingWeddingGuest(cathedralWedding, cm.getPlayer().getId())) {
                                     var eim = getMarriageInstance(wid);
                                     if (eim != null) {
-                                        cm.sendOk("Enjoy the wedding. Don't drop your Gold Maple Leaf or you won't be able to finish the whole wedding.");
+                                        cm.sendOk("Disfruta la boda. No dejes caer tu Gold Maple Leaf o no podrás terminar toda la boda.");
                                     } else {
-                                        cm.sendOk("Please wait a moment while the couple get ready to enter the Cathedral.");
+                                        cm.sendOk("Espere un momento mientras la pareja se prepara para ingresar a la Catedral.");
                                         cm.dispose();
                                     }
                                 } else {
-                                    cm.sendOk("Sorry, but you have not been invited for this wedding.");
+                                    cm.sendOk("Lo sentimos, pero no has sido invitado a esta boda.");
                                     cm.dispose();
                                 }
                             } else {
-                                cm.sendOk("There is no wedding booked right now.");
+                                cm.sendOk("No hay ninguna boda reservada en este momento.");
                                 cm.dispose();
                             }
                         } else {
-                            cm.sendOk("You do not have a #b#t" + weddingGuestTicket + "##k.");
+                            cm.sendOk("no tienes un#b#t" + weddingGuestTicket + "##k.");
                             cm.dispose();
                         }
                         break;
@@ -257,10 +257,10 @@ function action(mode, type, selection) {
                                 var expirationTime = Channel.getRelativeWeddingTicketExpireTime(resStatus);
                                 cm.gainItem(weddingSendTicket, 3, false, true, expirationTime);
                             } else {
-                                cm.sendOk("Please have a free ETC slot available to get more invitations.");
+                                cm.sendOk("Tenga disponible un espacio ETC gratuito para recibir más invitaciones.");
                             }
                         } else {
-                            cm.sendOk("You're not currently booked on the Cathedral to make additional invitations.");
+                            cm.sendOk("Actualmente no estás reservado en la Catedral para realizar invitaciones adicionales.");
                         }
 
                         cm.dispose();
@@ -272,7 +272,7 @@ function action(mode, type, selection) {
                     cm.gainItem(weddingGuestTicket, -1);
                     eim.registerPlayer(cm.getPlayer());     //cm.warp(680000210, 0);
                 } else {
-                    cm.sendOk("The marriage event could not be found.");
+                    cm.sendOk("No se pudo encontrar el evento de matrimonio.");
                 }
 
                 cm.dispose();
@@ -290,14 +290,14 @@ function action(mode, type, selection) {
 
                 if (eim.getIntProperty("weddingStage") == 0) {
                     if (!isMarrying) {
-                        cm.sendOk("Welcome to the #b#m" + cm.getMapId() + "##k. Please hang around with the groom and bride while the other guests are gathering here.\r\n\r\nWhen the timer reach it's end the couple will head to the altar, at that time you will be allowed to root over them from the #bguests area#k.");
+                        cm.sendOk("Bienvenido a la#b#m" + cm.getMapId() + "##k. Quédese con el novio y la novia mientras los demás invitados se reúnen aquí.\r\n\r\nCuando el cronómetro llegue a su fin, la pareja se dirigirá al altar, en ese momento se le permitirá buscarlos desde el#bzona de invitados#k.");
                     } else {
-                        cm.sendOk("Welcome to the #b#m" + cm.getMapId() + "##k. Please greet the guests that are already here while the others are coming. When the timer reach it's end the couple will head to the altar.");
+                        cm.sendOk("Bienvenido a la#b#m" + cm.getMapId() + "##k. Salude a los invitados que ya están aquí mientras los demás vienen. Cuando el cronómetro llegue a su fin, la pareja se dirigirá al altar.");
                     }
 
                     cm.dispose();
                 } else {
-                    cm.sendYesNo("The #bbride and groom#k are already on their way to the altar. Would you like to join them now?");
+                    cm.sendYesNo("El#blos novios#kya están de camino al altar. ¿Quieres unirte a ellos ahora?");
                 }
             } else if (status == 1) {
                 cm.warp(weddingAltarMapid, "sp");

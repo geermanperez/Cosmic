@@ -6,9 +6,9 @@ var mesos;
 
 function start() {
     if (cm.hasItem(4032313, 1)) {
-        cm.sendNext("I see that you have a coupon to go to Henesys. One moment, I'll bring you there right over!");
+        cm.sendNext("Veo que tienes un cupón para ir a Henesys. ¡Un momento, te llevaré allí inmediatamente!");
     } else {
-        cm.sendNext("Hello, I drive the Regular Cab. If you want to go from town to town safely and fast, then ride our cab. We'll glady take you to your destination with an affordable price.");
+        cm.sendNext("Hola, conduzco la cabina regular. Si desea ir de ciudad en ciudad de forma segura y rápida, tome nuestro taxi. Con gusto lo llevaremos a su destino a un precio asequible.");
     }
 }
 
@@ -20,7 +20,7 @@ function action(mode, type, selection) {
             cm.dispose();
             return;
         } else if (status >= 2 && mode == 0) {
-            cm.sendNext("There's a lot to see in this town, too. Come back and find us when you need to go to a different town.");
+            cm.sendNext("También hay mucho que ver en esta ciudad. Vuelve y búscanos cuando necesites ir a una ciudad diferente.");
             cm.dispose();
             return;
         }
@@ -47,7 +47,7 @@ function action(mode, type, selection) {
             }
             cm.sendSimple(selStr);
         } else if (status == 2) {
-            cm.sendYesNo("You don't have anything else to do here, huh? Do you really want to go to #b#m" + maps[selection] + "##k? It'll cost you #b" + (cm.getJobId() == 0 ? cost[selection] / 10 : cost[selection]) + " mesos#k.");
+            cm.sendYesNo("No tienes nada más que hacer aquí, ¿eh? ¿De verdad quieres ir a#b#m" + maps[selection] + "##k? te costará#b" + (cm.getJobId() == 0 ? cost[selection] / 10 : cost[selection]) + "mesos#k.");
             selectedMap = selection;
         } else if (status == 3) {
             if (cm.getJobId() == 0) {
@@ -57,7 +57,7 @@ function action(mode, type, selection) {
             }
 
             if (cm.getMeso() < mesos) {
-                cm.sendNext("You don't have enough mesos. Sorry to say this, but without them, you won't be able to ride the cab.");
+                cm.sendNext("No tienes suficientes mesos. Lamento decir esto, pero sin ellos no podrás viajar en taxi.");
                 cm.dispose();
                 return;
             }

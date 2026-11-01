@@ -15,43 +15,43 @@ function start(mode, type, selection) {
         status++;
     } else {
         if (status == 8) {
-            qm.sendNext("Oh, do you still have some questions? Talk to me again and I'll explain it to you from the very beginning.");
+            qm.sendNext("Ah, ¿todavía tienes algunas preguntas? Vuelve a hablarme y te lo explico desde el principio.");
             qm.dispose();
             return;
         }
         status--;
     }
     if (status == 0) {
-        qm.sendNext("Hello, #h0#. Welcome to #p1101000# Knights. My name is #p1101002# and I am currently serving as the young Empress's Tactician. We'd better get acquainted since we'll be seeing a lot of each other. Haha!");
+        qm.sendNext("Hola, #h0#. Bienvenidos a #p1101000# Caballeros. Mi nombre es #p1101002# y actualmente me desempeño como táctico de la joven emperatriz. Será mejor que nos conozcamos ya que nos veremos mucho. ¡Ja ja!");
     } else if (status == 1) {
-        qm.sendNextPrev("I'm sure you have a lot of questions since everything happened so quickly. I'll explain it all, one by one, from where you are to what you're here to do.");
+        qm.sendNextPrev("Estoy seguro de que tienes muchas preguntas ya que todo sucedió muy rápido. Te lo explicaré todo, uno por uno, desde dónde estás hasta para qué estás aquí.");
     } else if (status == 2) {
-        qm.sendNextPrev("This island is called Ereve. Thanks to the Empress's magic, this island usually floats around like a boat in the sky and patrols around Maple World. Right now, however, we've stopped here for a reason.");
+        qm.sendNextPrev("Esta isla se llama Ereve. Gracias a la magia de la Emperatriz, esta isla generalmente flota como un barco en el cielo y patrulla alrededor de Maple World. Sin embargo, por ahora nos hemos detenido aquí por una razón.");
     } else if (status == 3) {
-        qm.sendNextPrev("The young Empress is the ruler of Maple World. What? This is the first time you've heard of her? Ah, yes. Well, she's the ruler of Maple World but she doesn't like to control it. She watches from afar to make sure that all is well. Well, at least that's her usual role.");
+        qm.sendNextPrev("La joven emperatriz es la gobernante de Maple World. ¿Qué? ¿Es la primera vez que oyes hablar de ella? Ah, sí. Bueno, ella es la gobernante de Maple World pero no le gusta controlarlo. Ella observa desde lejos para asegurarse de que todo esté bien. Bueno, al menos ese es su papel habitual.");
     } else if (status == 4) {
-        qm.sendNextPrev("But that's not the case right now. We've been finding signs all over Maple World that foreshadow the revival of the Black Mage. We can't have the Black Mage come back to terrorize Maple World as he has in the past!");
+        qm.sendNextPrev("Pero ese no es el caso ahora. Hemos estado encontrando señales por todo Maple World que presagian el resurgimiento del Mago Negro. ¡No podemos permitir que el Mago Negro regrese para aterrorizar a Maple World como lo hizo en el pasado!");
     } else if (status == 5) {
-        qm.sendNextPrev("But that was ages ago and people today don't realize how scary the Black Mage is. We've all become spoiled by the peaceful Maple World we enjoy today and forgotten how chaotic and frightening Maple World once was. If we don't do something, the Black Mage will once again rule Maple World!");
+        qm.sendNextPrev("Pero eso fue hace mucho tiempo y la gente hoy en día no se da cuenta de lo aterrador que es el Mago Negro. Todos nos hemos echado a perder por el pacífico Maple World que disfrutamos hoy y hemos olvidado lo caótico y aterrador que alguna vez fue Maple World. ¡Si no hacemos algo, el Mago Negro volverá a gobernar Maple World!");
     } else if (status == 6) {
-        qm.sendNextPrev("This is why the young Empress has decided to take matters into her own hands. She's forming a knighthood of brave Maplers to defeat the Black Mage once and for all. You know what you need to do, right? I'm sure you have an idea since you, yourself, signed up to be a Knight.");
+        qm.sendNextPrev("Por eso la joven emperatriz ha decidido tomar el asunto en sus propias manos. Está formando una caballería de valientes Maplers para derrotar al Mago Negro de una vez por todas. Sabes lo que tienes que hacer, ¿verdad? Estoy seguro de que tienes una idea ya que tú mismo te inscribiste para ser Caballero.");
     } else if (status == 7) {
-        qm.sendNextPrev("We have to get stronger so we can defeat the Black Mage if he revives. Our primary goal is to prevent him from destroying Maple World, and you will play a prominent role in that.");
+        qm.sendNextPrev("Tenemos que hacernos más fuertes para poder derrotar al Mago Negro si revive. Nuestro objetivo principal es evitar que destruya Maple World, y tú desempeñarás un papel destacado en ello.");
     } else if (status == 8) {
-        qm.sendAcceptDecline("That concludes my explanation. Have I answered all your questions? \r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0# \r\n#fUI/UIWindow.img/QuestIcon/8/0# 380 exp");
+        qm.sendAcceptDecline("Con esto concluye mi explicación. ¿He respondido todas tus preguntas?\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0#\r\n#fUI/UIWindow.img/QuestIcon/8/0# 380 exp.");
     } else if (status == 9) {
         if (!qm.isQuestStarted(20016)) {
             qm.forceStartQuest();
             qm.gainExp(380);
         }
-        qm.sendNext("I'm glad you're clear about our current situation, but you know, at your current level, you're not even strong enough to face the Black Mage's minions, let alone the Black Mage himself. Not even his minions' minions, as a matter of fact. How will you protect Maple World at your current level?");
+        qm.sendNext("Me alegra que tengas clara nuestra situación actual, pero sabes, en tu nivel actual, ni siquiera eres lo suficientemente fuerte para enfrentar a los secuaces del Mago Negro, y mucho menos al propio Mago Negro. De hecho, ni siquiera los secuaces de sus secuaces. ¿Cómo protegerás Maple World en tu nivel actual?");
     } else if (status == 10) {
-        qm.sendNextPrev("Although you've been accepted into the knighthood, you cannot be recognized as a knight yet. You are not an Official Knight because you're not even a Knight-in-Training. If you remain at your current level, you'll be nothing more than the handyman of #p1101000# Knights.");
+        qm.sendNextPrev("Aunque has sido aceptado como caballero, todavía no puedes ser reconocido como caballero. No eres un Caballero Oficial porque ni siquiera eres un Caballero en Entrenamiento. Si permaneces en tu nivel actual, no serás más que el manitas de #p1101000# Knights.");
     } else if (status == 11) {
-        qm.sendNextPrev("But no one starts as a strong Knight on day one. The Empress didn't want someone strong. She wanted someone with courage whom she could develop into a strong Knight through rigorous training. So, you should first become a Knight-in-Training. We'll talk about your missions when you get to that point.");
+        qm.sendNextPrev("Pero nadie empieza como un Caballero fuerte el primer día. La Emperatriz no quería a alguien fuerte. Quería a alguien con coraje a quien pudiera convertir en un Caballero fuerte mediante un entrenamiento riguroso. Entonces, primero debes convertirte en un Caballero en Entrenamiento. Hablaremos de tus misiones cuando llegues a ese punto.");
     } else if (status == 12) {
         qm.forceCompleteQuest();
-        qm.sendPrev("Take the portal on the left to reach the Training Forest. There, you will find #p1102000#, the Training Instructor, who will teach you how to become stronger. I don't want to find you wandering around aimlessly until you reach Lv. 10, you hear?");
+        qm.sendPrev("Toma el portal de la izquierda para llegar al Training Forest. Allí encontrarás a #p1102000#, el instructor de entrenamiento, que te enseñará cómo volverte más fuerte. No quiero encontrarte vagando sin rumbo hasta llegar a Lv. 10, ¿oyes?");
     } else if (status == 13) {
         qm.dispose();
     }

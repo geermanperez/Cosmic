@@ -121,28 +121,28 @@ function action(mode, type, selection) {
             var stage = curMap - 103000800 + 1;
             if (eim.getProperty(stage.toString() + "stageclear") != null) {
                 if (stage < 5) {
-                    cm.sendNext("Please hurry on to the next stage, the portal opened!");
+                    cm.sendNext("¡Date prisa y pasa a la siguiente etapa, el portal se abrió!");
                     cm.dispose();
                 } else {
-                    cm.sendNext("Incredible! You cleared all the stages to get to this point. Here's a small prize for your job well done. Before you accept it, however, please make sure your use and etc. inventories have empty slots available.");
+                    cm.sendNext("¡Increíble! Has superado todas las etapas para llegar a este punto. Aquí tienes un pequeño premio por tu trabajo bien hecho. Sin embargo, antes de aceptarlo, asegúrese de que sus inventarios de uso, etc. tengan espacios vacíos disponibles.");
                 }
             } else if (curMap == 103000800) {   // stage 1
                 if (cm.isEventLeader()) {
                     var numpasses = eim.getPlayerCount() - 1;     // minus leader
 
                     if (cm.hasItem(4001008, numpasses)) {
-                        cm.sendNext("You gathered up " + numpasses + " passes! Congratulations on clearing the stage! I'll make the portal that sends you to the next stage. There's a time limit on getting there, so please hurry. Best of luck to you all!");
+                        cm.sendNext("te reuniste" + numpasses + "pasa! ¡Felicitaciones por despejar el escenario! Haré el portal que te enviará a la siguiente etapa. Hay un límite de tiempo para llegar allí, así que apúrate. ¡Mucha suerte a todos!");
                         clearStage(stage, eim, curMap);
                         eim.gridClear();
                         cm.gainItem(4001008, -numpasses);
                     } else {
-                        cm.sendNext("I'm sorry, but you are short on the number of passes. You need to give me the right number of passes; it should be the number of members of your party minus the leader, in this case the total of " + numpasses + " to clear the stage. Tell your party members to solve the questions, gather up the passes, and give them to you.");
+                        cm.sendNext("Lo siento, pero te faltan pases. Tienes que darme el número correcto de pases; debe ser el número de miembros de tu grupo menos el líder, en este caso el total de" + numpasses + "para despejar el escenario. Dile a los miembros de tu grupo que resuelvan las preguntas, recojan los pases y te los entreguen.");
                     }
                 } else {
                     var data = eim.gridCheck(cm.getPlayer());
 
                     if (data == 0) {
-                        cm.sendNext("Thanks for bringing me the coupons. Please hand the pass to your party leader to continue.");
+                        cm.sendNext("Gracias por traerme los cupones. Entregue el pase al líder de su grupo para continuar.");
                     } else if (data == -1) {
                         data = 1; // Every player receives the same easy question.
                         eim.gridInsert(cm.getPlayer(), data);
@@ -153,13 +153,13 @@ function action(mode, type, selection) {
                         var answer = stage1Answer;
 
                         if (cm.itemQuantity(4001007) == answer) {
-                            cm.sendNext("That's the right answer! For that you have just received a #bpass#k. Please hand it to the leader of the party.");
+                            cm.sendNext("¡Esa es la respuesta correcta! Para ello acaba de recibir un #bpass#k. Por favor, entrégaselo al líder del partido.");
                             cm.gainItem(4001007, -answer);
                             cm.gainItem(4001008, 1);
                             eim.gridInsert(cm.getPlayer(), 0);
                         } else {
                             var question = stage1Question;
-                            cm.sendNext("I'm sorry, but that is not the right answer!\r\n" + question);
+                            cm.sendNext("Lo siento, ¡pero esa no es la respuesta correcta!\r\n" + question);
                         }
                     }
                 }
@@ -174,9 +174,9 @@ function action(mode, type, selection) {
                 var nextStgId = 103000802;
 
                 if (!eim.isEventLeader(cm.getPlayer())) {
-                    cm.sendOk("Follow the instructions given by your party leader to proceed through this stage.");
+                    cm.sendOk("Siga las instrucciones dadas por el líder de su partido para pasar por esta etapa.");
                 } else if (eim.getProperty(stgProperty) == null) {
-                    cm.sendNext("Hi. Welcome to the " + nthtext + " stage. Next to me, you'll see a number of " + nthobj + ". Out of these " + nthobj + ", #b3 are connected to the portal that sends you to the next stage#k. All you need to do is have #b3 party members find the correct " + nthobj + " and " + nthverb + " on them.#k\r\nBUT, it doesn't count as an answer if you " + nthpos + "; please be near the middle of the " + nthobj + " to be counted as a correct answer. Also, only 3 members of your party are allowed on the " + nthobj + ". Once they are " + nthverb + "ing on them, the leader of the party must #bdouble-click me to check and see if the answer's correct or not#k. Now, find the right " + nthobj + " to " + nthverb + " on!");
+                    cm.sendNext("Hola. Bienvenido a la" + nthtext + "escenario. A mi lado, verás una serie de" + nthobj + ". fuera de estos" + nthobj + ", #b3 están conectados al portal que te envía a la siguiente etapa#k. Todo lo que necesitas hacer es tener#b3 miembros del grupo encuentran el correcto" + nthobj + "y" + nthverb + "en ellos.#k\r\nBUT, no cuenta como respuesta si" + nthpos + "; por favor esté cerca del medio del" + nthobj + "para ser contado como una respuesta correcta. Además, solo se permiten 3 miembros de tu grupo en el" + nthobj + ". una vez que estén" + nthverb + "Al basarse en ellos, el líder del partido debe#bHaz doble clic en mí para comprobar y ver si la respuesta es correcta o no.#k. Ahora, encuentra el derecho" + nthobj + "a" + nthverb + "¡en!");
                     var c = Math.floor(Math.random() * stgCombos.length);
                     eim.setProperty(stgProperty, c.toString());
                 } else {
@@ -184,10 +184,10 @@ function action(mode, type, selection) {
 
                     if (accept) {
                         clearStage(stage, eim, curMap);
-                        cm.sendNext("Please hurry on to the next stage, the portal opened!");
+                        cm.sendNext("¡Date prisa y pasa a la siguiente etapa, el portal se abrió!");
                     } else {
                         eim.showWrongEffect();
-                        cm.sendNext("It looks like you haven't found the 3 " + nthobj + " just yet. Please think of a different combination of " + nthobj + ". Only 3 are allowed to " + nthverb + " on " + nthobj + ", and if you " + nthpos + " it may not count as an answer, so please keep that in mind. Keep going!");
+                        cm.sendNext("Parece que no has encontrado los 3" + nthobj + "todavía. Por favor piense en una combinación diferente de" + nthobj + ". Sólo 3 pueden" + nthverb + "en" + nthobj + ", y si tu" + nthpos + "Es posible que no cuente como respuesta, así que téngalo en cuenta. ¡Sigue adelante!");
                     }
                 }
 
@@ -201,9 +201,9 @@ function action(mode, type, selection) {
                 var nextStgId = 103000803;
 
                 if (!eim.isEventLeader(cm.getPlayer())) {
-                    cm.sendOk("Follow the instructions given by your party leader to proceed through this stage.");
+                    cm.sendOk("Siga las instrucciones dadas por el líder de su partido para pasar por esta etapa.");
                 } else if (eim.getProperty(stgProperty) == null) {
-                    cm.sendNext("Hi. Welcome to the " + nthtext + " stage. Next to me, you'll see a number of " + nthobj + ". Out of these " + nthobj + ", #b3 are connected to the portal that sends you to the next stage#k. All you need to do is have #b3 party members find the correct " + nthobj + " and " + nthverb + " on them.#k\r\nBUT, it doesn't count as an answer if you " + nthpos + "; please be near the middle of the " + nthobj + " to be counted as a correct answer. Also, only 3 members of your party are allowed on the " + nthobj + ". Once they are " + nthverb + "ing on them, the leader of the party must #bdouble-click me to check and see if the answer's correct or not#k. Now, find the right " + nthobj + " to " + nthverb + " on!");
+                    cm.sendNext("Hola. Bienvenido a la" + nthtext + "escenario. A mi lado, verás una serie de" + nthobj + ". fuera de estos" + nthobj + ", #b3 están conectados al portal que te envía a la siguiente etapa#k. Todo lo que necesitas hacer es tener#b3 miembros del grupo encuentran el correcto" + nthobj + "y" + nthverb + "en ellos.#k\r\nBUT, no cuenta como respuesta si" + nthpos + "; por favor esté cerca del medio del" + nthobj + "para ser contado como una respuesta correcta. Además, solo se permiten 3 miembros de tu grupo en el" + nthobj + ". una vez que estén" + nthverb + "Al basarse en ellos, el líder del partido debe#bHaz doble clic en mí para comprobar y ver si la respuesta es correcta o no.#k. Ahora, encuentra el derecho" + nthobj + "a" + nthverb + "¡en!");
                     var c = Math.floor(Math.random() * stgCombos.length);
                     eim.setProperty(stgProperty, c.toString());
                 } else {
@@ -211,10 +211,10 @@ function action(mode, type, selection) {
 
                     if (accept) {
                         clearStage(stage, eim, curMap);
-                        cm.sendNext("Please hurry on to the next stage, the portal opened!");
+                        cm.sendNext("¡Date prisa y pasa a la siguiente etapa, el portal se abrió!");
                     } else {
                         eim.showWrongEffect();
-                        cm.sendNext("It looks like you haven't found the 3 " + nthobj + " just yet. Please think of a different combination of " + nthobj + ". Only 3 are allowed to " + nthverb + " on " + nthobj + ", and if you " + nthpos + " it may not count as an answer, so please keep that in mind. Keep going!");
+                        cm.sendNext("Parece que no has encontrado los 3" + nthobj + "todavía. Por favor piense en una combinación diferente de" + nthobj + ". Sólo 3 pueden" + nthverb + "en" + nthobj + ", y si tu" + nthpos + "Es posible que no cuente como respuesta, así que téngalo en cuenta. ¡Sigue adelante!");
                     }
                 }
 
@@ -228,9 +228,9 @@ function action(mode, type, selection) {
                 var nextStgId = 103000804;
 
                 if (!eim.isEventLeader(cm.getPlayer())) {
-                    cm.sendOk("Follow the instructions given by your party leader to proceed through this stage.");
+                    cm.sendOk("Siga las instrucciones dadas por el líder de su partido para pasar por esta etapa.");
                 } else if (eim.getProperty(stgProperty) == null) {
-                    cm.sendNext("Hi. Welcome to the " + nthtext + " stage. Next to me, you'll see a number of " + nthobj + ". Out of these " + nthobj + ", #b3 are connected to the portal that sends you to the next stage#k. All you need to do is have #b3 party members find the correct " + nthobj + " and " + nthverb + " on them.#k\r\nBUT, it doesn't count as an answer if you " + nthpos + "; please be near the middle of the " + nthobj + " to be counted as a correct answer. Also, only 3 members of your party are allowed on the " + nthobj + ". Once they are " + nthverb + "ing on them, the leader of the party must #bdouble-click me to check and see if the answer's correct or not#k. Now, find the right " + nthobj + " to " + nthverb + " on!");
+                    cm.sendNext("Hola. Bienvenido a la" + nthtext + "escenario. A mi lado, verás una serie de" + nthobj + ". fuera de estos" + nthobj + ", #b3 están conectados al portal que te envía a la siguiente etapa#k. Todo lo que necesitas hacer es tener#b3 miembros del grupo encuentran el correcto" + nthobj + "y" + nthverb + "en ellos.#k\r\nBUT, no cuenta como respuesta si" + nthpos + "; por favor esté cerca del medio del" + nthobj + "para ser contado como una respuesta correcta. Además, solo se permiten 3 miembros de tu grupo en el" + nthobj + ". una vez que estén" + nthverb + "Al basarse en ellos, el líder del partido debe#bHaz doble clic en mí para comprobar y ver si la respuesta es correcta o no.#k. Ahora, encuentra el derecho" + nthobj + "a" + nthverb + "¡en!");
                     var c = Math.floor(Math.random() * stgCombos.length);
                     eim.setProperty(stgProperty, c.toString());
                 } else {
@@ -238,10 +238,10 @@ function action(mode, type, selection) {
 
                     if (accept) {
                         clearStage(stage, eim, curMap);
-                        cm.sendNext("Please hurry on to the next stage, the portal opened!");
+                        cm.sendNext("¡Date prisa y pasa a la siguiente etapa, el portal se abrió!");
                     } else {
                         eim.showWrongEffect();
-                        cm.sendNext("It looks like you haven't found the 3 " + nthobj + " just yet. Please think of a different combination of " + nthobj + ". Only 3 are allowed to " + nthverb + " on " + nthobj + ", and if you " + nthpos + " it may not count as an answer, so please keep that in mind. Keep going!");
+                        cm.sendNext("Parece que no has encontrado los 3" + nthobj + "todavía. Por favor piense en una combinación diferente de" + nthobj + ". Sólo 3 pueden" + nthverb + "en" + nthobj + ", y si tu" + nthpos + "Es posible que no cuente como respuesta, así que téngalo en cuenta. ¡Sigue adelante!");
                     }
                 }
 
@@ -249,23 +249,23 @@ function action(mode, type, selection) {
             } else if (curMap == 103000804) {
                 if (eim.isEventLeader(cm.getPlayer())) {
                     if (cm.haveItem(4001008, 10)) {
-                        cm.sendNext("Here's the portal that leads you to the last, bonus stage. It's a stage that allows you to defeat regular monsters a little easier. You'll be given a set amount of time to hunt as much as possible, but you can always leave the stage in the middle of it through the NPC. Again, congratulations on clearing all the stages. Let your party talk to me to receive their prizes as they are allowed to pass to the bonus stage. Take care...");
+                        cm.sendNext("Aquí está el portal que te lleva a la última etapa de bonificación. Es una etapa que te permite derrotar a los monstruos normales un poco más fácilmente. Se te dará una cantidad determinada de tiempo para cazar tanto como sea posible, pero siempre puedes abandonar el escenario en el medio a través del NPC. Nuevamente, felicidades por superar todas las etapas. Deje que su grupo hable conmigo para recibir sus premios, ya que se les permite pasar a la etapa de bonificación. Cuidarse...");
                         cm.gainItem(4001008, -10);
 
                         clearStage(stage, eim, curMap);
                         eim.clearPQ();
                     } else {
-                        cm.sendNext("Hello. Welcome to the 5th and final stage. Walk around the map and you'll be able to find some Boss monsters. Defeat all of them, gather up #bthe passes#k, and please get them to me. Once you earn your pass, the leader of your party will collect them, and then get them to me once the #bpasses#k are gathered up. The monsters may be familiar to you, but they may be much stronger than you think, so please be careful. Good luck!");
+                        cm.sendNext("Hola. Bienvenidos a la quinta y última etapa. Camina por el mapa y podrás encontrar algunos monstruos Boss. Derrótalos a todos, reúnete.#blos pases#k, y por favor tráigamelos. Una vez que obtengas tu pase, el líder de tu grupo los recogerá y luego me los entregará una vez que#bpasses#k están recogidos. Puede que los monstruos te resulten familiares, pero pueden ser mucho más fuertes de lo que crees, así que ten cuidado. ¡Buena suerte!");
                     }
                 } else {
-                    cm.sendNext("Welcome to the 5th and final stage.  Walk around the map and you will be able to find some Boss monsters.  Defeat them all, gather up the #bpasses#k, and #bgive them to your leader#k.  Once you are done, return to me to collect your reward.");
+                    cm.sendNext("Bienvenidos a la quinta y última etapa.  Camina por el mapa y podrás encontrar algunos monstruos Boss.  Derrótalos a todos, reúne los#bpasses#k, y#bdáselos a tu líder#k.  Una vez que hayas terminado, regresa conmigo para recoger tu recompensa.");
                 }
 
                 cm.dispose();
             }
         } else if (status == 1) {
             if (!eim.giveEventReward(cm.getPlayer())) {
-                cm.sendNext("Please make room on your inventory first!");
+                cm.sendNext("¡Primero haga espacio en su inventario!");
             } else {
                 cm.warp(103000805, "st00");
             }

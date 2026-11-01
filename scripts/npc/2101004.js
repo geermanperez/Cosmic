@@ -26,6 +26,6 @@
 */
 
 function start() {
-    cm.sendNext("This isn't much of a #bpalace#k but it'll do until we can get an even better palace built! Anyone's allowed to speak to the king and queen, but don't expect niceness from either of them. Well... maybe King Abdullah VIII, if you catch him in his non-lazy and not-paying-attention moods.");
+    cm.sendNext("¡Esto no es un gran #bpalace#k, pero servirá hasta que podamos construir un palacio aún mejor! Cualquiera puede hablar con el rey y la reina, pero no espere amabilidad de ninguno de ellos. Bueno... tal vez el rey Abdullah VIII, si lo pillas en su estado de ánimo no perezoso y sin prestar atención.");
     cm.dispose();
 }

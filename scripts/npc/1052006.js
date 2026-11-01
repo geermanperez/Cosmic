@@ -3,7 +3,7 @@ var zones = 0;
 var cost = 1000;
 
 function start() {
-    cm.sendNext("Hi, I'm the ticket salesman.");
+    cm.sendNext("Hola, soy el vendedor de entradas.");
     if (cm.isQuestStarted(2055) || cm.isQuestCompleted(2055)) {
         zones++;
     }
@@ -33,7 +33,7 @@ function action(mode, type, selection) {
         }
     } else if (status == 1) {
         if (cm.getMeso() < cost) {
-            cm.sendOk("You do not have enough mesos.");
+            cm.sendOk("No tienes suficientes mesos.");
         } else {
             cm.gainMeso(-cost);
             if (selection < 0 || selection > zones) {

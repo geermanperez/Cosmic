@@ -27,10 +27,10 @@ function start() {
             cm.gainItem(4000175, -1);
             cm.warp(923000000, 0);
         } else {
-            cm.sendOk("In order to open the crack of dimension you will have to posess one piece of Miniature Pianus. Those could be gained by defeating a Pianus.");
+            cm.sendOk("Para abrir la grieta de la dimensión tendrás que poseer una pieza de Pianus en miniatura. Esos podrían obtenerse derrotando a un Pianus.");
         }
     } else {
-        cm.sendOk("I'm #bCarta the sea-witch.#k Don't fool around with me, as I'm known for my habit of turning people into worms.");
+        cm.sendOk("Soy#bCarta la bruja del mar.#kNo juegues conmigo, soy conocido por mi costumbre de convertir a las personas en gusanos.");
     }
 
     cm.dispose();

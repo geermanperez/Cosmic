@@ -39,15 +39,15 @@ function end(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("I am to teach you about the basics of the Theory of Science.");
+            qm.sendNext("Debo enseñarles los conceptos básicos de la Teoría de la Ciencia.");
         } else if (status == 1) {
-            qm.sendNextPrev("Science stages where the alchemy doesn't meet the requirements. All items have molecular constitutions. The #rnature of their arrangements and each intrinsic unit of matter#k defines the many properties an item will have.");
+            qm.sendNextPrev("Etapas de la ciencia donde la alquimia no cumple con los requisitos. Todos los elementos tienen constituciones moleculares. El#rnaturaleza de sus disposiciones y de cada unidad intrínseca de materia#kdefine las muchas propiedades que tendrá un elemento.");
         } else if (status == 2) {
-            qm.sendNextPrev("This makes true in the scenario of the #rMaker#k as well. One must be able to study the traces of each component that is being used to form the item, to be able to tell if the experiment will utmostly succeed of fail.");
+            qm.sendNextPrev("Esto también es cierto en el escenario del #rMaker#k. Uno debe poder estudiar las trazas de cada componente que se utiliza para formar el producto, para poder saber si el experimento tendrá éxito o fracasará.");
         } else if (status == 3) {
-            qm.sendNextPrev("Take that in mind: the main perspective of science, that one engine that makes it flows the strongest, whatever scenario it is, is the aspect of #bunderstanding the process#k that generates the results, not simply throwing away tries at will.");
+            qm.sendNextPrev("Ténganlo en cuenta: la perspectiva principal de la ciencia, ese motor que la hace fluir más fuerte, sea cual sea el escenario, es el aspecto de#bentender el proceso#kque genere los resultados, no simplemente desperdiciar intentos a voluntad.");
         } else if (status == 4) {
-            qm.sendNextPrev("That has been made clear, right? Good, then the class is over. Dismissed.");
+            qm.sendNextPrev("Eso ha quedado claro, ¿verdad? Bien, entonces se acabó la clase. Despedido.");
         } else if (status == 5) {
             qm.gainMeso(-10000);
 

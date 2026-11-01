@@ -42,7 +42,7 @@ function action(mode, type, selection) {
     if (mode == 1) {
         status++;
     } else {
-        cm.sendOk("Very well, see you around.");
+        cm.sendOk("Muy bien, nos vemos por ahí.");
         cm.dispose();
         return;
     }
@@ -97,9 +97,9 @@ function action(mode, type, selection) {
         var complete = true;
 
         if (cm.getMeso() < cost * qty) {
-            cm.sendOk("Well, I DID say I would be needing some funds to craft it, wasn't it?");
+            cm.sendOk("Bueno, SÍ dije que necesitaría algunos fondos para elaborarlo, ¿no?");
         } else if (!cm.canHold(item, qty)) {
-            cm.sendOk("You didn't check if you got a slot to spare on your inventory before crafting, right?");
+            cm.sendOk("No verificaste si tenías un espacio libre en tu inventario antes de crear, ¿verdad?");
         } else {
             if (mats instanceof Array) {
                 for (var i = 0; complete && i < mats.length; i++) {
@@ -114,7 +114,7 @@ function action(mode, type, selection) {
             }
 
             if (!complete) {
-                cm.sendOk("There are not enough resources on your inventory. Please check it again.");
+                cm.sendOk("No hay suficientes recursos en su inventario. Por favor, compruébalo de nuevo.");
             } else {
                 if (mats instanceof Array) {
                     for (var i = 0; i < mats.length; i++) {
@@ -125,7 +125,7 @@ function action(mode, type, selection) {
                 }
                 cm.gainMeso(-cost * qty);
                 cm.gainItem(item, qty);
-                cm.sendOk("There it is! Thanks for your cooperation.");
+                cm.sendOk("¡Ahí está! Gracias por su cooperación.");
             }
         }
         cm.dispose();

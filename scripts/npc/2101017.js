@@ -51,7 +51,7 @@ function action(mode, type, selection) {
             expedMembers = expedicao.getMemberList();
             if (status == 0) {
                 if (cm.isLeaderExpedition(exped)) {
-                    cm.sendSimple("What would you like to do? #b\r\n#L1#View current members#l\r\n#L2#Ban members#l\r\n#L3#Start the battle#l\r\n#L4#Leave the arena#l");
+                    cm.sendSimple("¿Qué te gustaría hacer?#b\r\n#L1#Ver miembros actuales#l\r\n#L2#Prohibir miembros#l\r\n#L3#comienza la batalla#l\r\n#L4#dejar la arena#l");
                     status = 1;
                 } else {
                     var toSend = "Current members inside this arena:\r\n#b";
@@ -68,7 +68,7 @@ function action(mode, type, selection) {
                 } else if (selection == 2) {
                     var size = expedMembers.size();
                     if (size == 1) {
-                        cm.sendOk("You are the only member of the expedition.");
+                        cm.sendOk("Eres el único miembro de la expedición.");
                         cm.dispose();
                         return;
                     }
@@ -81,11 +81,11 @@ function action(mode, type, selection) {
                     status = 6;
                 } else if (selection == 3) {
                     if (expedicao.getMembers().size() < 1) {
-                        cm.sendOk("Need one more players to start the battle.");
+                        cm.sendOk("Necesita un jugador más para comenzar la batalla.");
                         cm.dispose();
                     } else {
                         if (cm.getParty() != null) {
-                            cm.sendOk("You cannot enter the battle as a party group.");
+                            cm.sendOk("No puedes ingresar a la batalla como un grupo de grupo.");
                             cm.dispose();
                             return;
                         }
@@ -107,7 +107,7 @@ function action(mode, type, selection) {
                 if (selection > 0) {
                     var banned = expedMembers.get(selection - 1);
                     expedicao.ban(banned);
-                    cm.sendOk("You have banned " + banned.getValue() + " from the expedition.");
+                    cm.sendOk("has prohibido" + banned.getValue() + "de la expedición.");
                     cm.dispose();
                 } else {
                     cm.sendSimple(list);
@@ -128,21 +128,21 @@ function action(mode, type, selection) {
             if (status == 0) {
                 var gotTheBombs = expedicao.getProperty("gotBomb" + cm.getChar().getId());
                 if (gotTheBombs != null) {
-                    cm.sendOk("I already gave you the bomb, please kill the #bScorpio#k now!");
+                    cm.sendOk("Ya te di la bomba, ¡mata el #bScorpio#k ahora!");
                     cm.dispose();
                 } else if (cm.canHoldAll([2270002, 2100067], [50, 5])) {
-                    cm.sendOk("I have given you (5) #b#eBombs#k#n and (50) #b#eElement Rock#k#n.\r\nUse the Elementary Rocks to capture the scorpions for #r#eSpirit Jewels#k#n!");
+                    cm.sendOk("te he dado (5)#b#eBombs#k#ny (50)#b#eElemento Roca#k#n.\r\nUsa las Rocas Elementales para capturar los escorpiones para#r#eJoyas espirituales#k#n!");
                     expedicao.setProperty("gotBomb" + cm.getChar().getId(), "1");
                     cm.gainItem(2270002, 50);
                     cm.gainItem(2100067, 5);
                     cm.dispose();
                 } else {
-                    cm.sendOk("It seems that your inventory is full.");
+                    cm.sendOk("Parece que tu inventario está lleno.");
                     cm.dispose();
                 }
             }
         } else {
-            cm.sendOk("Hi there, have you heard of the Ariant Coliseum Battle Arena, it's a competitive event available to players between level 20 to 30!");
+            cm.sendOk("Hola, ¿has oído hablar del Ariant Coliseum Battle Arena? ¡Es un evento competitivo disponible para jugadores de nivel 20 a 30!");
             cm.dispose();
         }
     }

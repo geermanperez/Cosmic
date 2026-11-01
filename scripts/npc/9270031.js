@@ -27,6 +27,6 @@
 */
 
 function start() {
-    cm.sendOk("We had our wedding at Amoria, such a beautiful place, and their people are even more amiable. Now our honeymoon on this paradisiac place... Ah, glorious, glorious!");
+    cm.sendOk("Celebramos nuestra boda en Amoria, un lugar tan hermoso, y su gente es aún más amable. Ahora nuestra luna de miel en este lugar paradisíaco... ¡Ah, gloriosa, gloriosa!");
     cm.dispose();
 }

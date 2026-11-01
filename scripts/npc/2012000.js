@@ -20,10 +20,10 @@ function action(mode, type, selection) {
         status++;
         if (status == 1) {
             select = selection;
-            cm.sendYesNo("The ride to " + mapName2[select] + " takes off every " + (select == 0 ? 15 : 10) + " minutes, beginning on the hour, and it'll cost you #b" + cost[select] + " mesos#k. Are you sure you want to purchase #b#t" + ticket[select] + "##k?");
+            cm.sendYesNo("el viaje a" + mapName2[select] + "se quita cada" + (select == 0 ? 15 : 10) + "minutos, comenzando en cada hora, y le costará #b" + cost[select] + "mesos#k. ¿Estás seguro de que quieres comprar?#b#t" + ticket[select] + "##k?");
         } else if (status == 2) {
             if (cm.getMeso() < cost[select] || !cm.canHold(ticket[select])) {
-                cm.sendOk("Are you sure you have #b" + cost[select] + " mesos#k? If so, then I urge you to check you etc. inventory, and see if it's full or not.");
+                cm.sendOk("¿Estás seguro de que tienes #b?" + cost[select] + "mesos#k? Si es así, le insto a que revise su inventario, etc., y vea si está lleno o no.");
             } else {
                 cm.gainMeso(-cost[select]);
                 cm.gainItem(ticket[select], 1);

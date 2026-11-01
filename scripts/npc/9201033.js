@@ -42,7 +42,7 @@ function action(mode, type, selection) {
         cm.dispose();
     } else {
         if (status == 0 && mode == 0) {
-            cm.sendNext("Let me know if you've changed your mind!");
+            cm.sendNext("¡Cuéntame si has cambiado de opinión!");
             cm.dispose();
         }
 
@@ -55,10 +55,10 @@ function action(mode, type, selection) {
         if (status == 0) {
             if (cm.getMapId() == hv) {
                 tst = 1; //to shalom temple
-                cm.sendYesNo("The Shalom Temple is unlike any other place in Happyville, would you like to head to #bShalom Temple#k?"); //not GMS lol
+                cm.sendYesNo("El Templo Shalom no se parece a ningún otro lugar en Happyville, ¿te gustaría ir a#bTemplo Shalom#k?"); //not GMS lol
             } else if (cm.getMapId() == smap) {
                 b2h = 1; //back to happyville
-                cm.sendYesNo("Would you like to head back to Happyville?");
+                cm.sendYesNo("¿Te gustaría regresar a Happyville?");
             }
         } else if (status == 1) {
             if (tst == 1) {

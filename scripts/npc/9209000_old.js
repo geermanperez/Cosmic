@@ -25,7 +25,7 @@ var sel;
 var pickup = -1;
 
 function start() {
-    cm.sendSimple("I'm Abdula, and I am a merchant intermediary who deals with rare goods. What do you have for me?#b\r\n#L0#I want to sell goods.\r\n#L1#I want to know about current market prices.\r\n#L2#A merchant intermediary? What is that?");
+    cm.sendSimple("Soy Abdula y soy un comerciante intermediario que se ocupa de bienes raros. ¿Qué tienes para mí?#b\r\n#L0#Quiero vender productos.\r\n#L1#Quiero saber sobre los precios actuales del mercado.\r\n#L2#¿Un intermediario comercial? ¿Qué es eso?");
 }
 
 function action(mode, type, selection) {
@@ -35,7 +35,7 @@ function action(mode, type, selection) {
             cm.dispose();
             return;
         } else if (mode == 0 && sel == 0 && status == 2) {
-            cm.sendNext("You don't want to sell it right now? You can sell it later, but remember the Special Items are only valuable for a week.");
+            cm.sendNext("¿No quieres venderlo ahora? Puedes venderlo más tarde, pero recuerda que los artículos especiales sólo tienen valor durante una semana.");
             cm.dispose();
             return;
         } else if (mode == 0 && sel == 2) {
@@ -60,32 +60,32 @@ function action(mode, type, selection) {
             cm.sendNext(text);
             cm.dispose();
         } else {
-            cm.sendNext("I buy the products at the Maple 7th Day Market and sell them in other towns. I trade memorabilia, spices, taxidermy shark, and more... but no Lazy Daisy's eggs.");
+            cm.sendNext("Compro los productos en el Maple 7th Day Market y los vendo en otras ciudades. Cambio recuerdos, especias, taxidermia de tiburones y más... pero no huevos de Lazy Daisy.");
         }
     } else if (status == 1) {
         if (sel == 0) {
             if (cm.haveItem(3994090 + selection)) {
                 pickup = 3994090 + selection;
-                cm.sendYesNo("The current price is 180 mesos. Would you like to sell it now?"); //Make a price changer by hour.
+                cm.sendYesNo("El precio actual es de 180 mesos. ¿Quieres venderlo ahora?"); //Make a price changer by hour.
             } else {
-                cm.sendNext("You don't have anything. Stop wasting my time... I'm a busy person.");
+                cm.sendNext("No tienes nada. Deja de hacerme perder el tiempo... Soy una persona ocupada.");
                 cm.dispose();
             }
         } else {
-            cm.sendNextPrev("Maple 7th Day Market Sundays are my days off. If you need to see me, you're going to have to come Monday to Friday...");
+            cm.sendNextPrev("Maple 7th Day Market Los domingos son mis días libres. Si necesitas verme, tendrás que venir de lunes a viernes...");
         }
     } else if (status == 2) {
         if (sel == 0) {
-            cm.sendGetNumber("How many would you like to sell?", 0, 0, 200);
+            cm.sendGetNumber("¿Cuántos te gustaría vender?", 0, 0, 200);
         } else {
-            cm.sendPrev("Oh, and the prices are subject to change. I can't get the short end of the stick, I have to stay in business! Check back with me frequently, my prices change by the hour!");
+            cm.sendPrev("Ah, y los precios están sujetos a cambios. No puedo conseguir el extremo más corto del palo, ¡tengo que seguir en el negocio! Vuelve conmigo con frecuencia, ¡mis precios cambian cada hora!");
         }
     } else if (status == 3) {
         if (sel == 0) {
             if (selection != 1) {
-                cm.sendNext("Something's not right. Check again.");
+                cm.sendNext("Algo no está bien. Compruébalo de nuevo.");
             } else {
-                cm.sendNext("The transaction has been completed. See you next time.");
+                cm.sendNext("La transacción se ha completado. Nos vemos la próxima vez.");
                 cm.gainMeso(180);
                 cm.gainItem(pickup, -1);
             }

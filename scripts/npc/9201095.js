@@ -39,7 +39,7 @@ var qty;
 
 function start() {
     if (cm.getQuestStatus(8225) != 2) {
-        cm.sendOk("Step aside, novice, we're doing business here.");
+        cm.sendOk("Hazte a un lado, novato, estamos haciendo negocios aquí.");
         cm.dispose();
         return;
     }
@@ -136,11 +136,11 @@ function action(mode, type, selection) {
         recvQty = qty;
 
         if (!cm.canHold(recvItem, recvQty)) {
-            cm.sendOk("Check your inventory for a free slot first.");
+            cm.sendOk("Primero verifique su inventario para ver si hay un espacio libre.");
             cm.dispose();
             return;
         } else if (cm.getMeso() < cost * qty) {
-            cm.sendOk("I am afraid you don't have enough to pay me, partner. Please check this out first, ok?");
+            cm.sendOk("Me temo que no tienes suficiente para pagarme, socio. Por favor, mira esto primero, ¿vale?");
             cm.dispose();
             return;
         } else {
@@ -156,7 +156,7 @@ function action(mode, type, selection) {
         }
 
         if (!complete) {
-            cm.sendOk("Hey, I need those items to craft properly, you know?");
+            cm.sendOk("Oye, necesito esos artículos para elaborarlos correctamente, ¿sabes?");
         } else {
             if (mats instanceof Array) {
                 for (var i = 0; i < mats.length; i++) {
@@ -170,7 +170,7 @@ function action(mode, type, selection) {
             }
 
             cm.gainItem(recvItem, recvQty);
-            cm.sendOk("All done. If you need anything else... Well, I'm not going anywhere.");
+            cm.sendOk("Todo hecho. Si necesitas algo más... Bueno, no voy a ninguna parte.");
         }
         cm.dispose();
     }

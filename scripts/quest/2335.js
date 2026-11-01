@@ -17,15 +17,15 @@ function start(mode, type, selection) {
 
 
     if (status == 0) {
-        qm.sendNext("This is not the end, #b#h ##k. Minions of the #bPrime Minister#k can still be found scattered throughout the castle.");
+        qm.sendNext("Este no es el final#b#h ##k. Secuaces de la#bPrimer ministro#ktodavía se pueden encontrar esparcidos por todo el castillo.");
     } else if (status == 1) {
-        qm.sendAcceptDecline("From what I've heard, there is a place near #bSkyscraper 3#k where a group of Prime Minister's minions can be found. I've picked up a key that the Prime Minister dropped the other day. Here, use this key.");
+        qm.sendAcceptDecline("Por lo que he oído, hay un lugar cerca#brascacielos 3#kdonde se puede encontrar un grupo de secuaces del Primer Ministro. Recogí una llave que se le cayó al Primer Ministro el otro día. Toma, usa esta clave.");
     } else if (status == 2) {
         if (qm.canHold(4032405)) {
             qm.gainItem(4032405, 1);
-            qm.sendNext("For one last time, good luck.");
+            qm.sendNext("Por última vez, buena suerte.");
         } else {
-            qm.sendOk("Please have a free space in your ETC inventory.");
+            qm.sendOk("Por favor tenga un espacio libre en su inventario de ETC.");
             qm.dispose();
         }
     } else if (status == 3) {

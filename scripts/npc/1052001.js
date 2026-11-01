@@ -47,30 +47,30 @@ function start() {
     } else {
         if (cm.getJobId() == 0) {
             actionx["1stJob"] = true;
-            cm.sendNext("Want to be a #rthief#k? There are some standards to meet. because we can't just accept EVERYONE in... #bYour level should be at least 10, with at least your " + cm.getFirstJobStatRequirement(jobType) + "#k. Let's see.");   // thanks Vcoc for noticing a need to state and check requirements on first job adv starting message
+            cm.sendNext("¿Quieres ser un #rthief#k? Hay algunos estándares que cumplir. porque no podemos simplemente aceptar a TODOS en... #bTu nivel debe ser al menos 10, con al menos tu" + cm.getFirstJobStatRequirement(jobType) + "#k. Vamos a ver.");   // thanks Vcoc for noticing a need to state and check requirements on first job adv starting message
         } else if (cm.getLevel() >= 30 && cm.getJobId() == 400) {
             actionx["2ndJob"] = true;
             if (cm.haveItem(4031012)) {
-                cm.sendNext("I see you have done well. I will allow you to take the next step on your long road.");
+                cm.sendNext("Veo que lo has hecho bien. Te permitiré dar el siguiente paso en tu largo camino.");
             } else if (cm.haveItem(4031011)) {
-                cm.sendOk("Go and see the #b#p1072003##k.");
+                cm.sendOk("Ve y ve el#b#p1072003##k.");
                 cm.dispose();
             } else {
-                cm.sendNext("The progress you have made is astonishing.");
+                cm.sendNext("El progreso que has logrado es asombroso.");
             }
         } else if (actionx["3thJobI"] || (cm.getPlayer().gotPartyQuestItem("JB3") && cm.getLevel() >= 70 && cm.getJobId() % 10 == 0 && parseInt(cm.getJobId() / 100) == 4 && !cm.getPlayer().gotPartyQuestItem("JBP"))) {
             actionx["3thJobI"] = true;
-            cm.sendNext("There you are. A few days ago, #b#p2020011##k of Ossyria talked to me about you. I see that you are interested in making the leap to the dark world of the third job advancement for thieves. To archieve that goal, I will have to test your strength in orden to see whether you are worthy of the advancement. There is an opening in the middle of a deep swamp in Victoria Island, where it'll lead you to a secret passage. Once inside, you'll face a clone of myself. Your task is to defeat him and bring #b#t4031059##k back with you.");
+            cm.sendNext("Ahí estás. Hace unos días,#b#p2020011##kde Ossiria me habló de ti. Veo que te interesa dar el salto al oscuro mundo del tercer ascenso laboral para ladrones. Para lograr ese objetivo, tendré que poner a prueba tu fuerza para ver si eres digno de avanzar. Hay una abertura en medio de un profundo pantano en la isla Victoria, donde te llevará a un pasaje secreto. Una vez dentro, te enfrentarás a un clon mío. Tu tarea es derrotarlo y traer#b#t4031059##kDe vuelta contigo.");
         } else if (cm.getPlayer().gotPartyQuestItem("JBP") && !cm.haveItem(4031059)) {
-            cm.sendNext("Please, bring me the #b#t4031059##k.");
+            cm.sendNext("Por favor, tráeme el#b#t4031059##k.");
             cm.dispose();
         } else if (cm.haveItem(4031059) && cm.getPlayer().gotPartyQuestItem("JBP")) {
             actionx["3thJobC"] = true;
-            cm.sendNext("Nice work. You have defeated my clone and brought #b#t4031059##k back safely. You have now proven yourself worthy of the 3rd job advancement from the physical standpoint. Now you should give this necklace to #b#p2020011##k in Ossyria to take on the second part of the test. Good luck. You'll need it.");
+            cm.sendNext("Buen trabajo. Has derrotado a mi clon y has traído#b#t4031059##kregresar con seguridad. Ahora ha demostrado que es digno del tercer ascenso laboral desde el punto de vista físico. Ahora deberías darle este collar a#b#p2020011##ken Ossiria para afrontar la segunda parte de la prueba. Buena suerte. Lo necesitarás.");
         } else if (cm.isQuestStarted(6141)) {
             cm.warp(910300000, 3);
         } else {
-            cm.sendOk("You have chosen wisely.");
+            cm.sendOk("Has elegido sabiamente.");
             cm.dispose();
         }
     }
@@ -92,7 +92,7 @@ function action(mode, type, selection) {
         if (spawnPnpc) {
             if (mode > 0) {
                 if (cm.getMeso() < spawnPnpcFee) {
-                    cm.sendOk("Sorry, you don't have enough mesos to purchase your place on the Hall of Fame.");
+                    cm.sendOk("Lo sentimos, no tienes suficientes mesos para comprar tu lugar en el Salón de la Fama.");
                     cm.dispose();
                     return;
                 }
@@ -100,10 +100,10 @@ function action(mode, type, selection) {
                 const PlayerNPC = Java.type('server.life.PlayerNPC');
                 const GameConstants = Java.type('constants.game.GameConstants');
                 if (PlayerNPC.spawnPlayerNPC(GameConstants.getHallOfFameMapid(cm.getJob()), cm.getPlayer())) {
-                    cm.sendOk("There you go! Hope you will like it.");
+                    cm.sendOk("¡Ahí tienes! Espero que te guste.");
                     cm.gainMeso(-spawnPnpcFee);
                 } else {
-                    cm.sendOk("Sorry, the Hall of Fame is currently full...");
+                    cm.sendOk("Lo sentimos, el Salón de la Fama está actualmente lleno...");
                 }
             }
 
@@ -112,7 +112,7 @@ function action(mode, type, selection) {
         } else {
             if (mode != 1 || status == 7 && type != 1 || (actionx["1stJob"] && status == 4) || (cm.haveItem(4031008) && status == 2) || (actionx["3thJobI"] && status == 1)) {
                 if (mode == 0 && status == 2 && type == 1) {
-                    cm.sendOk("You know there is no other choice...");
+                    cm.sendOk("Sabes que no hay otra opción...");
                 }
                 if (!(mode == 0 && type != 1)) {
                     cm.dispose();
@@ -125,9 +125,9 @@ function action(mode, type, selection) {
     if (actionx["1stJob"]) {
         if (status == 0) {
             if (cm.getLevel() >= 10 && cm.canGetFirstJob(jobType)) {
-                cm.sendYesNo("Oh...! You look like someone that can definitely be a part of us... all you need is a little sinister mind, and... yeah... so, what do you think? Wanna be the Rogue?");
+                cm.sendYesNo("Oh...! Pareces alguien que definitivamente puede ser parte de nosotros... todo lo que necesitas es una pequeña mente siniestra, y... sí... entonces, ¿qué piensas? ¿Quieres ser el pícaro?");
             } else {
-                cm.sendOk("Train a bit more until you reach the base requirements and I can show you the way of the #rThief#k.");
+                cm.sendOk("Entrena un poco más hasta llegar a los requisitos básicos y podré mostrarte el camino del #rThief#k.");
                 cm.dispose();
             }
         } else if (status == 1) {
@@ -139,24 +139,24 @@ function action(mode, type, selection) {
                     cm.gainItem(1332063, 1);
                     cm.resetStats();
                 }
-                cm.sendNext("Alright, from here out, you are a part of us! You'll be living the life of a wanderer at ..., but just be patient as soon, you'll be living the high life. Alright, it ain't much, but I'll give you some of my abilities... HAAAHHH!!!");
+                cm.sendNext("Muy bien, de ahora en adelante, ¡eres parte de nosotros! Vivirás la vida de un vagabundo en..., pero ten paciencia ya que pronto vivirás una gran vida. Muy bien, no es mucho, pero te daré algunas de mis habilidades... ¡¡¡HAAAHHH!!!");
             } else {
-                cm.sendNext("Make some room in your inventory and talk back to me.");
+                cm.sendNext("Haz algo de espacio en tu inventario y habla conmigo.");
                 cm.dispose();
             }
         } else if (status == 2) {
-            cm.sendNextPrev("You've gotten much stronger now. Plus every single one of your inventories have added slots. A whole row, to be exact. Go see for it yourself. I just gave you a little bit of #bSP#k. When you open up the #bSkill#k menu on the lower left corner of the screen, there are skills you can learn by using SP's. One warning, though: You can't raise it all together all at once. There are also skills you can acquire only after having learned a couple of skills first.");
+            cm.sendNextPrev("Te has vuelto mucho más fuerte ahora. Además, cada uno de tus inventarios tiene espacios agregados. Una fila entera, para ser exactos. Ve a verlo tú mismo. Acabo de darte un poquito de #bSP#k. Cuando abres el menú #bSkill#k en la esquina inferior izquierda de la pantalla, hay habilidades que puedes aprender usando SP. Sin embargo, una advertencia: no se pueden plantear todos juntos a la vez. También hay habilidades que puedes adquirir sólo después de haber aprendido un par de habilidades primero.");
         } else if (status == 3) {
-            cm.sendNextPrev("Now a reminder. Once you have chosen, you cannot change up your mind and try to pick another path. Go now, and live as a proud Thief.");
+            cm.sendNextPrev("Ahora un recordatorio. Una vez que hayas elegido, no podrás cambiar de opinión e intentar elegir otro camino. Ve ahora y vive como un orgulloso ladrón.");
         } else {
             cm.dispose();
         }
     } else if (actionx["2ndJob"]) {
         if (status == 0) {
             if (cm.haveItem(4031012)) {
-                cm.sendSimple("Alright, when you have made your decision, click on [I'll choose my occupation] at the bottom.#b\r\n#L0#Please explain to me what being the Assassin is all about.\r\n#L1#Please explain to me what being the Bandit is all about.\r\n#L3#I'll choose my occupation!");
+                cm.sendSimple("Muy bien, cuando hayas tomado tu decisión, haz clic en [Elegiré mi ocupación] en la parte inferior.#b\r\n#L0#Por favor explícame de qué se trata ser el Asesino.\r\n#L1#Por favor explícame de qué se trata ser el Bandido.\r\n#L3#¡Elegiré mi ocupación!");
             } else {
-                cm.sendNext("Good decision. You look strong, but I need to see if you really are strong enough to pass the test, it's not a difficult test, so you'll do just fine. Here, take my letter first... make sure you don't lose it!");
+                cm.sendNext("Buena decisión. Te ves fuerte, pero necesito ver si realmente eres lo suficientemente fuerte como para pasar la prueba, no es una prueba difícil, así que lo harás bien. Toma, toma mi carta primero... ¡asegúrate de no perderla!");
                 if (!cm.isQuestStarted(100009)) {
                     cm.startQuest(100009);
                 }
@@ -167,22 +167,22 @@ function action(mode, type, selection) {
                     if (!cm.haveItem(4031011)) {
                         cm.gainItem(4031011, 1);
                     }
-                    cm.sendNextPrev("Please get this letter to #b#p1072003##k who's around #b#m102040000##k near Kerning City. He is taking care of the job of an instructor in place of me. Give him the letter and he'll test you in place of me. Best of luck to you.");
+                    cm.sendNextPrev("Por favor envíe esta carta a#b#p1072003##kquien esta cerca#b#m102040000##kcerca de la ciudad de Kerning. Él se está haciendo cargo del trabajo de instructor en mi lugar. Dale la carta y él te pondrá a prueba en mi lugar. Mucha suerte para ti.");
                 } else {
-                    cm.sendNext("Please, make some space in your inventory.");
+                    cm.sendNext("Por favor, haga algo de espacio en su inventario.");
                     cm.dispose();
                 }
             } else {
                 if (selection < 3) {
                     if (selection == 0) {    //assassin
-                        cm.sendNext("Thieves that master #rClaws#k.\r\n\r\n#bAssassins#k are far ranged attackers. They are quite Meso efficient and have good damage potential, but cost more than Bandits.");
+                        cm.sendNext("Los ladrones que dominan #rClaws#k.\r\n\r\n#bAssassins#k son atacantes de largo alcance. Son bastante mesoeficientes y tienen un buen potencial de daño, pero cuestan más que los Bandidos.");
                     } else if (selection == 1) {    //bandit
-                        cm.sendNext("Thieves that master #rDaggers#k.\r\n\r\n#bBandits#k are quick melee attackers and are quite powerful among the 2nd jobs. They aren't as Meso efficient as Assassins and do not have the benefit of ranged attack but make up for it in much greater raw power.");
+                        cm.sendNext("Los ladrones que dominan #rDaggers#k.\r\n\r\n#bBandits#k son atacantes cuerpo a cuerpo rápidos y bastante poderosos entre los segundos trabajos. No son tan eficientes como los Asesinos y no tienen el beneficio del ataque a distancia, pero lo compensan con un poder bruto mucho mayor.");
                     }
 
                     status -= 2;
                 } else {
-                    cm.sendSimple("Now... have you made up your mind? Please choose the job you'd like to select for your 2nd job advancement. #b\r\n#L0#Assassin\r\n#L1#Bandit");
+                    cm.sendSimple("Ahora… ¿has tomado una decisión? Elija el trabajo que desea seleccionar para su segundo ascenso laboral.#b\r\n#L0#Asesino\r\n#L1#Bandido");
                 }
             }
         } else if (status == 2) {
@@ -191,7 +191,7 @@ function action(mode, type, selection) {
                 return;
             }
             job += selection * 10;
-            cm.sendYesNo("So you want to make the second job advancement as the " + (job == 410 ? "#bAssassin#k" : "#bBandit#k") + "? You know you won't be able to choose a different job for the 2nd job advancement once you make your desicion here, right?");
+            cm.sendYesNo("Entonces, ¿quieres lograr el segundo avance laboral como" + (job == 410 ? "#bAssassin#k" : "#bBandit#k") + "? Sabes que no podrás elegir un trabajo diferente para el segundo ascenso laboral una vez que tomes tu decisión aquí, ¿verdad?");
         } else if (status == 3) {
             if (cm.haveItem(4031012)) {
                 cm.gainItem(4031012, -1);
@@ -199,20 +199,20 @@ function action(mode, type, selection) {
             cm.completeQuest(100011);
 
             if (job == 410) {
-                cm.sendNext("Alright, from here on out you are the #bAssassin#k. Assassins have quick hands and quicker feets to dominate the enemies. Please keep training. I'll make you even more powerful than you are right now!");
+                cm.sendNext("Muy bien, de ahora en adelante eres el #bAssassin#k. Los asesinos tienen manos y pies más rápidos para dominar a los enemigos. Por favor sigue entrenando. ¡Te haré aún más poderoso de lo que eres ahora!");
             } else {
-                cm.sendNext("Alright, you're the #bBandit from here on out. Bandits revel in shadows and darkness, waiting until the right time comes for them to stick a dagger through the enemy's hearth, suddenly and swiftly... please keep training. I'll make you even more powerful than you are right now.");
+                cm.sendNext("Muy bien, de ahora en adelante eres el #bBandit. Los bandidos se deleitan con las sombras y la oscuridad, esperando hasta que llegue el momento adecuado para clavar una daga en el hogar del enemigo, de forma repentina y rápida... por favor, sigue entrenando. Te haré aún más poderoso de lo que eres ahora.");
             }
 
             if (cm.getJobId() != job) {
                 cm.changeJobById(job);
             }
         } else if (status == 4) {
-            cm.sendNextPrev("I have just given you a book that gives you the list of skills you can acquire as a " + (job == 410 ? "assassin" : "bandit") + ". Also your etc inventory has expanded by adding another row to it. Your max HP and MP have increased, too. Go check and see for it yourself.");
+            cm.sendNextPrev("Acabo de darte un libro que te da la lista de habilidades que puedes adquirir como" + (job == 410 ? "asesino" : "bandido") + ". Además, su inventario, etc. se ha ampliado al agregarle otra fila. Tu HP y MP máximos también han aumentado. Ve a comprobarlo y compruébalo tú mismo.");
         } else if (status == 5) {
-            cm.sendNextPrev("I have also given you a little bit of #bSP#k. Open the #bSkill Menu#k located at the bottomleft corner. you'll be able to boost up the newer acquired 2nd level skills. A word of warning, though. You can't boost them up all at once. Some of the skills are only available after you have learned other skills. Make sure yo remember that.");
+            cm.sendNextPrev("También te he dado un poquito de#bSP#k. Abre el#bMenú de habilidades#kubicado en la esquina inferior izquierda. Podrás mejorar las nuevas habilidades adquiridas de segundo nivel. Sin embargo, una palabra de advertencia. No puedes potenciarlos todos a la vez. Algunas de las habilidades sólo están disponibles después de haber aprendido otras habilidades. Asegúrate de recordar eso.");
         } else if (status == 6) {
-            cm.sendNextPrev((job == 410 ? "Assassin" : "Bandit") + " need to be strong. But remember that you can't abuse that power and use it on a weakling. Please use your enormous power the right way, because... for you to use that the right way, that is much harden than just getting stronger. Please find me after you have advanced much further. I'll be waiting for you.");
+            cm.sendNextPrev((job == 410 ? "Asesino" : "Bandido") + "hay que ser fuerte. Pero recuerda que no puedes abusar de ese poder y usarlo con un debilucho. Por favor, usa tu enorme poder de la manera correcta, porque... para que lo uses de la manera correcta, eso es mucho más difícil que simplemente hacerte más fuerte. Por favor, encuéntrame después de haber avanzado mucho más. Te estaré esperando.");
         }
     } else if (actionx["3thJobI"]) {
         if (status == 0) {
@@ -220,7 +220,7 @@ function action(mode, type, selection) {
                 cm.getPlayer().removePartyQuestItem("JB3");
                 cm.getPlayer().setPartyQuestItemObtained("JBP");
             }
-            cm.sendNextPrev("Since he is a clone of myself, you can expect a tough battle ahead. He uses a number of special attacking skills unlike any you have ever seen, and it is your task to successfully take him one on one. There is a time limit in the secret passage, so it is crucial that you defeat him within the time limit. I wish you the best of luck, and I hope you bring the #b#t4031059##k with you.");
+            cm.sendNextPrev("Como es un clon mío, puedes esperar una dura batalla por delante. Utiliza una serie de habilidades de ataque especiales como ninguna que hayas visto jamás, y tu tarea es enfrentarlo con éxito uno a uno. Hay un límite de tiempo en el pasaje secreto, por lo que es crucial que lo derrotes dentro del límite de tiempo. Te deseo la mejor de las suertes y espero que traigas la#b#t4031059##kcontigo.");
         }
     } else if (actionx["3thJobC"]) {
         cm.getPlayer().removePartyQuestItem("JBP");

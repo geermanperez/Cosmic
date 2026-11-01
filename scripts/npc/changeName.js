@@ -40,12 +40,12 @@ function action(mode, type, selection) {
         }
         if (status == 0 && mode == 1) {
             if (cm.haveItem(2430026)) {
-                cm.sendYesNo("I can change your name for you if you would like?", 1);
+                cm.sendYesNo("¿Puedo cambiar tu nombre si quieres?", 1);
             } else {
                 cm.dispose();
             }
         } else if (status == 1) {
-            cm.sendGetText("Please input your desired name below.");
+            cm.sendGetText("Por favor ingrese el nombre que desee a continuación.");
         } else if (status == 2) {
             var text = cm.getText();
 
@@ -53,10 +53,10 @@ function action(mode, type, selection) {
             var canCreate = Character.canCreateChar(text);
             if (canCreate) {
                 cm.getPlayer().setName(text);
-                cm.sendOk("Your name has been changed to #b" + text + "#k. You will have to login again for this to take effect.", 1);
+                cm.sendOk("Su nombre ha sido cambiado a #b" + text + "#k. Tendrás que iniciar sesión nuevamente para que esto surta efecto.", 1);
                 cm.gainItem(2430026, -1);
             } else {
-                cm.sendNext("I'm afraid you can't use the name #b" + text + "#k or it is already taken.", 1);
+                cm.sendNext("Me temo que no puedes usar el nombre #b." + text + "#k o ya está ocupado.", 1);
             }
         } else if (status == 3) {
             cm.dispose();

@@ -37,14 +37,14 @@ function start(mode, type, selection) {
         status++;
     }
     if (status == 0) {
-        qm.sendSimple("Are you ready to take on a mission? If you can't pass this test, then you won't be able to call yourself a real Knight. Are you sure you can do this? If you are afraid to do this, let me know. I won't tell Neinheart. \r\n #L0#I'll try this later.#l \r\n #L1#I'm not afraid. Let's do this.#l");
+        qm.sendSimple("¿Estás listo para asumir una misión? Si no puedes pasar esta prueba, no podrás llamarte un verdadero Caballero. ¿Estás seguro de que puedes hacer esto? Si tienes miedo de hacer esto, dímelo. No se lo diré a Neinheart.\r\n #L0#Intentaré esto más tarde.#l \r\n #L1#No tengo miedo. Hagamos esto.#l");
     } else if (status == 1) {
         if (selection == 0) {
-            qm.sendNext("If you call yourself a Knight, then do not hesitate. Show everyone how much courage you have in you.");
+            qm.sendNext("Si te llamas Caballero, no lo dudes. Muéstrales a todos cuánto coraje tienes en ti.");
             qm.dispose();
         } else if (selection == 1) {
             choice1 = selection;
-            qm.sendSimple("I'm glad you didn't run away, but... are you sure you want to become a Knight-in-Training? What I am asking is whether you're okay with being a Cygnus Knight, and therefore being tied to the Empress at all times? She may be an Empress, but she's also still just a kid. Are you sure you can fight for her? I won't let Neinheart know so just tell me what you really feel. \r\n #L2#If the Empress wants peace in the Maple World, then I'm down for whatever.#l \r\n #L3#As long as I can become a knight I'll endure whatever #l");
+            qm.sendSimple("Me alegra que no te hayas escapado, pero... ¿estás seguro de que quieres convertirte en un Caballero en Entrenamiento? Lo que estoy preguntando es si estás de acuerdo con ser un Caballero Cygnus y, por lo tanto, estar atado a la Emperatriz en todo momento. Puede que sea una emperatriz, pero también es sólo una niña. ¿Estás seguro de que puedes luchar por ella? No se lo haré saber a Neinheart, así que dime lo que realmente sientes.\r\n #L2#Si la Emperatriz quiere la paz en Maple World, entonces estoy dispuesta a lo que sea.#l \r\n #L3#Mientras pueda convertirme en caballero, soportaré cualquier cosa.#l");
             qm.forceStartQuest();
             qm.forceCompleteQuest();
         }

@@ -14,7 +14,7 @@ function action(mode, type, selection) {
         status--;
     }
     if (status == 0) {
-        cm.sendYesNo("Would you like to exit this instance? Your party members may have to abandon it as well, so take that in mind.");
+        cm.sendYesNo("¿Le gustaría salir de esta instancia? Es posible que los miembros de tu grupo también tengan que abandonarlo, así que tenlo en cuenta.");
     } else if (status == 1) {
         cm.removeAll(4001163);
         cm.removeAll(4001169);

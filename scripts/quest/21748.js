@@ -36,9 +36,9 @@ function end(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Aran, you came back home safe! So, how fared the mission in Mu Lung? #rGentleman#k ambushed and stole the seal rock again? That's unfortunate. At least you are unharmed, I'm glad.");
+            qm.sendNext("¡Aran, regresaste a casa sano y salvo! Entonces, ¿cómo le fue a la misión en Mu Lung? ¿#rGentleman#k tendió una emboscada y robó la roca foca nuevamente? Eso es lamentable. Al menos estás ileso, me alegro.");
         } else if (status == 1) {
-            qm.sendNext("I've researched some skill books, trying to trace any lost skills of yours. Good news I found one of them: it's the #rFinal Charge#k! With it you will be able to draw closer opposing monsters at each swipe. It's a fine improvement for your arsenal, isn't it?");
+            qm.sendNext("He investigado algunos libros de habilidades, tratando de rastrear alguna habilidad perdida tuya. Buenas noticias, encontré uno de ellos: es el#rCarga final#k! Con él podrás acercar a los monstruos enemigos con cada golpe. Es una buena mejora para tu arsenal, ¿no?");
         } else if (status == 2) {
             qm.gainExp(20000);
             qm.teachSkill(21100002, 0, 30, -1); // final charge

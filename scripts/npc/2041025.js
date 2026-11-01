@@ -25,7 +25,7 @@
  */
 
 function start() {
-    cm.sendYesNo("Beep... beep... you can make your escape to a safer place through me. Beep... beep... would you like to leave this place?");
+    cm.sendYesNo("Bip... bip... puedes escapar a un lugar más seguro a través de mí. Bip... bip... ¿te gustaría salir de este lugar?");
 }
 
 function action(mode, type, selection) {

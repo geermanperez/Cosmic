@@ -26,7 +26,7 @@
  *@NPC: Crystal of Roots
  */
 function start() {
-    cm.sendYesNo("Do you wish to leave?");
+    cm.sendYesNo("¿Quieres irte?");
 }
 
 function action(mode, type, selection) {

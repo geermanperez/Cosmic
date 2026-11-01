@@ -15,17 +15,17 @@ function start(mode, type, selection) {
         if (type == 1 && mode == 0) {
             status -= 2;
         } else {
-            qm.sendOk("Okay, then. See you around.");
+            qm.sendOk("Bien, entonces. Ya nos veremos.");
             qm.dispose();
             return;
         }
     }
     if (status == 0) {
         var target = "is the Headless Horseman";
-        qm.sendAcceptDecline("Hey, traveler! I need your help. A new threat has appeared to the citizens of the New Leaf City. I'm currently recruiting anyone, and this time's target #r" + target + "#k. Are you in?");
+        qm.sendAcceptDecline("¡Oye, viajero! Necesito tu ayuda. Una nueva amenaza ha aparecido para los ciudadanos de New Leaf City. Actualmente estoy reclutando a alguien y esta vez el objetivo es #r." + target + "#k. ¿Estás dentro?");
     } else if (status == 1) {
         var reqs = "#r1 #t4031903##k";
-        qm.sendOk("Very well. Get me #r" + reqs + "#k, asap. The NLC is counting on you.");
+        qm.sendOk("Muy bien. Consígueme #r" + reqs + "#k, lo antes posible. El NLC cuenta contigo.");
         qm.forceStartQuest();
     } else if (status == 2) {
         qm.dispose();

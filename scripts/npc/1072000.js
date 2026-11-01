@@ -47,25 +47,25 @@ function action(mode, type, selection) {
 
         if (status == 0) {
             if (cm.isQuestCompleted(100004)) {
-                cm.sendOk("You're truly a hero!");
+                cm.sendOk("¡Eres realmente un héroe!");
                 cm.dispose();
             } else if (cm.isQuestCompleted(100003)) {
-                cm.sendNext("Alright I'll let you in! Defeat the monsters inside, collect 30 Dark Marbles, then strike up a conversation with a colleague of mine inside. He'll give you #bThe Proof of a Hero#k, the proof that you've passed the test. Best of luck to you.");
+                cm.sendNext("¡Muy bien, te dejaré entrar! Derrota a los monstruos que están dentro, recoge 30 canicas oscuras y luego entabla una conversación con un colega mío que está dentro. el te dara#bLa prueba de un héroe#k, la prueba de que has pasado la prueba. Mucha suerte para ti.");
                 status = 4;
             } else if (cm.isQuestStarted(100003)) {
-                cm.sendNext("Hmmm...it is definitely the letter from #bDances with Balrog#k...so you came all the way here to take the test and make the 2nd job advancement as the warrior. Alright, I'll explain the test to you. Don't sweat it too much, it's not that complicated.");
+                cm.sendNext("Hmmm...definitivamente es la carta de#bBaila con Balrog#k...así que viniste hasta aquí para tomar la prueba y lograr el segundo avance laboral como guerrero. Muy bien, te explicaré la prueba. No te preocupes mucho, no es tan complicado.");
             } else {
-                cm.sendOk("I can show you the way once your ready for it.");
+                cm.sendOk("Puedo mostrarte el camino una vez que estés listo para ello.");
                 cm.dispose();
             }
         } else if (status == 1) {
-            cm.sendNextPrev("I'll send you to a hidden map. You'll see monsters you don't normally see. They look the same like the regular ones, but with a totally different attitude. They neither boost your experience level nor provide you with item.");
+            cm.sendNextPrev("Te enviaré a un mapa oculto. Verás monstruos que normalmente no ves. Tienen el mismo aspecto que los normales, pero con una actitud totalmente diferente. No aumentan tu nivel de experiencia ni te proporcionan artículos.");
         } else if (status == 2) {
-            cm.sendNextPrev("You'll be able to acquire a marble called #b#t4031013##k while knocking down those monsters. It is a special marble made out of their sinister, evil minds. Collect 30 of those, and then go talk to a colleague of mine in there. That's how you pass the test.");
+            cm.sendNextPrev("Podrás adquirir una canica llamada#b#t4031013##kmientras derribas a esos monstruos. Es una canica especial hecha de sus mentes siniestras y malvadas. Recoge 30 de esos y luego ve a hablar con un colega mío que está allí. Así es como pasas la prueba.");
         } else if (status == 3) {
-            cm.sendYesNo("Once you go inside, you can't leave until you take care of your mission. If you die, your experience level will decrease..so you better really buckle up and get ready...well, do you want to go for it now?");
+            cm.sendYesNo("Una vez que entres, no podrás salir hasta que te ocupes de tu misión. Si mueres, tu nivel de experiencia disminuirá... así que será mejor que te abroches el cinturón y te prepares... bueno, ¿quieres hacerlo ahora?");
         } else if (status == 4) {
-            cm.sendNext("Alright I'll let you in! Defeat the monsters inside, collect 30 Dark Marbles, then strike up a conversation with a colleague of mine inside. He'll give you #bThe Proof of a Hero#k, the proof that you've passed the test. Best of luck to you.");
+            cm.sendNext("¡Muy bien, te dejaré entrar! Derrota a los monstruos que están dentro, recoge 30 canicas oscuras y luego entabla una conversación con un colega mío que está dentro. el te dara#bLa prueba de un héroe#k, la prueba de que has pasado la prueba. Mucha suerte para ti.");
             cm.completeQuest(100003);
             cm.startQuest(100004);
             cm.gainItem(4031008, -1);

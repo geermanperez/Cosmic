@@ -228,9 +228,9 @@ function action(mode, type, selection) {
         }
 
         if (!cm.canHold(recvItem, recvQty)) {
-            cm.sendOk("I'm afraid you have no slots available for this transaction.");
+            cm.sendOk("Me temo que no tienes espacios disponibles para esta transacción.");
         } else if (cm.getMeso() < cost * qty) {
-            cm.sendOk("I'm afraid you cannot afford my services.");
+            cm.sendOk("Me temo que no puede pagar mis servicios.");
         } else {
             if (mats instanceof Array) {
                 for (var i = 0; complete && i < mats.length; i++) {
@@ -251,7 +251,7 @@ function action(mode, type, selection) {
             }
 
             if (!complete) {
-                cm.sendOk("Hold it, I can't finish that without all of the proper materials. Bring them first, then we'll talk.");
+                cm.sendOk("Espera, no puedo terminar eso sin todos los materiales adecuados. Tráelos primero y luego hablaremos.");
             } else {
                 if (mats instanceof Array) {
                     for (var i = 0; i < mats.length; i++) {
@@ -266,7 +266,7 @@ function action(mode, type, selection) {
                 }
 
                 cm.gainItem(recvItem, recvQty);
-                cm.sendOk("All done. If you need anything else, you know where to find me.");
+                cm.sendOk("Todo hecho. Si necesitas algo más ya sabes dónde encontrarme.");
             }
         }
 

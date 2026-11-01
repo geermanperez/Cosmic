@@ -10,10 +10,10 @@ function start(mode, type, selection) {
         status++;
     }
     if (status == 0) {
-        qm.sendAcceptDecline("Wouldn't a lizard enjoy a #b#t4032452##k, like a cow? There are a lot of #bHaystacks#k nearby, so try feeding it that.");
+        qm.sendAcceptDecline("¿No disfrutaría un lagarto un#b#t4032452##k, como una vaca? Hay muchos#bHaystacks#Hay k cerca, así que intenta alimentarlo con eso.");
     } else if (status == 1) {
         if (mode == 0) {
-            qm.sendNext("Hm, you never know unless you try. That lizard is big enough to be on Maple's Believe It Or Not. It might eat hay.");
+            qm.sendNext("Hm, nunca se sabe a menos que lo intentes. Ese lagarto es lo suficientemente grande como para estar en Maple's Believe It Or Not. Podría comer heno.");
         } else {
             qm.forceStartQuest();
             qm.sendImage("UI/tutorial/evan/12/0");

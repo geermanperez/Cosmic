@@ -18,7 +18,7 @@ function action(mode, type, selection) {
         cm.dispose();
     } else {
         if (status >= 0 && mode == 0) {
-            cm.sendOk("Alright then, I hope we can chat later next time.");
+            cm.sendOk("Muy bien, espero que podamos charlar más tarde la próxima vez.");
             cm.dispose();
             return;
         }
@@ -30,7 +30,7 @@ function action(mode, type, selection) {
 
         if (cm.getPlayer().getMapId() == 980030010) {
             if (status == 0) {
-                cm.sendNext("I hope you had fun at the Monster Carnival!");
+                cm.sendNext("¡Espero que te hayas divertido en el Monster Carnival!");
             } else if (status > 0) {
                 cm.warp(980030000, 0);
                 cm.dispose();
@@ -41,20 +41,20 @@ function action(mode, type, selection) {
                     var shiu = "";
                     if (cm.getPlayer().getFestivalPoints() >= 300) {
                         shiu += "#rA#k";
-                        cm.sendOk("Unfortunately, you either drew or lost the battle despite your excellent performance. Victory can be yours next time! \r\n\r\n#bYour result: " + shiu);
+                        cm.sendOk("Desafortunadamente, empataste o perdiste la batalla a pesar de tu excelente desempeño. ¡La victoria puede ser tuya la próxima vez! \r\n\r\n#bYu resultado:" + shiu);
                         rnk = 10;
                     } else if (cm.getPlayer().getFestivalPoints() >= 100) {
                         shiu += "#rB#k";
                         rnk = 20;
-                        cm.sendOk("Unfortunately, you either drew or lost the battle, even with your ultimate performance. Just a little bit, and the victory could have been yours! \r\n\r\n#bYour result: " + shiu);
+                        cm.sendOk("Desafortunadamente, empataste o perdiste la batalla, incluso con tu desempeño final. ¡Solo un poquito y la victoria podría haber sido tuya! \r\n\r\n#bYu resultado:" + shiu);
                     } else if (cm.getPlayer().getFestivalPoints() >= 50) {
                         shiu += "#rC#k";
                         rnk = 30;
-                        cm.sendOk("Unfortunately, you either drew or lost the battle. Victory is for those who strive. I see your efforts, so victory is not far from your reach. Keep it up!\r\n\r\n#bYour result: " + shiu);
+                        cm.sendOk("Desafortunadamente, o empataste o perdiste la batalla. La victoria es para los que se esfuerzan. Veo tus esfuerzos, por eso la victoria no está lejos de tu alcance. ¡Sigue así!\r\n\r\n#bTu resultado:" + shiu);
                     } else {
                         shiu += "#rD#k";
                         rnk = 40;
-                        cm.sendOk("Unfortunately, you either equalized or lost the battle, and your performance clearly reflects on it. I expect more from you next time. \r\n\r\n#bYour result: " + shiu);
+                        cm.sendOk("Desafortunadamente, empataste o perdiste la batalla, y tu desempeño se refleja claramente en ello. Espero más de ti la próxima vez. \r\n\r\n#bYu resultado:" + shiu);
                     }
                 } else {
                     cm.warp(980030000, 0);
@@ -95,19 +95,19 @@ function action(mode, type, selection) {
                     if (cm.getPlayer().getFestivalPoints() >= 300) {
                         shi += "#rA#k";
                         rnk = 1;
-                        cm.sendOk("Congratulations on your victory!!! What a performance! The opposite group could not do anything! I hope the same good work next time! \r\n\r\n#bYour result: " + shi);
+                        cm.sendOk("Felicitaciones por tu victoria!!! ¡Qué actuación! ¡El grupo opuesto no pudo hacer nada! ¡Espero el mismo buen trabajo la próxima vez! \r\n\r\n#bYu resultado:" + shi);
                     } else if (cm.getPlayer().getFestivalPoints() >= 100) {
                         shi += "#rB#k";
                         rnk = 2;
-                        cm.sendOk("Congratulations on your victory! That was awesome! You did a good job against the opposing group! Just a little longer, and you'll definitely get an A next time! \r\n\r\n#bYour result: " + shi);
+                        cm.sendOk("¡Felicitaciones por tu victoria! ¡Eso fue increíble! ¡Hiciste un buen trabajo contra el grupo contrario! ¡Solo un poco más y definitivamente obtendrás una A la próxima vez! \r\n\r\n#bYu resultado:" + shi);
                     } else if (cm.getPlayer().getFestivalPoints() >= 50) {
                         shi += "#rC#k";
                         rnk = 3;
-                        cm.sendOk("Congratulations on your victory. You did some things here and there, but that can not be considered a good victory. I expect more from you next time. \r\n\r\n#bYour result: " + shi);
+                        cm.sendOk("Felicitaciones por su victoria. Hiciste algunas cosas aquí y allá, pero eso no puede considerarse una buena victoria. Espero más de ti la próxima vez. \r\n\r\n#bYu resultado:" + shi);
                     } else {
                         shi += "#rD#k";
                         rnk = 4;
-                        cm.sendOk("Congratulations on your victory, though your performance did not quite reflect that. Be more active in your next participation in the Monster Carnival! \r\n\r\n#bYour result: " + shi);
+                        cm.sendOk("Felicitaciones por su victoria, aunque su desempeño no lo reflejó del todo. ¡Sé más activo en tu próxima participación en el Monster Carnival! \r\n\r\n#bYu resultado:" + shi);
                     }
                 } else {
                     cm.warp(980030000, 0);

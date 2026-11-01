@@ -36,21 +36,21 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {  // thanks ZERO傑洛 for noticing this quest shouldn't need a pw -- GMS-like string data thanks to skycombat
-            qm.sendNext("What is it? I usually don't welcome uninvited guests, but you have a mysterious aura that makes me curious about what you have to say.", 9);
+            qm.sendNext("¿Qué es? Normalmente no doy la bienvenida a invitados no invitados, pero tienes un aura misteriosa que me hace sentir curiosidad por lo que tienes que decir.", 9);
         } else if (status == 1) {
-            qm.sendNext("(You tell her about Giant Nependeath.)", 3);
+            qm.sendNext("(Le cuentas sobre el gigante Nependeath.)", 3);
         } else if (status == 2) {
-            qm.sendNext("Giant Nependeath? It's definitely a big problem, but I don't think it's enough to really affect Orbis. Wait, where did you say the Giant Nependeath was, again?", 9);
+            qm.sendNext("¿Nepenmuerte gigante? Definitivamente es un gran problema, pero no creo que sea suficiente para afectar realmente a Orbis. Espera, ¿dónde dijiste que estaba el Gigante Nependeath?", 9);
         } else if (status == 3) {
-            qm.sendNext("Neglected Strolling Path.", 3);
+            qm.sendNext("Ruta de paseo descuidada.", 3);
         } else if (status == 4) {
-            qm.sendNext("...Neglected Strolling Path? If Giant Nependeath is there, someone is trying to enter Sealed Garden! But why? And more importantly, who?", 9);
+            qm.sendNext("...¿Camino de paseo olvidado? Si el Gigante Nependeath está allí, ¡alguien está intentando entrar en Sealed Garden! ¿Pero por qué? Y lo más importante ¿quién?", 9);
         } else if (status == 5) {
-            qm.sendNext("Sealed Garden?", 3);
+            qm.sendNext("¿Jardín Sellado?", 3);
         } else if (status == 6) {
-            qm.sendAcceptDecline("I can't tell you about Sealed Garden. If you want to find out, I must first see whether you are worthy of the information. Do you mind if I look into your fate?", 9);
+            qm.sendAcceptDecline("No puedo hablarte de Sealed Garden. Si quieres saberlo, primero debo ver si eres digno de recibir la información. ¿Te importa si investigo tu destino?", 9);
         } else if (status == 7) {
-            qm.sendOk("Well, now let's look into your fate. Give me a second.");
+            qm.sendOk("Bueno, ahora analicemos tu destino. Dame un segundo.");
         } else if (status == 8) {
             qm.forceStartQuest();
             qm.dispose();

@@ -43,9 +43,9 @@ function action(mode, type, selection) {
 
         if (status == 0) {
             if (area > 0) {
-                cm.sendYesNo("Do you wish to leave this place?");
+                cm.sendYesNo("¿Quieres salir de este lugar?");
             } else {
-                cm.sendYesNo("Do you wish to return to #bHappyville#k?");
+                cm.sendYesNo("¿Deseas volver a #bHappyville#k?");
             }
         } else {
             if (area > 0) {

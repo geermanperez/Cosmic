@@ -43,14 +43,14 @@ function end(mode, type, selection) {
     }
     if (status == 0) {
         if (qm.getMeso() < 10000) {
-            qm.sendOk("Hey! I need #b10,000 mesos#k to do your pet's evolution!");
+            qm.sendOk("¡Ey! Necesito#b10.000 mesos#kpara hacer la evolución de tu mascota!");
             qm.dispose();
             return;
         }
-        qm.sendNext("Great job on finding your evolution materials. I will now give you a robot.");
+        qm.sendNext("Gran trabajo encontrando tus materiales de evolución. Ahora te daré un robot.");
     } else if (status == 1) {
         if (qm.isQuestCompleted(4659)) {
-            qm.dropMessage(1, "how did this get here?");
+            qm.dropMessage(1, "¿Cómo llegó esto aquí?");
             qm.dispose();
         } else if (qm.canHold(5000048)) {
             var pet = 0;
@@ -71,7 +71,7 @@ function end(mode, type, selection) {
 
             var tameness = pet.getTameness();
             if (tameness < 1642) {
-                qm.sendOk("It looks like your pet is not grown enough to be evolved yet. Train it a bit more, util it reaches #blevel 15#k.");
+                qm.sendOk("Parece que tu mascota aún no ha crecido lo suficiente como para evolucionar. Entrénalo un poco más, hasta que llegue.#bnivel 15#k.");
                 qm.dispose();
                 return;
             }
@@ -93,7 +93,7 @@ function end(mode, type, selection) {
             } else if (rand == 9) {
                 after = 5000053;
             } else {
-                qm.sendOk("Something wrong. Try again.");
+                qm.sendOk("Ocurre algo. Intentar otra vez.");
                 qm.dispose();
                 return;
             }
@@ -109,7 +109,7 @@ function end(mode, type, selection) {
 //            InventoryManipulator.addById(qm.getClient(), rand+5000049, 1, "", petId);
             qm.dispose();
         } else {
-            qm.dropMessage(1, "Your inventory is full");
+            qm.dropMessage(1, "Tu inventario está lleno");
             qm.dispose();
         }
     }

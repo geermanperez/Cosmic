@@ -48,14 +48,14 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendOk("The hook behind the frame was unhooked, revealing a secret space within the frame. There inside, a silver pendant was found. After carefully removing the pendant, the frame was closed and placed back onto the table.");
+            cm.sendOk("El gancho detrás del marco se desenganchó, revelando un espacio secreto dentro del marco. Allí en su interior se encontró un colgante de plata. Después de retirar con cuidado el colgante, se cerró el marco y se volvió a colocar sobre la mesa.");
         }
         else if (status == 1) {
             if (cm.canHold(4031697, 1)) {
                 cm.gainItem(4031697);
             }
             else {
-                cm.sendNext("Your inventory is full, please make sure you have an ETC slot available.");
+                cm.sendNext("Su inventario está lleno, asegúrese de tener un espacio ETC disponible.");
             }
         }
         else {

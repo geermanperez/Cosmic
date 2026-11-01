@@ -15,15 +15,15 @@ function start(mode, type, selection) {
         if (type == 1 && mode == 0) {
             status -= 2;
         } else {
-            qm.sendOk("Okay, then. See you around.");
+            qm.sendOk("Bien, entonces. Ya nos veremos.");
             qm.dispose();
             return;
         }
     }
     if (status == 0) {
-        qm.sendAcceptDecline("Hey, partner. Now that you make part of the Raven Claws team, I have a task for you. Are you up now?");
+        qm.sendAcceptDecline("Oye, socio. Ahora que formas parte del equipo de Raven Claws, tengo una tarea para ti. ¿Estás levantado ahora?");
     } else if (status == 1) {
-        qm.sendOk("Very well. To prove your valor among our ranks, you must first pass on a little challenge: you have to be able to move extraordinaly well around here, known of all secrets these woods holds. Trace a #bmap of the Phantom Forest#k, then come talk to me. I shall then evaluate if you're worth to be with us.");
+        qm.sendOk("Muy bien. Para demostrar tu valor entre nuestras filas, primero debes superar un pequeño desafío: tienes que poder moverte extraordinariamente bien por aquí, sabiendo todos los secretos que esconde este bosque. trazar un#bmapa del bosque fantasma#kEntonces ven a hablar conmigo. Entonces evaluaré si vales la pena estar con nosotros.");
         qm.forceStartQuest();
     } else if (status == 2) {
         qm.dispose();

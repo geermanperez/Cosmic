@@ -14,7 +14,7 @@ function action(mode, type, selection) {
         cm.dispose();
     } else {
         if (mode == 0) {
-            cm.sendOk("Talk to me again when you want to.");
+            cm.sendOk("Hablame de nuevo cuando quieras.");
             cm.dispose();
         }
         if (mode == 1) {
@@ -25,13 +25,13 @@ function action(mode, type, selection) {
 
         if (status == 1) {
             if (cm.getChar().getMapId() == 209000000) {
-                cm.sendYesNo("Do you wish to head to where the #bSnow Sprinkler#k is?");
+                cm.sendYesNo("¿Quieres dirigirte a donde#bAspersor de nieve#k¿es?");
                 status = 9;
             } else if (cm.getChar().getMapId() == 209080000) {
-                cm.sendYesNo("Do you wish to return to Happyville?");
+                cm.sendYesNo("¿Quieres volver a Happyville?");
                 status = 19;
             } else {
-                cm.sendOk("You alright?");
+                cm.sendOk("¿Estás bien?");
                 cm.dispose();
             }
         } else if (status == 10) {
@@ -41,7 +41,7 @@ function action(mode, type, selection) {
             cm.warp(209000000, 0);
             cm.dispose();
         } else {
-            cm.sendOk("You alrighty?");
+            cm.sendOk("¿Estás bien?");
             cm.dispose();
         }
     }

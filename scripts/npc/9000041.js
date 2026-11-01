@@ -22,6 +22,6 @@
 */
 
 function start() {
-    cm.sendOk("The medal ranking system is currently unavailable...");
+    cm.sendOk("El sistema de clasificación de medallas no está disponible actualmente...");
     cm.dispose();
 }

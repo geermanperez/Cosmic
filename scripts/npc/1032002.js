@@ -176,11 +176,11 @@ function action(mode, type, selection) {
         var complete = true;
 
         if (!cm.canHold(item, 1)) {
-            cm.sendOk("Check your inventory for a free slot first.");
+            cm.sendOk("Primero verifique su inventario para ver si hay un espacio libre.");
             cm.dispose();
             return;
         } else if (cm.getMeso() < cost) {
-            cm.sendOk("Sorry, but all of us need money to live. Come back when you can pay my fees, yes?")
+            cm.sendOk("Lo siento, pero todos necesitamos dinero para vivir. Vuelve cuando puedas pagar mis honorarios, ¿sí?")
             cm.dispose();
             return;
         } else {
@@ -196,7 +196,7 @@ function action(mode, type, selection) {
         }
 
         if (!complete) {
-            cm.sendOk("Uhm... I don't keep extra material on me. Sorry. ");
+            cm.sendOk("Uhm... No llevo material extra conmigo. Lo siento.");
         } else {
             if (mats instanceof Array) {
                 for (var i = 0; i < mats.length; i++) {
@@ -211,7 +211,7 @@ function action(mode, type, selection) {
             }
 
             cm.gainItem(item, 1);
-            cm.sendOk("It's a success! Oh, I've never felt so alive! Please come back again!");
+            cm.sendOk("¡Es un éxito! ¡Oh, nunca me había sentido tan vivo! ¡Por favor vuelve otra vez!");
         }
         cm.dispose();
     }

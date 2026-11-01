@@ -45,19 +45,19 @@ function start(mode, type, selection) {
 
         if (status == 0) {
             if (!isTigunMorphed(qm.getPlayer())) {
-                qm.sendNext("What's this? I can't simply give the Queen's silk to anyone, claiming they will hand it at once to the queen. Get out of my sights.");
+                qm.sendNext("¿Qué es esto? No puedo simplemente darle la seda de la Reina a nadie, alegando que se la entregarán de inmediato a la Reina. Sal de mi vista.");
                 status = 1;
                 return;
             }
 
-            qm.sendNext("Tigun, what are you doing here?");
+            qm.sendNext("Tigun, ¿qué haces aquí?");
         } else if (status == 1) {
             if (!isTigunMorphed(qm.getPlayer())) {
-                qm.sendNext("What's this? I can't simply give the Queen's silk to anyone, claiming they will hand it at once to the queen. Get out of my sights.");
+                qm.sendNext("¿Qué es esto? No puedo simplemente darle la seda de la Reina a nadie, alegando que se la entregarán de inmediato a la Reina. Sal de mi vista.");
                 return;
             }
 
-            qm.sendNext("The Queen wants her silk right now? Alright, I have them here. Hold on a moment.");
+            qm.sendNext("¿La Reina quiere su seda ahora mismo? Muy bien, los tengo aquí. Espera un momento.");
             qm.forceStartQuest();
         } else if (status == 2) {
             qm.dispose();
@@ -82,7 +82,7 @@ function end(mode, type, selection) {
 
         if (status == 0) {
             if (!isTigunMorphed(qm.getPlayer())) {
-                qm.sendNext("What's this? I can't simply give the Queen's silk to anyone, claiming they will hand it at once to the queen. Get out of my sights.");
+                qm.sendNext("¿Qué es esto? No puedo simplemente darle la seda de la Reina a nadie, alegando que se la entregarán de inmediato a la Reina. Sal de mi vista.");
                 qm.dispose();
                 return;
             }
@@ -90,10 +90,10 @@ function end(mode, type, selection) {
             if (qm.canHold(4031571, 1)) {
                 qm.gainItem(4031571);
 
-                qm.sendNext("There you go. Please deliver to the queen as soon as possible, Tigun, she gets really mad if things get delayed.");
+                qm.sendNext("Ahí tienes. Por favor, entrégaselo a la reina lo antes posible, Tigun, se enoja mucho si las cosas se retrasan.");
                 qm.forceCompleteQuest();
             } else {
-                qm.sendNext("Hey, you're lacking space to hold this, man. I will stay with it while you arrange your backpack...");
+                qm.sendNext("Oye, te falta espacio para sostener esto, hombre. Me quedaré con él mientras arreglas tu mochila...");
             }
         } else if (status == 1) {
             qm.dispose();

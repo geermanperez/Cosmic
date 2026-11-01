@@ -63,27 +63,27 @@ function action(mode, type, selection) {
         var eim = cm.getPlayer().getEventInstance();
 
         if (eim.getProperty(stage.toString() + "stageclear") != null) {
-            cm.sendNext("Hurry, goto the next stage, the portal is open!");
+            cm.sendNext("¡Date prisa, pasa a la siguiente etapa, el portal está abierto!");
         } else {
             if (eim.isEventLeader(cm.getPlayer())) {
                 var state = eim.getIntProperty("statusStg" + stage);
 
                 if (state == -1) {           // preamble
-                    cm.sendOk("Hi. Welcome to the #bstage " + stage + "#k. On this stage, several creatures are hiding in the shadows of the inner parts of this tower. Some of them cannot be beaten by physical means, so magical attacks are required to do the job, whereas others work the other way around. Get me 6 #t4001022#'s this time.");
+                    cm.sendOk("Hola. Bienvenido al escenario #b" + stage + "#k. En este escenario, varias criaturas se esconden en las sombras de las partes interiores de esta torre. Algunos de ellos no pueden ser derrotados por medios físicos, por lo que se requieren ataques mágicos para hacer el trabajo, mientras que otros funcionan al revés. Consígueme 6#t4001022#Es esta vez.");
                     eim.setProperty("statusStg" + stage, 0);
                 } else {                      // check stage completion
                     if (cm.haveItem(4001022, 6)) {
-                        cm.sendOk("Good job! You have collected all 6 #b#t4001022#'s.#k");
+                        cm.sendOk("¡Buen trabajo! Has recogido los 6#b#t4001022#'s.#k");
                         cm.gainItem(4001022, -6);
 
                         eim.setProperty("statusStg" + stage, 1);
                         clearStage(stage, eim, curMap);
                     } else {
-                        cm.sendNext("Sorry you don't have all 6 #b#t4001022#'s.#k");
+                        cm.sendNext("Lo siento, no tienes los 6.#b#t4001022#'s.#k");
                     }
                 }
             } else {
-                cm.sendNext("Please tell your #bParty-Leader#k to come talk to me.");
+                cm.sendNext("Por favor dile a tu#bLíder del partido#kpara venir a hablar conmigo.");
             }
         }
 

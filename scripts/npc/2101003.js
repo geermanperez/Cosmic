@@ -4,7 +4,7 @@
 
 
 function start() {
-    cm.sendNext("Hey hey, don't try to start trouble with anyone. I want nothing to do with you.");
+    cm.sendNext("Oye, oye, no intentes empezar problemas con nadie. No quiero tener nada que ver contigo.");
 }
 
 function action() {

@@ -4,6 +4,6 @@
  */
 
 function start() {
-    cm.sendOk("Have you heard the fantasic Jack Masque appeared around the city these days? That is sooooo nice!");
+    cm.sendOk("¿Has oído que el fantástico Jack Masque apareció por la ciudad estos días? ¡Eso es tan lindo!");
     cm.dispose();
 }

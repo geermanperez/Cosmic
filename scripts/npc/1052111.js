@@ -29,15 +29,15 @@ function action(mode, type, selection) {
                 if (!cm.hasItem(4032136)) {
                     if (cm.canHold(4032136)) {
                         cm.gainItem(4032136, 1);
-                        cm.sendNext("You have found a #b#t4032136##k in the trash can!   #i4032136#");
+                        cm.sendNext("Has encontrado un#b#t4032136##ken el cubo de la basura!#i4032136#");
                     } else {
-                        cm.sendOk("#i4032136# Not enough space in your ETC inventory.");
+                        cm.sendOk("#i4032136# No hay suficiente espacio en su inventario de ETC.");
                     }
                 } else {
-                    cm.sendOk("Just a trash can sitting there.");
+                    cm.sendOk("Solo un bote de basura ahí.");
                 }
             } else {
-                cm.sendOk("Just a trash can sitting there.");
+                cm.sendOk("Solo un bote de basura ahí.");
             }
         } else if (status == 1) {
             cm.dispose();

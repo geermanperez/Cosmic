@@ -56,7 +56,7 @@ function action(mode, type, selection) {
 
                 cm.sendOk(rankStr);
             } else {
-                cm.sendOk("Hi, how're you doing?");
+                cm.sendOk("Hola, ¿cómo estás?");
             }
 
             cm.dispose();

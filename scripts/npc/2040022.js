@@ -66,7 +66,7 @@ function action(mode, type, selection) {
             stimulator = false;
         }
         if (selectedType == 0) { //What's a stim?
-            cm.sendNext("A stimulator is a special potion that I can add into the process of creating certain items. It gives it stats as though it had dropped from a monster. However, it is possible to have no change, and it is also possible for the item to be below average. There's also a 10% chance of not getting any item when using a stimulator, so please choose wisely.")
+            cm.sendNext("Un estimulador es una poción especial que puedo agregar al proceso de creación de ciertos elementos. Le da estadísticas como si hubiera caído de un monstruo. Sin embargo, es posible que no haya cambios y también es posible que el artículo esté por debajo del promedio. También existe un 10% de posibilidades de no recibir ningún artículo al usar un estimulador, así que elige sabiamente.")
             cm.dispose();
         } else if (selectedType == 1) { //warrior weapon
             selStr = "Very well, then which Warrior weapon shall I work on?#b";
@@ -188,11 +188,11 @@ function action(mode, type, selection) {
         var complete = true;
 
         if (!cm.canHold(item, 1)) {
-            cm.sendOk("Verify for a slot in your inventory first.");
+            cm.sendOk("Primero verifique si hay un espacio en su inventario.");
             cm.dispose();
             return;
         } else if (cm.getMeso() < cost) {
-            cm.sendOk("I'm afraid my fees are non-negotiable.");
+            cm.sendOk("Me temo que mis honorarios no son negociables.");
             cm.dispose();
             return;
         } else {
@@ -214,7 +214,7 @@ function action(mode, type, selection) {
         }
 
         if (!complete) {
-            cm.sendOk("Sorry, but you're missing a required item. Possibly a manual? Or one of the ores?");
+            cm.sendOk("Lo sentimos, pero te falta un elemento obligatorio. ¿Posiblemente un manual? ¿O uno de los minerales?");
         } else {
             if (mats instanceof Array) {
                 for (var i = 0; i < mats.length; i++) {
@@ -230,14 +230,14 @@ function action(mode, type, selection) {
                 var deleted = Math.floor(Math.random() * 10);
                 if (deleted != 0) {
                     cm.gainItem(item, 1, true, true);
-                    cm.sendOk("Heeere you go! What do you think? Marvellous, isn't it?");
+                    cm.sendOk("¡Aquí tienes! ¿Qué opinas? Maravilloso, ¿no?");
                 } else {
-                    cm.sendOk("...ACK! My attention wandered, and before I knew it... Uh, sorry, but there's nothing I can do for you now.");
+                    cm.sendOk("... ¡ACK! Mi atención se desvió, y antes de darme cuenta... Uh, lo siento, pero no hay nada que pueda hacer por ti ahora.");
                 }
             } else //just give basic item
             {
                 cm.gainItem(item, 1);
-                cm.sendOk("Heeere you go! What do you think? Marvellous, isn't it?");
+                cm.sendOk("¡Aquí tienes! ¿Qué opinas? Maravilloso, ¿no?");
             }
         }
         cm.dispose();

@@ -21,9 +21,9 @@ function action(mode, type, selection) {
         status--;
     }
     if (status == 0) {
-        cm.sendNext("I'm Francis, the Puppeteer of the Black Wings. How dare you disturb my puppets... It really upsets me, but I'll let it slide this time. If I catch you doing it again though, I swear in the name of the Black Mage, I will make you pay for it.", 9);
+        cm.sendNext("Soy Francis, el Titiritero de las Alas Negras. ¿Cómo te atreves a molestar a mis títeres? Realmente me molesta, pero esta vez lo dejaré pasar. Sin embargo, si te pillo haciéndolo de nuevo, te juro en nombre del Mago Negro que te haré pagar por ello.", 9);
     } else if (status == 1) {
-        cm.sendNextPrev("#b(The Black Wings? Huh? Who are they? And how is all this related to the Black Mage? Hm, maybe you should report this info to Tru.)#k", 3);
+        cm.sendNextPrev("#b(¿Los Black Wings? ¿Eh? ¿Quiénes son? ¿Y cómo se relaciona todo esto con el Black Mage? Hm, tal vez deberías informar esta información a Tru).#k", 3);
     } else if (status == 2) {
         cm.completeQuest(21719);
         cm.warp(105040200, 10);//104000004 

@@ -29,7 +29,7 @@ function start(mode, type, selection) {
     status++;
     if (mode != 1) {
         if (type == 15 && mode == 0) {
-            qm.sendNext("*Sob* Aran has declined my request!");
+            qm.sendNext("*Sollozo* ¡Aran ha rechazado mi solicitud!");
             qm.dispose();
             return;
         } else {
@@ -38,7 +38,7 @@ function start(mode, type, selection) {
         }
     }
     if (status == 0) {
-        qm.sendAcceptDecline("*Sniff sniff* I was so scared... Please take me to Athena Pierce.");
+        qm.sendAcceptDecline("*Sniff sniff* Estaba tan asustado... Por favor, llévame con Athena Pierce.");
     } else if (status == 1) {
         qm.gainItem(4001271, 1);
         qm.forceStartQuest();
@@ -51,7 +51,7 @@ function end(mode, type, selection) {
     status++;
     if (mode != 1) {
         if (type == 1 && mode == 0) {
-            qm.sendNext("What about the child? Please give me the child!");
+            qm.sendNext("¿Qué pasa con el niño? ¡Por favor dame al niño!");
         }
 
         qm.dispose();
@@ -59,21 +59,21 @@ function end(mode, type, selection) {
     }
 
     if (status == 0) {
-        qm.sendYesNo("You made it back safely! What about the child?! Did you bring the child with you?!");
+        qm.sendYesNo("¡Regresaste sano y salvo! ¡¿Qué pasa con el niño?! ¿Trajiste al niño contigo?");
     } else if (status == 1) {
-        qm.sendNext("Oh, what a relief. I'm so glad...", 9);
+        qm.sendNext("Ay, qué alivio. Estoy tan contenta...", 9);
     } else if (status == 2) {
-        qm.sendNextPrev("Hurry and board the ship! We don't have much time!", 3);
+        qm.sendNextPrev("¡Date prisa y sube al barco! ¡No tenemos mucho tiempo!", 3);
     } else if (status == 3) {
-        qm.sendNextPrev("We don't have any time to waste. The Black Mage's forces are getting closer and closer! We're doomed if we don't leave right right this moment!", 9);
+        qm.sendNextPrev("No tenemos tiempo que perder. ¡Las fuerzas del Mago Negro están cada vez más cerca! ¡Estamos condenados si no nos vamos ahora mismo!", 9);
     } else if (status == 4) {
-        qm.sendNextPrev("Leave, now!", 3);
+        qm.sendNextPrev("¡Vete, ahora!", 3);
     } else if (status == 5) {
-        qm.sendNextPrev("Aran, please! I know you want to stay and fight the Black Mage, but it's too late! Leave it to the others and come to Victoria Island with us!", 9);
+        qm.sendNextPrev("¡Aran, por favor! Sé que quieres quedarte y luchar contra el Mago Negro, ¡pero ya es demasiado tarde! ¡Déjalo en manos de los demás y ven a la Isla Victoria con nosotros!", 9);
     } else if (status == 6) {
-        qm.sendNextPrev("No, I can't!", 3);
+        qm.sendNextPrev("¡No, no puedo!", 3);
     } else if (status == 7) {
-        qm.sendNextPrev("Athena Pierce, why don't you leave for Victoria Island first? I promise I'll come for you later. I'll be alright. I must fight the Black Mage with the other heroes!", 3);
+        qm.sendNextPrev("Athena Pierce, ¿por qué no te vas primero a la isla Victoria? Prometo que iré por ti más tarde. Estaré bien. ¡Debo luchar contra el Mago Negro con los otros héroes!", 3);
     } else if (status == 8) {
         qm.gainItem(4001271, -1);
         qm.removeEquipFromSlot(-11);

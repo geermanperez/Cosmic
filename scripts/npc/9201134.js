@@ -48,17 +48,17 @@ function action(mode, type, selection) {
         var eim = cm.getEventInstance();
         if (!eim.isEventCleared()) {
             if (status == 0) {
-                cm.sendYesNo("If you leave now, you won't be able to return. Are you sure you want to leave?");
+                cm.sendYesNo("Si te vas ahora, no podrás regresar. ¿Estás seguro de que quieres irte?");
             } else if (status == 1) {
                 cm.warp(551030100, 2);
                 cm.dispose();
             }
         } else {
             if (status == 0) {
-                cm.sendNext("You guys defeated both Scarlion and Targa! Wonderful! Take this memento as a prize for your bravery.");
+                cm.sendNext("¡Ustedes derrotaron tanto a Scarlion como a Targa! ¡Maravilloso! Llévate este recuerdo como premio a tu valentía.");
             } else if (status == 1) {
                 if (!eim.giveEventReward(cm.getPlayer())) {
-                    cm.sendNext("Please make room on your inventory first!");
+                    cm.sendNext("¡Primero haga espacio en su inventario!");
                 } else {
                     cm.warp(551030100, 2);
                 }

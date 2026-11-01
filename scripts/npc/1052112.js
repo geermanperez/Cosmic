@@ -25,7 +25,7 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendOk("Just a trash can sitting there.");
+            cm.sendOk("Solo un bote de basura ahí.");
             cm.dispose();
         }
     }

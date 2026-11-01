@@ -30,7 +30,7 @@ var status = -2;
 var readNotice = 0;
 
 function start() {
-    cm.sendSimple("#e< Notice >#n\r\nIf there is anyone who has the courage to challenge the Mu Lung Dojo, come to the Mu Lung Dojo.  - Mu Gong -\r\n\r\n\r\n#b#L0#Challenge the Mu Lung Dojo.#l\r\n#L1#Read the notice in more detail.#l");
+    cm.sendSimple("#e< Aviso >#n\r\nSi hay alguien que tenga el coraje de desafiar al Mu Lung Dojo, venga al Mu Lung Dojo.  -Mu Gong-\r\n\r\n\r\n#b#L0#Desafía al Mu Lung Dojo.#l\r\n#L1#Lea el aviso con más detalle.#l");
 }
 
 function action(mode, type, selection) {
@@ -42,18 +42,18 @@ function action(mode, type, selection) {
         if (selection == 1 || readNotice == 1) {
             if (status == -1) {
                 readNotice = 1;
-                cm.sendNext("#e< Notice : Take the challenge! >#n\r\nMy name is Mu Gong, the owner of the My Lung Dojo. Since long ago, I have been training in Mu Lung to the point where my skills have now reached the pinnacle. Starting today, I will take on any and all applicants for Mu Lung Dojo. The rights to the Mu Lung Dojo will be given only to the strongest person.\r\nIf there is anyone who wishes to learn from me, come take the challenge any time! If there is anyone who wishes to challenge me, you're welcome as well. I will make you fully aware of your own weakness.");
+                cm.sendNext("#e<Aviso: ¡Acepta el desafío! >#n\r\nMi nombre es Mu Gong, el dueño de My Lung Dojo. Desde hace mucho tiempo, he estado entrenando en Mu Lung hasta el punto en que mis habilidades han alcanzado la cima. A partir de hoy, aceptaré a todos los solicitantes de Mu Lung Dojo. Los derechos del Mu Lung Dojo se otorgarán únicamente a la persona más fuerte.\r\nSi hay alguien que desee aprender de mí, ¡acepte el desafío en cualquier momento! Si hay alguien que desee desafiarme, también es bienvenido. Te haré plenamente consciente de tu propia debilidad.");
             } else if (status == 0) {
-                cm.sendPrev("PS:You can challenge me on your own. But if you don't have that kind of courage, go ahead and call all your friends.");
+                cm.sendPrev("PD: Puedes desafiarme por tu cuenta. Pero si no tienes ese tipo de coraje, sigue adelante y llama a todos tus amigos.");
             } else {
                 cm.dispose();
             }
         } else {
             if (status == -1 && mode == 1) {
-                cm.sendYesNo("(Once I had placed my hands on the bulletin board, a mysterious energy began to envelop me.)\r\n\r\nWould you like to go to Mu Lung Dojo?");
+                cm.sendYesNo("(Una vez que puse mis manos en el tablón de anuncios, una energía misteriosa comenzó a envolverme). \r\n\r\n¿Te gustaría ir a Mu Lung Dojo?");
             } else if (status == 0) {
                 if (mode == 0) {
-                    cm.sendNext("#b(As I took my hand off the bulletin board, the mysterious energy that was covering my disappeared as well.)");
+                    cm.sendNext("#b(Cuando quité la mano del tablón de anuncios, la energía misteriosa que me cubría desapareció también).");
                 } else {
                     cm.getPlayer().saveLocation("MIRROR");
                     cm.warp(925020000, 4);

@@ -76,7 +76,7 @@ function action(mode, type, selection) {
         var eim = cm.getPlayer().getEventInstance();
         if (eim.getProperty(stage.toString() + "stageclear") != null) {
             if (stage < 5) {
-                cm.sendNext("The portal is already open, advance for the trials that awaits you there.");
+                cm.sendNext("El portal ya está abierto, avanzad por las pruebas que allí os esperan.");
             } else if (stage == 5) {
                 eim.warpEventTeamToMapSpawnPoint(670010700, 0);
             } else {
@@ -91,7 +91,7 @@ function action(mode, type, selection) {
                         eim.warpEventTeamToMapSpawnPoint(670010750, 1);
                     }
                 } else {
-                    cm.sendNext("Wait for the leader's command to start the bonus phase.");
+                    cm.sendNext("Espere la orden del líder para iniciar la fase de bonificación.");
                 }
             }
         } else {
@@ -101,9 +101,9 @@ function action(mode, type, selection) {
 
                     if (state == -1) {           // preamble
                         if (stage == 4) {
-                            cm.sendOk("Hi. Welcome to the #bstage " + stage + "#k of the Amorian Challenge. In this stage, collect me #b50 #t4031597##k from the mobs around here.");
+                            cm.sendOk("Hola. Bienvenido al escenario #b" + stage + "#kdel Desafío Amoriano. En esta etapa recógeme#b50 #t4031597##kde las turbas de por aquí.");
                         } else if (stage == 5) {
-                            cm.sendOk("Hi. Welcome to the #bstage " + stage + "#k of the Amorian Challenge. That was quite the run to reach here, eh? Well, that was your task this stage here, anyway: survival! Firstly, have anyone alive gathered here before challenging the boss.");
+                            cm.sendOk("Hola. Bienvenido al escenario #b" + stage + "#k del Desafío Amoriano. Fue toda una carrera llegar hasta aquí, ¿eh? Bueno, de todos modos esa era tu tarea en esta etapa: ¡supervivencia! En primer lugar, reúne aquí a todos los que estén vivos antes de desafiar al jefe.");
                         }
 
                         var st = (debug) ? 2 : 0;
@@ -119,11 +119,11 @@ function action(mode, type, selection) {
                                     eim.restartEventTimer(4 * 60 * 1000);
                                 }
 
-                                cm.sendNext("Well done! Let me open the gate for you now.");
+                                cm.sendNext("¡Bien hecho! Déjame abrirte la puerta ahora.");
                                 cm.mapMessage(5, "Amos: The time runs short now. Your objective is to open the gates and gather together on the other side of the next map. Good luck!");
                                 clearStage(stage, eim, curMap);
                             } else {
-                                cm.sendNext("Hey, didn't you pay heed? I demand #r50 #t4031597##k for the success of this trial.");
+                                cm.sendNext("Oye, ¿no prestaste atención? yo exijo#r50 #t4031597##kpara el éxito de este ensayo.");
                             }
 
                         } else if (stage == 5) {
@@ -155,20 +155,20 @@ function action(mode, type, selection) {
                                         eim.restartEventTimer(tl - (4 * 60 * 1000 - tr));
                                     }
 
-                                    cm.sendNext("Okay, your team is already gathered. Talk to me when you guys feel ready to fight the #rGeist Balrog#k.");
+                                    cm.sendNext("Bien, tu equipo ya está reunido. Habladme cuando os sintáis preparados para luchar contra el#rGeist Balrog#k.");
 
                                     cm.mapMessage(5, "Amos: Now only the boss fight remains! Once inside, talk to me only if you want to join the boss fight, you will be transported to action immediately.");
                                     clearStage(stage, eim, curMap);
                                 } else {
-                                    cm.sendNext("You guys reached here by teleporting, eh? I can tell it. This is a shame, all gates needs to be open to fulfill this stage. If you still have the time, backtrack your steps and take down those gates.");
+                                    cm.sendNext("Ustedes llegaron hasta aquí teletransportándose, ¿eh? Puedo decirlo. Es una pena, todas las puertas deben estar abiertas para cumplir esta etapa. Si todavía tienes tiempo, retrocede y derriba esas puertas.");
                                 }
                             } else {
-                                cm.sendNext("Your team has not gathered nearby yet. Give them some time to reach here.");
+                                cm.sendNext("Tu equipo aún no se ha reunido cerca. Dales algo de tiempo para llegar aquí.");
                             }
                         }
                     }
                 } else {
-                    cm.sendNext("Please tell your #bParty-Leader#k to come talk to me.");
+                    cm.sendNext("Por favor dile a tu#bLíder del partido#kpara venir a hablar conmigo.");
                 }
             } else {
                 var area = cm.getMap().getArea(0);
@@ -176,21 +176,21 @@ function action(mode, type, selection) {
                     if (cm.getPlayer().isAlive()) {
                         cm.warp(670010700, "st01");
                     } else {
-                        cm.sendNext("Oy stand back... You are already dead.");
+                        cm.sendNext("Oy, retrocede... Ya estás muerto.");
                     }
                 } else {
                     if (cm.isEventLeader()) {
                         if (cm.haveItem(4031594, 1)) {
                             cm.gainItem(4031594, -1);
-                            cm.sendNext("Congratulations! Your party defeated the Geist Balrog, thus #bcompleting the Amorian Challenge#k! Talk to me again to start the bonus stage.");
+                            cm.sendNext("¡Felicidades! Tu grupo derrotó al Geist Balrog, por lo tanto#bcompletando el Desafío Amoriano#k! Habla conmigo nuevamente para iniciar la etapa de bonificación.");
 
                             clearStage(stage, eim, curMap);
                             eim.clearPQ();
                         } else {
-                            cm.sendNext("How is it? Are you going to retrieve me the #b#t4031594##k? That's your last trial, hold on!")
+                            cm.sendNext("¿Cómo es? ¿Me vas a recuperar el#b#t4031594##k? Ésa es tu última prueba, ¡espera!")
                         }
                     } else {
-                        cm.sendNext("Please tell your #bParty-Leader#k to come talk to me.");
+                        cm.sendNext("Por favor dile a tu#bLíder del partido#kpara venir a hablar conmigo.");
                     }
                 }
             }

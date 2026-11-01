@@ -36,7 +36,7 @@ function end(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Oh, a letter for the #rempress#k? From the #bheroes#k?!");
+            qm.sendNext("Ah, ¿una carta para el #rempress#k? ¡¿Del #bheroes#k?!");
         } else if (status == 1) {
             qm.forceCompleteQuest();
             qm.gainExp(1000);

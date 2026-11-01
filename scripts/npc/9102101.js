@@ -31,15 +31,15 @@
  **/
 
 function start() {
-    cm.sendYesNo("#b(I can see something covered in grass. Should I pull it out?)");
+    cm.sendYesNo("#b(Puedo ver algo cubierto de hierba. ¿Debo sacarlo?)");
 }
 
 function action(mode, type, selection) {
     if (mode == -1) {
     } else if (mode == 0) {
-        cm.sendNext("#b(I didn't think much of it, so I didn't touch it.)");
+        cm.sendNext("#b (No pensé mucho en eso, así que no lo toqué).");
     } else if (mode == 1) {
-        cm.sendNext("#b(Yuck... it's pet poop!)");
+        cm.sendNext("#b(¡Qué asco... es excremento de mascota!)");
         cm.gainItem(4031922, 1);
     }
     cm.dispose();

@@ -38,7 +38,7 @@ var vipcost = 999;
 var iwantreg = 0;
 
 function start() {
-    cm.sendNext("Welcome. We're the Sleepywood Hotel. Our hotel works hard to serve you the best at all times. If you are tired and worn out from hunting, how about a relaxing stay at our hotel?");
+    cm.sendNext("Bienvenido. Somos el hotel Sleepywood. Nuestro hotel trabaja duro para servirle lo mejor en todo momento. Si está cansado y agotado por la caza, ¿qué tal una estancia relajante en nuestro hotel?");
 }
 
 function action(mode, type, selection) {
@@ -46,19 +46,19 @@ function action(mode, type, selection) {
         cm.dispose();
     } else {
         if (mode == 0 && status == 2) {
-            cm.sendNext("We offer other kinds of services, too, so please think carefully and then make your decision.");
+            cm.sendNext("También ofrecemos otros tipos de servicios, así que piénselo detenidamente y luego tome una decisión.");
             cm.dispose();
             return;
         }
         status++;
         if (status == 1) {
-            cm.sendSimple("We offer two kinds of rooms for our service. Please choose the one of your liking.\r\n#b#L0#Regular sauna (" + regcost + " mesos per use)#l\r\n#L1#VIP sauna (" + vipcost + " mesos per use)#l");
+            cm.sendSimple("Ofrecemos dos tipos de habitaciones para nuestro servicio. Por favor elige el de tu agrado.\r\n#b#L0#Sauna normal (" + regcost + "mesos per use)#l\r\n#L1#sauna vip (" + vipcost + "mesos por uso)#l");
             iwantreg = 1;
         } else if (status == 2) {
             if (selection == 0) {
-                cm.sendYesNo("You have chosen the regular sauna. Your HP and MP will recover fast and you can even purchase some items there. Are you sure you want to go in?");
+                cm.sendYesNo("Ha elegido la sauna normal. Tu HP y MP se recuperarán rápidamente e incluso podrás comprar algunos artículos allí. ¿Estás seguro de que quieres entrar?");
             } else if (selection == 1) {
-                cm.sendYesNo("You've chosen the VIP sauna. Your HP and MP will recover even faster than that of the regular sauna and you can even find a special item in there. Are you sure you want to go in?");
+                cm.sendYesNo("Has elegido la sauna VIP. Tu HP y MP se recuperarán incluso más rápido que en la sauna normal e incluso podrás encontrar un elemento especial allí. ¿Estás seguro de que quieres entrar?");
                 iwantreg = 0;
             }
         } else if (status == 3) {
@@ -67,14 +67,14 @@ function action(mode, type, selection) {
                     cm.warp(105040401);
                     cm.gainMeso(-regcost);
                 } else {
-                    cm.sendNext("I'm sorry. It looks like you don't have enough mesos. It will cost you at least " + regcost + "mesos to stay at our hotel.");
+                    cm.sendNext("Lo lamento. Parece que no tienes suficientes mesos. Te costará al menos" + regcost + "mesos para alojarse en nuestro hotel.");
                 }
             } else {
                 if (cm.getMeso() >= vipcost) {
                     cm.warp(105040402);
                     cm.gainMeso(-vipcost);
                 } else {
-                    cm.sendNext("I'm sorry. It looks like you don't have enough mesos. It will cost you at least " + vipcost + "mesos to stay at our hotel.");
+                    cm.sendNext("Lo lamento. Parece que no tienes suficientes mesos. Te costará al menos" + vipcost + "mesos para alojarse en nuestro hotel.");
                 }
             }
             cm.dispose();

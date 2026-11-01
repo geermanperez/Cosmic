@@ -16,13 +16,13 @@ function start(mode, type, selection) {
     } else {
         if (mode == 0 && type > 0) {
             if (status != 3) {
-                qm.sendOk("Really? It's an urgent matter, so if you have some time, please see me.");
+                qm.sendOk("¿En realidad? Es un asunto urgente, así que si tienes tiempo, por favor visítame.");
                 qm.dispose();
             } else {
                 if (qm.canHold(4032375, 1)) {
-                    qm.sendNext("Okay. In that case, I'll just give you the routes to the Kingdom of Mushroom. #bNear the west entrance of Henesys,#k you'll find an #bempty house#k. Enter the house, and turn left to enter#b<Themed Dungeon : Mushroom Castle>#k. That's the entrance to the Kingdom of Mushroom. There's not much time!");
+                    qm.sendNext("Bueno. En ese caso, sólo te daré las rutas al Reino Champiñón.#bCerca de la entrada oeste de Henesys,#kencontrarás un#bcasa vacia#k. Ingrese a la casa y gire a la izquierda para ingresar.#b<Mazmorra temática: Castillo de los Hongos>#k. Esa es la entrada al Reino de los Hongos. ¡No hay mucho tiempo!");
                 } else {
-                    qm.sendOk("Please have a slot available in your Etc inventory.");
+                    qm.sendOk("Tenga un espacio disponible en su inventario de Etc.");
                     qm.dispose();
                 }
             }
@@ -36,13 +36,13 @@ function start(mode, type, selection) {
             }
 
             if (status == 0) {
-                qm.sendAcceptDecline("Now that you have made the job advancement, you look like you're ready for this. I have something I'd like to ask you for help. Are you willing to listen?");
+                qm.sendAcceptDecline("Ahora que ha logrado el avance laboral, parece que está listo para esto. Tengo algo y me gustaría pedirles ayuda. ¿Estás dispuesto a escuchar?");
             } else if (status == 1) {
-                qm.sendNext("What happened is that the #bKingdom of Mushroom#k is currently in disarray. Kingdom of Mushroom is located near Henesys, featuring the peace-loving, intelligent King Mush. Recently, he began to feel ill, so he decided to appoint his only daughter #bPrincess Violetta#k. Something must have happened since then for the kingdom to be in its current state.");
+                qm.sendNext("Lo que pasó es que el#bReino de los Hongos#kactualmente está en desorden. Kingdom of Mushroom se encuentra cerca de Henesys y presenta al inteligente y amante de la paz King Mush. Recientemente comenzó a sentirse mal, por lo que decidió nombrar a su única hija.#bprincesa violeta#k. Algo debe haber sucedido desde entonces para que el reino se encuentre en su estado actual.");
             } else if (status == 2) {
-                qm.sendNext("I am not aware of the exact details, but it's obvious something terrible had taken place, so I think it'll be better if you go there and assess the damage yourself. An explorer like you seem more than capable of saving Kingdom of Mushroom. I have just written you a #brecommendation letter#k, so I suggest you head over to Kingdom of Mushroom immediately and look for the #bHead Patrol Officer#k.\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0#\r\n#v4032375# #t4032375#");
+                qm.sendNext("No conozco los detalles exactos, pero es obvio que algo terrible había ocurrido, así que creo que será mejor que vayas allí y evalúes los daños tú mismo. Un explorador como tú parece más que capaz de salvar el Reino Champiñón. Te acabo de escribir un#bcarta de recomendacion#k, así que te sugiero que vayas al Reino de los Hongos inmediatamente y busques el#bOficial jefe de patrulla#k.\r\n\r\n#fUI/UIWindow.img/QuestIcon/4/0#\r\n#v4032375# #t4032375#");
             } else if (status == 3) {
-                qm.sendYesNo("By the way, do you know where Kingdom of Mushroom is located? It'll be okay if you can find your way there, but if you don't mind, I can take you straight to the entrance.");
+                qm.sendYesNo("Por cierto, ¿sabes dónde se encuentra el Reino Champiñón? Estará bien si puedes encontrar el camino hasta allí, pero si no te importa, puedo llevarte directamente a la entrada.");
             } else if (status == 4) {
                 if (qm.canHold(4032375, 1)) {
                     if (!qm.haveItem(4032375, 1)) {
@@ -52,7 +52,7 @@ function start(mode, type, selection) {
                     qm.warp(106020000, 0);
                     qm.forceStartQuest();
                 } else {
-                    qm.sendOk("Please have a slot available in your Etc inventory.");
+                    qm.sendOk("Tenga un espacio disponible en su inventario de Etc.");
                 }
 
                 qm.dispose();
@@ -87,14 +87,14 @@ function end(mode, type, selection) {
 
         if (status == 0) {
             if (!qm.haveItem(4032375, 1)) {
-                qm.sendNext("What do you want, hmmm?");
+                qm.sendNext("¿Qué quieres, mmm?");
                 qm.dispose();
                 return;
             }
 
-            qm.sendNext("Hmmm? Is that a #brecommendation letter from the job instructor#k??! What is this, are you the one that came to save us, the Kingdom of Mushroom?");
+            qm.sendNext("¿Mmm? ¿Es eso un#bcarta de recomendacion del instructor de trabajo#k??! ¿Qué es esto? ¿Eres tú quien vino a salvarnos, el Reino Champiñón?");
         } else if (status == 1) {
-            qm.sendNextPrev("Hmmm... okay. Since the letter is from the job instructor, I suppose you are really the one. I apologize for not introducing myself to you earlier. I'm the #bHead Security Officer#k in charge of protecting King Mush. As you can see, this temporary hideout is protected by the team of security and soldiers. Our situation may be dire, but nevertheless, welcome to Kingdom of Mushroom.");
+            qm.sendNextPrev("Mmm... está bien. Dado que la carta es del instructor laboral, supongo que realmente eres tú. Pido disculpas por no presentarme ante ustedes antes. yo soy el#bOficial jefe de seguridad#kencargado de proteger al Rey Mush. Como puedes ver, este escondite temporal está protegido por el equipo de seguridad y soldados. Nuestra situación puede ser terrible, pero aun así, bienvenidos al Reino Champiñón.");
         } else if (status == 2) {
             qm.gainItem(4032375, -1);
             qm.gainExp(6000);

@@ -40,7 +40,7 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendOk("Hey guys, what's going on? I'm already getting married at this age? But I'm only a child!!! How comes?");
+            cm.sendOk("Hola chicos, ¿qué está pasando? ¿Ya me voy a casar a esta edad? ¡¡¡Pero soy sólo un niño!!! ¿Cómo es eso?");
             cm.dispose();
         }
     }

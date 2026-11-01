@@ -20,13 +20,13 @@ function action(mode, type, selection) {
         }
     }
     if (status == 0) {
-        cm.sendNext("Do you see a bunch of snowmen standing around there? Go talk to one of them, and it'll take you to the famous Christmas tree here that is just humongous. The tree can be decorated using various kinds of ornaments. What do you think? Sounds fun, right?");
+        cm.sendNext("¿Ves un montón de muñecos de nieve por ahí? Ve a hablar con uno de ellos y te llevará al famoso árbol de Navidad que es simplemente enorme. El árbol se puede decorar con varios tipos de adornos. ¿Qué opinas? Suena divertido, ¿verdad?");
     } else if (status == 1) {
-        cm.sendNextPrev("Only 6 can be at the place where the tree is at once, and you can't #btrade or open store#k there. The ornaments that you drop can only be picked back up by yourself, so don't worry about losing your ornaments here.");
+        cm.sendNextPrev("Sólo 6 pueden estar en el lugar donde está el árbol a la vez, y no puedes#bcomercio o tienda abierta#kallá. Los adornos que dejas caer solo los puedes recoger tú mismo, así que no te preocupes por perderlos aquí.");
     } else if (status == 2) {
-        cm.sendNextPrev("Of course, the items that are dropped in there will never disappear. Once you get out of there through the snowman that's inside, all the items you've dropped at that map will come back to you, so you won't have to pick all those items up before leaving the place. Isn't that sweet?");
+        cm.sendNextPrev("Por supuesto, los elementos que se dejan caer allí nunca desaparecerán. Una vez que salgas de allí a través del muñeco de nieve que hay dentro, todos los elementos que hayas dejado caer en ese mapa volverán a ti, por lo que no tendrás que recogerlos todos antes de abandonar el lugar. ¿No es dulce?");
     } else if (status == 3) {
-        cm.sendPrev("Well then, go see #p2002001#, buy some Christmas ornaments there, and then decorate the tree with those~ Oh yeah! The biggest, the most beautiful ornament cannot be bought from him. It's probably ... taken by a monster ... huh huh ..");
+        cm.sendPrev("Bueno, entonces ve a ver #p2002001#, compra algunos adornos navideños allí y luego decora el árbol con esos ~ ¡Oh, sí! A él no se le puede comprar el adorno más grande ni el más hermoso. Probablemente... haya sido tomado por un monstruo... eh, eh...");
         cm.dispose();
     }
 }

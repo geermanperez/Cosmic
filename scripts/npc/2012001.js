@@ -1,9 +1,9 @@
 // Intercity travel is immediate and still requires the original ticket.
 function start() {
     if (cm.haveItem(4031047)) {
-        cm.sendYesNo("Travel to #m101000300# now?");
+        cm.sendYesNo("¿Viaja a #m101000300# ahora?");
     } else {
-        cm.sendOk("You need a #t4031047# to travel.");
+        cm.sendOk("Necesitas un #t4031047# para viajar.");
         cm.dispose();
     }
 }

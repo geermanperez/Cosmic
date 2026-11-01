@@ -21,11 +21,11 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("So you have lost the #bAlcadno cape#k. I can make another one for you but I'll need some materials");
+            qm.sendNext("Entonces has perdido el#bCabo Alcadno#k. Puedo hacerte otro pero necesitaré algunos materiales.");
         } else if (status == 1) {
-            qm.sendAcceptDecline("To make the new cape, I need you to bring me #b5 #t4021006##k, #b10 #t4000021##k and #b10000 mesos#k");
+            qm.sendAcceptDecline("Para hacer la nueva capa necesito que me traigas.#b5 #t4021006##k, #b10 #t4000021##ky#b10000 mesos#k");
         } else if (status == 2) {
-            qm.sendOk("Come back to me when you have all of the items");
+            qm.sendOk("Vuelve conmigo cuando tengas todos los artículos.");
             qm.forceStartQuest();
         } else if (status == 3) {
             qm.dispose();

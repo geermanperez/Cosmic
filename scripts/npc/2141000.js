@@ -4,7 +4,7 @@
  */
 
 function start() {
-    cm.sendAcceptDecline("If only I had the Mirror of Goodness then I can re-summon the Black Wizard! \r\nWait! something's not right! Why is the Black Wizard not summoned? Wait, what's this force? I feel something... totally different from the Black Wizard Ahhhhh!!!!! \r\n\r\n #b(Places a hand on the shoulder of Kryston.)");
+    cm.sendAcceptDecline("¡Si tan solo tuviera el Espejo de la Bondad entonces podría volver a invocar al Mago Negro! \r\n¡Espera! ¡algo no está bien! ¿Por qué no se convoca al Mago Negro? Espera, ¿qué es esta fuerza? Siento algo... totalmente diferente al Mago Negro ¡¡¡Ahhhhh!!!!! \r\n\r\n #b(Pone una mano en el hombro de Kryston.)");
 }
 
 function action(mode, type, selection) {

@@ -25,7 +25,7 @@
 */
 
 function start() {
-    cm.sendYesNo("Would you like to return to Ellinia?");
+    cm.sendYesNo("¿Te gustaría volver a Ellinia?");
 }
 
 function action(mode, type, selection) {

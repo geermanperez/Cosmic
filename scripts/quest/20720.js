@@ -16,7 +16,7 @@ function start(mode, type, selection) {
     }
 
     if (status == 0) {
-        qm.sendAcceptDecline("How's the leveling up so far? By this time, you might be able to participate in the Party Quest at #m103000000#. Leveling up is important, yes, but we need you now to take on a mission as a Cygnus Knight. We just received a new information that may help us.");
+        qm.sendAcceptDecline("¿Cómo va la subida de nivel hasta ahora? En este momento, es posible que puedas participar en Party Quest en #m103000000#. Subir de nivel es importante, sí, pero necesitamos que ahora asumas una misión como Cygnus Knight. Acabamos de recibir una nueva información que puede ayudarnos.");
     } else if (status == 1) {
         qm.forceStartQuest();
         qm.dispose();

@@ -55,10 +55,10 @@ function action(mode, type, selection) {
         if (status == 0) {
             if (cm.haveItem(4031013, 30)) {
                 completed = true;
-                cm.sendOk("You're a true hero! Take this and the Dark Lord will acknowledge you.");
+                cm.sendOk("¡Eres un verdadero héroe! Toma esto y el Señor Oscuro te reconocerá.");
             } else {
                 completed = false;
-                cm.sendSimple("You will have to collect me #b30 #t4031013##k. Good luck. \r\n#b#L1#I would like to leave#l");
+                cm.sendSimple("tendrás que recogerme#b30 #t4031013##k. Buena suerte.\r\n#b#L1#me gustaria irme#l");
             }
         } else if (status == 1) {
             if (completed) {

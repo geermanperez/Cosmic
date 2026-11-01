@@ -51,15 +51,15 @@ function action(mode, type, selection) {
 
         if (status == 0) {
             if (eim.getIntProperty("escortFail") == 1) {
-                cm.sendNext("Thanks to you, we were capable of reunion once again. Yulete will now be forwarded to jail for attempt against the Law of Magatia. Once again, thank you.");
+                cm.sendNext("Gracias a ti pudimos reencontrarnos una vez más. Yulete ahora será enviado a prisión por atentar contra la Ley de Magatia. Una vez más, gracias.");
             } else {
-                cm.sendNext("Thanks to you, we were capable of reunion once again. Yulete will now pass through rehabilitation, as his studies are invaluable for the growth of our town, and all his doings were being made because he was blinded by the greed for power, although it was for the sake of Magatia. Once again, thank you.");
+                cm.sendNext("Gracias a ti pudimos reencontrarnos una vez más. Yulete ahora pasará por rehabilitación, ya que sus estudios son invaluables para el crecimiento de nuestro pueblo, y todos sus actos los hacía porque estaba cegado por la avidez de poder, aunque fuera por el bien de Magatia. Una vez más, gracias.");
             }
         } else {
             if (eim.giveEventReward(cm.getPlayer())) {
                 cm.warp((eim.getIntProperty("isAlcadno") == 0) ? 261000011 : 261000021);
             } else {
-                cm.sendOk("Please free a slot on one of your inventories before receiving your reward.");
+                cm.sendOk("Libere un espacio en uno de sus inventarios antes de recibir su recompensa.");
             }
 
             cm.dispose();

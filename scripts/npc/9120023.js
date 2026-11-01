@@ -1,4 +1,4 @@
 function start() {
-    cm.sendOk("The quality of the movies they are launching these days are impressive!");
+    cm.sendOk("¡Impresionante la calidad de las películas que están estrenando estos días!");
     cm.dispose();
 }

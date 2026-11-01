@@ -42,16 +42,16 @@ function action(mode, type, selection) {
         if (status == 0) {
             var mapid = cm.getMapId();
             if (mapid == 674030100) {
-                cm.sendNext("Hi, I'm #p9220019#.");
+                cm.sendNext("Hola, soy #p9220019#.");
                 cm.dispose();
                 return;
             } else if (mapid == 674030300) {
-                cm.sendNext("Hi there, #h0#. This is the MV's treasure room. Use the time you have here to do whatever you want, there are a lot of things to uncover here, actually. Or else you can use the portal here to #rgo back#k to the entrance.");
+                cm.sendNext("Hola,#h0#. Esta es la sala del tesoro del MV. Usa el tiempo que tienes aquí para hacer lo que quieras; de hecho, hay muchas cosas por descubrir aquí. O bien, puedes utilizar el portal aquí para#rvolver#ka la entrada.");
                 cm.dispose();
                 return;
             }
 
-            cm.sendYesNo("Are you sure you want to return? By returning now you are leaving your partners behind, do you really want to do it?");
+            cm.sendYesNo("¿Estás seguro de que quieres volver? Al regresar ahora estás dejando atrás a tus parejas, ¿de verdad quieres hacerlo?");
         } else if (status == 1) {
             cm.warp(674030100);
             cm.dispose();

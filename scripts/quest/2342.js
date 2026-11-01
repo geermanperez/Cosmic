@@ -26,9 +26,9 @@ function start(mode, type, selection) {
                     qm.forceStartQuest();
                     qm.gainItem(4001318, 1);
                     qm.forceCompleteQuest();
-                    qm.sendOk("Looks like you forgot to pick up the #b#t4001318##k when you fought with the #bPrime Minister#k. This is very important to our kingdom, so please deliver this to my father as soon as possible.");
+                    qm.sendOk("Parece que olvidaste recoger el#b#t4001318##kcuando peleaste con el#bPrimer ministro#k. Esto es muy importante para nuestro reino, así que por favor entrégaselo a mi padre lo antes posible.");
                 } else {
-                    qm.sendOk("Please free up one spot in your ETC inventory");
+                    qm.sendOk("Libere un lugar en su inventario de ETC");
                 }
             } else {
                 qm.dispose();

@@ -10,17 +10,17 @@ function start(mode, type, selection) {
         status++;
     }
     if (status == 0) {
-        qm.sendNext("Ugh. This isn't going to work. I need something else. No plants. No meat. What, you have no idea? But you're the master, and you're older than me, too. You must know what'd be good for me!");
+        qm.sendNext("Puaj. Esto no va a funcionar. Necesito algo más. Sin plantas. Sin carne. ¿Qué, no tienes idea? Pero tú eres el maestro y también eres mayor que yo. ¡Debes saber lo que sería bueno para mí!");
     } else if (status == 1) {
-        qm.sendNextPrev("#bBut I don't. It's not like age has anything to do with this...", 2);
+        qm.sendNextPrev("#bPero no lo hago. No es que la edad tenga nada que ver con esto...", 2);
     } else if (status == 2) {
-        qm.sendAcceptDecline("Since you're older, you must be more experienced in the world, too. Makes sense that you'd know more than me. Oh, fine. I'll ask someone who's even older than you, master!");
+        qm.sendAcceptDecline("Como eres mayor, también debes tener más experiencia en el mundo. Tiene sentido que sepas más que yo. Ah, bien. ¡Le preguntaré a alguien incluso mayor que usted, maestro!");
     } else if (status == 3) {
         if (mode == 0) {
-            qm.sendNext("No use trying to find an answer to this on my own. I'd better look for #bsomeone older and wiser than master#k!");
+            qm.sendNext("No sirve de nada tratar de encontrar una respuesta a esto por mi cuenta. Será mejor que busque#balguien mayor y más sabio que el maestro#k!");
         } else {
             qm.forceStartQuest();
-            qm.sendNext("#b#b(You already asked Dad once, but you don't have any better ideas. Time to ask him again!)");
+            qm.sendNext("#b#b(Ya le preguntaste a papá una vez, pero no tienes mejores ideas. ¡Es hora de preguntarle de nuevo!)");
         }
     } else if (status == 4) {
         qm.dispose();

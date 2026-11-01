@@ -46,9 +46,9 @@ function action(mode, type, selection) {
         }
         if (status == 0 && mode == 1) {
             if (cm.isQuestStarted(8012) && !cm.haveItem(4031064)) { //quest in progress
-                cm.sendYesNo("Did you get them all? Are you going to try to answer all of my questions?");
+                cm.sendYesNo("¿Los conseguiste todos? ¿Vas a intentar responder a todas mis preguntas?");
             } else { //quest not started or already completed
-                //cm.sendOk("Meeeoooowww!");//lol what's this?
+                //cm.sendOk("¡Meeeoooowww!");//lol what's this?
                 cm.dispose();
             }
         } else if (status == 1 && mode == 1) {
@@ -57,28 +57,28 @@ function action(mode, type, selection) {
                 hasChicken = false;
             }
             if (!hasChicken) {
-                cm.sendOk("What? No! 300! THREE. HUNDRED. No less. Hand over more if you want, but I need at least 300. Not all of us can be as big and as fed as you...");
+                cm.sendOk("¿Qué? ¡No! 300! TRES. CENTENAR. Nada menos. Dame más si quieres, pero necesito al menos 300. No todos podemos ser tan grandes y tan alimentados como tú...");
                 cm.dispose();
             } else {
                 cm.gainItem(2020001, -300)
-                cm.sendNext("Good job! Now hold on a sec... Hey look! I got some food here! Help yourselves. Okay, now it's time for me to ask you some questions. I'm sure you're aware of this, but remember, if you're wrong, it's over. It's all or nothing!");
+                cm.sendNext("¡Buen trabajo! Ahora espera un segundo... ¡Oye, mira! ¡Tengo algo de comida aquí! Ayúdense ustedes mismos. Bien, ahora es el momento de hacerte algunas preguntas. Estoy seguro de que eres consciente de esto, pero recuerda, si te equivocas, se acabó. ¡Es todo o nada!");
             }
         } else if (status == 7 && mode == 1) { //2-6 are the questions
             if (selection != correctAnswer.pop()) {
-                cm.sendNext("Hmmm...all humans make mistakes anyway! If you want to take another crack at it, then bring me 300 Fried Chicken.")
+                cm.sendNext("Hmmm... ¡todos los humanos cometemos errores de todos modos! Si quieres intentarlo de nuevo, tráeme 300 pollo frito.")
                 cm.dispose();
             } else {
-                cm.sendNext("Dang, you answered all the questions right. I may not like humans in general, but I HATE breaking a promise, so, as promised, here's the Orange Marble.")
+                cm.sendNext("Maldita sea, respondiste bien todas las preguntas. Puede que no me gusten los humanos en general, pero ODIO romper una promesa, así que, como prometí, aquí está la canica naranja.")
             }
         } else if (status == 8 && mode == 1) { //gain marble
             cm.gainItem(4031064, 1);
-            cm.sendOk("Our business is concluded, thank you very much! You can leave now!");
+            cm.sendOk("Nuestro negocio está concluido, ¡muchas gracias! ¡Puedes irte ahora!");
             cm.dispose();
         } else if (status >= 2 && status <= 6 && mode == 1) {//questions
             var cont = true;
             if (status > 2) {
                 if (selection != correctAnswer.pop()) {
-                    cm.sendNext("Hmmm...all humans make mistakes anyway! If you want to take another crack at it, then bring me 300 Fried Chicken.")
+                    cm.sendNext("Hmmm... ¡todos los humanos cometemos errores de todos modos! Si quieres intentarlo de nuevo, tráeme 300 pollo frito.")
                     cm.dispose();
                     cont = false;
                 }

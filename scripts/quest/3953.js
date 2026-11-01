@@ -36,19 +36,19 @@ function end(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendSimple("Eh, are you still saying Deo is a monster? No, Deo is not a monster, he is a peaceful leader of the Royal cactus from the region.\r\n\r\n#L0##bHave you heard that a group of merchants crossing through the desert were attacked by the monsters?#k");
+            qm.sendSimple("Eh, ¿sigues diciendo que Deo es un monstruo? No, Deo no es un monstruo, es un líder pacífico del cactus real de la región.\r\n\r\n#L0##b¿Has oído que un grupo de comerciantes que cruzaban el desierto fueron atacados por los monstruos?#k");
         } else if (status == 1) {
-            qm.sendSimple("Is that so? I wonder why these merchants were wandering so recklessly in the desert. They trespassed the territory of the Cactus'! They shouldn't be wandering around in the first place, they should first have the leave of the Ariant Counsel.\r\n\r\n#L0##bThis is all because of the Queen's negligence in maintaining the safety of the town.#k");
+            qm.sendSimple("¿Es eso así? Me pregunto por qué estos comerciantes deambulaban tan imprudentemente por el desierto. ¡Invadieron el territorio de los Cactus! En primer lugar, no deberían estar deambulando, primero deberían tener el permiso del Consejo Ariant.\r\n\r\n#L0##bTodo esto se debe a la negligencia de la Reina a la hora de mantener la seguridad de la ciudad.#k");
         } else if (status == 2) {
-            qm.sendSimple("Ehh... Yeah, the city is not really doing well because of the currently ruling govern, that's indeed a fact. If only the Guardians of the Deserts returned to put order on this mess...\r\n\r\n#L0##bWhat is the Guardian of the Deserts doing when we're under the Queen's tyranny?#k");
+            qm.sendSimple("Ehh... Sí, a la ciudad realmente no le está yendo bien debido al gobierno actual, eso es de hecho un hecho. Si tan solo los Guardianes de los Desiertos regresaran para poner orden en este desastre...\r\n\r\n#L0##b¿Qué hace el Guardián de los Desiertos cuando estamos bajo la tiranía de la Reina?#k");
         } else if (status == 3) {
-            qm.sendSimple("They have departed on an expedition to get rid of some major threats in the desert that were ravaging Ariant, for quite some time now... It's strange, they should have already returned... Thinking about it now, the last attack on the merchants was around the direction the Guardians departed... No, that can't be... Can it?\r\n\r\n#L0##bPerhaps Deo has already turned into a monster.#k");
+            qm.sendSimple("Han partido en una expedición para deshacerse de algunas amenazas importantes en el desierto que estaban asolando a Ariant, desde hace bastante tiempo... Es extraño, ya deberían haber regresado... Pensándolo bien ahora, el último ataque a los comerciantes fue en la dirección en la que partieron los Guardianes... No, eso no puede ser... ¿O sí?\r\n\r\n#L0##bQuizás Deo ya se haya convertido en un monstruo.#k");
         } else if (status == 4) {
             qm.forceCompleteQuest();
             qm.gainItem(4011008, -1);
             qm.gainExp(20000);
 
-            qm.sendNext("We're in great trouble, if it is like this. And it really seems like it. If the Royal Cactus Deo has gone insane, Ariant is done for. You, can you do something to defeat Deo? We really need your help now.");
+            qm.sendNext("Estamos en un gran problema, si es así. Y realmente lo parece. Si el Royal Cactus Deo se ha vuelto loco, Ariant está acabado. Tú, ¿puedes hacer algo para derrotar a Deo? Realmente necesitamos tu ayuda ahora.");
         } else if (status == 5) {
             qm.dispose();
         }

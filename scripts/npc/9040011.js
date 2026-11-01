@@ -20,6 +20,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 function start() {
-    cm.sendOk("<Notice> \r\n Are you part of a Guild that possesses an ample amount of courage and trust? Then take on the Guild Quest and challenge yourselves!\r\n\r\n#bTo Participate :#k\r\n1. The Guild must consist of at least 6 people!\r\n2. The leader of the Guild Quest must be a Master or a Jr. Master of the Guild!\r\n3. The Guild Quest may end early if the number of guild members participating falls below 6, or if the leader decides to end it early!");
+    cm.sendOk("<Aviso>\r\n¿Eres parte de un gremio que posee mucho coraje y confianza? ¡Entonces enfréntate a Guild Quest y desafíate a ti mismo!\r\n\r\n#bPara participar:#k\r\n1. ¡El gremio debe estar formado por al menos 6 personas!\r\n2. ¡El líder de Guild Quest debe ser un Maestro o un Maestro Jr. del Gremio!\r\n3. ¡La Guild Quest puede terminar antes de tiempo si el número de miembros del gremio que participan cae por debajo de 6, o si el líder decide finalizarla antes!");
     cm.dispose();
 }

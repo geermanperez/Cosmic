@@ -48,14 +48,14 @@ function action(mode, type, selection) {
         eim = cm.getEventInstance();
         if (status == 0) {
             if (!eim.isEventCleared()) {
-                cm.sendYesNo("Are you ready to leave this place?");
+                cm.sendYesNo("¿Estás listo para dejar este lugar?");
             } else {
-                cm.sendYesNo("You have defeated Capt. Latanica, well done! Are you ready to leave this place?");
+                cm.sendYesNo("Has derrotado al Capitán Latanica, ¡bien hecho! ¿Estás listo para dejar este lugar?");
             }
         } else if (status == 1) {
             if (eim.isEventCleared()) {
                 if (!eim.giveEventReward(cm.getPlayer())) {
-                    cm.sendOk("Please make a room on your inventory to receive the loot.");
+                    cm.sendOk("Haz un espacio en tu inventario para recibir el botín.");
                     cm.dispose();
                     return;
                 }

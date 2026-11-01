@@ -63,25 +63,25 @@ function action(mode, type, selection) {
 
         if (status == 0) {
             options = ["I want to make a ring.", "I want to discard the ring box I have."];
-            cm.sendSimple("I'm #p9201000#, the #bengagement ring maker#k. How can I help you?\r\n\r\n#b" + generateSelectionMenu(options));
+            cm.sendSimple("Soy#p9201000#, el#bfabricante de anillos de compromiso#k. ¿Le puedo ayudar en algo?\r\n\r\n#b" + generateSelectionMenu(options));
         } else if (status == 1) {
             if (selection == 0) {
                 if (!cm.isQuestCompleted(100400)) {
                     if (!cm.isQuestStarted(100400)) {
                         state = 0;
-                        cm.sendNext("So you want to make a engagement ring, huh? Very well, I can provide one after you receive #rblessings#k from your #b#p9201003##k.");
+                        cm.sendNext("Entonces quieres hacer un anillo de compromiso, ¿eh? Muy bien, puedo proporcionarte uno después de que lo recibas.#rblessings#k de tu#b#p9201003##k.");
                     } else {
-                        cm.sendOk("Take the blessings from your #b#p9201003##k before trying to craft an engagement ring. They must be waiting for you at home, beyond #rHenesys hunting grounds#k.");
+                        cm.sendOk("Toma las bendiciones de tu#b#p9201003##kantes de intentar elaborar un anillo de compromiso. Deben estar esperándote en casa, más allá#rCotos de caza de Henesys#k.");
                         cm.dispose();
                     }
                 } else {
                     if (hasEngagementBox(cm.getPlayer())) {
-                        cm.sendOk("Sorry, you already have an engagement box. I cannot provide you more than one box per time.");
+                        cm.sendOk("Lo sentimos, ya tienes un cuadro de compromiso. No puedo proporcionarte más de una caja por vez.");
                         cm.dispose();
                         return;
                     }
                     if (cm.getPlayer().getGender() != 0) {
-                        cm.sendOk("Sorry, but the ring box is currently available only for males.");
+                        cm.sendOk("Lo sentimos, pero la caja de anillos actualmente está disponible solo para hombres.");
                         cm.dispose();
                         return;
                     }
@@ -97,16 +97,16 @@ function action(mode, type, selection) {
                         cm.removeAll(i);
                     }
 
-                    cm.sendOk("Your ring box has been discarded.");
+                    cm.sendOk("Tu caja de anillos ha sido descartada.");
                 } else {
-                    cm.sendOk("You have no ring box to discard.");
+                    cm.sendOk("No tienes ninguna caja de anillos para descartar.");
                 }
 
                 cm.dispose();
             }
         } else if (status == 2) {
             if (state == 0) {
-                cm.sendOk("Where do they live, you ask? My, it goes way back... you see, I'm a friend of theirs, and I was the one who crafted and personally delivered their engagement ring. They live beyond #rHenesys Hunting Grounds#k, I'm sure you know where it is.");
+                cm.sendOk("¿Dónde viven, preguntas? Vaya, se remonta a mucho tiempo atrás... verás, soy amigo suyo y fui quien elaboró ​​y entregó personalmente su anillo de compromiso. ellos viven más allá#rCotos de caza de Henesys#k, estoy seguro de que sabes dónde está.");
                 cm.startQuest(100400);
                 cm.dispose();
             } else {
@@ -142,11 +142,11 @@ function action(mode, type, selection) {
             var recvItem = item, recvQty = 1, qty = 1;
 
             if (!cm.canHold(recvItem, recvQty)) {
-                cm.sendOk("Check your inventory for a free slot first.");
+                cm.sendOk("Primero verifique su inventario para ver si hay un espacio libre.");
                 cm.dispose();
                 return;
             } else if (cm.getMeso() < cost * qty) {
-                cm.sendOk("I'm sorry but there's a fee for my services. Please bring me the right amount of mesos here before trying to forge a ring.");
+                cm.sendOk("Lo siento pero hay una tarifa por mis servicios. Por favor, tráeme la cantidad correcta de mesos antes de intentar forjar un anillo.");
                 cm.dispose();
                 return;
             } else {
@@ -162,7 +162,7 @@ function action(mode, type, selection) {
             }
 
             if (!complete) {
-                cm.sendOk("Hm, it seems you're lacking some ingredients for the engagement ring. Please provide them first, will you?");
+                cm.sendOk("Hm, parece que te faltan algunos ingredientes para el anillo de compromiso. Por favor, proporciónelos primero, ¿quiere?");
             } else {
                 if (mats instanceof Array) {
                     for (var i = 0; i < mats.length; i++) {
@@ -177,7 +177,7 @@ function action(mode, type, selection) {
                 }
 
                 cm.gainItem(recvItem, recvQty);
-                cm.sendOk("All done, the engagement ring came out just right. I wish you a happy engagement.");
+                cm.sendOk("Todo listo, el anillo de compromiso salió perfecto. Les deseo un feliz compromiso.");
             }
             cm.dispose();
         }

@@ -43,18 +43,18 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendSimple("Well, hello! Welcome to the Lian Hua Hua Skin-Care! Would you like to have a firm, tight, healthy looking skin like mine?  With #b#tCBD Skin Coupon##k, you can let us take care of the rest and have the kind of skin you've always wanted!\r\n\#L1#Sounds Good! (uses #i5153010# #t5153010#)#l");
+            cm.sendSimple("Bueno, hola! ¡Bienvenido al cuidado de la piel Lian Hua Hua! ¿Te gustaría tener una piel firme, tersa y de aspecto saludable como la mía?  Con#b#tCupón de piel de CBD##k¡Puedes dejar que nosotros nos encarguemos del resto y tener el tipo de piel que siempre has deseado!\r\n\#L1#Ssuena bien! (usa#i5153010# #t5153010#)#l");
         } else if (status == 1) {
             if (!cm.haveItem(5153010)) {
-                cm.sendOk("It looks like you don't have the coupon you need to receive the treatment. I'm sorry but it looks like we cannot do it for you.");
+                cm.sendOk("Parece que no tienes el cupón que necesitas para recibir el tratamiento. Lo siento, pero parece que no podemos hacerlo por usted.");
                 cm.dispose();
                 return;
             }
-            cm.sendStyle("With our specialized service, you can see the way you'll look after the treatment in advance. What kind of a skin-treatment would you like to do? Go ahead and choose the style of your liking...", skin);
+            cm.sendStyle("Con nuestro servicio especializado podrás ver con antelación cómo cuidarás el tratamiento. ¿Qué tipo de tratamiento para la piel te gustaría hacer? Anímate y elige el estilo de tu agrado...", skin);
         } else {
             cm.gainItem(5153010, -1);
             cm.setSkin(selection);
-            cm.sendOk("Enjoy your new and improved skin!");
+            cm.sendOk("¡Disfruta de tu piel nueva y mejorada!");
 
             cm.dispose();
         }

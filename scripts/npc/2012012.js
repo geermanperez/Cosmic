@@ -41,7 +41,7 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendOk("Can you help me find the Ancient Book? I lost it somewhere in El Nath...");
+            cm.sendOk("¿Puedes ayudarme a encontrar el Libro Antiguo? Lo perdí en algún lugar de El Nath...");
             cm.dispose();
         }
     }

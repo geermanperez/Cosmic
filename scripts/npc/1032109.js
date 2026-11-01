@@ -29,7 +29,7 @@ function action(mode, type, selection) {
 
 
     if (status == 0) {
-        cm.sendOk("A mysterious black figure appeared and summoned a lot of angry monsters!");
+        cm.sendOk("¡Apareció una misteriosa figura negra que convocó a muchos monstruos enojados!");
     } else if (status == 1) {
         var player = cm.getPlayer();
         var map = player.getMap();

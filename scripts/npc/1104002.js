@@ -32,7 +32,7 @@ function action(mode, type, selection) {
         var mapobj = cm.getMap();
 
         if (mode == 0 && type > 0) {
-            cm.getPlayer().dropMessage(5, "Eleanor: Oh, lost the Empress and still challenging us? Now you've done it! Prepare yourself!!!");
+            cm.getPlayer().dropMessage(5, "Eleanor: Oh, ¿perdiste a la Emperatriz y todavía nos desafías? ¡Ahora lo has hecho! Prepárate!!!");
 
             const LifeFactory = Java.type('server.life.LifeFactory');
             const Point = Java.type('java.awt.Point');
@@ -50,14 +50,14 @@ function action(mode, type, selection) {
 
         if (status == 0) {
             if (!cm.isQuestStarted(20407)) {
-                cm.sendOk("... Knight, you still #bseem unsure to face this fight#k, don't you? There's no grace in challenging someone when they are still not mentally ready for the battle. Talk your peace to that big clumsy bird of yours, maybe it'll put some guts on you.");
+                cm.sendOk("... Caballero, todavía#bParece inseguro para enfrentar esta pelea.#k, ¿no? No hay gracia en desafiar a alguien cuando todavía no está mentalmente preparado para la batalla. Habla en paz con ese pájaro grande y torpe tuyo, tal vez te dé algo de valor.");
                 cm.dispose();
                 return;
             }
 
-            cm.sendAcceptDecline("Hahahahaha! This place's Empress is already under my domain, that's surely a great advance on the #bBlack Wings#k' overthrow towards Maple World... And you, there? Still wants to face us? Or, better yet, since you seem strong enough to be quite a supplementary reinforcement at our service, #rwill you meet our expectations and fancy joining us#k since there's nothing more you can do?");
+            cm.sendAcceptDecline("¡Jajajajaja! La Emperatriz de este lugar ya está bajo mi dominio, eso seguramente es un gran avance en el#bAlas Negras#k' derrocamiento hacia Maple World... ¿Y tú, ahí? ¿Aún quiere enfrentarnos? O, mejor aún, ya que pareces lo suficientemente fuerte como para ser un refuerzo suplementario a nuestro servicio,#r¿Cumplirás con nuestras expectativas y te apetece unirte a nosotros?#kya que no hay nada más que puedas hacer?");
         } else if (status == 1) {
-            cm.sendOk("Heh, cowards have no place on the #rBlack Mage's#k army. Begone!");
+            cm.sendOk("Je, los cobardes no tienen lugar en el#rmago negro#kejército. ¡Comenzó!");
             cm.dispose();
         }
     }

@@ -39,7 +39,7 @@ function pushIfItemExists(array, itemid) {
 }
 
 function start() {
-    cm.sendSimple("If you use this regular coupon, your face may transform into a random new look...do you still want to do it using #b#t5152037##k, I will do it anyways for you. But don't forget, it will be random!\r\n\#L2#OK! (Uses #i5152037# #t5152037#)#l");
+    cm.sendSimple("Si usas este cupón regular, tu rostro puede transformarse en una nueva apariencia aleatoria... ¿todavía quieres hacerlo usando#b#t5152037##k, lo haré de todos modos por ti. ¡Pero no lo olvides, será aleatorio!\r\n\#L2#O¡K! (Usos#i5152037# #t5152037#)#l");
 }
 
 function action(mode, type, selection) {
@@ -55,7 +55,7 @@ function action(mode, type, selection) {
 
         if (status == 1) {
             if (!cm.haveItem(5152037)) {
-                cm.sendOk("Hmm ... it looks like you don't have the coupon specifically for this place. Sorry to say this, but without the coupon, there's no plastic surgery for you...");
+                cm.sendOk("Hmm... parece que no tienes el cupón específico para este lugar. Lamento decirte esto, pero sin el cupón, no hay cirugía plástica para ti...");
                 cm.dispose();
                 return;
             }
@@ -71,11 +71,11 @@ function action(mode, type, selection) {
                     pushIfItemExists(facenew, fface_r[i] + cm.getPlayer().getFace() % 1000 - (cm.getPlayer().getFace() % 100));
                 }
             }
-            cm.sendYesNo("If you use the regular coupon, your face may transform into a random new look...do you still want to do it using #b#t5152037##k?");
+            cm.sendYesNo("Si usas el cupón regular, tu rostro puede transformarse en una nueva apariencia aleatoria... ¿todavía quieres hacerlo usando#b#t5152037##k?");
         } else if (status == 2) {
             cm.gainItem(5152037, -1);
             cm.setFace(facenew[Math.floor(Math.random() * facenew.length)]);
-            cm.sendOk("Enjoy your new and improved face!");
+            cm.sendOk("¡Disfruta de tu cara nueva y mejorada!");
 
             cm.dispose();
         }

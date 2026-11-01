@@ -9,9 +9,9 @@ var status = -1;
 
 function start() {
     if (cm.getMapId() != 922010000 && cm.getMapId() != 922010800) {
-        cm.sendYesNo("You'll have to start over from scratch if you want to take a crack at this quest after leaving this stage. Are you sure you want to leave this map?");
+        cm.sendYesNo("Tendrás que empezar de nuevo desde cero si quieres intentar esta misión después de abandonar esta etapa. ¿Estás seguro de que quieres abandonar este mapa?");
     } else if (cm.getMapId() == 922010800) {
-        cm.sendSimple("Do you need some help?#b\r\n#L0#I need Platform Puppet.#l\r\n#L1#I want to get out of here.#l#k");
+        cm.sendSimple("¿Necesitas ayuda?#b\r\n#L0#Necesito un títere de plataforma.#l\r\n#L1#Quiero salir de aquí.#l#k");
     } else {
         cm.removeAll(4001022); // pass of dimension
         cm.removeAll(4001023);
@@ -25,7 +25,7 @@ function action(mode, type, selection) {
     if (mode == 1) {
         status++;
     } else if (mode == 0 && (status == 0 || status == -1)) {
-        cm.sendNext("I see. Gather up the strength of your party members and try harder!");
+        cm.sendNext("Veo. ¡Reúne las fuerzas de los miembros de tu grupo y esfuérzate más!");
         cm.dispose();
         return;
     } else {
@@ -34,11 +34,11 @@ function action(mode, type, selection) {
     if (status == 0) {
         if (cm.getMapId() == 922010800) {
             if (selection == 0) {
-                cm.sendNext("You have received a Platform Puppet. If you place it on the platform, it will have the same effect as someone standing there.\r\nRemember, though, this is an item that can only be used in here.");
+                cm.sendNext("Has recibido una marioneta de plataforma. Si lo colocas en la plataforma, tendrá el mismo efecto que si estuviera parado allí.\r\nRecuerda, sin embargo, que este es un elemento que solo se puede usar aquí.");
                 cm.gainItem(4001454, 1);
                 cm.dispose();
             } else {
-                cm.sendYesNo("You'll have to start over from scratch if you want to take a crack at this quest after leaving this stage. Are you sure you want to leave this map?");
+                cm.sendYesNo("Tendrás que empezar de nuevo desde cero si quieres intentar esta misión después de abandonar esta etapa. ¿Estás seguro de que quieres abandonar este mapa?");
             }
         } else {
             var eim = cm.getPlayer().getEventInstance();

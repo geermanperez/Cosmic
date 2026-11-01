@@ -44,7 +44,7 @@ function action(mode, type, selection) {
                 var progress = cm.getQuestProgressInt(23339, 1);
 
                 if (progress == 3) {
-                    cm.sendGetText("The pipe reacts as the water starts flowing. A secret compartment with a keypad shows up. #bPassword#k!");
+                    cm.sendGetText("La tubería reacciona cuando el agua comienza a fluir. Aparece un compartimento secreto con un teclado. #bPassword#k!");
                 } else if (progress == 1) {
                     cm.setQuestProgress(23339, 1, 2);
                     cm.dispose();
@@ -68,7 +68,7 @@ function action(mode, type, selection) {
                 cm.warp(261000001, 1);
                 cm.dispose();
             } else {
-                cm.sendOk("#rWrong!");
+                cm.sendOk("#r¡Mal!");
                 cm.dispose();
             }
         }

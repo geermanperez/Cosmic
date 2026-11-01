@@ -41,7 +41,7 @@ function action(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            cm.sendSimple("Hello, I'm Dr. Rhomes, head of the cosmetic lens department here at the Orbis Plastic Surgery Shop.\r\nMy goal here is to add personality to everyone's eyes through the wonders of cosmetic lenses, and with #b#t5152011##k or #b#t5152014##k, I can do the same for you, too! Now, what would you like to use?\r\n#L1#Cosmetic Lenses: #i5152011##t5152011##l\r\n#L2#Cosmetic Lenses: #i5152014##t5152014##l\r\n#L3#One-time Cosmetic Lenses: #i5152104# (any color)#l");
+            cm.sendSimple("Hola, soy el Dr. Rhomes, jefe del departamento de lentes cosméticos aquí en Orbis Plastic Surgery Shop.\r\nMi objetivo aquí es agregar personalidad a los ojos de todos a través de las maravillas de los lentes cosméticos y con#b#t5152011##ko#b#t5152014##k¡Yo también puedo hacer lo mismo por ti! Ahora, ¿qué te gustaría usar?\r\n#L1#Lentes cosméticas:#i5152011##t5152011##l\r\n#L2#Lentes cosméticas:#i5152014##t5152014##l\r\n#L3#Lentes cosméticas de una sola vez:#i5152104#(cualquier color)#l");
         } else if (status == 1) {
             if (selection == 1) {
                 beauty = 1;
@@ -75,7 +75,7 @@ function selectedRegularCoupon() {
     }
     colors = Array();
     pushIfItemsExists(colors, [current + 100, current + 300, current + 400, current + 700]);
-    cm.sendYesNo("If you use the regular coupon, you'll be awarded a random pair of cosmetic lenses. Are you going to use a #b#t5152011##k and really make the change to your eyes?");
+    cm.sendYesNo("Si utiliza el cupón normal, se le otorgará un par de lentes cosméticos al azar. ¿Vas a utilizar un#b#t5152011##ky realmente hacer el cambio en tus ojos?");
 }
 
 function selectedVipCoupon() {
@@ -87,7 +87,7 @@ function selectedVipCoupon() {
 
     colors = Array();
     pushIfItemsExists(colors, [current + 100, current + 300, current + 400, current + 700]);
-    cm.sendStyle("With our new computer program, you can see yourself after the treatment in advance. What kind of lens would you like to wear? Please choose the style of your liking.", colors);
+    cm.sendStyle("Con nuestro nuevo programa informático podrá verse usted mismo después del tratamiento con antelación. ¿Qué tipo de lente te gustaría usar? Por favor elige el estilo de tu agrado.", colors);
 }
 
 function pushIfItemsExists(array, itemidList) {
@@ -116,12 +116,12 @@ function selectedOneTimeCoupon() {
     }
 
     if (colors.length == 0) {
-        cm.sendOk("You don't have any One-Time Cosmetic Lens to use.");
+        cm.sendOk("No tienes ninguna lente cosmética de un solo uso para usar.");
         cm.dispose();
         return;
     }
 
-    cm.sendStyle("What kind of lens would you like to wear? Please choose the style of your liking.", colors);
+    cm.sendStyle("¿Qué tipo de lente te gustaría usar? Por favor elige el estilo de tu agrado.", colors);
 }
 
 function pushIfItemExists(array, itemid) {
@@ -135,7 +135,7 @@ function acceptedRegularCoupon() {
     if (cm.haveItem(regularCouponItemId)) {
         cm.gainItem(regularCouponItemId, -1);
         cm.setFace(colors[Math.floor(Math.random() * colors.length)]);
-        cm.sendOk("Enjoy your new and improved cosmetic lenses!");
+        cm.sendOk("¡Disfruta de tus lentes cosméticos nuevos y mejorados!");
     } else {
         sendLackingCoupon()
     }
@@ -147,7 +147,7 @@ function selectedVipStyle(selection) {
         cm.gainItem(vipCouponItemId, -1);
         const selectedFace = colors[selection]
         cm.setFace(selectedFace);
-        cm.sendOk("Enjoy your new and improved cosmetic lenses!");
+        cm.sendOk("¡Disfruta de tus lentes cosméticos nuevos y mejorados!");
     } else {
         sendLackingCoupon()
     }
@@ -161,12 +161,12 @@ function selectedOneTimeStyle(selection) {
     if (cm.haveItem(oneTimeCouponItemId)) {
         cm.gainItem(oneTimeCouponItemId, -1);
         cm.setFace(selectedFace);
-        cm.sendOk("Enjoy your new and improved cosmetic lenses!");
+        cm.sendOk("¡Disfruta de tus lentes cosméticos nuevos y mejorados!");
     } else {
         sendLackingCoupon()
     }
 }
 
 function sendLackingCoupon() {
-    cm.sendOk("I'm sorry, but I don't think you have our cosmetic lens coupon with you right now. Without the coupon, I'm afraid I can't do it for you..");
+    cm.sendOk("Lo siento, pero no creo que tengas nuestro cupón para lentes cosméticos contigo en este momento. Sin el cupón, me temo que no puedo hacerlo por ti.");
 }

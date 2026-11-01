@@ -49,7 +49,7 @@ function action(mode, type, selection) {
                     cm.gainItem(4031740, -1);
                     cm.gainItem(4031741, -1);
 
-                    cm.sendOk("(As you place the shards a light shines over the circle, repelling whatever omens were brewing inside the artifact.)", 2);
+                    cm.sendOk("(A medida que colocas los fragmentos, una luz brilla sobre el círculo, repeliendo cualquier presagio que se estuviera gestando dentro del artefacto).", 2);
                     cm.dispose();
                 } else if (progress < 4) {
                     cm.setQuestProgress(3345, 0);

@@ -59,11 +59,11 @@ function action(mode, type, selection) {
         }
 
         if (status == 0) {
-            cm.sendSimple("Hi, I'm #p1012117#, the most charming and stylish stylist around. If you're looking for the best looking hairdos around, look no further!\r\n\#L0##i5150040##t5150040##l\r\n\#L1##i5150044##t5150044##l");
+            cm.sendSimple("Hola, soy#p1012117#, el estilista más encantador y elegante que existe. Si estás buscando los peinados más bonitos que existen, ¡no busques más!\r\n\#L0##i5150040##t5150040##l\r\n\#L1##i5150044##t5150044##l");
         } else if (status == 1) {
             if (selection == 0) {
                 beauty = 1;
-                cm.sendYesNo("If you use this REGULAR coupon, your hair may transform into a random new look...do you still want to do it using #b#t5150040##k, I will do it anyways for you. But don't forget, it will be random!");
+                cm.sendYesNo("Si usas este cupón REGULAR, tu cabello puede transformarse en una nueva apariencia aleatoria... ¿todavía quieres hacerlo usando#b#t5150040##k, lo haré de todos modos por ti. ¡Pero no lo olvides, será aleatorio!");
             } else {
                 beauty = 2;
 
@@ -78,7 +78,7 @@ function action(mode, type, selection) {
                     }
                 }
 
-                cm.sendStyle("Using the SPECIAL coupon you can choose the style your hair will become. Pick the style that best provides you delight...", hairnew);
+                cm.sendStyle("Usando el cupón ESPECIAL podrás elegir el estilo que lucirá tu cabello. Elige el estilo que mejor te proporcione placer...", hairnew);
             }
         } else if (status == 2) {
             if (beauty == 1) {
@@ -96,17 +96,17 @@ function action(mode, type, selection) {
 
                     cm.gainItem(5150040, -1);
                     cm.setHair(hairnew[Math.floor(Math.random() * hairnew.length)]);
-                    cm.sendOk("Enjoy your new and improved hairstyle!");
+                    cm.sendOk("¡Disfruta de tu peinado nuevo y mejorado!");
                 } else {
-                    cm.sendOk("Hmmm...it looks like you don't have our designated coupon...I'm afraid I can't give you a haircut without it. I'm sorry...");
+                    cm.sendOk("Hmmm... parece que no tienes nuestro cupón designado... Me temo que no puedo cortarte el pelo sin él. Lo lamento...");
                 }
             } else if (beauty == 2) {
                 if (cm.haveItem(5150044) == true) {
                     cm.gainItem(5150044, -1);
                     cm.setHair(hairnew[selection]);
-                    cm.sendOk("Enjoy your new and improved hairstyle!");
+                    cm.sendOk("¡Disfruta de tu peinado nuevo y mejorado!");
                 } else {
-                    cm.sendOk("Hmmm...it looks like you don't have our designated coupon...I'm afraid I can't give you a haircut without it. I'm sorry...");
+                    cm.sendOk("Hmmm... parece que no tienes nuestro cupón designado... Me temo que no puedo cortarte el pelo sin él. Lo lamento...");
                 }
             }
 

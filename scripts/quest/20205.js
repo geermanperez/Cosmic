@@ -31,7 +31,7 @@ function end(mode, type, selection) {
         qm.dispose();
     } else {
         if (status == 0 && mode == 0) {
-            qm.sendNext("Hmm? Why? What's holding you back?");
+            qm.sendNext("¿Mmm? ¿Por qué? ¿Qué te detiene?");
             qm.dispose();
             return;
         }
@@ -41,15 +41,15 @@ function end(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            qm.sendYesNo("Oh, you brought all #t4032100#s! Ahaha, I knew you'd be good at it. Tell you what, I now commend that you're now ready to become an official knight. Do you want to become one right now?");
+            qm.sendYesNo("¡Oh, trajiste todos los #t4032100#! Jajaja, sabía que serías bueno en eso. Te diré una cosa, te felicito porque ya estás listo para convertirte en un caballero oficial. ¿Quieres convertirte en uno ahora mismo?");
         } else if (status == 1) {
             if (qm.getPlayer().getJob().getId() == 1500 && qm.getPlayer().getRemainingSp() > ((qm.getPlayer().getLevel() - 30) * 3)) {
-                qm.sendNext("Hey, how did you manage to hunt all that? You have way too much #bSP#k lying around unused! You can't become an official knight like this! Use more SP on the 1st level skill.");
+                qm.sendNext("Oye, ¿cómo lograste cazar todo eso? ¡Tienes demasiado #bSP#k por ahí sin usar! ¡No puedes convertirte en un caballero oficial así! Usa más SP en la habilidad de primer nivel.");
                 qm.dispose();
             } else {
                 if (qm.getPlayer().getJob().getId() != 1510) {
                     if (!qm.canHold(1142067)) {
-                        qm.sendNext("If you wish to receive the medal befitting the title, you may want to make some room in your equipment inventory.");
+                        qm.sendNext("Si deseas recibir la medalla acorde al título, quizás quieras hacer algo de espacio en tu inventario de equipo.");
                         qm.dispose();
                         return;
                     }
@@ -59,12 +59,12 @@ function end(mode, type, selection) {
                     qm.getPlayer().changeJob(Job.THUNDERBREAKER2);
                     qm.completeQuest();
                 }
-                qm.sendNext("You are now no longer a Knight-in-Training. You have now officially become a Cygnus Knight.");
+                qm.sendNext("Ahora ya no eres un caballero en entrenamiento. Ahora te has convertido oficialmente en Cygnus Knight.");
             }
         } else if (status == 2) {
-            qm.sendNextPrev("I have also given you some #bSP#k and the accompanying skills of a Thunder Breakers that are only available to the official knights. These skills are lightning-based, so use them wisely!");
+            qm.sendNextPrev("También te he dado algunos #bSP#k y las habilidades que lo acompañan de Thunder Breakers que solo están disponibles para los caballeros oficiales. Estas habilidades se basan en rayos, ¡así que úsalas sabiamente!");
         } else if (status == 3) {
-            qm.sendPrev("Well, personally, I hope you don't lose your enthusiasm even after becoming the Cygnus Knights. Always seek out the positive even if you're in the midst of a barrage of negative items.");
+            qm.sendPrev("Bueno, personalmente, espero que no pierdan el entusiasmo incluso después de convertirse en los Caballeros Cygnus. Busque siempre lo positivo incluso si se encuentra en medio de una avalancha de elementos negativos.");
         } else if (status == 4) {
             qm.dispose();
         }

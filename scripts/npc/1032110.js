@@ -23,7 +23,7 @@ function action(mode, type, selection) {
 
 
     if (status == 0) {
-        cm.sendOk("Nothing remarkable here.");
+        cm.sendOk("Nada destacable aquí.");
     } else if (status == 1) {
         cm.dispose();
 

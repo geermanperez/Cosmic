@@ -10,7 +10,7 @@ function start(mode, type, selection) {
         status++;
     }
     if (status == 0) {
-        qm.sendAcceptDecline("You're back! Great. I got the Ignition Device all hooked up, so we can get back to civilization. Nothing left to do here, right? Let's roll!");
+        qm.sendAcceptDecline("¡Has vuelto! Excelente. Conecté el dispositivo de encendido para que podamos volver a la civilización. Aquí no queda nada que hacer, ¿verdad? ¡Vamos a rodar!");
     } else if (status == 1) {
         if (mode == 0) {//decline
 

@@ -15,15 +15,15 @@ function start(mode, type, selection) {
         if (type == 1 && mode == 0) {
             status -= 2;
         } else {
-            qm.sendOk("Okay, then. See you around.");
+            qm.sendOk("Bien, entonces. Ya nos veremos.");
             qm.dispose();
             return;
         }
     }
     if (status == 0) {
-        qm.sendAcceptDecline("Hey, traveler! I need your help. A great threat is about to endanger the folks down there at the New Leaf City, the way I can see it right now. These creatures roaming around here suddenly... That can be no good. Care if you listen to what I have to say?");
+        qm.sendAcceptDecline("¡Oye, viajero! Necesito tu ayuda. Una gran amenaza está a punto de poner en peligro a la gente de New Leaf City, tal como puedo verlo ahora. Estas criaturas deambulando por aquí de repente... Eso no puede ser bueno. ¿Te importa si escuchas lo que tengo que decir?");
     } else if (status == 1) {
-        qm.sendOk("That's the thing: the Twisted Masters, great figures that currently holds seize of the Crimsonwood Keep, have planned a large-scale attack to the New Leaf City, that may be happening on the next few days. I can't just stay here observing while they prepare for this attack. However, I can't just leave this position, I must keep an eye on their moves at all costs. There's where you enter: go find Lukan, knight of the past Crimsonwood Keep, that is currently wandering around the woods, and receive from him further orders, he knows what to do.");
+        qm.sendOk("Esa es la cuestión: los Maestros Retorcidos, grandes figuras que actualmente controlan Crimsonwood Keep, han planeado un ataque a gran escala a New Leaf City, que podría ocurrir en los próximos días. No puedo simplemente quedarme aquí observando mientras se preparan para este ataque. Sin embargo, no puedo simplemente dejar esta posición, debo estar atento a sus movimientos a toda costa. Ahí es donde entras: ve a buscar a Lukan, el caballero del pasado Crimsonwood Keep, que actualmente se encuentra deambulando por el bosque, y recibe más órdenes de él, él sabe qué hacer.");
         qm.forceStartQuest();
     } else if (status == 2) {
         qm.dispose();
@@ -35,12 +35,12 @@ function end(mode, type, selection) {
 
     if (status == 0) {
         if (qm.haveItem(3992041)) {
-            qm.sendOk("Ah, you did accomplish the task I handed to you. Nicely done, now those guys are busy recovering from this offensive. Now, remember: #bthat key must be used to access#k the Inner Sanctum inside the Keep. Hold that with you at all times if you ever want to enter there.");
+            qm.sendOk("Ah, lograste la tarea que te encomendé. Bien hecho, ahora esos muchachos están ocupados recuperándose de esta ofensiva. Ahora recuerda:#besa clave debe usarse para acceder#kel Santuario Interior dentro de la Fortaleza. Mantenlo contigo en todo momento si alguna vez quieres ingresar allí.");
             qm.forceCompleteQuest();
         } else if (qm.getQuestStatus(8223) == 2) {
-            qm.sendOk("You completed the mission but lost the key? That's bad, you NEED this key to enter the inner rooms of the Keep. Check out there with Lukan what you should be doing next, we need you inside the Keep.");
+            qm.sendOk("¿Completaste la misión pero perdiste la llave? Eso es malo, NECESITAS esta llave para ingresar a las habitaciones interiores de la Fortaleza. Comprueba con Lukan qué deberías hacer a continuación, te necesitamos dentro de la Fortaleza.");
         } else {
-            qm.sendOk("The folks back there on the city are counting on you on this one. Please hurry up.");
+            qm.sendOk("La gente de la ciudad cuenta contigo en este caso. Por favor, apresúrese.");
         }
     } else if (status == 1) {
         qm.dispose();

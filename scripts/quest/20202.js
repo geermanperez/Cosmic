@@ -31,7 +31,7 @@ function end(mode, type, selection) {
         qm.dispose();
     } else {
         if (status == 0 && mode == 0) {
-            qm.sendNext("Eh? Why? Is there something wrong?");
+            qm.sendNext("¿Eh? ¿Por qué? ¿Hay algo mal?");
             qm.dispose();
             return;
         }
@@ -41,15 +41,15 @@ function end(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            qm.sendYesNo("You managed to bring all of #t4032097#!!! Okay, I believe that your are now qualified to become an official knight! Do you want to become one?");
+            qm.sendYesNo("¡¡¡Lograste traer todo #t4032097#!!! ¡Bien, creo que ahora estás calificado para convertirte en un caballero oficial! ¿Quieres convertirte en uno?");
         } else if (status == 1) {
             if (qm.getPlayer().getJob().getId() == 1200 && qm.getPlayer().getRemainingSp() > ((qm.getPlayer().getLevel() - 30) * 3)) {
-                qm.sendNext("Wa, wait... you have way too much #bSP#k with you. You'll need to spend more SP on 1st-level skills to become an official knight.");
+                qm.sendNext("Espera... tienes demasiado #bSP#k contigo. Necesitarás gastar más SP en habilidades de primer nivel para convertirte en un caballero oficial.");
                 qm.dispose();
             } else {
                 if (qm.getPlayer().getJob().getId() != 1210) {
                     if (!qm.canHold(1142067)) {
-                        qm.sendNext("If you wish to receive the medal befitting the title, you may want to make some room in your equipment inventory.");
+                        qm.sendNext("Si deseas recibir la medalla acorde al título, quizás quieras hacer algo de espacio en tu inventario de equipo.");
                         qm.dispose();
                         return;
                     }
@@ -59,12 +59,12 @@ function end(mode, type, selection) {
                     qm.getPlayer().changeJob(Job.BLAZEWIZARD2);
                     qm.completeQuest();
                 }
-                qm.sendNext("You are no longer a Knight-in-Training. You are now an official Cygnus Knight!");
+                qm.sendNext("Ya no eres un caballero en entrenamiento. ¡Ahora eres un Caballero Cygnus oficial!");
             }
         } else if (status == 2) {
-            qm.sendNextPrev("I have given you some #bSP#k. I have also given you some skills of Blaze Wizards that are only available to official knights, so keep working!");
+            qm.sendNextPrev("Te he dado algunos #bSP#k. También te he dado algunas habilidades de Blaze Wizards que solo están disponibles para los caballeros oficiales, ¡así que sigue trabajando!");
         } else if (status == 3) {
-            qm.sendPrev("Now that you have officially become one, I want you to keep that fire in you that you had when you first started this journey, but this time, as a proud member of the Cygnus Knights!");
+            qm.sendPrev("Ahora que te has convertido oficialmente en uno, quiero que mantengas ese fuego en ti que tenías cuando empezaste este viaje, pero esta vez, ¡como un orgulloso miembro de los Cygnus Knights!");
         } else if (status == 4) {
             qm.dispose();
         }

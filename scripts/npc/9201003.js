@@ -61,26 +61,26 @@ function action(mode, type, selection) {
 
         if (status == 0) {
             if (!cm.isQuestStarted(100400)) {
-                cm.sendOk("Hello we're Mom and Dad...");
+                cm.sendOk("Hola somos mamá y papá...");
                 cm.dispose();
             } else {
                 if (cm.getQuestProgressInt(100400, 1) == 0) {
-                    cm.sendNext("Mom, dad, I have a request to do to both of you... I wanna know more about the path you've already been walking since always, the path of loving and caring for someone dear to me.", 2);
+                    cm.sendNext("Mamá, papá, tengo una petición que hacerles a los dos... Quiero saber más sobre el camino que ya han recorrido desde siempre, el camino de amar y cuidar a alguien querido para mí.", 2);
                 } else {
                     if (!hasProofOfLoves(cm.getPlayer())) {
-                        cm.sendOk("Dear, we need to make sure you are really ready to fall in love with whoever you choose to be your partner, please bring here #b4 #t4031367#'s#k.");
+                        cm.sendOk("Querido, debemos asegurarnos de que estés realmente listo para enamorarte de quien elijas como tu pareja, tráelo aquí.#b4 #t4031367#'s#k.");
                         cm.dispose();
                     } else {
-                        cm.sendNext("#b#h0##k, you made us proud today. You may now have #rour blessings#k to choose whoever you like to be your fiancee. You may now consult #p9201000#, the Wedding Jeweler. Have a sooth, loving and caring journey ahead~~");
+                        cm.sendNext("#b#h0##k, nos hiciste sentir orgullosos hoy. Es posible que ahora tengas#rnuestras bendiciones#kpara elegir a quien quieras para que sea tu prometida. Ya puedes consultar#p9201000#, el joyero de bodas. Que tengas un viaje tranquilo, amoroso y afectuoso por delante~~");
                         state = 1;
                     }
                 }
             }
         } else if (status == 1) {
             if (state == 0) {
-                cm.sendNextPrev("My dear! How thoughtful of you asking our help. Surely we will help you out!");
+                cm.sendNextPrev("¡Cariño mío! Qué amable de tu parte pedir nuestra ayuda. ¡Seguro que te ayudaremos!");
             } else {
-                cm.sendOk("Mom... Dad... Thanks a lot for your tender support!!!", 2);
+                cm.sendOk("Mamá... Papá... ¡¡¡Muchas gracias por tu tierno apoyo!!!", 2);
 
                 cm.completeQuest(100400);
                 cm.gainExp(20000 * cm.getPlayer().getExpRate());
@@ -91,7 +91,7 @@ function action(mode, type, selection) {
                 cm.dispose();
             }
         } else if (status == 2) {
-            cm.sendNextPrev("Certainly you must have already seen #rNanas, the fairies of Love#k, around the Maple world. From 4 of them, collect #b4 #t4031367#'s#k and bring them here. This journey shall clear some questions you may have about love...");
+            cm.sendNextPrev("Seguramente ya debes haber visto#rNanas, las hadas del Amor#k, alrededor del mundo Maple. De 4 de ellos, recoge#b4 #t4031367#'s#ky tráelos aquí. Este viaje aclarará algunas preguntas que puedas tener sobre el amor...");
         } else if (status == 3) {
             cm.setQuestProgress(100400, 1, 1);
             cm.dispose();

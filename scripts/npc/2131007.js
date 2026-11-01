@@ -13,22 +13,22 @@ function action(mode, type, selection) {
         return;
     }
     if (status == 0) {
-        cm.sendSimple("These monsters are a piece of cake! One hit with my sword and I will kill them... better get a sword first.#b\r\n#L0#Hey, take these tree trunks. You can build a better sword with them.#l");
+        cm.sendSimple("¡Estos monstruos son pan comido! Un golpe con mi espada y los mataré... será mejor que consigas una espada primero.#b\r\n#L0#Oye, toma estos troncos de árboles. Puedes construir una espada mejor con ellos.#l");
     } else if (status == 1) {
         if (!cm.haveItem(exchangeItem, 100)) {
-            cm.sendNext("You don't have enough... I need at least 100.");
+            cm.sendNext("No tienes suficiente... necesito al menos 100.");
             cm.dispose();
         } else {
-            cm.sendGetNumber("Hey, that's a good idea! I can give you #i4310000#Perfect Pitch for each 100 #i" + exchangeItem + "##t" + exchangeItem + "# you give me. How many do you want? (Current Items: " + cm.itemQuantity(exchangeItem) + ")", Math.min(300, cm.itemQuantity(exchangeItem) / 100), 1, Math.min(300, cm.itemQuantity(exchangeItem) / 100));
+            cm.sendGetNumber("¡Oye, es una buena idea! Puedo darte #i4310000#Paso perfecto por cada 100 #i" + exchangeItem + "##t" + exchangeItem + "# me das. ¿Cuantos quieres? (Artículos actuales:" + cm.itemQuantity(exchangeItem) + ")", Math.min(300, cm.itemQuantity(exchangeItem) / 100), 1, Math.min(300, cm.itemQuantity(exchangeItem) / 100));
         }
     } else if (status == 2) {
         if (selection >= 1 && selection <= cm.itemQuantity(exchangeItem) / 100) {
             if (!cm.canHold(4310000, selection)) {
-                cm.sendOk("Please make some space in ETC tab.");
+                cm.sendOk("Deje algo de espacio en la pestaña ETC.");
             } else {
                 cm.gainItem(4310000, selection);
                 cm.gainItem(exchangeItem, -(selection * 100));
-                cm.sendOk("Thanks!");
+                cm.sendOk("¡Gracias!");
             }
         }
         cm.dispose();

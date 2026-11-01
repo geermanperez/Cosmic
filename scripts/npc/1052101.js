@@ -55,7 +55,7 @@ function action(mode, type, selection) {
             status--;
         }
         if (status == 0) {
-            cm.sendSimple("I'm Andre, Don's assistant. Everyone calls me Andre, though. If you have a #b#t5150002##k, #b#t5150011##k or a #b#t5151002##k, please let me change your hairdo!\r\n#L0#Haircut: #i5150002##t5150002##l\r\n#L1#Haircut: #i5150011##t5150011##l\r\n#L2#Dye your hair: #i5151002##t5151002##l");
+            cm.sendSimple("Soy Andre, el asistente de Don. Pero todo el mundo me llama Andre. Si tienes un#b#t5150002##k, #b#t5150011##ko un#b#t5151002##k¡Por favor déjame cambiarte el peinado!\r\n#L0#Corte de pelo:#i5150002##t5150002##l\r\n#L1#Corte de pelo:#i5150011##t5150011##l\r\n#L2#Tiñe tu cabello:#i5151002##t5151002##l");
         } else if (status == 1) {
             if (selection == 0) {
                 beauty = 3;
@@ -72,7 +72,7 @@ function action(mode, type, selection) {
                             % 10));
                     }
                 }
-                cm.sendYesNo("If you use the REG coupon your hair will change RANDOMLY with a chance to obtain a new experimental style that I came up with. Are you going to use #b#t5150011##k and really change your hairstyle?");
+                cm.sendYesNo("Si usas el cupón REG tu cabello cambiará ALEATORIAMENTE con la posibilidad de obtener un nuevo estilo experimental que se me ocurrió. ¿Vas a utilizar#b#t5150011##ky realmente cambiar tu peinado?");
             } else if (selection == 1) {
                 beauty = 1;
                 hairnew = Array();
@@ -88,7 +88,7 @@ function action(mode, type, selection) {
                             % 10));
                     }
                 }
-                cm.sendYesNo("If you use the EXP coupon your hair will change RANDOMLY with a chance to obtain a new experimental style that I came up with. Are you going to use #b#t5150011##k and really change your hairstyle?");
+                cm.sendYesNo("Si usas el cupón EXP, tu cabello cambiará ALEATORIAMENTE con la posibilidad de obtener un nuevo estilo experimental que se me ocurrió. ¿Vas a utilizar#b#t5150011##ky realmente cambiar tu peinado?");
             } else if (selection == 2) {
                 beauty = 2;
                 haircolor = Array();
@@ -97,7 +97,7 @@ function action(mode, type, selection) {
                 for (var i = 0; i < 8; i++) {
                     pushIfItemExists(haircolor, current + i);
                 }
-                cm.sendYesNo("If you use a regular coupon your hair will change RANDOMLY. Do you still want to use #b#t5151002##k and change it up?");
+                cm.sendYesNo("Si usas un cupón regular tu cabello cambiará ALEATORIAMENTE. ¿Todavía quieres usar#b#t5151002##ky cambiarlo?");
             }
         } else if (status == 2) {
             cm.dispose();
@@ -105,40 +105,40 @@ function action(mode, type, selection) {
                 if (cm.haveItem(5150011) == true) {
                     cm.gainItem(5150011, -1);
                     cm.setHair(hairnew[Math.floor(Math.random() * hairnew.length)]);
-                    cm.sendOk("Enjoy your new and improved hairstyle!");
+                    cm.sendOk("¡Disfruta de tu peinado nuevo y mejorado!");
                 } else {
-                    cm.sendOk("Hmmm...it looks like you don't have our designated coupon...I'm afraid I can't give you a haircut without it. I'm sorry...");
+                    cm.sendOk("Hmmm... parece que no tienes nuestro cupón designado... Me temo que no puedo cortarte el pelo sin él. Lo lamento...");
                 }
             }
             if (beauty == 2) {
                 if (cm.haveItem(5151002) == true) {
                     cm.gainItem(5151002, -1);
                     cm.setHair(haircolor[Math.floor(Math.random() * haircolor.length)]);
-                    cm.sendOk("Enjoy your new and improved haircolor!");
+                    cm.sendOk("¡Disfruta de tu nuevo y mejorado color de cabello!");
                 } else {
-                    cm.sendOk("Hmmm...it looks like you don't have our designated coupon...I'm afraid I can't dye your hair without it. I'm sorry...");
+                    cm.sendOk("Hmmm... parece que no tienes nuestro cupón designado... Me temo que no puedo teñirte el cabello sin él. Lo lamento...");
                 }
             }
             if (beauty == 3) {
                 if (cm.haveItem(5150002) == true) {
                     cm.gainItem(5150002, -1);
                     cm.setHair(hairnew[Math.floor(Math.random() * hairnew.length)]);
-                    cm.sendOk("Enjoy your new and improved hairstyle!");
+                    cm.sendOk("¡Disfruta de tu peinado nuevo y mejorado!");
                 } else {
-                    cm.sendOk("Hmmm...it looks like you don't have our designated coupon...I'm afraid I can't give you a haircut without it. I'm sorry...");
+                    cm.sendOk("Hmmm... parece que no tienes nuestro cupón designado... Me temo que no puedo cortarte el pelo sin él. Lo lamento...");
                 }
             }
             if (beauty == 0) {
                 if (selection == 0 && cm.getMeso() >= hairprice) {
                     cm.gainMeso(-hairprice);
                     cm.gainItem(5150011, 1);
-                    cm.sendOk("Enjoy!");
+                    cm.sendOk("¡Disfrutar!");
                 } else if (selection == 1 && cm.getMeso() >= haircolorprice) {
                     cm.gainMeso(-haircolorprice);
                     cm.gainItem(5151002, 1);
-                    cm.sendOk("Enjoy!");
+                    cm.sendOk("¡Disfrutar!");
                 } else {
-                    cm.sendOk("You don't have enough mesos to buy a coupon!");
+                    cm.sendOk("¡No tienes suficientes mesos para comprar un cupón!");
                 }
             }
         }

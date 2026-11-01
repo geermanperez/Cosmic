@@ -54,7 +54,7 @@ function action(mode, type, selection) {
                 return;
             }
 
-            cm.sendOk("I only wish to speak to your leader!");
+            cm.sendOk("¡Solo deseo hablar con tu líder!");
             cm.dispose();
             return;
         }
@@ -68,7 +68,7 @@ function action(mode, type, selection) {
                     eim.giveEventPlayersExp(3500);
                     clearStage(0, eim);
 
-                    cm.sendNext("Please save Minerva, She've been trapped in the seal by Papa Pixie, the terror of our tower! He misplaced all of our Minerva Statue's parts and we have to get it all back! Oh pardon me, I am the tower's Chamberlain, Eak. I am Minerva's royal servant.");
+                    cm.sendNext("¡Por favor salva a Minerva, ha quedado atrapada en el sello por Papa Pixie, el terror de nuestra torre! ¡Perdió todas las piezas de nuestra estatua de Minerva y tenemos que recuperarlas todas! Oh, perdóname, soy el chambelán de la torre, Eak. Soy el sirviente real de Minerva.");
                 } else {
                     cm.warp(920010000, 2);
                 }
@@ -79,19 +79,19 @@ function action(mode, type, selection) {
                     if (eim.getIntProperty("statusStg7") == -1) {
                         eim.warpEventTeam(920010800);
                     } else if (eim.getIntProperty("statusStg8") == -1) {
-                        cm.sendOk("Oh! You brought the #t4001055#! Please, drop it at the base of the statue to bring Minerva back!");
+                        cm.sendOk("¡Oh! ¡Trajiste el #t4001055#! ¡Por favor, déjalo caer en la base de la estatua para traer de vuelta a Minerva!");
                     } else {
-                        cm.sendOk("Thank you for saving Minerva! Please, talk to her...");
+                        cm.sendOk("¡Gracias por salvar a Minerva! Por favor, habla con ella...");
                     }
                 } else {
-                    cm.sendOk("Please, save Minerva! Gather the six pieces of her statue and then talk to me to retrieve the final piece!");
+                    cm.sendOk("¡Por favor, salva a Minerva! ¡Reúne las seis piezas de su estatua y luego habla conmigo para recuperar la pieza final!");
                 }
                 break;
             case 920010200: //walkway
                 if (!cm.haveItem(4001050, 30)) {
-                    cm.sendOk("Gather the 30 Statue Pieces from the monsters in this stage, and please bring them to me so I can put them together!");
+                    cm.sendOk("¡Reúne las 30 piezas de estatuas de los monstruos en esta etapa y tráemelas para que pueda armarlas!");
                 } else {
-                    cm.sendOk("You got them all! Here, the 1st statue piece.");
+                    cm.sendOk("¡Los tienes todos! Aquí, la primera pieza de estatua.");
                     cm.removeAll(4001050);
                     cm.gainItem(4001044, 1); //first piece
                     eim.giveEventPlayersExp(3500);
@@ -102,34 +102,34 @@ function action(mode, type, selection) {
                 if (eim.getIntProperty("statusStg2") != 1) {
                     if (cm.getMap().countMonsters() == 0 && cm.getMap().countItems() == 0) {
                         if (cm.canHold(4001045)) {
-                            cm.sendOk("Oh, I've found the 2nd Piece of Statue. Here, take it.");
+                            cm.sendOk("Oh, encontré la segunda pieza de estatua. Toma, tómalo.");
                             cm.gainItem(4001045, 1);
                             eim.giveEventPlayersExp(3500);
                             clearStage(2, eim);
                             eim.setProperty("statusStg2", "1");
                         } else {
-                            cm.sendOk("I've found the 2nd Piece of Statue. Get a slot available on your inventory to take it.");
+                            cm.sendOk("Encontré la segunda pieza de estatua. Obtenga un espacio disponible en su inventario para tomarlo.");
                         }
                     } else {
-                        cm.sendOk("Find the 2nd Piece of Statue that is hidden in this room.");
+                        cm.sendOk("Encuentra la segunda pieza de estatua que está escondida en esta habitación.");
                     }
                 } else {
-                    cm.sendOk("Well done. Go find the other statue pieces.");
+                    cm.sendOk("Bien hecho. Ve a buscar las otras piezas de la estatua.");
                 }
 
                 break;
             case 920010400: //lobby
                 if (eim.getIntProperty("statusStg3") == -1) {
-                    cm.sendOk("Please, find the LP for the current day of week and place it on the music player.\r\n#v4001056# Sunday\r\n#v4001057# Monday\r\n#v4001058# Tuesday\r\n#v4001059# Wednesday\r\n#v4001060# Thursday\r\n#v4001061# Friday\r\n#v4001062# Saturday\r\n");
+                    cm.sendOk("Por favor, busque el LP del día de la semana actual y colóquelo en el reproductor de música.\r\n#v4001056# Domingo\r\n#v4001057# Lunes\r\n#v4001058# martes\r\n#v4001059# miércoles\r\n#v4001060# jueves\r\n#v4001061# viernes\r\n#v4001062# sábado\r\n");
                 } else if (eim.getIntProperty("statusStg3") == 0) {
                     cm.getMap().getReactorByName("stone3").forceHitReactor(1);
-                    cm.sendOk("Ooh, the music... It sounds so fitting with the ambient. Nicely done, a box has appeared on the field. Retrieve the statue part from it!");
+                    cm.sendOk("Oh, la música... Suena muy acorde con el ambiente. Bien hecho, ha aparecido una caja en el campo. ¡Recupera la parte de la estatua!");
                     eim.giveEventPlayersExp(3500);
                     clearStage(3, eim);
                     eim.setProperty("statusStg3", "2");
 
                 } else {
-                    cm.sendOk("Thank you so much!");
+                    cm.sendOk("¡Muchas gracias!");
                 }
                 break;
             case 920010500: //sealed
@@ -154,7 +154,7 @@ function action(mode, type, selection) {
                         total += z;
                     }
                     if (total != 3) {
-                        cm.sendOk("There needs to be exactly 3 players on these platforms.");
+                        cm.sendOk("Es necesario que haya exactamente 3 jugadores en estas plataformas.");
                     } else {
                         var num_correct = 0;
                         for (var i = 0; i < 3; i++) {
@@ -163,30 +163,30 @@ function action(mode, type, selection) {
                             }
                         }
                         if (num_correct == 3) {
-                            cm.sendOk("You found the right combination! A box has appeared on the top of this map, go retrieve the statue piece from it!");
+                            cm.sendOk("¡Encontraste la combinación correcta! Ha aparecido una caja en la parte superior de este mapa, ¡ve a recuperar la pieza de la estatua!");
                             cm.getMap().getReactorByName("stone4").forceHitReactor(1);
                             eim.giveEventPlayersExp(3500);
                             clearStage(4, eim);
                         } else {
                             eim.showWrongEffect();
                             if (num_correct > 0) {
-                                cm.sendOk("One of the platforms has the right number of players.");
+                                cm.sendOk("Una de las plataformas tiene el número correcto de jugadores.");
                             } else {
-                                cm.sendOk("All of the platforms have the wrong amount of players.");
+                                cm.sendOk("Todas las plataformas tienen la cantidad incorrecta de jugadores.");
                             }
                         }
                     }
                 } else {
-                    cm.sendOk("Well done! Please, go fetch the other pieces and save Minerva!");
+                    cm.sendOk("¡Bien hecho! ¡Por favor, ve a buscar las otras piezas y salva a Minerva!");
                 }
                 cm.dispose();
                 break;
             case 920010600: //lounge
                 if (eim.getIntProperty("statusStg5") == -1) {
                     if (!cm.haveItem(4001052, 40)) {
-                        cm.sendOk("Gather the 40 Statue Pieces from the monsters in this stage, and please bring them to me so I can put them together!");
+                        cm.sendOk("¡Reúne las 40 piezas de estatuas de los monstruos en esta etapa y tráemelas para que pueda armarlas!");
                     } else {
-                        cm.sendOk("You got them all! Here, the 5th statue piece.");
+                        cm.sendOk("¡Los tienes todos! Aquí, la quinta pieza de la estatua.");
                         cm.removeAll(4001052);
                         cm.gainItem(4001048, 1); //fifth piece
                         eim.giveEventPlayersExp(3500);
@@ -194,7 +194,7 @@ function action(mode, type, selection) {
                         eim.setIntProperty("statusStg5", 1);
                     }
                 } else {
-                    cm.sendOk("You got them all here. Go search the others rooms of the tower.");
+                    cm.sendOk("Los tienes todos aquí. Ve a buscar en las otras habitaciones de la torre.");
                 }
                 break;
             case 920010700: //on the way up
@@ -245,7 +245,7 @@ function action(mode, type, selection) {
                     }
 
                     if (total != 2) {
-                        cm.sendOk("There needs to be exactly 2 levers at the top of the map pushed on.");
+                        cm.sendOk("Es necesario que haya exactamente 2 palancas presionadas en la parte superior del mapa.");
                     } else {
                         var num_correct = 0;
                         var psh_correct = 0;
@@ -258,36 +258,36 @@ function action(mode, type, selection) {
                             }
                         }
                         if (num_correct == 5) {
-                            cm.sendOk("You found the right combination! Retrieve the statue piece from inside it!");
+                            cm.sendOk("¡Encontraste la combinación correcta! ¡Recupera la pieza de la estatua del interior!");
                             cm.getMap().getReactorByName("stone6").forceHitReactor(1);
                             eim.giveEventPlayersExp(3500);
                             clearStage(6, eim);
                         } else {
                             eim.showWrongEffect();
                             if (psh_correct >= 1) {
-                                cm.sendOk("One of the pushed levers is correct.");
+                                cm.sendOk("Una de las palancas empujadas es correcta.");
                             } else {
-                                cm.sendOk("Both of the pushed levers are wrong.");
+                                cm.sendOk("Ambas palancas presionadas están equivocadas.");
                             }
                         }
                     }
                 } else {
-                    cm.sendOk("Nicely done!! Go check out the rest of the pieces.");
+                    cm.sendOk("¡¡Bien hecho!! Ve a ver el resto de piezas.");
                 }
                 break;
             case 920010800:
-                cm.sendNext("Please, find a way to defeat Papa Pixie! Once you've found the Dark Nependeath by placing seeds, you've found Papa Pixie! Defeat it, and get the Root of Life to save Minerva!!!");
+                cm.sendNext("¡Por favor, encuentra una manera de derrotar a Papa Pixie! Una vez que hayas encontrado Dark Nependeath colocando semillas, ¡has encontrado a Papa Pixie! ¡¡¡Derrótalo y consigue la Raíz de la Vida para salvar a Minerva!!!");
                 break;
             case 920010900:
                 if (eim.getProperty("statusStg8") == "1") {
-                    cm.sendNext("This is the jail of the tower. You may find some goodies here, just be sure to clear the puzzles ahead as fast as possible.");
+                    cm.sendNext("Esta es la cárcel de la torre. Es posible que encuentres algunas ventajas aquí, solo asegúrate de resolver los acertijos lo más rápido posible.");
                 } else {
-                    cm.sendNext("Down there you will not find any statue pieces. Go up the ladder to return to the center tower and search elsewhere. You can come back here to get the goodies that lies down there once you have saved Minerva.");
+                    cm.sendNext("Allí abajo no encontrarás ninguna pieza de estatua. Sube la escalera para regresar a la torre central y busca en otro lugar. Puedes volver aquí para conseguir los obsequios que se encuentran allí una vez que hayas salvado a Minerva.");
                 }
                 break;
             case 920011000:
                 if (cm.getMap().countMonsters() > 0) {
-                    cm.sendNext("This is the hidden room of the tower. After eliminating all monsters on this room, talk to me to gain access to the treasure room, leaving the center tower access behind.");
+                    cm.sendNext("Esta es la habitación oculta de la torre. Después de eliminar a todos los monstruos en esta sala, habla conmigo para acceder a la sala del tesoro, dejando atrás el acceso a la torre central.");
                 } else {
                     cm.warp(920011100, "st00");
                 }

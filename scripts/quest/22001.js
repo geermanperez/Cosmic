@@ -10,22 +10,22 @@ function start(mode, type, selection) {
         status++;
     }
     if (status == 0) {
-        qm.sendNext("Haha. I had a good laugh. Hahaha. But enough with that nonsense. Feed #p1013102#, would you?");
+        qm.sendNext("Ja ja. Me reí mucho. Jajaja. Pero basta de tonterías. Alimenta a #p1013102#, ¿quieres?");
     } else if (status == 1) {
-        qm.sendNextPrev("#bWhat? That's #p1013101#'s job!", 2);
+        qm.sendNextPrev("#b¿Qué? Eso es#p1013101#¡El trabajo!", 2);
     } else if (status == 2) {
-        qm.sendAcceptDecline("You little brat! I told you to call me Older Brother! You know how much #p1013102# hates me. He'll bite me if I go near him. You feed him. He likes you.");
+        qm.sendAcceptDecline("¡Pequeño mocoso! ¡Te dije que me llamaras hermano mayor! Sabes cuánto me odia #p1013102#. Me morderá si me acerco a él. Le das de comer. Le gustas.");
     } else if (status == 3) {
         if (mode == 0) {
-            qm.sendNext("Stop being lazy. Do you want to see your brother bitten by a dog? Hurry up! Talk to me again and accept the quest!");
+            qm.sendNext("Deja de ser vago. ¿Quieres ver a tu hermano mordido por un perro? ¡Apresúrate! ¡Hablame de nuevo y acepta la misión!");
             qm.dispose();
         } else {//accept
             qm.gainItem(4032447, true);
             qm.forceStartQuest();
-            qm.sendNext("Hurry up and head #bleft#k to feed #b#p1013102##k. He's been barking to be fed all morning.");
+            qm.sendNext("Date prisa y dirígete#bleft#k para alimentar#b#p1013102##k. Ha estado ladrando para que le den de comer toda la mañana.");
         }
     } else if (status == 4) {
-        qm.sendNextPrev("Feed #p1013102# and come back to see me.");
+        qm.sendNextPrev("Alimenta a #p1013102# y vuelve a verme.");
     } else if (status == 5) {
         qm.dispose();
     }

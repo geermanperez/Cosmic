@@ -24,7 +24,7 @@ var menu;
 var cost = 10000;
 
 function start() {
-    cm.sendYesNo("Will you move to #b#m230000000##k now? The price is #b" + cost + " mesos#k.");
+    cm.sendYesNo("¿Te mudarás a#b#m230000000##k¿ahora? el precio es#b" + cost + "mesos#k.");
 }
 
 function action(mode, type, selection) {
@@ -32,7 +32,7 @@ function action(mode, type, selection) {
         cm.dispose();
     } else {
         if (mode == 0) {
-            cm.sendNext("Hmmm ... too busy to do it right now? If you feel like doing it, though, come back and find me.");
+            cm.sendNext("Hmmm... ¿demasiado ocupado para hacerlo ahora? Pero si tienes ganas de hacerlo, vuelve y búscame.");
             cm.dispose();
             return;
         }
@@ -43,7 +43,7 @@ function action(mode, type, selection) {
         }
         if (status == 1) {
             if (cm.getPlayer().getMeso() < cost) {
-                cm.sendOk("I don't think you have enough money...");
+                cm.sendOk("No creo que tengas suficiente dinero...");
             } else {
                 cm.gainMeso(-cost);
                 cm.warp(230000000);

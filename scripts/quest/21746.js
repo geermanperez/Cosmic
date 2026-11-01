@@ -36,7 +36,7 @@ function start(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("If you want to know more about the Seal Rock of Mu Lung, you will need to pass my test. Prove your valor overpowering me in melee combat, only then I shall recognize you as a worthy knight.");
+            qm.sendNext("Si quieres saber más sobre Seal Rock of Mu Lung, tendrás que pasar mi prueba. Demuestra tu valor superándome en combate cuerpo a cuerpo, sólo entonces te reconoceré como un digno caballero.");
         } else {
             var mapobj = qm.getWarpMap(925040001);
             if (mapobj.countPlayers() == 0) {
@@ -45,7 +45,7 @@ function start(mode, type, selection) {
                 qm.warp(925040001, 0);
                 qm.forceStartQuest();
             } else {
-                qm.sendOk("Someone is already attempting a challenge. Wait for them to finish before you enter.");
+                qm.sendOk("Alguien ya está intentando un desafío. Espera a que terminen antes de entrar.");
             }
 
 
@@ -70,7 +70,7 @@ function end(mode, type, selection) {
         }
 
         if (status == 0) {
-            qm.sendNext("Oh, you brought the ink. Now let me pour it, cautiously.... Almost there, almost. ... ..... Kyaaa! Th-the letter. It says: 'I'll be there to take your Seal Rock of Mu Lung.'");
+            qm.sendNext("Oh, trajiste la tinta. Ahora déjame servirlo, con cautela... Ya casi, casi. ... ..... ¡Kyaaa! La carta. Dice: \"Estaré allí para llevarte tu Roca Sello de Mu Lung\".");
         } else if (status == 1) {
             qm.gainItem(4032342, -8);
             qm.gainItem(4220151, -1);
