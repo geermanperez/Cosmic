@@ -250,17 +250,16 @@ public final class TakeDamageHandler extends AbstractPacketHandler {
                 }
             }
             Integer mesoguard = chr.getBuffedValue(BuffStat.MESOGUARD);
-            if (chr.getBuffedValue(BuffStat.MAGIC_GUARD) != null && mpattack == 0) {
-                int mploss = (int) (damage * (chr.getBuffedValue(BuffStat.MAGIC_GUARD).doubleValue() / 100.0));
-                int hploss = damage - mploss;
-
+            Integer magicGuard = chr.getBuffedValue(BuffStat.MAGIC_GUARD);
+            if (magicGuard != null) {
                 int curmp = chr.getMp();
-                if (mploss > curmp) {
-                    hploss += mploss - curmp;
-                    mploss = curmp;
-                }
+                int mpBurnLoss = Math.min(Math.max(mpattack, 0), curmp);
+                int mpAvailableForGuard = curmp - mpBurnLoss;
+                int desiredGuardLoss = (int) (damage * (magicGuard.doubleValue() / 100.0));
+                int guardLoss = Math.min(desiredGuardLoss, mpAvailableForGuard);
+                int hpLoss = damage - guardLoss;
 
-                chr.addMPHP(-hploss, -mploss);
+                chr.addMPHP(-hpLoss, -(mpBurnLoss + guardLoss));
             } else if (mesoguard != null) {
                 damage = Math.round(damage / 2);
                 int mesoloss = (int) (damage * (mesoguard.doubleValue() / 100.0));
