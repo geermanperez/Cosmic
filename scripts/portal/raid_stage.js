@@ -46,6 +46,8 @@ function enter(pi) {
             rewardBase = 400000;
         } else if (currentMap >= 970032000 && currentMap <= 970032007) {
             rewardBase = 600000;
+        } else if (currentMap >= 970032500 && currentMap <= 970032507) {
+            rewardBase = 800000;
         }
 
         if (rewardBase > 0) {

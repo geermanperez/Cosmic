@@ -137,6 +137,11 @@ function action(mode, type, selection) {
                     return;
                 }
 
+                var FamilyBuffs = Java.type('client.FamilyBuffs');
+                var player = cm.getPlayer();
+                var reward = Math.round(1000000 * player.getExpRate() * FamilyBuffs.expRate(player.getId()));
+                player.gainExp(reward, true, true, true);
+
                 cm.warp(970030000);
                 cm.dispose();
             } else if (state == 2) {
