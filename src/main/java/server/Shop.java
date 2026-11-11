@@ -47,6 +47,7 @@ import java.util.Set;
  */
 public class Shop {
     private static final Logger log = LoggerFactory.getLogger(Shop.class);
+    private static final int GM_SHOP_ID = 1337;
     private static final Set<Integer> rechargeableItems = new LinkedHashSet<>();
 
     private final int id;
@@ -99,12 +100,12 @@ public class Shop {
             if (c.getPlayer().getMeso() >= amount) {
                 if (InventoryManipulator.checkSpace(c, itemId, quantity, "")) {
                     if (!ItemConstants.isRechargeable(itemId)) { //Pets can't be bought from shops
-                        InventoryManipulator.addById(c, itemId, quantity, "", -1);
+                        addPurchasedItem(c, itemId, quantity, -1);
                         c.getPlayer().gainMeso(-amount, false);
                     } else {
                         short slotMax = ii.getSlotMax(c, item.getItemId());
                         quantity = slotMax;
-                        InventoryManipulator.addById(c, itemId, quantity, "", -1);
+                        addPurchasedItem(c, itemId, quantity, -1);
                         c.getPlayer().gainMeso(-item.getPrice(), false);
                     }
                     c.sendPacket(PacketCreator.shopTransaction((byte) 0));
@@ -122,12 +123,12 @@ public class Shop {
             if (c.getPlayer().getInventory(InventoryType.ETC).countById(ItemId.PERFECT_PITCH) >= amount) {
                 if (InventoryManipulator.checkSpace(c, itemId, quantity, "")) {
                     if (!ItemConstants.isRechargeable(itemId)) {
-                        InventoryManipulator.addById(c, itemId, quantity, "", -1);
+                        addPurchasedItem(c, itemId, quantity, -1);
                         InventoryManipulator.removeById(c, InventoryType.ETC, ItemId.PERFECT_PITCH, amount, false, false);
                     } else {
                         short slotMax = ii.getSlotMax(c, item.getItemId());
                         quantity = slotMax;
-                        InventoryManipulator.addById(c, itemId, quantity, "", -1);
+                        addPurchasedItem(c, itemId, quantity, -1);
                         InventoryManipulator.removeById(c, InventoryType.ETC, ItemId.PERFECT_PITCH, amount, false, false);
                     }
                     c.sendPacket(PacketCreator.shopTransaction((byte) 0));
@@ -146,9 +147,9 @@ public class Shop {
                 if (InventoryManipulator.checkSpace(c, itemId, quantity, "")) {
                     if (ItemConstants.isPet(itemId)) {
                         int petid = Pet.createPet(itemId);
-                        InventoryManipulator.addById(c, itemId, quantity, "", petid, -1);
+                        addPurchasedItem(c, itemId, quantity, petid);
                     } else {
-                        InventoryManipulator.addById(c, itemId, quantity, "", -1, -1);
+                        addPurchasedItem(c, itemId, quantity, -1);
                     }
                     c.getPlayer().gainMeso(diff, false);
                 } else {
@@ -159,6 +160,11 @@ public class Shop {
                 c.sendPacket(PacketCreator.shopTransaction((byte) 2));
             }
         }
+    }
+
+    private void addPurchasedItem(Client c, int itemId, short quantity, int petId) {
+        short flag = id == GM_SHOP_ID ? ItemConstants.UNTRADEABLE : 0;
+        InventoryManipulator.addById(c, itemId, quantity, "", petId, flag, -1);
     }
 
     private static boolean canSell(Item item, short quantity) {
